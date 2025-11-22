@@ -30,7 +30,7 @@ export default function DashboardPage() {
     },
     {
       title: t("monthly-revenue"),
-      value: "€45,231",
+      value: "$45,231",
       change: "+18%",
       icon: DollarSign,
       color: "text-yellow-600",

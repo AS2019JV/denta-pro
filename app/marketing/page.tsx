@@ -348,7 +348,7 @@ export default function MarketingPage() {
             </div>
             <div>
               <p className="text-muted-foreground">Ingresos</p>
-              <p className="font-semibold">€{totalRevenue.toLocaleString()}</p>
+              <p className="font-semibold">${totalRevenue.toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -380,7 +380,7 @@ export default function MarketingPage() {
             </div>
             <div>
               <p className="text-muted-foreground">Ingresos</p>
-              <p className="font-semibold">€{totalRevenue.toLocaleString()}</p>
+              <p className="font-semibold">${totalRevenue.toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -412,7 +412,7 @@ export default function MarketingPage() {
             </div>
             <div>
               <p className="text-muted-foreground">Ingresos</p>
-              <p className="font-semibold">€{totalRevenue.toLocaleString()}</p>
+              <p className="font-semibold">${totalRevenue.toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -444,7 +444,7 @@ export default function MarketingPage() {
             </div>
             <div>
               <p className="text-muted-foreground">Ingresos</p>
-              <p className="font-semibold">€{totalRevenue.toLocaleString()}</p>
+              <p className="font-semibold">${totalRevenue.toLocaleString()}</p>
             </div>
           </div>
         </div>
@@ -505,7 +505,7 @@ export default function MarketingPage() {
                         </div>
                         <div>
                           <p className="text-muted-foreground">Ingresos</p>
-                          <p className="font-semibold">€{campaign.revenue.toLocaleString()}</p>
+                          <p className="font-semibold">${campaign.revenue.toLocaleString()}</p>
                         </div>
                       </div>
                     </div>
@@ -792,11 +792,11 @@ export default function MarketingPage() {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm">Valor Promedio</span>
-                      <span className="font-semibold">€275</span>
+                      <span className="font-semibold">$275</span>
                     </div>
                     <div className="flex justify-between border-t pt-2">
                       <span className="font-medium">ROI Total</span>
-                      <span className="font-bold text-green-600">€24,475</span>
+                      <span className="font-bold text-green-600">$24,475</span>
                     </div>
                   </div>
                 </div>

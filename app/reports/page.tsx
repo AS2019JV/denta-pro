@@ -132,7 +132,7 @@ export default function ReportsPage() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">€{totalRevenue.toLocaleString()}</div>
+              <div className="text-2xl font-bold">${totalRevenue.toLocaleString()}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 {Number.parseFloat(revenueGrowth) >= 0 ? (
                   <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
@@ -166,7 +166,7 @@ export default function ReportsPage() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">€{avgTreatmentValue.toFixed(0)}</div>
+              <div className="text-2xl font-bold">${avgTreatmentValue.toFixed(0)}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 <Activity className="h-3 w-3 mr-1" />
                 Por tratamiento
@@ -231,7 +231,7 @@ export default function ReportsPage() {
                               style={{ width: `${(month.revenue / 6000) * 100}%` }}
                             />
                           </div>
-                          <span className="text-sm font-semibold w-16">€{month.revenue}</span>
+                          <span className="text-sm font-semibold w-16">${month.revenue}</span>
                         </div>
                       </div>
                     ))}
@@ -306,21 +306,21 @@ export default function ReportsPage() {
                       <span>Tarjeta de Crédito</span>
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary">45%</Badge>
-                        <span className="font-semibold">€{(totalRevenue * 0.45).toFixed(0)}</span>
+                        <span className="font-semibold">${(totalRevenue * 0.45).toFixed(0)}</span>
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Efectivo</span>
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary">30%</Badge>
-                        <span className="font-semibold">€{(totalRevenue * 0.3).toFixed(0)}</span>
+                        <span className="font-semibold">${(totalRevenue * 0.3).toFixed(0)}</span>
                       </div>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Transferencia</span>
                       <div className="flex items-center gap-2">
                         <Badge variant="secondary">25%</Badge>
-                        <span className="font-semibold">€{(totalRevenue * 0.25).toFixed(0)}</span>
+                        <span className="font-semibold">${(totalRevenue * 0.25).toFixed(0)}</span>
                       </div>
                     </div>
                   </div>
@@ -335,16 +335,16 @@ export default function ReportsPage() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span>Ingresos Brutos</span>
-                      <span className="font-semibold text-green-600">€{totalRevenue.toLocaleString()}</span>
+                      <span className="font-semibold text-green-600">${totalRevenue.toLocaleString()}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Gastos Operativos</span>
-                      <span className="font-semibold text-red-600">€{(totalRevenue * 0.35).toFixed(0)}</span>
+                      <span className="font-semibold text-red-600">${(totalRevenue * 0.35).toFixed(0)}</span>
                     </div>
                     <div className="border-t pt-2">
                       <div className="flex justify-between items-center">
                         <span className="font-medium">Beneficio Neto</span>
-                        <span className="font-bold text-primary">€{(totalRevenue * 0.65).toFixed(0)}</span>
+                        <span className="font-bold text-primary">${(totalRevenue * 0.65).toFixed(0)}</span>
                       </div>
                     </div>
                     <div className="space-y-2">
@@ -374,7 +374,7 @@ export default function ReportsPage() {
                           <span className="font-medium">{treatment.name}</span>
                           <div className="flex items-center gap-4">
                             <span className="text-sm text-muted-foreground">{treatment.count} tratamientos</span>
-                            <span className="font-semibold">€{treatment.revenue.toLocaleString()}</span>
+                            <span className="font-semibold">${treatment.revenue.toLocaleString()}</span>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
@@ -401,7 +401,7 @@ export default function ReportsPage() {
                           <div key={treatment.name} className="flex justify-between items-center">
                             <span>{treatment.name}</span>
                             <span className="font-semibold">
-                              €{(treatment.revenue / treatment.count).toFixed(0)}/trat.
+                              ${(treatment.revenue / treatment.count).toFixed(0)}/trat.
                             </span>
                           </div>
                         ))}

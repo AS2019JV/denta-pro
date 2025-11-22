@@ -203,7 +203,7 @@ export default function BillingPage() {
               <DollarSign className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold">€{totalRevenue.toFixed(2)}</div>
+              <div className="text-2xl font-bold">${totalRevenue.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
                 +8.2% del mes pasado
@@ -216,7 +216,7 @@ export default function BillingPage() {
               <CreditCard className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-green-600">€{paidAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-green-600">${paidAmount.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground">
                 {invoices.filter((inv) => inv.status === "paid").length} facturas
               </p>
@@ -228,7 +228,7 @@ export default function BillingPage() {
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-yellow-600">€{pendingAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-yellow-600">${pendingAmount.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground">
                 {invoices.filter((inv) => inv.status === "pending").length} facturas pendientes
               </p>
@@ -240,7 +240,7 @@ export default function BillingPage() {
               <FileText className="h-4 w-4 text-muted-foreground" />
             </CardHeader>
             <CardContent>
-              <div className="text-2xl font-bold text-red-600">€{overdueAmount.toFixed(2)}</div>
+              <div className="text-2xl font-bold text-red-600">${overdueAmount.toFixed(2)}</div>
               <p className="text-xs text-muted-foreground flex items-center">
                 <TrendingDown className="h-3 w-3 mr-1 text-red-500" />
                 {invoices.filter((inv) => inv.status === "overdue").length} facturas vencidas
@@ -307,7 +307,7 @@ export default function BillingPage() {
                             {new Date(invoice.date).toLocaleDateString("es-ES")}
                           </td>
                           <td className="p-4">{invoice.treatment}</td>
-                          <td className="p-4 font-medium">€{invoice.amount.toFixed(2)}</td>
+                          <td className="p-4 font-medium">${invoice.amount.toFixed(2)}</td>
                           <td className="p-4">{getStatusBadge(invoice.status)}</td>
                           <td className="p-4">
                             <div className="flex justify-end gap-2">
@@ -360,7 +360,7 @@ export default function BillingPage() {
                             {new Date(payment.date).toLocaleDateString("es-ES")}
                           </td>
                           <td className="p-4">{payment.method}</td>
-                          <td className="p-4 font-medium">€{payment.amount.toFixed(2)}</td>
+                          <td className="p-4 font-medium">${payment.amount.toFixed(2)}</td>
                           <td className="p-4">
                             <Badge className="bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300">
                               Completado
@@ -385,15 +385,15 @@ export default function BillingPage() {
                   <div className="space-y-4">
                     <div className="flex justify-between items-center">
                       <span>Marzo 2025</span>
-                      <span className="font-semibold">€{totalRevenue.toFixed(2)}</span>
+                      <span className="font-semibold">${totalRevenue.toFixed(2)}</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Febrero 2025</span>
-                      <span className="font-semibold">€1,890.00</span>
+                      <span className="font-semibold">$1,890.00</span>
                     </div>
                     <div className="flex justify-between items-center">
                       <span>Enero 2025</span>
-                      <span className="font-semibold">€2,340.00</span>
+                      <span className="font-semibold">$2,340.00</span>
                     </div>
                   </div>
                 </CardContent>
