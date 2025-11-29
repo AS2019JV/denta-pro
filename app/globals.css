@@ -1,204 +1,197 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* Base layer: CSS variables and global resets */
 @layer base {
   :root {
     --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    --foreground: 0 0% 0%;
     --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card-foreground: 0 0% 0%;
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
-    --primary: 221.2 83.2% 53.3%;
-    --primary-foreground: 210 40% 98%;
-    --secondary: 210 40% 96%;
-    --secondary-foreground: 222.2 84% 4.9%;
-    --muted: 210 40% 96%;
-    --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 210 40% 96%;
-    --accent-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 0 0% 0%;
+    /* Main: #145247 - Teal/Green */
+    --primary: 171 59% 20%;
+    --primary-foreground: 0 0% 100%;
+    /* Secondary: #FAA805 - Warm Orange */
+    --secondary: 39 96% 50%;
+    --secondary-foreground: 0 0% 0%;
+    /* Tertiary: #CDE0D4 - Soft Mint */
+    --muted: 145 28% 84%;
+    --muted-foreground: 171 30% 30%;
+    /* Optional: #E8D9C9 - Warm Beige */
+    --accent: 30 38% 85%;
+    --accent-foreground: 171 59% 20%;
     --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 221.2 83.2% 53.3%;
-    --radius: 0.75rem;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-
-    /* Colores personalizados */
-    --brand-primary: 221.2 83.2% 53.3%;
-    --brand-secondary: 210 40% 96%;
-    --brand-light: 0 100% 70%;
-    --text-primary: 222.2 84% 4.9%;
-    --text-secondary: 215.4 16.3% 46.9%;
-    --status-success: 142.1 76.2% 36.3%;
-    --status-warning: 47.9 95.8% 53.1%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 145 20% 88%;
+    --input: 145 20% 88%;
+    --ring: 171 59% 20%;
+    --chart-1: 171 59% 20%;
+    --chart-2: 39 96% 50%;
+    --chart-3: 145 28% 84%;
+    --chart-4: 30 38% 85%;
+    --chart-5: 171 45% 35%;
+    /* Custom colors */
+    --brand-primary: 171 59% 20%;
+    --brand-secondary: 39 96% 50%;
+    --brand-tertiary: 145 28% 84%;
+    --brand-optional: 30 38% 85%;
+    --text-primary: 0 0% 0%;
+    --text-secondary: 171 30% 30%;
+    --status-success: 142.1 70.6% 45.3%;
+    --status-warning: 39 96% 50%;
     --status-error: 0 84.2% 60.2%;
     --page-background: 0 0% 100%;
-    --page-foreground: 222.2 84% 4.9%;
+    --page-foreground: 0 0% 0%;
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-    --primary: 217.2 91.2% 59.8%;
-    --primary-foreground: 222.2 84% 4.9%;
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 224.3 76.3% 94.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
-
-    /* Colores personalizados para modo oscuro */
-    --brand-primary: 217.2 91.2% 59.8%;
-    --brand-secondary: 217.2 32.6% 17.5%;
-    --brand-light: 0 100% 70%;
-    --text-primary: 210 40% 98%;
-    --text-secondary: 215 20.2% 65.1%;
-    --status-success: 142.1 70.6% 45.3%;
-    --status-warning: 47.9 95.8% 53.1%;
-    --status-error: 0 62.8% 30.6%;
-    --page-background: 222.2 84% 4.9%;
-    --page-foreground: 210 40% 98%;
+    /* Enhanced dark mode with color theory - warm, deep, and sophisticated */
+    
+    /* Base colors - Deep teal background with warm cream foreground */
+    --background: 171 30% 8%;           /* Deeper, richer teal-black */
+    --foreground: 35 25% 88%;           /* Warm cream for better readability */
+    
+    /* Card colors - Slightly elevated from background */
+    --card: 171 28% 11%;                /* Subtle elevation */
+    --card-foreground: 35 25% 88%;      /* Consistent warm text */
+    
+    /* Popover colors - More prominent elevation */
+    --popover: 171 25% 13%;             /* Clear visual hierarchy */
+    --popover-foreground: 35 25% 88%;   /* Warm readable text */
+    
+    /* Primary - Vibrant teal with proper saturation */
+    --primary: 171 50% 50%;             /* Balanced, vibrant teal */
+    --primary-foreground: 0 0% 100%;    /* Pure white for contrast */
+    
+    /* Secondary - Warm golden orange (complementary to teal) */
+    --secondary: 35 90% 60%;            /* Vibrant warm orange-gold */
+    --secondary-foreground: 171 30% 8%; /* Dark teal text on orange */
+    
+    /* Muted - Desaturated teal for subtle elements */
+    --muted: 171 20% 18%;               /* Subtle background variation */
+    --muted-foreground: 171 15% 65%;    /* Muted teal-gray text */
+    
+    /* Accent - Warm amber for highlights (analogous to secondary) */
+    --accent: 30 35% 22%;               /* Rich warm accent background */
+    --accent-foreground: 35 30% 85%;    /* Warm light text */
+    
+    /* Destructive - Softer red for dark mode */
+    --destructive: 0 65% 55%;           /* Balanced red, not too harsh */
+    --destructive-foreground: 0 0% 100%; /* White text */
+    
+    /* Borders and inputs - Subtle teal-gray */
+    --border: 171 18% 20%;              /* Visible but not harsh borders */
+    --input: 171 20% 16%;               /* Slightly darker input fields */
+    --ring: 171 50% 50%;                /* Match primary for focus rings */
+    
+    /* Chart colors - Harmonious palette */
+    --chart-1: 171 50% 50%;             /* Primary teal */
+    --chart-2: 35 90% 60%;              /* Secondary orange-gold */
+    --chart-3: 145 40% 55%;             /* Analogous green */
+    --chart-4: 200 45% 55%;             /* Analogous blue */
+    --chart-5: 50 60% 55%;              /* Triadic yellow-green */
+    
+    /* Brand colors - Enhanced for dark mode */
+    --brand-primary: 171 50% 50%;       /* Vibrant teal */
+    --brand-secondary: 35 90% 60%;      /* Warm orange-gold */
+    --brand-tertiary: 145 40% 55%;      /* Fresh mint-green */
+    --brand-optional: 30 45% 45%;       /* Rich amber */
+    
+    /* Text colors - Warm and readable */
+    --text-primary: 35 25% 88%;         /* Warm cream */
+    --text-secondary: 171 12% 65%;      /* Subtle teal-gray */
+    
+    /* Status colors - Balanced and clear */
+    --status-success: 142 55% 52%;      /* Fresh green */
+    --status-warning: 35 90% 60%;       /* Warm orange */
+    --status-error: 0 65% 55%;          /* Balanced red */
+    
+    /* Page colors - Consistent with base */
+    --page-background: 171 30% 8%;      /* Deep teal-black */
+    --page-foreground: 35 25% 88%;      /* Warm cream */
   }
-}
 
-@layer base {
-  * {
-    @apply border-border;
-  }
+
+
   body {
     @apply bg-background text-foreground;
+    font-family: 'Gowun Batang', serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Teko', sans-serif;
+    font-weight: 600;
+  }
+  
+  .subtitle {
+    font-family: 'Noto Sans JP', sans-serif;
   }
 }
 
-/* Estilos personalizados para botones hover */
+/* Component layer: custom component utilities */
 @layer components {
   .btn-hover-effect {
     @apply transition-all duration-200 hover:bg-brand-light/15 hover:text-white hover:shadow-glow;
   }
-}
 
-/* Estilos para la barra de desplazamiento personalizada */
-.custom-scrollbar {
-  scrollbar-width: thin;
-  scrollbar-color: hsl(var(--muted-foreground)) transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar {
-  width: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background-color: hsl(var(--muted-foreground) / 0.3);
-  border-radius: 4px;
-  transition: background-color 0.2s ease;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background-color: hsl(var(--muted-foreground) / 0.5);
-}
-
-/* Estilos para pestañas sticky */
-.sticky-tabs {
-  position: sticky;
-  top: 0;
-  z-index: 10;
-  background: hsl(var(--background) / 0.95);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid hsl(var(--border));
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-}
-
-/* Animaciones suaves */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
+  .custom-scrollbar {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground)) transparent;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  .custom-scrollbar::-webkit-scrollbar { width: 8px; }
+  .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+    transition: background-color 0.2s ease;
   }
-}
-
-.animate-fade-in {
-  animation: fadeIn 0.3s ease-out;
-}
-
-/* Estilos para formularios */
-.form-section {
-  @apply space-y-4 p-4 border border-border rounded-lg bg-card;
-}
-
-.form-section-title {
-  @apply text-base font-medium text-foreground flex items-center gap-2;
-}
-
-/* Estilos para estados de carga */
-.loading-skeleton {
-  @apply animate-pulse bg-muted rounded;
-}
-
-/* Estilos para notificaciones */
-.notification-success {
-  @apply bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300;
-}
-
-.notification-error {
-  @apply bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300;
-}
-
-.notification-warning {
-  @apply bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-300;
-}
-
-/* Estilos responsive para el odontograma */
-@media (max-width: 768px) {
-  .odontogram-container {
-    @apply overflow-x-auto;
+  .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+    background-color: hsl(var(--muted-foreground) / 0.5);
   }
 
-  .odontogram-quadrant {
-    @apply min-w-fit;
+  .sticky-tabs {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: hsl(var(--background) / 0.95);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid hsl(var(--border));
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
   }
-}
 
-/* Estilos para accesibilidad */
-@media (prefers-reduced-motion: reduce) {
-  * {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
   }
-}
+  .animate-fade-in { animation: fadeIn 0.3s ease-out; }
 
-/* Focus visible para accesibilidad */
-.focus-visible:focus-visible {
-  @apply outline-2 outline-offset-2 outline-primary;
+  .form-section {
+    @apply space-y-4 p-4 border border-border rounded-lg bg-card;
+  }
+  .form-section-title {
+    @apply text-base font-medium text-foreground flex items-center gap-2;
+  }
+
+  .loading-skeleton { @apply animate-pulse bg-muted rounded; }
+
+  .notification-success { @apply bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800 dark:text-green-300; }
+  .notification-error { @apply bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800 dark:text-red-300; }
+  .notification-warning { @apply bg-yellow-50 border-yellow-200 text-yellow-800 dark:bg-yellow-900/20 dark:border-yellow-800 dark:text-yellow-300; }
+
+  @media (max-width: 768px) {
+    .odontogram-container { @apply overflow-x-auto; }
+    .odontogram-quadrant { @apply min-w-fit; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+  }
+
+  .focus-visible:focus-visible { @apply outline-2 outline-offset-2 outline-primary; }
 }

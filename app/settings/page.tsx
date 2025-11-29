@@ -105,7 +105,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t("general-settings")}</CardTitle>
-              <CardDescription>Configuración general de la aplicación</CardDescription>
+              <CardDescription>{t("general-settings-description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleGeneralSettingsSubmit} className="space-y-4">
@@ -114,7 +114,7 @@ export default function SettingsPage() {
                     <Label htmlFor="language">{t("language")}</Label>
                     <Select
                       value={generalSettings.language}
-                      onValueChange={(value) => setGeneralSettings({ ...generalSettings, language: value })}
+                      onValueChange={(value) => setGeneralSettings({ ...generalSettings, language: value as "es" | "en" })}
                     >
                       <SelectTrigger>
                         <SelectValue />
@@ -135,9 +135,9 @@ export default function SettingsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="light">Claro</SelectItem>
-                        <SelectItem value="dark">Oscuro</SelectItem>
-                        <SelectItem value="system">Sistema</SelectItem>
+                        <SelectItem value="light">{language === "es" ? "Claro" : "Light"}</SelectItem>
+                        <SelectItem value="dark">{language === "es" ? "Oscuro" : "Dark"}</SelectItem>
+                        <SelectItem value="system">{language === "es" ? "Sistema" : "System"}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -151,9 +151,9 @@ export default function SettingsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Europe/Madrid">Madrid (GMT+1)</SelectItem>
-                        <SelectItem value="Europe/London">Londres (GMT+0)</SelectItem>
-                        <SelectItem value="America/New_York">Nueva York (GMT-5)</SelectItem>
+                        <SelectItem value="Europe/Madrid">{language === "es" ? "Madrid" : "Madrid"} (GMT+1)</SelectItem>
+                        <SelectItem value="Europe/London">{language === "es" ? "Londres" : "London"} (GMT+0)</SelectItem>
+                        <SelectItem value="America/New_York">{language === "es" ? "Nueva York" : "New York"} (GMT-5)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -178,7 +178,7 @@ export default function SettingsPage() {
                 <div className="flex justify-end">
                   <Button type="submit" disabled={isLoading}>
                     <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? "Guardando..." : t("save")}
+                    {isLoading ? t("saving") : t("save")}
                   </Button>
                 </div>
               </form>
@@ -190,7 +190,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t("notification-settings")}</CardTitle>
-              <CardDescription>Configura cómo y cuándo recibir notificaciones</CardDescription>
+              <CardDescription>{t("notification-settings-description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleNotificationSettingsSubmit} className="space-y-6">
@@ -198,7 +198,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>{t("email-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">Recibir notificaciones por correo electrónico</p>
+                      <p className="text-sm text-muted-foreground">{t("email-notifications-description")}</p>
                     </div>
                     <Switch
                       checked={notificationSettings.emailNotifications}
@@ -210,7 +210,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>{t("push-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">Recibir notificaciones push en el navegador</p>
+                      <p className="text-sm text-muted-foreground">{t("push-notifications-description")}</p>
                     </div>
                     <Switch
                       checked={notificationSettings.pushNotifications}
@@ -222,7 +222,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>{t("sms-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">Recibir notificaciones por SMS</p>
+                      <p className="text-sm text-muted-foreground">{t("sms-notifications-description")}</p>
                     </div>
                     <Switch
                       checked={notificationSettings.smsNotifications}
@@ -233,8 +233,8 @@ export default function SettingsPage() {
                   </div>
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
-                      <Label>Recordatorios de citas</Label>
-                      <p className="text-sm text-muted-foreground">Recordatorios automáticos de próximas citas</p>
+                      <Label>{t("appointment-reminders")}</Label>
+                      <p className="text-sm text-muted-foreground">{t("appointment-reminders-description")}</p>
                     </div>
                     <Switch
                       checked={notificationSettings.appointmentReminders}
@@ -248,7 +248,7 @@ export default function SettingsPage() {
                 <div className="flex justify-end">
                   <Button type="submit" disabled={isLoading}>
                     <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? "Guardando..." : t("save")}
+                    {isLoading ? t("saving") : t("save")}
                   </Button>
                 </div>
               </form>
@@ -260,7 +260,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t("security-settings")}</CardTitle>
-              <CardDescription>Configuración de seguridad y acceso</CardDescription>
+              <CardDescription>{t("security-settings-description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleSecuritySettingsSubmit} className="space-y-6">
@@ -268,7 +268,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>{t("two-factor-auth")}</Label>
-                      <p className="text-sm text-muted-foreground">Añadir una capa extra de seguridad</p>
+                      <p className="text-sm text-muted-foreground">{t("two-factor-auth-description")}</p>
                     </div>
                     <Switch
                       checked={securitySettings.twoFactorAuth}
@@ -278,7 +278,7 @@ export default function SettingsPage() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="session-timeout">{t("session-timeout")} (minutos)</Label>
+                    <Label htmlFor="session-timeout">{t("session-timeout")} ({language === "es" ? "minutos" : "minutes"})</Label>
                     <Input
                       id="session-timeout"
                       type="number"
@@ -287,7 +287,7 @@ export default function SettingsPage() {
                       className="max-w-xs"
                     />
                     <p className="text-sm text-muted-foreground">
-                      Tiempo de inactividad antes de cerrar sesión automáticamente
+                      {t("session-timeout-description")}
                     </p>
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function SettingsPage() {
                 <div className="flex justify-end">
                   <Button type="submit" disabled={isLoading}>
                     <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? "Guardando..." : t("save")}
+                    {isLoading ? t("saving") : t("save")}
                   </Button>
                 </div>
               </form>
@@ -307,7 +307,7 @@ export default function SettingsPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t("backup-settings")}</CardTitle>
-              <CardDescription>Configuración de respaldos y recuperación de datos</CardDescription>
+              <CardDescription>{t("backup-settings-description")}</CardDescription>
             </CardHeader>
             <CardContent>
               <form onSubmit={handleBackupSettingsSubmit} className="space-y-6">
@@ -315,7 +315,7 @@ export default function SettingsPage() {
                   <div className="flex items-center justify-between">
                     <div className="space-y-0.5">
                       <Label>{t("auto-backup")}</Label>
-                      <p className="text-sm text-muted-foreground">Realizar respaldos automáticos</p>
+                      <p className="text-sm text-muted-foreground">{t("auto-backup-description")}</p>
                     </div>
                     <Switch
                       checked={backupSettings.autoBackup}
@@ -332,10 +332,10 @@ export default function SettingsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="hourly">Cada hora</SelectItem>
-                        <SelectItem value="daily">Diario</SelectItem>
-                        <SelectItem value="weekly">Semanal</SelectItem>
-                        <SelectItem value="monthly">Mensual</SelectItem>
+                        <SelectItem value="hourly">{language === "es" ? "Cada hora" : "Hourly"}</SelectItem>
+                        <SelectItem value="daily">{language === "es" ? "Diario" : "Daily"}</SelectItem>
+                        <SelectItem value="weekly">{language === "es" ? "Semanal" : "Weekly"}</SelectItem>
+                        <SelectItem value="monthly">{language === "es" ? "Mensual" : "Monthly"}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -349,9 +349,9 @@ export default function SettingsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="cloud">Nube</SelectItem>
+                        <SelectItem value="cloud">{language === "es" ? "Nube" : "Cloud"}</SelectItem>
                         <SelectItem value="local">Local</SelectItem>
-                        <SelectItem value="both">Ambos</SelectItem>
+                        <SelectItem value="both">{language === "es" ? "Ambos" : "Both"}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -359,11 +359,11 @@ export default function SettingsPage() {
                 <Separator />
                 <div className="flex justify-end space-x-2">
                   <Button variant="outline" type="button">
-                    Crear respaldo ahora
+                    {t("create-backup-now")}
                   </Button>
                   <Button type="submit" disabled={isLoading}>
                     <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? "Guardando..." : t("save")}
+                    {isLoading ? t("saving") : t("save")}
                   </Button>
                 </div>
               </form>

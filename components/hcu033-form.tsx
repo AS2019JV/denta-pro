@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/components/auth-context"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -168,9 +170,57 @@ export function HCU033Form({ patientId, patientName, onSave }: HCU033FormProps) 
     }))
   }
 
-  const handleSave = () => {
-    console.log("[v0] Guardando formulario HCU-033:", formData)
-    onSave?.(formData)
+  const { user } = useAuth()
+  const [isLoading, setIsLoading] = useState(false)
+
+  useEffect(() => {
+    if (patientId) {
+      loadFormData()
+    }
+  }, [patientId])
+
+  const loadFormData = async () => {
+    try {
+      setIsLoading(true)
+      const { data, error } = await supabase
+        .from('hcu033_forms')
+        .select('form_data')
+        .eq('patient_id', patientId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (data) {
+        setFormData(data.form_data)
+      }
+    } catch (error) {
+      console.error('Error loading form data:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const handleSave = async () => {
+    try {
+      setIsLoading(true)
+      const { error } = await supabase
+        .from('hcu033_forms')
+        .insert({
+          patient_id: patientId,
+          doctor_id: user?.id,
+          form_data: formData,
+        })
+
+      if (error) throw error
+      
+      console.log("Formulario guardado exitosamente")
+      onSave?.(formData)
+    } catch (error) {
+      console.error('Error saving form:', error)
+      // Show error toast
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (

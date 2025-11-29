@@ -37,12 +37,6 @@ const config = {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
         },
-        success: {
-          DEFAULT: "hsl(var(--success))",
-        },
-        warning: {
-          DEFAULT: "hsl(var(--warning))",
-        },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
           foreground: "hsl(var(--destructive-foreground))",
@@ -62,24 +56,6 @@ const config = {
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
-        },
-        // Custom colors for direct use
-        brand: {
-          DEFAULT: "#0077B6", // Primary/Brand color
-          light: "#00A6FB", // Button color
-          lighter: "#48CAE4", // Secondary/Accent color
-        },
-        text: {
-          DEFAULT: "#1E293B", // Headings & Important Info
-          muted: "#64748B", // Subtext
-        },
-        status: {
-          success: "#2ECC71", // Success
-          warning: "#F39C12", // Warning
-          error: "#E74C3C", // Error
-        },
-        page: {
-          background: "#F8FAFC", // Background
         },
       },
       boxShadow: {

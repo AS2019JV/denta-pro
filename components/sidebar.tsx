@@ -1,6 +1,6 @@
 "use client"
 import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { usePathname, useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -22,6 +22,7 @@ import {
   X,
   Megaphone,
   Bell,
+  type LucideIcon,
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
@@ -40,14 +41,36 @@ const userNavigation = [
   { name: "settings", href: "/settings", icon: Settings },
 ]
 
-export function Sidebar() {
+export interface NavItem {
+  icon: LucideIcon
+  label: string
+  href: string
+  active?: boolean
+}
+
+interface SidebarProps {
+  navItems?: NavItem[]
+  onNavigate?: (href: string) => void
+}
+
+export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const pathname = usePathname()
+  const router = useRouter()
   const { user, logout } = useAuth()
   const { t } = useTranslation()
   const { isOpen, setIsOpen } = useSidebar()
 
   const handleLogout = () => {
     logout()
+  }
+
+  const handleItemClick = (href: string) => {
+    setIsOpen(false)
+    if (onNavigate) {
+      onNavigate(href)
+    } else {
+      router.push(href)
+    }
   }
 
   const notifications = [
@@ -57,6 +80,14 @@ export function Sidebar() {
   ]
 
   const unreadCount = notifications.filter((n) => n.unread).length
+
+  // Use provided navItems or fallback to internal navigation
+  const itemsToRender = navItems || navigation.map(item => ({
+    icon: item.icon,
+    label: item.name,
+    href: item.href,
+    active: pathname === item.href
+  }))
 
   return (
     <>
@@ -81,8 +112,9 @@ export function Sidebar() {
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
-          <div className="flex items-center justify-center h-16 px-4 border-b">
-            <h1 className="text-xl font-bold text-primary">DentaPro+</h1>
+          <div className="flex items-center justify-center gap-3 h-16 px-4 border-b">
+            <img src="/clinia-logo.png" alt="Clinia Logo" className="h-10 w-10 object-contain" />
+            <h1 className="text-xl font-bold text-primary">Clinia +</h1>
           </div>
 
           {/* User info */}
@@ -140,19 +172,23 @@ export function Sidebar() {
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-4 space-y-2">
-            {navigation.map((item) => {
-              const isActive = pathname === item.href
+            {itemsToRender.map((item) => {
+              // Handle label vs name for translation key
+              // If label is "Dashboard" (capitalized), we might need to lowercase it for translation key if that's what t() expects
+              // Based on dashboard.tsx: t(item.label.toLowerCase())
+              // Based on sidebar.tsx original: t(item.name) where name was "dashboard"
+              const translationKey = item.label.toLowerCase()
+              
               return (
-                <Link key={item.name} href={item.href}>
+                <div key={item.label} onClick={() => handleItemClick(item.href)}>
                   <Button
-                    variant={isActive ? "default" : "ghost"}
-                    className="w-full justify-start"
-                    onClick={() => setIsOpen(false)}
+                    variant={item.active ? "default" : "ghost"}
+                    className="w-full justify-start cursor-pointer"
                   >
                     <item.icon className="mr-3 h-4 w-4" />
-                    {t(item.name)}
+                    {t(translationKey as any)}
                   </Button>
-                </Link>
+                </div>
               )
             })}
           </nav>

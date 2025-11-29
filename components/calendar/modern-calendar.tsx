@@ -145,14 +145,31 @@ const treatmentTypes = [
   { id: "crown", name: "Crown", color: "#6C757D", duration: 90, price: 950 },
 ]
 
+interface Appointment {
+  id: string
+  patientName: string
+  patientId: string
+  startTime: string
+  endTime: string
+  treatment: string
+  amount: string
+  color: string
+  dentist: string
+  dentistId: string
+  notes: string
+  status: string
+}
+
 interface ModernCalendarProps {
+  appointments?: Appointment[]
   onDateSelect?: (date: Date) => void
-  onAppointmentClick?: (appointment: any) => void
+  onAppointmentClick?: (appointment: Appointment) => void
   onAppointmentCreate?: (appointment: any) => void
   initialView?: "month" | "week" | "today"
 }
 
 export function ModernCalendar({
+  appointments: propAppointments = [],
   onDateSelect,
   onAppointmentClick,
   onAppointmentCreate,
@@ -160,7 +177,11 @@ export function ModernCalendar({
 }: ModernCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
-  const [appointments, setAppointments] = useState(initialAppointments)
+  const [appointments, setAppointments] = useState(propAppointments)
+
+  useEffect(() => {
+    setAppointments(propAppointments)
+  }, [propAppointments])
   const [view, setView] = useState<"month" | "week" | "today" | "list" | "timeline">(initialView)
   const [showNewAppointmentDialog, setShowNewAppointmentDialog] = useState(false)
   const [showAppointmentDetails, setShowAppointmentDialog] = useState(false)
@@ -493,7 +514,7 @@ export function ModernCalendar({
 
                 {/* Show up to 3 appointments */}
                 <div className="mt-1 space-y-1 overflow-hidden">
-                  {filteredAppointments.slice(0, 2).map((appointment, idx) => (
+                  {filteredAppointments.slice(0, 2).map((appointment: Appointment, idx: number) => (
                     <div
                       key={idx}
                       className="text-[10px] truncate px-1.5 py-0.5 rounded-sm flex items-center gap-1"
@@ -956,7 +977,7 @@ export function ModernCalendar({
 
     // Sort appointments by time
     Object.keys(appointmentsByDay).forEach((day) => {
-      appointmentsByDay[day].sort((a, b) => {
+      appointmentsByDay[day].sort((a: Appointment, b: Appointment) => {
         return new Date(a.startTime).getTime() - new Date(b.startTime).getTime()
       })
     })

@@ -77,7 +77,7 @@ export default function Dashboard({ children, showPageTitle = true }: DashboardP
                   </SheetTrigger>
                   <SheetContent side="left" className="w-60 bg-card">
                     <nav className="grid gap-2 text-lg font-medium">
-                      <h2 className="mb-2 text-xl font-bold text-primary font-montserrat">DentaPro+</h2>
+                      <h2 className="mb-2 text-xl font-bold text-primary font-montserrat">Clinia +</h2>
                       {updatedNavItems.map((item, index) => (
                         <Button
                           key={index}

@@ -2,10 +2,11 @@
 
 import { Label } from "@/components/ui/label"
 import { PatientInfoCarousel } from "@/components/patient-info-carousel"
+import { supabase } from "@/lib/supabase"
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -24,7 +25,7 @@ import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
 import { AddPatientForm } from "@/components/add-patient-form"
-import { Odontogram } from "@/components/odontogram"
+import { HCU033Form } from "@/components/hcu033-form"
 import { PatientMedicalRecords } from "@/components/patient-medical-records"
 import {
   Search,
@@ -126,11 +127,49 @@ const initialPatients: Patient[] = [
 
 export default function PatientsPage() {
   const { t } = useTranslation()
-  const [patients, setPatients] = useState<Patient[]>(initialPatients)
+  const [patients, setPatients] = useState<Patient[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
   const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
   const [isPatientDetailsOpen, setIsPatientDetailsOpen] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Fetch patients from Supabase
+  useEffect(() => {
+    fetchPatients()
+  }, [])
+
+  const fetchPatients = async () => {
+    try {
+      setIsLoading(true)
+      const { data, error } = await supabase
+        .from('patients')
+        .select('*')
+        .order('created_at', { ascending: false })
+
+      if (error) throw error
+
+      if (data) {
+        const mappedPatients: Patient[] = data.map((p: any) => ({
+          id: p.id,
+          name: p.first_name,
+          lastName: p.last_name,
+          email: p.email,
+          phone: p.phone,
+          address: p.address,
+          birthDate: p.birth_date,
+          gender: p.gender,
+          // Map other fields as needed, handling potential missing columns in DB vs Interface
+          status: 'active', // Default for now
+        }))
+        setPatients(mappedPatients)
+      }
+    } catch (error) {
+      console.error('Error fetching patients:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const filteredPatients = patients.filter(
     (patient) =>
@@ -139,15 +178,45 @@ export default function PatientsPage() {
       patient.email?.toLowerCase().includes(searchTerm.toLowerCase()),
   )
 
-  const handleAddPatient = (patientData: any) => {
-    const newPatient: Patient = {
-      id: Date.now().toString(),
-      ...patientData,
-      status: "active" as const,
-      lastVisit: new Date().toISOString().split("T")[0],
+  const handleAddPatient = async (patientData: any) => {
+    try {
+      const { data, error } = await supabase
+        .from('patients')
+        .insert([
+          {
+            first_name: patientData.name,
+            last_name: patientData.lastName,
+            email: patientData.email,
+            phone: patientData.phone,
+            address: patientData.address,
+            birth_date: patientData.birthDate,
+            gender: patientData.gender,
+            // Add other fields
+          },
+        ])
+        .select()
+
+      if (error) throw error
+
+      if (data) {
+        const newPatient: Patient = {
+          id: data[0].id,
+          name: data[0].first_name,
+          lastName: data[0].last_name,
+          email: data[0].email,
+          phone: data[0].phone,
+          address: data[0].address,
+          birthDate: data[0].birth_date,
+          gender: data[0].gender,
+          status: 'active',
+        }
+        setPatients((prev) => [newPatient, ...prev])
+        setIsAddPatientOpen(false)
+      }
+    } catch (error) {
+      console.error('Error adding patient:', error)
+      // Show error toast
     }
-    setPatients((prev) => [...prev, newPatient])
-    setIsAddPatientOpen(false)
   }
 
   const exportDatabase = () => {
@@ -327,7 +396,7 @@ export default function PatientsPage() {
                         </TabsTrigger>
                         <TabsTrigger value="odontogram" className="flex items-center gap-2">
                           <Tooth className="h-4 w-4" />
-                          Odontograma
+                          HCU-033
                         </TabsTrigger>
                         <TabsTrigger value="appointments" className="flex items-center gap-2">
                           <Calendar className="h-4 w-4" />
@@ -460,7 +529,7 @@ export default function PatientsPage() {
                             </TabsContent>
 
                             <TabsContent value="odontogram" className="mt-0">
-                              <Odontogram />
+                              <HCU033Form patientId={patient.id} patientName={`${patient.name} ${patient.lastName}`} />
                             </TabsContent>
 
                             <TabsContent value="appointments" className="mt-0">

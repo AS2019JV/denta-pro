@@ -35,7 +35,7 @@ const translations = {
     email: "Correo electrónico",
     password: "Contraseña",
     login: "Iniciar Sesión",
-    loginTitle: "Iniciar Sesión en DentaPro+",
+    loginTitle: "Iniciar Sesión en Clinia +",
     loginSubtitle: "Ingresa tus credenciales para acceder al sistema",
     rememberSession: "Recordar sesión",
 
@@ -108,6 +108,48 @@ const translations = {
     open: "Abrir",
     yes: "Sí",
     no: "No",
+
+    // Settings Page
+    "general-settings": "Configuración General",
+    "notification-settings": "Notificaciones",
+    "security-settings": "Seguridad",
+    "backup-settings": "Respaldos",
+    
+    // General Settings
+    "general-settings-description": "Configuración general de la aplicación",
+    language: "Idioma",
+    theme: "Tema",
+    "time-zone": "Zona Horaria",
+    "date-format": "Formato de Fecha",
+    
+    // Notifications
+    "notification-settings-description": "Configura cómo y cuándo recibir notificaciones",
+    "email-notifications": "Notificaciones por Email",
+    "email-notifications-description": "Recibir notificaciones por correo electrónico",
+    "push-notifications": "Notificaciones Push",
+    "push-notifications-description": "Recibir notificaciones push en el navegador",
+    "sms-notifications": "Notificaciones SMS",
+    "sms-notifications-description": "Recibir notificaciones por SMS",
+    "appointment-reminders": "Recordatorios de citas",
+    "appointment-reminders-description": "Recordatorios automáticos de próximas citas",
+    
+    // Security
+    "security-settings-description": "Configuración de seguridad y acceso",
+    "two-factor-auth": "Autenticación de Dos Factores",
+    "two-factor-auth-description": "Añadir una capa extra de seguridad",
+    "session-timeout": "Tiempo de Sesión",
+    "session-timeout-description": "Tiempo de inactividad antes de cerrar sesión automáticamente",
+    
+    // Backup
+    "backup-settings-description": "Configuración de respaldos y recuperación de datos",
+    "auto-backup": "Respaldo Automático",
+    "auto-backup-description": "Realizar respaldos automáticos",
+    "backup-frequency": "Frecuencia de Respaldo",
+    "backup-location": "Ubicación de Respaldo",
+    "create-backup-now": "Crear respaldo ahora",
+    
+    // Form States
+    saving: "Guardando...",
   },
   en: {
     // Navigation
@@ -132,7 +174,7 @@ const translations = {
     email: "Email",
     password: "Password",
     login: "Login",
-    loginTitle: "Login to DentaPro+",
+    loginTitle: "Login to Clinia +",
     loginSubtitle: "Enter your credentials to access the system",
     rememberSession: "Remember session",
 
@@ -205,6 +247,48 @@ const translations = {
     open: "Open",
     yes: "Yes",
     no: "No",
+
+    // Settings Page
+    "general-settings": "General Settings",
+    "notification-settings": "Notifications",
+    "security-settings": "Security",
+    "backup-settings": "Backups",
+    
+    // General Settings
+    "general-settings-description": "General application settings",
+    language: "Language",
+    theme: "Theme",
+    "time-zone": "Time Zone",
+    "date-format": "Date Format",
+    
+    // Notifications
+    "notification-settings-description": "Configure how and when to receive notifications",
+    "email-notifications": "Email Notifications",
+    "email-notifications-description": "Receive email notifications",
+    "push-notifications": "Push Notifications",
+    "push-notifications-description": "Receive push notifications in the browser",
+    "sms-notifications": "SMS Notifications",
+    "sms-notifications-description": "Receive SMS notifications",
+    "appointment-reminders": "Appointment Reminders",
+    "appointment-reminders-description": "Automatic reminders for upcoming appointments",
+    
+    // Security
+    "security-settings-description": "Security and access settings",
+    "two-factor-auth": "Two-Factor Authentication",
+    "two-factor-auth-description": "Add an extra layer of security",
+    "session-timeout": "Session Timeout",
+    "session-timeout-description": "Inactivity time before automatic logout",
+    
+    // Backup
+    "backup-settings-description": "Backup and data recovery settings",
+    "auto-backup": "Auto Backup",
+    "auto-backup-description": "Perform automatic backups",
+    "backup-frequency": "Backup Frequency",
+    "backup-location": "Backup Location",
+    "create-backup-now": "Create backup now",
+    
+    // Form States
+    saving: "Saving...",
   },
 }
 
