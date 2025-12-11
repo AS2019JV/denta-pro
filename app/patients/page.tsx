@@ -1,12 +1,8 @@
 "use client"
 
-import { Label } from "@/components/ui/label"
-import { PatientInfoCarousel } from "@/components/patient-info-carousel"
-import { supabase } from "@/lib/supabase"
-
-import type React from "react"
-
 import { useState, useEffect } from "react"
+import { useRouter } from "next/navigation"
+import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -20,13 +16,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
 import { AddPatientForm } from "@/components/add-patient-form"
-import { HCU033Form } from "@/components/hcu033-form"
-import { PatientMedicalRecords } from "@/components/patient-medical-records"
 import {
   Search,
   Plus,
@@ -34,11 +27,6 @@ import {
   Upload,
   Phone,
   Mail,
-  Calendar,
-  MapPin,
-  FileText,
-  Stethoscope,
-  Bluetooth as Tooth,
   Clock,
 } from "lucide-react"
 
@@ -63,75 +51,12 @@ interface Patient {
   status: "active" | "inactive"
 }
 
-const initialPatients: Patient[] = [
-  {
-    id: "1",
-    name: "María",
-    lastName: "García López",
-    email: "maria.garcia@email.com",
-    phone: "+34 123 456 789",
-    address: "Calle Mayor 123, Madrid",
-    birthDate: "1985-03-15",
-    gender: "female",
-    emergencyContact: "Juan García",
-    emergencyPhone: "+34 987 654 321",
-    allergies: "Penicilina",
-    medications: "Ninguna",
-    medicalConditions: "Hipertensión",
-    insuranceProvider: "Sanitas",
-    policyNumber: "SAN123456",
-    lastVisit: "2024-01-15",
-    nextAppointment: "2024-02-15",
-    status: "active",
-  },
-  {
-    id: "2",
-    name: "Carlos",
-    lastName: "Rodríguez Martín",
-    email: "carlos.rodriguez@email.com",
-    phone: "+34 234 567 890",
-    address: "Avenida de la Paz 45, Barcelona",
-    birthDate: "1978-07-22",
-    gender: "male",
-    emergencyContact: "Ana Martín",
-    emergencyPhone: "+34 876 543 210",
-    allergies: "Ninguna conocida",
-    medications: "Aspirina",
-    medicalConditions: "Diabetes tipo 2",
-    insuranceProvider: "Adeslas",
-    policyNumber: "ADE789012",
-    lastVisit: "2024-01-20",
-    nextAppointment: "2024-02-20",
-    status: "active",
-  },
-  {
-    id: "3",
-    name: "Ana",
-    lastName: "Fernández Silva",
-    email: "ana.fernandez@email.com",
-    phone: "+34 345 678 901",
-    address: "Plaza del Sol 8, Valencia",
-    birthDate: "1992-11-08",
-    gender: "female",
-    emergencyContact: "Luis Silva",
-    emergencyPhone: "+34 765 432 109",
-    allergies: "Látex",
-    medications: "Anticonceptivos",
-    medicalConditions: "Ninguna",
-    insuranceProvider: "DKV",
-    policyNumber: "DKV345678",
-    lastVisit: "2024-01-10",
-    status: "active",
-  },
-]
-
 export default function PatientsPage() {
   const { t } = useTranslation()
+  const router = useRouter()
   const [patients, setPatients] = useState<Patient[]>([])
   const [searchTerm, setSearchTerm] = useState("")
-  const [selectedPatient, setSelectedPatient] = useState<Patient | null>(null)
   const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
-  const [isPatientDetailsOpen, setIsPatientDetailsOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
 
   // Fetch patients from Supabase
@@ -159,8 +84,9 @@ export default function PatientsPage() {
           address: p.address,
           birthDate: p.birth_date,
           gender: p.gender,
-          // Map other fields as needed, handling potential missing columns in DB vs Interface
-          status: 'active', // Default for now
+          status: p.status || 'active',
+          lastVisit: p.last_visit,
+          nextAppointment: p.next_appointment
         }))
         setPatients(mappedPatients)
       }
@@ -191,7 +117,7 @@ export default function PatientsPage() {
             address: patientData.address,
             birth_date: patientData.birthDate,
             gender: patientData.gender,
-            // Add other fields
+            // Add other fields mapping if needed
           },
         ])
         .select()
@@ -215,16 +141,13 @@ export default function PatientsPage() {
       }
     } catch (error) {
       console.error('Error adding patient:', error)
-      // Show error toast
     }
   }
 
   const exportDatabase = () => {
     const dataStr = JSON.stringify(patients, null, 2)
     const dataUri = "data:application/json;charset=utf-8," + encodeURIComponent(dataStr)
-
     const exportFileDefaultName = `pacientes_${new Date().toISOString().split("T")[0]}.json`
-
     const linkElement = document.createElement("a")
     linkElement.setAttribute("href", dataUri)
     linkElement.setAttribute("download", exportFileDefaultName)
@@ -305,22 +228,26 @@ export default function PatientsPage() {
       {/* Patients Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredPatients.map((patient) => (
-          <Card key={patient.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+          <Card 
+            key={patient.id} 
+            className="hover:shadow-lg transition-all duration-200 cursor-pointer group border-transparent hover:border-primary/10"
+            onClick={() => router.push(`/patients/${patient.id}`)}
+          >
             <CardHeader className="pb-3">
               <div className="flex items-center space-x-3">
-                <Avatar className="h-12 w-12">
+                <Avatar className="h-12 w-12 group-hover:scale-105 transition-transform duration-200">
                   <AvatarImage src={`/placeholder.svg?${patient.id}`} alt={`${patient.name} ${patient.lastName}`} />
-                  <AvatarFallback className="bg-primary text-primary-foreground">
+                  <AvatarFallback className="bg-primary/10 text-primary font-bold">
                     {patient.name[0]}
                     {patient.lastName[0]}
                   </AvatarFallback>
                 </Avatar>
                 <div className="flex-1 min-w-0">
-                  <CardTitle className="text-lg truncate">
+                  <CardTitle className="text-lg truncate group-hover:text-primary transition-colors">
                     {patient.name} {patient.lastName}
                   </CardTitle>
                   <CardDescription className="flex items-center gap-2">
-                    <Badge variant={patient.status === "active" ? "default" : "secondary"}>
+                    <Badge variant={patient.status === "active" ? "default" : "secondary"} className="text-xs px-1.5 py-0 h-5">
                       {patient.status === "active" ? "Activo" : "Inactivo"}
                     </Badge>
                     <span className="text-sm">{calculateAge(patient.birthDate)} años</span>
@@ -328,7 +255,7 @@ export default function PatientsPage() {
                 </div>
               </div>
             </CardHeader>
-            <CardContent className="space-y-3">
+            <CardContent className="space-y-4">
               <div className="space-y-2">
                 <div className="flex items-center text-sm text-muted-foreground">
                   <Phone className="h-4 w-4 mr-2" />
@@ -347,231 +274,16 @@ export default function PatientsPage() {
                   </div>
                 )}
               </div>
-              <Dialog
-                open={isPatientDetailsOpen && selectedPatient?.id === patient.id}
-                onOpenChange={(open) => {
-                  setIsPatientDetailsOpen(open)
-                  if (!open) setSelectedPatient(null)
+              <Button
+                variant="outline"
+                className="w-full bg-transparent group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-200"
+                onClick={(e) => {
+                  e.stopPropagation() 
+                  router.push(`/patients/${patient.id}`)
                 }}
               >
-                <DialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    className="w-full bg-transparent"
-                    onClick={() => setSelectedPatient(patient)}
-                  >
-                    Ver Detalles del Paciente
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="max-w-6xl max-h-[95vh] overflow-hidden flex flex-col">
-                  <DialogHeader className="flex-shrink-0 pb-4 border-b sticky top-0 bg-background/95 backdrop-blur-sm z-10">
-                    <DialogTitle className="text-2xl">
-                      {patient.name} {patient.lastName}
-                    </DialogTitle>
-                    <DialogDescription className="flex items-center gap-4">
-                      <Badge variant={patient.status === "active" ? "default" : "secondary"}>
-                        {patient.status === "active" ? "Activo" : "Inactivo"}
-                      </Badge>
-                      <span>{calculateAge(patient.birthDate)} años</span>
-                      <span>
-                        {patient.gender === "male" ? "Masculino" : patient.gender === "female" ? "Femenino" : "Otro"}
-                      </span>
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  <div className="flex-1 overflow-hidden">
-                    <Tabs defaultValue="carousel" className="h-full flex flex-col">
-                      <TabsList className="grid w-full grid-cols-5 flex-shrink-0 sticky top-0 bg-background/95 backdrop-blur-sm z-10">
-                        <TabsTrigger value="carousel" className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Vista Rápida
-                        </TabsTrigger>
-                        <TabsTrigger value="info" className="flex items-center gap-2">
-                          <FileText className="h-4 w-4" />
-                          Información
-                        </TabsTrigger>
-                        <TabsTrigger value="medical" className="flex items-center gap-2">
-                          <Stethoscope className="h-4 w-4" />
-                          Historial Médico
-                        </TabsTrigger>
-                        <TabsTrigger value="odontogram" className="flex items-center gap-2">
-                          <Tooth className="h-4 w-4" />
-                          HCU-033
-                        </TabsTrigger>
-                        <TabsTrigger value="appointments" className="flex items-center gap-2">
-                          <Calendar className="h-4 w-4" />
-                          Citas
-                        </TabsTrigger>
-                      </TabsList>
-
-                      <div className="flex-1 overflow-hidden">
-                        <ScrollArea className="h-full custom-scrollbar">
-                          <div className="p-6 space-y-6">
-                            <TabsContent value="carousel" className="mt-0">
-                              <PatientInfoCarousel patient={patient} calculateAge={calculateAge} />
-                            </TabsContent>
-
-                            <TabsContent value="info" className="mt-0 space-y-6">
-                              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="text-lg">Información Personal</CardTitle>
-                                  </CardHeader>
-                                  <CardContent className="space-y-4">
-                                    <div className="grid grid-cols-2 gap-4">
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">Nombre</Label>
-                                        <p className="text-sm">
-                                          {patient.name} {patient.lastName}
-                                        </p>
-                                      </div>
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">
-                                          Fecha de Nacimiento
-                                        </Label>
-                                        <p className="text-sm">
-                                          {new Date(patient.birthDate).toLocaleDateString("es-ES")}
-                                        </p>
-                                      </div>
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">Teléfono</Label>
-                                        <p className="text-sm">{patient.phone}</p>
-                                      </div>
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">
-                                          Correo Electrónico
-                                        </Label>
-                                        <p className="text-sm">{patient.email || "No especificado"}</p>
-                                      </div>
-                                    </div>
-                                    {patient.address && (
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground flex items-center gap-2">
-                                          <MapPin className="h-4 w-4" />
-                                          Dirección
-                                        </Label>
-                                        <p className="text-sm mt-1">{patient.address}</p>
-                                      </div>
-                                    )}
-                                  </CardContent>
-                                </Card>
-
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="text-lg">Información de Contacto</CardTitle>
-                                  </CardHeader>
-                                  <CardContent className="space-y-4">
-                                    {patient.emergencyContact && (
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">
-                                          Contacto de Emergencia
-                                        </Label>
-                                        <p className="text-sm">{patient.emergencyContact}</p>
-                                      </div>
-                                    )}
-                                    {patient.emergencyPhone && (
-                                      <div>
-                                        <Label className="text-sm font-medium text-muted-foreground">
-                                          Teléfono de Emergencia
-                                        </Label>
-                                        <p className="text-sm">{patient.emergencyPhone}</p>
-                                      </div>
-                                    )}
-                                  </CardContent>
-                                </Card>
-
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="text-lg">Información Médica</CardTitle>
-                                  </CardHeader>
-                                  <CardContent className="space-y-4">
-                                    <div>
-                                      <Label className="text-sm font-medium text-muted-foreground">Alergias</Label>
-                                      <p className="text-sm">{patient.allergies || "Ninguna conocida"}</p>
-                                    </div>
-                                    <div>
-                                      <Label className="text-sm font-medium text-muted-foreground">Medicamentos</Label>
-                                      <p className="text-sm">{patient.medications || "Ninguna"}</p>
-                                    </div>
-                                    <div>
-                                      <Label className="text-sm font-medium text-muted-foreground">
-                                        Condiciones Médicas
-                                      </Label>
-                                      <p className="text-sm">{patient.medicalConditions || "Ninguna"}</p>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-
-                                <Card>
-                                  <CardHeader>
-                                    <CardTitle className="text-lg">Información del Seguro</CardTitle>
-                                  </CardHeader>
-                                  <CardContent className="space-y-4">
-                                    <div>
-                                      <Label className="text-sm font-medium text-muted-foreground">
-                                        Proveedor de Seguro
-                                      </Label>
-                                      <p className="text-sm">{patient.insuranceProvider || "No especificado"}</p>
-                                    </div>
-                                    <div>
-                                      <Label className="text-sm font-medium text-muted-foreground">
-                                        Número de Póliza
-                                      </Label>
-                                      <p className="text-sm">{patient.policyNumber || "No especificado"}</p>
-                                    </div>
-                                  </CardContent>
-                                </Card>
-                              </div>
-                            </TabsContent>
-
-                            <TabsContent value="medical" className="mt-0">
-                              <PatientMedicalRecords patientId={patient.id} />
-                            </TabsContent>
-
-                            <TabsContent value="odontogram" className="mt-0">
-                              <HCU033Form patientId={patient.id} patientName={`${patient.name} ${patient.lastName}`} />
-                            </TabsContent>
-
-                            <TabsContent value="appointments" className="mt-0">
-                              <Card>
-                                <CardHeader>
-                                  <CardTitle>Citas</CardTitle>
-                                </CardHeader>
-                                <CardContent>
-                                  <div className="space-y-4">
-                                    {patient.lastVisit && (
-                                      <div className="flex items-center justify-between p-4 border rounded-lg">
-                                        <div>
-                                          <p className="font-medium">Última Visita</p>
-                                          <p className="text-sm text-muted-foreground">
-                                            {new Date(patient.lastVisit).toLocaleDateString("es-ES")}
-                                          </p>
-                                        </div>
-                                        <Badge variant="outline">Completada</Badge>
-                                      </div>
-                                    )}
-                                    {patient.nextAppointment && (
-                                      <div className="flex items-center justify-between p-4 border rounded-lg">
-                                        <div>
-                                          <p className="font-medium">Próxima Cita</p>
-                                          <p className="text-sm text-muted-foreground">
-                                            {new Date(patient.nextAppointment).toLocaleDateString("es-ES")}
-                                          </p>
-                                        </div>
-                                        <Badge>Programada</Badge>
-                                      </div>
-                                    )}
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </TabsContent>
-                          </div>
-                        </ScrollArea>
-                      </div>
-                    </Tabs>
-                  </div>
-                </DialogContent>
-              </Dialog>
+                Ver Detalles del Paciente
+              </Button>
             </CardContent>
           </Card>
         ))}

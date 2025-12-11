@@ -59,12 +59,12 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
         {/* Personal Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("personal-info")}</CardTitle>
+            <CardTitle className="text-lg">Información Personal</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="name">{t("name")} *</Label>
+                <Label htmlFor="name">Nombre *</Label>
                 <Input
                   id="name"
                   value={formData.name}
@@ -73,7 +73,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="lastName">{t("last-name")} *</Label>
+                <Label htmlFor="lastName">Apellidos *</Label>
                 <Input
                   id="lastName"
                   value={formData.lastName}
@@ -83,7 +83,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               </div>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="email">{t("email")}</Label>
+              <Label htmlFor="email">Correo Electrónico</Label>
               <Input
                 id="email"
                 type="email"
@@ -92,7 +92,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="phone">{t("phone")} *</Label>
+              <Label htmlFor="phone">Teléfono *</Label>
               <Input
                 id="phone"
                 value={formData.phone}
@@ -101,7 +101,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="address">{t("address")}</Label>
+              <Label htmlFor="address">Dirección</Label>
               <Textarea
                 id="address"
                 value={formData.address}
@@ -111,7 +111,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label htmlFor="birthDate">{t("birth-date")} *</Label>
+                <Label htmlFor="birthDate">Fecha de Nacimiento *</Label>
                 <Input
                   id="birthDate"
                   type="date"
@@ -121,15 +121,15 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
                 />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="gender">{t("gender")}</Label>
+                <Label htmlFor="gender">Género</Label>
                 <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar..." />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="male">{t("male")}</SelectItem>
-                    <SelectItem value="female">{t("female")}</SelectItem>
-                    <SelectItem value="other">{t("other")}</SelectItem>
+                    <SelectItem value="male">Masculino</SelectItem>
+                    <SelectItem value="female">Femenino</SelectItem>
+                    <SelectItem value="other">Otro</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -140,11 +140,11 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
         {/* Contact Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("contact-info")}</CardTitle>
+            <CardTitle className="text-lg">Información de Contacto</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="emergencyContact">{t("emergency-contact")}</Label>
+              <Label htmlFor="emergencyContact">Contacto de Emergencia</Label>
               <Input
                 id="emergencyContact"
                 value={formData.emergencyContact}
@@ -152,7 +152,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="emergencyPhone">{t("emergency-phone")}</Label>
+              <Label htmlFor="emergencyPhone">Teléfono de Emergencia</Label>
               <Input
                 id="emergencyPhone"
                 value={formData.emergencyPhone}
@@ -165,11 +165,11 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
         {/* Medical Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("medical-info")}</CardTitle>
+            <CardTitle className="text-lg">Información Médica</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="allergies">{t("allergies")}</Label>
+              <Label htmlFor="allergies">Alergias</Label>
               <Textarea
                 id="allergies"
                 value={formData.allergies}
@@ -179,7 +179,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="medications">{t("medications")}</Label>
+              <Label htmlFor="medications">Medicamentos</Label>
               <Textarea
                 id="medications"
                 value={formData.medications}
@@ -189,7 +189,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="medicalConditions">{t("medical-conditions")}</Label>
+              <Label htmlFor="medicalConditions">Condiciones Médicas</Label>
               <Textarea
                 id="medicalConditions"
                 value={formData.medicalConditions}
@@ -204,11 +204,11 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
         {/* Insurance Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">{t("insurance-info")}</CardTitle>
+            <CardTitle className="text-lg">Información del Seguro</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="insuranceProvider">{t("insurance-provider")}</Label>
+              <Label htmlFor="insuranceProvider">Proveedor de Seguro</Label>
               <Input
                 id="insuranceProvider"
                 value={formData.insuranceProvider}
@@ -217,7 +217,7 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="policyNumber">{t("policy-number")}</Label>
+              <Label htmlFor="policyNumber">Número de Póliza</Label>
               <Input
                 id="policyNumber"
                 value={formData.policyNumber}
@@ -233,11 +233,11 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
       <div className="flex justify-end space-x-2 pt-4 border-t">
         <Button type="button" variant="outline" onClick={onCancel}>
           <X className="h-4 w-4 mr-2" />
-          {t("cancel")}
+          Cancelar
         </Button>
         <Button type="submit" disabled={isLoading}>
           <Save className="h-4 w-4 mr-2" />
-          {isLoading ? "Guardando..." : t("save")}
+          {isLoading ? "Guardando..." : "Guardar"}
         </Button>
       </div>
     </form>

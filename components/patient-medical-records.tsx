@@ -6,8 +6,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { useTranslation } from "@/components/translations"
-import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle, ClipboardList } from "lucide-react"
-import { HCU033Form } from "@/components/hcu033-form"
+import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle } from "lucide-react"
 
 interface PatientMedicalRecordsProps {
   patientId: string
@@ -61,15 +60,12 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="overview">Resumen</TabsTrigger>
           <TabsTrigger value="notes">Notas</TabsTrigger>
           <TabsTrigger value="treatments">Tratamientos</TabsTrigger>
           <TabsTrigger value="history">Historial</TabsTrigger>
-          <TabsTrigger value="hcu033">
-            <ClipboardList className="h-4 w-4 mr-2" />
-            HCU-033
-          </TabsTrigger>
+
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -244,9 +240,7 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
           </Card>
         </TabsContent>
 
-        <TabsContent value="hcu033" className="space-y-4">
-          <HCU033Form patientId={patientId} onSave={(data) => console.log("[v0] HCU-033 saved:", data)} />
-        </TabsContent>
+
       </Tabs>
     </div>
   )

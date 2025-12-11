@@ -6,7 +6,6 @@ import { SidebarProvider } from "@/components/sidebar-context"
 import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
 import { AuthWrapper } from "@/components/auth-wrapper"
-import { Sidebar } from "@/components/sidebar"
 
 export const metadata: Metadata = {
   title: "Clinia + | Software Dental Moderno",
@@ -27,12 +26,7 @@ export default function RootLayout({
             <AuthProvider>
               <SidebarProvider>
                 <AuthWrapper>
-                  <div className="flex h-screen bg-background">
-                    <Sidebar />
-                    <main className="flex-1 overflow-auto">
-                      <div className="container mx-auto p-6 lg:p-8">{children}</div>
-                    </main>
-                  </div>
+                  {children}
                 </AuthWrapper>
               </SidebarProvider>
             </AuthProvider>

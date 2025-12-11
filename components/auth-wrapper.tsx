@@ -4,9 +4,13 @@ import type React from "react"
 
 import { useAuth } from "@/components/auth-context"
 import { LoginForm } from "@/components/login-form"
+import { Sidebar } from "@/components/sidebar"
+
+import { usePathname } from "next/navigation"
 
 export function AuthWrapper({ children }: { children: React.ReactNode }) {
   const { user, isLoading } = useAuth()
+  const pathname = usePathname()
 
   if (isLoading) {
     return (
@@ -16,9 +20,22 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
     )
   }
 
+  // Allow access to public routes
+  const publicRoutes = ["/signup", "/marketing"]
+  if (pathname && publicRoutes.some(route => pathname.startsWith(route))) {
+    return <>{children}</>
+  }
+
   if (!user) {
     return <LoginForm />
   }
 
-  return <>{children}</>
+  return (
+    <div className="flex h-screen bg-background">
+      <Sidebar />
+      <main className="flex-1 overflow-auto">
+        <div className="container mx-auto p-6 lg:p-8">{children}</div>
+      </main>
+    </div>
+  )
 }

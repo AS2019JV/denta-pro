@@ -23,7 +23,7 @@ import {
   getHours,
 } from "date-fns"
 import { es } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Plus, Clock, CalendarIcon, Settings, Users, Check } from "lucide-react"
+import { ChevronLeft, ChevronRight, ChevronDown, Plus, Clock, CalendarIcon, Settings, Users, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -272,7 +272,12 @@ export function ModernCalendar({
   const handleDateSelect = (date: Date) => {
     setSelectedDate(date)
     if (view === "month") {
-      setView("today")
+      // Open new appointment dialog with selected date
+      setNewAppointment({
+        ...newAppointment,
+        date: format(date, "yyyy-MM-dd"),
+      })
+      setShowNewAppointmentDialog(true)
     }
   }
 
@@ -1305,15 +1310,91 @@ export function ModernCalendar({
           <Button variant="outline" size="icon" onClick={prevMonth} className="transition-transform hover:scale-105">
             <ChevronLeft className="h-4 w-4" />
           </Button>
-          <h2 className="text-xl font-semibold">{format(currentDate, "MMMM yyyy", { locale: es })}</h2>
+          
+          {/* Month/Year Selector Toggle */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" className="gap-2 hover:bg-primary/5">
+                <h2 className="text-xl font-semibold">{format(currentDate, "MMMM yyyy", { locale: es })}</h2>
+                <ChevronDown className="h-4 w-4 text-muted-foreground" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-80 p-4" align="start">
+              <div className="space-y-4">
+                <div>
+                  <Label className="text-sm font-medium mb-2 block">Mes</Label>
+                  <div className="grid grid-cols-3 gap-2">
+                    {Array.from({ length: 12 }, (_, i) => {
+                      const monthDate = new Date(currentDate.getFullYear(), i, 1)
+                      const isCurrentMonth = i === currentDate.getMonth()
+                      return (
+                        <Button
+                          key={i}
+                          variant={isCurrentMonth ? "default" : "outline"}
+                          size="sm"
+                          onClick={() => {
+                            const newDate = new Date(currentDate)
+                            newDate.setMonth(i)
+                            setCurrentDate(newDate)
+                          }}
+                          className="text-xs"
+                        >
+                          {format(monthDate, "MMM", { locale: es })}
+                        </Button>
+                      )
+                    })}
+                  </div>
+                </div>
+                <div>
+                  <Label className="text-sm font-medium mb-2 block">Año</Label>
+                  <div className="flex items-center gap-2">
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        const newDate = new Date(currentDate)
+                        newDate.setFullYear(currentDate.getFullYear() - 1)
+                        setCurrentDate(newDate)
+                      }}
+                    >
+                      <ChevronLeft className="h-4 w-4" />
+                    </Button>
+                    <div className="flex-1 text-center font-semibold">
+                      {currentDate.getFullYear()}
+                    </div>
+                    <Button
+                      variant="outline"
+                      size="icon"
+                      onClick={() => {
+                        const newDate = new Date(currentDate)
+                        newDate.setFullYear(currentDate.getFullYear() + 1)
+                        setCurrentDate(newDate)
+                      }}
+                    >
+                      <ChevronRight className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+          
           <Button variant="outline" size="icon" onClick={nextMonth} className="transition-transform hover:scale-105">
             <ChevronRight className="h-4 w-4" />
           </Button>
         </div>
 
         <div className="flex flex-wrap gap-2">
-          {/* Group 1: View buttons */}
+          {/* Group 1: Mes/Hoy toggle */}
           <div className="bg-muted/20 rounded-lg p-1 flex items-center">
+            <Button
+              variant={view === "month" ? "default" : "ghost"}
+              size="sm"
+              onClick={() => setView("month")}
+              className="transition-transform hover:scale-105"
+            >
+              Mes
+            </Button>
             <Button
               variant={view === "today" ? "default" : "ghost"}
               size="sm"
@@ -1325,6 +1406,10 @@ export function ModernCalendar({
             >
               Hoy
             </Button>
+          </div>
+
+          {/* Group 2: Semana (standalone) */}
+          <div className="bg-muted/20 rounded-lg p-1 flex items-center">
             <Button
               variant={view === "week" ? "default" : "ghost"}
               size="sm"
@@ -1333,17 +1418,9 @@ export function ModernCalendar({
             >
               Semana
             </Button>
-            <Button
-              variant={view === "month" ? "default" : "ghost"}
-              size="sm"
-              onClick={() => setView("month")}
-              className="transition-transform hover:scale-105"
-            >
-              Mes
-            </Button>
           </div>
 
-          {/* Group 2: List/Timeline */}
+          {/* Group 3: Lista/Timeline toggle */}
           <div className="bg-muted/20 rounded-lg p-1 flex items-center">
             <Button
               variant={view === "list" ? "default" : "ghost"}
@@ -1363,35 +1440,40 @@ export function ModernCalendar({
             </Button>
           </div>
 
-          {/* Group 3: Settings buttons */}
-          <div className="bg-muted/20 rounded-lg p-1 flex items-center">
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowDentistsDialog(true)}
-              className="transition-transform hover:scale-105"
-            >
-              <Users className="mr-2 h-4 w-4" />
-              Dentistas
-            </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={() => setShowHoursDialog(true)}
-              className="transition-transform hover:scale-105"
-            >
-              <Clock className="mr-2 h-4 w-4" />
-              Horario
-            </Button>
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setShowSettingsDialog(true)}
-              className="transition-transform hover:scale-105"
-            >
-              <Settings className="h-4 w-4" />
-            </Button>
-          </div>
+          {/* Group 4: Settings dropdown */}
+          <Popover>
+            <PopoverTrigger asChild>
+              <Button variant="outline" size="icon" className="transition-transform hover:scale-105">
+                <Settings className="h-4 w-4" />
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-56 p-2" align="end">
+              <div className="space-y-1">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowDentistsDialog(true)
+                  }}
+                  className="w-full justify-start"
+                >
+                  <Users className="mr-2 h-4 w-4" />
+                  Dentistas
+                </Button>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => {
+                    setShowHoursDialog(true)
+                  }}
+                  className="w-full justify-start"
+                >
+                  <Clock className="mr-2 h-4 w-4" />
+                  Horario
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
       </div>
 

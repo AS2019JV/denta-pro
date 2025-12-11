@@ -20,7 +20,6 @@ import {
   LogOut,
   Menu,
   X,
-  Megaphone,
   Bell,
   type LucideIcon,
 } from "lucide-react"
@@ -33,8 +32,8 @@ const navigation = [
   { name: "billing", href: "/billing", icon: CreditCard },
   { name: "reports", href: "/reports", icon: BarChart3 },
   { name: "messages", href: "/messages", icon: MessageSquare },
-  { name: "marketing", href: "/marketing", icon: Megaphone },
 ]
+
 
 const userNavigation = [
   { name: "profile", href: "/profile", icon: User },

@@ -2,7 +2,7 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -11,6 +11,7 @@ import { Alert, AlertDescription } from "@/components/ui/alert"
 import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
+import { useTheme } from "next-themes"
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
@@ -20,6 +21,9 @@ export function LoginForm() {
   const [error, setError] = useState("")
   const { login, signInWithGoogle } = useAuth()
   const { t } = useTranslation()
+  const { setTheme } = useTheme()
+
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
