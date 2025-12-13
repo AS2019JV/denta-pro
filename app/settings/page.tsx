@@ -13,18 +13,30 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
-import { Settings, Bell, Shield, Database, Save } from "lucide-react"
+import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor } from "lucide-react"
+
+import { useTheme } from "next-themes"
+import { useAuth } from "@/components/auth-context"
+import { AvatarUpload } from "@/components/avatar-upload"
+import { supabase } from "@/lib/supabase"
 
 export default function SettingsPage() {
   const { t, language, setLanguage } = useTranslation()
+  const { theme, setTheme } = useTheme()
+  const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const [generalSettings, setGeneralSettings] = useState({
     language: language,
-    theme: "system",
+    theme: theme || "system",
     timeZone: "Europe/Madrid",
     dateFormat: "dd/mm/yyyy",
   })
+
+  // Update local state when theme changes externally
+  // useEffect(() => {
+  //   setGeneralSettings(prev => ({ ...prev, theme: theme || "system" }))
+  // }, [theme])
 
   const [notificationSettings, setNotificationSettings] = useState({
     emailNotifications: true,
@@ -48,6 +60,7 @@ export default function SettingsPage() {
     e.preventDefault()
     setIsLoading(true)
     setLanguage(generalSettings.language as "es" | "en")
+    // Theme is already updated via onValueChange
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsLoading(false)
@@ -76,6 +89,8 @@ export default function SettingsPage() {
     await new Promise((resolve) => setTimeout(resolve, 1000))
     setIsLoading(false)
   }
+
+
 
   return (
     <div className="space-y-6">
@@ -108,6 +123,33 @@ export default function SettingsPage() {
               <CardDescription>{t("general-settings-description")}</CardDescription>
             </CardHeader>
             <CardContent>
+              <div className="mb-8 flex flex-col items-center justify-center p-6 border-2 border-dashed rounded-xl bg-muted/30">
+                  <div className="flex flex-col items-center gap-3">
+                    <AvatarUpload
+                        uid={user?.id || 'doc-default'}
+                        url={user?.avatar || null}
+                        bucket="doctor-avatars"
+                        size={120}
+                        fallbackName={user?.name || "Doctor"}
+                        onUpload={async (url) => {
+                            if (user?.id) {
+                                await supabase.from('profiles').upsert({
+                                    id: user.id,
+                                    avatar_url: url,
+                                    updated_at: new Date().toISOString()
+                                })
+                                // Optional: You might want to reload the window here if the context doesn't auto-refresh
+                                // window.location.reload() 
+                            }
+                        }}
+                    />
+                    <div className="text-center">
+                        <Label className="text-base font-medium">Foto de Perfil</Label>
+                        <p className="text-sm text-muted-foreground mt-1">Haz clic en el icono de cámara para cambiar tu foto</p>
+                    </div>
+                  </div>
+              </div>
+
               <form onSubmit={handleGeneralSettingsSubmit} className="space-y-4">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
@@ -125,21 +167,87 @@ export default function SettingsPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="theme">{t("theme")}</Label>
-                    <Select
-                      value={generalSettings.theme}
-                      onValueChange={(value) => setGeneralSettings({ ...generalSettings, theme: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="light">{language === "es" ? "Claro" : "Light"}</SelectItem>
-                        <SelectItem value="dark">{language === "es" ? "Oscuro" : "Dark"}</SelectItem>
-                        <SelectItem value="system">{language === "es" ? "Sistema" : "System"}</SelectItem>
-                      </SelectContent>
-                    </Select>
+                  <div className="col-span-1 md:col-span-2 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <div className="space-y-0.5">
+                        <Label className="text-base">{t("theme")}</Label>
+                        <p className="text-sm text-muted-foreground">
+                          {language === "es" ? "Selecciona tu tema preferido" : "Select your preferred theme"}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    {/* Premium Toggle Switch Design */}
+                    <div className="relative inline-flex items-center p-1 bg-muted/50 rounded-2xl border shadow-inner">
+                      {/* Sliding Background Indicator */}
+                      <div 
+                        className={`absolute h-[calc(100%-8px)] rounded-xl bg-background shadow-md transition-all duration-300 ease-out ${
+                          theme === "light" ? "w-[calc(33.333%-4px)] left-1" :
+                          theme === "dark" ? "w-[calc(33.333%-4px)] left-[calc(33.333%+2px)]" :
+                          "w-[calc(33.333%-4px)] left-[calc(66.666%+3px)]"
+                        }`}
+                      />
+                      
+                      {/* Light Mode Button */}
+                      <button
+                        onClick={() => {
+                          setTheme("light")
+                          setGeneralSettings({ ...generalSettings, theme: "light" })
+                        }}
+                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+                          theme === "light" 
+                            ? "text-foreground" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <Sun className={`h-4 w-4 transition-colors ${
+                          theme === "light" ? "text-orange-500" : ""
+                        }`} />
+                        <span className="text-sm font-medium whitespace-nowrap">
+                          {language === "es" ? "Claro" : "Light"}
+                        </span>
+                      </button>
+
+                      {/* Dark Mode Button */}
+                      <button
+                        onClick={() => {
+                          setTheme("dark")
+                          setGeneralSettings({ ...generalSettings, theme: "dark" })
+                        }}
+                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+                          theme === "dark" 
+                            ? "text-foreground" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <Moon className={`h-4 w-4 transition-colors ${
+                          theme === "dark" ? "text-blue-500" : ""
+                        }`} />
+                        <span className="text-sm font-medium whitespace-nowrap">
+                          {language === "es" ? "Oscuro" : "Dark"}
+                        </span>
+                      </button>
+
+                      {/* System Mode Button */}
+                      <button
+                        onClick={() => {
+                          setTheme("system")
+                          setGeneralSettings({ ...generalSettings, theme: "system" })
+                        }}
+                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
+                          theme === "system" 
+                            ? "text-foreground" 
+                            : "text-muted-foreground hover:text-foreground"
+                        }`}
+                      >
+                        <Monitor className={`h-4 w-4 transition-colors ${
+                          theme === "system" ? "text-primary" : ""
+                        }`} />
+                        <span className="text-sm font-medium whitespace-nowrap">
+                          {language === "es" ? "Sistema" : "System"}
+                        </span>
+                      </button>
+                    </div>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="timezone">{t("time-zone")}</Label>

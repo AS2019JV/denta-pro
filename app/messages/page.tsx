@@ -44,6 +44,21 @@ export default function MessagesPage() {
     fetchUsers()
   }, [user])
 
+  // Handle URL query parameters for direct messaging
+  useEffect(() => {
+    // We need to parse the search params from the URL manually or use useSearchParams
+    // Since this is a client component, we can use window.location or useSearchParams hook
+    const params = new URLSearchParams(window.location.search)
+    const userId = params.get('userId')
+    
+    if (userId && users.length > 0) {
+      const targetUser = users.find(u => u.id === userId)
+      if (targetUser) {
+        setSelectedUser(targetUser)
+      }
+    }
+  }, [users, user])
+
   useEffect(() => {
     if (selectedUser) {
       fetchMessages(selectedUser.id)

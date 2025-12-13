@@ -185,3 +185,33 @@ create policy "Authenticated users can insert billings"
 create policy "Authenticated users can update billings"
   on billings for update
   using ( auth.role() = 'authenticated' );
+
+-- Added by Antigravity for Automation & Billing
+CREATE TABLE IF NOT EXISTS public.automation_settings (
+  id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT timezone('utc'::text, now()) NOT NULL,
+  user_id uuid REFERENCES public.profiles(id) NOT NULL,
+  enabled BOOLEAN DEFAULT false,
+  reminder_template TEXT DEFAULT 'Hola {patient_name}, te recordamos tu cita el {date} a las {time} con el Dr. {doctor_name}.',
+  days_before INTEGER DEFAULT 1,
+  whatsapp_enabled BOOLEAN DEFAULT false,
+  email_enabled BOOLEAN DEFAULT true
+);
+
+ALTER TABLE public.automation_settings ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own settings"
+  ON automation_settings FOR SELECT
+  USING ( auth.uid() = user_id );
+
+CREATE POLICY "Users can insert their own settings"
+  ON automation_settings FOR INSERT
+  WITH CHECK ( auth.uid() = user_id );
+
+CREATE POLICY "Users can update their own settings"
+  ON automation_settings FOR UPDATE
+  USING ( auth.uid() = user_id );
+
+ALTER TABLE public.billings 
+ADD COLUMN IF NOT EXISTS appointment_id uuid REFERENCES public.appointments(id);
+

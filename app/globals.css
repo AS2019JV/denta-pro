@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+JP:wght@400;500;600;700&family=Teko:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -120,16 +120,16 @@
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Gowun Batang', serif;
+    font-family: 'Trend Sans One', 'Montserrat', sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Teko', sans-serif;
+    font-family: 'Trend Sans One', 'Montserrat', sans-serif;
     font-weight: 600;
   }
   
   .subtitle {
-    font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Trend Sans One', 'Montserrat', sans-serif;
   }
 }
 

@@ -24,6 +24,7 @@ const translations = {
     profile: "Perfil",
     settings: "Configuración",
     logout: "Cerrar Sesión",
+    dentist: "Dentista",
 
     // Common
     welcomeBack: "Bienvenido de vuelta",
@@ -150,6 +151,9 @@ const translations = {
     
     // Form States
     saving: "Guardando...",
+    lightMode: "Claro",
+    darkMode: "Oscuro",
+    systemMode: "Sistema",
   },
   en: {
     // Navigation
@@ -163,6 +167,7 @@ const translations = {
     profile: "Profile",
     settings: "Settings",
     logout: "Logout",
+    dentist: "Dentist",
 
     // Common
     welcomeBack: "Welcome back",
@@ -289,6 +294,9 @@ const translations = {
     
     // Form States
     saving: "Saving...",
+    lightMode: "Light",
+    darkMode: "Dark",
+    systemMode: "System",
   },
 }
 

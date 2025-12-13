@@ -13,7 +13,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-context"
 import { PageHeader } from "@/components/page-header"
-import { User, Briefcase, Lock, Save, Mail, Phone, MapPin, Award, Clock } from "lucide-react"
+import { User, Briefcase, Lock, Save, Mail, Phone, MapPin, Award, Clock, Camera } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 
@@ -102,6 +102,43 @@ export default function ProfilePage() {
     }
   }
 
+  const handleAvatarUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    try {
+      if (!e.target.files || e.target.files.length === 0) return
+      
+      const file = e.target.files[0]
+      const fileExt = file.name.split('.').pop()
+      const fileName = `${user?.id}-${Date.now()}.${fileExt}`
+      
+      setIsLoading(true)
+      
+      const { error: uploadError } = await supabase.storage
+        .from('avatars')
+        .upload(fileName, file)
+
+      if (uploadError) throw uploadError
+
+      const { data: { publicUrl } } = supabase.storage
+        .from('avatars')
+        .getPublicUrl(fileName)
+
+      const { error: updateError } = await supabase
+        .from('profiles')
+        .update({ avatar_url: publicUrl })
+        .eq('id', user?.id)
+
+      if (updateError) throw updateError
+
+      setProfile({ ...profile, avatar_url: publicUrl })
+      toast.success("Avatar actualizado")
+    } catch (error) {
+      console.error('Error uploading avatar:', error)
+      toast.error("Error al subir imagen")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
   return (
     <div className="space-y-6">
       <PageHeader title="Mi Perfil" />
@@ -110,8 +147,8 @@ export default function ProfilePage() {
         {/* Profile Summary */}
         <Card className="lg:col-span-1">
           <CardHeader className="text-center pb-3">
-            <div className="relative inline-block">
-              <Avatar className="h-24 w-24 mx-auto">
+            <div className="relative inline-block group">
+              <Avatar className="h-24 w-24 mx-auto border-4 border-background shadow-sm">
                 <AvatarImage src={profile.avatar_url || "/placeholder.svg"} alt={profile.full_name} />
                 <AvatarFallback className="text-lg bg-primary text-primary-foreground">
                   {profile.full_name
@@ -120,6 +157,21 @@ export default function ProfilePage() {
                     .join("")}
                 </AvatarFallback>
               </Avatar>
+              <label 
+                htmlFor="avatar-upload" 
+                className="absolute bottom-0 right-0 p-2 bg-primary text-primary-foreground rounded-full cursor-pointer shadow-md hover:bg-primary/90 transition-colors"
+                title="Cambiar foto"
+              >
+                <Camera className="h-4 w-4" />
+                <input 
+                  id="avatar-upload"
+                  type="file" 
+                  accept="image/*"
+                  className="hidden" 
+                  onChange={handleAvatarUpload}
+                  disabled={isLoading}
+                />
+              </label>
             </div>
             <CardTitle className="text-xl mt-3">{profile.full_name}</CardTitle>
             <CardDescription className="capitalize">

@@ -29,15 +29,18 @@ import {
   Download,
   Plus,
   Trash2,
+  ArrowLeft,
 } from "lucide-react"
 
 interface HCU033FormProps {
   patientId: string
   patientName?: string
   onSave?: (data: any) => void
+  isFullScreen?: boolean
+  onClose?: () => void
 }
 
-export function HCU033Form({ patientId, patientName, onSave }: HCU033FormProps) {
+export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClose }: HCU033FormProps) {
   const [formData, setFormData] = useState<any>({
     // Sección A: Datos del establecimiento y paciente
     establecimiento: "",
@@ -224,41 +227,67 @@ export function HCU033Form({ patientId, patientName, onSave }: HCU033FormProps) 
   }
 
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold">Historia Clínica Única - Odontología (HCU-033)</h2>
-          <p className="text-sm text-muted-foreground">Formulario oficial de historia clínica odontológica - Ecuador</p>
-        </div>
-        <div className="flex gap-2">
-          <Button variant="outline" size="sm">
+    <div className={`space-y-6 relative ${isFullScreen ? 'bg-background min-h-screen' : ''}`}>
+      <div className={isFullScreen 
+        ? "fixed top-0 left-0 right-0 z-[100] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b px-6 py-4 flex items-center justify-between shadow-sm animate-in slide-in-from-top-2" 
+        : "flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 border-b"
+      }>
+        {isFullScreen ? (
+            <div className="flex items-center gap-4">
+                <Button variant="ghost" size="sm" onClick={onClose} className="gap-2">
+                        <ArrowLeft className="h-4 w-4" />
+                        Volver
+                </Button>
+                <div className="h-6 w-px bg-border hidden sm:block" />
+                <div className="hidden sm:block">
+                        <h2 className="text-lg font-bold flex items-center gap-2">
+                            HCU-033
+                            <Badge variant="outline" className="font-normal text-xs">Historia Clínica</Badge>
+                        </h2>
+                </div>
+            </div>
+        ) : (
+            <div>
+            <div className="flex items-center gap-2">
+                <h2 className="text-2xl font-bold">HCU-033</h2>
+                <Badge variant="outline" className="font-normal">Historia Clínica Odontológica</Badge>
+            </div>
+            <p className="text-sm text-muted-foreground">Formulario oficial del MSP - Ecuador</p>
+            </div>
+        )}
+
+        <div className="flex gap-2 w-full md:w-auto md:ml-auto justify-end">
+          <Button variant="outline" size="sm" className="h-9">
             <Download className="h-4 w-4 mr-2" />
-            Exportar PDF
+            <span className="hidden sm:inline">Exportar PDF</span>
+            <span className="sm:hidden">PDF</span>
           </Button>
-          <Button onClick={handleSave}>
+          <Button onClick={handleSave} className="h-9">
             <Save className="h-4 w-4 mr-2" />
-            Guardar
+            Guardar Cambios
           </Button>
         </div>
       </div>
 
+      <div className={isFullScreen ? "pt-20 px-6 pb-10 max-w-7xl mx-auto" : ""}>
+
       <Tabs value={activeSection} onValueChange={setActiveSection}>
-        <ScrollArea className="w-full">
-          <TabsList className="inline-flex w-auto">
-            <TabsTrigger value="A">A. Datos</TabsTrigger>
-            <TabsTrigger value="B">B. Motivo</TabsTrigger>
-            <TabsTrigger value="C">C. Enfermedad</TabsTrigger>
-            <TabsTrigger value="D">D. Antecedentes</TabsTrigger>
-            <TabsTrigger value="E">E. Signos Vitales</TabsTrigger>
-            <TabsTrigger value="F">F. Examen</TabsTrigger>
-            <TabsTrigger value="G">G. Odontograma</TabsTrigger>
-            <TabsTrigger value="H">H. Diagnósticos</TabsTrigger>
-            <TabsTrigger value="I">I. Plan</TabsTrigger>
-            <TabsTrigger value="J">J. Sesiones</TabsTrigger>
-            <TabsTrigger value="K">K. Firma</TabsTrigger>
-            <TabsTrigger value="L">L. Adjuntos</TabsTrigger>
-          </TabsList>
-        </ScrollArea>
+        <div className="w-full overflow-x-auto pb-2 -mx-2 px-2">
+            <TabsList className="inline-flex w-auto h-auto p-1 bg-muted/20">
+              <TabsTrigger value="A" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">A. Datos</TabsTrigger>
+              <TabsTrigger value="B" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">B. Motivo</TabsTrigger>
+              <TabsTrigger value="C" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">C. Enfermedad</TabsTrigger>
+              <TabsTrigger value="D" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">D. Antecedentes</TabsTrigger>
+              <TabsTrigger value="E" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">E. Signos Vitales</TabsTrigger>
+              <TabsTrigger value="F" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">F. Examen</TabsTrigger>
+              <TabsTrigger value="G" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">G. Odontograma</TabsTrigger>
+              <TabsTrigger value="H" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">H. Diagnósticos</TabsTrigger>
+              <TabsTrigger value="I" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">I. Plan</TabsTrigger>
+              <TabsTrigger value="J" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">J. Sesiones</TabsTrigger>
+              <TabsTrigger value="K" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">K. Firma</TabsTrigger>
+              <TabsTrigger value="L" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">L. Adjuntos</TabsTrigger>
+            </TabsList>
+        </div>
 
         {/* Sección A: Datos del establecimiento y paciente */}
         <TabsContent value="A" className="space-y-4">
@@ -654,25 +683,11 @@ export function HCU033Form({ patientId, patientName, onSave }: HCU033FormProps) 
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
-              <div className="bg-muted/50 p-4 rounded-lg">
-                <h4 className="font-medium mb-2">Atajos de teclado NumPad:</h4>
-                <div className="grid grid-cols-2 md:grid-cols-5 gap-2 text-sm">
-                  <Badge variant="outline">1 - Sano</Badge>
-                  <Badge variant="outline">2 - Caries</Badge>
-                  <Badge variant="outline">3 - Obturación</Badge>
-                  <Badge variant="outline">4 - Endodoncia</Badge>
-                  <Badge variant="outline">5 - Corona</Badge>
-                  <Badge variant="outline">6 - Ausente</Badge>
-                  <Badge variant="outline">7 - Movilidad</Badge>
-                  <Badge variant="outline">8 - Sellante</Badge>
-                  <Badge variant="outline">9 - Prótesis</Badge>
-                  <Badge variant="outline">0 - Nota</Badge>
-                </div>
-              </div>
-
               <OdontogramaInteractive
                 data={formData.odontograma_data}
                 onChange={(data) => updateField("odontograma_data", data)}
+                patientName={patientName || formData.nombre_completo}
+                patientId={patientId}
               />
 
               <div className="space-y-2">
@@ -1064,6 +1079,7 @@ export function HCU033Form({ patientId, patientName, onSave }: HCU033FormProps) 
           </Card>
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   )
 }

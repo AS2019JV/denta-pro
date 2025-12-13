@@ -13,13 +13,20 @@ import { Label } from "@/components/ui/label"
 import { useTranslation } from "@/components/translations"
 import { 
   ArrowLeft, Calendar, Phone, Mail, MapPin, 
-  FileText, Stethoscope, Clock, User, Loader2
+  FileText, Stethoscope, Clock, User, Loader2, Receipt
 } from "lucide-react"
-
-// Import custom components
-import { PatientInfoCarousel } from "@/components/patient-info-carousel"
+import { 
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle, 
+} from "@/components/ui/dialog"
+import { AddPatientForm } from "@/components/add-patient-form"
+import { PatientFiles } from "@/components/patient-files"
 import { PatientMedicalRecords } from "@/components/patient-medical-records"
 import { HCU033Form } from "@/components/hcu033-form"
+import { AvatarUpload } from "@/components/avatar-upload"
 
 interface Patient {
   id: string
@@ -40,6 +47,7 @@ interface Patient {
   lastVisit?: string
   nextAppointment?: string
   status: "active" | "inactive"
+  avatar_url?: string
 }
 
 export default function PatientDetailsPage() {
@@ -48,6 +56,8 @@ export default function PatientDetailsPage() {
   const { t } = useTranslation()
   const [patient, setPatient] = useState<Patient | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isEditOpen, setIsEditOpen] = useState(false)
+  const [isHCUOpen, setIsHCUOpen] = useState(false)
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -84,7 +94,8 @@ export default function PatientDetailsPage() {
               policyNumber: data.policy_number,
               lastVisit: data.last_visit,
               nextAppointment: data.next_appointment,
-              status: data.status || 'active'
+              status: data.status || 'active',
+              avatar_url: data.avatar_url,
            }
            setPatient(mappedPatient)
         }
@@ -106,6 +117,38 @@ export default function PatientDetailsPage() {
       age--
     }
     return age
+  }
+
+  const handleUpdatePatient = async (updatedData: any) => {
+    if (!patient) return
+    try {
+      const { error } = await supabase
+        .from('patients')
+        .update({
+          first_name: updatedData.name,
+          last_name: updatedData.lastName,
+          email: updatedData.email,
+          phone: updatedData.phone,
+          address: updatedData.address,
+          birth_date: updatedData.birthDate,
+          gender: updatedData.gender,
+          emergency_contact: updatedData.emergencyContact,
+          emergency_phone: updatedData.emergencyPhone,
+          allergies: updatedData.allergies,
+          medications: updatedData.medications,
+          medical_conditions: updatedData.medicalConditions,
+          insurance_provider: updatedData.insuranceProvider,
+          policy_number: updatedData.policyNumber
+        })
+        .eq('id', patient.id)
+      
+      if (error) throw error
+      
+      setPatient({ ...patient, ...updatedData })
+      setIsEditOpen(false)
+    } catch (e) {
+      console.error("Error updating patient", e)
+    }
   }
 
   if (isLoading) {
@@ -141,13 +184,18 @@ export default function PatientDetailsPage() {
           <div className="flex-none bg-card border-b p-6 shadow-sm z-10">
                 <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
                      <div className="flex items-center gap-5">
-                      <Avatar className="h-20 w-20 border-4 border-background shadow-md">
-                        <AvatarImage src={`/placeholder.svg?${patient.id}`} alt={`${patient.name} ${patient.lastName}`} />
-                        <AvatarFallback className="bg-primary text-primary-foreground text-2xl font-bold">
-                          {patient.name[0]}
-                          {patient.lastName[0]}
-                        </AvatarFallback>
-                      </Avatar>
+                      <AvatarUpload
+                        uid={patient.id}
+                        url={patient.avatar_url || null}
+                        bucket="patient-avatars"
+                        size={96}
+                        fallbackName={`${patient.name} ${patient.lastName}`}
+                        onUpload={async (url) => {
+                           // Update patient record with new avatar url
+                           await supabase.from('patients').update({ avatar_url: url }).eq('id', patient.id)
+                           setPatient(prev => prev ? ({ ...prev, avatar_url: url }) : null)
+                        }}
+                      />
                       <div>
                         <h1 className="text-3xl font-bold flex items-center gap-3">
                           {patient.name} {patient.lastName}
@@ -172,14 +220,28 @@ export default function PatientDetailsPage() {
                       </div>
                     </div>
                     <div className="flex gap-3 w-full md:w-auto">
-                      <Button variant="outline" className="flex-1 md:flex-none">
+                      <Button variant="outline" className="flex-1 md:flex-none" onClick={() => router.push(`/messages?userId=${patient.id}`)}>
                         <Mail className="h-4 w-4 mr-2" />
                         Mensaje
                       </Button>
-                      <Button className="flex-1 md:flex-none">
+                      <Button className="flex-1 md:flex-none" onClick={() => setIsEditOpen(true)}>
                         <FileText className="h-4 w-4 mr-2" />
                         Editar
                       </Button>
+                      
+                      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                            <DialogHeader>
+                               <DialogTitle>Editar Paciente</DialogTitle>
+                               <DialogDescription>Actualizar información del paciente</DialogDescription>
+                            </DialogHeader>
+                            <AddPatientForm 
+                               initialData={patient} 
+                               onSubmit={handleUpdatePatient} 
+                               onCancel={() => setIsEditOpen(false)} 
+                            />
+                         </DialogContent>
+                      </Dialog>
                     </div>
                 </div>
           </div>
@@ -190,17 +252,28 @@ export default function PatientDetailsPage() {
                 <div className="flex-none bg-background border-b px-6">
                     <div className="max-w-7xl mx-auto w-full">
                         <TabsList className="h-auto p-0 bg-transparent gap-8">
-                            {['info', 'medical', 'odontogram', 'appointments', 'carousel'].map((tab) => (
+                            {['info', 'medical', 'hcu033', 'appointments', 'files'].map((tab) => (
                                 <TabsTrigger 
                                     key={tab}
                                     value={tab} 
+                                    onClick={(e) => {
+                                      if (tab === 'hcu033') {
+                                        e.preventDefault()
+                                        setIsHCUOpen(true)
+                                      }
+                                    }}
                                     className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none py-4 px-0 text-muted-foreground data-[state=active]:text-primary font-medium transition-all"
                                 >
-                                    {tab === 'info' && "Información"}
+                                    {tab === 'info' && "Perfil"}
                                     {tab === 'medical' && "Historial Médico"}
-                                    {tab === 'odontogram' && "Odontograma"}
+                                    {tab === 'hcu033' && "HCU-033"}
                                     {tab === 'appointments' && "Citas"}
-                                    {tab === 'carousel' && "Archivos"}
+                                    {tab === 'files' && (
+                                      <div className="flex items-center gap-2">
+                                        Archivos
+                                        <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">3</Badge>
+                                      </div>
+                                    )}
                                 </TabsTrigger>
                             ))}
                         </TabsList>
@@ -210,9 +283,10 @@ export default function PatientDetailsPage() {
                 <div className="flex-1 overflow-hidden">
                     <ScrollArea className="h-full">
                         <div className="max-w-7xl mx-auto p-6 space-y-6">
-                            <TabsContent value="carousel" className="mt-0 focus-visible:ring-0">
-                                <PatientInfoCarousel patient={patient} calculateAge={calculateAge} />
+                            <TabsContent value="files" className="mt-0 focus-visible:ring-0">
+                                <PatientFiles />
                             </TabsContent>
+
 
                             <TabsContent value="info" className="mt-0 space-y-6 focus-visible:ring-0">
                                 {/* Personal & Contact Section */}
@@ -334,47 +408,12 @@ export default function PatientDetailsPage() {
                                 <PatientMedicalRecords patientId={patient.id} />
                             </TabsContent>
 
-                            <TabsContent value="odontogram" className="mt-0 focus-visible:ring-0">
+                            <TabsContent value="hcu033" className="mt-0 focus-visible:ring-0">
                                 <HCU033Form patientId={patient.id} patientName={`${patient.name} ${patient.lastName}`} />
                             </TabsContent>
 
                             <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
-                                <Card>
-                                    <CardHeader>
-                                        <CardTitle className="text-xl">Historial de Citas</CardTitle>
-                                    </CardHeader>
-                                    <CardContent>
-                                        <div className="space-y-4">
-                                            {patient.lastVisit && (
-                                                <div className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/50 transition-colors">
-                                                    <div>
-                                                        <p className="font-semibold text-foreground">Última Visita</p>
-                                                        <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                                                            <Calendar className="h-3.5 w-3.5" />
-                                                            {new Date(patient.lastVisit).toLocaleDateString("es-ES")}
-                                                        </p>
-                                                    </div>
-                                                    <Badge variant="outline" className="text-green-600 border-green-200 bg-green-50 dark:bg-green-900/10 dark:text-green-400 dark:border-green-800">Completada</Badge>
-                                                </div>
-                                            )}
-                                            {patient.nextAppointment && (
-                                                <div className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/50 transition-colors">
-                                                    <div>
-                                                        <p className="font-semibold text-foreground">Próxima Cita</p>
-                                                        <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                                                            <Calendar className="h-3.5 w-3.5" />
-                                                            {new Date(patient.nextAppointment).toLocaleDateString("es-ES")}
-                                                        </p>
-                                                    </div>
-                                                    <Badge className="bg-primary text-primary-foreground">Programada</Badge>
-                                                </div>
-                                            )}
-                                            {!patient.lastVisit && !patient.nextAppointment && (
-                                                <p className="text-muted-foreground text-center py-8">No hay citas registradas</p>
-                                            )}
-                                        </div>
-                                    </CardContent>
-                                </Card>
+                                <AppointmentsList patientId={patient.id} />
                             </TabsContent>
                         </div>
                     </ScrollArea>
@@ -382,6 +421,119 @@ export default function PatientDetailsPage() {
              </Tabs>
           </div>
       </div>
+
+      
+      {isHCUOpen && patient && (
+        <div className="fixed inset-0 z-50 bg-background animate-in fade-in duration-200">
+           <HCU033Form 
+              patientId={patient!.id} 
+              patientName={`${patient!.name} ${patient!.lastName}`} 
+              isFullScreen={true}
+              onClose={() => setIsHCUOpen(false)}
+           />
+        </div>
+      )}
     </div>
+  )
+}
+
+function AppointmentsList({ patientId }: { patientId: string }) {
+  const [appointments, setAppointments] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+
+  useEffect(() => {
+    const fetchHistory = async () => {
+      setLoading(true)
+      const { data: apps, error } = await supabase
+        .from('appointments')
+        .select(`
+          *,
+          billings (
+            id,
+            amount,
+            status,
+            invoice_number
+          )
+        `)
+        .eq('patient_id', patientId)
+        .order('start_time', { ascending: false })
+
+      if (apps) {
+        setAppointments(apps)
+      }
+      setLoading(false)
+    }
+
+    fetchHistory()
+  }, [patientId])
+
+  if (loading) return <div className="p-4 text-center"><Loader2 className="h-6 w-6 animate-spin mx-auto"/></div>
+
+  if (appointments.length === 0) {
+    return (
+      <Card>
+        <CardContent className="p-8 text-center text-muted-foreground">
+          No hay historial de citas.
+        </CardContent>
+      </Card>
+    )
+  }
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle className="text-xl">Historial de Citas e Inversión</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <div className="space-y-4">
+          {appointments.map((app) => {
+            const billing = app.billings?.[0]
+            return (
+              <div key={app.id} className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/50 transition-colors">
+                <div className="flex items-center gap-4">
+                  <div className={`p-2.5 rounded-full ${app.status === 'confirmed' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
+                    <Calendar className="h-5 w-5" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-foreground">{app.type || 'Consulta General'}</p>
+                    <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
+                      {new Date(app.start_time).toLocaleDateString("es-ES", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                      {' • '}
+                      {new Date(app.start_time).toLocaleTimeString("es-ES", { hour: '2-digit', minute: '2-digit' })}
+                    </p>
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-3">
+                   {billing ? (
+                     <div className="text-right mr-2">
+                        <div className="flex items-center gap-1 text-sm font-medium">
+                           <Receipt className="h-3.5 w-3.5 text-muted-foreground"/>
+                           <span>Factura #{billing.invoice_number?.slice(-6) || '---'}</span>
+                        </div>
+                        <Badge variant={billing.status === 'paid' ? 'default' : 'outline'} className="mt-1 text-xs">
+                           ${billing.amount} - {billing.status === 'paid' ? 'Pagado' : 'Pendiente'}
+                        </Badge>
+                     </div>
+                   ) : (
+                     <Badge variant="secondary" className="mr-2">Sin Factura</Badge>
+                   )}
+                   
+                   <Badge 
+                     variant={app.status === 'confirmed' || app.status === 'completed' ? 'default' : 'secondary'}
+                     className={app.status === 'no_show' ? 'bg-red-100 text-red-700 hover:bg-red-100' : ''}
+                   >
+                     {app.status === 'confirmed' ? 'Confirmada' : 
+                      app.status === 'completed' ? 'Completada' :
+                      app.status === 'no_show' ? 'No Asistió' : 
+                      'Programada'}
+                   </Badge>
+                </div>
+              </div>
+            )
+          })}
+        </div>
+      </CardContent>
+    </Card>
   )
 }

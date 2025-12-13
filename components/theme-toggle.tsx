@@ -1,45 +1,45 @@
 "use client"
 
+import * as React from "react"
+import { Moon, Sun, Monitor } from "lucide-react"
 import { useTheme } from "next-themes"
-import { useEffect, useState } from "react"
-import { Moon, Sun } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { useTranslation } from "@/components/translations"
 
 export function ThemeToggle() {
-  const { setTheme, theme, resolvedTheme } = useTheme()
-  const [mounted, setMounted] = useState(false)
+  const { setTheme } = useTheme()
   const { t } = useTranslation()
 
-  // Evitar desajustes de hidratación renderizando solo después del montaje
-  useEffect(() => {
-    setMounted(true)
-  }, [])
-
-  const isDark = mounted && (theme === "dark" || (theme === "system" && resolvedTheme === "dark"))
-
-  const toggleTheme = () => {
-    // Forzar cambio explícito de tema
-    const newTheme = isDark ? "light" : "dark"
-    console.log(`Cambiando tema a: ${newTheme}`)
-    setTheme(newTheme)
-  }
-
-  if (!mounted) {
-    return <div className="h-9 w-9" />
-  }
-
   return (
-    <button
-      onClick={toggleTheme}
-      className="relative h-9 w-9 rounded-full bg-muted/80 hover:bg-muted overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-primary cursor-pointer"
-      aria-label={isDark ? t("lightMode") : t("darkMode")}
-      type="button"
-    >
-      {isDark ? (
-        <Sun className="h-5 w-5 absolute inset-0 m-auto text-yellow-500" />
-      ) : (
-        <Moon className="h-5 w-5 absolute inset-0 m-auto text-slate-700" />
-      )}
-    </button>
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon" className="group rounded-full bg-background/50 border hover:bg-muted/80 hover:shadow-sm transition-all duration-200">
+          <Sun className="h-[1.2rem] w-[1.2rem] rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0 text-orange-500 font-bold" />
+          <Moon className="absolute h-[1.2rem] w-[1.2rem] rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100 text-blue-500 font-bold" />
+          <span className="sr-only">{t("theme")}</span>
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuItem onClick={() => setTheme("light")} className="cursor-pointer">
+          <Sun className="mr-2 h-4 w-4 text-orange-500" />
+          <span>{t("lightMode")}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("dark")} className="cursor-pointer">
+          <Moon className="mr-2 h-4 w-4 text-blue-500" />
+          <span>{t("darkMode")}</span>
+        </DropdownMenuItem>
+        <DropdownMenuItem onClick={() => setTheme("system")} className="cursor-pointer">
+          <Monitor className="mr-2 h-4 w-4 text-foreground" />
+          <span>{t("systemMode")}</span>
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
   )
 }

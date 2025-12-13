@@ -6,6 +6,7 @@ import { SidebarProvider } from "@/components/sidebar-context"
 import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
 import { AuthWrapper } from "@/components/auth-wrapper"
+import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
   title: "Clinia + | Software Dental Moderno",
@@ -21,12 +22,13 @@ export default function RootLayout({
   return (
     <html lang="es" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <TranslationProvider>
             <AuthProvider>
               <SidebarProvider>
                 <AuthWrapper>
                   {children}
+                  <Toaster />
                 </AuthWrapper>
               </SidebarProvider>
             </AuthProvider>

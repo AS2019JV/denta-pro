@@ -1,32 +1,42 @@
 "use client"
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useAuth } from "@/components/auth-context"
-import { useTranslation } from "@/components/translations"
-import { PageHeader } from "@/components/page-header"
+import Link from "next/link"
+import { useState } from "react"
+import { format, isToday, isFuture } from "date-fns"
+import { es } from "date-fns/locale"
+import { toast } from "sonner"
 import {
   Users,
   Calendar,
   DollarSign,
   Clock,
-  Activity,
-  Phone,
   Mail,
   Plus,
   ChevronDown,
   UserPlus,
   CalendarPlus,
-  MoreVertical,
-  Zap
+  Zap,
+  Check,
+  X,
+  CalendarClock,
+  Send,
+  ClipboardList,
+  CalendarRange,
 } from "lucide-react"
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Button } from "@/components/ui/button"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Textarea } from "@/components/ui/textarea"
+import { Switch } from "@/components/ui/switch"
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
@@ -36,37 +46,51 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-  DialogTrigger,
 } from "@/components/ui/dialog"
+
+import { useAuth } from "@/components/auth-context"
+import { useTranslation } from "@/components/translations"
+import { PageHeader } from "@/components/page-header"
 import { AddPatientForm } from "@/components/add-patient-form"
-import { useState } from "react"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
+import { useDashboardData } from "@/hooks/use-dashboard-data"
+import { supabase } from "@/lib/supabase"
+import { Appointment } from "@/types"
 
 export default function DashboardPage() {
   const { user } = useAuth()
   const { t } = useTranslation()
+  const { appointments, patients, treatments, dentists, isLoading, refreshData } = useDashboardData()
+
+
+
+  // Computed data
+  const recentAppointments = appointments
+    .filter(a => isToday(new Date(a.start_time)))
+    .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
+
+  const upcomingAppointments = appointments
+    .filter(a => isFuture(new Date(a.start_time)))
+    .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
+    .slice(0, 5) // Show only top 5
 
   const stats = [
     {
       title: t("total-patients"),
-      value: "1,234",
-      change: "+12%",
+      value: patients.length.toString(),
+      change: "+12%", // In a real app, compare with last month
       icon: Users,
       color: "text-blue-600",
     },
     {
       title: t("appointments-today"),
-      value: "23",
+      value: recentAppointments.length.toString(),
       change: "+5%",
       icon: Calendar,
       color: "text-green-600",
     },
     {
       title: t("monthly-revenue"),
-      value: "$45,231",
+      value: "$45,231", // Placeholder - needs billing table logic
       change: "+18%",
       icon: DollarSign,
       color: "text-yellow-600",
@@ -80,68 +104,148 @@ export default function DashboardPage() {
     },
   ]
 
-  const recentAppointments = [
-    {
-      id: "1",
-      patient: "María García",
-      time: "09:00",
-      type: "Limpieza",
-      status: "confirmed",
-    },
-    {
-      id: "2",
-      patient: "Carlos Rodríguez",
-      time: "10:30",
-      type: "Empaste",
-      status: "pending",
-    },
-    {
-      id: "3",
-      patient: "Ana Fernández",
-      time: "14:00",
-      type: "Revisión",
-      status: "confirmed",
-    },
-    {
-      id: "4",
-      patient: "Luis Martín",
-      time: "16:30",
-      type: "Endodoncia",
-      status: "confirmed",
-    },
-  ]
-
-  const upcomingAppointments = [
-    {
-      id: "1",
-      patient: "Elena Sánchez",
-      date: "Mañana",
-      time: "09:30",
-      type: "Consulta",
-    },
-    {
-      id: "2",
-      patient: "Pedro López",
-      date: "Mañana",
-      time: "11:00",
-      type: "Limpieza",
-    },
-    {
-      id: "3",
-      patient: "Isabel Ruiz",
-      date: "Viernes",
-      time: "15:00",
-      type: "Corona",
-    },
-  ]
-
+  // State
   const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
   const [isNewAppointmentOpen, setIsNewAppointmentOpen] = useState(false)
+  const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
+  const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
 
+  // New Appointment Form State
+  const [newApp, setNewApp] = useState({
+    patientId: "",
+    treatmentId: "",
+    date: format(new Date(), "yyyy-MM-dd"),
+    time: "09:00",
+    notes: "",
+    createInvoice: true,
+    invoiceAmount: "",
+  })
+
+  // Handlers
+  const handleAppointmentClick = (appointment: Appointment) => {
+    setSelectedAppointment(appointment)
+    setIsAppointmentDetailsOpen(true)
+  }
+
+  const handleUpdateStatus = async (status: string) => {
+    if (!selectedAppointment) return
+    try {
+      const { error } = await supabase
+        .from('appointments')
+        .update({ status })
+        .eq('id', selectedAppointment.id)
+
+      if (error) throw error
+
+      toast.success(`Cita ${status === 'confirmed' ? 'confirmada' : 'actualizada'}`)
+      refreshData()
+      setIsAppointmentDetailsOpen(false)
+    } catch (e) {
+      console.error(e)
+      toast.error("Error al actualizar la cita")
+    }
+  }
+
+  const handleSendMessage = () => {
+    if (!selectedAppointment || !selectedAppointment.patients?.phone) {
+        toast.error("No hay número de teléfono disponible")
+        return
+    }
+    const message = `Hola ${selectedAppointment.patients.first_name}, recordatorio de su cita...`
+    window.open(`https://wa.me/${selectedAppointment.patients.phone}?text=${encodeURIComponent(message)}`, '_blank')
+  }
+
+  const handleCreateAppointment = async () => {
+    try {
+        if (!newApp.patientId || !newApp.treatmentId || !newApp.date || !newApp.time) {
+            toast.error("Por favor complete todos los campos requeridos")
+            return
+        }
+
+        const startDateTime = new Date(`${newApp.date}T${newApp.time}`)
+        const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000) // Default 1 hour duration
+
+        const treatment = treatments.find(t => t.id === newApp.treatmentId)
+
+        // 1. Create Appointment
+        const { data: appData, error: appError } = await supabase
+            .from('appointments')
+            .insert({
+                patient_id: newApp.patientId,
+                doctor_id: user?.id,
+                start_time: startDateTime.toISOString(),
+                end_time: endDateTime.toISOString(),
+                type: treatment?.name || 'Consulta',
+                status: 'confirmed',
+                notes: newApp.notes
+            })
+            .select()
+            .single()
+
+        if (appError) throw appError
+
+        // 2. Create Invoice (Optional)
+        if (newApp.createInvoice && appData) {
+            const amount = newApp.invoiceAmount ? parseFloat(newApp.invoiceAmount) : treatment?.price || 0
+            await supabase.from('billings').insert({
+                patient_id: newApp.patientId,
+                appointment_id: appData.id,
+                amount: amount,
+                status: 'pending',
+                description: `Cita: ${treatment?.name}`,
+                invoice_number: `INV-${Date.now()}`
+            })
+        }
+
+        toast.success("Cita creada exitosamente")
+        setIsNewAppointmentOpen(false)
+        refreshData()
+        
+        // Reset form
+        setNewApp({
+            patientId: "",
+            treatmentId: "",
+            date: format(new Date(), "yyyy-MM-dd"),
+            time: "09:00",
+            notes: "",
+            createInvoice: true,
+            invoiceAmount: "",
+        })
+
+    } catch (error) {
+        console.error("Error creating appointment:", error)
+        toast.error("Error al crear la cita")
+    }
+  }
+
+  const handleSendReminder = () => {
+      // Functional placeholder for now
+      toast.info("Funcionalidad de envío masivo de correos próximamente")
+  }
+
+  if (isLoading) {
+    return (
+      <div className="space-y-6">
+         <div className="flex items-center justify-between">
+            <div className="h-8 w-48 bg-muted animate-pulse rounded"></div>
+            <div className="h-10 w-32 bg-muted animate-pulse rounded"></div>
+         </div>
+         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[1, 2, 3, 4].map(i => (
+               <div key={i} className="h-32 bg-muted animate-pulse rounded-xl"></div>
+            ))}
+         </div>
+         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+             <div className="h-96 bg-muted animate-pulse rounded-xl"></div>
+             <div className="h-96 bg-muted animate-pulse rounded-xl"></div>
+         </div>
+      </div>
+    )
+  }
 
   return (
     <div className="space-y-6">
-      <PageHeader title={`¡Hola, ${user?.name?.split(" ")[0]}!`}>
+      <PageHeader title={`¡Hola, ${user?.name?.split(" ")[0] || 'Doctor'}!`}>
         <div className="flex items-center gap-2">
           <Button onClick={() => setIsNewAppointmentOpen(true)}>
             <Plus className="h-4 w-4 mr-2" />
@@ -189,19 +293,10 @@ export default function DashboardPage() {
               
               <DropdownMenuSeparator className="my-2" />
               
-              <DropdownMenuItem className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200">
-                <div className="flex items-center gap-3 w-full">
-                  <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/5 dark:bg-foreground/10 transition-colors">
-                    <Phone className="h-4 w-4 text-foreground/60 dark:text-foreground/70" />
-                  </div>
-                  <div className="flex flex-col flex-1">
-                    <span className="font-medium text-sm">Llamar Paciente</span>
-                    <span className="text-xs text-muted-foreground/80">Contacto directo</span>
-                  </div>
-                </div>
-              </DropdownMenuItem>
-              
-              <DropdownMenuItem className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200">
+              <DropdownMenuItem 
+                onClick={handleSendReminder}
+                className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200"
+              >
                 <div className="flex items-center gap-3 w-full">
                   <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-foreground/5 dark:bg-foreground/10 transition-colors">
                     <Mail className="h-4 w-4 text-foreground/60 dark:text-foreground/70" />
@@ -225,7 +320,7 @@ export default function DashboardPage() {
             </DialogHeader>
             <AddPatientForm 
               onSubmit={(data) => {
-                console.log("Patient added:", data)
+                refreshData() // Reload patients list
                 setIsAddPatientOpen(false)
               }} 
               onCancel={() => setIsAddPatientOpen(false)} 
@@ -235,180 +330,222 @@ export default function DashboardPage() {
 
         {/* New Appointment Dialog */}
         <Dialog open={isNewAppointmentOpen} onOpenChange={setIsNewAppointmentOpen}>
-          <DialogContent className="sm:max-w-[425px]">
+          <DialogContent className="sm:max-w-[500px]">
             <DialogHeader>
               <DialogTitle>Nueva Cita</DialogTitle>
-              <DialogDescription>
-                Programa una nueva cita para un paciente.
-              </DialogDescription>
+              <DialogDescription>Programa una nueva cita.</DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="patient-name" className="text-right">
-                  Paciente
-                </Label>
-                <Input id="patient-name" placeholder="Buscar paciente..." className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="date" className="text-right">
-                  Fecha
-                </Label>
-                <Input id="date" type="date" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="time" className="text-right">
-                  Hora
-                </Label>
-                <Input id="time" type="time" className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="type" className="text-right">
-                  Tratamiento
-                </Label>
-                <Select>
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Seleccionar tratamiento" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="checkup">Consulta General</SelectItem>
-                    <SelectItem value="cleaning">Limpieza</SelectItem>
-                    <SelectItem value="filling">Empaste</SelectItem>
-                    <SelectItem value="extraction">Extracción</SelectItem>
-                    <SelectItem value="rootcanal">Endodoncia</SelectItem>
-                    <SelectItem value="crown">Corona</SelectItem>
-                    <SelectItem value="ortho">Ortodoncia</SelectItem>
-                    <SelectItem value="emergency">Urgencia</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="notes" className="text-right">
-                  Notas
-                </Label>
-                <Textarea id="notes" className="col-span-3" placeholder="Notas adicionales..." />
-              </div>
+                <div className="grid gap-2">
+                    <Label>Paciente</Label>
+                    <Select value={newApp.patientId} onValueChange={v => setNewApp({...newApp, patientId: v})}>
+                        <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
+                        <SelectContent>
+                            {patients.map(p => (
+                                <SelectItem key={p.id} value={p.id}>{p.first_name} {p.last_name}</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="grid gap-2">
+                    <Label>Tratamiento</Label>
+                    <Select value={newApp.treatmentId} onValueChange={v => {
+                        const t = treatments.find(tr => tr.id === v)
+                        setNewApp({
+                            ...newApp, 
+                            treatmentId: v, 
+                            invoiceAmount: t ? t.price.toString() : ""
+                        })
+                    }}>
+                        <SelectTrigger><SelectValue placeholder="Tipo..."/></SelectTrigger>
+                        <SelectContent>
+                            {treatments.map(t => (
+                                <SelectItem key={t.id} value={t.id}>{t.name} (${t.price})</SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="grid gap-2">
+                        <Label>Fecha</Label>
+                        <Input type="date" value={newApp.date} onChange={e => setNewApp({...newApp, date: e.target.value})} />
+                    </div>
+                     <div className="grid gap-2">
+                        <Label>Hora</Label>
+                        <Input type="time" value={newApp.time} onChange={e => setNewApp({...newApp, time: e.target.value})} />
+                    </div>
+                </div>
+                <div className="flex items-center space-x-2 border p-3 rounded-md">
+                    <Switch 
+                        checked={newApp.createInvoice} 
+                        onCheckedChange={c => setNewApp({...newApp, createInvoice: c})}
+                    />
+                    <Label className="flex-1">Generar Factura</Label>
+                    {newApp.createInvoice && (
+                        <Input 
+                            type="number" 
+                            className="w-24 h-8" 
+                            value={newApp.invoiceAmount} 
+                            onChange={e => setNewApp({...newApp, invoiceAmount: e.target.value})}
+                            placeholder="$"
+                        />
+                    )}
+                </div>
+                <div className="grid gap-2">
+                    <Label>Notas</Label>
+                    <Textarea value={newApp.notes} onChange={e => setNewApp({...newApp, notes: e.target.value})} />
+                </div>
             </div>
             <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsNewAppointmentOpen(false)}>Cancelar</Button>
-              <Button onClick={() => {
-                console.log("Appointment created")
-                setIsNewAppointmentOpen(false)
-              }}>Guardar Cita</Button>
+                <Button variant="outline" onClick={() => setIsNewAppointmentOpen(false)}>Cancelar</Button>
+                <Button onClick={handleCreateAppointment}>Guardar</Button>
             </div>
           </DialogContent>
         </Dialog>
       </PageHeader>
 
-      {/* Stats Grid */}
+      {/* Appointment Details */}
+      <Dialog open={isAppointmentDetailsOpen} onOpenChange={setIsAppointmentDetailsOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Detalles de la Cita</DialogTitle>
+          </DialogHeader>
+          {selectedAppointment && (
+            <div className="space-y-4">
+                <div className="flex items-center gap-4">
+                    <Avatar className="h-16 w-16">
+                        <AvatarFallback>{selectedAppointment.patients?.first_name[0]}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                        <h3 className="font-semibold text-lg">{selectedAppointment.patients?.first_name} {selectedAppointment.patients?.last_name}</h3>
+                        <Badge variant={selectedAppointment.status === "confirmed" ? "default" : "secondary"}>{selectedAppointment.status}</Badge>
+                    </div>
+                </div>
+                <div className="grid grid-cols-2 gap-4 text-sm">
+                    <div>
+                        <Label className="text-muted-foreground">Fecha</Label>
+                        <p>{format(new Date(selectedAppointment.start_time), "dd/MM/yyyy")}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Hora</Label>
+                        <p>{format(new Date(selectedAppointment.start_time), "HH:mm")}</p>
+                    </div>
+                    <div>
+                        <Label className="text-muted-foreground">Tratamiento</Label>
+                        <p>{selectedAppointment.type}</p>
+                    </div>
+                </div>
+                {selectedAppointment.notes && (
+                    <div className="bg-muted p-2 rounded text-sm">
+                        {selectedAppointment.notes}
+                    </div>
+                )}
+                <div className="flex flex-wrap gap-2 pt-4 border-t">
+                    <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" onClick={() => handleUpdateStatus('confirmed')}>
+                        <Check className="w-4 h-4 mr-1" /> Confirmar
+                    </Button>
+                    <Button size="sm" variant="outline" onClick={() => handleUpdateStatus('rescheduled')}>
+                         <CalendarClock className="w-4 h-4 mr-1" /> Reagendar
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={() => handleUpdateStatus('cancelled')}>
+                         <X className="w-4 h-4 mr-1" /> Cancelar
+                    </Button>
+                    <Button size="sm" variant="secondary" className="ml-auto" onClick={handleSendMessage}>
+                         <Send className="w-4 h-4 mr-1" /> Mensaje
+                    </Button>
+                </div>
+            </div>
+          )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Card key={stat.title} className="hover:shadow-lg transition-all duration-200 hover:-translate-y-1 cursor-pointer border-l-4 border-l-primary/20 hover:border-l-primary">
-            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
-              <div className="p-2 rounded-full bg-primary/5">
-                <stat.icon className="h-4 w-4 text-primary" />
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="text-2xl font-bold">{stat.value}</div>
-              <p className="text-xs text-muted-foreground mt-1 flex items-center">
-                <span className={`font-medium ${stat.change.startsWith("+") ? "text-emerald-600 dark:text-emerald-400" : "text-rose-600 dark:text-rose-400"} mr-1`}>
-                  {stat.change}
-                </span>
-                desde el mes pasado
-              </p>
-            </CardContent>
-          </Card>
+          <Link href="/reports" key={stat.title}>
+            <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer h-full">
+              <CardHeader className="flex flex-row items-center justify-between pb-2">
+                <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
+                <stat.icon className="h-4 w-4 text-muted-foreground" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-2xl font-bold">{stat.value}</div>
+                <p className="text-xs text-muted-foreground mt-1">
+                  <span className={stat.change.startsWith("+") ? "text-emerald-500" : "text-rose-500"}>{stat.change}</span> vs mes anterior
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
         ))}
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Today's Appointments */}
-        <Card className="hover:shadow-md transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Calendar className="h-5 w-5 text-primary" />
-              </div>
-              Citas de Hoy
-            </CardTitle>
-            <CardDescription>23 citas programadas para hoy</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {recentAppointments.map((appointment) => (
-              <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10 border-2 border-background group-hover:border-primary/20 transition-colors">
-                    <AvatarImage src={`/placeholder.svg?${appointment.id}`} alt={appointment.patient} />
-                    <AvatarFallback className="bg-primary/5 text-primary">
-                      {appointment.patient
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold group-hover:text-primary transition-colors">{appointment.patient}</p>
-                    <p className="text-xs text-muted-foreground">{appointment.type}</p>
-                  </div>
-                </div>
-                <div className="flex flex-col items-end gap-1">
-                  <Badge variant={appointment.status === "confirmed" ? "default" : "secondary"} className="text-[10px] px-2 py-0.5 h-5">
-                    {appointment.status === "confirmed" ? "Confirmada" : "Pendiente"}
-                  </Badge>
-                  <span className="text-sm font-medium font-mono text-muted-foreground">{appointment.time}</span>
-                </div>
-              </div>
-            ))}
-            <Button variant="ghost" className="w-full text-muted-foreground hover:text-primary">
-              Ver todas las citas
-            </Button>
-          </CardContent>
+       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Recent/Today Appointments */}
+        <Card>
+            <CardHeader>
+                <CardTitle>Citas de Hoy</CardTitle>
+                <CardDescription>Tienes {recentAppointments.length} citas hoy</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                {recentAppointments.length === 0 ? (
+                    <p className="text-center text-muted-foreground py-8">No hay citas para hoy</p>
+                ) : (
+                    recentAppointments.map(app => (
+                        <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
+                            <div className="flex items-center gap-3">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarFallback>{app.patients?.first_name[0]}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-medium">{app.patients?.first_name} {app.patients?.last_name}</p>
+                                    <p className="text-xs text-muted-foreground">{app.type}</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <Badge variant="outline">{format(new Date(app.start_time), "HH:mm")}</Badge>
+                            </div>
+                        </div>
+                    ))
+                )}
+                <Link href="/calendar?view=today">
+                    <Button variant="outline" className="w-full mt-4">Ver todas las citas</Button>
+                </Link>
+            </CardContent>
         </Card>
 
-        {/* Upcoming Appointments */}
-        <Card className="hover:shadow-md transition-shadow duration-200">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2 text-lg">
-              <div className="p-2 bg-primary/10 rounded-lg">
-                <Clock className="h-5 w-5 text-primary" />
-              </div>
-              Próximas Citas
-            </CardTitle>
-            <CardDescription>Citas programadas para los próximos días</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {upcomingAppointments.map((appointment) => (
-              <div key={appointment.id} className="flex items-center justify-between p-3 border rounded-lg hover:bg-muted/50 transition-colors cursor-pointer group">
-                <div className="flex items-center space-x-3">
-                  <Avatar className="h-10 w-10 border-2 border-background group-hover:border-primary/20 transition-colors">
-                    <AvatarImage src={`/placeholder.svg?${appointment.id}`} alt={appointment.patient} />
-                    <AvatarFallback className="bg-primary/5 text-primary">
-                      {appointment.patient
-                        .split(" ")
-                        .map((n) => n[0])
-                        .join("")}
-                    </AvatarFallback>
-                  </Avatar>
-                  <div>
-                    <p className="text-sm font-semibold group-hover:text-primary transition-colors">{appointment.patient}</p>
-                    <p className="text-xs text-muted-foreground">{appointment.type}</p>
-                  </div>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm font-medium">{appointment.date}</p>
-                  <p className="text-xs text-muted-foreground font-mono">{appointment.time}</p>
-                </div>
-              </div>
-            ))}
-            <Button variant="ghost" className="w-full text-muted-foreground hover:text-primary">
-              Ver calendario completo
-            </Button>
-          </CardContent>
+        {/* Upcoming */}
+        <Card>
+            <CardHeader>
+                <CardTitle>Próximas Citas</CardTitle>
+                <CardDescription>Siguientes días</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-4">
+                 {upcomingAppointments.length === 0 ? (
+                    <p className="text-center text-muted-foreground py-8">No hay citas próximas</p>
+                ) : (
+                    upcomingAppointments.map(app => (
+                        <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
+                            <div className="flex items-center gap-3">
+                                <Avatar className="h-10 w-10">
+                                    <AvatarFallback>{app.patients?.first_name[0]}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <p className="font-medium">{app.patients?.first_name} {app.patients?.last_name}</p>
+                                    <p className="text-xs text-muted-foreground">{format(new Date(app.start_time), "dd MMM")}</p>
+                                </div>
+                            </div>
+                            <div className="text-right">
+                                <span className="text-sm font-mono">{format(new Date(app.start_time), "HH:mm")}</span>
+                            </div>
+                        </div>
+                    ))
+                )}
+                 <Link href="/calendar?view=month">
+                    <Button className="w-full mt-4">Ver calendario completo</Button>
+                </Link>
+            </CardContent>
         </Card>
       </div>
-
-
     </div>
   )
 }

@@ -11,29 +11,32 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { useTranslation } from "@/components/translations"
 import { Save, X } from "lucide-react"
+import { supabase } from "@/lib/supabase"
+import { toast } from "sonner"
 
 interface AddPatientFormProps {
+  initialData?: any
   onSubmit: (patientData: any) => void
   onCancel: () => void
 }
 
-export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
+export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFormProps) {
   const { t } = useTranslation()
   const [formData, setFormData] = useState({
-    name: "",
-    lastName: "",
-    email: "",
-    phone: "",
-    address: "",
-    birthDate: "",
-    gender: "",
-    emergencyContact: "",
-    emergencyPhone: "",
-    allergies: "",
-    medications: "",
-    medicalConditions: "",
-    insuranceProvider: "",
-    policyNumber: "",
+    name: initialData?.name || "",
+    lastName: initialData?.lastName || "",
+    email: initialData?.email || "",
+    phone: initialData?.phone || "",
+    address: initialData?.address || "",
+    birthDate: initialData?.birthDate || "",
+    gender: initialData?.gender || "",
+    emergencyContact: initialData?.emergencyContact || "",
+    emergencyPhone: initialData?.emergencyPhone || "",
+    allergies: initialData?.allergies || "",
+    medications: initialData?.medications || "",
+    medicalConditions: initialData?.medicalConditions || "",
+    insuranceProvider: initialData?.insuranceProvider || "",
+    policyNumber: initialData?.policyNumber || "",
   })
 
   const [isLoading, setIsLoading] = useState(false)
@@ -46,11 +49,40 @@ export function AddPatientForm({ onSubmit, onCancel }: AddPatientFormProps) {
     e.preventDefault()
     setIsLoading(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    try {
+      const { data, error } = await supabase
+        .from('patients')
+        .insert([
+          {
+            first_name: formData.name,
+            last_name: formData.lastName,
+            email: formData.email,
+            phone: formData.phone,
+            address: formData.address,
+            birth_date: formData.birthDate,
+            gender: formData.gender,
+            emergency_contact: formData.emergencyContact,
+            emergency_phone: formData.emergencyPhone,
+            allergies: formData.allergies,
+            medications: formData.medications,
+            medical_conditions: formData.medicalConditions,
+            insurance_provider: formData.insuranceProvider,
+            policy_number: formData.policyNumber,
+          }
+        ])
+        .select()
+        .single()
 
-    onSubmit(formData)
-    setIsLoading(false)
+      if (error) throw error
+
+      toast.success("Paciente registrado correctamente")
+      onSubmit(data)
+    } catch (error) {
+      console.error("Error creating patient:", error)
+      toast.error("Error al registrar paciente")
+    } finally {
+        setIsLoading(false)
+    }
   }
 
   return (

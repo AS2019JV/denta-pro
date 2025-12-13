@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { useSidebar } from "@/components/sidebar-context"
-import { ThemeToggle } from "@/components/theme-toggle"
+
 import {
   LayoutDashboard,
   Users,
@@ -37,6 +37,7 @@ const navigation = [
 
 const userNavigation = [
   { name: "profile", href: "/profile", icon: User },
+  { name: "dentist", href: "/dentists", icon: User },
   { name: "settings", href: "/settings", icon: Settings },
 ]
 
@@ -73,12 +74,83 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   }
 
   const notifications = [
-    { id: 1, message: "Nueva cita programada para mañana", unread: true },
-    { id: 2, message: "Recordatorio: Revisión de paciente a las 3 PM", unread: true },
-    { id: 3, message: "Pago recibido de María García", unread: false },
+    { 
+      id: 1, 
+      type: "appointment",
+      title: "Nueva Cita Programada", 
+      message: "Paciente: María González - Limpieza dental", 
+      time: "Hace 5 min",
+      timestamp: "10:30 AM",
+      unread: true,
+      priority: "high"
+    },
+    { 
+      id: 2, 
+      type: "reminder",
+      title: "Recordatorio de Cita", 
+      message: "Dr. Rodríguez - Paciente en sala de espera", 
+      time: "Hace 15 min",
+      timestamp: "10:15 AM",
+      unread: true,
+      priority: "urgent"
+    },
+    { 
+      id: 3, 
+      type: "payment",
+      title: "Pago Recibido", 
+      message: "Factura #1234 - $150.00 pagada exitosamente", 
+      time: "Hace 2h",
+      timestamp: "8:30 AM",
+      unread: false,
+      priority: "normal"
+    },
+    { 
+      id: 4, 
+      type: "system",
+      title: "Actualización del Sistema", 
+      message: "Nueva versión disponible con mejoras de seguridad", 
+      time: "Ayer",
+      timestamp: "Ayer 5:00 PM",
+      unread: false,
+      priority: "low"
+    },
+  ]
+
+  const messages = [
+    {
+      id: 1,
+      sender: "Dr. Ana Martínez",
+      avatar: "/placeholder.svg",
+      message: "¿Podemos revisar el caso del paciente González?",
+      time: "Hace 10 min",
+      timestamp: "10:20 AM",
+      unread: true,
+      online: true
+    },
+    {
+      id: 2,
+      sender: "Recepción",
+      avatar: "/placeholder.svg",
+      message: "Paciente canceló cita de las 3:00 PM",
+      time: "Hace 30 min",
+      timestamp: "10:00 AM",
+      unread: true,
+      online: true
+    },
+    {
+      id: 3,
+      sender: "Dr. Carlos Ruiz",
+      avatar: "/placeholder.svg",
+      message: "Gracias por la información del tratamiento",
+      time: "Hace 2h",
+      timestamp: "8:30 AM",
+      unread: false,
+      online: false
+    },
   ]
 
   const unreadCount = notifications.filter((n) => n.unread).length
+  const unreadMessagesCount = messages.filter((m) => m.unread).length
 
   // Use provided navItems or fallback to internal navigation
   const itemsToRender = navItems || navigation.map(item => ({
@@ -96,7 +168,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           variant="outline"
           size="icon"
           onClick={() => setIsOpen(!isOpen)}
-          className="bg-background/95 backdrop-blur-sm"
+          className="bg-background/95 backdrop-blur-sm shadow-sm"
         >
           {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
         </Button>
@@ -105,69 +177,247 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
       {/* Sidebar */}
       <div
         className={`
-          fixed inset-y-0 left-0 z-40 w-64 bg-background border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0
+          fixed inset-y-0 left-0 z-40 w-64 bg-card/95 backdrop-blur border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0
           ${isOpen ? "translate-x-0" : "-translate-x-full"}
+          flex flex-col h-full
         `}
       >
-        <div className="flex flex-col h-full">
-          {/* Logo */}
-          <div className="flex items-center justify-center gap-3 h-16 px-4 border-b">
-            <img src="/clinia-logo.png" alt="Clinia Logo" className="h-10 w-10 object-contain" />
-            <h1 className="text-xl font-bold text-primary">Clinia +</h1>
+        {/* Logo */}
+        <div className="flex items-center gap-3 h-16 px-6 border-b shrink-0 bg-background/50">
+          <div className="relative h-8 w-8">
+            <img src="/clinia-logo.png" alt="Clinia Logo" className="object-contain" />
           </div>
+          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
+            Clinia +
+          </h1>
+        </div>
 
-          {/* User info */}
-          <div className="p-4 border-b">
-            <div className="flex items-center space-x-3">
-              <Avatar className="h-10 w-10">
-                <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={user?.name} />
-                <AvatarFallback className="bg-primary text-primary-foreground">
-                  {user?.name
-                    ?.split(" ")
-                    .map((n) => n[0])
-                    .join("")}
-                </AvatarFallback>
-              </Avatar>
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{user?.name}</p>
-                <p className="text-xs text-muted-foreground capitalize">
-                  {user?.role === "doctor" ? t("doctor") : t("reception")}
-                </p>
-              </div>
-              <div className="flex items-center gap-1">
-                <ThemeToggle />
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" size="icon" className="h-8 w-8 relative">
-                      <Bell className="h-4 w-4" />
-                      {unreadCount > 0 && (
-                        <Badge className="absolute -top-1 -right-1 h-4 w-4 p-0 flex items-center justify-center text-[10px]">
+        {/* User info & Actions */}
+        <div className="p-4 border-b bg-muted/20">
+          <div className="flex items-center gap-3">
+            <Avatar className="h-10 w-10 border-2 border-background ring-2 ring-muted shadow-sm transition-transform hover:scale-105">
+              <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={user?.name} />
+              <AvatarFallback className="bg-primary/10 text-primary font-medium">
+                {user?.name
+                  ?.split(" ")
+                  .map((n) => n[0])
+                  .join("")}
+              </AvatarFallback>
+            </Avatar>
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-semibold truncate text-foreground">{user?.name}</p>
+              <p className="text-xs text-muted-foreground capitalize font-medium">
+                {user?.role === "doctor" ? t("doctor") : t("reception")}
+              </p>
+            </div>
+            
+            {/* Notification & Message Icons - Professional SaaS Design */}
+            <div className="flex items-center gap-1">
+              {/* Notifications Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-9 w-9 rounded-lg relative hover:bg-primary/10 transition-all duration-200 group border border-transparent hover:border-primary/20"
+                  >
+                    <Bell className="h-4 w-4 text-primary/70 group-hover:text-primary transition-colors" />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75 animate-ping" />
+                        <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary text-[9px] font-bold text-secondary-foreground items-center justify-center shadow-sm">
                           {unreadCount}
-                        </Badge>
-                      )}
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-64">
-                    {notifications.map((notification) => (
-                      <DropdownMenuItem key={notification.id} className="flex items-start gap-2 p-3">
-                        <div className="flex-1">
-                          <p className={`text-sm ${notification.unread ? "font-medium" : ""}`}>
-                            {notification.message}
-                          </p>
-                        </div>
-                        {notification.unread && <div className="h-2 w-2 rounded-full bg-primary flex-shrink-0 mt-1" />}
-                      </DropdownMenuItem>
-                    ))}
-                  </DropdownMenuContent>
-                </DropdownMenu>
-                <Link href="/messages">
-                  <Button variant="ghost" size="icon" className="h-8 w-8">
-                    <MessageSquare className="h-4 w-4" />
+                        </span>
+                      </span>
+                    )}
                   </Button>
-                </Link>
-              </div>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-96 p-0 overflow-hidden shadow-2xl border-primary/20 rounded-2xl">
+                   {/* Header */}
+                   <div className="p-5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-b border-primary/10">
+                       <div className="flex items-center justify-between mb-1">
+                           <div className="flex items-center gap-2.5">
+                             <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                               <Bell className="h-4 w-4 text-primary" />
+                             </div>
+                             <div>
+                               <h3 className="font-semibold text-base text-foreground">Notificaciones</h3>
+                               <p className="text-xs text-muted-foreground">Tienes {unreadCount} sin leer</p>
+                             </div>
+                           </div>
+                           {unreadCount > 0 && (
+                             <Badge className="text-[10px] h-6 px-2 bg-secondary text-secondary-foreground font-semibold">
+                               {unreadCount} nuevas
+                             </Badge>
+                           )}
+                       </div>
+                   </div>
+                   
+                   {/* Notifications List - Minimalist */}
+                   <div className="max-h-[400px] overflow-y-auto">
+                      {notifications.map((notification) => (
+                      <DropdownMenuItem 
+                        key={notification.id} 
+                        className={`cursor-pointer p-4 border-b last:border-0 transition-all duration-200 gap-3 items-start ${
+                          notification.unread ? "bg-primary/5 hover:bg-primary/10" : "hover:bg-muted/50"
+                        }`}
+                      >
+                         {/* Simple Priority Indicator */}
+                         <div className="flex flex-col items-center gap-1 pt-1">
+                           <div className={`h-2 w-2 rounded-full flex-shrink-0 transition-all ${
+                             notification.priority === "urgent" ? "bg-red-500 shadow-sm shadow-red-500/50 animate-pulse" :
+                             notification.priority === "high" ? "bg-secondary shadow-sm shadow-secondary/50" :
+                             notification.priority === "normal" ? "bg-primary/50" :
+                             "bg-muted-foreground/30"
+                           }`} />
+                         </div>
+                         
+                         <div className="space-y-1.5 flex-1 min-w-0">
+                           <p className={`text-sm font-semibold leading-tight ${
+                             notification.unread ? "text-foreground" : "text-muted-foreground"
+                           }`}>
+                             {notification.title}
+                           </p>
+                           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                             {notification.message}
+                           </p>
+                           <p className="text-[10px] text-muted-foreground/70 pt-0.5">
+                             {notification.time}
+                           </p>
+                         </div>
+                      </DropdownMenuItem>
+                      ))}
+                   </div>
+                   
+                   {/* Footer */}
+                   <div className="p-3 border-t bg-gradient-to-t from-muted/10 to-transparent flex gap-2">
+                       <Button 
+                         variant="ghost" 
+                         size="sm" 
+                         className="flex-1 text-xs h-9 text-primary hover:text-primary hover:bg-primary/10 transition-all duration-200 font-medium"
+                       >
+                           Marcar todas como leídas
+                       </Button>
+                       <Button 
+                         variant="ghost" 
+                         size="sm" 
+                         className="flex-1 text-xs h-9 hover:bg-muted transition-all duration-200 font-medium"
+                       >
+                           Ver todas
+                       </Button>
+                   </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
+              {/* Messages Dropdown */}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="h-9 w-9 rounded-lg relative hover:bg-primary/10 transition-all duration-200 group border border-transparent hover:border-primary/20"
+                  >
+                    <MessageSquare className="h-4 w-4 text-primary/70 group-hover:text-primary transition-colors" />
+                    {unreadMessagesCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center">
+                        <span className="absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75 animate-ping" />
+                        <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary text-[9px] font-bold text-secondary-foreground items-center justify-center shadow-sm">
+                          {unreadMessagesCount}
+                        </span>
+                      </span>
+                    )}
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="start" className="w-96 p-0 overflow-hidden shadow-2xl border-primary/20 rounded-2xl">
+                   {/* Header */}
+                   <div className="p-5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-b border-primary/10">
+                       <div className="flex items-center justify-between mb-1">
+                           <div className="flex items-center gap-2.5">
+                             <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                               <MessageSquare className="h-4 w-4 text-primary" />
+                             </div>
+                             <div>
+                               <h3 className="font-semibold text-base text-foreground">Mensajes</h3>
+                               <p className="text-xs text-muted-foreground">{unreadMessagesCount} sin leer</p>
+                             </div>
+                           </div>
+                           <Button 
+                             variant="ghost" 
+                             size="sm"
+                             className="h-7 px-2 text-xs text-primary hover:bg-primary/10"
+                             onClick={() => router.push("/messages")}
+                           >
+                             Ver todos
+                           </Button>
+                       </div>
+                   </div>
+                   
+                   {/* Messages List */}
+                   <div className="max-h-[400px] overflow-y-auto">
+                      {messages.map((message) => (
+                      <DropdownMenuItem 
+                        key={message.id} 
+                        className={`cursor-pointer p-4 border-b last:border-0 transition-all duration-200 gap-3 items-start ${
+                          message.unread ? "bg-primary/5 hover:bg-primary/10" : "hover:bg-muted/50"
+                        }`}
+                        onClick={() => router.push("/messages")}
+                      >
+                         {/* Avatar with Online Status */}
+                         <div className="relative flex-shrink-0">
+                           <Avatar className="h-10 w-10 border-2 border-background">
+                             <AvatarImage src={message.avatar} alt={message.sender} />
+                             <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
+                               {message.sender.split(" ").map(n => n[0]).join("")}
+                             </AvatarFallback>
+                           </Avatar>
+                           {message.online && (
+                             <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
+                           )}
+                         </div>
+                         
+                         <div className="space-y-1 flex-1 min-w-0">
+                           <div className="flex items-start justify-between gap-2">
+                             <p className={`text-sm font-semibold leading-tight ${
+                               message.unread ? "text-foreground" : "text-muted-foreground"
+                             }`}>
+                               {message.sender}
+                             </p>
+                             <span className="text-[10px] text-muted-foreground/70 whitespace-nowrap">
+                               {message.time}
+                             </span>
+                           </div>
+                           <p className={`text-xs leading-relaxed line-clamp-2 ${
+                             message.unread ? "text-foreground font-medium" : "text-muted-foreground"
+                           }`}>
+                             {message.message}
+                           </p>
+                           {message.unread && (
+                             <div className="flex items-center gap-1.5 pt-1">
+                               <div className="h-1.5 w-1.5 rounded-full bg-secondary" />
+                               <span className="text-[10px] text-secondary font-semibold">Nuevo</span>
+                             </div>
+                           )}
+                         </div>
+                      </DropdownMenuItem>
+                      ))}
+                   </div>
+                   
+                   {/* Footer */}
+                   <div className="p-3 border-t bg-gradient-to-t from-muted/10 to-transparent">
+                       <Button 
+                         variant="default" 
+                         size="sm" 
+                         className="w-full text-xs h-9 bg-primary hover:bg-primary/90 transition-all duration-200 font-medium"
+                         onClick={() => router.push("/messages")}
+                       >
+                           Abrir Mensajes
+                       </Button>
+                   </div>
+                </DropdownMenuContent>
+              </DropdownMenu>
             </div>
           </div>
+        </div>
 
           {/* Navigation */}
           <nav className="flex-1 px-4 py-4 space-y-2">
@@ -214,7 +464,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
               {t("logout")}
             </Button>
           </div>
-        </div>
+
       </div>
 
       {/* Overlay for mobile */}

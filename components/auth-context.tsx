@@ -32,10 +32,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     // Check active session
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (session?.user) {
-        await fetchProfile(session.user)
-      } else {
+      try {
+        const { data: { session }, error } = await supabase.auth.getSession()
+        if (error) {
+          throw error
+        }
+        if (session?.user) {
+          await fetchProfile(session.user)
+        } else {
+          setIsLoading(false)
+        }
+      } catch (error) {
+        console.error("Error checking session:", error)
         setIsLoading(false)
       }
     }
