@@ -10,7 +10,8 @@ import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { Label } from "@/components/ui/label"
-import { Plus, Download, Search, DollarSign, TrendingUp, CreditCard, Stethoscope, Clock, Trash2 } from "lucide-react"
+import { Plus, Download, Search, DollarSign, TrendingUp, CreditCard, Stethoscope, Clock, Trash2, FileText } from "lucide-react"
+import { GenerateInvoiceDialog } from "@/components/billing/generate-invoice-dialog"
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
@@ -26,9 +27,19 @@ interface Billing {
   due_date: string
   invoice_number: string
   patients?: {
+    id: string
     first_name: string
     last_name: string
+    cedula?: string
+    email?: string
+    address?: string
   }
+  invoices?: {
+    id: string
+    invoice_number: string
+    status: string
+    pdf_url: string
+  }[]
 }
 
 export default function BillingPage() {
@@ -50,6 +61,10 @@ export default function BillingPage() {
     description: ""
   })
 
+  // SRI Invoice State
+  const [selectedBilling, setSelectedBilling] = useState<Billing | null>(null)
+  const [isInvoiceDialogOpen, setIsInvoiceDialogOpen] = useState(false)
+
   useEffect(() => {
     fetchBillings()
     fetchTreatments()
@@ -63,8 +78,18 @@ export default function BillingPage() {
         .select(`
           *,
           patients (
+            id,
             first_name,
-            last_name
+            last_name,
+            cedula,
+            email,
+            address
+          ),
+          invoices (
+            id,
+            invoice_number,
+            status,
+            pdf_url
           )
         `)
         .order('created_at', { ascending: false })
@@ -259,8 +284,26 @@ export default function BillingPage() {
                              billing.status === 'overdue' ? 'Vencido' : 'Pendiente'}
                           </Badge>
                         </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="sm">Ver</Button>
+                        <TableCell className="text-right flex items-center justify-end gap-2">
+                          {billing.invoices && billing.invoices.length > 0 ? (
+                             <Button variant="outline" size="sm" asChild className="h-8">
+                                <a href={billing.invoices[0].pdf_url} target="_blank" rel="noopener noreferrer">
+                                    <Download className="mr-2 h-3 w-3" /> SRI
+                                </a>
+                             </Button>
+                          ) : (
+                             <Button 
+                                variant="outline" 
+                                size="sm" 
+                                className="h-8 text-blue-600 border-blue-200 hover:bg-blue-50"
+                                onClick={() => {
+                                    setSelectedBilling(billing)
+                                    setIsInvoiceDialogOpen(true)
+                                }}
+                             >
+                                <FileText className="mr-2 h-3 w-3" /> Emitir
+                             </Button>
+                          )}
                         </TableCell>
                       </TableRow>
                     ))
@@ -363,6 +406,20 @@ export default function BillingPage() {
         </TabsContent>
         
       </Tabs>
+
+
+      {selectedBilling && selectedBilling.patients && (
+        <GenerateInvoiceDialog 
+            open={isInvoiceDialogOpen} 
+            onOpenChange={setIsInvoiceDialogOpen}
+            billing={selectedBilling}
+            patient={selectedBilling.patients}
+            onSuccess={() => {
+                fetchBillings() // Refresh to show new invoice
+                setStats(prev => ({ ...prev })) // Re-calc stats if needed
+            }}
+        />
+      )}
     </div>
   )
 }

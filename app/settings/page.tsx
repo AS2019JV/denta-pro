@@ -18,6 +18,7 @@ import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor } from "luci
 import { useTheme } from "next-themes"
 import { useAuth } from "@/components/auth-context"
 import { AvatarUpload } from "@/components/avatar-upload"
+import { APP_CONFIG } from "@/lib/constants"
 import { supabase } from "@/lib/supabase"
 
 export default function SettingsPage() {
@@ -29,7 +30,7 @@ export default function SettingsPage() {
   const [generalSettings, setGeneralSettings] = useState({
     language: language,
     theme: theme || "system",
-    timeZone: "Europe/Madrid",
+    timeZone: APP_CONFIG.timezone,
     dateFormat: "dd/mm/yyyy",
   })
 
@@ -259,6 +260,7 @@ export default function SettingsPage() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
+                        <SelectItem value="America/Guayaquil">{language === "es" ? "Guayaquil" : "Guayaquil"} (GMT-5)</SelectItem>
                         <SelectItem value="Europe/Madrid">{language === "es" ? "Madrid" : "Madrid"} (GMT+1)</SelectItem>
                         <SelectItem value="Europe/London">{language === "es" ? "Londres" : "London"} (GMT+0)</SelectItem>
                         <SelectItem value="America/New_York">{language === "es" ? "Nueva York" : "New York"} (GMT-5)</SelectItem>

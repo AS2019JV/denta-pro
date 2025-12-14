@@ -282,9 +282,9 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
                 <div className="relative">
                   <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-border"></div>
                   {[
-                    ...data.notes,
+                    ...data.notes.map(n => ({ ...n, id: `note-${n.id}` })),
                     ...data.treatments.map((t) => ({
-                      id: t.id,
+                      id: `treatment-${t.id}`,
                       date: t.date,
                       type: t.treatment,
                       content: `${t.treatment} en diente ${t.tooth}. ${t.notes}`,

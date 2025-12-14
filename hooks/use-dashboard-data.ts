@@ -8,22 +8,25 @@ export function useDashboardData() {
   const [patients, setPatients] = useState<Patient[]>([])
   const [treatments, setTreatments] = useState<Treatment[]>([])
   const [dentists, setDentists] = useState<Doctor[]>([])
+  const [billings, setBillings] = useState<any[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
   const fetchDashboardData = async () => {
     try {
       setIsLoading(true)
       
-      const [pats, docs, treats, apps] = await Promise.all([
+      const [pats, docs, treats, apps, bills] = await Promise.all([
          supabase.from('patients').select('*'),
          supabase.from('profiles').select('*').eq('role', 'doctor'),
          supabase.from('treatments').select('*'),
-         supabase.from('appointments').select('*, patients(*), profiles(*)')
+         supabase.from('appointments').select('*, patients(*), profiles(*)'),
+         supabase.from('billings').select('*')
       ])
 
       if (pats.data) setPatients(pats.data)
       if (docs.data) setDentists(docs.data)
       if (treats.data) setTreatments(treats.data)
+      if (bills.data) setBillings(bills.data)
       
       if (apps.data) {
         // Transform if necessary or just cast if types match DB
@@ -48,6 +51,7 @@ export function useDashboardData() {
     patients,
     treatments,
     dentists,
+    billings,
     isLoading,
     refreshData
   }

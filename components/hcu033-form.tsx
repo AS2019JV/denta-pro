@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -11,7 +11,9 @@ import { Textarea } from "@/components/ui/textarea"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
+import { SignaturePad } from "@/components/signature-pad"
+
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { OdontogramaInteractive } from "@/components/odontograma-interactive"
@@ -29,8 +31,11 @@ import {
   Download,
   Plus,
   Trash2,
+
   ArrowLeft,
+  Maximize2,
 } from "lucide-react"
+import { generateHCU033 } from "@/lib/pdf-generator"
 
 interface HCU033FormProps {
   patientId: string
@@ -38,9 +43,13 @@ interface HCU033FormProps {
   onSave?: (data: any) => void
   isFullScreen?: boolean
   onClose?: () => void
+  onClose?: () => void
+  onExpand?: (currentData: any) => void
+  externalData?: any
+  onDataChange?: (data: any) => void
 }
 
-export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClose }: HCU033FormProps) {
+export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClose, onExpand, externalData, onDataChange }: HCU033FormProps) {
   const [formData, setFormData] = useState<any>({
     // Sección A: Datos del establecimiento y paciente
     establecimiento: "",
@@ -92,6 +101,23 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     ex_dientes: "",
     ex_articulacion: "",
     ex_ganglios: "",
+    
+    // Section 7: Indicadores de Salud Bucal
+    indicadores_higiene: [
+        { piezas: ['16', '17', '55'], placa: '', calculo: '', gingivitis: '' },
+        { piezas: ['11', '21', '51'], placa: '', calculo: '', gingivitis: '' },
+        { piezas: ['26', '27', '65'], placa: '', calculo: '', gingivitis: '' },
+        { piezas: ['36', '37', '75'], placa: '', calculo: '', gingivitis: '' },
+        { piezas: ['31', '41', '71'], placa: '', calculo: '', gingivitis: '' },
+        { piezas: ['46', '47', '85'], placa: '', calculo: '', gingivitis: '' }
+    ],
+    indicadores_periodontal: "", // Leve, Moderada, Severa
+    indicadores_maloclusion: "", // Angle I, II, III
+    indicadores_fluorosis: "",   // Leve, Moderada, Severa
+    
+    // Section 8: Indices CPO-ceo
+    indices_cpo: { c: 0, p: 0, o: 0, total: 0 },
+    indices_ceo: { c: 0, e: 0, o: 0, total: 0 },
 
     // Sección G: Odontograma
     odontograma_data: {},
@@ -118,10 +144,28 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   })
 
   const [activeSection, setActiveSection] = useState("A")
+  const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false)
 
   const updateField = (field: string, value: any) => {
-    setFormData((prev: any) => ({ ...prev, [field]: value }))
+    setFormData((prev: any) => {
+      const newData = { ...prev, [field]: value }
+      if (onDataChange) Promise.resolve().then(() => onDataChange(newData))
+      return newData
+    })
   }
+
+  // Sync external data changes to local state
+  useEffect(() => {
+    if (externalData) {
+       setFormData((prev: any) => {
+          // Rudimentary check to avoid loop, deep equality would be better but stringify is okay for this size
+          if (JSON.stringify(prev) !== JSON.stringify(externalData)) {
+              return externalData
+          }
+          return prev
+       })
+    }
+  }, [externalData])
 
   const addDiagnostico = () => {
     setFormData((prev: any) => ({
@@ -177,10 +221,13 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   const [isLoading, setIsLoading] = useState(false)
 
   useEffect(() => {
-    if (patientId) {
+    // Only fetch if we don't have external data populated yet
+    // Or if this is the first load instance.
+    // If externalData is provided, we trust it more than DB fetch (which might be stale compared to in-memory edits).
+    if (patientId && !externalData) {
       loadFormData()
     }
-  }, [patientId])
+  }, [patientId, externalData])
 
   const loadFormData = async () => {
     try {
@@ -194,7 +241,16 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         .single()
 
       if (data) {
-        setFormData(data.form_data)
+        setFormData((prev: any) => {
+            const merged = { ...prev, ...data.form_data };
+            // Ensure array/object fields are not undefined if missing in DB
+            if (!merged.indicadores_higiene) merged.indicadores_higiene = prev.indicadores_higiene;
+            if (!merged.indices_cpo) merged.indices_cpo = prev.indices_cpo;
+            if (!merged.indices_ceo) merged.indices_ceo = prev.indices_ceo;
+            
+            if (onDataChange) Promise.resolve().then(() => onDataChange(merged))
+            return merged;
+        })
       }
     } catch (error) {
       console.error('Error loading form data:', error)
@@ -226,10 +282,39 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     }
   }
 
+  const scrollContainerRef = useRef<HTMLDivElement>(null)
+  const contentScrollRef = useRef<HTMLDivElement>(null)
+
+  const getSectionId = (section: string) => {
+    return isFullScreen ? `section-${section}-fullscreen` : `section-${section}`
+  }
+
+  const scrollToSection = (section: string) => {
+    setActiveSection(section)
+    const elementId = getSectionId(section)
+    const element = document.getElementById(elementId)
+    
+    console.log(`Navigating to section: ${section}, ID: ${elementId}, Found: ${!!element}`)
+
+    if (element) {
+      // Use standard scrollIntoView now that IDs are unique and scroll-margin is set via CSS classes
+      element.scrollIntoView({ behavior: 'smooth', block: 'start' })
+    } else {
+      console.warn(`Section element not found: ${elementId}`)
+    }
+  }
+
   return (
-    <div className={`space-y-6 relative ${isFullScreen ? 'bg-background min-h-screen' : ''}`}>
+    <div 
+      ref={scrollContainerRef} 
+      className={
+        isFullScreen 
+          ? "fixed inset-0 z-[100] bg-background flex flex-col h-[100dvh] overflow-hidden animate-in fade-in duration-200" 
+          : "space-y-6 relative"
+      }
+    >
       <div className={isFullScreen 
-        ? "fixed top-0 left-0 right-0 z-[100] bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b px-6 py-4 flex items-center justify-between shadow-sm animate-in slide-in-from-top-2" 
+        ? "flex-none border-b px-6 py-4 flex items-center justify-between shadow-sm z-10 bg-background" 
         : "flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 border-b"
       }>
         {isFullScreen ? (
@@ -247,17 +332,25 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                 </div>
             </div>
         ) : (
-            <div>
-            <div className="flex items-center gap-2">
-                <h2 className="text-2xl font-bold">HCU-033</h2>
-                <Badge variant="outline" className="font-normal">Historia Clínica Odontológica</Badge>
-            </div>
-            <p className="text-sm text-muted-foreground">Formulario oficial del MSP - Ecuador</p>
+            <div className="flex items-center justify-between w-full md:w-auto">
+             <div>
+                <div className="flex items-center gap-2">
+                    <h2 className="text-2xl font-bold">HCU-033</h2>
+                    <Badge variant="outline" className="font-normal">Historia Clínica Odontológica</Badge>
+                </div>
+                <p className="text-sm text-muted-foreground">Formulario oficial del MSP - Ecuador</p>
+             </div>
+             {onExpand && (
+                 <Button variant="outline" size="sm" className="ml-4 gap-2" onClick={() => onExpand(formData)}>
+                     <Maximize2 className="h-4 w-4" />
+                     <span className="hidden sm:inline">Expandir</span>
+                 </Button>
+             )}
             </div>
         )}
 
         <div className="flex gap-2 w-full md:w-auto md:ml-auto justify-end">
-          <Button variant="outline" size="sm" className="h-9">
+          <Button variant="outline" size="sm" className="h-9" onClick={() => generateHCU033(formData)}>
             <Download className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">Exportar PDF</span>
             <span className="sm:hidden">PDF</span>
@@ -269,28 +362,33 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         </div>
       </div>
 
-      <div className={isFullScreen ? "pt-20 px-6 pb-10 max-w-7xl mx-auto" : ""}>
 
-      <Tabs value={activeSection} onValueChange={setActiveSection}>
-        <div className="w-full overflow-x-auto pb-2 -mx-2 px-2">
-            <TabsList className="inline-flex w-auto h-auto p-1 bg-muted/20">
-              <TabsTrigger value="A" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">A. Datos</TabsTrigger>
-              <TabsTrigger value="B" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">B. Motivo</TabsTrigger>
-              <TabsTrigger value="C" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">C. Enfermedad</TabsTrigger>
-              <TabsTrigger value="D" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">D. Antecedentes</TabsTrigger>
-              <TabsTrigger value="E" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">E. Signos Vitales</TabsTrigger>
-              <TabsTrigger value="F" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">F. Examen</TabsTrigger>
-              <TabsTrigger value="G" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">G. Odontograma</TabsTrigger>
-              <TabsTrigger value="H" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">H. Diagnósticos</TabsTrigger>
-              <TabsTrigger value="I" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">I. Plan</TabsTrigger>
-              <TabsTrigger value="J" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">J. Sesiones</TabsTrigger>
-              <TabsTrigger value="K" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">K. Firma</TabsTrigger>
-              <TabsTrigger value="L" className="px-3 py-1.5 text-xs sm:text-sm whitespace-nowrap">L. Adjuntos</TabsTrigger>
-            </TabsList>
+
+      <div ref={contentScrollRef} className={isFullScreen ? "flex-1 overflow-y-auto px-6 pb-32 w-full scroll-smooth" : ""}>
+         <div className={isFullScreen ? "max-w-7xl mx-auto" : ""}>
+
+        {/* Sticky Key Sections Navigation */}
+        <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur border-b mb-6 -mx-2 px-2 overflow-x-auto shadow-sm transition-all`}>
+             <div className="flex gap-1 py-2 min-w-max">
+               {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map(section => (
+                   <Button 
+                       key={section} 
+                       variant={activeSection === section ? "default" : "ghost"} 
+                       size="sm"
+                       className="h-8 text-xs sm:text-sm"
+                       onClick={() => scrollToSection(section)}
+                   >
+                       {section}
+                   </Button>
+               ))}
+             </div>
         </div>
 
+        <div className="space-y-12">
+
         {/* Sección A: Datos del establecimiento y paciente */}
-        <TabsContent value="A" className="space-y-4">
+        {/* Sección A: Datos del establecimiento y paciente */}
+        <div id={getSectionId("A")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -466,10 +564,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección B: Motivo de consulta */}
-        <TabsContent value="B" className="space-y-4">
+        {/* Sección B: Motivo de consulta */}
+        <div id={getSectionId("B")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -494,10 +593,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección C: Enfermedad actual */}
-        <TabsContent value="C" className="space-y-4">
+        {/* Sección C: Enfermedad actual */}
+        <div id={getSectionId("C")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -522,10 +622,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección D: Antecedentes */}
-        <TabsContent value="D" className="space-y-4">
+        {/* Sección D: Antecedentes */}
+        <div id={getSectionId("D")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -569,10 +670,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección E: Signos vitales */}
-        <TabsContent value="E" className="space-y-4">
+        {/* Sección E: Signos vitales */}
+        <div id={getSectionId("E")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -628,10 +730,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección F: Examen estomatognático */}
-        <TabsContent value="F" className="space-y-4">
+        {/* Sección F: Examen estomatognático */}
+        <div id={getSectionId("F")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -668,10 +771,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección G: Odontograma */}
-        <TabsContent value="G" className="space-y-4">
+        {/* Sección G: Odontograma */}
+        <div id={getSectionId("G")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -702,10 +806,261 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
+
+        {/* Sección G.2: Indicadores de Salud Bucal y CPO-ceo */}
+        <div id={getSectionId("G2")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+           <Card>
+              <CardHeader>
+                  <CardTitle className="flex items-center gap-2">
+                      <Activity className="h-5 w-5" />
+                      Indicadores de Salud Bucal
+                  </CardTitle>
+                  <CardDescription>Higiene oral, enfermedad periodontal, maloclusión, fluorosis e índices CPO/ceo</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                  {/* HIGIENE ORAL SIMPLIFICADA */}
+                  <div>
+                      <h4 className="text-sm font-bold mb-4 uppercase tracking-wide text-muted-foreground border-b pb-1">Higiene Oral Simplificada</h4>
+                      <div className="overflow-x-auto">
+                        <table className="w-full text-sm border-collapse">
+                            <thead>
+                                <tr className="bg-muted">
+                                    <th className="border p-2 text-left">Piezas Dentales</th>
+                                    <th className="border p-2 text-center w-24">Placa (0-3)</th>
+                                    <th className="border p-2 text-center w-24">Cálculo (0-3)</th>
+                                    <th className="border p-2 text-center w-24">Gingivitis (0-1)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {formData.indicadores_higiene?.map((row: any, i: number) => (
+                                    <tr key={i}>
+                                        <td className="border p-2 font-medium bg-muted/20">
+                                            {row.piezas.join(" - ")}
+                                        </td>
+                                        <td className="border p-1">
+                                            <Input 
+                                                className="h-8 text-center" 
+                                                maxLength={1}
+                                                value={row.placa} 
+                                                onChange={e => {
+                                                    const newHigiene = [...formData.indicadores_higiene];
+                                                    newHigiene[i].placa = e.target.value;
+                                                    updateField("indicadores_higiene", newHigiene);
+                                                }}
+                                            />
+                                        </td>
+                                        <td className="border p-1">
+                                            <Input 
+                                                className="h-8 text-center"
+                                                maxLength={1} 
+                                                value={row.calculo} 
+                                                onChange={e => {
+                                                    const newHigiene = [...formData.indicadores_higiene];
+                                                    newHigiene[i].calculo = e.target.value;
+                                                    updateField("indicadores_higiene", newHigiene);
+                                                }}
+                                            />
+                                        </td>
+                                        <td className="border p-1">
+                                            <Input 
+                                                className="h-8 text-center"
+                                                maxLength={1} 
+                                                value={row.gingivitis} 
+                                                onChange={e => {
+                                                    const newHigiene = [...formData.indicadores_higiene];
+                                                    newHigiene[i].gingivitis = e.target.value;
+                                                    updateField("indicadores_higiene", newHigiene);
+                                                }}
+                                            />
+                                        </td>
+                                    </tr>
+                                ))}
+                                <tr className="bg-muted/50 font-bold">
+                                    <td className="border p-2 text-right">TOTALES</td>
+                                    <td className="border p-2 text-center">
+                                        {formData.indicadores_higiene?.reduce((acc: number, curr: any) => acc + (parseInt(curr.placa) || 0), 0)}
+                                    </td>
+                                    <td className="border p-2 text-center">
+                                        {formData.indicadores_higiene?.reduce((acc: number, curr: any) => acc + (parseInt(curr.calculo) || 0), 0)}
+                                    </td>
+                                    <td className="border p-2 text-center">
+                                        {formData.indicadores_higiene?.reduce((acc: number, curr: any) => acc + (parseInt(curr.gingivitis) || 0), 0)}
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                      </div>
+                  </div>
+                  
+                  {/* GRID OF OTHER INDICATORS */}
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                      <div className="space-y-2">
+                          <Label className="text-xs uppercase font-bold text-muted-foreground">Enfermedad Periodontal</Label>
+                          <Select 
+                              value={formData.indicadores_periodontal} 
+                              onValueChange={(v) => updateField("indicadores_periodontal", v)}
+                          >
+                              <SelectTrigger><SelectValue placeholder="Seleccione..." /></SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="leve">Leve</SelectItem>
+                                  <SelectItem value="moderada">Moderada</SelectItem>
+                                  <SelectItem value="severa">Severa</SelectItem>
+                              </SelectContent>
+                          </Select>
+                      </div>
+                      <div className="space-y-2">
+                          <Label className="text-xs uppercase font-bold text-muted-foreground">Mal Oclusión</Label>
+                          <Select 
+                              value={formData.indicadores_maloclusion} 
+                              onValueChange={(v) => updateField("indicadores_maloclusion", v)}
+                          >
+                              <SelectTrigger><SelectValue placeholder="Seleccione..." /></SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="angle1">Angle I</SelectItem>
+                                  <SelectItem value="angle2">Angle II</SelectItem>
+                                  <SelectItem value="angle3">Angle III</SelectItem>
+                              </SelectContent>
+                          </Select>
+                      </div>
+                      <div className="space-y-2">
+                          <Label className="text-xs uppercase font-bold text-muted-foreground">Fluorosis</Label>
+                          <Select 
+                              value={formData.indicadores_fluorosis} 
+                              onValueChange={(v) => updateField("indicadores_fluorosis", v)}
+                          >
+                              <SelectTrigger><SelectValue placeholder="Seleccione..." /></SelectTrigger>
+                              <SelectContent>
+                                  <SelectItem value="leve">Leve</SelectItem>
+                                  <SelectItem value="moderada">Moderada</SelectItem>
+                                  <SelectItem value="severa">Severa</SelectItem>
+                              </SelectContent>
+                          </Select>
+                      </div>
+                  </div>
+                  
+                  {/* INDICES CPO-ceo */}
+                  <div>
+                      <h4 className="text-sm font-bold mb-4 uppercase tracking-wide text-muted-foreground border-b pb-1">Indices CPO-ceo</h4>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                          {/* CPO (D) */}
+                          <div className="bg-emerald-50/50 p-4 rounded-lg border border-emerald-100">
+                              <span className="font-bold text-emerald-800 block mb-2">D (Indice CPO)</span>
+                              <div className="flex items-center gap-2">
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">C</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center" 
+                                        value={formData.indices_cpo?.c}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCPO = { ...formData.indices_cpo, c: val };
+                                            newCPO.total = newCPO.c + newCPO.p + newCPO.o;
+                                            updateField("indices_cpo", newCPO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">P</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center"
+                                        value={formData.indices_cpo?.p}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCPO = { ...formData.indices_cpo, p: val };
+                                            newCPO.total = newCPO.c + newCPO.p + newCPO.o;
+                                            updateField("indices_cpo", newCPO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">O</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center"
+                                        value={formData.indices_cpo?.o}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCPO = { ...formData.indices_cpo, o: val };
+                                            newCPO.total = newCPO.c + newCPO.p + newCPO.o;
+                                            updateField("indices_cpo", newCPO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center font-bold">
+                                      <Label className="text-xs text-emerald-700">TOTAL</Label>
+                                      <div className="h-8 flex items-center justify-center bg-white border rounded">
+                                          {formData.indices_cpo?.total}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+
+                          {/* ceo (d) */}
+                          <div className="bg-amber-50/50 p-4 rounded-lg border border-amber-100">
+                              <span className="font-bold text-amber-800 block mb-2">d (Indice ceo)</span>
+                              <div className="flex items-center gap-2">
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">c</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center"
+                                        value={formData.indices_ceo?.c}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCEO = { ...formData.indices_ceo, c: val };
+                                            newCEO.total = newCEO.c + newCEO.e + newCEO.o;
+                                            updateField("indices_ceo", newCEO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">e</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center"
+                                        value={formData.indices_ceo?.e}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCEO = { ...formData.indices_ceo, e: val };
+                                            newCEO.total = newCEO.c + newCEO.e + newCEO.o;
+                                            updateField("indices_ceo", newCEO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center">
+                                      <Label className="text-xs">o</Label>
+                                      <Input 
+                                        type="number" 
+                                        className="h-8 text-center"
+                                        value={formData.indices_ceo?.o}
+                                        onChange={e => {
+                                            const val = parseInt(e.target.value) || 0;
+                                            const newCEO = { ...formData.indices_ceo, o: val };
+                                            newCEO.total = newCEO.c + newCEO.e + newCEO.o;
+                                            updateField("indices_ceo", newCEO);
+                                        }}
+                                      />
+                                  </div>
+                                  <div className="flex-1 space-y-1 text-center font-bold">
+                                      <Label className="text-xs text-amber-700">TOTAL</Label>
+                                      <div className="h-8 flex items-center justify-center bg-white border rounded">
+                                          {formData.indices_ceo?.total}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </CardContent>
+           </Card>
+        </div>
 
         {/* Sección H: Diagnósticos */}
-        <TabsContent value="H" className="space-y-4">
+        {/* Sección H: Diagnósticos */}
+        <div id={getSectionId("H")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -781,10 +1136,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección I: Plan terapéutico */}
-        <TabsContent value="I" className="space-y-4">
+        {/* Sección I: Plan terapéutico */}
+        <div id={getSectionId("I")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -894,10 +1250,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección J: Registro de sesiones */}
-        <TabsContent value="J" className="space-y-4">
+        {/* Sección J: Registro de sesiones */}
+        <div id={getSectionId("J")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -988,10 +1345,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               ))}
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección K: Observaciones finales */}
-        <TabsContent value="K" className="space-y-4">
+        {/* Sección K: Observaciones finales */}
+        <div id={getSectionId("K")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1023,12 +1381,33 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
 
               <div className="space-y-2">
                 <Label>Firma del profesional (electrónica / imagen)</Label>
-                <div className="border-2 border-dashed rounded-lg p-8 text-center">
-                  <FileSignature className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
-                  <p className="text-sm text-muted-foreground">Área de firma digital</p>
-                  <Button variant="outline" size="sm" className="mt-2 bg-transparent">
-                    Firmar
-                  </Button>
+                <div className="border-2 border-dashed rounded-lg p-6 flex flex-col items-center justify-center min-h-[160px] relative bg-muted/5">
+                  {formData.firma_profesional ? (
+                    <div className="relative w-full max-w-sm">
+                      <img 
+                        src={formData.firma_profesional} 
+                        alt="Firma del profesional" 
+                        className="max-h-32 mx-auto mix-blend-multiply"
+                      />
+                      <Button 
+                        variant="ghost" 
+                        size="sm" 
+                        className="absolute top-0 right-0 h-6 w-6 p-0 bg-white/80 hover:bg-white"
+                        onClick={() => updateField("firma_profesional", null)}
+                      >
+                        <Trash2 className="h-4 w-4 text-red-500" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <FileSignature className="h-10 w-10 text-muted-foreground/50 mb-3" />
+                      <p className="text-sm text-muted-foreground mb-3">No hay firma registrada</p>
+                      <Button variant="outline" size="sm" onClick={() => setIsSignatureDialogOpen(true)}>
+                        <FileSignature className="h-4 w-4 mr-2" />
+                        Firmar Documento
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
 
@@ -1038,10 +1417,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               </div>
             </CardContent>
           </Card>
-        </TabsContent>
+        </div>
 
         {/* Sección L: Adjuntos */}
-        <TabsContent value="L" className="space-y-4">
+        {/* Sección L: Adjuntos */}
+        <div id={getSectionId("L")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1077,9 +1457,24 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               )}
             </CardContent>
           </Card>
-        </TabsContent>
-      </Tabs>
+        </div>
+         </div>
+         </div>
       </div>
+      <Dialog open={isSignatureDialogOpen} onOpenChange={setIsSignatureDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Firma del Profesional</DialogTitle>
+          </DialogHeader>
+          <SignaturePad
+            onSave={(signatureData) => {
+              updateField("firma_profesional", signatureData)
+              setIsSignatureDialogOpen(false)
+            }}
+            onCancel={() => setIsSignatureDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

@@ -52,7 +52,9 @@ const generateInitialState = () => {
     state[id] = {
       id,
       surfaces: { top: null, bottom: null, left: null, right: null, center: null },
-      condition: null
+      condition: null,
+      recession: '',
+      mobility: ''
     };
   });
   return state;
@@ -133,6 +135,20 @@ interface OdontogramaInteractiveProps {
   patientId?: string;
 }
 
+// --- HELPER COMPONENTS ---
+
+const ToothInput = ({ id, value, onChange }: { id: number, value: string, onChange: (val: string) => void }) => (
+  <div className="w-9 md:w-11 mx-[2px] flex justify-center">
+      <input 
+          type="text" 
+          maxLength={1}
+          className="w-full h-6 text-center text-xs border border-slate-300 rounded-sm focus:border-teal-500 focus:ring-1 focus:ring-teal-500 outline-none uppercase bg-white/50"
+          value={value || ''}
+          onChange={(e) => onChange(e.target.value)}
+      />
+  </div>
+);
+
 export function OdontogramaInteractive({ data = {}, onChange, patientName = "Paciente", patientId = "" }: OdontogramaInteractiveProps) {
   // Initialize state with props.data merged into default structure
   
@@ -191,6 +207,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
         if (zone === 'whole') {
             tooth.condition = null;
             tooth.surfaces = { top: null, bottom: null, left: null, right: null, center: null };
+            tooth.recession = '';
+            tooth.mobility = '';
         } else {
             tooth.surfaces = { ...tooth.surfaces, [zone]: null };
         }
@@ -203,17 +221,87 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       newState[toothId] = tooth;
       
       // Propagate changes to parent
-      onChange?.(newState);
+      if (onChange) Promise.resolve().then(() => onChange(newState));
       
       return newState;
     });
   }, [onChange]);
+  
+  const handleInputChange = (id: number, field: 'recession' | 'mobility', value: string) => {
+      setTeethState(prev => {
+          const newState = { ...prev };
+          if (!newState[id]) newState[id] = { id, surfaces: {}, condition: null };
+          newState[id] = { ...newState[id], [field]: value };
+          if (onChange) Promise.resolve().then(() => onChange(newState));
+          return newState;
+      });
+  };
 
-  const renderRow = (ids: number[]) => (
-    <div className="flex gap-1 justify-center">
-      {ids.map(id => (
-        <Tooth key={id} id={id} data={teethState[id]} currentTool={activeTool} onApply={applyTreatment} />
-      ))}
+
+
+
+  const renderRow = (ids: number[], showInputsTop = false, showInputsBottom = false) => (
+    <div className="flex flex-col gap-1">
+        {showInputsTop && (
+            <>
+                <div className="flex gap-1 justify-center items-center">
+                    <span className="text-[9px] font-bold text-slate-400 w-16 text-right mr-2">RECESIÓN</span>
+                    {ids.map(id => (
+                        <ToothInput 
+                            key={`rec-${id}`} 
+                            id={id} 
+                            value={teethState[id]?.recession} 
+                            onChange={(val) => handleInputChange(id, 'recession', val)}
+                        />
+                    ))}
+                </div>
+                <div className="flex gap-1 justify-center items-center">
+                    <span className="text-[9px] font-bold text-slate-400 w-16 text-right mr-2">MOVILIDAD</span>
+                    {ids.map(id => (
+                        <ToothInput 
+                            key={`mob-${id}`} 
+                            id={id} 
+                            value={teethState[id]?.mobility} 
+                            onChange={(val) => handleInputChange(id, 'mobility', val)}
+                        />
+                    ))}
+                </div>
+            </>
+        )}
+        
+        <div className="flex gap-1 justify-center items-center">
+             <span className="w-16 mr-2"></span> {/* Spacer for alignment */}
+             {ids.map(id => (
+                <Tooth key={id} id={id} data={teethState[id]} currentTool={activeTool} onApply={applyTreatment} />
+             ))}
+        </div>
+
+        {showInputsBottom && (
+            <>
+                <div className="flex gap-1 justify-center items-center">
+                    <span className="text-[9px] font-bold text-slate-400 w-16 text-right mr-2">MOVILIDAD</span>
+                    {ids.map(id => (
+                        <ToothInput 
+                            key={`mob-${id}`} 
+                            id={id} 
+                            value={teethState[id]?.mobility} 
+                            onChange={(val) => handleInputChange(id, 'mobility', val)}
+                        />
+                    ))}
+                </div>
+                <div className="flex gap-1 justify-center items-center">
+                    <span className="text-[9px] font-bold text-slate-400 w-16 text-right mr-2">RECESIÓN</span>
+                    {ids.map(id => (
+                        <ToothInput 
+                            key={`rec-${id}`} 
+                            id={id} 
+                            value={teethState[id]?.recession} 
+                            onChange={(val) => handleInputChange(id, 'recession', val)}
+                        />
+                    ))}
+                </div>
+            </>
+        )}
     </div>
   );
 
@@ -282,38 +370,70 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
 
             <div className="flex flex-col gap-10 relative z-10">
               {/* UPPER ARCH */}
-              <div className="flex flex-col items-center gap-3">
-                 {(viewMode === 'adult' || viewMode === 'mixed') && (
-                    <div className="flex gap-12">
-                        {renderRow(ADULT_QUADRANTS.Q1)}
-                        {renderRow(ADULT_QUADRANTS.Q2)}
-                    </div>
-                 )}
-                 {(viewMode === 'child' || viewMode === 'mixed') && (
-                    <div className={`flex gap-12 ${viewMode === 'mixed' ? 'scale-90 opacity-95' : ''}`}>
-                        {renderRow(CHILD_QUADRANTS.Q5)}
-                        {renderRow(CHILD_QUADRANTS.Q6)}
-                    </div>
-                 )}
+              <div className="flex flex-col xl:flex-row gap-8 items-start justify-center">
+                  <div className="flex flex-col items-center gap-4">
+                      {/* Q1 Permanent + Inputs */}
+                      {(viewMode === 'adult' || viewMode === 'mixed') && (
+                          renderRow(ADULT_QUADRANTS.Q1, true, false)
+                      )}
+                      {/* Q5 Deciduous */}
+                      {(viewMode === 'child' || viewMode === 'mixed') && (
+                          <div className={viewMode === 'mixed' ? 'pl-[72px]' : ''}>
+                              {renderRow(CHILD_QUADRANTS.Q5)}
+                          </div>
+                      )}
+                  </div>
+                  
+                  <div className="flex flex-col items-center gap-4">
+                       {/* Q2 Permanent + Inputs */}
+                       {(viewMode === 'adult' || viewMode === 'mixed') && (
+                          renderRow(ADULT_QUADRANTS.Q2, true, false)
+                       )}
+                       {/* Q6 Deciduous */}
+                       {(viewMode === 'child' || viewMode === 'mixed') && (
+                          <div className={viewMode === 'mixed' ? 'pl-[72px]' : ''}>
+                              {renderRow(CHILD_QUADRANTS.Q6)}
+                          </div>
+                       )}
+                  </div>
               </div>
 
-              {/* CENTER DIVIDER */}
-              {(viewMode === 'mixed') && <div className="w-full border-t border-dashed border-slate-200 my-2"></div>}
+              {/* CENTER DIVIDER LABEL */}
+              {(viewMode === 'mixed') && (
+                  <div className="w-full flex items-center gap-4 my-2 opacity-50">
+                     <div className="h-px bg-slate-300 flex-1"></div>
+                     <span className="text-[10px] uppercase font-bold text-slate-400">Lingual</span>
+                     <div className="h-px bg-slate-300 flex-1"></div>
+                  </div>
+              )}
 
               {/* LOWER ARCH */}
-              <div className="flex flex-col-reverse items-center gap-3">
-                 {(viewMode === 'adult' || viewMode === 'mixed') && (
-                    <div className="flex gap-12">
-                        {renderRow(ADULT_QUADRANTS.Q3)}
-                        {renderRow(ADULT_QUADRANTS.Q4)}
-                    </div>
-                 )}
-                 {(viewMode === 'child' || viewMode === 'mixed') && (
-                    <div className={`flex gap-12 ${viewMode === 'mixed' ? 'scale-90 opacity-95' : ''}`}>
-                        {renderRow(CHILD_QUADRANTS.Q7)}
-                        {renderRow(CHILD_QUADRANTS.Q8)}
-                    </div>
-                 )}
+              <div className="flex flex-col xl:flex-row gap-8 items-start justify-center">
+                   <div className="flex flex-col-reverse items-center gap-4">
+                       {/* Q3 Permanent + Inputs Bottom */}
+                       {(viewMode === 'adult' || viewMode === 'mixed') && (
+                           renderRow(ADULT_QUADRANTS.Q3, false, true)
+                       )}
+                       {/* Q7 Deciduous */}
+                       {(viewMode === 'child' || viewMode === 'mixed') && (
+                           <div className={viewMode === 'mixed' ? 'pl-[72px]' : ''}>
+                               {renderRow(CHILD_QUADRANTS.Q7)}
+                           </div>
+                       )}
+                   </div>
+
+                   <div className="flex flex-col-reverse items-center gap-4">
+                       {/* Q4 Permanent + Inputs Bottom */}
+                       {(viewMode === 'adult' || viewMode === 'mixed') && (
+                           renderRow(ADULT_QUADRANTS.Q4, false, true)
+                       )}
+                       {/* Q8 Deciduous */}
+                       {(viewMode === 'child' || viewMode === 'mixed') && (
+                           <div className={viewMode === 'mixed' ? 'pl-[72px]' : ''}>
+                               {renderRow(CHILD_QUADRANTS.Q8)}
+                           </div>
+                       )}
+                   </div>
               </div>
             </div>
         </div>

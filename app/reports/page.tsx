@@ -18,13 +18,26 @@ import {
   TrendingDown,
   Activity,
   BarChart3,
-  LineChart,
+  LineChart as LineChartIcon,
   Trophy,
   AlertCircle
 } from "lucide-react"
+import { 
+  BarChart, 
+  Bar, 
+  LineChart, 
+  Line, 
+  XAxis, 
+  YAxis, 
+  CartesianGrid, 
+  Tooltip, 
+  ResponsiveContainer,
+  Legend
+} from "recharts"
 import { format, subMonths, startOfMonth, endOfMonth, eachMonthOfInterval, isSameMonth } from "date-fns"
 import { es } from "date-fns/locale"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { generateReportPDF } from "@/lib/reports-pdf"
 
 export default function ReportsPage() {
   const [selectedPeriod, setSelectedPeriod] = useState("month")
@@ -166,7 +179,18 @@ export default function ReportsPage() {
               <SelectItem value="year">Año</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline">
+          <Button variant="outline" onClick={() => generateReportPDF({
+            period: selectedPeriod === 'month' ? 'Últimos 6 meses' : 'Año Actual',
+            generatedAt: format(new Date(), "dd 'de' MMMM, yyyy HH:mm", { locale: es }),
+            summary: {
+                revenue: currentMonthData.revenue,
+                appointments: currentMonthData.appointments,
+                patients: currentMonthData.patients, // New patients
+                activePatients: currentMonthData.activePatients
+            },
+            monthlyStats,
+            topPatients: attendanceRanking
+          })}>
             <Download className="mr-2 h-4 w-4" />
             Descargar PDF
           </Button>
@@ -246,31 +270,43 @@ export default function ReportsPage() {
             </Card>
           </div>
 
-          {/* Charts Section */}
+            {/* Charts Section */}
           <div className="grid gap-6 md:grid-cols-2">
             <Card className="col-span-1">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-primary" />
-                  Ingresos Mensuales
+                  Ingresos Mensuales (Últimos 6 meses)
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {monthlyStats.map((stat) => (
-                    <div key={stat.month} className="flex items-center justify-between group">
-                      <span className="text-sm font-medium text-muted-foreground w-12">{stat.month}</span>
-                      <div className="flex-1 px-4">
-                        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-primary transition-all duration-500 ease-out group-hover:bg-primary/80"
-                            style={{ width: `${Math.min(100, (stat.revenue / 10000) * 100)}%` }} 
-                          />
-                        </div>
-                      </div>
-                      <span className="text-sm font-semibold w-20 text-right">{formatCurrency(stat.revenue)}</span>
-                    </div>
-                  ))}
+                <div className="h-[300px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart data={monthlyStats}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis 
+                        dataKey="month" 
+                        className="text-xs" 
+                        tickLine={false} 
+                        axisLine={false}
+                      />
+                      <YAxis 
+                        className="text-xs" 
+                        tickLine={false} 
+                        axisLine={false} 
+                        tickFormatter={(value) => `$${value}`} 
+                      />
+                      <Tooltip 
+                        formatter={(value: number) => [`$${value.toLocaleString()}`, "Ingresos"]}
+                        contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                      />
+                      <Bar 
+                        dataKey="revenue" 
+                        fill="hsl(var(--primary))" 
+                        radius={[4, 4, 0, 0]} 
+                      />
+                    </BarChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>
@@ -278,26 +314,49 @@ export default function ReportsPage() {
             <Card className="col-span-1">
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
-                  <LineChart className="h-5 w-5 text-blue-500" />
+                  <LineChartIcon className="h-5 w-5 text-blue-500" />
                   Citas por Mes
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-4">
-                  {monthlyStats.map((stat) => (
-                    <div key={stat.month} className="flex items-center justify-between group">
-                      <span className="text-sm font-medium text-muted-foreground w-12">{stat.month}</span>
-                      <div className="flex-1 px-4">
-                        <div className="h-2 w-full bg-secondary rounded-full overflow-hidden">
-                          <div
-                            className="h-full bg-blue-500 transition-all duration-500 ease-out group-hover:bg-blue-400"
-                            style={{ width: `${Math.min(100, (stat.appointments / 50) * 100)}%` }} 
-                          />
-                        </div>
-                      </div>
-                      <span className="text-sm font-semibold w-8 text-right">{stat.appointments}</span>
-                    </div>
-                  ))}
+                 <div className="h-[300px] w-full">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <LineChart data={monthlyStats}>
+                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                      <XAxis 
+                        dataKey="month" 
+                        className="text-xs" 
+                        tickLine={false} 
+                        axisLine={false}
+                      />
+                      <YAxis 
+                        className="text-xs" 
+                        tickLine={false} 
+                        axisLine={false} 
+                      />
+                      <Tooltip 
+                        contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="appointments" 
+                        stroke="#3b82f6" 
+                        strokeWidth={2}
+                        dot={{ r: 4, fill: "#3b82f6" }}
+                        activeDot={{ r: 6 }}
+                        name="Citas"
+                      />
+                      <Line 
+                        type="monotone" 
+                        dataKey="patients" 
+                        stroke="#10b981" 
+                        strokeWidth={2}
+                        dot={{ r: 4, fill: "#10b981" }}
+                        name="Nuevos Pacientes"
+                      />
+                      <Legend />
+                    </LineChart>
+                  </ResponsiveContainer>
                 </div>
               </CardContent>
             </Card>

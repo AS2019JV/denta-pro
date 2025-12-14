@@ -13,11 +13,14 @@ import {
   parseISO,
   isToday,
   addDays,
+  subDays,
+  addWeeks,
+  subWeeks,
   startOfWeek,
   endOfWeek,
 } from "date-fns"
 import { es } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X } from "lucide-react"
+import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -183,7 +186,7 @@ export function ModernCalendar({
   }
 
   const generateWeekDays = () => {
-    const weekStart = startOfWeek(selectedDate, { weekStartsOn: 0 })
+    const weekStart = startOfWeek(currentDate, { weekStartsOn: 0 })
     return eachDayOfInterval({ start: weekStart, end: endOfWeek(weekStart, { weekStartsOn: 0 }) })
   }
 
@@ -255,7 +258,10 @@ export function ModernCalendar({
     setMonthChangeDirection("right")
     setIsMonthChanging(true)
     setTimeout(() => {
-        setCurrentDate(addMonths(currentDate, 1))
+        if (view === 'week') setCurrentDate(addWeeks(currentDate, 1))
+        else if (view === 'list') setCurrentDate(addDays(currentDate, 7)) // List view jumps a week? Or keep it month based? Let's say month for list.
+        else setCurrentDate(addMonths(currentDate, 1))
+        
         setIsMonthChanging(false)
     }, 300)
   }
@@ -263,7 +269,10 @@ export function ModernCalendar({
     setMonthChangeDirection("left")
     setIsMonthChanging(true)
     setTimeout(() => {
-        setCurrentDate(subMonths(currentDate, 1))
+        if (view === 'week') setCurrentDate(subWeeks(currentDate, 1))
+        else if (view === 'list') setCurrentDate(subDays(currentDate, 7))
+        else setCurrentDate(subMonths(currentDate, 1))
+
         setIsMonthChanging(false)
     }, 300)
   }
@@ -319,7 +328,9 @@ export function ModernCalendar({
             .from('appointments')
             .update({ 
                 type: selectedAppointment.type,
-                notes: selectedAppointment.notes 
+                notes: selectedAppointment.notes,
+                start_time: selectedAppointment.start_time,
+                end_time: selectedAppointment.end_time 
             })
             .eq('id', selectedAppointment.id)
             
@@ -381,6 +392,123 @@ export function ModernCalendar({
     </div>
   )
 
+  const renderWeekView = () => {
+    const hours = Array.from({ length: 14 }, (_, i) => i + 7) // 7 AM to 8 PM
+    const weekDays = generateWeekDays()
+
+    return (
+      <div className="flex flex-col h-[600px] overflow-auto">
+        <div className="grid grid-cols-8 border-b sticky top-0 bg-background z-10">
+          <div className="p-2 text-center text-xs font-medium text-muted-foreground border-r">Hora</div>
+          {weekDays.map((day, i) => (
+             <div key={i} className={cn("p-2 text-center text-xs font-medium border-r min-w-[100px]", isToday(day) && "text-primary bg-primary/5")}>
+                {format(day, 'EEE d', { locale: es })}
+             </div>
+          ))}
+        </div>
+        <div className="grid grid-cols-8 flex-1">
+           <div className="border-r">
+              {hours.map(hour => (
+                  <div key={hour} className="h-20 border-b text-xs text-muted-foreground p-1 text-right relative">
+                      <span className="-top-2 relative">{hour}:00</span>
+                  </div>
+              ))}
+           </div>
+           {weekDays.map((day, dayIdx) => {
+              const dayAppts = getAppointmentsForDate(day)
+              return (
+                  <div key={dayIdx} className="border-r relative min-h-[1120px]"> {/* 80px * 14 hours */}
+                      {/* Grid lines */}
+                      {hours.map(h => <div key={h} className="h-20 border-b border-dashed border-gray-100" />)}
+                      
+                      {/* Apps */}
+                      {dayAppts.map((app, idx) => {
+                          const start = parseISO(app.start_time)
+                          const end = parseISO(app.end_time)
+                          const startHour = start.getHours()
+                          const startMin = start.getMinutes()
+                          const durationMin = (end.getTime() - start.getTime()) / (1000 * 60)
+                          
+                          // 7 AM is 0px. Each hour is 80px.
+                          const top = ((startHour - 7) * 80) + ((startMin / 60) * 80)
+                          const height = (durationMin / 60) * 80
+                          
+                          return (
+                              <div 
+                                key={idx}
+                                onClick={(e) => { e.stopPropagation(); handleAppointmentClick(app) }}
+                                className="absolute left-1 right-1 rounded px-2 py-1 text-xs overflow-hidden cursor-pointer hover:opacity-90 transition-opacity border-l-2 shadow-sm z-10"
+                                style={{ 
+                                    top: `${top}px`, 
+                                    height: `${height}px`,
+                                    backgroundColor: `${app.color}15`,
+                                    borderLeftColor: app.color,
+                                    color: app.color
+                                }}
+                              >
+                                  <div className="font-semibold truncate">{app.patientName}</div>
+                                  <div className="opacity-80 truncate text-[10px]">{app.type}</div>
+                              </div>
+                          )
+                      })}
+                  </div>
+              )
+           })}
+        </div>
+      </div>
+    )
+  }
+
+  const renderListView = () => {
+      // Group by date
+      const sorted = [...filterAppointments(appointments)].sort((a,b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
+      const grouped: { [key: string]: CalendarAppointment[] } = {}
+      
+      sorted.forEach(app => {
+          const dateKey = format(parseISO(app.start_time), 'yyyy-MM-dd')
+          if (!grouped[dateKey]) grouped[dateKey] = []
+          grouped[dateKey].push(app)
+      })
+      
+      return (
+          <div className="space-y-6">
+              {Object.keys(grouped).map(dateKey => (
+                  <div key={dateKey} className="space-y-2">
+                       <h3 className="font-medium text-sm text-muted-foreground sticky top-0 bg-background py-2 z-10 border-b">
+                           {format(parseISO(dateKey), "EEEE d 'de' MMMM", { locale: es })}
+                       </h3>
+                       <div className="space-y-2">
+                           {grouped[dateKey].map(app => (
+                               <div key={app.id} 
+                                   onClick={() => handleAppointmentClick(app)}
+                                   className="flex items-center gap-4 p-3 rounded-lg border hover:shadow-sm cursor-pointer bg-card transition-all">
+                                   <div className="w-16 text-center">
+                                       <div className="text-sm font-bold">{format(parseISO(app.start_time), 'HH:mm')}</div>
+                                       <div className="text-xs text-muted-foreground">{format(parseISO(app.end_time), 'HH:mm')}</div>
+                                   </div>
+                                   <div className="flex-1">
+                                       <div className="font-medium">{app.patientName}</div>
+                                       <div className="text-sm text-muted-foreground flex items-center gap-2">
+                                           <span>{app.type}</span>
+                                           <span>•</span>
+                                           <span>Dr. {app.dentistName}</span>
+                                       </div>
+                                   </div>
+                                   <Badge variant={app.status === 'confirmed' ? "default" : app.status === 'cancelled' ? "destructive" : "secondary"}>
+                                       {app.status === 'confirmed' ? 'Confirmado' : app.status === 'cancelled' ? 'Cancelado' : 'Pendiente'}
+                                   </Badge>
+                               </div>
+                           ))}
+                       </div>
+                  </div>
+              ))}
+              {sorted.length === 0 && (
+                  <div className="text-center py-10 text-muted-foreground">No hay citas para los filtros seleccionados.</div>
+              )}
+          </div>
+      )
+  }
+
   return (
     <div className="space-y-4">
       {/* Header Controls */}
@@ -405,11 +533,8 @@ export function ModernCalendar({
       {/* Main View Area */}
       <Card className="p-4 min-h-[500px]">
           {view === 'month' && renderMonthView()}
-          {view !== 'month' && (
-             <div className="flex items-center justify-center h-40 text-muted-foreground">
-                 Vista {view} simplificada para esta demostración (Funcionalidad completa en Mes)
-             </div>
-          )}
+          {view === 'week' && renderWeekView()}
+          {view === 'list' && renderListView()}
       </Card>
       
       {/* Appointment Details / Edit Dialog */}
@@ -423,6 +548,7 @@ export function ModernCalendar({
           </DialogHeader>
 
           {selectedAppointment && (
+            <>
             <div className="grid gap-4 py-4">
                  {!isEditing ? (
                     <>
@@ -465,7 +591,74 @@ export function ModernCalendar({
                     <div className="grid gap-4">
                          <div className="grid gap-2">
                             <Label>Tratamiento</Label>
-                            <Input value={selectedAppointment.type} onChange={(e) => setSelectedAppointment({...selectedAppointment, type: e.target.value})} />
+                            <Select 
+                                value={selectedAppointment.type} 
+                                onValueChange={(val) => setSelectedAppointment({...selectedAppointment, type: val})}
+                            >
+                                <SelectTrigger>
+                                    <SelectValue placeholder="Seleccione tratamiento" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                    {dbTreatments.map(t => (
+                                        <SelectItem key={t.id} value={t.name}>{t.name}</SelectItem>
+                                    ))}
+                                    <SelectItem value="Consulta">Consulta</SelectItem>
+                                    <SelectItem value="Limpieza">Limpieza</SelectItem>
+                                    <SelectItem value="Urgencia">Urgencia</SelectItem>
+                                    <SelectItem value="Ortodoncia">Ortodoncia</SelectItem>
+                                </SelectContent>
+                            </Select>
+                         </div>
+                         <div className="grid grid-cols-2 gap-4">
+                             <div className="grid gap-2">
+                                <Label>Fecha</Label>
+                                <Input 
+                                    type="date" 
+                                    value={format(parseISO(selectedAppointment.start_time), 'yyyy-MM-dd')} 
+                                    onChange={(e) => {
+                                        const date = e.target.value
+                                        const oldStart = parseISO(selectedAppointment.start_time)
+                                        const oldEnd = parseISO(selectedAppointment.end_time)
+                                        
+                                        const newStart = new Date(date)
+                                        newStart.setHours(oldStart.getHours(), oldStart.getMinutes())
+                                        
+                                        const newEnd = new Date(date)
+                                        newEnd.setHours(oldEnd.getHours(), oldEnd.getMinutes())
+                                        
+                                        setSelectedAppointment({
+                                            ...selectedAppointment, 
+                                            start_time: newStart.toISOString(),
+                                            end_time: newEnd.toISOString()
+                                        })
+                                    }} 
+                                />
+                             </div>
+                             <div className="grid gap-2">
+                                <Label>Hora Inicio</Label>
+                                <Input 
+                                    type="time" 
+                                    value={format(parseISO(selectedAppointment.start_time), 'HH:mm')} 
+                                    onChange={(e) => {
+                                        const time = e.target.value
+                                        const [h, m] = time.split(':').map(Number)
+                                        const newStart = parseISO(selectedAppointment.start_time)
+                                        newStart.setHours(h, m)
+                                        
+                                        // Calculate duration to keep end time consistent or just update start? 
+                                        // Let's just update start, and ensure end is >= start
+                                        // But usually moving start moves end. Let's move end too.
+                                        const duration = parseISO(selectedAppointment.end_time).getTime() - parseISO(selectedAppointment.start_time).getTime()
+                                        const newEnd = new Date(newStart.getTime() + duration)
+
+                                        setSelectedAppointment({
+                                            ...selectedAppointment, 
+                                            start_time: newStart.toISOString(),
+                                            end_time: newEnd.toISOString()
+                                        })
+                                    }} 
+                                />
+                             </div>
                          </div>
                          <div className="grid gap-2">
                             <Label>Notas</Label>
@@ -474,22 +667,30 @@ export function ModernCalendar({
                     </div>
                  )}
             </div>
-          )}
 
           <DialogFooter className="flex justify-between sm:justify-between">
               {!isEditing ? (
                  <>
                    <div className="flex gap-2">
-                      <Button variant="outline" size="icon" className="text-red-500 hover:text-red-700 hover:bg-red-50" onClick={() => handleUpdateStatus('cancelled')}>
+                      <Button variant="outline" size="sm" className={cn("gap-2", selectedAppointment.status === 'cancelled' && "bg-red-50 border-red-200 text-red-700")} onClick={() => handleUpdateStatus('cancelled')}>
                           <X className="h-4 w-4" />
+                          <span className="sr-only">Cancelar</span>
                       </Button>
-                      <Button variant="outline" size="icon" className="text-green-500 hover:text-green-700 hover:bg-green-50" onClick={() => handleUpdateStatus('confirmed')}>
+                      <Button variant="outline" size="sm" className={cn("gap-2", selectedAppointment.status === 'scheduled' && "bg-yellow-50 border-yellow-200 text-yellow-700")} onClick={() => handleUpdateStatus('scheduled')}>
+                          <AlertTriangle className="h-4 w-4" />
+                          <span className="sr-only">Pendiente</span>
+                      </Button>
+                      <Button variant="outline" size="sm" className={cn("gap-2", selectedAppointment.status === 'confirmed' && "bg-green-50 border-green-200 text-green-700")} onClick={() => handleUpdateStatus('confirmed')}>
                           <Check className="h-4 w-4" />
+                          <span className="sr-only">Confirmar</span>
                       </Button>
                    </div>
                    <div className="flex gap-2">
-                      <Button variant="outline" onClick={() => setIsEditing(true)}>Editar</Button>
-                      <Button onClick={() => setShowAppointmentDialog(false)}>Cerrar</Button>
+                      <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                          <Pencil className="h-4 w-4 mr-2" />
+                          Editar
+                      </Button>
+                      <Button size="sm" onClick={() => setShowAppointmentDialog(false)}>Cerrar</Button>
                    </div>
                  </>
               ) : (
@@ -499,6 +700,8 @@ export function ModernCalendar({
                  </>
               )}
           </DialogFooter>
+          </>
+          )}
         </DialogContent>
       </Dialog>
       

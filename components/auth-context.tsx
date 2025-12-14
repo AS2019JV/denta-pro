@@ -71,7 +71,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .maybeSingle() // Use maybeSingle() instead of single() to avoid errors when profile doesn't exist
 
       if (error) {
-        console.error('Error fetching profile:', error)
+        console.error('Error fetching profile:', JSON.stringify(error, null, 2))
         // Create fallback user profile
         setUser({
           id: authUser.id,

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
-import { Calendar, Clock, Check, X, Loader2 } from "lucide-react"
+import { Calendar, Clock, Check, X, Loader2, MessageCircle } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
@@ -23,6 +23,7 @@ interface Appointment {
   patients?: {
     first_name: string
     last_name: string
+    phone?: string
   }
 }
 
@@ -43,7 +44,8 @@ export function AppointmentList() {
           *,
           patients (
             first_name,
-            last_name
+            last_name,
+            phone
           )
         `)
         .gte('start_time', today.toISOString())
@@ -180,6 +182,17 @@ export function AppointmentList() {
                         >
                           <X className="h-4 w-4" />
                         </Button>
+                        {appointment.patients?.phone && (
+                          <Button 
+                            variant="ghost" 
+                            size="icon" 
+                            className="h-8 w-8 text-blue-600 hover:text-blue-700 hover:bg-blue-100 dark:hover:bg-blue-900/30"
+                            onClick={() => window.open(`https://wa.me/${appointment.patients?.phone?.replace(/\D/g, '')}`, '_blank')}
+                            title="Enviar WhatsApp"
+                          >
+                           <MessageCircle className="h-4 w-4" />
+                          </Button>
+                        )}
                       </div>
                     )}
                   </div>

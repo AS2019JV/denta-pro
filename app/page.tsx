@@ -59,7 +59,7 @@ import { Appointment } from "@/types"
 export default function DashboardPage() {
   const { user } = useAuth()
   const { t } = useTranslation()
-  const { appointments, patients, treatments, dentists, isLoading, refreshData } = useDashboardData()
+  const { appointments, patients, treatments, dentists, billings, isLoading, refreshData } = useDashboardData()
 
 
 
@@ -73,11 +73,27 @@ export default function DashboardPage() {
     .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
     .slice(0, 5) // Show only top 5
 
+  // Calculate real stats
+  const currentMonth = new Date().getMonth()
+  const currentYear = new Date().getFullYear()
+  
+  const monthlyRevenue = billings
+     .filter(b => {
+         const d = new Date(b.created_at)
+         return d.getMonth() === currentMonth && d.getFullYear() === currentYear
+     })
+     .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+
+  const pendingTreatmentsCount = appointments.filter(a => 
+      (a.status === 'scheduled' || a.status === 'confirmed') && 
+      isFuture(new Date(a.start_time))
+  ).length
+
   const stats = [
     {
       title: t("total-patients"),
       value: patients.length.toString(),
-      change: "+12%", // In a real app, compare with last month
+      change: "+12%", 
       icon: Users,
       color: "text-blue-600",
     },
@@ -90,14 +106,14 @@ export default function DashboardPage() {
     },
     {
       title: t("monthly-revenue"),
-      value: "$45,231", // Placeholder - needs billing table logic
-      change: "+18%",
+      value: `$${monthlyRevenue.toLocaleString()}`, 
+      change: "+18%", // We would need previous month data to calculate real change
       icon: DollarSign,
       color: "text-yellow-600",
     },
     {
       title: t("pending-treatments"),
-      value: "12",
+      value: pendingTreatmentsCount.toString(),
       change: "-3%",
       icon: Clock,
       color: "text-red-600",
@@ -114,12 +130,20 @@ export default function DashboardPage() {
   const [newApp, setNewApp] = useState({
     patientId: "",
     treatmentId: "",
+    doctorId: "",
     date: format(new Date(), "yyyy-MM-dd"),
     time: "09:00",
     notes: "",
     createInvoice: true,
     invoiceAmount: "",
   })
+
+  // Set default doctor on load if available
+  if (!newApp.doctorId && user?.id) {
+     // This causes infinite loop if we don't check carefully or use useEffect. 
+     // Better do it in handleCreateAppointment fallback or init state properly.
+     // But user is async. Let's just default in render if empty or handle in submit.
+  }
 
   // Handlers
   const handleAppointmentClick = (appointment: Appointment) => {
@@ -172,7 +196,7 @@ export default function DashboardPage() {
             .from('appointments')
             .insert({
                 patient_id: newApp.patientId,
-                doctor_id: user?.id,
+                doctor_id: newApp.doctorId || user?.id,
                 start_time: startDateTime.toISOString(),
                 end_time: endDateTime.toISOString(),
                 type: treatment?.name || 'Consulta',
@@ -205,6 +229,7 @@ export default function DashboardPage() {
         setNewApp({
             patientId: "",
             treatmentId: "",
+            doctorId: user?.id || "",
             date: format(new Date(), "yyyy-MM-dd"),
             time: "09:00",
             notes: "",
@@ -362,6 +387,20 @@ export default function DashboardPage() {
                             {treatments.map(t => (
                                 <SelectItem key={t.id} value={t.id}>{t.name} (${t.price})</SelectItem>
                             ))}
+                        </SelectContent>
+                    </Select>
+                </div>
+                <div className="grid gap-2">
+                    <Label>Doctor</Label>
+                    <Select value={newApp.doctorId} onValueChange={v => setNewApp({...newApp, doctorId: v})}>
+                        <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
+                        <SelectContent>
+                             {/* Fallback to current user if dentist list empty or simply show all dentists */}
+                            {dentists.length > 0 ? dentists.map(d => (
+                                <SelectItem key={d.id} value={d.id}>{d.full_name || "Doctor"}</SelectItem>
+                            )) : (
+                                <SelectItem value={user?.id || "current"}>{user?.name || "Yo"}</SelectItem>
+                            )}
                         </SelectContent>
                     </Select>
                 </div>

@@ -34,6 +34,7 @@ interface Patient {
   id: string
   name: string
   lastName: string
+  cedula?: string
   email?: string
   phone: string
   address?: string
@@ -79,6 +80,7 @@ export default function PatientsPage() {
           id: p.id,
           name: p.first_name,
           lastName: p.last_name,
+          cedula: p.cedula,
           email: p.email,
           phone: p.phone,
           address: p.address,
@@ -158,12 +160,39 @@ export default function PatientsPage() {
     const file = event.target.files?.[0]
     if (file) {
       const reader = new FileReader()
-      reader.onload = (e) => {
+      reader.onload = async (e) => {
         try {
           const importedPatients = JSON.parse(e.target?.result as string)
-          setPatients(importedPatients)
+          
+          if (!Array.isArray(importedPatients)) throw new Error("Formato inválido")
+
+          setIsLoading(true)
+          
+          // Map back to DB Columns
+          const dbPatients = importedPatients.map((p: any) => ({
+             first_name: p.name,
+             last_name: p.lastName,
+             cedula: p.cedula,
+             email: p.email,
+             phone: p.phone,
+             address: p.address,
+             birth_date: p.birthDate,
+             gender: p.gender,
+             // medical_history: ?
+          }))
+
+          // Upsert to Supabase
+          const { error } = await supabase.from('patients').upsert(dbPatients, { onConflict: 'cedula' })
+          
+          if (error) throw error
+
+          await fetchPatients()
+          alert("Base de datos importada correctamente")
         } catch (error) {
           console.error("Error importing database:", error)
+          alert("Error al importar: Revisa el formato del archivo JSON.")
+        } finally {
+            setIsLoading(false)
         }
       }
       reader.readAsText(file)

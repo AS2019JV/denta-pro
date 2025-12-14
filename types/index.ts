@@ -31,7 +31,7 @@ export interface Appointment {
     start_time: string
     end_time: string
     type: string
-    status: 'pending' | 'confirmed' | 'cancelled' | 'rescheduled' | 'completed'
+    status: 'pending' | 'confirmed' | 'cancelled' | 'rescheduled' | 'completed' | 'scheduled' | 'no_show'
     notes?: string
     created_at?: string
     patients?: Patient
@@ -43,4 +43,15 @@ export interface Treatment {
     name: string
     price: number
     description?: string
+}
+
+export interface Billing {
+    id: string
+    patient_id: string
+    appointment_id?: string
+    amount: number
+    status: 'pending' | 'paid' | 'cancelled'
+    description?: string
+    created_at: string
+    invoice_number?: string
 }

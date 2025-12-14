@@ -58,6 +58,7 @@ export default function PatientDetailsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isHCUOpen, setIsHCUOpen] = useState(false)
+  const [hcuData, setHcuData] = useState<any>(null)
 
   useEffect(() => {
     const fetchPatient = async () => {
@@ -255,13 +256,7 @@ export default function PatientDetailsPage() {
                             {['info', 'medical', 'hcu033', 'appointments', 'files'].map((tab) => (
                                 <TabsTrigger 
                                     key={tab}
-                                    value={tab} 
-                                    onClick={(e) => {
-                                      if (tab === 'hcu033') {
-                                        e.preventDefault()
-                                        setIsHCUOpen(true)
-                                      }
-                                    }}
+                                    value={tab}
                                     className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none py-4 px-0 text-muted-foreground data-[state=active]:text-primary font-medium transition-all"
                                 >
                                     {tab === 'info' && "Perfil"}
@@ -409,7 +404,16 @@ export default function PatientDetailsPage() {
                             </TabsContent>
 
                             <TabsContent value="hcu033" className="mt-0 focus-visible:ring-0">
-                                <HCU033Form patientId={patient.id} patientName={`${patient.name} ${patient.lastName}`} />
+                                <HCU033Form 
+                                    patientId={patient.id} 
+                                    patientName={`${patient.name} ${patient.lastName}`} 
+                                    onExpand={(currentData) => {
+                                      setHcuData(currentData)
+                                      setIsHCUOpen(true)
+                                    }}
+                                    externalData={hcuData}
+                                    onDataChange={setHcuData}
+                                />
                             </TabsContent>
 
                             <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
@@ -424,14 +428,14 @@ export default function PatientDetailsPage() {
 
       
       {isHCUOpen && patient && (
-        <div className="fixed inset-0 z-50 bg-background animate-in fade-in duration-200">
-           <HCU033Form 
-              patientId={patient!.id} 
-              patientName={`${patient!.name} ${patient!.lastName}`} 
-              isFullScreen={true}
-              onClose={() => setIsHCUOpen(false)}
-           />
-        </div>
+          <HCU033Form 
+            patientId={patient!.id} 
+            patientName={`${patient!.name} ${patient!.lastName}`} 
+            isFullScreen={true}
+            onClose={() => setIsHCUOpen(false)}
+            externalData={hcuData}
+            onDataChange={setHcuData}
+          />
       )}
     </div>
   )
