@@ -41,14 +41,22 @@ create table public.patients (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null,
   first_name text not null,
   last_name text not null,
-  cedula text unique,
+  cedula text,
   email text,
   phone text,
   birth_date date,
   gender text,
   address text,
   medical_history jsonb default '{}'::jsonb,
-  clinic_id uuid references public.clinics(id)
+  emergency_contact text,
+  emergency_phone text,
+  allergies text,
+  medications text,
+  medical_conditions text,
+  insurance_provider text,
+  policy_number text,
+  clinic_id uuid references public.clinics(id),
+  unique(cedula, clinic_id)
 );
 
 alter table public.patients enable row level security;

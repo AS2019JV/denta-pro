@@ -208,31 +208,231 @@ export const generateHCU033 = (data: any) => {
   
   y += exH + 2;
 
-  // 7. ODONTOGRAMA PLACEHOLDER
-  // Since we cannot draw the complex svg, we create the frame
+  // 7. ODONTOGRAMA GRAFICO
   y = drawSectionHeader('7', 'ODONTOGRAMA', margin, y, contentWidth);
-  const odoH = 50;
-  // Background color for odontograma area
-  drawRect(margin, y, contentWidth, odoH, [240, 250, 255]); // Very light blue
+  const odoH = 65; // Height for the graphical area
   
-  // Draw Recession/Mobility Grids (Simplified visual representation)
-  const drawTeethRow = (label: string, startX: number, rowY: number) => {
-      doc.setFontSize(5); doc.text(label, startX - 12, rowY + 2);
-      for(let i=0; i<16; i++) {
-          doc.rect(startX + (i*6), rowY, 5, 3);
+  // Background
+  doc.setFillColor(240, 250, 255);
+  doc.rect(margin, y, contentWidth, odoH, 'F');
+  
+  const QUADRANTS = {
+      Q1: [18, 17, 16, 15, 14, 13, 12, 11],
+      Q2: [21, 22, 23, 24, 25, 26, 27, 28],
+      Q3: [48, 47, 46, 45, 44, 43, 42, 41],
+      Q4: [31, 32, 33, 34, 35, 36, 37, 38],
+      Q5: [55, 54, 53, 52, 51],
+      Q6: [61, 62, 63, 64, 65],
+      Q7: [85, 84, 83, 82, 81],
+      Q8: [71, 72, 73, 74, 75]
+  };
+
+  const TOOTH_SIZE = 7;
+  const GAP = 1;
+  const CENTER_GAP = 5;
+  const ROW_START_Y = y + 10;
+  
+  // Helper to parse color
+  const getFillColor = (val: string | undefined): [number, number, number] | null => {
+      if (!val) return null;
+      // Check for explicit "color:red" or "caries" legacy
+      if (val.includes('red') || val === 'caries') return [239, 68, 68]; // Red
+      if (val.includes('blue') || val === 'restoration') return [59, 130, 246]; // Blue
+      return null; // White/None
+  };
+
+  const drawTooth = (id: number, cx: number, cy: number, isDeciduous: boolean) => {
+      const tData = data.odontograma_data?.[id] || {};
+      const surfaces = tData.surfaces || {};
+      const s = TOOTH_SIZE;
+      const h = s / 2;
+      
+      // Coordinates relative to center (cx, cy)
+      // Top-Left corner for Square logic
+      const x = cx - h;
+      const y = cy - h;
+
+      const drawPoly = (pts: number[][], color: [number, number, number] | null) => {
+          if (color) {
+              doc.setFillColor(color[0], color[1], color[2]);
+              // jsPDF lines: [x, y], [x, y]...
+              // using 'f' for fill
+              // doc.lines is vector based, cumbersome for polygons. doc.triangle is easier for triangles.
+              // We construct path string "x y m ... f"
+              let path = `${pts[0][0].toFixed(2)} ${pts[0][1].toFixed(2)} m`;
+              for(let i=1; i<pts.length; i++) {
+                  path += ` ${pts[i][0].toFixed(2)} ${pts[i][1].toFixed(2)} l`;
+              }
+              path += ' f'; 
+              // API hack for raw PDF ops or use triangle if 3 points
+              if (pts.length === 3) {
+                  doc.triangle(pts[0][0], pts[0][1], pts[1][0], pts[1][1], pts[2][0], pts[2][1], 'F');
+              } else {
+                 // Fallback for rect/quad
+                 // Just draw simple rects for now if complex? No, we need trapezoids.
+                 // Use lines with 'fd' style? 
+                 // Actually doc.lines expects segment lengths.
+                 // Let's use `triangle` composition for Trapezoids.
+                 // A trapezoid is 2 triangles.
+                 // T1: p1, p2, p4. T2: p2, p3, p4.
+                 if (pts.length === 4) {
+                     doc.triangle(pts[0][0], pts[0][1], pts[1][0], pts[1][1], pts[3][0], pts[3][1], 'F');
+                     doc.triangle(pts[1][0], pts[1][1], pts[2][0], pts[2][1], pts[3][0], pts[3][1], 'F');
+                 }
+              }
+          }
+      };
+      
+      // Points for 5 surfaces (Square geometry)
+      // Top Trapezoid: TL, TR, CenterR, CenterL
+      // Center box: small rect in middle.
+      // Standard representation: Diagonals. 
+      // Top Tri: TL, TR, Center.
+      
+      const TL = [x, y];
+      const TR = [x+s, y];
+      const BR = [x+s, y+s];
+      const BL = [x, y+s];
+      const C = [cx, cy]; // Approximate center convergence for diagonals
+      
+      // 1. Fill Surfaces
+      // TOP
+      drawPoly([TL, TR, C], getFillColor(surfaces.top));
+      // RIGHT
+      drawPoly([TR, BR, C], getFillColor(surfaces.right));
+      // BOTTOM
+      drawPoly([BR, BL, C], getFillColor(surfaces.bottom));
+      // LEFT
+      drawPoly([BL, TL, C], getFillColor(surfaces.left));
+      // CENTER
+      const centerColor = getFillColor(surfaces.center);
+      if (centerColor) {
+          doc.setFillColor(centerColor[0], centerColor[1], centerColor[2]);
+          if (isDeciduous) doc.circle(cx, cy, s/4, 'F');
+          else doc.rect(cx - s/4, cy - s/4, s/2, s/2, 'F');
+      }
+
+      // 2. Draw Outlines
+      doc.setDrawColor(0);
+      doc.setLineWidth(0.1);
+      
+      if (isDeciduous) {
+          // Circle Shape
+          doc.circle(cx, cy, s/2);
+          // Internal lines (X)
+          // We clip to circle? No, just draw lines inside approx 
+          // 45deg: cos(45)*r. r=s/2. 
+          const r = s/2;
+          const d = r * 0.707;
+          doc.line(cx - d, cy - d, cx + d, cy + d);
+          doc.line(cx + d, cy - d, cx - d, cy + d);
+          // Center Circle
+          doc.setFillColor(255,255,255);
+          if (!centerColor) doc.circle(cx, cy, s/4, 'F'); // Mask if empty
+          doc.circle(cx, cy, s/4, 'S');
+      } else {
+          // Square Shape
+          doc.rect(x, y, s, s);
+          doc.line(x, y, x+s, y+s);
+          doc.line(x+s, y, x, y+s);
+          // Center Rect
+          doc.setFillColor(255,255,255);
+          if (!centerColor) doc.rect(cx - s/4, cy - s/4, s/2, s/2, 'F'); 
+          doc.rect(cx - s/4, cy - s/4, s/2, s/2, 'S');
+      }
+      
+      // 3. Labels (ID)
+      doc.setFontSize(5); doc.setTextColor(0);
+      doc.text(String(id), cx - 2, isDeciduous ? cy + s : cy + s - 9);
+
+      // 4. Conditions (X for extraction, etc)
+      if (tData.condition === 'extraction') {
+           doc.setFontSize(10);
+           doc.setTextColor(239, 68, 68);
+           doc.text('X', cx - 2, cy + 2.5);
+      }
+      if (tData.condition === 'crown') {
+          doc.setDrawColor(250, 168, 5); // Orange
+          doc.setLineWidth(0.5);
+          doc.circle(cx, cy, s/1.8);
+          doc.setLineWidth(0.1); doc.setDrawColor(0);
       }
   };
+
+  // LAYOUT
+  // Top Row: Recesion, Movilidad, Vestibular Q1-Q2
+  const centerX = margin + contentWidth / 2;
+  const startX_Q1 = centerX - CENTER_GAP - (8 * (TOOTH_SIZE + GAP));
+  const startX_Q2 = centerX + CENTER_GAP;
   
-  // Top
-  drawTeethRow('RECESION', margin + 15, y + 2);
-  drawTeethRow('MOVILIDAD', margin + 15, y + 5);
+  // Q1 (18-11)
+  QUADRANTS.Q1.forEach((id, i) => drawTooth(id, startX_Q1 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 14, false));
+  // Q2 (21-28)
+  QUADRANTS.Q2.forEach((id, i) => drawTooth(id, startX_Q2 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 14, false));
   
-  // Bottom
-  drawTeethRow('MOVILIDAD', margin + 15, y + 42);
-  drawTeethRow('RECESION', margin + 15, y + 45);
+  // Deciduous Rows (Q5, Q6)
+  // Centered under Q1, Q2 roughly. They have 5 teeth.
+  const offsetDeciduous = 15; // Shift inward
+  QUADRANTS.Q5.forEach((id, i) => drawTooth(id, startX_Q1 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 26, true));
+  QUADRANTS.Q6.forEach((id, i) => drawTooth(id, startX_Q2 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 26, true));
   
-  // Note
-  doc.text('VER GRAFICO DIGITAL EN SISTEMA', margin + contentWidth/2, y + 25, { align: 'center' });
+  // Deciduous Rows (Q8, Q7) - Bottom
+  QUADRANTS.Q8.forEach((id, i) => drawTooth(id, startX_Q1 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
+  QUADRANTS.Q7.forEach((id, i) => drawTooth(id, startX_Q2 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
+
+  // Permanent Rows (Q4, Q3) - Bottom
+  QUADRANTS.Q4.forEach((id, i) => drawTooth(id, startX_Q1 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
+  QUADRANTS.Q3.forEach((id, i) => drawTooth(id, startX_Q2 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
+  
+  // Grids for Input (Recesion, Movilidad)
+  // Simplified placeholders aligned with teeth would be best, but complex alignment.
+  // We keep the grids at Top/Bottom margins of the section.
+  
+  const drawStatRow = (label: string, rowY: number, q_ids: number[], startX: number) => {
+      doc.setFontSize(4); doc.setTextColor(100);
+      doc.text(label, startX - 12, rowY + 3);
+      doc.setDrawColor(200);
+      q_ids.forEach((id, i) => {
+          doc.rect(startX + i*(TOOTH_SIZE+GAP), rowY, TOOTH_SIZE, 4);
+          // Value
+          const tData = data.odontograma_data?.[id] || {};
+          const val = label.startsWith('REC') ? tData.recession : tData.mobility;
+          if (val) {
+             doc.setFontSize(6); doc.setTextColor(0);
+             doc.text(String(val), startX + i*(TOOTH_SIZE+GAP) + 2, rowY + 3);
+          }
+      });
+      doc.setDrawColor(0);
+  };
+  
+  // Top Stats
+  drawStatRow('RECESION', y + 3, QUADRANTS.Q1, startX_Q1);
+  drawStatRow('MOVILIDAD', y + 7, QUADRANTS.Q1, startX_Q1);
+  drawStatRow('RECESION', y + 3, QUADRANTS.Q2, startX_Q2);
+  drawStatRow('MOVILIDAD', y + 7, QUADRANTS.Q2, startX_Q2);
+  
+  // Bottom Stats
+  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q4, startX_Q1);
+  drawStatRow('RECESION', y + 61, QUADRANTS.Q4, startX_Q1);
+  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q3, startX_Q2);
+  drawStatRow('RECESION', y + 61, QUADRANTS.Q3, startX_Q2);
+  
+  // Legend / Symbology
+  doc.setFillColor(255,255,255);
+  doc.rect(margin + contentWidth - 60, y + 42, 58, 20, 'F');
+  doc.rect(margin + contentWidth - 60, y + 42, 58, 20); // Border
+  doc.setFontSize(6); doc.setTextColor(0);
+  doc.text('SIMBOLOGIA', margin + contentWidth - 58, y + 46);
+  
+  // Red/Blue dots
+  doc.setFillColor(239, 68, 68); doc.circle(margin + contentWidth - 55, y + 50, 1.5, 'F');
+  doc.text('Patologia', margin + contentWidth - 52, y + 51);
+  
+  doc.setFillColor(59, 130, 246); doc.circle(margin + contentWidth - 30, y + 50, 1.5, 'F');
+  doc.text('Tratamiento', margin + contentWidth - 27, y + 51);
+  
+  doc.setTextColor(239, 68, 68); doc.text('X', margin + contentWidth - 56, y + 55);
+  doc.setTextColor(0); doc.text('Extraccion', margin + contentWidth - 52, y + 55);
   
   y += odoH + 2;
 

@@ -63,7 +63,7 @@ export function SignupForm() {
       } else {
         setSuccess(true)
         setTimeout(() => {
-          router.push("/")
+          router.push("/dashboard")
         }, 2000)
       }
     } catch (err) {
@@ -251,7 +251,7 @@ export function SignupForm() {
               <Button
                 variant="link"
                 className="p-0 h-auto font-semibold"
-                onClick={() => router.push("/")}
+                onClick={() => router.push("/login")}
               >
                 Inicia sesión aquí
               </Button>

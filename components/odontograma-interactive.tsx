@@ -4,6 +4,11 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { RefreshCw, Eraser, X, FileText } from 'lucide-react';
 
 // --- CONFIGURACIÓN Y COLORES ---
+const MODES = {
+  PATHOLOGY: { id: 'pathology', label: 'Patología', color: '#ef4444' }, // Red
+  TREATMENT: { id: 'treatment', label: 'Realizado', color: '#3b82f6' }  // Blue
+};
+
 // Paleta profesional ajustada para UI clínica estilo Google Material
 const BRAND = {
   primary: '#145247',    // Deep Teal
@@ -17,13 +22,17 @@ const BRAND = {
 
 // Definición de Herramientas
 const TOOLS = {
+  // Mode Selection is separate
   SELECT: { id: 'select', label: 'Cursor', icon: 'cursor', cursor: 'default' },
   ERASER: { id: 'eraser', label: 'Borrar', icon: 'eraser', cursor: 'not-allowed' },
-  CARIES: { id: 'caries', label: 'Caries', paintColor: '#ef4444', type: 'surface', hotkey: '1' },
-  RESTORATION: { id: 'restoration', label: 'Restauración', paintColor: '#3b82f6', type: 'surface', hotkey: '2' },
-  SEALANT: { id: 'sealant', label: 'Sellante', paintColor: BRAND.tertiary, type: 'surface', hotkey: '3' },
-  EXTRACTION: { id: 'extraction', label: 'Extracción', paintColor: '#dc2626', type: 'whole', hotkey: '4' },
-  CROWN: { id: 'crown', label: 'Corona', paintColor: BRAND.secondary, type: 'whole', hotkey: '5' },
+  
+  // Clinical Tools
+  CARIES: { id: 'caries', label: 'Caries / Obturado', type: 'surface', hotkey: '1' },
+  SEALANT: { id: 'sealant', label: 'Sellante', type: 'surface', hotkey: '2' },
+  EXTRACTION: { id: 'extraction', label: 'Extracción / Perdida', type: 'whole', hotkey: '3' },
+  CROWN: { id: 'crown', label: 'Corona', type: 'whole', hotkey: '4' },
+  ENDODONTICS: { id: 'endodontics', label: 'Endodoncia', type: 'whole', hotkey: '5' },
+  PROSTHESIS: { id: 'prosthesis', label: 'Prótesis', type: 'whole', hotkey: '6' }
 };
 
 // Cuadrantes
@@ -53,6 +62,7 @@ const generateInitialState = () => {
       id,
       surfaces: { top: null, bottom: null, left: null, right: null, center: null },
       condition: null,
+      conditionColor: null, // New field to store color for whole tooth conditions
       recession: '',
       mobility: ''
     };
@@ -67,60 +77,116 @@ interface ToothProps {
   id: number;
   data: any;
   currentTool: any;
-  onApply: (id: number, zone: string, tool: any) => void;
+  currentMode: 'red' | 'blue';
+  isDeciduous: boolean;
+  onApply: (id: number, zone: string, tool: any, color: string) => void;
 }
 
-const Tooth = ({ id, data, currentTool, onApply }: ToothProps) => {
+const Tooth = ({ id, data, currentTool, currentMode, isDeciduous, onApply }: ToothProps) => {
   const isCrown = data?.condition === 'crown';
   const isExtracted = data?.condition === 'extraction';
+  const isEndo = data?.condition === 'endodontics';
+  const isProsthesis = data?.condition === 'prosthesis';
+  
+  // Extract color from the saved state. Format: "toolId:color" or just "toolId" (legacy)
+  const getSurfaceColor = (surface: string) => {
+      const val = data?.surfaces?.[surface];
+      if (!val) return '#FFFFFF';
+      if (val.includes(':')) {
+          const [_, color] = val.split(':');
+          return color === 'red' ? MODES.PATHOLOGY.color : MODES.TREATMENT.color;
+      }
+      // Legacy fallback
+      if (val === 'caries') return MODES.PATHOLOGY.color;
+      if (val === 'restoration') return MODES.TREATMENT.color;
+      return '#FFFFFF';
+  };
 
-  const handleSurfaceClick = (surfaceKey: string) => onApply(id, surfaceKey, currentTool);
+  const currentPaintColor = currentMode === 'red' ? 'red' : 'blue';
+
+  const handleSurfaceClick = (surfaceKey: string) => {
+      onApply(id, surfaceKey, currentTool, currentPaintColor);
+  };
   
   const handleWholeClick = (e: React.MouseEvent) => {
     e.stopPropagation();
     if (['whole', 'select', 'eraser'].includes(currentTool.type || '') || currentTool.id === 'select' || currentTool.id === 'eraser') {
-      onApply(id, 'whole', currentTool);
+      onApply(id, 'whole', currentTool, currentPaintColor);
     } else {
-      onApply(id, 'center', currentTool);
+      onApply(id, 'center', currentTool, currentPaintColor);
     }
   };
 
-  const getFill = (surface: string) => {
-    const status = data?.surfaces?.[surface];
-    if (status === 'caries') return TOOLS.CARIES.paintColor;
-    if (status === 'restoration') return TOOLS.RESTORATION.paintColor;
-    if (status === 'sealant') return TOOLS.SEALANT.paintColor;
-    return '#FFFFFF';
+  const crownColor = isCrown ? (data.conditionColor === 'blue' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color) : undefined;
+  const extractColor = isExtracted ? (data.conditionColor === 'blue' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color) : undefined;
+
+  // SVG Paths for Square (Adult) vs Circle (Child)
+  const renderShape = () => {
+    if (isDeciduous) {
+        // Circle Shape with 5 sectors
+        // Center is 50,50. Radius 50.
+        // We simulate sectors using paths.
+        // Center circle: r=15
+        return (
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
+                <circle cx="50" cy="50" r="48" fill="white" stroke="#94a3b8" strokeWidth="1" />
+                
+                {/* Top Sector */}
+                <path d="M 20,20 L 80,20 L 50,50 Z" transform="translate(0, -5)" fill={getSurfaceColor('top')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('top')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                {/* Bottom Sector */}
+                <path d="M 20,80 L 80,80 L 50,50 Z" transform="translate(0, 5)" fill={getSurfaceColor('bottom')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('bottom')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                {/* Left Sector */}
+                <path d="M 20,20 L 20,80 L 50,50 Z" transform="translate(-5, 0)" fill={getSurfaceColor('left')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('left')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                {/* Right Sector */}
+                <path d="M 80,20 L 80,80 L 50,50 Z" transform="translate(5, 0)" fill={getSurfaceColor('right')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('right')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                {/* Center Circle */}
+                <circle cx="50" cy="50" r="15" fill={getSurfaceColor('center')} stroke="#94a3b8" strokeWidth="1" onClick={handleWholeClick} className="hover:opacity-80 transition-opacity cursor-pointer" />
+            </svg>
+        );
+    } else {
+        // Standard Square Shape
+        return (
+            <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
+                <polygon points="0,0 100,0 75,25 25,25" fill={getSurfaceColor('top')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('top')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                <polygon points="25,75 75,75 100,100 0,100" fill={getSurfaceColor('bottom')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('bottom')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                <polygon points="0,0 25,25 25,75 0,100" fill={getSurfaceColor('left')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('left')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                <polygon points="100,0 100,100 75,75 75,25" fill={getSurfaceColor('right')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('right')} className="hover:opacity-80 transition-opacity cursor-pointer" />
+                <rect x="25" y="25" width="50" height="50" fill={getSurfaceColor('center')} stroke="#94a3b8" strokeWidth="1" onClick={handleWholeClick} className="hover:opacity-80 transition-opacity cursor-pointer" />
+            </svg>
+        );
+    }
   };
 
   return (
     <div className="flex flex-col items-center mx-[2px] mb-2 group relative">
       <span className="text-[10px] font-bold text-slate-400 mb-0.5 group-hover:text-teal-700 transition-colors">{id}</span>
-      <div className="relative w-9 h-9 md:w-11 md:h-11 cursor-pointer transition-transform hover:scale-105">
+      <div className={`relative w-9 h-9 md:w-11 md:h-11 transition-transform hover:scale-105 ${isDeciduous ? 'rounded-full' : ''}`}>
         
-        {/* Crown Indicator */}
+        {/* Indicators Overlay */}
         {isCrown && (
-          <div className="absolute inset-0 rounded-full border-[3px] z-20 pointer-events-none"
-               style={{ borderColor: BRAND.secondary }}></div>
+          <div className={`absolute -inset-[3px] rounded-full border-[3px] z-20 pointer-events-none`}
+               style={{ borderColor: (typeof crownColor === 'string' ? crownColor : BRAND.secondary) }}></div>
         )}
         
-        {/* Extraction Indicator (Increased Size & Boldness) */}
         {isExtracted && (
           <div className="absolute -inset-1 z-30 flex items-center justify-center pointer-events-none animate-in fade-in zoom-in duration-200">
-            <X 
-                className="w-full h-full text-red-600 drop-shadow-sm" 
-                strokeWidth={3.5} 
-            />
+             <span className="text-4xl leading-none font-bold" style={{ color: extractColor }}>X</span>
           </div>
         )}
+        
+        {isEndo && (
+             <div className="absolute -bottom-2 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+                 <div className="w-0 h-0 border-l-[6px] border-l-transparent border-r-[6px] border-r-transparent border-b-[10px]" style={{ borderBottomColor: data.conditionColor === 'blue' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color }}></div>
+             </div>
+        )}
 
-        <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-sm">
-          <polygon points="0,0 100,0 70,30 30,30" fill={getFill('top')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('top')} className="hover:opacity-80 transition-opacity" />
-          <polygon points="30,70 70,70 100,100 0,100" fill={getFill('bottom')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('bottom')} className="hover:opacity-80 transition-opacity" />
-          <polygon points="0,0 30,30 30,70 0,100" fill={getFill('left')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('left')} className="hover:opacity-80 transition-opacity" />
-          <polygon points="100,0 100,100 70,70 70,30" fill={getFill('right')} stroke="#94a3b8" strokeWidth="1" onClick={() => handleSurfaceClick('right')} className="hover:opacity-80 transition-opacity" />
-          <rect x="30" y="30" width="40" height="40" fill={getFill('center')} stroke="#94a3b8" strokeWidth="1" onClick={handleWholeClick} className="hover:opacity-80 transition-opacity" />
-        </svg>
+         {isProsthesis && (
+             <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-30 pointer-events-none">
+                 <span className="text-xs font-bold" style={{ color: data.conditionColor === 'blue' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color }}>(---)</span>
+             </div>
+        )}
+
+        {renderShape()}
       </div>
     </div>
   );
@@ -168,7 +234,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     }
   }, [data]);
 
-  const [activeTool, setActiveTool] = useState(TOOLS.SELECT);
+  const [activeTool, setActiveTool] = useState<any>(TOOLS.SELECT);
+  const [activeMode, setActiveMode] = useState<'red' | 'blue'>('red'); // PATHOLOGY vs TREATMENT
   const [viewMode, setViewMode] = useState('mixed'); // 'adult' | 'child' | 'mixed'
 
   // Atajos de teclado
@@ -179,10 +246,11 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       
       switch(e.key) {
         case '1': setActiveTool(TOOLS.CARIES); break;
-        case '2': setActiveTool(TOOLS.RESTORATION); break;
-        case '3': setActiveTool(TOOLS.SEALANT); break;
-        case '4': setActiveTool(TOOLS.EXTRACTION); break;
-        case '5': setActiveTool(TOOLS.CROWN); break;
+        case '2': setActiveTool(TOOLS.SEALANT); break;
+        case '3': setActiveTool(TOOLS.EXTRACTION); break;
+        case '4': setActiveTool(TOOLS.CROWN); break;
+        case '5': setActiveTool(TOOLS.ENDODONTICS); break;
+        case '6': setActiveTool(TOOLS.PROSTHESIS); break;
         case 'Escape': setActiveTool(TOOLS.SELECT); break;
         case 'Delete': setActiveTool(TOOLS.ERASER); break;
       }
@@ -191,7 +259,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  const applyTreatment = useCallback((toothId: number, zone: string, tool: any) => {
+  const applyTreatment = useCallback((toothId: number, zone: string, tool: any, color: string) => {
     setTeethState(prev => {
       const newState = { ...prev };
       const tooth = { ...(newState[toothId] || { id: toothId, surfaces: {}, condition: null }) };
@@ -206,6 +274,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       if (tool.id === 'eraser') {
         if (zone === 'whole') {
             tooth.condition = null;
+            tooth.conditionColor = null; // Clear condition color
             tooth.surfaces = { top: null, bottom: null, left: null, right: null, center: null };
             tooth.recession = '';
             tooth.mobility = '';
@@ -213,10 +282,19 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             tooth.surfaces = { ...tooth.surfaces, [zone]: null };
         }
       } else if (tool.type === 'whole') {
-        tooth.condition = tooth.condition === tool.id ? null : tool.id;
+        // Toggle condition
+        if (tooth.condition === tool.id && tooth.conditionColor === color) {
+            tooth.condition = null;
+            tooth.conditionColor = null;
+        } else {
+            tooth.condition = tool.id;
+            tooth.conditionColor = color;
+        }
       } else {
-        const current = tooth.surfaces[zone];
-        tooth.surfaces = { ...tooth.surfaces, [zone]: current === tool.id ? null : tool.id };
+        // Surface treatment
+        const currentVal = tooth.surfaces[zone];
+        const newVal = `${tool.id}:${color}`;
+        tooth.surfaces = { ...tooth.surfaces, [zone]: currentVal === newVal ? null : newVal };
       }
       newState[toothId] = tooth;
       
@@ -272,7 +350,15 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
         <div className="flex gap-1 justify-center items-center">
              <span className="w-16 mr-2"></span> {/* Spacer for alignment */}
              {ids.map(id => (
-                <Tooth key={id} id={id} data={teethState[id]} currentTool={activeTool} onApply={applyTreatment} />
+                <Tooth 
+                    key={id} 
+                    id={id} 
+                    data={teethState[id]} 
+                    currentTool={activeTool} 
+                    currentMode={activeMode}
+                    isDeciduous={id > 50}
+                    onApply={applyTreatment} 
+                />
              ))}
         </div>
 
@@ -443,7 +529,35 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-40 max-w-full px-4 w-auto flex flex-col items-center gap-3">
         <div className="bg-white/95 backdrop-blur-xl border border-white/20 shadow-[0_8px_30px_rgba(0,0,0,0.12)] rounded-2xl p-2 flex items-center gap-1.5 md:gap-2 overflow-x-auto scrollbar-hide ring-1 ring-slate-900/5">
             
-            {/* Utility Tools */}
+            {/* 1. Mode Selection (Red vs Blue) */}
+            <div className="flex items-center gap-1.5 p-1 bg-slate-100/50 rounded-xl mr-2">
+                <button
+                    onClick={() => setActiveMode('red')}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all border ${
+                        activeMode === 'red' 
+                        ? 'bg-red-50 border-red-200 text-red-700 shadow-sm' 
+                        : 'border-transparent text-slate-400 hover:text-slate-600'
+                    }`}
+                >
+                    <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm" />
+                    <span className="text-xs font-bold">Patología</span>
+                </button>
+                 <button
+                    onClick={() => setActiveMode('blue')}
+                    className={`flex items-center gap-2 px-3 py-2 rounded-lg transition-all border ${
+                        activeMode === 'blue' 
+                        ? 'bg-blue-50 border-blue-200 text-blue-700 shadow-sm' 
+                        : 'border-transparent text-slate-400 hover:text-slate-600'
+                    }`}
+                >
+                    <div className="w-3 h-3 rounded-full bg-blue-500 shadow-sm" />
+                    <span className="text-xs font-bold">Tratamiento</span>
+                </button>
+            </div>
+            
+            <div className="w-px h-8 bg-slate-200 mx-1"></div>
+
+            {/* 2. Utility Tools */}
             <div className="flex items-center gap-1 pr-2 border-r border-slate-200 mr-1">
                 <button
                     onClick={() => setActiveTool(TOOLS.SELECT)}
@@ -461,9 +575,12 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                 </button>
             </div>
 
-            {/* Treatment Tools - Reordered as requested: Sellante, Corona, Extracción, Restauración, Caries */}
-            {[TOOLS.SEALANT, TOOLS.CROWN, TOOLS.EXTRACTION, TOOLS.RESTORATION, TOOLS.CARIES].map((tool) => {
+            {/* 3. Clinical Tools */}
+            {[TOOLS.CARIES, TOOLS.SEALANT, TOOLS.EXTRACTION, TOOLS.CROWN, TOOLS.ENDODONTICS, TOOLS.PROSTHESIS].map((tool) => {
                 const isActive = activeTool.id === tool.id;
+                // Determine icon color based on active mode
+                const indicatorColor = activeMode === 'red' ? MODES.PATHOLOGY.color : MODES.TREATMENT.color;
+                
                 return (
                     <button
                         key={tool.id}
@@ -476,10 +593,13 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                             }
                         `}
                     >
-                        {/* Color Indicator */}
+                        {/* Static Color Indicator for tool identity or Dynamic based on mode? 
+                            User said "Color red and blue... principally at the beginning".
+                            So tools are just "Tools", color is determined by mode.
+                        */}
                         <div 
                             className={`w-3 h-3 rounded-full shadow-sm ${isActive ? 'ring-2 ring-white/20' : ''}`}
-                            style={{ backgroundColor: tool.paintColor }}
+                            style={{ backgroundColor: indicatorColor }} 
                         />
                         
                         <span className="text-xs font-bold tracking-wide hidden md:inline-block">

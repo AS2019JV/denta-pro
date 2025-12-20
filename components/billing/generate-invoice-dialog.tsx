@@ -80,7 +80,7 @@ export function GenerateInvoiceDialog({ open, onOpenChange, billing, patient, on
         patient_id: patient.id,
         billing_id: billing.id,
         invoice_number: `001-001-${invoiceData.sequential}`,
-        sri_authorization: result.authorizationDate,
+        sri_authorization_date: result.authorizationDate,
         sri_access_key: result.accessKey,
         xml_content: result.xml,
         pdf_url: result.pdfUrl,

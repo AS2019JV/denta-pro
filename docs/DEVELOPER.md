@@ -1,48 +1,67 @@
-
 # Developer Documentation: Denta-Pro
 
 ## Overview
-Denta-Pro is a SaaS application for Dental Clinics in Ecuador. It uses Next.js 14, Supabase (Postgres + Auth), and Shadcn/UI.
+Denta-Pro is a full-stack SaaS application designed for Dental Clinics in Ecuador. It leverages **Next.js 14** (App Router) for the frontend and **Supabase** (Postgres + Auth) for the backend.
 
 ## Key Features & Architecture
 
 ### 1. Database & Security
-- **Supabase**: The source of truth.
-- **RLS (Row Level Security)**:
-    - **Multi-tenancy**: Most tables (`patients`, `appointments`, `billings`) are scoped by `clinic_id`.
-    - **Profiles**: `profiles` table maps users to clinics.
-    - **Policies**: See `supabase/schema.sql` for policy definitions (e.g., "Users can view patients in their clinic").
+-   **Supabase**: Acts as the primary backend-as-a-service.
+-   **Multi-tenancy**:
+    -   All major tables (`patients`, `appointments`, `billings`, `treatments`) are scoped by `clinic_id`.
+    -   The `profiles` table links users (Doctors/Receptionists) to a `clinic_id`.
+-   **Row Level Security (RLS)**:
+    -   Strict policies enforced at the database level.
+    -   We use a helper function `get_user_clinic_id()` to prevent infinite recursion in policies.
+    -   See `supabase/schema.sql` for all definitions.
 
 ### 2. Invoicing (Facturación Electrónica SRI)
-- **Architecture**: Adapter Pattern.
-- **Data Model**: `invoices` table stores the SRI response (XML, authorization, access key).
-- **Service**: `lib/invoicing/` contains the logic.
-    - `types.ts`: Defines `SRIInvoice`, `InvoiceProvider`.
-    - `providers/mock-sri.ts`: A mock implementation for testing/demo.
-- **Extension**: To use a real provider (e.g., FactureroMovil), create a new class implementing `InvoiceProvider` and update the factory in `index.ts`.
+-   **Architecture**: Uses an Adapter Pattern to support multiple providers.
+-   **Core Logic**: `lib/invoicing/`
+    -   `types.ts`: Interface definitions (`InvoiceProvider`).
+    -   `providers/mock-sri.ts`: Current default implementation for demonstration.
+-   **Extension Point**: To integrate a real SRI provider (e.g., FactureroMovil, Facilito), implement the `InvoiceProvider` interface and update the factory in `lib/invoicing/index.ts`.
 
-### 3. HCU-033 Form
-- Located in `components/hcu033-form.tsx`.
-- Logic:
-    - Automatically saves to Supabase as JSONB (`hcu033_forms` table).
-    - "Export PDF" generates a 2-page PDF compliant with MSP Ecuador standards using `jspdf`.
+### 3. Clinical Forms (HCU-033 / Odontogram)
+-   **HCU-033**: Fully digitized MSP-compliant form (`components/hcu033-form.tsx`).
+    -   Auto-save to `hcu033_forms` table (JSONB).
+    -   **PDF Export**: Generates a strictly formatted 2-page PDF matching government requirements.
+-   **Odontogram**: Interactive component (`components/odontograma-interactive.tsx`) for charting dental status.
 
 ### 4. Localization
-- Default Locale: `es-EC` (Ecuador).
-- Timezone: `America/Guayaquil` (GMT-5).
-- Configuration: `lib/constants.ts` and `app/settings/page.tsx`.
+-   **Locale**: `es-EC` (Ecuador).
+-   **Timezone**: `America/Guayaquil` (GMT-5).
+-   **Currency**: USD ($).
 
-### 5. Data Management
-- **Import/Export**: Located in `app/patients/page.tsx`.
-- **Export**: Generates a JSON dump of the patients list.
-- **Import**: Parses JSON and upserts to Supabase, matching by `cedula`.
+## Production Readiness & Deployment
 
-## Getting Started
-1. `npm install`
-2. Set up `.env.local` with Supabase credentials.
-3. `npm run dev`
+### WhatsApp Integration
+To enable real automated WhatsApp messaging (currently simulated via `window.open`):
+1.  Register for a **Meta Developer Account**.
+2.  Create a **WhatsApp Business App**.
+3.  Obtain the **System User Access Token** and **Phone Number ID**.
+4.  Configure these credentials in your environment variables.
+5.  Implement the API call in `lib/automation.ts`.
 
-## Deployment
-- Build: `npm run build`.
-- Deploy to Vercel/Netlify.
-- Ensure Supabase migrations are applied (`supabase/schema.sql`).
+### Security & Compliance (GDPR/HIPAA)
+*   **Data Isolation**: RLS ensures strict data isolation between clinics.
+*   **Audit Logs**: The `profile_audit_log` table tracks changes to sensitive user profiles.
+*   **Encryption**: All data in Supabase is encrypted at rest.
+*   **Access Control**: 'Doctor' vs 'Reception' roles are supported in the schema.
+
+### Deployment Checklist
+1.  **Environment Variables**:
+    *   `NEXT_PUBLIC_SUPABASE_URL`
+    *   `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+2.  **Database Migration**:
+    *   Execute the full content of `supabase/schema.sql` on your production Supabase project SQL Editor.
+3.  **Storage**:
+    *   Create a public storage bucket named `avatars` for user profile pictures.
+4.  **Build**:
+    *   Run `npm run build` to verify there are no type errors.
+
+## Getting Started (Local Dev)
+1.  Clone repo.
+2.  `npm install`
+3.  Set up `.env.local`.
+4.  `npm run dev`

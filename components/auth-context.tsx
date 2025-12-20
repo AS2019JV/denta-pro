@@ -11,6 +11,8 @@ interface User {
   email: string
   role: "doctor" | "reception"
   avatar: string
+  clinic_id?: string
+  clinic_memberships?: any[]
 }
 
 interface AuthContextType {
@@ -20,13 +22,18 @@ interface AuthContextType {
   signInWithGoogle: () => Promise<{ error: any }>
   logout: () => Promise<void>
   isLoading: boolean
+  logout: () => Promise<void>
+  isLoading: boolean
   hasRole: (role: "doctor" | "reception") => boolean
+  currentClinicId: string | undefined
+  switchClinic: (clinicId: string) => void
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
+  const [currentClinicId, setCurrentClinicId] = useState<string | undefined>(undefined)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
@@ -79,8 +86,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: authUser.email || '',
           role: 'doctor', // Default role
           avatar: '',
+          clinic_id: undefined
         })
       } else if (data) {
+        // Fetch memberships
+        const { data: memberships } = await supabase
+            .from('clinic_members')
+            .select('clinic_id, role, clinics(name)')
+            .eq('user_id', authUser.id)
+        
+        const clinicMemberships = memberships || []
+        // Use profile clinic_id as default, or first membership
+        const defaultClinicId = data.clinic_id || (clinicMemberships.length > 0 ? clinicMemberships[0].clinic_id : undefined)
+        
+        setCurrentClinicId(defaultClinicId)
+
         // Profile exists, use it
         setUser({
           id: data.id,
@@ -88,6 +108,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: authUser.email || '',
           role: data.role || 'doctor',
           avatar: data.avatar_url || '',
+          clinic_id: data.clinic_id,
+          clinic_memberships: clinicMemberships
         })
       } else {
         // Profile doesn't exist yet, create fallback
@@ -98,6 +120,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           email: authUser.email || '',
           role: 'doctor', // Default role
           avatar: '',
+          clinic_id: undefined
         })
       }
     } catch (error) {
@@ -109,9 +132,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         email: authUser.email || '',
         role: 'doctor',
         avatar: '',
+        clinic_id: undefined
       })
     } finally {
       setIsLoading(false)
+    }
+  }
+  
+  const switchClinic = (clinicId: string) => {
+    // Verify membership locally
+    if (user?.clinic_memberships?.some(m => m.clinic_id === clinicId) || user?.clinic_id === clinicId) {
+        setCurrentClinicId(clinicId)
+        toast.success("Cambiado a clínica activa")
     }
   }
 
@@ -160,7 +192,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user?.role === role
   }
 
-  return <AuthContext.Provider value={{ user, login, signup, signInWithGoogle, logout, isLoading, hasRole }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, login, signup, signInWithGoogle, logout, isLoading, hasRole, currentClinicId, switchClinic }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

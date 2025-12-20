@@ -26,7 +26,7 @@ import {
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
 
 const navigation = [
-  { name: "dashboard", href: "/", icon: LayoutDashboard },
+  { name: "dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "patients", href: "/patients", icon: Users },
   { name: "calendar", href: "/calendar", icon: Calendar },
   { name: "billing", href: "/billing", icon: CreditCard },

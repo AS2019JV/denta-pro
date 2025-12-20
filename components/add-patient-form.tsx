@@ -13,6 +13,7 @@ import { useTranslation } from "@/components/translations"
 import { Save, X } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
+import { useAuth } from "@/components/auth-context"
 
 interface AddPatientFormProps {
   initialData?: any
@@ -22,6 +23,7 @@ interface AddPatientFormProps {
 
 export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFormProps) {
   const { t } = useTranslation()
+  const { user, currentClinicId } = useAuth()
   const [formData, setFormData] = useState({
     name: initialData?.name || "",
     lastName: initialData?.lastName || "",
@@ -47,6 +49,12 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    
+    if (!currentClinicId) {
+      toast.error("Error: No has seleccionado una clínica activa. Por favor selecciona una.")
+      return
+    }
+
     setIsLoading(true)
 
     try {
@@ -68,6 +76,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             medical_conditions: formData.medicalConditions,
             insurance_provider: formData.insuranceProvider,
             policy_number: formData.policyNumber,
+            clinic_id: currentClinicId,
           }
         ])
         .select()

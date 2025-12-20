@@ -20,8 +20,8 @@ export function AuthWrapper({ children }: { children: React.ReactNode }) {
     )
   }
 
-  // Allow access to public routes
-  const publicRoutes = ["/signup", "/marketing"]
+  // Allow access to public routes within the specific group
+  const publicRoutes = ["/signup", "/login"]
   if (pathname && publicRoutes.some(route => pathname.startsWith(route))) {
     return <>{children}</>
   }

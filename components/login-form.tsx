@@ -12,6 +12,7 @@ import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useTheme } from "next-themes"
+import { useRouter } from "next/navigation"
 
 export function LoginForm() {
   const [email, setEmail] = useState("")
@@ -19,11 +20,15 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const { login, signInWithGoogle } = useAuth()
+  const { login, signInWithGoogle, user } = useAuth()
   const { t } = useTranslation()
-  const { setTheme } = useTheme()
+  const router = useRouter()
 
-
+  useEffect(() => {
+    if (user) {
+      router.push("/dashboard")
+    }
+  }, [user, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -35,6 +40,8 @@ export function LoginForm() {
       if (error) {
         setError("Error al iniciar sesión. Por favor verifique sus credenciales.")
         console.error(error)
+      } else {
+        router.push("/dashboard")
       }
     } catch (err) {
       setError("Ocurrió un error inesperado.")
@@ -161,7 +168,7 @@ export function LoginForm() {
               <Button
                 variant="link"
                 className="p-0 h-auto font-semibold"
-                onClick={() => window.location.href = "/signup"}
+                onClick={() => router.push("/signup")}
               >
                 Regístrate aquí
               </Button>

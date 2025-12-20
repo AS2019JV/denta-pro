@@ -71,7 +71,7 @@ export function AvatarUpload({
       toast.success("Avatar actualizado correctamente")
     } catch (error) {
       toast.error('Error al subir el avatar')
-      console.log(error)
+      console.error(error)
     } finally {
       setUploading(false)
     }

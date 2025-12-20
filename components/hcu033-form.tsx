@@ -36,6 +36,7 @@ import {
   Maximize2,
 } from "lucide-react"
 import { generateHCU033 } from "@/lib/pdf-generator"
+import { toast } from "sonner"
 
 interface HCU033FormProps {
   patientId: string
@@ -272,11 +273,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
 
       if (error) throw error
       
-      console.log("Formulario guardado exitosamente")
+      toast.success("Formulario guardado correctamente")
       onSave?.(formData)
     } catch (error) {
       console.error('Error saving form:', error)
-      // Show error toast
+      toast.error("Error al guardar el formulario")
     } finally {
       setIsLoading(false)
     }
@@ -294,13 +295,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     const elementId = getSectionId(section)
     const element = document.getElementById(elementId)
     
-    console.log(`Navigating to section: ${section}, ID: ${elementId}, Found: ${!!element}`)
-
     if (element) {
       // Use standard scrollIntoView now that IDs are unique and scroll-margin is set via CSS classes
       element.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    } else {
-      console.warn(`Section element not found: ${elementId}`)
     }
   }
 
@@ -953,8 +950,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                         type="number" 
                                         className="h-8 text-center" 
                                         value={formData.indices_cpo?.c}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCPO = { ...formData.indices_cpo, c: val };
                                             newCPO.total = newCPO.c + newCPO.p + newCPO.o;
                                             updateField("indices_cpo", newCPO);
@@ -967,8 +965,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                         type="number" 
                                         className="h-8 text-center"
                                         value={formData.indices_cpo?.p}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCPO = { ...formData.indices_cpo, p: val };
                                             newCPO.total = newCPO.c + newCPO.p + newCPO.o;
                                             updateField("indices_cpo", newCPO);
@@ -981,8 +980,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                         type="number" 
                                         className="h-8 text-center"
                                         value={formData.indices_cpo?.o}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCPO = { ...formData.indices_cpo, o: val };
                                             newCPO.total = newCPO.c + newCPO.p + newCPO.o;
                                             updateField("indices_cpo", newCPO);
@@ -1006,10 +1006,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                       <Label className="text-xs">c</Label>
                                       <Input 
                                         type="number" 
-                                        className="h-8 text-center"
+                                        className="h-8 text-center" 
                                         value={formData.indices_ceo?.c}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCEO = { ...formData.indices_ceo, c: val };
                                             newCEO.total = newCEO.c + newCEO.e + newCEO.o;
                                             updateField("indices_ceo", newCEO);
@@ -1020,10 +1021,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                       <Label className="text-xs">e</Label>
                                       <Input 
                                         type="number" 
-                                        className="h-8 text-center"
+                                        className="h-8 text-center" 
                                         value={formData.indices_ceo?.e}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCEO = { ...formData.indices_ceo, e: val };
                                             newCEO.total = newCEO.c + newCEO.e + newCEO.o;
                                             updateField("indices_ceo", newCEO);
@@ -1034,10 +1036,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                       <Label className="text-xs">o</Label>
                                       <Input 
                                         type="number" 
-                                        className="h-8 text-center"
+                                        className="h-8 text-center" 
                                         value={formData.indices_ceo?.o}
+                                        onFocus={(e) => e.target.select()}
                                         onChange={e => {
-                                            const val = parseInt(e.target.value) || 0;
+                                            const val = e.target.value === '' ? 0 : parseInt(e.target.value);
                                             const newCEO = { ...formData.indices_ceo, o: val };
                                             newCEO.total = newCEO.c + newCEO.e + newCEO.o;
                                             updateField("indices_ceo", newCEO);

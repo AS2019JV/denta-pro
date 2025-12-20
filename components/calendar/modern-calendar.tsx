@@ -259,7 +259,8 @@ export function ModernCalendar({
     setIsMonthChanging(true)
     setTimeout(() => {
         if (view === 'week') setCurrentDate(addWeeks(currentDate, 1))
-        else if (view === 'list') setCurrentDate(addDays(currentDate, 7)) // List view jumps a week? Or keep it month based? Let's say month for list.
+        else if (view === 'today') setCurrentDate(addDays(currentDate, 1))
+        else if (view === 'list') setCurrentDate(addDays(currentDate, 7))
         else setCurrentDate(addMonths(currentDate, 1))
         
         setIsMonthChanging(false)
@@ -270,6 +271,7 @@ export function ModernCalendar({
     setIsMonthChanging(true)
     setTimeout(() => {
         if (view === 'week') setCurrentDate(subWeeks(currentDate, 1))
+        else if (view === 'today') setCurrentDate(subDays(currentDate, 1))
         else if (view === 'list') setCurrentDate(subDays(currentDate, 7))
         else setCurrentDate(subMonths(currentDate, 1))
 
@@ -392,68 +394,143 @@ export function ModernCalendar({
     </div>
   )
 
+  /* GOOGLE CALENDAR STYLE WEEK VIEW */
   const renderWeekView = () => {
     const hours = Array.from({ length: 14 }, (_, i) => i + 7) // 7 AM to 8 PM
     const weekDays = generateWeekDays()
 
     return (
-      <div className="flex flex-col h-[600px] overflow-auto">
-        <div className="grid grid-cols-8 border-b sticky top-0 bg-background z-10">
-          <div className="p-2 text-center text-xs font-medium text-muted-foreground border-r">Hora</div>
-          {weekDays.map((day, i) => (
-             <div key={i} className={cn("p-2 text-center text-xs font-medium border-r min-w-[100px]", isToday(day) && "text-primary bg-primary/5")}>
-                {format(day, 'EEE d', { locale: es })}
-             </div>
-          ))}
+      <div className="flex flex-col h-[700px] border rounded-lg bg-background overflow-hidden shadow-sm">
+        {/* Header Row - Sticky */}
+        <div className="flex border-b shadow-sm sticky top-0 bg-background z-20">
+          <div className="w-16 border-r p-2 flex items-end justify-center text-xs text-muted-foreground bg-muted/5">
+             <Clock className="w-4 h-4 mb-0.5" />
+          </div>
+          <div className="flex-1 grid grid-cols-7">
+              {weekDays.map((day, i) => {
+                  const isTodayActive = isToday(day)
+                  return (
+                    <div 
+                        key={i} 
+                        className={cn(
+                            "p-2 text-center border-r last:border-r-0 flex flex-col items-center justify-center gap-1 transition-colors cursor-pointer hover:bg-muted/20",
+                            isTodayActive ? "bg-primary/5" : "bg-muted/5"
+                        )}
+                        onClick={() => {
+                            setCurrentDate(day)
+                            setView('today')
+                        }}
+                    >
+                        <span className={cn("text-xs font-medium uppercase tracking-wider", isTodayActive ? "text-primary" : "text-muted-foreground")}>
+                            {format(day, 'EEE', { locale: es })}
+                        </span>
+                        <div className={cn(
+                            "w-8 h-8 flex items-center justify-center rounded-full text-lg font-semibold transition-all",
+                            isTodayActive ? "bg-primary text-primary-foreground shadow-md scale-110" : "text-foreground group-hover:bg-muted"
+                        )}>
+                            {format(day, 'd')}
+                        </div>
+                    </div>
+                  )
+              })}
+          </div>
         </div>
-        <div className="grid grid-cols-8 flex-1">
-           <div className="border-r">
-              {hours.map(hour => (
-                  <div key={hour} className="h-20 border-b text-xs text-muted-foreground p-1 text-right relative">
-                      <span className="-top-2 relative">{hour}:00</span>
-                  </div>
-              ))}
-           </div>
-           {weekDays.map((day, dayIdx) => {
-              const dayAppts = getAppointmentsForDate(day)
-              return (
-                  <div key={dayIdx} className="border-r relative min-h-[1120px]"> {/* 80px * 14 hours */}
-                      {/* Grid lines */}
-                      {hours.map(h => <div key={h} className="h-20 border-b border-dashed border-gray-100" />)}
-                      
-                      {/* Apps */}
-                      {dayAppts.map((app, idx) => {
-                          const start = parseISO(app.start_time)
-                          const end = parseISO(app.end_time)
-                          const startHour = start.getHours()
-                          const startMin = start.getMinutes()
-                          const durationMin = (end.getTime() - start.getTime()) / (1000 * 60)
-                          
-                          // 7 AM is 0px. Each hour is 80px.
-                          const top = ((startHour - 7) * 80) + ((startMin / 60) * 80)
-                          const height = (durationMin / 60) * 80
-                          
-                          return (
-                              <div 
-                                key={idx}
-                                onClick={(e) => { e.stopPropagation(); handleAppointmentClick(app) }}
-                                className="absolute left-1 right-1 rounded px-2 py-1 text-xs overflow-hidden cursor-pointer hover:opacity-90 transition-opacity border-l-2 shadow-sm z-10"
-                                style={{ 
-                                    top: `${top}px`, 
-                                    height: `${height}px`,
-                                    backgroundColor: `${app.color}15`,
-                                    borderLeftColor: app.color,
-                                    color: app.color
-                                }}
-                              >
-                                  <div className="font-semibold truncate">{app.patientName}</div>
-                                  <div className="opacity-80 truncate text-[10px]">{app.type}</div>
-                              </div>
-                          )
-                      })}
-                  </div>
-              )
-           })}
+
+        {/* Scrollable Time Grid */}
+        <div className="flex-1 overflow-y-auto relative bg-white dark:bg-slate-950/50">
+            <div className="flex min-h-[1120px] relative"> {/* 80px per hour * 14 hours */}
+                
+                {/* Time Sidebar */}
+                <div className="w-16 flex-none border-r bg-background sticky left-0 z-10">
+                    {hours.map(hour => (
+                        <div key={hour} className="h-20 border-b text-xs text-muted-foreground pr-2 pt-1 text-right relative">
+                           <span className="-top-2.5 right-0 absolute transform -translate-y-1/2 bg-background px-1">{hour}:00</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Days Columns */}
+                <div className="flex-1 grid grid-cols-7 relative">
+                    {/* Horizontal Guide Lines */}
+                    {hours.map(h => (
+                        <div key={h} className="absolute w-full border-t border-slate-100 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
+                    ))}
+
+                    {weekDays.map((day, dayIdx) => {
+                       const dayAppts = getAppointmentsForDate(day)
+                       return (
+                           <div key={dayIdx} className="border-r last:border-r-0 relative group h-full">
+                               {/* Hour Slots for Click Detection */}
+                               {hours.map(hour => (
+                                   <div 
+                                       key={hour} 
+                                       className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-slate-100 dark:group-hover:border-slate-800"
+                                       onClick={() => {
+                                           // Create new appointment at this time slot
+                                           setSelectedDate(day)
+                                           setNewAppointment(prev => ({
+                                               ...prev,
+                                               date: format(day, "yyyy-MM-dd"),
+                                               customStartTime: { hours: hour, minutes: 0 },
+                                               customEndTime: { hours: hour + 1, minutes: 0 }
+                                           }))
+                                           setShowNewAppointmentDialog(true)
+                                       }}
+                                   />
+                               ))}
+
+                               {/* Current Time Indicator Line (if today) */}
+                               {isToday(day) && (
+                                   <div 
+                                      className="absolute w-full border-t-2 border-red-500 z-10 pointer-events-none flex items-center"
+                                      style={{ top: `${((new Date().getHours() - 7) * 80) + ((new Date().getMinutes() / 60) * 80)}px` }}
+                                   >
+                                       <div className="w-2 h-2 bg-red-500 rounded-full -ml-1"></div>
+                                   </div>
+                               )}
+
+                               {/* Render Appointments */}
+                               {dayAppts.map((app, idx) => {
+                                   const start = parseISO(app.start_time)
+                                   const end = parseISO(app.end_time)
+                                   const startHour = start.getHours()
+                                   const startMin = start.getMinutes()
+                                   const durationMin = (end.getTime() - start.getTime()) / (1000 * 60)
+                                   
+                                   const top = ((startHour - 7) * 80) + ((startMin / 60) * 80)
+                                   const height = Math.max((durationMin / 60) * 80, 24) // Min height for visibility
+
+                                   return (
+                                       <div 
+                                           key={idx}
+                                           onClick={(e) => { e.stopPropagation(); handleAppointmentClick(app) }}
+                                           className="absolute left-0.5 right-0.5 rounded-md px-2 py-1.5 text-xs overflow-hidden cursor-pointer hover:brightness-95 transition-all shadow-sm z-10 border-l-[3px]"
+                                           style={{ 
+                                               top: `${top}px`, 
+                                               height: `${height}px`,
+                                               backgroundColor: `${app.color}20`, // Light background
+                                               borderLeftColor: app.color,
+                                               color: '#1e293b' // Slate-800 for readability
+                                           }}
+                                       >
+                                           <div className="font-bold truncate text-foreground">{app.patientName}</div>
+                                           <div className="truncate text-[10px] text-muted-foreground flex items-center gap-1">
+                                                <span style={{ color: app.color }}>●</span>
+                                                {app.type}
+                                           </div>
+                                           {height > 40 && (
+                                               <div className="truncate text-[9px] opacity-70 mt-0.5">
+                                                   {format(start, 'HH:mm')} - {format(end, 'HH:mm')}
+                                               </div>
+                                           )}
+                                       </div>
+                                   )
+                               })}
+                           </div>
+                       )
+                    })}
+                </div>
+            </div>
         </div>
       </div>
     )
@@ -509,21 +586,165 @@ export function ModernCalendar({
       )
   }
 
+  /* GOOGLE CALENDAR STYLE DAY VIEW */
+  const renderDayView = () => {
+    const hours = Array.from({ length: 14 }, (_, i) => i + 7) // 7 AM to 8 PM
+    const day = currentDate
+    const dayAppts = getAppointmentsForDate(day)
+
+    return (
+      <div className="flex flex-col h-[700px] border rounded-lg bg-background overflow-hidden shadow-sm">
+        {/* Header Row - Sticky */}
+        <div className="flex border-b shadow-sm sticky top-0 bg-background z-20">
+          <div className="w-16 border-r p-2 flex items-end justify-center text-xs text-muted-foreground bg-muted/5">
+             <Clock className="w-4 h-4 mb-0.5" />
+          </div>
+          <div className="flex-1">
+                <div className={cn(
+                    "p-2 text-center flex flex-col items-center justify-center gap-1 transition-colors bg-primary/5"
+                )}>
+                    <span className={cn("text-xs font-medium uppercase tracking-wider text-primary")}>
+                        {format(day, 'EEEE', { locale: es })}
+                    </span>
+                    <div className={cn(
+                        "w-8 h-8 flex items-center justify-center rounded-full text-lg font-semibold transition-all bg-primary text-primary-foreground shadow-md scale-110"
+                    )}>
+                        {format(day, 'd')}
+                    </div>
+                </div>
+          </div>
+        </div>
+
+        {/* Scrollable Time Grid */}
+        <div className="flex-1 overflow-y-auto relative bg-white dark:bg-slate-950/50">
+            <div className="flex min-h-[1120px] relative"> {/* 80px per hour * 14 hours */}
+                
+                {/* Time Sidebar */}
+                <div className="w-16 flex-none border-r bg-background sticky left-0 z-10">
+                    {hours.map(hour => (
+                        <div key={hour} className="h-20 border-b text-xs text-muted-foreground pr-2 pt-1 text-right relative">
+                           <span className="-top-2.5 right-0 absolute transform -translate-y-1/2 bg-background px-1">{hour}:00</span>
+                        </div>
+                    ))}
+                </div>
+
+                {/* Day Column */}
+                <div className="flex-1 relative">
+                    {/* Horizontal Guide Lines */}
+                    {hours.map(h => (
+                        <div key={h} className="absolute w-full border-t border-slate-100 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
+                    ))}
+
+                    <div className="relative group h-full">
+                        {/* Hour Slots for Click Detection */}
+                        {hours.map(hour => (
+                            <div 
+                                key={hour} 
+                                className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-slate-100 dark:group-hover:border-slate-800"
+                                onClick={() => {
+                                    // Create new appointment at this time slot
+                                    setSelectedDate(day)
+                                    setNewAppointment(prev => ({
+                                        ...prev,
+                                        date: format(day, "yyyy-MM-dd"),
+                                        customStartTime: { hours: hour, minutes: 0 },
+                                        customEndTime: { hours: hour + 1, minutes: 0 }
+                                    }))
+                                    setShowNewAppointmentDialog(true)
+                                }}
+                            />
+                        ))}
+
+                        {/* Current Time Indicator Line (if today) */}
+                        {isToday(day) && (
+                            <div 
+                                className="absolute w-full border-t-2 border-red-500 z-10 pointer-events-none flex items-center"
+                                style={{ top: `${((new Date().getHours() - 7) * 80) + ((new Date().getMinutes() / 60) * 80)}px` }}
+                            >
+                                <div className="w-2 h-2 bg-red-500 rounded-full -ml-1"></div>
+                            </div>
+                        )}
+
+                        {/* Render Appointments */}
+                        {dayAppts.map((app, idx) => {
+                            const start = parseISO(app.start_time)
+                            const end = parseISO(app.end_time)
+                            const startHour = start.getHours()
+                            const startMin = start.getMinutes()
+                            const durationMin = (end.getTime() - start.getTime()) / (1000 * 60)
+                            
+                            const top = ((startHour - 7) * 80) + ((startMin / 60) * 80)
+                            const height = Math.max((durationMin / 60) * 80, 24)
+
+                            return (
+                                <div 
+                                    key={idx}
+                                    onClick={(e) => { e.stopPropagation(); handleAppointmentClick(app) }}
+                                    className="absolute left-2 right-2 rounded-md px-4 py-2 text-sm overflow-hidden cursor-pointer hover:brightness-95 transition-all shadow-md z-10 border-l-[4px]"
+                                    style={{ 
+                                        top: `${top}px`, 
+                                        height: `${height}px`,
+                                        backgroundColor: `${app.color}20`,
+                                        borderLeftColor: app.color,
+                                        color: '#1e293b' 
+                                    }}
+                                >
+                                    <div className="font-bold truncate text-foreground text-base">{app.patientName}</div>
+                                    <div className="truncate text-xs text-muted-foreground flex items-center gap-2 mt-1">
+                                            <span style={{ color: app.color }}>●</span>
+                                            {app.type}
+                                            <span className="opacity-50">|</span>
+                                            {format(start, 'HH:mm')} - {format(end, 'HH:mm')}
+                                    </div>
+                                    
+                                    {height > 60 && app.notes && (
+                                        <div className="mt-2 text-xs opacity-70 italic line-clamp-2 bg-white/30 p-1 rounded">
+                                            "{app.notes}"
+                                        </div>
+                                    )}
+                                </div>
+                            )
+                        })}
+                    </div>
+                </div>
+            </div>
+        </div>
+      </div>
+    )
+  }
+
   return (
     <div className="space-y-4">
       {/* Header Controls */}
       <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
          <div className="flex items-center gap-2">
-            <Button variant="outline" size="icon" onClick={prevMonth}><ChevronLeft className="h-4 w-4"/></Button>
-            <h2 className="text-xl font-semibold w-40 text-center">{format(currentDate, "MMMM yyyy", { locale: es })}</h2>
-            <Button variant="outline" size="icon" onClick={nextMonth}><ChevronRight className="h-4 w-4"/></Button>
+            <Button variant="outline" onClick={() => setCurrentDate(new Date())}>Hoy</Button>
+            <div className="flex items-center rounded-md border bg-background shadow-sm ml-2">
+                <Button variant="ghost" size="icon" onClick={prevMonth} className="h-8 w-8 rounded-none rounded-l-md border-r"><ChevronLeft className="h-4 w-4"/></Button>
+                <div className="h-8 flex items-center justify-center px-4 min-w-[140px] font-semibold text-sm">
+                    {view === 'month' && format(currentDate, "MMMM yyyy", { locale: es })}
+                    {view === 'week' && `${format(startOfWeek(currentDate, { weekStartsOn: 0 }), "d MMM", { locale: es })} - ${format(endOfWeek(currentDate, { weekStartsOn: 0 }), "d MMM", { locale: es })}`}
+                    {view === 'today' && format(currentDate, "d 'de' MMMM yyyy", { locale: es })}
+                    {view === 'list' && format(currentDate, "MMMM yyyy", { locale: es })}
+                </div>
+                <Button variant="ghost" size="icon" onClick={nextMonth} className="h-8 w-8 rounded-none rounded-r-md border-l"><ChevronRight className="h-4 w-4"/></Button>
+            </div>
          </div>
          <div className="flex flex-wrap gap-2">
-            {(['month', 'week', 'list'] as const).map(v => (
-                <Button key={v} variant={view === v ? "default" : "outline"} size="sm" onClick={() => setView(v as any)} className="capitalize">
-                    {v === 'month' ? 'Mes' : v === 'week' ? 'Semana' : 'Lista'}
-                </Button>
-            ))}
+            <div className="bg-muted p-1 rounded-lg flex items-center">
+                {(['month', 'week', 'today', 'list'] as const).map(v => (
+                    <button 
+                        key={v} 
+                        onClick={() => setView(v as any)} 
+                        className={cn(
+                            "px-3 py-1.5 text-sm font-medium rounded-md transition-all capitalize",
+                            view === v ? "bg-background text-foreground shadow-sm" : "text-muted-foreground hover:text-foreground"
+                        )}
+                    >
+                        {v === 'month' ? 'Mes' : v === 'week' ? 'Semana' : v === 'today' ? 'Día' : 'Lista'}
+                    </button>
+                ))}
+            </div>
             <Button variant="outline" size="icon" onClick={() => setShowSettingsDialog(true)}>
                 <Settings className="h-4 w-4"/>
             </Button>
@@ -531,9 +752,10 @@ export function ModernCalendar({
       </div>
 
       {/* Main View Area */}
-      <Card className="p-4 min-h-[500px]">
+      <Card className="p-4 min-h-[500px] shadow-none border-0 sm:border sm:shadow-sm">
           {view === 'month' && renderMonthView()}
           {view === 'week' && renderWeekView()}
+          {view === 'today' && renderDayView()}
           {view === 'list' && renderListView()}
       </Card>
       

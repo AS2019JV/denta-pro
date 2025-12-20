@@ -149,11 +149,45 @@ const translations = {
     "backup-location": "Ubicación de Respaldo",
     "create-backup-now": "Crear respaldo ahora",
     
+    // Team Settings
+    "team-settings": "Equipo",
+    "team-settings-description": "Gestiona los miembros de tu clínica y sus permisos",
+    "invite-member": "Invitar Miembro",
+    "invite-sent": "Invitación enviada",
+    "member-list": "Lista de Miembros",
+    "full-name": "Nombre Completo",
+    "role": "Rol",
+    "actions": "Acciones",
+    "invite": "Invitar",
+    "inviting": "Invitando...",
+    "email-placeholder": "correo@ejemplo.com",
+    "name-placeholder": "Dr. Juan Pérez",
+    
     // Form States
     saving: "Guardando...",
     lightMode: "Claro",
     darkMode: "Oscuro",
     systemMode: "Sistema",
+
+    // Onboarding
+    "onboarding-title": "Comienza tu camino hacia una mejor clínica",
+    "onboarding-subtitle": "Obtén acceso completo a todas las funciones durante 14 días. No se requiere tarjeta de crédito.",
+    "step-1": "Información Personal",
+    "step-2": "Detalles de la Clínica",
+    "first-name": "Nombre",
+    "last-name": "Apellidos",
+    "clinic-name": "Nombre de la Clínica",
+    "clinic-size": "Tamaño de la Clínica",
+    "software-current": "Software Actual (si lo hay)",
+    "software-placeholder": "Selecciona tu software actual",
+    "additional-info": "Información Adicional (Opcional)",
+    "additional-info-placeholder": "Cuéntanos sobre tus necesidades o desafíos específicos",
+    "next-step": "Siguiente Paso",
+    "back": "Atrás",
+    "start-trial": "Comenzar Prueba Gratuita",
+    "size-1-2": "1-2 Profesionales",
+    "size-3-5": "3-5 Profesionales",
+    "size-6-plus": "6+ Profesionales",
   },
   en: {
     // Navigation
@@ -291,12 +325,46 @@ const translations = {
     "backup-frequency": "Backup Frequency",
     "backup-location": "Backup Location",
     "create-backup-now": "Create backup now",
+
+    // Team Settings
+    "team-settings": "Team",
+    "team-settings-description": "Manage your clinic members and their permissions",
+    "invite-member": "Invite Member",
+    "invite-sent": "Invitation sent to",
+    "member-list": "Member List",
+    "full-name": "Full Name",
+    "role": "Role",
+    "actions": "Actions",
+    "invite": "Invite",
+    "inviting": "Inviting...",
+    "email-placeholder": "email@example.com",
+    "name-placeholder": "Dr. John Doe",
     
     // Form States
     saving: "Saving...",
     lightMode: "Light",
     darkMode: "Dark",
     systemMode: "System",
+
+    // Onboarding
+    "onboarding-title": "Start your path to a better clinic",
+    "onboarding-subtitle": "Get full access to all features for 14 days. No credit card required.",
+    "step-1": "Personal Information",
+    "step-2": "Clinic Details",
+    "first-name": "First Name",
+    "last-name": "Last Name",
+    "clinic-name": "Clinic Name",
+    "clinic-size": "Clinic Size",
+    "software-current": "Current Software (if any)",
+    "software-placeholder": "Select your current software",
+    "additional-info": "Additional Information (Optional)",
+    "additional-info-placeholder": "Tell us about your needs or specific challenges",
+    "next-step": "Next Step",
+    "back": "Back",
+    "start-trial": "Start Free Trial",
+    "size-1-2": "1-2 Professionals",
+    "size-3-5": "3-5 Professionals",
+    "size-6-plus": "6+ Professionals",
   },
 }
 
