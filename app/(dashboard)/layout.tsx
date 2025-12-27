@@ -7,6 +7,7 @@ import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
 import { Sidebar } from "@/components/sidebar"
 import { Toaster } from "sonner"
+import { SubscriptionBlocker } from "@/components/subscription-blocker"
 
 export const metadata: Metadata = {
   title: "Clinia + | Software Dental Moderno",
@@ -25,6 +26,7 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <TranslationProvider>
             <AuthProvider>
+              <SubscriptionBlocker />
               <SidebarProvider>
                 <div className="flex h-screen bg-background">
                   <Sidebar />
