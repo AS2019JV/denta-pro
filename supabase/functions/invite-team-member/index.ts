@@ -49,6 +49,12 @@ Deno.serve(async (req) => {
     // 5. Parse Request
     const { email, role, fullName } = await req.json()
 
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    if (!emailRegex.test(email)) {
+       throw new Error("Invalid email address format.")
+    }
+
     // Validate role
     const allowedRoles = ['doctor', 'receptionist']
     if (!allowedRoles.includes(role)) {

@@ -23,7 +23,7 @@ export function SignupForm() {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [confirmPassword, setConfirmPassword] = useState("")
-  const [role, setRole] = useState<"doctor" | "reception">("doctor")
+  // Public signup is always for potential clinic owners
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
@@ -52,7 +52,9 @@ export function SignupForm() {
     }
 
     try {
-      const { error } = await signup(email, password, fullName, role)
+      // Default key 'clinic_owner' or just generic - the onboarding flow determines the final role.
+      // passing 'clinic_owner' as a hint, though it will be overridden by create_tenant_clinic logic unless we use it there.
+      const { error } = await signup(email, password, fullName, "clinic_owner")
       if (error) {
         if (error.message.includes("already registered")) {
           setError("Este correo electrónico ya está registrado")
@@ -114,18 +116,7 @@ export function SignupForm() {
               />
             </div>
 
-            <div className="space-y-2">
-              <Label htmlFor="role">Rol</Label>
-              <Select value={role} onValueChange={(value: "doctor" | "reception") => setRole(value)}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Selecciona tu rol" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="doctor">Doctor/a</SelectItem>
-                  <SelectItem value="reception">Recepcionista</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+
 
             <div className="space-y-2">
               <Label htmlFor="password">Contraseña</Label>

@@ -9,9 +9,9 @@ export const APP_CONFIG = {
 }
 
 export const ROLES = {
+  CLINIC_OWNER: 'clinic_owner',
   DOCTOR: 'doctor',
-  RECEPTION: 'reception',
-  ADMIN: 'admin',
+  RECEPTIONIST: 'receptionist',
 }
 
 export const APPOINTMENT_STATUS = {

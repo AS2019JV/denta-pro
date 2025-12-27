@@ -56,7 +56,10 @@ export default function ReportsPage() {
 
   useEffect(() => {
     fetchData()
+    setIsMounted(true)
   }, [])
+
+  const [isMounted, setIsMounted] = useState(false)
 
   const fetchData = async () => {
     try {
@@ -281,32 +284,34 @@ export default function ReportsPage() {
               </CardHeader>
               <CardContent>
                 <div className="h-[300px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <BarChart data={monthlyStats}>
-                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                      <XAxis 
-                        dataKey="month" 
-                        className="text-xs" 
-                        tickLine={false} 
-                        axisLine={false}
-                      />
-                      <YAxis 
-                        className="text-xs" 
-                        tickLine={false} 
-                        axisLine={false} 
-                        tickFormatter={(value) => `$${value}`} 
-                      />
-                      <Tooltip 
-                        formatter={(value: number) => [`$${value.toLocaleString()}`, "Ingresos"]}
-                        contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
-                      />
-                      <Bar 
-                        dataKey="revenue" 
-                        fill="hsl(var(--primary))" 
-                        radius={[4, 4, 0, 0]} 
-                      />
-                    </BarChart>
-                  </ResponsiveContainer>
+                  {isMounted ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <BarChart data={monthlyStats}>
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                        <XAxis 
+                          dataKey="month" 
+                          className="text-xs" 
+                          tickLine={false} 
+                          axisLine={false}
+                        />
+                        <YAxis 
+                          className="text-xs" 
+                          tickLine={false} 
+                          axisLine={false} 
+                          tickFormatter={(value) => `$${value}`} 
+                        />
+                        <Tooltip 
+                          formatter={(value: number) => [`$${value.toLocaleString()}`, "Ingresos"]}
+                          contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                        />
+                        <Bar 
+                          dataKey="revenue" 
+                          fill="hsl(var(--primary))" 
+                          radius={[4, 4, 0, 0]} 
+                        />
+                      </BarChart>
+                    </ResponsiveContainer>
+                  ) : <div className="h-full flex items-center justify-center bg-muted/20 animate-pulse">Loading Chart...</div>}
                 </div>
               </CardContent>
             </Card>
@@ -320,43 +325,45 @@ export default function ReportsPage() {
               </CardHeader>
               <CardContent>
                  <div className="h-[300px] w-full">
-                  <ResponsiveContainer width="100%" height="100%">
-                    <LineChart data={monthlyStats}>
-                      <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                      <XAxis 
-                        dataKey="month" 
-                        className="text-xs" 
-                        tickLine={false} 
-                        axisLine={false}
-                      />
-                      <YAxis 
-                        className="text-xs" 
-                        tickLine={false} 
-                        axisLine={false} 
-                      />
-                      <Tooltip 
-                        contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="appointments" 
-                        stroke="#3b82f6" 
-                        strokeWidth={2}
-                        dot={{ r: 4, fill: "#3b82f6" }}
-                        activeDot={{ r: 6 }}
-                        name="Citas"
-                      />
-                      <Line 
-                        type="monotone" 
-                        dataKey="patients" 
-                        stroke="#10b981" 
-                        strokeWidth={2}
-                        dot={{ r: 4, fill: "#10b981" }}
-                        name="Nuevos Pacientes"
-                      />
-                      <Legend />
-                    </LineChart>
-                  </ResponsiveContainer>
+                  {isMounted ? (
+                    <ResponsiveContainer width="100%" height="100%">
+                      <LineChart data={monthlyStats}>
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+                        <XAxis 
+                          dataKey="month" 
+                          className="text-xs" 
+                          tickLine={false} 
+                          axisLine={false}
+                        />
+                        <YAxis 
+                          className="text-xs" 
+                          tickLine={false} 
+                          axisLine={false} 
+                        />
+                        <Tooltip 
+                          contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="appointments" 
+                          stroke="#3b82f6" 
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "#3b82f6" }}
+                          activeDot={{ r: 6 }}
+                          name="Citas"
+                        />
+                        <Line 
+                          type="monotone" 
+                          dataKey="patients" 
+                          stroke="#10b981" 
+                          strokeWidth={2}
+                          dot={{ r: 4, fill: "#10b981" }}
+                          name="Nuevos Pacientes"
+                        />
+                        <Legend />
+                      </LineChart>
+                    </ResponsiveContainer>
+                  ) : <div className="h-full flex items-center justify-center bg-muted/20 animate-pulse">Loading Chart...</div>}
                 </div>
               </CardContent>
             </Card>

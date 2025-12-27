@@ -1,3 +1,6 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Button } from "@/components/ui/button"
@@ -45,6 +48,12 @@ export function FinancialOverview({
     return `$${value.toLocaleString()}`
   }
 
+  const [isMounted, setIsMounted] = useState(false)
+
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
   return (
     <Card className="col-span-12 lg:col-span-8">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
@@ -68,49 +77,55 @@ export function FinancialOverview({
             </TabsList>
           </Tabs>
         </div>
-        <div className="h-[240px] mt-4">
-          <ResponsiveContainer width="100%" height="100%">
-            <AreaChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
-              <XAxis 
-                dataKey="month" 
-                tick={{ fill: '#6b7280', fontSize: 12 }}
-              />
-              <YAxis 
-                tick={{ fill: '#6b7280', fontSize: 12 }}
-                tickFormatter={formatCurrency}
-              />
-              <Tooltip 
-                formatter={(value: number) => formatCurrency(value)}
-                contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '6px' }}
-              />
-              <Legend />
-              <Area 
-                type="monotone" 
-                dataKey="revenue" 
-                stroke="#007BFF" 
-                fill="#007BFF" 
-                fillOpacity={0.6}
-                name="Revenue"
-              />
-              <Area 
-                type="monotone" 
-                dataKey="expenses" 
-                stroke="#FF6B6B" 
-                fill="#FF6B6B" 
-                fillOpacity={0.6}
-                name="Expenses"
-              />
-              <Area 
-                type="monotone" 
-                dataKey="profit" 
-                stroke="#33CC5A" 
-                fill="#33CC5A" 
-                fillOpacity={0.6}
-                name="Profit"
-              />
-            </AreaChart>
-          </ResponsiveContainer>
+        <div className="h-[240px] mt-4 w-full min-w-[300px]">
+          {isMounted ? (
+            <ResponsiveContainer width="100%" height="100%">
+              <AreaChart data={data}>
+                <CartesianGrid strokeDasharray="3 3" stroke="#f1f1f1" />
+                <XAxis 
+                  dataKey="month" 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                />
+                <YAxis 
+                  tick={{ fill: '#6b7280', fontSize: 12 }}
+                  tickFormatter={formatCurrency}
+                />
+                <Tooltip 
+                  formatter={(value: number) => formatCurrency(value)}
+                  contentStyle={{ backgroundColor: 'white', border: '1px solid #e5e7eb', borderRadius: '6px' }}
+                />
+                <Legend />
+                <Area 
+                  type="monotone" 
+                  dataKey="revenue" 
+                  stroke="#007BFF" 
+                  fill="#007BFF" 
+                  fillOpacity={0.6}
+                  name="Revenue"
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="expenses" 
+                  stroke="#FF6B6B" 
+                  fill="#FF6B6B" 
+                  fillOpacity={0.6}
+                  name="Expenses"
+                />
+                <Area 
+                  type="monotone" 
+                  dataKey="profit" 
+                  stroke="#33CC5A" 
+                  fill="#33CC5A" 
+                  fillOpacity={0.6}
+                  name="Profit"
+                />
+              </AreaChart>
+            </ResponsiveContainer>
+          ) : (
+             <div className="flex items-center justify-center h-full bg-muted/20 text-muted-foreground animate-pulse rounded-md">
+                Loading Chart...
+             </div>
+          )}
         </div>
         <div className="grid grid-cols-3 gap-4 px-4 pt-2">
           <div className="space-y-1">

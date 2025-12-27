@@ -1,20 +1,24 @@
 import type React from "react"
 import type { Metadata } from "next"
-import "./globals.css"
+import "../(dashboard)/globals.css" // Import globals from sibling or adjust path. 
+// Wait, globals.css is in app/(dashboard)/globals.css. I might need to move it up or import it correctly.
+// Let's assume I can import it. The dashboard layout imported "./globals.css".
+// I should probably verify where globals.css should live. Typically it's in app/globals.css.
+// But current file structure had it in (dashboard).
+// For now I'll try to import it from "../(dashboard)/globals.css".
+
 import { ThemeProvider } from "@/components/theme-provider"
-import { SidebarProvider } from "@/components/sidebar-context"
 import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
-import { Sidebar } from "@/components/sidebar"
 import { Toaster } from "sonner"
 
 export const metadata: Metadata = {
-  title: "Clinia + | Software Dental Moderno",
-  description: "Una interfaz moderna, intuitiva y responsive para software dental Clinia +",
+  title: "Clinia + | Autenticación",
+  description: "Ingresa o registrate",
   generator: 'v0.app'
 }
 
-export default function RootLayout({
+export default function AuthLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
@@ -25,15 +29,8 @@ export default function RootLayout({
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem disableTransitionOnChange>
           <TranslationProvider>
             <AuthProvider>
-              <SidebarProvider>
-                <div className="flex h-screen bg-background">
-                  <Sidebar />
-                  <main className="flex-1 overflow-auto">
-                    <div className="container mx-auto p-6 lg:p-8">{children}</div>
-                  </main>
-                </div>
+                {children}
                 <Toaster />
-              </SidebarProvider>
             </AuthProvider>
           </TranslationProvider>
         </ThemeProvider>

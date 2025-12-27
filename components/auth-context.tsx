@@ -4,12 +4,13 @@ import type React from "react"
 import { createContext, useContext, useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
 import { User as SupabaseUser } from "@supabase/supabase-js"
+import { toast } from "sonner"
 
 interface User {
   id: string
   name: string
   email: string
-  role: "doctor" | "reception"
+  role: "doctor" | "receptionist" | "clinic_owner"
   avatar: string
   clinic_id?: string
   clinic_memberships?: any[]
@@ -18,13 +19,11 @@ interface User {
 interface AuthContextType {
   user: User | null
   login: (email: string, password: string) => Promise<{ error: any }>
-  signup: (email: string, password: string, fullName: string, role: "doctor" | "reception") => Promise<{ error: any }>
+  signup: (email: string, password: string, fullName: string, role: "doctor" | "receptionist" | "clinic_owner") => Promise<{ error: any }>
   signInWithGoogle: () => Promise<{ error: any }>
   logout: () => Promise<void>
   isLoading: boolean
-  logout: () => Promise<void>
-  isLoading: boolean
-  hasRole: (role: "doctor" | "reception") => boolean
+  hasRole: (role: "doctor" | "receptionist" | "clinic_owner") => boolean
   currentClinicId: string | undefined
   switchClinic: (clinicId: string) => void
 }
@@ -155,7 +154,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error }
   }
 
-  const signup = async (email: string, password: string, fullName: string, role: "doctor" | "reception") => {
+  const signup = async (email: string, password: string, fullName: string, role: "doctor" | "receptionist" | "clinic_owner") => {
     const { error } = await supabase.auth.signUp({
       email,
       password,
@@ -188,7 +187,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(null)
   }
 
-  const hasRole = (role: "doctor" | "reception"): boolean => {
+  const hasRole = (role: "doctor" | "receptionist" | "clinic_owner"): boolean => {
     return user?.role === role
   }
 

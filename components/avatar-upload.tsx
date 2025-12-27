@@ -11,7 +11,7 @@ interface AvatarUploadProps {
   url: string | null
   size?: number
   onUpload: (url: string) => void
-  bucket: "doctor-avatars" | "patient-avatars"
+  bucket: "doctor-avatars" | "patient-avatars" | "clinic-branding"
   editable?: boolean
   fallbackName?: string
 }
