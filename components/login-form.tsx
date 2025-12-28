@@ -3,6 +3,7 @@
 import type React from "react"
 
 import { useState, useEffect } from "react"
+import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -26,20 +27,32 @@ export function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      router.push("/dashboard")
+      if (!user.clinic_id) {
+          router.push("/onboarding") // Correct root path
+      } else {
+          router.push("/dashboard")
+      }
     }
   }, [user, router])
+
+  const [resendSuccess, setResendSuccess] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
+    setResendSuccess(false)
 
     try {
       const { error } = await login(email, password)
       if (error) {
-        setError("Error al iniciar sesión. Por favor verifique sus credenciales.")
-        console.error(error)
+        // Detect specific Auth error for unconfirmed email
+        if (error.message.includes("Email not confirmed")) {
+            setError("EmailNotConfirmed") // Use a code to trigger UI state
+        } else {
+            setError("Error al iniciar sesión. Por favor verifique sus credenciales.")
+            console.error(error)
+        }
       } else {
         router.push("/dashboard")
       }
@@ -49,6 +62,32 @@ export function LoginForm() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  const handleResendConfirmation = async () => {
+      setIsLoading(true)
+      try {
+          // Import supabase locally if not available globally, or use the context one if exposed.
+          // Since we can't easily change Context interface in this atomic step without breaking other files,
+          // we assume supabase client is importable or we accept the complexity.
+          // Actually, let's use the direct import in the file header (I will add it).
+          const { error } = await supabase.auth.resend({
+              type: 'signup',
+              email: email,
+              options: {
+                  emailRedirectTo: `${window.location.origin}/dashboard`
+              }
+          })
+          
+          if (error) throw error
+          setResendSuccess(true)
+          setError("") // Clear error to show success message
+      } catch (err: any) {
+          console.error("Resend error:", err)
+          setError(err.message || "Error al reenviar correo")
+      } finally {
+          setIsLoading(false)
+      }
   }
 
   return (
@@ -77,7 +116,18 @@ export function LoginForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="password">{t("password")}</Label>
+              <div className="flex items-center justify-between">
+                <Label htmlFor="password">{t("password")}</Label>
+                <Button
+                  variant="link"
+                  className="px-0 h-auto text-xs text-muted-foreground"
+                  tabIndex={-1}
+                  onClick={() => router.push("/forgot-password")}
+                  type="button"
+                >
+                  ¿Olvidaste tu contraseña?
+                </Button>
+              </div>
               <div className="relative">
                 <Input
                   id="password"
@@ -99,9 +149,26 @@ export function LoginForm() {
               </div>
             </div>
 
+            {resendSuccess && (
+                <Alert className="border-green-500 text-green-700 bg-green-50">
+                    <AlertDescription>
+                        ¡Correo enviado! Revise su bandeja de entrada (y spam) para confirmar su cuenta.
+                    </AlertDescription>
+                </Alert>
+            )}
+
             {error && (
               <Alert variant="destructive">
-                <AlertDescription>{error}</AlertDescription>
+                <AlertDescription>
+                    {error === "EmailNotConfirmed" ? (
+                        <div className="flex flex-col gap-2">
+                           <span>El correo no ha sido confirmado.</span>
+                           <Button variant="outline" size="sm" onClick={handleResendConfirmation} disabled={isLoading}>
+                               {isLoading ? <Loader2 className="h-3 w-3 animate-spin"/> : "Reenviar Confirmación"}
+                           </Button>
+                        </div>
+                    ) : error}
+                </AlertDescription>
               </Alert>
             )}
 

@@ -2,6 +2,7 @@ import type React from "react"
 import "./globals.css"
 import { Oswald, Work_Sans, Gowun_Batang } from "next/font/google"
 import { ThemeProvider } from "@/components/landing/theme-provider"
+import { Toaster } from "sonner"
 
 const oswald = Oswald({
   subsets: ["latin"],
@@ -32,6 +33,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className={`${oswald.variable} ${workSans.variable} ${gowunBatang.variable} font-text`}>
         <ThemeProvider attribute="class" defaultTheme="light">
           {children}
+          <Toaster />
         </ThemeProvider>
       </body>
     </html>

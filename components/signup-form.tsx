@@ -64,9 +64,8 @@ export function SignupForm() {
         console.error(error)
       } else {
         setSuccess(true)
-        setTimeout(() => {
-          router.push("/dashboard")
-        }, 2000)
+        // Correction: Do NOT redirect automatically.
+        // Show the "Check your inbox" state instead.
       }
     } catch (err) {
       setError("Ocurrió un error inesperado.")
@@ -74,6 +73,33 @@ export function SignupForm() {
     } finally {
       setIsLoading(false)
     }
+  }
+
+  if (success) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-background p-4">
+        <Card className="w-full max-w-md border-border shadow-lg">
+          <CardHeader className="space-y-4 text-center">
+            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center">
+               <CheckCircle2 className="h-8 w-8 text-green-600" />
+            </div>
+            <CardTitle className="text-2xl font-bold">¡Cuenta creada!</CardTitle>
+            <CardDescription className="text-base">
+              Hemos enviado un enlace de confirmación a: <br/>
+              <span className="font-medium text-foreground">{email}</span>
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+             <div className="bg-muted/50 p-4 rounded-lg text-sm text-muted-foreground text-center">
+                Por favor revise su bandeja de entrada (y spam). Debe confirmar su correo electrónico antes de poder iniciar sesión.
+             </div>
+             <Button className="w-full" onClick={() => router.push("/login")}>
+                Ir a Iniciar Sesión
+             </Button>
+          </CardContent>
+        </Card>
+      </div>
+    )
   }
 
   return (

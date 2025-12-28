@@ -57,13 +57,19 @@ export async function middleware(request: NextRequest) {
 
   // 2. Authenticated users -> Redirect away from /login or /signup
   if (user && isAuthRoute) {
-    // If user has no clinic (Limbo), go to onboarding. Otherwise dashboard.
     if (!user.app_metadata?.clinic_id) {
        url.pathname = "/onboarding";
     } else {
        url.pathname = "/dashboard";
     }
     return NextResponse.redirect(url);
+  }
+
+  // 3. Protected Routes Guard
+  // Redirect unauthenticated users trying to access protected routes
+  if (!user && pathname.startsWith('/dashboard')) {
+      url.pathname = "/login";
+      return NextResponse.redirect(url);
   }
 
   // 3. Limbo State Check: User authenticated but no clinic_id -> Force /onboarding

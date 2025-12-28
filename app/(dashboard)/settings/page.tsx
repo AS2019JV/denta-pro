@@ -11,7 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
-import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw } from "lucide-react"
+import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw, CreditCard } from "lucide-react"
+import { SubscriptionTab } from "@/components/settings/subscription-tab"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -175,6 +176,10 @@ export default function SettingsPage() {
           <TabsTrigger value="team" className="flex items-center gap-2">
             <Users className="h-4 w-4" />
             {t("team-settings")}
+          </TabsTrigger>
+          <TabsTrigger value="subscription" className="flex items-center gap-2">
+            <CreditCard className="h-4 w-4" />
+            {language === "es" ? "Suscripción" : "Subscription"}
           </TabsTrigger>
         </TabsList>
 
@@ -629,6 +634,10 @@ export default function SettingsPage() {
               </CardContent>
             </Card>
           </div>
+        </TabsContent>
+
+        <TabsContent value="subscription">
+           <SubscriptionTab />
         </TabsContent>
       </Tabs>
     </div>

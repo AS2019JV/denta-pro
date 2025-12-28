@@ -1,6 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
+import { useAuth } from "@/components/auth-context"
+import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -33,7 +35,7 @@ interface PatientMedicalRecordsProps {
 }
 
 export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps) {
-
+  const { user } = useAuth()
   const [activeTab, setActiveTab] = useState("overview")
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false)
   const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
@@ -48,6 +50,74 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
     allergies: ["Penicilina", "Látex"],
     medications: ["Lisinopril 10mg", "Atorvastatin 20mg"],
     conditions: ["Hipertensión", "Colesterol Alto"],
+    notes: [
+      {
+        id: "1",
+        date: "2024-01-15",
+        type: "Consulta",
+        content: "Paciente acude para limpieza regular. Sin complicaciones.",
+        doctor: "Dra. María González",
+      },
+      {
+        id: "2",
+        date: "2024-01-10",
+        type: "Tratamiento",
+        content: "Empaste en molar superior derecho. Anestesia local aplicada sin complicaciones.",
+        doctor: "Dr. Carlos Ruiz",
+      },
+    ],
+    treatments: [
+      {
+        id: "1",
+        date: "2024-01-15",
+        tooth: "16",
+        treatment: "Limpieza",
+        status: "Completado",
+        notes: "Limpieza profunda realizada",
+        doctor: "Dra. María González",
+      },
+      {
+        id: "2",
+        date: "2024-01-10",
+        type: "26",
+        treatment: "Empaste",
+        status: "Completado",
+        notes: "Empaste de composite",
+        doctor: "Dr. Carlos Ruiz",
+      },
+    ],
+  })
+
+  // THE RECEPTIONIST FIREWALL (UI Safety)
+  // Ensures the UI never tries to fetch forbidden data
+  useEffect(() => {
+     const fetchSafeData = async () => {
+         if (!user) return;
+
+         if (user.role === 'receptionist') {
+             // 1. SAFE PATH: Fetch only allowed view
+             // Receptionists are BLIND to 'clinical_records', so we never query it.
+             const { data: safeData } = await supabase
+                .from('receptionist_patient_view')
+                .select('medical_alerts')
+                .eq('id', patientId)
+                .single();
+             
+             // In a real app, parse safeData.medical_alerts and update state
+             console.log("Receptionist View Loaded: Safety Alerts Only");
+         } else {
+             // 2. FULL PATH: Fetch sensitive clinical records
+             // Only Doctors/Owners execute this query
+             const { data: clinicalData } = await supabase
+                .from('clinical_records')
+                .select('*')
+                .eq('patient_id', patientId);
+             
+             console.log("Doctor View Loaded: Full Clinical Records");
+         }
+     }
+     fetchSafeData();
+  }, [user, patientId]);
     notes: [
       {
         id: "1",

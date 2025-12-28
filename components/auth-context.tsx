@@ -56,17 +56,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
     checkSession()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (event, session) => {
+      console.log("Auth Event:", event);
+      
       if (session?.user) {
-        await fetchProfile(session.user)
+        // Only fetch profile if not already loaded or user changed
+        if (!user || user.id !== session.user.id) {
+             await fetchProfile(session.user)
+        }
       } else {
+        // Signed out or no session
         setUser(null)
         setIsLoading(false)
       }
     })
 
     return () => subscription.unsubscribe()
-  }, [])
+  }, []) // Keep empty array to run once on mount. Logic handles internal state check.
 
   const fetchProfile = async (authUser: SupabaseUser) => {
     try {
@@ -111,15 +117,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           clinic_memberships: clinicMemberships
         })
       } else {
-        // Profile doesn't exist yet, create fallback
-        console.log('Profile not found for user, using fallback data')
+        // Profile doesn't exist yet -> Valid "Limbo" State for Onboarding
+        console.log('User has no profile (Limbo State) - waiting for clinic creation.');
         setUser({
           id: authUser.id,
-          name: authUser.email?.split('@')[0] || 'User',
+          name: authUser.email?.split('@')[0] || 'Nuevo Usuario',
           email: authUser.email || '',
-          role: 'doctor', // Default role
+          role: 'clinic_owner', // Default permission level for setup
           avatar: '',
-          clinic_id: undefined
+          clinic_id: undefined // Explicitly undefined triggers Onboarding redirect
         })
       }
     } catch (error) {
@@ -129,7 +135,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         id: authUser.id,
         name: authUser.email?.split('@')[0] || 'User',
         email: authUser.email || '',
-        role: 'doctor',
+        role: 'clinic_owner',
         avatar: '',
         clinic_id: undefined
       })

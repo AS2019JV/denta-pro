@@ -69,10 +69,11 @@ export default function PatientDetailsPage() {
       
       try {
         setIsLoading(true)
+        
+        // SECURE ACCESS: Use RPC to fetch data AND log access atomically
+        // This effectively substitutes the "Client-Side User Effect Beacon" with a Server-Side Guarantee
         const { data, error } = await supabase
-          .from('patients')
-          .select('*')
-          .eq('id', id)
+          .rpc('get_patient_profile_secure', { p_patient_id: id })
           .single()
 
         if (error) throw error
