@@ -32,6 +32,12 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
     address: initialData?.address || "",
     birthDate: initialData?.birthDate || "",
     gender: initialData?.gender || "",
+    occupation: initialData?.occupation || "",
+    guardianName: initialData?.guardianName || "",
+    referralSource: initialData?.referralSource || "",
+    referredBy: initialData?.referredBy || "",
+    medicalRecordNumber: initialData?.medicalRecordNumber || "",
+    clinicalNotes: initialData?.clinicalNotes || "",
     emergencyContact: initialData?.emergencyContact || "",
     emergencyPhone: initialData?.emergencyPhone || "",
     allergies: initialData?.allergies || "",
@@ -69,6 +75,12 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             address: formData.address,
             birth_date: formData.birthDate,
             gender: formData.gender,
+            occupation: formData.occupation,
+            guardian_name: formData.guardianName,
+            referral_source: formData.referralSource,
+            referred_by: formData.referredBy,
+            medical_record_number: formData.medicalRecordNumber,
+            clinical_notes: formData.clinicalNotes,
             emergency_contact: formData.emergencyContact,
             emergency_phone: formData.emergencyPhone,
             allergies: formData.allergies,
@@ -103,6 +115,26 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             <CardTitle className="text-lg">Información Personal</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="medicalRecordNumber">Nº Historia Clínica (HC)</Label>
+                <Input
+                  id="medicalRecordNumber"
+                  value={formData.medicalRecordNumber}
+                  onChange={(e) => handleInputChange("medicalRecordNumber", e.target.value)}
+                  placeholder="Opcional"
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="occupation">Ocupación</Label>
+                <Input
+                  id="occupation"
+                  value={formData.occupation}
+                  onChange={(e) => handleInputChange("occupation", e.target.value)}
+                />
+              </div>
+            </div>
+            
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre *</Label>
@@ -181,9 +213,18 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
         {/* Contact Information */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Información de Contacto</CardTitle>
+            <CardTitle className="text-lg">Información de Contacto y Referencia</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+             <div className="space-y-2">
+              <Label htmlFor="guardianName">Apoderado / Responsable</Label>
+              <Input
+                id="guardianName"
+                value={formData.guardianName}
+                onChange={(e) => handleInputChange("guardianName", e.target.value)}
+                placeholder="Para menores de edad"
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="emergencyContact">Contacto de Emergencia</Label>
               <Input
@@ -200,6 +241,26 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 onChange={(e) => handleInputChange("emergencyPhone", e.target.value)}
               />
             </div>
+            <div className="grid grid-cols-2 gap-4">
+                <div className="space-y-2">
+                    <Label htmlFor="referralSource">¿Cómo nos conoció?</Label>
+                    <Input
+                        id="referralSource"
+                        value={formData.referralSource}
+                        onChange={(e) => handleInputChange("referralSource", e.target.value)}
+                        placeholder="Ej. Instagram, Google..."
+                    />
+                </div>
+                <div className="space-y-2">
+                    <Label htmlFor="referredBy">Referido por</Label>
+                    <Input
+                        id="referredBy"
+                        value={formData.referredBy}
+                        onChange={(e) => handleInputChange("referredBy", e.target.value)}
+                        placeholder="Nombre de quien refirió"
+                    />
+                </div>
+            </div>
           </CardContent>
         </Card>
 
@@ -209,6 +270,16 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             <CardTitle className="text-lg">Información Médica</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+             <div className="space-y-2">
+              <Label htmlFor="clinicalNotes">Nota Clínica Inicial / Observaciones</Label>
+              <Textarea
+                id="clinicalNotes"
+                value={formData.clinicalNotes}
+                onChange={(e) => handleInputChange("clinicalNotes", e.target.value)}
+                placeholder="Notas generales del paciente..."
+                rows={3}
+              />
+            </div>
             <div className="space-y-2">
               <Label htmlFor="allergies">Alergias</Label>
               <Textarea

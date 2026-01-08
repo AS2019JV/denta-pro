@@ -33,12 +33,18 @@ export async function middleware(request: NextRequest) {
 
   // Refresh session if expired - required for Server Components
   // https://supabase.com/docs/guides/auth/server-side/nextjs
+  // Refresh session if expired - required for Server Components
+  // https://supabase.com/docs/guides/auth/server-side/nextjs
   const {
     data: { user },
+    error
   } = await supabase.auth.getUser();
 
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
+  
+  console.log(`[Middleware] ${request.method} ${pathname}`);
+  console.log(`[Middleware] User: ${user?.id || 'None'}, Error: ${error?.message || 'None'}`);
 
   // 1. Unauthenticated users -> Redirect to /login
   // Allow access to login, signup, and public assets/api
@@ -47,6 +53,9 @@ export async function middleware(request: NextRequest) {
     pathname === "/" || 
     pathname.startsWith("/api") || 
     pathname.startsWith("/_next") || 
+    pathname.startsWith("/free-trial") ||
+    pathname.startsWith("/schedule-demo") ||
+    pathname.startsWith("/sobre-nosotros") ||
     pathname.includes(".") || 
     pathname.startsWith("/favicon.ico");
 

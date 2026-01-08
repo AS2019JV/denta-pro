@@ -14,32 +14,33 @@ The system defines three primary roles in the `profiles` table and enforced via 
 ## User Journeys
 
 ### 1. New Clinic Owner (Customer Path)
-New customers who want to use the software for their clinic follow this flow:
+New customers who want to use the software for their clinic follow this flow (One-Page Onboarding):
 
-1. **Registration**: 
-   - User goes to `/signup`.
-   - Fills out the form (Name, Email, Password).
-   - *Note*: Initial role selection in the form defaults to 'doctor', but this is temporary for the "Limbo" state.
-   - **Result**: User is created in `auth.users`, but **NO** profile is created in `public.profiles` initially.
+1. **Combined Registration (Free Trial)**:
+   - User goes to `/free-trial` (Page: `app/(landing)/free-trial/page.tsx`).
+   - Fills out a **Single Form** encompassing:
+     - User Credentials (Name, Email, Password).
+     - Clinic Details (Name, Size, Phone, Address, Logo).
+   - **Server Action (`registerClinic`)**:
+     - uses `SUPABASE_SERVICE_ROLE_KEY` to orchestrate creation.
+     - Creates **User** in `auth.users` (with email confirmation required).
+     - Creates **Clinic** in `public.clinics` (with 14-day trial status).
+     - Creates **Profile** in `public.profiles` (as `clinic_owner`, linked to new clinic).
+     - Uploads Clinic Logo to storage.
+     - Triggers standard Supabase Signup Confirmation email.
 
-2. **Onboarding (The "Limbo" State)**:
-   - User logs in (or is auto-logged in).
-   - Middleware allows access to `/dashboard`.
-   - **Correction Implemented**: A **Server-Side** check in `middleware.ts` detects the user has no `clinic_id` in their JWT `app_metadata`.
-   - User is strictly redirected to `/onboarding`.
+2. **Verification & Access**:
+   - User clicks the confirmation link in their email.
+   - User logs in `/login`.
+   - **Auth Hook**: `custom_access_token_hook` runs during token generation.
+     - Detects the pre-created Profile.
+     - Injects `clinic_id` and `role` ('clinic_owner') into the JWT.
+   - **Middleware**:
+     - Detects `clinic_id` in the session.
+     - Directs user straight to `/dashboard`.
+   - **Result**: Immediate access to a fully configured environment; no "Onboarding" wizard required for this path.
 
-3. **Clinic Creation (Genesis Flow)**:
-   - User completes the "Create Clinic" form (`/onboarding`).
-   - Signals the `create_tenant_clinic` Secure RPC.
-   - **Backend Action**:
-     - Creates `public.clinics` row.
-     - Creates `public.profiles` row linked to the user, with role `clinic_owner` and the new `clinic_id`.
-     - Creates Storage Bucket for branding.
-   - User session is refreshed to inject `clinic_id` and `role` into the JWT.
-
-4. **Active State**:
-   - User is redirected to `/dashboard`.
-   - RLS policies now allow access to their clinic's data.
+*(Note: The `/onboarding` "Limbo State" route remains as a fallback for users who sign up via legacy paths or if the Server Action fails partially, but the primary flow bypasses it.)*
 
 ### 2. Doctor / Receptionist (Invitation Path)
 Staff members are added by the Clinic Owner.

@@ -38,6 +38,12 @@ interface Patient {
   address?: string
   birthDate: string
   gender?: string
+  occupation?: string
+  guardianName?: string
+  referralSource?: string
+  referredBy?: string
+  medicalRecordNumber?: string
+  clinicalNotes?: string
   emergencyContact?: string
   emergencyPhone?: string
   allergies?: string
@@ -88,6 +94,12 @@ export default function PatientDetailsPage() {
               address: data.address,
               birthDate: data.birth_date,
               gender: data.gender,
+              occupation: data.occupation,
+              guardianName: data.guardian_name,
+              referralSource: data.referral_source,
+              referredBy: data.referred_by,
+              medicalRecordNumber: data.medical_record_number,
+              clinicalNotes: data.clinical_notes,
               emergencyContact: data.emergency_contact,
               emergencyPhone: data.emergency_phone,
               allergies: data.allergies,
@@ -135,6 +147,12 @@ export default function PatientDetailsPage() {
           address: updatedData.address,
           birth_date: updatedData.birthDate,
           gender: updatedData.gender,
+          occupation: updatedData.occupation,
+          guardian_name: updatedData.guardianName,
+          referral_source: updatedData.referralSource,
+          referred_by: updatedData.referredBy,
+          medical_record_number: updatedData.medicalRecordNumber,
+          clinical_notes: updatedData.clinicalNotes,
           emergency_contact: updatedData.emergencyContact,
           emergency_phone: updatedData.emergencyPhone,
           allergies: updatedData.allergies,
@@ -300,8 +318,16 @@ export default function PatientDetailsPage() {
                                     </h3>
                                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12">
                                         <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Historia Clínica</Label>
+                                            <p className="text-base font-medium font-mono text-foreground">{patient.medicalRecordNumber || "---"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Completo</Label>
                                             <p className="text-base font-medium text-foreground">{patient.name} {patient.lastName}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ocupación</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.occupation || "---"}</p>
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fecha de Nacimiento</Label>
@@ -321,7 +347,7 @@ export default function PatientDetailsPage() {
                                                 <p className="text-base font-medium text-foreground">{patient.email || "No registrado"}</p>
                                             </div>
                                         </div>
-                                        <div className="col-span-1 md:col-span-2 space-y-1.5">
+                                        <div className="col-span-1 md:col-span-2 lg:col-span-3 space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Dirección</Label>
                                             <div className="flex items-center gap-2">
                                                 <MapPin className="h-4 w-4 text-muted-foreground" />
@@ -331,22 +357,34 @@ export default function PatientDetailsPage() {
                                     </div>
                                 </div>
 
-                                {/* Emergency Contact */}
+                                {/* Emergency Contact & Referral */}
                                 <div className="bg-card rounded-xl border shadow-sm p-6">
                                     <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
                                         <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-500">
                                             <Phone className="h-5 w-5" />
                                         </div>
-                                        Contacto de Emergencia
+                                        Contacto de Emergencia y Referencia
                                     </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                                         <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre</Label>
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Emergencia</Label>
                                             <p className="text-base font-medium text-foreground">{patient.emergencyContact || "No especificado"}</p>
                                         </div>
                                         <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono</Label>
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono Emergencia</Label>
                                             <p className="text-base font-medium text-foreground">{patient.emergencyPhone || "No especificado"}</p>
+                                        </div>
+                                         <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Apoderado</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.guardianName || "N/A"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">¿Cómo nos conoció?</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.referralSource || "---"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Referido Por</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.referredBy || "---"}</p>
                                         </div>
                                     </div>
                                 </div>
@@ -372,6 +410,10 @@ export default function PatientDetailsPage() {
                                                         <span className="text-base text-muted-foreground">Ninguna conocida</span>
                                                     )}
                                                 </div>
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nota Clínica Inicial</Label>
+                                                <p className="text-base font-medium text-foreground whitespace-pre-wrap">{patient.clinicalNotes || "---"}</p>
                                             </div>
                                             <div className="space-y-1.5">
                                                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Condiciones</Label>

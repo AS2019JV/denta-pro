@@ -3,10 +3,17 @@
 import { createClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+
+if (!supabaseUrl || !supabaseServiceKey) {
+  console.error('Missing Supabase Environment Variables: URL or Service Key is undefined')
+}
 
 export async function registerClinic(formData: FormData) {
+  if (!supabaseUrl || !supabaseServiceKey) {
+     return { error: "Server Configuration Error: Missing Database Credentials. Check .env file." }
+  }
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   // 1. Extract Data
@@ -14,7 +21,9 @@ export async function registerClinic(formData: FormData) {
   const lastName = formData.get('lastName') as string
   const email = formData.get('email') as string
   const password = formData.get('password') as string
-  const phone = formData.get('phone') as string
+  const phoneRaw = formData.get('phone') as string
+  const countryCode = formData.get('countryCode') as string || '+593'
+  const phone = `${countryCode} ${phoneRaw}`.trim()
   const practiceName = formData.get('practiceName') as string
   const practiceSize = formData.get('practiceSize') as string
   // Address is optional in form but required by DB, stub it if missing
@@ -36,19 +45,26 @@ export async function registerClinic(formData: FormData) {
 
   // Handle "User already exists" gracefully if needed, or let error bubble
   if (authError) {
+    if (authError.message.includes("User already registered")) {
+        return { error: "Este correo electrónico ya está registrado. Por favor, inicia sesión." }
+    }
     return { error: authError.message }
   }
 
   // Trigger the Confirmation Email explicitly
-  // Since admin.createUser doesn't trigger it by default for "signup" type (it does for "invite")
+  console.log("Attempting to send confirmation email to:", email)
   const { error: emailError } = await supabase.auth.resend({ 
     type: 'signup', 
-    email: email 
+    email: email,
+    options: {
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/callback`
+    }
   })
   
   if (emailError) {
     console.warn("Could not send confirmation email:", emailError)
-    // We continue, because the user can manually request a resend later
+  } else {
+    console.log("Confirmation email sent successfully via Supabase.")
   }
 
 
@@ -70,18 +86,35 @@ export async function registerClinic(formData: FormData) {
     .single()
 
   if (clinicError) {
-    // Cleanup user if clinic creation fails? 
-    // Ideally yes, but for MVP we might just error. 
     await supabase.auth.admin.deleteUser(userId)
     return { error: `Error creating clinic: ${clinicError.message}` }
   }
 
   const clinicId = clinicData.id
 
-  // 4. Create Profile
+  // 3.5 Update Auth User app_metadata so middleware knows they have a clinic
+  // This prevents the redirect loop to /onboarding
+  const { error: updateAuthError } = await supabase.auth.admin.updateUserById(
+    userId,
+    {
+      app_metadata: {
+        clinic_id: clinicId,
+        role: 'clinic_owner'
+      }
+    }
+  )
+
+  if (updateAuthError) {
+      console.error("Failed to update app_metadata:", updateAuthError)
+      // We continue, but log it. Ideally this should be retryable.
+  }
+
+  // 4. Update Profile (Upsert/Update)
+  // Because the 'on_auth_user_created' trigger likely already created a profile row,
+  // we should UPDATE it with the clinic info, rather than inserting a duplicate.
   const { error: profileError } = await supabase
     .from('profiles')
-    .insert({
+    .upsert({
       id: userId,
       clinic_id: clinicId,
       role: 'clinic_owner',

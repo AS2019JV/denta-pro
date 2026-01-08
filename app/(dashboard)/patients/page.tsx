@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useAuth } from "@/components/auth-context"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -54,6 +55,7 @@ interface Patient {
 
 export default function PatientsPage() {
   const { t } = useTranslation()
+  const { currentClinicId } = useAuth()
   const router = useRouter()
   const [patients, setPatients] = useState<Patient[]>([])
   const [searchTerm, setSearchTerm] = useState("")
@@ -135,47 +137,229 @@ export default function PatientsPage() {
     linkElement.click()
   }
 
+  // Helper helper to parse CSV line expecting standard CSV quoting
+  const parseCSVLine = (text: string, delimiter: string) => {
+    const result = []
+    let current = ''
+    let inQuote = false
+    
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i]
+        if (char === '"') {
+            inQuote = !inQuote
+        } else if (char === delimiter && !inQuote) {
+            result.push(current.trim().replace(/^"|"$/g, ''))
+            current = ''
+        } else {
+            current += char
+        }
+    }
+    result.push(current.trim().replace(/^"|"$/g, ''))
+    return result
+  }
+
+  const parseDate = (dateStr: string) => {
+      if (!dateStr) return null
+      // Try YYYY-MM-DD
+      if (/^\d{4}-\d{2}-\d{2}$/.test(dateStr)) return dateStr
+      // Try DD/MM/YYYY or DD-MM-YYYY
+      const parts = dateStr.split(/[\/\-]/)
+      if (parts.length === 3) {
+          const day = parts[0].padStart(2, '0')
+          const month = parts[1].padStart(2, '0')
+          const year = parts[2].length === 2 ? `20${parts[2]}` : parts[2]
+          return `${year}-${month}-${day}`
+      }
+      return null
+  }
+
   const importDatabase = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onload = async (e) => {
-        try {
-          const importedPatients = JSON.parse(e.target?.result as string)
-          
-          if (!Array.isArray(importedPatients)) throw new Error("Formato inválido")
+    if (!file) return
 
-          setIsLoading(true)
-          
-          // Map back to DB Columns
-          const dbPatients = importedPatients.map((p: any) => ({
-             first_name: p.name,
-             last_name: p.lastName,
-             cedula: p.cedula,
-             email: p.email,
-             phone: p.phone,
-             address: p.address,
-             birth_date: p.birthDate,
-             gender: p.gender,
-             // medical_history: ?
-          }))
-
-          // Upsert to Supabase
-          const { error } = await supabase.from('patients').upsert(dbPatients, { onConflict: 'cedula' })
-          
-          if (error) throw error
-
-          await fetchPatients()
-          alert("Base de datos importada correctamente")
-        } catch (error) {
-          console.error("Error importing database:", error)
-          alert("Error al importar: Revisa el formato del archivo JSON.")
-        } finally {
-            setIsLoading(false)
-        }
-      }
-      reader.readAsText(file)
+    if (!currentClinicId) {
+        alert("Error: No se ha detectado la clínica activa. Recarga la página.")
+        return
     }
+
+    const reader = new FileReader()
+    reader.onload = async (e) => {
+      try {
+        const content = e.target?.result as string
+        let importedPatients: any[] = []
+
+        setIsLoading(true)
+
+        if (file.name.endsWith('.json')) {
+            importedPatients = JSON.parse(content)
+            if (!Array.isArray(importedPatients)) throw new Error("Formato JSON inválido - debe ser un arreglo")
+        } 
+        
+        let headers: string[] = []
+        if (file.name.endsWith('.csv')) {
+            const rows = content.split('\n').filter(r => r.trim() !== '')
+            if (rows.length < 2) throw new Error("El archivo CSV está vacío o no tiene cabeceras")
+            
+            // Detect Delimiter
+            const firstRow = rows[0]
+            const commaCount = (firstRow.match(/,/g) || []).length
+            const semiCount = (firstRow.match(/;/g) || []).length
+            const delimiter = semiCount > commaCount ? ';' : ','
+            
+            // Parse headers safely
+            headers = parseCSVLine(firstRow, delimiter)
+            console.log("Detected Headers:", headers, "Delimiter:", delimiter)
+            
+            importedPatients = rows.slice(1).map(row => {
+                const cols = parseCSVLine(row, delimiter)
+                const data: any = {}
+                
+                headers.forEach((header, index) => {
+                     const value = cols[index] || ''
+                     // Normalize: lowercase and remove accents
+                     const h = header.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "")
+                     
+                     // Flexible Header Mapping
+                     if (h.includes('nombre') || h.includes('name')) data.first_name = value
+                     else if (h.includes('apellido') || h.includes('last')) data.last_name = value
+                     else if (h.includes('email') || h.includes('correo') || h.includes('mail')) data.email = value
+                     else if (h.includes('telef') || h.includes('celular') || h.includes('phone') || h.includes('movil')) data.phone = value
+                     else if (h.includes('document') || h.includes('cedula') || h.includes('dni') || h.includes('id')) data.cedula = value
+                     else if (h.includes('nacim') || h.includes('birth')) data.birth_date = value
+                     else if (h.includes('sex') || h.includes('genero') || h.includes('gender')) data.gender = value.toLowerCase().startsWith('m') ? 'male' : 'female'
+                     else if (h.includes('direccion') || h.includes('address')) data.address = value
+                     else if (h.includes('ocupacion') || h.includes('occupation')) data.occupation = value
+                     else if (h.includes('apoderado') || h.includes('guardian')) data.guardian_name = value
+                     else if (h.includes('conoc') || h.includes('fuente') || h.includes('source')) data.referral_source = value
+                     else if (h.includes('referencia') || h.includes('referido')) data.referred_by = value
+                     else if (h.includes('nota') || h.includes('observacion') || h.includes('clinical')) data.clinical_notes = value
+                     else if (h.includes('alergia')) data.allergies = value
+                     else if (h.includes('historia') || h.includes('hc') || h.includes('record')) data.medical_record_number = value
+                     else if (h.includes('etiqueta') || h.includes('tag')) data.tags = value ? [value] : []
+                })
+                return data
+            })
+        }
+
+        // Validate and Transform
+        const dbPatients = importedPatients.map(p => ({
+           first_name: p.first_name,
+           last_name: p.last_name || '',
+           cedula: p.cedula,
+           email: p.email && p.email.trim() ? p.email.trim() : null, // Handle empty email
+           phone: p.phone,
+           address: p.address,
+           birth_date: parseDate(p.birth_date), // Validate/Fix Date
+           gender: p.gender,
+           occupation: p.occupation,
+           guardian_name: p.guardian_name,
+           referral_source: p.referral_source,
+           referred_by: p.referred_by,
+           clinical_notes: p.clinical_notes,
+           medical_record_number: p.medical_record_number,
+           tags: p.tags,
+           status: 'active', 
+           clinic_id: currentClinicId
+        })).filter(p => p.first_name)
+
+        if (dbPatients.length > 0) {
+            console.log(`Prepared ${dbPatients.length} patients for import`)
+            console.log("Sample Patient 1:", dbPatients[0])
+        }
+
+        if (dbPatients.length === 0) {
+            console.error("Detected Headers:", headers)
+            const headerMsg = headers.length > 0 ? `Cabeceras detectadas: ${headers.join(', ')}` : "Formato no reconocido o sin cabeceras."
+            throw new Error(`No se encontraron registros válidos (requiere al menos 'Nombre'). ${headerMsg}`)
+        }
+
+        // Upsert to Supabase - Batched for Speed (50 records per request)
+        console.log(`Starting Batched Supabase upsert (${dbPatients.length} records)...`)
+        
+        let successCount = 0
+        let errorCount = 0
+        const errors: string[] = []
+        const CHUNK_SIZE = 50
+
+        // Process in chunks
+        for (let i = 0; i < dbPatients.length; i += CHUNK_SIZE) {
+            const chunk = dbPatients.slice(i, i + CHUNK_SIZE)
+            
+            // Split by email presence to handle conflict resolution correctly
+            const chunkWithEmail = chunk.filter(p => p.email)
+            const chunkWithoutEmail = chunk.filter(p => !p.email)
+
+            try {
+                // 1. Handle records with email (Potential Upsert)
+                if (chunkWithEmail.length > 0) {
+                     const { error: upsertError } = await supabase
+                        .from('patients')
+                        .upsert(chunkWithEmail, { onConflict: 'email', ignoreDuplicates: false })
+                     
+                     if (upsertError) {
+                         console.error(`Error upserting batch (emails):`, upsertError)
+                         // Common error: Missing unique constraint
+                         if (upsertError.code === '42P10' || upsertError.message.includes("conflict")) {
+                             errors.push(`Error de base de datos: Falta restricción UNIQUE en email. Se intentará insertar sin verificar duplicados.`)
+                             // Fallback to insert if upsert fails
+                             const { error: fallbackError } = await supabase.from('patients').insert(chunkWithEmail)
+                             if (fallbackError) {
+                                 errorCount += chunkWithEmail.length
+                                 errors.push(`Fallback insert failed: ${fallbackError.message}`)
+                             } else {
+                                 successCount += chunkWithEmail.length
+                             }
+                         } else {
+                             errorCount += chunkWithEmail.length
+                             errors.push(`Upsert error: ${upsertError.message}`)
+                         }
+                     } else {
+                         successCount += chunkWithEmail.length
+                     }
+                }
+
+                // 2. Handle records without email (Insert only, no conflict target possible usually)
+                if (chunkWithoutEmail.length > 0) {
+                    const { error: insertError } = await supabase
+                        .from('patients')
+                        .insert(chunkWithoutEmail)
+                    
+                    if (insertError) {
+                        console.error(`Error inserting batch (no-emails):`, insertError)
+                        errorCount += chunkWithoutEmail.length
+                        errors.push(`Insert error: ${insertError.message}`)
+                    } else {
+                        successCount += chunkWithoutEmail.length
+                    }
+                }
+
+            } catch (e: any) {
+                 console.error(`Exception in batch ${i}:`, e)
+                 errorCount += chunk.length
+                 errors.push(e.message)
+            }
+        }
+
+        console.log(`Import finished. Success: ${successCount}. Errors: ${errorCount}`)
+
+        await fetchPatients()
+        
+        if (errorCount > 0) {
+             const uniqueErrors = Array.from(new Set(errors)).slice(0, 3) // Show first 3 unique errors
+             alert(`Importación parcial: ${successCount} ok, ${errorCount} fallidos.\nErrores principales:\n- ${uniqueErrors.join('\n- ')}`)
+        } else {
+             alert(`Importación exitosa: ${successCount} pacientes procesados.`)
+        }
+      } catch (error: any) {
+        console.error("Error importing database:", error)
+        alert("Error crítico al importar: " + error.message)
+      } finally {
+          setIsLoading(false)
+           if(event.target) event.target.value = ''
+      }
+    }
+    // Excel CSVs are often ISO-8859-1 in Spanish regions
+    reader.readAsText(file, 'ISO-8859-1')
   }
 
   const calculateAge = (birthDate: string) => {
@@ -193,7 +377,7 @@ export default function PatientsPage() {
     <div className="space-y-6">
       <PageHeader title={t("patients")}>
         <div className="flex items-center space-x-2">
-          <input type="file" accept=".json" onChange={importDatabase} className="hidden" id="import-file" />
+          <input type="file" accept=".json,.csv" onChange={importDatabase} className="hidden" id="import-file" />
           <Button variant="outline" size="sm" onClick={() => document.getElementById("import-file")?.click()}>
             <Upload className="h-4 w-4 mr-2" />
             {t("import-database")}

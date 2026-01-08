@@ -31,7 +31,7 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
 
   return (
     <header
-      className={`${isHomePage ? "fixed top-0" : ""} z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-white/60`}
+      className={`${isHomePage ? "fixed top-0" : "sticky top-0 border-b border-gray-100 bg-white/80"} z-50 w-full backdrop-blur supports-[backdrop-filter]:bg-white/60`}
     >
       <div className="container flex h-20 items-center justify-between">
         <Link href="/" className="flex items-center gap-2 font-bold text-xl font-title text-primary">

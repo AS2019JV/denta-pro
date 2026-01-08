@@ -27,13 +27,15 @@ export function LoginForm() {
 
   useEffect(() => {
     if (user) {
+      console.log("Login Form: User detected, redirecting...", user.clinic_id)
+      // Force navigation to ensure middleware picks up the session properly
       if (!user.clinic_id) {
-          router.push("/onboarding") // Correct root path
+          window.location.href = "/onboarding"
       } else {
-          router.push("/dashboard")
+          window.location.href = "/dashboard"
       }
     }
-  }, [user, router])
+  }, [user])
 
   const [resendSuccess, setResendSuccess] = useState(false)
 
@@ -49,6 +51,10 @@ export function LoginForm() {
         // Detect specific Auth error for unconfirmed email
         if (error.message.includes("Email not confirmed")) {
             setError("EmailNotConfirmed") // Use a code to trigger UI state
+        } else if (error.message.includes("Invalid login credentials")) {
+             // This can mean wrong password OR email not confirmed in some Supabase configs. 
+             // We can be helpful without leaking too much info.
+             setError("Credenciales inválidas o cuenta no verificada. Por favor revisa tu correo primero.")
         } else {
             setError("Error al iniciar sesión. Por favor verifique sus credenciales.")
             console.error(error)

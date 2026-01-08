@@ -25,6 +25,7 @@ const translations = {
     settings: "Configuración",
     logout: "Cerrar Sesión",
     dentist: "Dentista",
+    services: "Servicios",
 
     // Common
     welcomeBack: "Bienvenido de vuelta",
@@ -202,6 +203,7 @@ const translations = {
     settings: "Settings",
     logout: "Logout",
     dentist: "Dentist",
+    services: "Services",
 
     // Common
     welcomeBack: "Welcome back",

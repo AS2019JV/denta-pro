@@ -64,6 +64,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         if (!user || user.id !== session.user.id) {
              await fetchProfile(session.user)
         }
+        // Force redirect to dashboard if we have a user
+        // This handles cases where login modal might just close or state updates without navigation
+        // But we should check if we are already there to avoid redundant pushes
+        if (window.location.pathname === '/login' || window.location.pathname === '/' || window.location.pathname === '/free-trial') {
+            // router.push("/dashboard") // router is not available here easily without wrapping or passing it in.
+            // But we can check window location and rely on the useEffect dependency below or add a navigation trigger
+        }
       } else {
         // Signed out or no session
         setUser(null)

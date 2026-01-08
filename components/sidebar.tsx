@@ -21,6 +21,7 @@ import {
   Menu,
   X,
   Bell,
+  Stethoscope,
   type LucideIcon,
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -32,6 +33,7 @@ const navigation = [
   { name: "billing", href: "/billing", icon: CreditCard },
   { name: "reports", href: "/reports", icon: BarChart3 },
   { name: "messages", href: "/messages", icon: MessageSquare },
+  { name: "services", href: "/dashboard/services", icon: Stethoscope },
 ]
 
 
@@ -207,7 +209,12 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
             <div className="flex-1 min-w-0">
               <p className="text-sm font-semibold truncate text-foreground">{user?.name}</p>
               <p className="text-xs text-muted-foreground capitalize font-medium">
-                {user?.role === "doctor" ? t("doctor") : t("reception")}
+                {user?.role === "clinic_owner" 
+                    ? "Administrador" 
+                    : user?.role === "doctor" 
+                        ? t("doctor") 
+                        : t("reception")
+                }
               </p>
             </div>
             
