@@ -2,6 +2,7 @@
 
 import { createClient } from '@supabase/supabase-js'
 import { redirect } from 'next/navigation'
+import { randomUUID } from 'crypto'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -32,7 +33,23 @@ export async function registerClinic(formData: FormData) {
 
   const fullName = `${firstName} ${lastName}`.trim()
 
-  // 2. Create Auth User
+  // 2.0 Check for Duplicate Clinic Name BEFORE creating anything
+  const { data: existingClinic } = await supabase
+    .from('clinics')
+    .select('id')
+    .eq('name', practiceName)
+    .single()
+
+  if (existingClinic) {
+    return { error: "Ya existe una clínica registrada con este nombre. Por favor, elige otro nombre." }
+  }
+
+  // Generate Clinic ID upfront
+  const clinicId = randomUUID()
+
+  // 3. Create Auth User with Pending Clinic Data
+  // We DO NOT inject into the database yet. We wait for email verification.
+  // The 'on_auth_user_verified' trigger will handle the actual creation.
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email,
     password,
@@ -40,6 +57,13 @@ export async function registerClinic(formData: FormData) {
     user_metadata: {
       full_name: fullName,
       phone: phone,
+      pending_clinic: {
+        id: clinicId, // Pass the generated ID
+        name: practiceName,
+        address: address,
+        phone: phone,
+        subscription_tier: 'trial'
+      }
     }
   })
 
@@ -51,7 +75,32 @@ export async function registerClinic(formData: FormData) {
     return { error: authError.message }
   }
 
-  // Trigger the Confirmation Email explicitly
+  // 4. Handle Logo Upload (if present)
+  // We upload to the generated clinicId folder immediately.
+  // If the user never verifies, this file becomes orphaned garbage.
+  // We can have a cron job to clean up orphaned files later.
+  if (logoFile && logoFile.size > 0) {
+    try {
+        const arrayBuffer = await logoFile.arrayBuffer()
+        const buffer = Buffer.from(arrayBuffer)
+        
+        const { error: uploadError } = await supabase
+          .storage
+          .from('clinic-branding')
+          .upload(`${clinicId}/${logoFile.name}`, buffer, {
+            contentType: logoFile.type,
+            upsert: true
+          })
+          
+        if (uploadError) {
+           console.error('Logo upload failed:', uploadError)
+        }
+    } catch (e) {
+        console.error('Error processing logo upload:', e)
+    }
+  }
+
+  // 5. Trigger the Confirmation Email explicitly
   console.log("Attempting to send confirmation email to:", email)
   const { error: emailError } = await supabase.auth.resend({ 
     type: 'signup', 
@@ -65,94 +114,6 @@ export async function registerClinic(formData: FormData) {
     console.warn("Could not send confirmation email:", emailError)
   } else {
     console.log("Confirmation email sent successfully via Supabase.")
-  }
-
-
-
-  const userId = authData.user.id
-
-  // 3. Create Clinic (Direct SQL to bypass RPC auth restriction)
-  // We use the 14-day trial logic from 20251222_add_trial_support.sql
-  const { data: clinicData, error: clinicError } = await supabase
-    .from('clinics')
-    .insert({
-      name: practiceName,
-      address: address,
-      phone: phone,
-      subscription_tier: 'trial',
-      trial_ends_at: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000).toISOString() // 14 days from now
-    })
-    .select('id')
-    .single()
-
-  if (clinicError) {
-    await supabase.auth.admin.deleteUser(userId)
-    return { error: `Error creating clinic: ${clinicError.message}` }
-  }
-
-  const clinicId = clinicData.id
-
-  // 3.5 Update Auth User app_metadata so middleware knows they have a clinic
-  // This prevents the redirect loop to /onboarding
-  const { error: updateAuthError } = await supabase.auth.admin.updateUserById(
-    userId,
-    {
-      app_metadata: {
-        clinic_id: clinicId,
-        role: 'clinic_owner'
-      }
-    }
-  )
-
-  if (updateAuthError) {
-      console.error("Failed to update app_metadata:", updateAuthError)
-      // We continue, but log it. Ideally this should be retryable.
-  }
-
-  // 4. Update Profile (Upsert/Update)
-  // Because the 'on_auth_user_created' trigger likely already created a profile row,
-  // we should UPDATE it with the clinic info, rather than inserting a duplicate.
-  const { error: profileError } = await supabase
-    .from('profiles')
-    .upsert({
-      id: userId,
-      clinic_id: clinicId,
-      role: 'clinic_owner',
-      full_name: fullName,
-      status: 'active'
-    })
-
-  if (profileError) {
-     // Cleanup
-     await supabase.from('clinics').delete().eq('id', clinicId)
-     await supabase.auth.admin.deleteUser(userId)
-     return { error: `Error creating profile: ${profileError.message}` }
-  }
-
-  // 5. Handle Logo Upload (if present)
-  if (logoFile && logoFile.size > 0) {
-    // Upload to clinic-branding/{clinic_id}/{filename}
-    // We need to convert File to ArrayBuffer for supabase-js in node env (usually)
-    // But server actions receive File objects which are Blob-like.
-    // Supabase-js v2 supports passing the File directly in many envs, 
-    // but in Node it might expect Buffer. 
-    // safely convert to ArrayBuffer
-    const arrayBuffer = await logoFile.arrayBuffer()
-    const buffer = Buffer.from(arrayBuffer)
-    
-    // Check if bucket exists (it should via migration)
-    const { error: uploadError } = await supabase
-      .storage
-      .from('clinic-branding')
-      .upload(`${clinicId}/${logoFile.name}`, buffer, {
-        contentType: logoFile.type,
-        upsert: true
-      })
-      
-    if (uploadError) {
-       console.error('Logo upload failed:', uploadError)
-       // We don't fail the registration for this, just log it.
-    }
   }
 
   // 6. Return Success

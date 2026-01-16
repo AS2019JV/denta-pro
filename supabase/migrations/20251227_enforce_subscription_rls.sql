@@ -7,20 +7,17 @@ SECURITY DEFINER
 STABLE
 AS $$
 BEGIN
-  -- If clinic_id is null, it fails.
-  IF check_clinic_id IS NULL THEN
-    RETURN FALSE;
-  END IF;
-
+  -- PROD CHANGE: Strict check against live DB keying off status + trials
+  
   RETURN EXISTS (
     SELECT 1 FROM public.clinics
     WHERE id = check_clinic_id
     AND (
       bypass_subscription = true 
       OR 
-      (subscription_tier != 'trial') -- Paid tiers always active (simplified logic)
+      (subscription_status = 'active')
       OR
-      (trial_ends_at > NOW()) -- Active trial
+      (trial_ends_at > NOW()) 
     )
   );
 END;

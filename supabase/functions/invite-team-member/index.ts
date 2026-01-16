@@ -83,6 +83,24 @@ Deno.serve(async (req) => {
       throw profileError
     }
 
+    // 8. Add to Clinic Members (CRITICAL FIX for RLS)
+    // This ensures the new user can actually SEE data via is_clinic_member() check
+    const { error: memberError } = await supabaseAdmin
+      .from('clinic_members')
+      .insert({
+        user_id: newUser.user.id,
+        clinic_id: callerProfile.clinic_id,
+        role: role
+      })
+
+    if (memberError) {
+       console.error("Failed to add to clinic_members:", memberError)
+       // Rollback Profile and User to keep state clean
+       await supabaseAdmin.from('profiles').delete().eq('id', newUser.user.id)
+       await supabaseAdmin.auth.admin.deleteUser(newUser.user.id)
+       throw new Error(`Failed to assign clinic membership: ${memberError.message}`)
+    }
+
     return new Response(
       JSON.stringify({ message: `Invitation sent to ${email} as ${role}` }),
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
