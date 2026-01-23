@@ -12,6 +12,9 @@ import { SubscriptionBlocker } from "@/components/subscription-blocker"
 export const metadata: Metadata = {
   title: "Clinia + | Software Dental Moderno",
   description: "Una interfaz moderna, intuitiva y responsive para software dental Clinia +",
+  icons: {
+    icon: '/brand-logo.png',
+  },
   generator: 'v0.app'
 }
 

@@ -24,20 +24,19 @@ export function FeatureCard({ icon, title, description, benefits, color, index }
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group"
     >
-      <Card className="border-none shadow-md hover:shadow-xl transition-all h-full overflow-hidden">
-        <div className={`h-2 w-full bg-gradient-to-r ${color}`}></div>
+      <Card className="border border-slate-200/60 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-500 h-full overflow-hidden bg-white group-hover:border-slate-300/80">
         <CardContent className="p-8">
           <div
-            className={`w-16 h-16 rounded-2xl bg-gradient-to-r ${color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform`}
+            className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-6 shadow-md transform group-hover:scale-105 transition-transform duration-500`}
           >
             {icon}
           </div>
-          <h3 className="text-xl font-bold mb-3 font-title">{title}</h3>
-          <p className="text-gray-600 mb-6 font-text">{description}</p>
-          <ul className="space-y-2">
+          <h3 className="text-xl font-bold mb-3 font-title text-slate-900 tracking-tight">{title}</h3>
+          <p className="text-slate-500 mb-6 font-text leading-relaxed text-[15px]">{description}</p>
+          <ul className="space-y-3">
             {benefits.map((benefit, i) => (
-              <li key={i} className="flex items-center font-text">
-                <CheckCircle className="h-5 w-5 text-tertiary mr-2 flex-shrink-0" />
+              <li key={i} className="flex items-start font-text text-[14px] text-slate-600">
+                <CheckCircle className="h-4 w-4 text-teal-600 mr-2.5 flex-shrink-0 mt-1" />
                 <span>{benefit}</span>
               </li>
             ))}

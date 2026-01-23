@@ -15,6 +15,9 @@ import { Toaster } from "sonner"
 export const metadata: Metadata = {
   title: "Clinia + | Autenticación",
   description: "Ingresa o registrate",
+  icons: {
+    icon: '/brand-logo.png',
+  },
   generator: 'v0.app'
 }
 

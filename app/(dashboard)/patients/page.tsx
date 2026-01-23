@@ -208,7 +208,7 @@ export default function PatientsPage() {
             
             // Parse headers safely
             headers = parseCSVLine(firstRow, delimiter)
-            console.log("Detected Headers:", headers, "Delimiter:", delimiter)
+            // console.log("Detected Headers:", headers, "Delimiter:", delimiter)
             
             importedPatients = rows.slice(1).map(row => {
                 const cols = parseCSVLine(row, delimiter)
@@ -264,7 +264,6 @@ export default function PatientsPage() {
 
         if (dbPatients.length > 0) {
             console.log(`Prepared ${dbPatients.length} patients for import`)
-            console.log("Sample Patient 1:", dbPatients[0])
         }
 
         if (dbPatients.length === 0) {

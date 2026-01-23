@@ -9,6 +9,7 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
+import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { SiteHeader } from "@/components/landing/layout/site-header"
@@ -70,18 +71,18 @@ export default function FreeTrialPage() {
     <div className="flex min-h-screen flex-col bg-gradient-to-b from-white to-[#F8F9FA]">
       <SiteHeader isHomePage={false} />
 
-      <main className="flex-1 container py-8 md:py-12">
+      <main className="flex-1 container pt-24 md:pt-32 pb-12">
         {!isSubmitted ? (
-          <div className="grid md:grid-cols-5 gap-10 lg:gap-12 max-w-6xl mx-auto">
-            <div className="md:col-span-3">
+          <div className="grid lg:grid-cols-12 gap-10 lg:gap-16 max-w-7xl mx-auto items-start">
+            <div className="lg:col-span-7">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6 }}
                 className="mb-8"
               >
-                <div className="inline-flex items-center rounded-full bg-primary/10 px-4 py-1 text-sm text-primary mb-4 font-subtitle">
-                  <span className="mr-2 h-2 w-2 rounded-full bg-primary"></span>
+                <div className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-sm font-medium text-blue-600 mb-6 font-subtitle border border-blue-100">
+                  <span className="mr-2 h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
                   Prueba Gratuita de 14 Días
                 </div>
                 <h1 className="text-3xl font-bold tracking-tighter md:text-4xl/tight mb-4 font-title text-primary">
@@ -92,8 +93,8 @@ export default function FreeTrialPage() {
                 </p>
               </motion.div>
 
-              <Card className="border-none shadow-xl rounded-2xl overflow-hidden bg-white/50 backdrop-blur-sm">
-                <CardContent className="p-8 md:p-10">
+              <Card className="border-none shadow-2xl rounded-[2.5rem] overflow-hidden bg-white ring-1 ring-slate-100">
+                <CardContent className="p-8 md:p-12">
                   <form onSubmit={handleSubmit} className="space-y-10">
                     
                     {/* Block A: The Human */}
@@ -116,32 +117,32 @@ export default function FreeTrialPage() {
                         </div>
 
                         <div className="space-y-2.5">
-                            <Label htmlFor="email" className="text-slate-600 font-medium">Email Corporativo</Label>
-                            <Input id="email" name="email" type="email" placeholder="doctor@clinica.com" autoComplete="email" required className="bg-white h-11" />
-                            <p className="text-xs text-slate-400 pl-1">Este será tu usuario para iniciar sesión.</p>
+                            <Label htmlFor="email" className="text-slate-600 font-medium">Correo Electrónico</Label>
+                            <Input id="email" name="email" type="email" placeholder="nombre@ejemplo.com" autoComplete="email" required className="bg-white/50 h-12 border-slate-200 focus:border-blue-500 transition-colors" />
+                            <p className="text-xs text-slate-400 pl-1 font-medium">Este será tu usuario para iniciar sesión.</p>
                         </div>
 
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                             <div className="space-y-2.5">
-                                <Label htmlFor="password" className="text-slate-600 font-medium">Contraseña</Label>
+                                <Label htmlFor="password" className="text-slate-600 font-medium ml-1">Contraseña</Label>
                                 <div className="relative">
                                     <Input 
                                         id="password" 
                                         name="password" 
                                         type="password" 
                                         required 
-                                        className="bg-white h-11 pr-10"
+                                        className="bg-white/50 h-12 border-slate-200 focus:border-blue-500 pr-10 transition-colors"
                                         onChange={(e) => setPassword(e.target.value)} 
                                     />
                                     {password.length > 0 && (
-                                        <div className="absolute right-3 top-3 text-slate-400">
-                                            {password.length >= 8 ? <CheckCircle2 className="w-5 h-5 text-green-500" /> : <Lock className="w-4 h-4" />}
+                                        <div className="absolute right-3 top-3.5 text-slate-400">
+                                            {password.length >= 8 ? <CheckCircle2 className="w-5 h-5 text-emerald-500" /> : <Lock className="w-4 h-4" />}
                                         </div>
                                     )}
                                 </div>
                             </div>
                             <div className="space-y-2.5">
-                                <Label htmlFor="confirmPassword" className="text-slate-600 font-medium">Confirmar Contraseña</Label>
+                                <Label htmlFor="confirmPassword" className="text-slate-600 font-medium ml-1">Confirmar Contraseña</Label>
                                 <div className="relative">
                                     <Input 
                                         id="confirmPassword" 
@@ -149,17 +150,17 @@ export default function FreeTrialPage() {
                                         type="password" 
                                         autoComplete="new-password" 
                                         required 
-                                        className={`bg-white h-11 pr-10 ${passwordsMismatch ? "border-red-300 focus-visible:ring-red-200" : passwordsMatch ? "border-green-300 focus-visible:ring-green-200" : ""}`}
+                                        className={`bg-white/50 h-12 pr-10 border-slate-200 focus:border-blue-500 transition-colors ${passwordsMismatch ? "border-red-300 focus-visible:ring-red-200" : passwordsMatch ? "border-emerald-300 focus-visible:ring-emerald-200" : ""}`}
                                         onChange={(e) => setConfirmPassword(e.target.value)}
                                     />
                                     {passwordsMatch && (
-                                        <div className="absolute right-3 top-3 animate-in fade-in zoom-in">
-                                            <CheckCircle2 className="w-5 h-5 text-green-500" />
+                                        <div className="absolute right-3 top-3.5 animate-in fade-in zoom-in">
+                                            <CheckCircle2 className="w-5 h-5 text-emerald-500" />
                                         </div>
                                     )}
                                 </div>
                                 {passwordsMismatch && (
-                                    <p className="text-xs text-red-500 pl-1 animate-in slide-in-from-top-1">Las contraseñas no coinciden</p>
+                                    <p className="text-xs text-red-500 pl-1 animate-in slide-in-from-top-1 font-medium">Las contraseñas no coinciden</p>
                                 )}
                             </div>
                         </div>
@@ -257,7 +258,7 @@ export default function FreeTrialPage() {
                         </div>
                         
                         <div className="space-y-2.5">
-                            <Label htmlFor="logo" className="text-slate-600 font-medium">Logotipo (Opcional)</Label>
+                            <Label htmlFor="logo" className="text-slate-600 font-medium ml-1">Logotipo (Opcional)</Label>
                             <div className="relative group cursor-pointer">
                                 <Input 
                                     id="logo" 
@@ -270,9 +271,9 @@ export default function FreeTrialPage() {
                                         if (file) setFileName(file.name);
                                     }} 
                                 />
-                                <div className={`border-2 border-dashed ${fileName ? "border-primary bg-primary/5" : "border-slate-300 bg-slate-50"} rounded-xl p-8 peer-hover:bg-slate-100 peer-hover:border-primary/50 transition-all text-center group-hover:shadow-sm`}>
-                                    <div className="mx-auto w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 mb-3 ring-1 ring-slate-100 group-hover:text-primary group-hover:scale-110 transition-all">
-                                        {fileName ? <CheckCircle2 className="w-6 h-6 text-green-500" /> : <Upload className="w-6 h-6" />}
+                                <div className={`border border-dashed ${fileName ? "border-blue-500 bg-blue-50/50" : "border-slate-300 bg-slate-50/50"} rounded-xl p-8 peer-hover:bg-slate-100 peer-hover:border-blue-400 transition-all text-center group-hover:scale-[0.99] duration-200 ease-out`}>
+                                    <div className="mx-auto w-12 h-12 bg-white rounded-full shadow-sm flex items-center justify-center text-slate-400 mb-3 ring-1 ring-slate-100 group-hover:text-blue-500 group-hover:scale-110 transition-all">
+                                        {fileName ? <CheckCircle2 className="w-6 h-6 text-emerald-500" /> : <Upload className="w-6 h-6" />}
                                     </div>
                                     <p className="text-sm font-semibold text-slate-700">
                                         {fileName ? fileName : "Haz clic o arrastra tu logo aquí"}
@@ -285,26 +286,18 @@ export default function FreeTrialPage() {
                         </div>
                     </div>
 
-                    {/* Block C: The Compliance Handshake */}
-                    <div className="space-y-4 p-5 rounded-xl bg-orange-50/80 border border-orange-200/60 shadow-sm">
-                         <div className="flex items-start space-x-3">
-                             <input 
+                    {/* Block C: Consent */}
+                    <div className="space-y-4 p-5 rounded-2xl bg-white border border-slate-200 shadow-sm hover:shadow-md transition-shadow">
+                         <div className="flex items-center space-x-3">
+                             <Checkbox 
                                 id="terms" 
                                 name="terms" 
-                                type="checkbox" 
                                 required 
-                                className="mt-1 h-5 w-5 rounded border-gray-300 text-primary focus:ring-primary cursor-pointer"
-                                onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity('Por favor, acepta los términos y condiciones para continuar.')}
-                                onInput={(e) => (e.target as HTMLInputElement).setCustomValidity('')}
+                                className="h-5 w-5 border-slate-300 data-[state=checked]:bg-blue-600 data-[state=checked]:border-blue-600 shadow-sm"
                              />
-                             <div className="space-y-1">
-                                 <Label htmlFor="terms" className="text-sm font-semibold leading-snug text-slate-800 cursor-pointer">
-                                     Acepto los Términos de Servicio y el Acuerdo BAA (Business Associate Agreement).
-                                 </Label>
-                                 <p className="text-xs text-gray-500 leading-relaxed">
-                                     Confirmo que mi clínica cumple con las normativas locales de protección de datos de salud (HIPAA/RGPD) y autorizo el procesamiento de datos.
-                                 </p>
-                             </div>
+                             <Label htmlFor="terms" className="text-sm font-medium leading-normal text-slate-700 cursor-pointer select-none">
+                                 Acepto compartir mis datos para la creación de la cuenta clínica.
+                             </Label>
                          </div>
                     </div>
 
@@ -319,7 +312,7 @@ export default function FreeTrialPage() {
 
                     <Button
                       type="submit"
-                      className="w-full bg-primary hover:bg-primary/90 text-white font-title py-7 text-xl rounded-xl shadow-xl shadow-primary/20 hover:shadow-2xl hover:shadow-primary/30 transition-all transform hover:-translate-y-1 active:translate-y-0"
+                      className="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold py-7 text-lg rounded-xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/30 transition-all transform hover:scale-[1.01] active:scale-[0.99]"
                       disabled={isSubmitting}
                     >
                       {isSubmitting ? (
@@ -340,44 +333,47 @@ export default function FreeTrialPage() {
             </div>
 
             {/* Sidebar Informativo */}
-            <div className="md:col-span-2 space-y-6">
+            <div className="lg:col-span-5 space-y-8 sticky top-32 h-fit">
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.2 }}
               >
-                <div className="bg-[#1A1F2C] text-white rounded-2xl p-6 mb-6 shadow-xl shadow-slate-900/10">
-                  <h3 className="font-medium text-lg mb-6 font-subtitle border-b border-white/10 pb-4">¿Qué incluye tu prueba?</h3>
-                  <ul className="space-y-5">
-                    <li className="flex items-start">
-                      <div className="mt-1 bg-gradient-to-br from-green-400 to-emerald-600 rounded-full p-1 mr-4 shadow-lg shadow-green-500/20">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                <div className="relative bg-white/80 rounded-[2rem] p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] ring-1 ring-black/5 backdrop-blur-3xl overflow-hidden">
+                  {/* Subtle Grainy Noise or Gradient Mesh could go here, for now using a clean gradient */}
+                  <div className="absolute top-0 right-0 w-[300px] h-[300px] bg-gradient-to-br from-blue-50/50 to-purple-50/50 blur-[80px] -z-10 rounded-full mix-blend-multiply opacity-70"></div>
+                  
+                  <h3 className="font-bold text-xl mb-6 font-title tracking-tight text-slate-900 relative z-10">¿Qué incluye tu prueba?</h3>
+                  <ul className="space-y-6 relative z-10">
+                    <li className="flex items-start group">
+                      <div className="mt-1 bg-gradient-to-br from-emerald-500 to-emerald-600 rounded-full p-1.5 mr-4 shadow-lg shadow-emerald-500/20 shrink-0 ring-2 ring-white">
+                        <CheckCircle2 className="h-4 w-4 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-base mb-1 font-subtitle">Gestión Completa de Pacientes</h4>
-                        <p className="text-sm text-gray-400 font-text leading-relaxed">
+                        <h4 className="font-bold text-base mb-1 font-subtitle text-slate-900 group-hover:text-emerald-600 transition-colors">Gestión Completa de Pacientes</h4>
+                        <p className="text-[15px] text-slate-500 font-text leading-relaxed">
                           Historial clínico, odontogramas y periodontogramas interactivos.
                         </p>
                       </div>
                     </li>
-                    <li className="flex items-start">
-                      <div className="mt-1 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-full p-1 mr-4 shadow-lg shadow-blue-500/20">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                    <li className="flex items-start group">
+                      <div className="mt-1 bg-gradient-to-br from-blue-500 to-blue-600 rounded-full p-1.5 mr-4 shadow-lg shadow-blue-500/20 shrink-0 ring-2 ring-white">
+                        <CheckCircle2 className="h-4 w-4 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-base mb-1 font-subtitle">Agenda Inteligente</h4>
-                        <p className="text-sm text-gray-400 font-text leading-relaxed">
+                        <h4 className="font-bold text-base mb-1 font-subtitle text-slate-900 group-hover:text-blue-600 transition-colors">Agenda Inteligente</h4>
+                        <p className="text-[15px] text-slate-500 font-text leading-relaxed">
                           Recordatorios automáticos por WhatsApp y control de citas.
                         </p>
                       </div>
                     </li>
-                    <li className="flex items-start">
-                      <div className="mt-1 bg-gradient-to-br from-purple-400 to-violet-600 rounded-full p-1 mr-4 shadow-lg shadow-purple-500/20">
-                        <CheckCircle2 className="h-3.5 w-3.5 text-white" />
+                    <li className="flex items-start group">
+                      <div className="mt-1 bg-gradient-to-br from-violet-500 to-purple-600 rounded-full p-1.5 mr-4 shadow-lg shadow-purple-500/20 shrink-0 ring-2 ring-white">
+                        <CheckCircle2 className="h-4 w-4 text-white" />
                       </div>
                       <div>
-                        <h4 className="font-bold text-base mb-1 font-subtitle">Facturación Integrada</h4>
-                        <p className="text-sm text-gray-400 font-text leading-relaxed">
+                        <h4 className="font-bold text-base mb-1 font-subtitle text-slate-900 group-hover:text-purple-600 transition-colors">Facturación Integrada</h4>
+                        <p className="text-[15px] text-slate-500 font-text leading-relaxed">
                           Control de pagos, presupuestos y facturación electrónica simplificada.
                         </p>
                       </div>
@@ -385,20 +381,17 @@ export default function FreeTrialPage() {
                   </ul>
                 </div>
 
-                <div className="bg-gradient-to-br from-primary/5 to-primary/10 rounded-2xl p-6 border border-primary/10 relative overflow-hidden">
-                    <div className="absolute top-0 right-0 -mt-4 -mr-4 w-24 h-24 bg-primary/10 rounded-full blur-2xl"></div>
+                <div className="relative bg-white/80 rounded-[2rem] p-8 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.1)] ring-1 ring-black/5 backdrop-blur-3xl overflow-hidden mt-8">
+                  <div className="absolute bottom-0 left-0 w-[200px] h-[200px] bg-gradient-to-tr from-blue-50/50 to-emerald-50/50 blur-[60px] -z-10 rounded-full mix-blend-multiply opacity-70"></div>
                     <div className="relative z-10">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="p-2.5 bg-white rounded-xl shadow-sm text-primary ring-1 ring-primary/10">
-                                <Lock className="w-5 h-5" />
+                        <div className="flex items-center gap-4 mb-3">
+                            <div className="p-3 bg-gradient-to-br from-slate-100 to-white rounded-2xl text-slate-700 ring-1 ring-black/5 shadow-sm">
+                                <Lock className="w-6 h-6" />
                             </div>
-                            <h4 className="font-bold text-primary font-subtitle text-lg">Seguridad Garantizada</h4>
+                            <h4 className="font-bold text-slate-900 font-title text-lg tracking-tight">Protección de Datos</h4>
                         </div>
-                        <p className="text-sm text-slate-600 mb-4 leading-relaxed font-medium">
-                            Cumplimos rigurosamente con RGPD y HIPAA. Tus datos y los de tus pacientes están seguros.
-                        </p>
-                        <p className="text-xs text-slate-500 leading-relaxed bg-white/50 p-3 rounded-lg border border-primary/5">
-                            Tu prueba de 14 días es totalmente gratuita y sin compromiso.
+                        <p className="text-[15px] text-slate-500 leading-relaxed font-text pl-1">
+                           Tus datos están protegidos con encriptación avanzada de grado empresarial.
                         </p>
                     </div>
                 </div>

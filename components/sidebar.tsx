@@ -187,7 +187,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
         {/* Logo */}
         <div className="flex items-center gap-3 h-16 px-6 border-b shrink-0 bg-background/50">
           <div className="relative h-8 w-8">
-            <img src="/clinia-logo.png" alt="Clinia Logo" className="object-contain" />
+            <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
           </div>
           <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
             Clinia +

@@ -4,9 +4,9 @@ import { HeartPulse } from "lucide-react"
 export function SiteFooter({ simplified = false }) {
   if (simplified) {
     return (
-      <footer className="w-full bg-white py-6 border-t">
+      <footer className="w-full bg-white py-6">
         <div className="container text-center text-gray-500 text-sm font-text">
-          © 2025 Clinia+. Todos los derechos reservados.
+          © 2026 Clinia+. Todos los derechos reservados.
         </div>
       </footer>
     )
@@ -18,7 +18,7 @@ export function SiteFooter({ simplified = false }) {
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2">
             <div className="flex items-center gap-2 font-bold text-xl mb-4 font-title text-primary">
-              <img src="/logo.png" alt="Clinia+" className="h-8 w-auto" />
+              <img src="/brand-logo.png" alt="Clinia+" className="h-8 w-auto" />
               <span>Clinia+</span>
             </div>
             <p className="text-gray-500 mb-4 max-w-xs font-text">
@@ -128,7 +128,7 @@ export function SiteFooter({ simplified = false }) {
         </div>
 
         <div className="mt-12 pt-8 border-t flex flex-col md:flex-row justify-between items-center font-text">
-          <p className="text-gray-500 text-sm">© 2025 Clinia+. Todos los derechos reservados.</p>
+          <p className="text-gray-500 text-sm">© 2026 Clinia+. Todos los derechos reservados.</p>
           <div className="flex gap-6 mt-4 md:mt-0">
             <Link href="#" className="text-gray-500 hover:text-secondary text-sm transition-colors">
               Política de Privacidad

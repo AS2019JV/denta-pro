@@ -101,7 +101,7 @@ export async function registerClinic(formData: FormData) {
   }
 
   // 5. Trigger the Confirmation Email explicitly
-  console.log("Attempting to send confirmation email to:", email)
+  console.log("Attempting to send confirmation email")
   const { error: emailError } = await supabase.auth.resend({ 
     type: 'signup', 
     email: email,

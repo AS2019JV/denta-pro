@@ -118,43 +118,7 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
      }
      fetchSafeData();
   }, [user, patientId]);
-    notes: [
-      {
-        id: "1",
-        date: "2024-01-15",
-        type: "Consulta",
-        content: "Paciente acude para limpieza regular. Sin complicaciones.",
-        doctor: "Dra. María González",
-      },
-      {
-        id: "2",
-        date: "2024-01-10",
-        type: "Tratamiento",
-        content: "Empaste en molar superior derecho. Anestesia local aplicada sin complicaciones.",
-        doctor: "Dr. Carlos Ruiz",
-      },
-    ],
-    treatments: [
-      {
-        id: "1",
-        date: "2024-01-15",
-        tooth: "16",
-        treatment: "Limpieza",
-        status: "Completado",
-        notes: "Limpieza profunda realizada",
-        doctor: "Dra. María González",
-      },
-      {
-        id: "2",
-        date: "2024-01-10",
-        tooth: "26",
-        treatment: "Empaste",
-        status: "Completado",
-        notes: "Empaste de composite",
-        doctor: "Dr. Carlos Ruiz",
-      },
-    ],
-  })
+
 
   const handleSaveNote = () => {
     const note = {

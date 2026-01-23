@@ -1,16 +1,25 @@
 import { type NextRequest, NextResponse } from "next/server";
 import { createServerClient } from "@supabase/ssr";
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   let response = NextResponse.next({
     request: {
       headers: request.headers,
     },
   });
 
+  // Check for environment variables to avoid hard crashes
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+  const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+
+  if (!supabaseUrl || !supabaseKey) {
+    console.error("[Proxy] Missing Supabase environment variables!");
+    return NextResponse.next();
+  }
+
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    supabaseUrl,
+    supabaseKey,
     {
       cookies: {
         getAll() {
@@ -33,8 +42,6 @@ export async function middleware(request: NextRequest) {
 
   // Refresh session if expired - required for Server Components
   // https://supabase.com/docs/guides/auth/server-side/nextjs
-  // Refresh session if expired - required for Server Components
-  // https://supabase.com/docs/guides/auth/server-side/nextjs
   const {
     data: { user },
     error
@@ -43,8 +50,9 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
   
-  console.log(`[Middleware] ${request.method} ${pathname}`);
-  console.log(`[Middleware] User: ${user?.id || 'None'}, Error: ${error?.message || 'None'}`);
+  if (error) {
+     console.error(`[Proxy] Error fetching user: ${error.message}`);
+  }
 
   // 1. Unauthenticated users -> Redirect to /login
   // Allow access to login, signup, and public assets/api
