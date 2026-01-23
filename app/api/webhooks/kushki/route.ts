@@ -2,10 +2,8 @@ import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@supabase/supabase-js";
 
 // Init Admin Client (Service Role) to update clinics bypassing RLS
-const supabaseAdmin = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Moved inside handler to prevent build-time errors if env vars are missing
+// const supabaseAdmin = createClient(...)
 
 export async function POST(req: NextRequest) {
   try {
@@ -30,6 +28,16 @@ export async function POST(req: NextRequest) {
 
     const clinicId = data.metadata.clinicId;
     const transactionId = data.ticketNumber;
+    
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error("[Kushki Webhook] Missing Supabase keys");
+      return NextResponse.json({ error: "Configuration Error" }, { status: 500 });
+    }
+
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    )
 
     // 0. Idempotency Check (Billing Integrity)
     // Check if we already processed this exact transaction ID
