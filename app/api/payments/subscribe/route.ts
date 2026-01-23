@@ -6,10 +6,8 @@ import { getPlan } from "@/lib/subscription-plans";
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
 
 // Admin Client for System Operations
-const supabaseAdmin = createSupabaseClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-)
+// Admin Client initialization moved inside handler to avoid build-time errors
+// const supabaseAdmin = createSupabaseClient(...)
 
 export async function POST(req: NextRequest) {
   try {
@@ -52,6 +50,16 @@ export async function POST(req: NextRequest) {
 
     // 3. Process with Kushki
     // In real life, fetch email from DB.
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      console.error("Missing Supabase Admin keys");
+      return NextResponse.json({ error: "Server Configuration Error" }, { status: 500 });
+    }
+
+    const supabaseAdmin = createSupabaseClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    );
+
     const { data: clinic } = await supabaseAdmin.from('clinics').select('id').eq('id', clinicId).single();
     if (!clinic) return NextResponse.json({ error: "Clinic not found" }, { status: 404 });
 
