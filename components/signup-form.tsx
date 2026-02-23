@@ -215,6 +215,22 @@ export function SignupForm() {
                 </div>
               </div>
 
+              <div className="flex items-start space-x-3 py-2">
+                <input
+                  id="terms"
+                  type="checkbox"
+                  className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500 transition-all cursor-pointer"
+                  required
+                />
+                <Label htmlFor="terms" className="text-sm text-slate-500 leading-snug cursor-pointer font-normal">
+                  Acepto los{" "}
+                  <a href="#" className="text-teal-600 hover:underline font-medium">Términos de Servicio</a>
+                  {" "}y la{" "}
+                  <a href="#" className="text-teal-600 hover:underline font-medium">Política de Privacidad</a>
+                  {" "}de Clinia conforme al RGPD.
+                </Label>
+              </div>
+
               {error && (
                 <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
                   {error}

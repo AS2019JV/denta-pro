@@ -7,6 +7,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { OdontogramaInteractive } from "@/components/odontograma-interactive"
 
 
 import {
@@ -43,6 +44,8 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
   // Form states
   const [newNote, setNewNote] = useState({ type: "Consulta", content: "" })
   const [newTreatment, setNewTreatment] = useState({ tooth: "", treatment: "", status: "Programado", notes: "" })
+  const [odontogramData, setOdontogramData] = useState<any>({})
+  const [isLoadingOdontogram, setIsLoadingOdontogram] = useState(false)
 
 
   // Mock data state
@@ -115,9 +118,37 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
              
              console.log("Doctor View Loaded: Full Clinical Records");
          }
-     }
-     fetchSafeData();
-  }, [user, patientId]);
+      }
+      fetchSafeData();
+      fetchOdontogram();
+   }, [user, patientId]);
+
+  const fetchOdontogram = async () => {
+    try {
+      setIsLoadingOdontogram(true)
+      const { data, error } = await supabase
+        .from('hcu033_forms')
+        .select('form_data')
+        .eq('patient_id', patientId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .single()
+
+      if (data) {
+        setOdontogramData(data.form_data.odontograma_data || {})
+      }
+    } catch (err) {
+      console.error("Error fetching odontogram:", err)
+    } finally {
+      setIsLoadingOdontogram(false)
+    }
+  }
+
+  const handleOdontogramChange = async (newData: any) => {
+    setOdontogramData(newData)
+    // Optional: We could trigger an update here if we want immediate persistence outside the full form
+    // but the system is designed to save via HCU-033 usually.
+  }
 
 
   const handleSaveNote = () => {
@@ -159,13 +190,13 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
   return (
     <div className="space-y-6">
       <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="overview">Resumen</TabsTrigger>
-          <TabsTrigger value="notes">Notas</TabsTrigger>
-          <TabsTrigger value="treatments">Tratamientos</TabsTrigger>
-          <TabsTrigger value="history">Historial</TabsTrigger>
-
-        </TabsList>
+        <TabsList className="grid w-full grid-cols-5">
+           <TabsTrigger value="overview">Resumen</TabsTrigger>
+           <TabsTrigger value="odontogram">Odontograma</TabsTrigger>
+           <TabsTrigger value="notes">Notas</TabsTrigger>
+           <TabsTrigger value="treatments">Tratamientos</TabsTrigger>
+           <TabsTrigger value="history">Historial</TabsTrigger>
+         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -225,9 +256,34 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
                   ))}
                 </div>
               </CardContent>
+             </Card>
+           </div>
+         </TabsContent>
+
+         <TabsContent value="odontogram" className="space-y-4">
+            <Card className="border-none shadow-none bg-transparent">
+               <CardHeader className="px-0">
+                  <div className="flex items-center justify-between">
+                     <div>
+                        <CardTitle>Estado Dental Interactivo</CardTitle>
+                        <CardDescription>Visualización y edición rápida del odontograma actual</CardDescription>
+                     </div>
+                     <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                        Sincronizado con HCU-033
+                     </Badge>
+                  </div>
+               </CardHeader>
+               <CardContent className="px-0">
+                  <div className="h-[750px]">
+                     <OdontogramaInteractive 
+                        data={odontogramData} 
+                        onChange={handleOdontogramChange}
+                        patientId={patientId}
+                     />
+                  </div>
+               </CardContent>
             </Card>
-          </div>
-        </TabsContent>
+         </TabsContent>
 
         <TabsContent value="notes" className="space-y-4">
           <div className="flex justify-between items-center">

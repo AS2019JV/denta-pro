@@ -2,7 +2,7 @@ import jsPDF from 'jspdf';
 import autoTable from 'jspdf-autotable';
 
 // MSP Form Colors
-const COLORS = {
+const COLORS: Record<string, [number, number, number]> = {
   HEADER_BG: [198, 239, 206], // Light green for main section headers
   SUBHEADER_BG: [240, 240, 240], // Light grey for sub-headers
   BORDER: [0, 0, 0], // Black borders
@@ -572,4 +572,106 @@ export const generateHCU033 = (data: any) => {
 
   // Save
   doc.save(`HCU033_${data.identificacion || 'Paciente'}.pdf`);
+};
+
+export const generatePrescription = (data: any) => {
+  const doc = new jsPDF('p', 'mm', 'a5'); // Standard prescription size is A5
+  const pageWidth = 148;
+  const pageHeight = 210;
+  const margin = 12;
+  const contentWidth = pageWidth - (margin * 2);
+
+  let y = margin;
+
+  // Header / Branding
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(16);
+  doc.setTextColor(59, 130, 246); // Primary blue
+  doc.text(data.clinicName || 'CLINICA DENTAL', margin, y);
+  
+  doc.setFontSize(8);
+  doc.setTextColor(100);
+  doc.setFont('helvetica', 'normal');
+  doc.text(data.clinicAddress || 'Dirección de la Clínica', margin, y + 5);
+  doc.text(data.clinicPhone || 'Teléfono: +593 999 999 999', margin, y + 9);
+
+  y += 20;
+
+  // Separator line
+  doc.setDrawColor(200);
+  doc.line(margin, y, pageWidth - margin, y);
+  y += 8;
+
+  // Patient Info
+  doc.setFontSize(10);
+  doc.setTextColor(0);
+  doc.setFont('helvetica', 'bold');
+  doc.text('RECETA MÉDICA', pageWidth / 2, y, { align: 'center' });
+  y += 10;
+
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'normal');
+  doc.text(`Paciente: ${data.patientName}`, margin, y);
+  doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, pageWidth - margin, y, { align: 'right' });
+  y += 6;
+  doc.text(`Identificación: ${data.patientId || 'N/A'}`, margin, y);
+  
+  y += 12;
+
+  // RP / Prescriptions
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(11);
+  doc.text('Rp.', margin, y);
+  y += 6;
+
+  // Medications Table
+  autoTable(doc, {
+    startY: y,
+    head: [['Medicamento', 'Dosis / Frecuencia', 'Duración']],
+    body: (data.medications || []).map((m: any) => [m.name, m.dosage, m.duration]),
+    theme: 'striped',
+    styles: { fontSize: 9, cellPadding: 3 },
+    headStyles: { fillColor: [59, 130, 246], textColor: 255 },
+    margin: { left: margin, right: margin }
+  });
+
+  // @ts-ignore
+  y = doc.lastAutoTable.finalY + 15;
+
+  // Instructions
+  if (data.indications) {
+    doc.setFont('helvetica', 'bold');
+    doc.text('Indicaciones:', margin, y);
+    y += 5;
+    doc.setFont('helvetica', 'normal');
+    doc.setFontSize(8.5);
+    const lines = doc.splitTextToSize(data.indications, contentWidth);
+    doc.text(lines, margin, y);
+    y += (lines.length * 4) + 10;
+  }
+
+  // Footer / Signature
+  const footerY = pageHeight - 35;
+  
+  // Signature Image
+  if (data.signature) {
+    try {
+      doc.addImage(data.signature, 'PNG', pageWidth / 2 - 20, footerY - 20, 40, 20);
+    } catch (e) {
+      console.error("Signature image error", e);
+    }
+  }
+
+  doc.setDrawColor(150);
+  doc.line(pageWidth / 2 - 30, footerY, pageWidth / 2 + 30, footerY);
+  doc.setFontSize(9);
+  doc.setFont('helvetica', 'bold');
+  doc.text(data.doctorName || 'Dr. Profesional', pageWidth / 2, footerY + 5, { align: 'center' });
+  doc.setFontSize(7);
+  doc.setFont('helvetica', 'normal');
+  doc.text(data.doctorSpecialty || 'Odontólogo', pageWidth / 2, footerY + 8, { align: 'center' });
+  doc.text(data.doctorReg || 'Reg. Prof: 0000-00-000', pageWidth / 2, footerY + 11, { align: 'center' });
+
+  // Save
+  doc.save(`Receta_${data.patientName.replace(/\s+/g, '_')}_${Date.now()}.pdf`);
 };

@@ -6,6 +6,15 @@ import { supabase } from "@/lib/supabase"
 import { User as SupabaseUser } from "@supabase/supabase-js"
 import { toast } from "sonner"
 
+interface ClinicMembership {
+  clinic_id: string
+  role: "doctor" | "receptionist" | "clinic_owner"
+  clinics?: {
+    name: string
+    settings?: any
+  }
+}
+
 interface User {
   id: string
   name: string
@@ -13,7 +22,7 @@ interface User {
   role: "doctor" | "receptionist" | "clinic_owner"
   avatar: string
   clinic_id?: string
-  clinic_memberships?: any[]
+  clinic_memberships?: ClinicMembership[]
 }
 
 interface AuthContextType {
@@ -104,10 +113,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Fetch memberships
         const { data: memberships } = await supabase
             .from('clinic_members')
-            .select('clinic_id, role, clinics(name)')
+            .select('clinic_id, role, clinics(name, settings)')
             .eq('user_id', authUser.id)
         
-        const clinicMemberships = memberships || []
+        const clinicMemberships = (memberships || []).map((m: any) => ({
+            clinic_id: m.clinic_id,
+            role: m.role,
+            clinics: Array.isArray(m.clinics) ? m.clinics[0] : m.clinics
+        })) as ClinicMembership[]
         // Use profile clinic_id as default, or first membership
         const defaultClinicId = data.clinic_id || (clinicMemberships.length > 0 ? clinicMemberships[0].clinic_id : undefined)
         

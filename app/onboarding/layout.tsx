@@ -5,7 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider"
 import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
 import { Toaster } from "sonner"
-import "../(dashboard)/globals.css" // Import globals from dashboard or relative path
+import "../globals.css"
 
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-title" })
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-subtitle" })

@@ -149,6 +149,10 @@ const translations = {
     "backup-frequency": "Frecuencia de Respaldo",
     "backup-location": "Ubicación de Respaldo",
     "create-backup-now": "Crear respaldo ahora",
+    "privacy-settings": "Privacidad y RGPD",
+    "data-portability": "Portabilidad de Datos",
+    "right-to-erasure": "Derecho al Olvido",
+    "audit-logs": "Registros de Auditoría",
     
     // Team Settings
     "team-settings": "Equipo",
@@ -327,6 +331,10 @@ const translations = {
     "backup-frequency": "Backup Frequency",
     "backup-location": "Backup Location",
     "create-backup-now": "Create backup now",
+    "privacy-settings": "Privacy & GDPR",
+    "data-portability": "Data Portability",
+    "right-to-erasure": "Right to Erasure",
+    "audit-logs": "Audit Logs",
 
     // Team Settings
     "team-settings": "Team",

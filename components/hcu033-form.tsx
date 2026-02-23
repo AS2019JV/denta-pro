@@ -44,7 +44,6 @@ interface HCU033FormProps {
   onSave?: (data: any) => void
   isFullScreen?: boolean
   onClose?: () => void
-  onClose?: () => void
   onExpand?: (currentData: any) => void
   externalData?: any
   onDataChange?: (data: any) => void
@@ -786,7 +785,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
             <CardContent className="space-y-4">
               <OdontogramaInteractive
                 data={formData.odontograma_data}
-                onChange={(data) => updateField("odontograma_data", data)}
+                onChange={(data: any) => updateField("odontograma_data", data)}
                 patientName={patientName || formData.nombre_completo}
                 patientId={patientId}
               />

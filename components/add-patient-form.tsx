@@ -9,11 +9,16 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Checkbox } from "@/components/ui/checkbox"
 import { useTranslation } from "@/components/translations"
-import { Save, X } from "lucide-react"
+import { Save, X, AlertCircle } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 import { useAuth } from "@/components/auth-context"
+
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { patientSchema, PatientFormValues } from "@/lib/validations"
 
 interface AddPatientFormProps {
   initialData?: any
@@ -24,70 +29,101 @@ interface AddPatientFormProps {
 export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFormProps) {
   const { t } = useTranslation()
   const { user, currentClinicId } = useAuth()
-  const [formData, setFormData] = useState({
-    name: initialData?.name || "",
-    lastName: initialData?.lastName || "",
-    email: initialData?.email || "",
-    phone: initialData?.phone || "",
-    address: initialData?.address || "",
-    birthDate: initialData?.birthDate || "",
-    gender: initialData?.gender || "",
-    occupation: initialData?.occupation || "",
-    guardianName: initialData?.guardianName || "",
-    referralSource: initialData?.referralSource || "",
-    referredBy: initialData?.referredBy || "",
-    medicalRecordNumber: initialData?.medicalRecordNumber || "",
-    clinicalNotes: initialData?.clinicalNotes || "",
-    emergencyContact: initialData?.emergencyContact || "",
-    emergencyPhone: initialData?.emergencyPhone || "",
-    allergies: initialData?.allergies || "",
-    medications: initialData?.medications || "",
-    medicalConditions: initialData?.medicalConditions || "",
-    insuranceProvider: initialData?.insuranceProvider || "",
-    policyNumber: initialData?.policyNumber || "",
-  })
-
   const [isLoading, setIsLoading] = useState(false)
 
-  const handleInputChange = (field: string, value: string) => {
-    setFormData((prev) => ({ ...prev, [field]: value }))
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setValue,
+    watch,
+  } = useForm({
+    resolver: zodResolver(patientSchema),
+    defaultValues: {
+      name: initialData?.name || "",
+      lastName: initialData?.lastName || "",
+      email: initialData?.email || "",
+      phone: initialData?.phone || "",
+      address: initialData?.address || "",
+      birthDate: initialData?.birthDate || "",
+      gender: initialData?.gender || "",
+      occupation: initialData?.occupation || "",
+      guardianName: initialData?.guardianName || "",
+      referralSource: initialData?.referralSource || "",
+      referredBy: initialData?.referredBy || "",
+      medicalRecordNumber: initialData?.medicalRecordNumber || "",
+      clinicalNotes: initialData?.clinicalNotes || "",
+      emergencyContact: initialData?.emergencyContact || "",
+      emergencyPhone: initialData?.emergencyPhone || "",
+      allergies: initialData?.allergies || "",
+      medications: initialData?.medications || "",
+      medicalConditions: initialData?.medicalConditions || "",
+      insuranceProvider: initialData?.insuranceProvider || "",
+      policyNumber: initialData?.policyNumber || "",
+      bloodType: initialData?.bloodType || "",
+      maritalStatus: initialData?.maritalStatus || "",
+      city: initialData?.city || "",
+      state: initialData?.state || "",
+      hasDiabetes: initialData?.hasDiabetes || false,
+      hasHypertension: initialData?.hasHypertension || false,
+      hasHeartDisease: initialData?.hasHeartDisease || false,
+      isSmoker: initialData?.isSmoker || false,
+      isPregnant: initialData?.isPregnant || false,
+      preferredContactMethod: initialData?.preferredContactMethod || "phone",
+      recallMonths: initialData?.recallMonths || 6,
+      internalNotes: initialData?.internalNotes || "",
+      accountBalance: initialData?.accountBalance || 0,
+    },
+  })
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    
+  // Watch gender for select component
+  const genderValue = watch("gender")
+
+  const onFormSubmit = async (values: any) => {
     if (!currentClinicId) {
-      toast.error("Error: No has seleccionado una clínica activa. Por favor selecciona una.")
+      toast.error("Error: No has seleccionado una clínica activa.")
       return
     }
 
     setIsLoading(true)
-
     try {
       const { data, error } = await supabase
         .from('patients')
         .insert([
           {
-            first_name: formData.name,
-            last_name: formData.lastName,
-            email: formData.email,
-            phone: formData.phone,
-            address: formData.address,
-            birth_date: formData.birthDate,
-            gender: formData.gender,
-            occupation: formData.occupation,
-            guardian_name: formData.guardianName,
-            referral_source: formData.referralSource,
-            referred_by: formData.referredBy,
-            medical_record_number: formData.medicalRecordNumber,
-            clinical_notes: formData.clinicalNotes,
-            emergency_contact: formData.emergencyContact,
-            emergency_phone: formData.emergencyPhone,
-            allergies: formData.allergies,
-            medications: formData.medications,
-            medical_conditions: formData.medicalConditions,
-            insurance_provider: formData.insuranceProvider,
-            policy_number: formData.policyNumber,
+            first_name: values.name,
+            last_name: values.lastName,
+            email: values.email || null,
+            phone: values.phone,
+            address: values.address,
+            birth_date: values.birthDate,
+            gender: values.gender,
+            occupation: values.occupation,
+            guardian_name: values.guardianName,
+            referral_source: values.referralSource,
+            referred_by: values.referredBy,
+            medical_record_number: values.medicalRecordNumber,
+            clinical_notes: values.clinicalNotes,
+            emergency_contact: values.emergencyContact,
+            emergency_phone: values.emergencyPhone,
+            allergies: values.allergies,
+            medications: values.medications,
+            medical_conditions: values.medicalConditions,
+            insurance_provider: values.insuranceProvider,
+            policy_number: values.policyNumber,
+            blood_type: values.bloodType,
+            marital_status: values.maritalStatus,
+            city: values.city,
+            state: values.state,
+            has_diabetes: values.hasDiabetes,
+            has_hypertension: values.hasHypertension,
+            has_heart_disease: values.hasHeartDisease,
+            is_smoker: values.isSmoker,
+            is_pregnant: values.isPregnant,
+            preferred_contact_method: values.preferredContactMethod,
+            recall_months: values.recallMonths,
+            internal_notes: values.internalNotes,
+            account_balance: values.accountBalance,
             clinic_id: currentClinicId,
           }
         ])
@@ -102,12 +138,12 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
       console.error("Error creating patient:", error)
       toast.error("Error al registrar paciente")
     } finally {
-        setIsLoading(false)
+      setIsLoading(false)
     }
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit(onFormSubmit)} className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Personal Information */}
         <Card>
@@ -120,8 +156,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 <Label htmlFor="medicalRecordNumber">Nº Historia Clínica (HC)</Label>
                 <Input
                   id="medicalRecordNumber"
-                  value={formData.medicalRecordNumber}
-                  onChange={(e) => handleInputChange("medicalRecordNumber", e.target.value)}
+                  {...register("medicalRecordNumber")}
                   placeholder="Opcional"
                 />
               </div>
@@ -129,8 +164,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 <Label htmlFor="occupation">Ocupación</Label>
                 <Input
                   id="occupation"
-                  value={formData.occupation}
-                  onChange={(e) => handleInputChange("occupation", e.target.value)}
+                  {...register("occupation")}
                 />
               </div>
             </div>
@@ -140,19 +174,19 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 <Label htmlFor="name">Nombre *</Label>
                 <Input
                   id="name"
-                  value={formData.name}
-                  onChange={(e) => handleInputChange("name", e.target.value)}
-                  required
+                  {...register("name")}
+                  className={errors.name ? "border-red-500" : ""}
                 />
+                {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">Apellidos *</Label>
                 <Input
                   id="lastName"
-                  value={formData.lastName}
-                  onChange={(e) => handleInputChange("lastName", e.target.value)}
-                  required
+                  {...register("lastName")}
+                  className={errors.lastName ? "border-red-500" : ""}
                 />
+                {errors.lastName && <p className="text-xs text-red-500">{errors.lastName.message}</p>}
               </div>
             </div>
             <div className="space-y-2">
@@ -160,27 +194,44 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Input
                 id="email"
                 type="email"
-                value={formData.email}
-                onChange={(e) => handleInputChange("email", e.target.value)}
+                {...register("email")}
+                className={errors.email ? "border-red-500" : ""}
               />
+              {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="phone">Teléfono *</Label>
               <Input
                 id="phone"
-                value={formData.phone}
-                onChange={(e) => handleInputChange("phone", e.target.value)}
-                required
+                {...register("phone")}
+                className={errors.phone ? "border-red-500" : ""}
               />
+              {errors.phone && <p className="text-xs text-red-500">{errors.phone.message}</p>}
             </div>
             <div className="space-y-2">
-              <Label htmlFor="address">Dirección</Label>
-              <Textarea
+              <Label htmlFor="address">Dirección *</Label>
+              <Input
                 id="address"
-                value={formData.address}
-                onChange={(e) => handleInputChange("address", e.target.value)}
-                rows={2}
+                {...register("address")}
+                placeholder="Calle y número"
               />
+            </div>
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="city">Ciudad</Label>
+                <Input
+                  id="city"
+                  {...register("city")}
+                  placeholder="Ej: Madrid, CDMX..."
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="state">Estado / Provincia</Label>
+                <Input
+                  id="state"
+                  {...register("state")}
+                />
+              </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               <div className="space-y-2">
@@ -188,14 +239,14 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 <Input
                   id="birthDate"
                   type="date"
-                  value={formData.birthDate}
-                  onChange={(e) => handleInputChange("birthDate", e.target.value)}
-                  required
+                  {...register("birthDate")}
+                  className={errors.birthDate ? "border-red-500" : ""}
                 />
+                {errors.birthDate && <p className="text-xs text-red-500">{errors.birthDate.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Género</Label>
-                <Select value={formData.gender} onValueChange={(value) => handleInputChange("gender", value)}>
+                <Select value={genderValue} onValueChange={(value) => setValue("gender", value)}>
                   <SelectTrigger>
                     <SelectValue placeholder="Seleccionar..." />
                   </SelectTrigger>
@@ -220,8 +271,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="guardianName">Apoderado / Responsable</Label>
               <Input
                 id="guardianName"
-                value={formData.guardianName}
-                onChange={(e) => handleInputChange("guardianName", e.target.value)}
+                {...register("guardianName")}
                 placeholder="Para menores de edad"
               />
             </div>
@@ -229,16 +279,14 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="emergencyContact">Contacto de Emergencia</Label>
               <Input
                 id="emergencyContact"
-                value={formData.emergencyContact}
-                onChange={(e) => handleInputChange("emergencyContact", e.target.value)}
+                {...register("emergencyContact")}
               />
             </div>
             <div className="space-y-2">
               <Label htmlFor="emergencyPhone">Teléfono de Emergencia</Label>
               <Input
                 id="emergencyPhone"
-                value={formData.emergencyPhone}
-                onChange={(e) => handleInputChange("emergencyPhone", e.target.value)}
+                {...register("emergencyPhone")}
               />
             </div>
             <div className="grid grid-cols-2 gap-4">
@@ -246,8 +294,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                     <Label htmlFor="referralSource">¿Cómo nos conoció?</Label>
                     <Input
                         id="referralSource"
-                        value={formData.referralSource}
-                        onChange={(e) => handleInputChange("referralSource", e.target.value)}
+                        {...register("referralSource")}
                         placeholder="Ej. Instagram, Google..."
                     />
                 </div>
@@ -255,8 +302,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                     <Label htmlFor="referredBy">Referido por</Label>
                     <Input
                         id="referredBy"
-                        value={formData.referredBy}
-                        onChange={(e) => handleInputChange("referredBy", e.target.value)}
+                        {...register("referredBy")}
                         placeholder="Nombre de quien refirió"
                     />
                 </div>
@@ -274,8 +320,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="clinicalNotes">Nota Clínica Inicial / Observaciones</Label>
               <Textarea
                 id="clinicalNotes"
-                value={formData.clinicalNotes}
-                onChange={(e) => handleInputChange("clinicalNotes", e.target.value)}
+                {...register("clinicalNotes")}
                 placeholder="Notas generales del paciente..."
                 rows={3}
               />
@@ -284,8 +329,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="allergies">Alergias</Label>
               <Textarea
                 id="allergies"
-                value={formData.allergies}
-                onChange={(e) => handleInputChange("allergies", e.target.value)}
+                {...register("allergies")}
                 placeholder="Ej: Penicilina, Látex..."
                 rows={2}
               />
@@ -294,18 +338,94 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="medications">Medicamentos</Label>
               <Textarea
                 id="medications"
-                value={formData.medications}
-                onChange={(e) => handleInputChange("medications", e.target.value)}
+                {...register("medications")}
                 placeholder="Medicamentos actuales..."
                 rows={2}
               />
             </div>
+            <div className="grid grid-cols-2 gap-4">
+               <div className="space-y-2">
+                 <Label htmlFor="bloodType">Grupo Sanguíneo</Label>
+                 <Select value={watch("bloodType")} onValueChange={(value) => setValue("bloodType", value)}>
+                   <SelectTrigger>
+                     <SelectValue placeholder="O+..." />
+                   </SelectTrigger>
+                   <SelectContent>
+                     {["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"].map(type => (
+                       <SelectItem key={type} value={type}>{type}</SelectItem>
+                     ))}
+                   </SelectContent>
+                 </Select>
+               </div>
+               <div className="space-y-2">
+                 <Label htmlFor="maritalStatus">Estado Civil</Label>
+                 <Select value={watch("maritalStatus")} onValueChange={(value) => setValue("maritalStatus", value)}>
+                   <SelectTrigger>
+                     <SelectValue placeholder="Seleccionar..." />
+                   </SelectTrigger>
+                   <SelectContent>
+                     <SelectItem value="single">Soltero/a</SelectItem>
+                     <SelectItem value="married">Casado/a</SelectItem>
+                     <SelectItem value="divorced">Divorciado/a</SelectItem>
+                     <SelectItem value="widowed">Viudo/a</SelectItem>
+                   </SelectContent>
+                 </Select>
+               </div>
+            </div>
+
+            <div className="pt-4 border-t space-y-3">
+              <Label className="text-rose-600 font-bold flex items-center gap-2">
+                <AlertCircle className="h-4 w-4" /> Alertas Clínicas (Antecedentes)
+              </Label>
+              <div className="grid grid-cols-2 gap-y-3">
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="hasDiabetes" 
+                    checked={watch("hasDiabetes")} 
+                    onCheckedChange={(checked) => setValue("hasDiabetes", checked === true)} 
+                  />
+                  <Label htmlFor="hasDiabetes">Diabetes</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="hasHypertension" 
+                    checked={watch("hasHypertension")} 
+                    onCheckedChange={(checked) => setValue("hasHypertension", checked === true)} 
+                  />
+                  <Label htmlFor="hasHypertension">Hipertensión</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="hasHeartDisease" 
+                    checked={watch("hasHeartDisease")} 
+                    onCheckedChange={(checked) => setValue("hasHeartDisease", checked === true)} 
+                  />
+                  <Label htmlFor="hasHeartDisease">Cardiopatía</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="isSmoker" 
+                    checked={watch("isSmoker")} 
+                    onCheckedChange={(checked) => setValue("isSmoker", checked === true)} 
+                  />
+                  <Label htmlFor="isSmoker">Fumador/a</Label>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Checkbox 
+                    id="isPregnant" 
+                    checked={watch("isPregnant")} 
+                    onCheckedChange={(checked) => setValue("isPregnant", checked === true)} 
+                  />
+                  <Label htmlFor="isPregnant">Embarazo</Label>
+                </div>
+              </div>
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="medicalConditions">Condiciones Médicas</Label>
+              <Label htmlFor="medicalConditions">Otras Condiciones Médicas</Label>
               <Textarea
                 id="medicalConditions"
-                value={formData.medicalConditions}
-                onChange={(e) => handleInputChange("medicalConditions", e.target.value)}
+                {...register("medicalConditions")}
                 placeholder="Condiciones médicas relevantes..."
                 rows={2}
               />
@@ -313,18 +433,49 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
           </CardContent>
         </Card>
 
-        {/* Insurance Information */}
+        {/* Insurance & Administration */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-lg">Información del Seguro</CardTitle>
+            <CardTitle className="text-lg">Gestión y Seguro</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
+            <div className="grid grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label htmlFor="recallMonths">Ciclo Recall (Meses)</Label>
+                <Input
+                  id="recallMonths"
+                  type="number"
+                  {...register("recallMonths")}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="preferredContactMethod">Contacto Pref.</Label>
+                <Select value={watch("preferredContactMethod")} onValueChange={(v) => setValue("preferredContactMethod", v)}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="phone">Llamada</SelectItem>
+                    <SelectItem value="whatsapp">WhatsApp</SelectItem>
+                    <SelectItem value="email">Email</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
             <div className="space-y-2">
+              <Label htmlFor="internalNotes">Nota Interna / Administrativa</Label>
+              <Textarea
+                id="internalNotes"
+                {...register("internalNotes")}
+                placeholder="Solo visible para el personal..."
+                rows={2}
+              />
+            </div>
+            <div className="space-y-2 pt-4 border-t">
               <Label htmlFor="insuranceProvider">Proveedor de Seguro</Label>
               <Input
                 id="insuranceProvider"
-                value={formData.insuranceProvider}
-                onChange={(e) => handleInputChange("insuranceProvider", e.target.value)}
+                {...register("insuranceProvider")}
                 placeholder="Ej: Sanitas, Adeslas..."
               />
             </div>
@@ -332,8 +483,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               <Label htmlFor="policyNumber">Número de Póliza</Label>
               <Input
                 id="policyNumber"
-                value={formData.policyNumber}
-                onChange={(e) => handleInputChange("policyNumber", e.target.value)}
+                {...register("policyNumber")}
                 placeholder="Número de póliza..."
               />
             </div>

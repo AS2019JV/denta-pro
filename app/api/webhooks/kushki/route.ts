@@ -13,8 +13,9 @@ export async function POST(req: NextRequest) {
          // return NextResponse.json({ error: "Missing Signature" }, { status: 401 });
     }
 
+    // const body = await req.json();
+    // console.log("[Kushki Webhook] Received:", body);
     const body = await req.json();
-    console.log("[Kushki Webhook] Received:", body);
 
     // Kushki Webhook Payload Structure (Simplified Example)
     // Check specific event types. Usually 'subscription.charge.failed' or 'transaction.updated'

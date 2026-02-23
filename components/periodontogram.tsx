@@ -182,7 +182,7 @@ export function Periodontogram({ data = {}, onChange, readOnly = false }: Period
                  {diseaseCount > 0 && (
                      <Badge variant="destructive" className="flex items-center gap-1">
                          <AlertCircle size={12} />
-                         {diseaseCount} Alertas (>4mm)
+                         {diseaseCount} Alertas ({">"}4mm)
                      </Badge>
                  )}
              </div>

@@ -65,15 +65,24 @@ export default function ReportsPage() {
     try {
       setLoading(true)
       
-      // Fetch all necessary data
+      // Calculate 6 months ago
+      const sixMonthsAgo = subMonths(startOfMonth(new Date()), 5).toISOString()
+
+      // Fetch only data for the relevant period
       const [
         { data: appointmentsData }, 
         { data: patientsData },
         { data: billingsData }
       ] = await Promise.all([
-        supabase.from('appointments').select('*'),
-        supabase.from('patients').select('*'),
-        supabase.from('billings').select('*')
+        supabase.from('appointments')
+          .select('*')
+          .gte('start_time', sixMonthsAgo),
+        supabase.from('patients')
+          .select('*')
+          .gte('created_at', sixMonthsAgo), // For "New Patients" metric
+        supabase.from('billings')
+          .select('*')
+          .gte('created_at', sixMonthsAgo)
       ])
 
       const apps = appointmentsData || []
@@ -85,7 +94,25 @@ export default function ReportsPage() {
       setBillings(bills)
 
       calculateStats(apps, pats, bills)
-      calculateRankings(apps, pats, bills)
+
+      // For rankings, we need patient names. 
+      // If we only have IDs in apps/bills, we need to fetch those patients.
+      // But for simplicity in this MVP, we'll try to use the patients we already have 
+      // or fetch the top ones specifically.
+      // For now, let's just use the 'pats' which are only "New Patients".
+      // Actually, we should fetch patients that appear in the appointments/billings.
+      
+      const patientIds = new Set([
+        ...apps.map(a => a.patient_id),
+        ...bills.map(b => b.patient_id)
+      ])
+      
+      const { data: activePatients } = await supabase
+        .from('patients')
+        .select('*')
+        .in('id', Array.from(patientIds))
+
+      calculateRankings(apps, activePatients || [], bills)
 
     } catch (error) {
       console.error("Error fetching report data:", error)
@@ -122,18 +149,30 @@ export default function ReportsPage() {
   }
 
   const calculateRankings = (apps: any[], pats: any[], bills: any[]) => {
+    // Index data by patient_id for O(1) lookup
+    const appsByPatient: Record<string, any[]> = {}
+    apps.forEach(app => {
+        if (!app.patient_id) return
+        if (!appsByPatient[app.patient_id]) appsByPatient[app.patient_id] = []
+        appsByPatient[app.patient_id].push(app)
+    })
+
+    const billsByPatient: Record<string, any[]> = {}
+    bills.forEach(bill => {
+        if (!bill.patient_id) return
+        if (!billsByPatient[bill.patient_id]) billsByPatient[bill.patient_id] = []
+        billsByPatient[bill.patient_id].push(bill)
+    })
+
     // 1. Attendance Ranking
-    // Score based on completed/confirmed vs no_show
-    // +1 for completed, -1 for no_show? Or just % attendance? Let's do % attendance
     const patientAttendance = pats.map(p => {
-      const pApps = apps.filter(a => a.patient_id === p.id)
+      const pApps = appsByPatient[p.id] || []
       const total = pApps.length
       if (total === 0) return null
 
       const attended = pApps.filter(a => ['completed', 'confirmed'].includes(a.status)).length
       const noShows = pApps.filter(a => a.status === 'no_show').length
       
-      // Simple score: Attended count (primary) then rate
       return {
         ...p,
         totalApps: total,
@@ -142,14 +181,14 @@ export default function ReportsPage() {
         rate: (attended / total) * 100
       }
     }).filter(p => p !== null)
-    .sort((a, b) => b!.attended - a!.attended) // Sort by number of visits first
+    .sort((a, b) => b!.attended - a!.attended)
     .slice(0, 5)
 
     setAttendanceRanking(patientAttendance as any[])
 
     // 2. Revenue Ranking
     const patientRevenue = pats.map(p => {
-      const pBills = bills.filter(b => b.patient_id === p.id)
+      const pBills = billsByPatient[p.id] || []
       const total = pBills.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
       return {
         ...p,

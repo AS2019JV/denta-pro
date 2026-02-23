@@ -1,0 +1,9 @@
+.next/
+node_modules/
+public/
+dist/
+build/
+*.ico
+*.png
+*.svg
+next.config.mjs

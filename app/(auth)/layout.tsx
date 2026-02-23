@@ -1,6 +1,6 @@
 import type React from "react"
 import type { Metadata } from "next"
-import "../(dashboard)/globals.css" // Import globals from sibling or adjust path. 
+import "../globals.css" 
 // Wait, globals.css is in app/(dashboard)/globals.css. I might need to move it up or import it correctly.
 // Let's assume I can import it. The dashboard layout imported "./globals.css".
 // I should probably verify where globals.css should live. Typically it's in app/globals.css.

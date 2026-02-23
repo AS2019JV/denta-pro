@@ -11,8 +11,10 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
-import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw, CreditCard } from "lucide-react"
+import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw, CreditCard, Lock, Sparkles } from "lucide-react"
 import { SubscriptionTab } from "@/components/settings/subscription-tab"
+import { PrivacyTab } from "@/components/settings/privacy-tab"
+import { AutomationTab } from "@/components/settings/automation-tab"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -22,6 +24,15 @@ import { useTheme } from "next-themes"
 import { useAuth } from "@/components/auth-context"
 import { APP_CONFIG } from "@/lib/constants"
 import { supabase } from "@/lib/supabase"
+
+interface TeamMember {
+  id: string
+  full_name: string
+  email: string
+  role: string
+  clinic_id: string
+}
+
 
 export default function SettingsPage() {
   const { t, language, setLanguage } = useTranslation()
@@ -37,7 +48,7 @@ export default function SettingsPage() {
   })
 
   // Team Settings State
-  const [teamMembers, setTeamMembers] = useState<any[]>([])
+  const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
   const [isInviteLoading, setIsInviteLoading] = useState(false)
   const [inviteData, setInviteData] = useState({
     email: "",
@@ -156,30 +167,38 @@ export default function SettingsPage() {
       <PageHeader title={t("settings")} />
 
       <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-4">
-          <TabsTrigger value="general" className="flex items-center gap-2">
+        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-2 h-auto bg-transparent p-0">
+          <TabsTrigger value="general" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
             <Settings className="h-4 w-4" />
-            {t("general-settings")}
+            <span className="hidden sm:inline">{t("general-settings")}</span>
           </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2">
+          <TabsTrigger value="notifications" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
             <Bell className="h-4 w-4" />
-            {t("notification-settings")}
+            <span className="hidden sm:inline">{t("notification-settings")}</span>
           </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2">
+          <TabsTrigger value="security" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
             <Shield className="h-4 w-4" />
-            {t("security-settings")}
+            <span className="hidden sm:inline">{t("security-settings")}</span>
           </TabsTrigger>
-          <TabsTrigger value="backup" className="flex items-center gap-2">
-            <Database className="h-4 w-4" />
-            {t("backup-settings")}
+          <TabsTrigger value="privacy" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
+            <Lock className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("privacy-settings")}</span>
           </TabsTrigger>
-          <TabsTrigger value="team" className="flex items-center gap-2">
+          <TabsTrigger value="team" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
             <Users className="h-4 w-4" />
-            {t("team-settings")}
+            <span className="hidden sm:inline">{t("team-settings")}</span>
           </TabsTrigger>
-          <TabsTrigger value="subscription" className="flex items-center gap-2">
+          <TabsTrigger value="subscription" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
             <CreditCard className="h-4 w-4" />
-            {language === "es" ? "Suscripción" : "Subscription"}
+            <span className="hidden sm:inline">{language === "es" ? "Suscripción" : "Subscription"}</span>
+          </TabsTrigger>
+          <TabsTrigger value="backup" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
+            <Database className="h-4 w-4" />
+            <span className="hidden sm:inline">{t("backup-settings")}</span>
+          </TabsTrigger>
+          <TabsTrigger value="automation" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
+            <Sparkles className="h-4 w-4" />
+            <span className="hidden sm:inline">Automatización</span>
           </TabsTrigger>
         </TabsList>
 
@@ -364,10 +383,10 @@ export default function SettingsPage() {
                     <Switch
                       checked={notificationSettings.pushNotifications}
                       onCheckedChange={async (checked) => {
-                        if (checked) {
+                        if (checked && typeof window !== 'undefined' && 'Notification' in window) {
                            const permission = await Notification.requestPermission()
                            if (permission !== 'granted') {
-                               alert("Permiso denegado para notificaciones. Por favor habilita las notificaciones en tu navegador.")
+                               toast.error("Permiso denegado para notificaciones. Por favor habilita las notificaciones en tu navegador.")
                                setNotificationSettings({ ...notificationSettings, pushNotifications: false })
                                return
                            }
@@ -458,6 +477,10 @@ export default function SettingsPage() {
               </form>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="privacy">
+           <PrivacyTab />
         </TabsContent>
 
         <TabsContent value="backup">
@@ -638,6 +661,10 @@ export default function SettingsPage() {
 
         <TabsContent value="subscription">
            <SubscriptionTab />
+        </TabsContent>
+
+        <TabsContent value="automation">
+           <AutomationTab />
         </TabsContent>
       </Tabs>
     </div>

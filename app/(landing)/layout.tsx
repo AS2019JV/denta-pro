@@ -1,5 +1,5 @@
 import type React from "react"
-import "./globals.css"
+import "../globals.css"
 import { Oswald, Work_Sans, Gowun_Batang } from "next/font/google"
 import { ThemeProvider } from "@/components/landing/theme-provider"
 import { Toaster } from "sonner"

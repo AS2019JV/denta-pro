@@ -66,8 +66,12 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
     logout()
   }
 
-  const handleItemClick = (href: string) => {
+  const handleItemClick = (href: string, name: string) => {
     setIsOpen(false)
+    if (name === "messages") {
+      window.open("https://web.whatsapp.com", "_blank")
+      return
+    }
     if (onNavigate) {
       onNavigate(href)
     } else {
@@ -352,7 +356,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
                              variant="ghost" 
                              size="sm"
                              className="h-7 px-2 text-xs text-primary hover:bg-primary/10"
-                             onClick={() => router.push("/messages")}
+                             onClick={() => window.open("https://web.whatsapp.com", "_blank")}
                            >
                              Ver todos
                            </Button>
@@ -367,7 +371,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
                         className={`cursor-pointer p-4 border-b last:border-0 transition-all duration-200 gap-3 items-start ${
                           message.unread ? "bg-primary/5 hover:bg-primary/10" : "hover:bg-muted/50"
                         }`}
-                        onClick={() => router.push("/messages")}
+                        onClick={() => window.open("https://web.whatsapp.com", "_blank")}
                       >
                          {/* Avatar with Online Status */}
                          <div className="relative flex-shrink-0">
@@ -415,7 +419,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
                          variant="default" 
                          size="sm" 
                          className="w-full text-xs h-9 bg-primary hover:bg-primary/90 transition-all duration-200 font-medium"
-                         onClick={() => router.push("/messages")}
+                         onClick={() => window.open("https://web.whatsapp.com", "_blank")}
                        >
                            Abrir Mensajes
                        </Button>
@@ -436,7 +440,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
               const translationKey = item.label.toLowerCase()
               
               return (
-                <div key={item.label} onClick={() => handleItemClick(item.href)}>
+                <div key={item.label} onClick={() => handleItemClick(item.href, item.label.toLowerCase())}>
                   <Button
                     variant={item.active ? "default" : "ghost"}
                     className="w-full justify-start cursor-pointer"

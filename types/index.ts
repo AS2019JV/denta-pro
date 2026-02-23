@@ -2,9 +2,12 @@ export interface Patient {
     id: string
     first_name: string
     last_name: string
-    email: string
+    cedula?: string
+    email?: string
     phone: string
     address?: string
+    city?: string
+    state?: string
     birth_date?: string
     gender?: string
     emergency_contact?: string
@@ -14,7 +17,28 @@ export interface Patient {
     medical_conditions?: string
     insurance_provider?: string
     policy_number?: string
+    blood_type?: string
+    marital_status?: string
+    occupation?: string
+    guardian_name?: string
+    referral_source?: string
+    referred_by?: string
+    clinical_notes?: string
+    medical_record_number?: string
+    tags?: string[]
+    status?: 'active' | 'inactive'
+    has_diabetes?: boolean
+    has_hypertension?: boolean
+    has_heart_disease?: boolean
+    is_smoker?: boolean
+    is_pregnant?: boolean
+    preferred_contact_method?: 'whatsapp' | 'email' | 'phone'
+    recall_months?: number
+    family_representative_id?: string
+    internal_notes?: string
+    account_balance?: number
     created_at?: string
+    updated_at?: string
 }
 
 export interface Doctor {

@@ -126,7 +126,7 @@ export default function BillingPage() {
   const fetchTreatments = async () => {
     try {
       const { data, error } = await supabase
-        .from('treatments')
+        .from('services')
         .select('*')
         .order('created_at', { ascending: false })
       
@@ -141,12 +141,13 @@ export default function BillingPage() {
     e.preventDefault()
     try {
       const { error } = await supabase
-        .from('treatments')
+        .from('services')
         .insert({
           name: newTreatment.name,
           price: parseFloat(newTreatment.price) || 0,
-          duration: parseInt(newTreatment.duration) || 30,
-          description: newTreatment.description
+          duration_minutes: parseInt(newTreatment.duration) || 30,
+          description: newTreatment.description,
+          clinic_id: (await supabase.auth.getUser()).data.user?.app_metadata?.clinic_id // Ensure clinic_id
         })
 
       if (error) throw error
@@ -162,7 +163,7 @@ export default function BillingPage() {
   const deleteTreatment = async (id: string) => {
     try {
       const { error } = await supabase
-        .from('treatments')
+        .from('services')
         .delete()
         .eq('id', id)
       

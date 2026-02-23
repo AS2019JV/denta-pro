@@ -1,6 +1,6 @@
 "use client"
-
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, useMemo, useCallback } from "react"
+import { useQuery, useInfiniteQuery } from "@tanstack/react-query"
 import {
   format,
   startOfMonth,
@@ -18,9 +18,11 @@ import {
   subWeeks,
   startOfWeek,
   endOfWeek,
+  startOfDay,
+  endOfDay,
 } from "date-fns"
 import { es } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil } from "lucide-react"
+import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil, Trash2, ShieldAlert } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -39,6 +41,12 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from "@/components/ui/textarea"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Switch } from "@/components/ui/switch"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 import { Appointment as GlobalAppointment, Patient, Doctor, Treatment } from "@/types"
@@ -48,44 +56,28 @@ interface CalendarAppointment extends GlobalAppointment {
   patientName: string
   dentistName: string
   color: string
+  hasAlerts?: boolean
+  medicalAlerts?: string[]
 }
 
 interface ModernCalendarProps {
-  appointments?: any[] // Accepting standard or mapped format for flexibility, but preferring typed
-  onDateSelect?: (date: Date) => void
-  onAppointmentClick?: (appointment: any) => void
-  onAppointmentCreate?: (appointment: any) => void
   initialView?: "month" | "week" | "today"
+  propAppointments?: any[]
 }
 
 export function ModernCalendar({
-  appointments: propAppointments = [],
-  onDateSelect,
-  onAppointmentClick,
-  onAppointmentCreate,
   initialView = "month",
+  propAppointments,
 }: ModernCalendarProps) {
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   
-  // Real data state
-  const [dbPatients, setDbPatients] = useState<Patient[]>([])
-  const [dbDentists, setDbDentists] = useState<Doctor[]>([])
-  const [dbTreatments, setDbTreatments] = useState<Treatment[]>([]) 
-  const [appointments, setAppointments] = useState<CalendarAppointment[]>([])
-  
+  // State for view controls
   const [view, setView] = useState<"month" | "week" | "today" | "list" | "timeline">(initialView)
   const [showNewAppointmentDialog, setShowNewAppointmentDialog] = useState(false)
-  const [showAppointmentDetails, setShowAppointmentDialog] = useState(false)
   const [selectedAppointment, setSelectedAppointment] = useState<CalendarAppointment | null>(null)
   
   // Settings / filters
-  const [showSettingsDialog, setShowSettingsDialog] = useState(false)
-  const [selectedDentists, setSelectedDentists] = useState<string[]>([])
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filterStatus, setFilterStatus] = useState<string | null>(null)
-  const [isMonthChanging, setIsMonthChanging] = useState(false)
-  const [monthChangeDirection, setMonthChangeDirection] = useState<"left" | "right" | null>(null)
   const [calendarDays, setCalendarDays] = useState<Date[]>([])
 
   // Feature states
@@ -93,6 +85,13 @@ export function ModernCalendar({
   const [enableAutomatedMessages, setEnableAutomatedMessages] = useState(true)
   const [showMessageDialog, setShowMessageDialog] = useState(false)
   const [messageContent, setMessageContent] = useState("")
+  const [showAppointmentDialog, setShowAppointmentDialog] = useState(false)
+  const [showSettingsDialog, setShowSettingsDialog] = useState(false)
+  const [filterStatus, setFilterStatus] = useState<string>("")
+  const [searchQuery, setSearchQuery] = useState("")
+  const [selectedDentists, setSelectedDentists] = useState<string[]>([])
+  const [isMonthChanging, setIsMonthChanging] = useState(false)
+  const [monthChangeDirection, setMonthChangeDirection] = useState<"left" | "right">("right")
 
   const [newAppointment, setNewAppointment] = useState({
     patientId: "",
@@ -106,58 +105,79 @@ export function ModernCalendar({
     createInvoice: true 
   })
 
-  // Fetch Data on Mount
-  useEffect(() => {
-    const fetchData = async () => {
-      const { data: pats } = await supabase.from('patients').select('*')
-      if (pats) setDbPatients(pats)
-
-      const { data: docs } = await supabase.from('profiles').select('*').eq('role', 'doctor')
-      if (docs) {
-        setDbDentists(docs)
-        if (docs.length > 0) {
-          setNewAppointment(prev => ({ ...prev, dentistId: docs[0].id }))
-          setSelectedDentists(docs.map(d => d.id))
-        }
-      }
-
-      const { data: treats } = await supabase.from('treatments').select('*')
-      if (treats) {
-        setDbTreatments(treats)
-        if (treats.length > 0) {
-           setNewAppointment(prev => ({ ...prev, treatment: treats[0].id }))
-        }
-      }
-
-      fetchAppointments()
+  // Fetch Patients, Doctors, Services (Statics)
+  const { data: dbPatients = [] } = useQuery({
+    queryKey: ['patients'],
+    queryFn: async () => {
+      const { data } = await supabase.from('patients').select('*').limit(100)
+      return data || []
     }
-    fetchData()
-  }, [])
+  })
 
-  const fetchAppointments = async () => {
-    const { data: apps, error } = await supabase.from('appointments').select(`
-      *,
-      patients (first_name, last_name),
-      profiles (full_name)
-    `)
-    
-    if (apps) {
-      // Need current treatments to map types?
-      const { data: currentTreatments } = await supabase.from('treatments').select('*')
-
-      const mapped: CalendarAppointment[] = apps.map((app: any) => {
-        // Find color based on treatment name matching? Or default.
-        return {
-          ...app,
-          status: app.status as any,
-          patientName: app.patients ? `${app.patients.first_name} ${app.patients.last_name}` : 'Unknown',
-          dentistName: app.profiles ? app.profiles.full_name : 'Unknown',
-          color: "#007BFF" 
-        }
-      })
-      setAppointments(mapped)
+  const { data: dbDentists = [] } = useQuery({
+    queryKey: ['dentists'],
+    queryFn: async () => {
+      const { data } = await supabase.from('profiles').select('*').eq('role', 'doctor')
+      return data || []
     }
-  }
+  })
+
+  const { data: dbTreatments = [] } = useQuery({
+    queryKey: ['treatments'],
+    queryFn: async () => {
+      const { data } = await supabase.from('services').select('*')
+      return data || []
+    }
+  })
+
+  // Range-based Appointment Fetching
+  const currentRange = useMemo(() => {
+    if (view === 'today') return { start: startOfDay(selectedDate), end: endOfDay(selectedDate) }
+    if (view === 'week') return { start: startOfWeek(selectedDate), end: endOfWeek(selectedDate) }
+    if (view === 'month') return { start: startOfMonth(selectedDate), end: endOfMonth(selectedDate) }
+    return { start: startOfDay(selectedDate), end: endOfMonth(addDays(selectedDate, 30)) } // List view default
+  }, [view, selectedDate])
+
+  const { data: appointmentData = [], refetch: refreshAppointments } = useQuery({
+    queryKey: ['appointments', view, currentRange.start.toISOString(), currentRange.end.toISOString()],
+    queryFn: async () => {
+      const { data: apps } = await supabase
+        .from('appointments')
+        .select(`
+          *,
+          patients (first_name, last_name, phone, email, has_diabetes, has_hypertension, has_heart_disease, is_smoker, is_pregnant, allergies),
+          profiles (full_name),
+          billings (id, amount, status, invoice_number)
+        `)
+        .gte('start_time', currentRange.start.toISOString())
+        .lte('start_time', currentRange.end.toISOString())
+      
+      if (!apps) return []
+
+      return apps.map((app: any) => ({
+        ...app,
+        status: app.status as any,
+        patientName: app.patients ? `${app.patients.first_name} ${app.patients.last_name}` : 'Unknown',
+        dentistName: app.profiles ? app.profiles.full_name : 'Unknown',
+        color: "#007BFF",
+        hasAlerts: app.patients ? (app.patients.has_diabetes || app.patients.has_hypertension || app.patients.has_heart_disease || app.patients.is_pregnant || !!app.patients.allergies) : false,
+        medicalAlerts: app.patients ? [
+          app.patients.has_diabetes && "Diabetes",
+          app.patients.has_hypertension && "Hipertensión",
+          app.patients.has_heart_disease && "Cardiopatía",
+          app.patients.is_pregnant && "Embarazo",
+          app.patients.allergies && `Alergias: ${app.patients.allergies}`
+        ].filter(Boolean) as string[] : []
+      })) as CalendarAppointment[]
+    }
+  })
+
+  // Helper for "Load More" in List view (Step 2)
+  const [listLimit] = useState(20)
+  const appointments = useMemo(() => {
+    if (view === 'list') return appointmentData.slice(0, listLimit)
+    return appointmentData
+  }, [appointmentData, view, listLimit])
 
   // Reload appointments when prop changes
   useEffect(() => {
@@ -232,7 +252,7 @@ export function ModernCalendar({
         })
       }
 
-      await fetchAppointments()
+      refreshAppointments()
       toast.success("Cita creada correctamente")
       setShowNewAppointmentDialog(false)
       
@@ -291,35 +311,52 @@ export function ModernCalendar({
       setIsEditing(false)
   }
 
-  const handleUpdateStatus = async (status: string) => {
+  const handleUpdateStatus = async (newStatus: 'scheduled' | 'confirmed' | 'cancelled') => {
     if (!selectedAppointment) return
+    try {
+      const { error } = await supabase
+        .from('appointments')
+        .update({ status: newStatus })
+        .eq('id', selectedAppointment.id)
+
+      if (error) throw error
+      
+      refreshAppointments()
+      
+      setSelectedAppointment({ ...selectedAppointment, status: newStatus })
+      toast.success(`Cita ${newStatus === 'confirmed' ? 'confirmada' : newStatus === 'cancelled' ? 'cancelada' : 'actualizada'}`)
+      
+      if (newStatus === 'confirmed' && enableAutomatedMessages) {
+          setMessageContent(`Hola ${selectedAppointment.patientName}, tu cita para el ${format(parseISO(selectedAppointment.start_time), "d 'de' MMMM 'a las' HH:mm", { locale: es })} ha sido confirmada. ¡Te esperamos!`)
+          setShowMessageDialog(true)
+      } else {
+        setShowAppointmentDialog(false)
+      }
+    } catch (e) {
+      console.error(e)
+      toast.error("Error al actualizar el estado")
+    }
+  }
+
+  const handleDeleteAppointment = async () => {
+    if (!selectedAppointment) return
+    
+    if (!confirm("¿Estás seguro de que deseas eliminar esta cita? Esta acción no se puede deshacer.")) return
 
     try {
-        const { error } = await supabase
-            .from('appointments')
-            .update({ status })
-            .eq('id', selectedAppointment.id)
+      const { error } = await supabase
+        .from('appointments')
+        .delete()
+        .eq('id', selectedAppointment.id)
 
-        if (error) throw error
-
-        setAppointments(prev => prev.map(a => a.id === selectedAppointment.id ? { ...a, status: status as any } : a))
-        if (selectedAppointment) {
-            setSelectedAppointment({ ...selectedAppointment, status: status as any })
-        }
-        
-        if (status === 'confirmed' && enableAutomatedMessages) {
-             const msg = `Hola ${selectedAppointment.patientName}, su cita de ${selectedAppointment.type} ha sido confirmada para el ${format(parseISO(selectedAppointment.start_time), "dd/MM/yyyy 'a las' HH:mm")}.`
-             setMessageContent(msg)
-             setShowMessageDialog(true)
-             setShowAppointmentDialog(false)
-        } else {
-             toast.success(`Cita ${status === 'confirmed' ? 'confirmada' : 'cancelada'}`)
-             setShowAppointmentDialog(false)
-        }
-
+      if (error) throw error
+      
+      refreshAppointments()
+      setShowAppointmentDialog(false)
+      toast.success("Cita eliminada correctamente")
     } catch (e) {
-        console.error(e)
-        toast.error("Error al actualizar la cita")
+      console.error(e)
+      toast.error("Error al eliminar la cita")
     }
   }
 
@@ -338,7 +375,7 @@ export function ModernCalendar({
             
           if(error) throw error
           
-          await fetchAppointments()
+          refreshAppointments()
           toast.success("Cita actualizada")
           setIsEditing(false)
           setShowAppointmentDialog(false)
@@ -382,8 +419,9 @@ export function ModernCalendar({
                   </div>
                   <div className="mt-1 space-y-1 overflow-hidden max-h-[60px]">
                       {dayAppts.slice(0, 3).map((a, idx) => (
-                          <div key={idx} className="text-[9px] truncate px-1 rounded" style={{ backgroundColor: `${a.color}20`, color: a.color }}>
-                             {format(parseISO(a.start_time), 'HH:mm')} {a.patientName}
+                          <div key={idx} className="text-[9px] truncate px-1 rounded flex items-center justify-between" style={{ backgroundColor: `${a.color}20`, color: a.color }}>
+                             <span>{format(parseISO(a.start_time), 'HH:mm')} {a.patientName}</span>
+                             {a.hasAlerts && <ShieldAlert className="h-2 w-2 text-rose-600 animate-pulse ml-0.5" />}
                           </div>
                       ))}
                   </div>
@@ -513,11 +551,31 @@ export function ModernCalendar({
                                                color: '#1e293b' // Slate-800 for readability
                                            }}
                                        >
-                                           <div className="font-bold truncate text-foreground">{app.patientName}</div>
-                                           <div className="truncate text-[10px] text-muted-foreground flex items-center gap-1">
-                                                <span style={{ color: app.color }}>●</span>
-                                                {app.type}
+                                           <div className="font-bold truncate text-foreground flex items-center justify-between gap-1">
+                                              <span className="truncate">{app.patientName}</span>
+                                              {app.hasAlerts && (
+                                                <Tooltip>
+                                                  <TooltipTrigger asChild>
+                                                    <ShieldAlert className="h-4 w-4 text-rose-600 animate-pulse shrink-0" />
+                                                  </TooltipTrigger>
+                                                  <TooltipContent className="bg-rose-600 text-white border-rose-600">
+                                                    <p className="font-bold border-b border-white/20 mb-1 pb-1 text-xs">ALERTA MÉDICA</p>
+                                                    <ul className="text-[10px] list-disc list-inside">
+                                                       {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                    </ul>
+                                                  </TooltipContent>
+                                                </Tooltip>
+                                              )}
                                            </div>
+                                            <div className="truncate text-[10px] text-muted-foreground flex items-center justify-between gap-1 w-full">
+                                                 <div className="flex items-center gap-1">
+                                                     <span style={{ color: app.color }}>●</span>
+                                                     {app.type}
+                                                 </div>
+                                                 {(app as any).billings?.[0] && (
+                                                     <span className="font-bold text-primary">${(app as any).billings[0].amount}</span>
+                                                 )}
+                                            </div>
                                            {height > 40 && (
                                                <div className="truncate text-[9px] opacity-70 mt-0.5">
                                                    {format(start, 'HH:mm')} - {format(end, 'HH:mm')}
@@ -564,12 +622,33 @@ export function ModernCalendar({
                                        <div className="text-xs text-muted-foreground">{format(parseISO(app.end_time), 'HH:mm')}</div>
                                    </div>
                                    <div className="flex-1">
-                                       <div className="font-medium">{app.patientName}</div>
+                                       <div className="font-medium flex items-center gap-2">
+                                          {app.patientName}
+                                          {app.hasAlerts && (
+                                            <Tooltip>
+                                              <TooltipTrigger asChild>
+                                                <Badge variant="outline" className="h-5 px-1 bg-rose-50 text-rose-600 border-rose-200 animate-pulse text-[10px] flex items-center gap-1">
+                                                   <ShieldAlert className="h-3 w-3" /> ALERTA MÉDICA
+                                                </Badge>
+                                              </TooltipTrigger>
+                                              <TooltipContent className="bg-rose-600 text-white border-rose-600">
+                                                <ul className="text-xs list-disc list-inside">
+                                                  {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                </ul>
+                                              </TooltipContent>
+                                            </Tooltip>
+                                          )}
+                                       </div>
                                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                                            <span>{app.type}</span>
-                                           <span>•</span>
-                                           <span>Dr. {app.dentistName}</span>
-                                       </div>
+                                            <span>•</span>
+                                            <span>Dr. {app.dentistName}</span>
+                                            {(app as any).billings?.[0] && (
+                                                <Badge variant="outline" className="ml-2 h-5 text-[10px] bg-primary/5 text-primary border-primary/20">
+                                                    ${(app as any).billings[0].amount} - {(app as any).billings[0].status === 'paid' ? 'Pagado' : 'Pendiente'}
+                                                </Badge>
+                                            )}
+                                        </div>
                                    </div>
                                    <Badge variant={app.status === 'confirmed' ? "default" : app.status === 'cancelled' ? "destructive" : "secondary"}>
                                        {app.status === 'confirmed' ? 'Confirmado' : app.status === 'cancelled' ? 'Cancelado' : 'Pendiente'}
@@ -689,7 +768,14 @@ export function ModernCalendar({
                                         color: '#1e293b' 
                                     }}
                                 >
-                                    <div className="font-bold truncate text-foreground text-base">{app.patientName}</div>
+                                    <div className="font-bold truncate text-foreground text-base flex items-center justify-between">
+                                       <span>{app.patientName}</span>
+                                       {app.hasAlerts && (
+                                          <div className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full flex items-center gap-1 text-xs animate-pulse">
+                                             <ShieldAlert className="h-4 w-4" /> ALERTA MÉDICA
+                                          </div>
+                                       )}
+                                    </div>
                                     <div className="truncate text-xs text-muted-foreground flex items-center gap-2 mt-1">
                                             <span style={{ color: app.color }}>●</span>
                                             {app.type}
@@ -752,16 +838,18 @@ export function ModernCalendar({
       </div>
 
       {/* Main View Area */}
-      <Card className="p-4 min-h-[500px] shadow-none border-0 sm:border sm:shadow-sm">
-          {view === 'month' && renderMonthView()}
-          {view === 'week' && renderWeekView()}
-          {view === 'today' && renderDayView()}
-          {view === 'list' && renderListView()}
-      </Card>
+      <TooltipProvider>
+        <Card className="p-4 min-h-[500px] shadow-none border-0 sm:border sm:shadow-sm">
+            {view === 'month' && renderMonthView()}
+            {view === 'week' && renderWeekView()}
+            {view === 'today' && renderDayView()}
+            {view === 'list' && renderListView()}
+        </Card>
+      </TooltipProvider>
       
       {/* Appointment Details / Edit Dialog */}
-      <Dialog open={showAppointmentDetails} onOpenChange={setShowAppointmentDialog}>
-        <DialogContent>
+      <Dialog open={showAppointmentDialog} onOpenChange={setShowAppointmentDialog}>
+        <DialogContent className="max-w-2xl">
           <DialogHeader>
             <DialogTitle>{isEditing ? "Editar Cita" : "Detalles de la Cita"}</DialogTitle>
              <DialogDescription>
@@ -907,13 +995,17 @@ export function ModernCalendar({
                           <span className="sr-only">Confirmar</span>
                       </Button>
                    </div>
-                   <div className="flex gap-2">
-                      <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
-                          <Pencil className="h-4 w-4 mr-2" />
-                          Editar
-                      </Button>
-                      <Button size="sm" onClick={() => setShowAppointmentDialog(false)}>Cerrar</Button>
-                   </div>
+                    <div className="flex gap-2">
+                       <Button variant="outline" size="sm" onClick={() => setIsEditing(true)}>
+                           <Pencil className="h-4 w-4 mr-2" />
+                           Editar
+                       </Button>
+                       <Button variant="outline" size="sm" className="text-red-600 hover:bg-red-50 hover:text-red-700 border-red-200" onClick={handleDeleteAppointment}>
+                           <Trash2 className="h-4 w-4 mr-2" />
+                           Eliminar
+                       </Button>
+                       <Button size="sm" onClick={() => setShowAppointmentDialog(false)}>Cerrar</Button>
+                    </div>
                  </>
               ) : (
                  <>
@@ -948,7 +1040,7 @@ export function ModernCalendar({
                        method: 'POST',
                        headers: { 'Content-Type': 'application/json' },
                        body: JSON.stringify({
-                         to: selectedAppointment?.patientId, // In real app, use email from patient object
+                         to: selectedAppointment?.patient_id, // In real app, use email from patient object
                          subject: "Confirmación de Cita",
                          message: messageContent
                        })

@@ -55,6 +55,7 @@ import { AddPatientForm } from "@/components/add-patient-form"
 import { useDashboardData } from "@/hooks/use-dashboard-data"
 import { supabase } from "@/lib/supabase"
 import { Appointment } from "@/types"
+import { AsyncPatientSelect } from "@/components/async-patient-select"
 
 export default function DashboardPage() {
   const { user } = useAuth()
@@ -77,12 +78,7 @@ export default function DashboardPage() {
   const currentMonth = new Date().getMonth()
   const currentYear = new Date().getFullYear()
   
-  const monthlyRevenue = billings
-     .filter(b => {
-         const d = new Date(b.created_at)
-         return d.getMonth() === currentMonth && d.getFullYear() === currentYear
-     })
-     .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+  const monthlyRevenue = billings.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
 
   const pendingTreatmentsCount = appointments.filter(a => 
       (a.status === 'scheduled' || a.status === 'confirmed') && 
@@ -92,7 +88,7 @@ export default function DashboardPage() {
   const stats = [
     {
       title: t("total-patients"),
-      value: patients.length.toString(),
+      value: ((patients as any).totalCount || patients.length).toString(),
       change: "+12%", 
       icon: Users,
       color: "text-blue-600",
@@ -363,14 +359,10 @@ export default function DashboardPage() {
             <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                     <Label>Paciente</Label>
-                    <Select value={newApp.patientId} onValueChange={v => setNewApp({...newApp, patientId: v})}>
-                        <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
-                        <SelectContent>
-                            {patients.map(p => (
-                                <SelectItem key={p.id} value={p.id}>{p.first_name} {p.last_name}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <AsyncPatientSelect 
+                        value={newApp.patientId} 
+                        onValueChange={v => setNewApp({...newApp, patientId: v})} 
+                    />
                 </div>
                 <div className="grid gap-2">
                     <Label>Tratamiento</Label>

@@ -97,11 +97,11 @@ export async function generateBudgetPDF(data: BudgetData) {
   yPos += 10
 
   // 3. Table of Treatments
-  const tableBody = data.items.map(item => [
+  const tableBody: (string | number)[][] = data.items.map(item => [
     item.name,
     item.description || "",
     `$${item.price.toFixed(2)}`
-  ])
+  ]);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   (doc as any).autoTable({
