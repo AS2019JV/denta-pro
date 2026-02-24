@@ -445,7 +445,7 @@ export default function FreeTrialPage() {
                           <div className="flex gap-4 items-start">
                               <div className="bg-white text-primary border border-primary/20 rounded-full w-8 h-8 flex items-center justify-center shrink-0 font-bold text-sm shadow-sm ring-2 ring-primary/5">2</div>
                               <div>
-                                  <p className="font-semibold text-slate-800 text-sm">Haz clic en "Confirmar mi cuenta"</p>
+                                  <p className="font-semibold text-slate-800 text-sm">Haz clic en &quot;Confirmar mi cuenta&quot;</p>
                                   <p className="text-xs text-slate-400 mt-0.5">Accederás inmediatamente a tu panel</p>
                               </div>
                           </div>
@@ -453,7 +453,7 @@ export default function FreeTrialPage() {
 
                       {/* Value Proposition Micro-copy */}
                       <p className="text-sm text-center text-slate-400 italic">
-                        "El primer paso hacia tu transformación digital"
+                        &quot;El primer paso hacia tu transformación digital&quot;
                       </p>
 
                       {/* Actions */}

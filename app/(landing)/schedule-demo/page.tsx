@@ -336,8 +336,8 @@ export default function ScheduleDemoPage() {
                       </div>
                     </div>
                     <p className="text-gray-700 italic mb-4 font-text">
-                      "La demo fue increíblemente útil. El equipo me mostró exactamente cómo Clinia+ podía resolver
-                      nuestros desafíos de programación, y en una semana de implementarlo, vimos una mejora dramática."
+                      &quot;La demo fue increíblemente útil. El equipo me mostró exactamente cómo Clinia+ podía resolver
+                      nuestros desafíos de programación, y en una semana de implementarlo, vimos una mejora dramática.&quot;
                     </p>
                     <div className="flex text-secondary">
                       {[1, 2, 3, 4, 5].map((star) => (

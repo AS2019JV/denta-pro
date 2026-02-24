@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { useAuth } from "@/components/auth-context"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
@@ -147,9 +147,9 @@ export default function PatientsPage() {
     setPage(0)
     setPatients([])
     fetchPatients(0, searchTerm)
-  }, [searchTerm, timeFilter, badgeFilter, groupByFamily])
+  }, [searchTerm, timeFilter, badgeFilter, groupByFamily, fetchPatients])
 
-  const fetchPatients = async (pageNum: number, search: string) => {
+  const fetchPatients = useCallback(async (pageNum: number, search: string) => {
     try {
       setIsLoading(true)
       
@@ -168,9 +168,9 @@ export default function PatientsPage() {
       const count = data?.[0]?.total_count || 0
 
         if (data) {
-          const mappedPatients: Patient[] = data.map((p: any) => ({
-            id: p.id,
-            name: p.first_name,
+          const mappedPatients: Patient[] = (data as Record<string, any>[]).map((p) => ({
+            id: p.id as string,
+            name: p.first_name as string,
             lastName: p.last_name,
             cedula: p.cedula,
             email: p.email,
@@ -220,7 +220,7 @@ export default function PatientsPage() {
     } finally {
       setIsLoading(false)
     }
-  }
+  }, [currentClinicId, timeFilter, badgeFilter, groupByFamily, PAGE_SIZE])
 
   const handleLoadMore = () => {
     const nextPage = page + 1

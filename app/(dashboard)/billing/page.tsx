@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { PageHeader } from "@/components/page-header"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -17,7 +17,6 @@ import { PaymentMethodsSettings } from "@/components/billing/payment-methods-set
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
-import { useAppData } from "@/hooks/use-app-data"
 
 interface Billing {
   id: string
@@ -44,6 +43,15 @@ interface Billing {
   }[]
 }
 
+interface Treatment {
+  id: string
+  name: string
+  price: number
+  duration: number
+  description?: string
+  created_at?: string
+}
+
 export default function BillingPage() {
   const [billings, setBillings] = useState<Billing[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -54,7 +62,7 @@ export default function BillingPage() {
   })
 
   // Supabase treatments state
-  const [treatments, setTreatments] = useState<any[]>([])
+  const [treatments, setTreatments] = useState<Treatment[]>([])
   const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
   const [newTreatment, setNewTreatment] = useState({
     name: "",

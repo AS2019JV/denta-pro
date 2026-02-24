@@ -3,7 +3,6 @@
 import Link from "next/link"
 import { useState } from "react"
 import { format, isToday, isFuture } from "date-fns"
-import { es } from "date-fns/locale"
 import { toast } from "sonner"
 import {
   Users,
@@ -20,14 +19,12 @@ import {
   X,
   CalendarClock,
   Send,
-  ClipboardList,
-  CalendarRange,
 } from "lucide-react"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -75,9 +72,6 @@ export default function DashboardPage() {
     .slice(0, 5) // Show only top 5
 
   // Calculate real stats
-  const currentMonth = new Date().getMonth()
-  const currentYear = new Date().getFullYear()
-  
   const monthlyRevenue = billings.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
 
   const pendingTreatmentsCount = appointments.filter(a => 
@@ -88,7 +82,7 @@ export default function DashboardPage() {
   const stats = [
     {
       title: t("total-patients"),
-      value: ((patients as any).totalCount || patients.length).toString(),
+      value: (Array.isArray(patients) ? patients.length : 0).toString(),
       change: "+12%", 
       icon: Users,
       color: "text-blue-600",

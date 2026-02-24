@@ -35,7 +35,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "latest",
     "framer-motion": "^12.23.26",
-    "jspdf": "^3.0.4",
+    "jspdf": "^4.2.0",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.454.0",
     "next": "^15.1.6",
@@ -55,7 +55,7 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
-    "eslint": "^8",
+    "eslint": "^9",
     "eslint-config-next": "^15.1.6",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-prettier": "^5.5.5",
@@ -72,5 +72,8 @@
       "eslint --fix",
       "prettier --write"
     ]
+  },
+  "overrides": {
+    "minimatch": "^10.2.1"
   }
 }
