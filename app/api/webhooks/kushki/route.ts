@@ -8,9 +8,10 @@ import { createClient } from "@supabase/supabase-js";
 export async function POST(req: NextRequest) {
   try {
     const signature = req.headers.get("x-kushki-signature");
-    if (!signature) {
-         // In real prod, verify HMAC. For now, we assume integrity or use a secret check if Kushki supports basic auth webhooks.
-         // return NextResponse.json({ error: "Missing Signature" }, { status: 401 });
+    // Ensure Webhook comes from Kushki and isn't being spoofed by an attacker
+    if (!signature || signature !== process.env.KUSHKI_WEBHOOK_SECRET) {
+         console.error("[Kushki Webhook] Invalid or Missing Signature");
+         return NextResponse.json({ error: "Unauthorized Webhook" }, { status: 401 });
     }
 
     // const body = await req.json();
@@ -102,6 +103,7 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error("[Kushki Webhook] Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    const isDev = process.env.NODE_ENV !== "production";
+    return NextResponse.json({ error: isDev ? error.message : "Internal Server Error - Webhook Processing Failed" }, { status: 500 });
   }
 }

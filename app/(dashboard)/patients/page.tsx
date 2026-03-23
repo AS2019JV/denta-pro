@@ -141,14 +141,6 @@ export default function PatientsPage() {
   const [hasMore, setHasMore] = useState(true)
   const PAGE_SIZE = 12
 
-  // Fetch patients from Supabase
-  useEffect(() => {
-    // Reset and fetch when search or filters change
-    setPage(0)
-    setPatients([])
-    fetchPatients(0, searchTerm)
-  }, [searchTerm, timeFilter, badgeFilter, groupByFamily, fetchPatients])
-
   const fetchPatients = useCallback(async (pageNum: number, search: string) => {
     try {
       setIsLoading(true)
@@ -221,6 +213,14 @@ export default function PatientsPage() {
       setIsLoading(false)
     }
   }, [currentClinicId, timeFilter, badgeFilter, groupByFamily, PAGE_SIZE])
+
+  // Fetch patients from Supabase
+  useEffect(() => {
+    // Reset and fetch when search or filters change
+    setPage(0)
+    setPatients([])
+    fetchPatients(0, searchTerm)
+  }, [searchTerm, timeFilter, badgeFilter, groupByFamily, fetchPatients])
 
   const handleLoadMore = () => {
     const nextPage = page + 1

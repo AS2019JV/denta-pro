@@ -58,13 +58,14 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Server Configuration Error" }, { status: 500 });
     }
 
+    // Verify user has access to this clinic using the RLS-scoped client
+    const { data: clinic } = await supabase.from('clinics').select('id').eq('id', clinicId).single();
+    if (!clinic) return NextResponse.json({ error: "Clinic not found or unauthorized" }, { status: 404 });
+
     const supabaseAdmin = createSupabaseClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.SUPABASE_SERVICE_ROLE_KEY
     );
-
-    const { data: clinic } = await supabaseAdmin.from('clinics').select('id').eq('id', clinicId).single();
-    if (!clinic) return NextResponse.json({ error: "Clinic not found" }, { status: 404 });
 
     const subscription = await kushki.createSubscription({
         token,
@@ -105,6 +106,8 @@ export async function POST(req: NextRequest) {
 
   } catch (error: any) {
     console.error("Payment Error:", error);
-    return NextResponse.json({ error: error.message }, { status: 500 });
+    // Avoid leaking internal error details in production to clients
+    const isDev = process.env.NODE_ENV !== "production";
+    return NextResponse.json({ error: isDev ? error.message : "Internal Server Error - Payment Processing Failed" }, { status: 500 });
   }
 }

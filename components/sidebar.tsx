@@ -158,8 +158,28 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const unreadCount = notifications.filter((n) => n.unread).length
   const unreadMessagesCount = messages.filter((m) => m.unread).length
 
+  // Role-Based Access Control (RBAC) Filtering
+  const filteredNavigation = navigation.filter(item => {
+    if (user?.role === "clinic_owner") return true;
+    if (user?.role === "doctor") {
+        // Doctors cannot see finances (billing) or general reports
+        return !["billing", "reports"].includes(item.name);
+    }
+    if (user?.role === "receptionist") {
+        // Receptionists can checkout (billing), view appointments (calendar), but NOT full patient records or reports
+        return !["patients", "reports", "services"].includes(item.name);
+    }
+    return true;
+  });
+
+  const filteredUserNavigation = userNavigation.filter(item => {
+    if (user?.role === "clinic_owner") return true;
+    // Non-admins can only see their own profile, not general settings or dentist lists
+    return item.name === "profile"; 
+  });
+
   // Use provided navItems or fallback to internal navigation
-  const itemsToRender = navItems || navigation.map(item => ({
+  const itemsToRender = navItems || filteredNavigation.map(item => ({
     icon: item.icon,
     label: item.name,
     href: item.href,
@@ -455,7 +475,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
           {/* User navigation */}
           <div className="p-4 border-t space-y-2">
-            {userNavigation.map((item) => {
+            {filteredUserNavigation.map((item) => {
               const isActive = pathname === item.href
               return (
                 <Link key={item.name} href={item.href}>

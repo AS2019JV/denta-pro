@@ -79,13 +79,14 @@ export default function DashboardPage() {
       isFuture(new Date(a.start_time))
   ).length
 
-  const stats = [
+  const allStats = [
     {
       title: t("total-patients"),
       value: (Array.isArray(patients) ? patients.length : 0).toString(),
       change: "+12%", 
       icon: Users,
       color: "text-blue-600",
+      href: "/patients"
     },
     {
       title: t("appointments-today"),
@@ -93,6 +94,7 @@ export default function DashboardPage() {
       change: "+5%",
       icon: Calendar,
       color: "text-green-600",
+      href: "/calendar"
     },
     {
       title: t("monthly-revenue"),
@@ -100,6 +102,8 @@ export default function DashboardPage() {
       change: "+18%", // We would need previous month data to calculate real change
       icon: DollarSign,
       color: "text-yellow-600",
+      adminOnly: true,
+      href: "/reports"
     },
     {
       title: t("pending-treatments"),
@@ -107,8 +111,11 @@ export default function DashboardPage() {
       change: "-3%",
       icon: Clock,
       color: "text-red-600",
+      href: "/calendar"
     },
   ]
+
+  const stats = allStats.filter(s => !s.adminOnly || user?.role === "clinic_owner")
 
   // State
   const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
@@ -487,7 +494,7 @@ export default function DashboardPage() {
       {/* Stats */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat) => (
-          <Link href="/reports" key={stat.title}>
+          <Link href={stat.href} key={stat.title}>
             <Card className="hover:shadow-lg transition-all duration-200 cursor-pointer h-full">
               <CardHeader className="flex flex-row items-center justify-between pb-2">
                 <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>

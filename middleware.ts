@@ -59,24 +59,59 @@ export async function middleware(request: NextRequest) {
   const url = request.nextUrl.clone();
   const pathname = url.pathname;
 
-  // Route Protection Logic
-  const isDashboard = pathname.startsWith('/dashboard');
+  // Protected Routes List (All routes inside the authenticated app)
+  const isDashboardRoute = pathname === '/dashboard' || 
+                           pathname.startsWith('/patients') || 
+                           pathname.startsWith('/calendar') || 
+                           pathname.startsWith('/billing') || 
+                           pathname.startsWith('/reports') || 
+                           pathname.startsWith('/messages') || 
+                           pathname.startsWith('/dentists') || 
+                           pathname.startsWith('/settings') || 
+                           pathname.startsWith('/profile') ||
+                           pathname.startsWith('/pay');
+
   const isAuth = pathname.startsWith('/login') || 
                  pathname.startsWith('/signup') ||
-                 pathname.startsWith('/onboarding');
+                 pathname.startsWith('/onboarding') ||
+                 pathname === '/';
 
   // Redirect to login if accessing dashboard without session
-  if (isDashboard && !user) {
+  if (isDashboardRoute && !user) {
     url.pathname = '/login';
     return NextResponse.redirect(url);
   }
 
+  // RBAC Enforcement (Role-Based Access Control)
+  if (isDashboardRoute && user) {
+      const userRole = user.user_metadata?.role || "doctor"; // Default fallback
+
+      // 1. Doctors restrictions
+      if (userRole === "doctor") {
+          // Doctors cannot access finances (billing/reports) or admin settings
+          if (pathname.startsWith('/billing') || pathname.startsWith('/reports') || pathname.startsWith('/settings') || pathname.startsWith('/dentists')) {
+              url.pathname = '/dashboard';
+              return NextResponse.redirect(url);
+          }
+      }
+
+      // 2. Receptionist restrictions
+      if (userRole === "receptionist") {
+          // Receptionists can access calendar and checkout (pay/billing), but not the full patients CRM, services, or reports/settings
+          if (pathname.startsWith('/patients') || pathname.startsWith('/reports') || pathname.startsWith('/settings') || pathname.startsWith('/dashboard/services') || pathname.startsWith('/dentists')) {
+              url.pathname = '/dashboard';
+              return NextResponse.redirect(url);
+          }
+      }
+  }
+
   // Redirect to dashboard if accessing auth pages with active session
-  if (isAuth && user && !pathname.startsWith('/onboarding')) {
-      // Check if user has clinic_id in app_metadata to skip onboarding
-      if (user.app_metadata?.clinic_id) {
-          url.pathname = '/dashboard';
-          return NextResponse.redirect(url);
+  if (isAuth && user && !pathname.startsWith('/onboarding') && pathname !== '/free-trial') {
+      // Allow them to stay if it's the landing page? The prompt doesn't specify landing page protection, but we treat '/' as landing.
+      // Usually, logged-in users going to '/' are redirected to their dashboard in SAAS.
+      if (pathname === '/' || pathname.startsWith('/login')) {
+        url.pathname = '/dashboard';
+        return NextResponse.redirect(url);
       }
   }
 

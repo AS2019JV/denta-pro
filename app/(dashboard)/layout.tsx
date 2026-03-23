@@ -11,6 +11,8 @@ import { Toaster } from "sonner"
 import { SubscriptionBlocker } from "@/components/subscription-blocker"
 import { DashboardWrapper } from "@/components/dashboard-wrapper"
 
+export const dynamic = 'force-dynamic'
+
 export const metadata: Metadata = {
   title: "Clinia + | Software Dental Moderno",
   description: "Una interfaz moderna, intuitiva y responsive para software dental Clinia +",

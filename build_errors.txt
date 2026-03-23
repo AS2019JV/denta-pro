@@ -1,0 +1,59 @@
+﻿
+> dental-software@0.1.0 build
+> next build
+
+   Ôû▓ Next.js 15.5.12
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Ô£ô Compiled successfully in 24.8s
+   Skipping validation of types
+   Skipping linting
+   Collecting page data ...
+   Generating static pages (0/7) ...
+   Generating static pages (1/7) 
+   Generating static pages (3/7) 
+   Generating static pages (5/7) 
+ Ô£ô Generating static pages (7/7)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+Ôöî ãÆ /                                    10.7 kB         177 kB
+Ôö£ Ôùï /_not-found                             1 kB         103 kB
+Ôö£ ãÆ /api/payments/subscribe                148 B         102 kB
+Ôö£ ãÆ /api/send-email                        148 B         102 kB
+Ôö£ ãÆ /api/webhooks/kushki                   148 B         102 kB
+Ôö£ ãÆ /billing                             12.3 kB         265 kB
+Ôö£ ãÆ /calendar                              15 kB         278 kB
+Ôö£ ãÆ /dashboard                           15.7 kB         311 kB
+Ôö£ ãÆ /dashboard/services                  5.64 kB         248 kB
+Ôö£ ãÆ /dentists                            10.6 kB         133 kB
+Ôö£ ãÆ /forgot-password                     3.88 kB         198 kB
+Ôö£ ãÆ /free-trial                          14.6 kB         196 kB
+Ôö£ ãÆ /login                               6.42 kB         251 kB
+Ôö£ ãÆ /marketing                           13.7 kB         162 kB
+Ôö£ ãÆ /messages                            9.12 kB         225 kB
+Ôö£ ãÆ /onboarding                          10.7 kB         249 kB
+Ôö£ ãÆ /onboarding/create-clinic            3.44 kB         207 kB
+Ôö£ ãÆ /patients                            9.73 kB         336 kB
+Ôö£ ãÆ /patients/[id]                       37.7 kB         502 kB
+Ôö£ ãÆ /pay/[id]                            7.24 kB         217 kB
+Ôö£ ãÆ /profile                             7.81 kB         221 kB
+Ôö£ ãÆ /reports                              112 kB         487 kB
+Ôö£ ãÆ /schedule-demo                       7.51 kB         203 kB
+Ôö£ ãÆ /settings                            17.1 kB         300 kB
+Ôö£ ãÆ /signup                              3.31 kB         247 kB
+Ôö£ Ôùï /sitemap.xml                           148 B         102 kB
+Ôöö ãÆ /sobre-nosotros                      6.49 kB         184 kB
++ First Load JS shared by all             102 kB
+  Ôö£ chunks/1255-1c772eeae65b5714.js      45.6 kB
+  Ôö£ chunks/4bd1b696-100b9d70ed4e49c1.js  54.2 kB
+  Ôöö other shared chunks (total)           2.2 kB
+
+
+ãÆ Middleware                             82.5 kB
+
+Ôùï  (Static)   prerendered as static content
+ãÆ  (Dynamic)  server-rendered on demand
+

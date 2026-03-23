@@ -17,42 +17,34 @@ import { PaymentMethodsSettings } from "@/components/billing/payment-methods-set
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
+import { useAuth } from "@/components/auth-context"
 
 interface Billing {
-  id: string
-  created_at: string
-  patient_id: string
-  amount: number
-  status: 'paid' | 'pending' | 'overdue'
-  description: string
-  due_date: string
-  invoice_number: string
-  patients?: {
     id: string
-    first_name: string
-    last_name: string
-    cedula?: string
-    email?: string
-    address?: string
-  }
-  invoices?: {
-    id: string
-    invoice_number: string
-    status: string
-    pdf_url: string
-  }[]
+    patient_id: string
+    amount: number
+    status: 'pending' | 'paid' | 'overdue' | 'cancelled'
+    description: string
+    created_at: string
+    due_date?: string
+    invoice_number?: string
+    invoices?: { pdf_url: string }[]
+    patients?: {
+        first_name: string
+        last_name: string
+    }
 }
 
 interface Treatment {
-  id: string
-  name: string
-  price: number
-  duration: number
-  description?: string
-  created_at?: string
+    id: string
+    name: string
+    price: number
+    duration: number
+    description: string
 }
-
 export default function BillingPage() {
+  const { user } = useAuth()
+  const isOwner = user?.role === "clinic_owner"
   const [billings, setBillings] = useState<Billing[]>([])
   const [isLoading, setIsLoading] = useState(true)
   const [stats, setStats] = useState({
@@ -78,8 +70,8 @@ export default function BillingPage() {
 
   useEffect(() => {
     fetchBillings()
-    fetchTreatments()
-  }, [])
+    if (isOwner) fetchTreatments()
+  }, [isOwner])
 
   const fetchBillings = async () => {
     try {
@@ -147,6 +139,7 @@ export default function BillingPage() {
 
   const handleAddTreatment = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (!isOwner) return
     try {
       const { error } = await supabase
         .from('services')
@@ -169,6 +162,7 @@ export default function BillingPage() {
   }
 
   const deleteTreatment = async (id: string) => {
+    if (!isOwner) return
     try {
       const { error } = await supabase
         .from('services')
@@ -184,7 +178,7 @@ export default function BillingPage() {
 
   return (
     <div className="space-y-6">
-      <PageHeader title="Facturación y Servicios" />
+      <PageHeader title="Facturación y Checkout" />
 
       <Tabs defaultValue="invoices" className="space-y-4">
         <TabsList>
@@ -192,14 +186,18 @@ export default function BillingPage() {
             <CreditCard className="h-4 w-4" />
             Facturas
           </TabsTrigger>
-          <TabsTrigger value="treatments" className="flex items-center gap-2">
-            <Stethoscope className="h-4 w-4" />
-            Tratamientos y Precios
-          </TabsTrigger>
-          <TabsTrigger value="settings" className="flex items-center gap-2">
-            <Settings className="h-4 w-4" />
-            Configuración
-          </TabsTrigger>
+          {isOwner && (
+            <>
+              <TabsTrigger value="treatments" className="flex items-center gap-2">
+                <Stethoscope className="h-4 w-4" />
+                Tratamientos y Precios
+              </TabsTrigger>
+              <TabsTrigger value="settings" className="flex items-center gap-2">
+                <Settings className="h-4 w-4" />
+                Configuración
+              </TabsTrigger>
+            </>
+          )}
         </TabsList>
 
         {/* FACTURAS TAB */}
@@ -211,39 +209,41 @@ export default function BillingPage() {
             </Button>
           </div>
           
-          {/* Stats Cards */}
-          <div className="grid gap-4 md:grid-cols-3">
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Ingresos Totales</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
-                <p className="text-xs text-muted-foreground">+20.1% del mes pasado</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Pendiente de Pago</CardTitle>
-                <CreditCard className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">${stats.pendingAmount.toFixed(2)}</div>
-                <p className="text-xs text-muted-foreground">15 facturas pendientes</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Vencido</CardTitle>
-                <TrendingUp className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-red-500">${stats.overdueAmount.toFixed(2)}</div>
-                <p className="text-xs text-muted-foreground">Requiere atención inmediata</p>
-              </CardContent>
-            </Card>
-          </div>
+          {/* Stats Cards - Hidden for Receptionists */}
+          {isOwner && (
+            <div className="grid gap-4 md:grid-cols-3 animate-in fade-in slide-in-from-bottom-4 duration-500">
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Ingresos Totales</CardTitle>
+                  <DollarSign className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${stats.totalRevenue.toFixed(2)}</div>
+                  <p className="text-xs text-muted-foreground">+20.1% del mes pasado</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Pendiente de Pago</CardTitle>
+                  <CreditCard className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold">${stats.pendingAmount.toFixed(2)}</div>
+                  <p className="text-xs text-muted-foreground">15 facturas pendientes</p>
+                </CardContent>
+              </Card>
+              <Card>
+                <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                  <CardTitle className="text-sm font-medium">Vencido</CardTitle>
+                  <TrendingUp className="h-4 w-4 text-muted-foreground" />
+                </CardHeader>
+                <CardContent>
+                  <div className="text-2xl font-bold text-red-500">${stats.overdueAmount.toFixed(2)}</div>
+                  <p className="text-xs text-muted-foreground">Requiere atención inmediata</p>
+                </CardContent>
+              </Card>
+            </div>
+          )}
 
           {/* Billings Table */}
           <Card>

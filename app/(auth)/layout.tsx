@@ -12,6 +12,7 @@ import { AuthProvider } from "@/components/auth-context"
 import { TranslationProvider } from "@/components/translations"
 import { Toaster } from "sonner"
 
+export const dynamic = 'force-dynamic'
 export const metadata: Metadata = {
   title: "Clinia + | Autenticación",
   description: "Ingresa o registrate",

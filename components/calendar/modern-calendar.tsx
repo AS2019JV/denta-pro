@@ -22,7 +22,7 @@ import {
   endOfDay,
 } from "date-fns"
 import { es } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil, Trash2, ShieldAlert } from "lucide-react"
+import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil, Trash2, ShieldAlert, DollarSign } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -58,6 +58,8 @@ interface CalendarAppointment extends GlobalAppointment {
   color: string
   hasAlerts?: boolean
   medicalAlerts?: string[]
+  hasPaymentAlert?: boolean
+  paymentAlerts?: string[]
 }
 
 interface ModernCalendarProps {
@@ -167,7 +169,10 @@ export function ModernCalendar({
           app.patients.has_heart_disease && "Cardiopatía",
           app.patients.is_pregnant && "Embarazo",
           app.patients.allergies && `Alergias: ${app.patients.allergies}`
-        ].filter(Boolean) as string[] : []
+        ].filter(Boolean) as string[] : [],
+        hasPaymentAlert: app.billings?.some((b: any) => b.status === 'overdue' || b.status === 'pending') || false,
+        paymentAlerts: app.billings?.filter((b: any) => b.status === 'overdue' || b.status === 'pending')
+          .map((b: any) => `Pago ${b.status === 'overdue' ? 'vencido' : 'pendiente'} por $${b.amount}`) || []
       })) as CalendarAppointment[]
     }
   })
@@ -421,7 +426,10 @@ export function ModernCalendar({
                       {dayAppts.slice(0, 3).map((a, idx) => (
                           <div key={idx} className="text-[9px] truncate px-1 rounded flex items-center justify-between" style={{ backgroundColor: `${a.color}20`, color: a.color }}>
                              <span>{format(parseISO(a.start_time), 'HH:mm')} {a.patientName}</span>
-                             {a.hasAlerts && <ShieldAlert className="h-2 w-2 text-rose-600 animate-pulse ml-0.5" />}
+                             <div className="flex items-center gap-0.5 ml-1">
+                               {a.hasPaymentAlert && <DollarSign className="h-2 w-2 text-amber-600 animate-pulse" />}
+                               {a.hasAlerts && <ShieldAlert className="h-2 w-2 text-rose-600 animate-pulse" />}
+                             </div>
                           </div>
                       ))}
                   </div>
@@ -553,19 +561,34 @@ export function ModernCalendar({
                                        >
                                            <div className="font-bold truncate text-foreground flex items-center justify-between gap-1">
                                               <span className="truncate">{app.patientName}</span>
-                                              {app.hasAlerts && (
-                                                <Tooltip>
-                                                  <TooltipTrigger asChild>
-                                                    <ShieldAlert className="h-4 w-4 text-rose-600 animate-pulse shrink-0" />
-                                                  </TooltipTrigger>
-                                                  <TooltipContent className="bg-rose-600 text-white border-rose-600">
-                                                    <p className="font-bold border-b border-white/20 mb-1 pb-1 text-xs">ALERTA MÉDICA</p>
-                                                    <ul className="text-[10px] list-disc list-inside">
-                                                       {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
-                                                    </ul>
-                                                  </TooltipContent>
-                                                </Tooltip>
-                                              )}
+                                              <div className="flex gap-1 shrink-0">
+                                                  {app.hasPaymentAlert && (
+                                                    <Tooltip>
+                                                      <TooltipTrigger asChild>
+                                                        <DollarSign className="h-4 w-4 text-amber-600 animate-pulse shrink-0" />
+                                                      </TooltipTrigger>
+                                                      <TooltipContent className="bg-amber-100 text-amber-900 border-amber-200">
+                                                        <p className="font-bold border-b border-amber-200 mb-1 pb-1 text-xs">PAGOS PENDIENTES</p>
+                                                        <ul className="text-[10px] list-disc list-inside">
+                                                           {app.paymentAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                        </ul>
+                                                      </TooltipContent>
+                                                    </Tooltip>
+                                                  )}
+                                                  {app.hasAlerts && (
+                                                    <Tooltip>
+                                                      <TooltipTrigger asChild>
+                                                        <ShieldAlert className="h-4 w-4 text-rose-600 animate-pulse shrink-0" />
+                                                      </TooltipTrigger>
+                                                      <TooltipContent className="bg-rose-600 text-white border-rose-600">
+                                                        <p className="font-bold border-b border-white/20 mb-1 pb-1 text-xs">ALERTA MÉDICA</p>
+                                                        <ul className="text-[10px] list-disc list-inside">
+                                                           {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                        </ul>
+                                                      </TooltipContent>
+                                                    </Tooltip>
+                                                  )}
+                                              </div>
                                            </div>
                                             <div className="truncate text-[10px] text-muted-foreground flex items-center justify-between gap-1 w-full">
                                                  <div className="flex items-center gap-1">
@@ -624,20 +647,36 @@ export function ModernCalendar({
                                    <div className="flex-1">
                                        <div className="font-medium flex items-center gap-2">
                                           {app.patientName}
-                                          {app.hasAlerts && (
-                                            <Tooltip>
-                                              <TooltipTrigger asChild>
-                                                <Badge variant="outline" className="h-5 px-1 bg-rose-50 text-rose-600 border-rose-200 animate-pulse text-[10px] flex items-center gap-1">
-                                                   <ShieldAlert className="h-3 w-3" /> ALERTA MÉDICA
-                                                </Badge>
-                                              </TooltipTrigger>
-                                              <TooltipContent className="bg-rose-600 text-white border-rose-600">
-                                                <ul className="text-xs list-disc list-inside">
-                                                  {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
-                                                </ul>
-                                              </TooltipContent>
-                                            </Tooltip>
-                                          )}
+                                          <div className="flex gap-1">
+                                                {app.hasPaymentAlert && (
+                                                  <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                      <Badge variant="outline" className="h-5 px-1 bg-amber-50 text-amber-600 border-amber-200 animate-pulse text-[10px] flex items-center gap-1">
+                                                         <DollarSign className="h-3 w-3" /> PAGO PENDIENTE
+                                                      </Badge>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent className="bg-amber-100 text-amber-900 border-amber-200">
+                                                      <ul className="text-xs list-disc list-inside">
+                                                        {app.paymentAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                      </ul>
+                                                    </TooltipContent>
+                                                  </Tooltip>
+                                                )}
+                                                {app.hasAlerts && (
+                                                  <Tooltip>
+                                                    <TooltipTrigger asChild>
+                                                      <Badge variant="outline" className="h-5 px-1 bg-rose-50 text-rose-600 border-rose-200 animate-pulse text-[10px] flex items-center gap-1">
+                                                         <ShieldAlert className="h-3 w-3" /> ALERTA MÉDICA
+                                                      </Badge>
+                                                    </TooltipTrigger>
+                                                    <TooltipContent className="bg-rose-600 text-white border-rose-600">
+                                                      <ul className="text-xs list-disc list-inside">
+                                                        {app.medicalAlerts?.map((m, i) => <li key={i}>{m}</li>)}
+                                                      </ul>
+                                                    </TooltipContent>
+                                                  </Tooltip>
+                                                )}
+                                           </div>
                                        </div>
                                        <div className="text-sm text-muted-foreground flex items-center gap-2">
                                            <span>{app.type}</span>
@@ -770,11 +809,18 @@ export function ModernCalendar({
                                 >
                                     <div className="font-bold truncate text-foreground text-base flex items-center justify-between">
                                        <span>{app.patientName}</span>
-                                       {app.hasAlerts && (
-                                          <div className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full flex items-center gap-1 text-xs animate-pulse">
-                                             <ShieldAlert className="h-4 w-4" /> ALERTA MÉDICA
-                                          </div>
-                                       )}
+                                       <div className="flex gap-1 shrink-0">
+                                            {app.hasPaymentAlert && (
+                                                <div className="bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full flex items-center gap-1 text-xs animate-pulse">
+                                                    <DollarSign className="h-4 w-4" /> PAGO PENDIENTE
+                                                </div>
+                                            )}
+                                            {app.hasAlerts && (
+                                                <div className="bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full flex items-center gap-1 text-xs animate-pulse">
+                                                    <ShieldAlert className="h-4 w-4" /> ALERTA MÉDICA
+                                                </div>
+                                            )}
+                                        </div>
                                     </div>
                                     <div className="truncate text-xs text-muted-foreground flex items-center gap-2 mt-1">
                                             <span style={{ color: app.color }}>●</span>

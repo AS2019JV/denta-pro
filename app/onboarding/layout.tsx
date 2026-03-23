@@ -7,6 +7,7 @@ import { TranslationProvider } from "@/components/translations"
 import { Toaster } from "sonner"
 import "../globals.css"
 
+export const dynamic = 'force-dynamic'
 const oswald = Oswald({ subsets: ["latin"], variable: "--font-title" })
 const workSans = Work_Sans({ subsets: ["latin"], variable: "--font-subtitle" })
 const gowunBatang = Gowun_Batang({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-text" })
