@@ -47,9 +47,10 @@ const processEnv = () => {
 
   // Define defaults here, prioritizing valid values
   const finalClientEnv = parsedClient.success ? parsedClient.data : {
-    NEXT_PUBLIC_SUPABASE_URL: clientEnvData.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
-    NEXT_PUBLIC_SUPABASE_ANON_KEY: clientEnvData.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder_anon_key",
-    NEXT_PUBLIC_APP_URL: clientEnvData.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
+    NEXT_PUBLIC_SUPABASE_URL: clientEnvData.NEXT_PUBLIC_SUPABASE_URL,
+    NEXT_PUBLIC_SUPABASE_ANON_KEY: clientEnvData.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    NEXT_PUBLIC_APP_URL: clientEnvData.NEXT_PUBLIC_APP_URL || 
+                         (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000"),
     NEXT_PUBLIC_INVOICE_PROVIDER: clientEnvData.NEXT_PUBLIC_INVOICE_PROVIDER,
   };
 

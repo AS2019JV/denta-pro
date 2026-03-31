@@ -1,0 +1,455 @@
+diff --git a/components/signup-form.tsx b/components/signup-form.tsx
+index 1cef3b8..b1bb2fe 100644
+--- a/components/signup-form.tsx
++++ b/components/signup-form.tsx
+@@ -70,42 +70,69 @@ export function SignupForm() {
+       <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-text">
+         {/* Ambient Background */}
+         <div className="absolute inset-0 pointer-events-none overflow-hidden">
+-           <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
+-           <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
++           <div className="absolute top-[-5%] left-[-5%] w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[120px] opacity-60"></div>
++           <div className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] bg-blue-100/30 rounded-full blur-[150px] opacity-50"></div>
+         </div>
+ 
+         <motion.div 
+-          initial={{ opacity: 0, scale: 0.95 }}
+-          animate={{ opacity: 1, scale: 1 }}
+-          transition={{ duration: 0.5 }}
+-          className="w-full max-w-md p-4 relative z-10"
++          initial={{ opacity: 0, y: 20 }}
++          animate={{ opacity: 1, y: 0 }}
++          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
++          className="w-full max-w-lg p-6 relative z-10"
+         >
+-          <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60 overflow-hidden rounded-3xl">
+-            <CardHeader className="space-y-4 text-center pt-10 pb-6">
++          <Card className="border-0 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.1)] bg-white/90 backdrop-blur-2xl ring-1 ring-white/80 overflow-hidden rounded-[32px]">
++            <CardHeader className="space-y-6 text-center pt-12 pb-8">
+               <motion.div 
+-                initial={{ scale: 0 }}
+-                animate={{ scale: 1 }}
+-                transition={{ type: "spring", stiffness: 200, damping: 15 }}
+-                className="mx-auto w-20 h-20 bg-emerald-50 rounded-full flex items-center justify-center ring-1 ring-emerald-100 shadow-sm"
++                initial={{ scale: 0, rotate: -10 }}
++                animate={{ scale: 1, rotate: 0 }}
++                transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
++                className="mx-auto w-24 h-24 bg-gradient-to-tr from-teal-500 to-emerald-400 rounded-3xl flex items-center justify-center shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)]"
+               >
+-                 <CheckCircle2 className="h-10 w-10 text-emerald-500" />
++                 <CheckCircle2 className="h-12 w-12 text-white" />
+               </motion.div>
+-              <CardTitle className="text-2xl font-bold text-slate-900">¡Cuenta creada!</CardTitle>
+-              <CardDescription className="text-base text-slate-600">
+-                Hemos enviado un enlace de confirmación a: <br/>
+-                <span className="font-semibold text-slate-900 mt-1 block">{email}</span>
+-              </CardDescription>
++              <div className="space-y-2">
++                <CardTitle className="text-3xl font-bold text-slate-900 tracking-tight">¡Casi listo!</CardTitle>
++                <CardDescription className="text-lg text-slate-600 px-4">
++                  Hemos enviado un enlace de verificación a: <br/>
++                  <span className="font-bold text-teal-600 mt-1 inline-block selection:bg-teal-100">{email}</span>
++                </CardDescription>
++              </div>
+             </CardHeader>
+-            <CardContent className="space-y-6 px-8 pb-10">
+-               <div className="bg-slate-50 p-4 rounded-xl text-sm text-slate-600 text-center border border-slate-100">
+-                  Por favor revise su bandeja de entrada (y spam). Debe confirmar su correo antes de iniciar sesión.
++            <CardContent className="space-y-8 px-10 pb-12">
++               <div className="space-y-4">
++                 <div className="flex items-start gap-3 p-4 bg-slate-50/80 rounded-2xl border border-slate-100">
++                    <div className="mt-1 w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
++                      <span className="text-teal-700 text-[10px] font-bold">1</span>
++                    </div>
++                    <p className="text-sm text-slate-600 leading-relaxed">
++                      Revisa tu bandeja de entrada y haz clic en el botón de confirmación.
++                    </p>
++                 </div>
++                 <div className="flex items-start gap-3 p-4 bg-slate-50/80 rounded-2xl border border-slate-100">
++                    <div className="mt-1 w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
++                      <span className="text-teal-700 text-[10px] font-bold">2</span>
++                    </div>
++                    <p className="text-sm text-slate-600 leading-relaxed">
++                      Si no lo encuentras, revisa tu carpeta de <strong>correo no deseado (SPAM)</strong>.
++                    </p>
++                 </div>
++               </div>
++
++               <div className="pt-2 space-y-4">
++                 <Button 
++                   className="w-full h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-slate-200"
++                   onClick={() => router.push("/login")}
++                 >
++                    Ir al Inicio de Sesión
++                 </Button>
++                 
++                 <p className="text-center text-sm text-slate-400">
++                   ¿No recibiste el correo? {" "}
++                   <button className="text-teal-600 font-semibold hover:underline" onClick={() => setSuccess(false)}>
++                     Intentar de nuevo
++                   </button>
++                 </p>
+                </div>
+-               <Button 
+-                 className="w-full h-12 bg-slate-900 hover:bg-slate-800 text-white rounded-full font-bold transition-all hover:scale-[1.02]"
+-                 onClick={() => router.push("/login")}
+-               >
+-                  Ir a Iniciar Sesión
+-               </Button>
+             </CardContent>
+           </Card>
+         </motion.div>
+@@ -114,39 +141,50 @@ export function SignupForm() {
+   }
+ 
+   return (
+-    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-text">
++    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-text py-12">
+        {/* Ambient Background */}
+        <div className="absolute inset-0 pointer-events-none overflow-hidden">
+-          <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
+-          <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
++          <div className="absolute top-[-5%] left-[-10%] w-[600px] h-[600px] bg-teal-100/30 rounded-full blur-[120px] opacity-60"></div>
++          <div className="absolute bottom-[-10%] right-[-5%] w-[700px] h-[700px] bg-blue-100/20 rounded-full blur-[150px] opacity-50"></div>
+        </div>
+ 
+       <motion.div 
+-        initial={{ opacity: 0, scale: 0.95 }}
++        initial={{ opacity: 0, scale: 0.98 }}
+         animate={{ opacity: 1, scale: 1 }}
+-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
++        transition={{ duration: 0.5 }}
+         className="w-full max-w-md p-4 relative z-10"
+       >
+-        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60 overflow-hidden rounded-3xl">
+-          <CardHeader className="space-y-2 text-center pt-8 pb-6">
+-            <div className="flex justify-center mb-4">
+-              <div className="w-14 h-14 bg-gradient-to-tr from-teal-50 to-blue-50 rounded-2xl flex items-center justify-center p-3 shadow-inner ring-1 ring-slate-100">
++        <Card className="border-0 shadow-2xl bg-white/90 backdrop-blur-xl ring-1 ring-white/60 overflow-hidden rounded-[32px]">
++          <CardHeader className="space-y-2 text-center pt-10 pb-6">
++            <div className="flex justify-center mb-6">
++              <div className="w-16 h-16 bg-gradient-to-tr from-teal-50 to-blue-50 rounded-2xl flex items-center justify-center p-3.5 shadow-inner ring-1 ring-slate-100/50">
+                 <img src="/brand-logo.png" alt="Clinia Logo" className="w-full h-full object-contain" />
+               </div>
+             </div>
++            
++            <div className="mb-6 p-3 bg-teal-50 rounded-2xl border border-teal-100/50 flex items-center gap-3 animate-in fade-in slide-in-from-top-2 duration-700">
++               <div className="h-8 w-8 bg-teal-500 rounded-lg flex items-center justify-center text-white flex-shrink-0 shadow-sm">
++                  <CheckCircle2 className="h-4 w-4" />
++               </div>
++               <p className="text-xs text-teal-800 text-left font-medium leading-tight">
++                 ¿Eres dueño de clínica? Regístrate y obtén <span className="font-bold underline decoration-teal-300">14 días de prueba gratis</span>.
++               </p>
++            </div>
++
+             <CardTitle className="text-2xl font-bold text-slate-900 tracking-tight">Crear cuenta</CardTitle>
+             <CardDescription className="text-slate-500 text-base">
+-              Ingresa tus datos para registrarte en Clinia
++              Comienza a gestionar tu clínica con Clinia+
+             </CardDescription>
+           </CardHeader>
++          
+           <CardContent className="px-8 pb-8">
+-            <form onSubmit={handleSubmit} className="space-y-5">
+-              <div className="space-y-2">
++            <form onSubmit={handleSubmit} className="space-y-4">
++              <div className="space-y-1.5">
+                 <Label htmlFor="fullName" className="text-slate-700 font-medium ml-1">Nombre completo</Label>
+                 <Input
+                   id="fullName"
+                   type="text"
+-                  placeholder="María González"
++                  placeholder="Ej. Dra. María González"
+                   value={fullName}
+                   onChange={(e) => setFullName(e.target.value)}
+                   className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all"
+@@ -154,12 +192,12 @@ export function SignupForm() {
+                 />
+               </div>
+ 
+-              <div className="space-y-2">
++              <div className="space-y-1.5">
+                 <Label htmlFor="email" className="text-slate-700 font-medium ml-1">Correo electrónico</Label>
+                 <Input
+                   id="email"
+                   type="email"
+-                  placeholder="usuario@clinia.com"
++                  placeholder="doctor@clinia.com"
+                   value={email}
+                   onChange={(e) => setEmail(e.target.value)}
+                   className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all"
+@@ -167,84 +205,86 @@ export function SignupForm() {
+                 />
+               </div>
+ 
+-              <div className="space-y-2">
+-                <Label htmlFor="password" className="text-slate-700 font-medium ml-1">Contraseña</Label>
+-                <div className="relative">
+-                  <Input
+-                    id="password"
+-                    type={showPassword ? "text" : "password"}
+-                    placeholder="••••••••"
+-                    value={password}
+-                    onChange={(e) => setPassword(e.target.value)}
+-                    className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
+-                    required
+-                  />
+-                  <Button
+-                    type="button"
+-                    variant="ghost"
+-                    size="icon"
+-                    className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 rounded-lg"
+-                    onClick={() => setShowPassword(!showPassword)}
+-                  >
+-                    {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+-                  </Button>
++              <div className="grid grid-cols-1 gap-4">
++                <div className="space-y-1.5">
++                  <Label htmlFor="password" className="text-slate-700 font-medium ml-1">Contraseña</Label>
++                  <div className="relative">
++                    <Input
++                      id="password"
++                      type={showPassword ? "text" : "password"}
++                      placeholder="••••••••"
++                      value={password}
++                      onChange={(e) => setPassword(e.target.value)}
++                      className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
++                      required
++                    />
++                    <Button
++                      type="button"
++                      variant="ghost"
++                      size="icon"
++                      className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 rounded-lg"
++                      onClick={() => setShowPassword(!showPassword)}
++                    >
++                      {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
++                    </Button>
++                  </div>
+                 </div>
+-              </div>
+ 
+-              <div className="space-y-2">
+-                <Label htmlFor="confirmPassword" className="text-slate-700 font-medium ml-1">Confirmar contraseña</Label>
+-                <div className="relative">
+-                  <Input
+-                    id="confirmPassword"
+-                    type={showConfirmPassword ? "text" : "password"}
+-                    placeholder="••••••••"
+-                    value={confirmPassword}
+-                    onChange={(e) => setConfirmPassword(e.target.value)}
+-                    className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
+-                    required
+-                  />
+-                  <Button
+-                    type="button"
+-                    variant="ghost"
+-                    size="icon"
+-                    className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 rounded-lg"
+-                    onClick={() => setShowConfirmPassword(!showConfirmPassword)}
+-                  >
+-                    {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+-                  </Button>
++                <div className="space-y-1.5">
++                  <Label htmlFor="confirmPassword" className="text-slate-700 font-medium ml-1">Confirmar contraseña</Label>
++                  <div className="relative">
++                    <Input
++                      id="confirmPassword"
++                      type={showConfirmPassword ? "text" : "password"}
++                      placeholder="••••••••"
++                      value={confirmPassword}
++                      onChange={(e) => setConfirmPassword(e.target.value)}
++                      className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
++                      required
++                    />
++                    <Button
++                      type="button"
++                      variant="ghost"
++                      size="icon"
++                      className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 rounded-lg"
++                      onClick={() => setShowConfirmPassword(!showConfirmPassword)}
++                    >
++                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
++                    </Button>
++                  </div>
+                 </div>
+               </div>
+ 
+-              <div className="flex items-start space-x-3 py-2">
++              <div className="flex items-start space-x-3 py-3 border-y border-slate-100 my-2">
+                 <input
+                   id="terms"
+                   type="checkbox"
+-                  className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500 transition-all cursor-pointer"
++                  className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500 transition-all cursor-pointer accent-teal-600"
+                   required
+                 />
+-                <Label htmlFor="terms" className="text-sm text-slate-500 leading-snug cursor-pointer font-normal">
++                <Label htmlFor="terms" className="text-[13px] text-slate-500 leading-snug cursor-pointer font-normal">
+                   Acepto los{" "}
+                   <a href="#" className="text-teal-600 hover:underline font-medium">Términos de Servicio</a>
+                   {" "}y la{" "}
+-                  <a href="#" className="text-teal-600 hover:underline font-medium">Política de Privacidad</a>
+-                  {" "}de Clinia conforme al RGPD.
++                  <a href="#" className="text-teal-600 hover:underline font-medium">Política de Privacidad</a>.
++                  Al registrarme inicio mi <span className="font-bold text-slate-700">prueba de 14 días</span>.
+                 </Label>
+               </div>
+ 
+               {error && (
+-                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-lg bg-red-50 border border-red-100 text-red-600 text-sm">
++                <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium">
+                   {error}
+                 </motion.div>
+               )}
+ 
+-              <Button type="submit" className="w-full h-12 bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 text-white shadow-lg shadow-teal-500/20 rounded-full font-bold text-[15px] transition-all duration-300 hover:scale-[1.02] active:scale-95" disabled={isLoading || success}>
++              <Button type="submit" className="w-full h-14 bg-gradient-to-r from-teal-600 to-emerald-500 hover:from-teal-500 hover:to-emerald-400 text-white shadow-xl shadow-teal-500/20 rounded-2xl font-bold text-base transition-all duration-300 hover:scale-[1.01] active:scale-[0.98]" disabled={isLoading || success}>
+                 {isLoading ? (
+                   <>
+-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
++                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                     Creando cuenta...
+                   </>
+                 ) : (
+-                  "Crear cuenta"
++                  "Comenzar mi prueba gratis"
+                 )}
+               </Button>
+             </form>
+@@ -294,7 +334,7 @@ export function SignupForm() {
+               Continuar con Google
+             </Button>
+ 
+-            <div className="mt-8 text-center">
++            <div className="mt-8 text-center space-y-4">
+               <p className="text-sm text-slate-500">
+                 ¿Ya tienes una cuenta?{" "}
+                 <Button
+@@ -305,6 +345,14 @@ export function SignupForm() {
+                   Inicia sesión aquí
+                 </Button>
+               </p>
++              
++              <div className="pt-4 border-t border-slate-100">
++                <p className="text-xs text-slate-400 leading-relaxed italic">
++                  ¿Eres doctor o recepcionista? No necesitas registrarte. 
++                  <br />
++                  Pide a tu administrador que te envíe una <strong>invitación por correo</strong> para unirte a tu clínica.
++                </p>
++              </div>
+             </div>
+           </CardContent>
+         </Card>
+diff --git a/hooks/use-dashboard-data.ts b/hooks/use-dashboard-data.ts
+index f383f7b..47226b3 100644
+--- a/hooks/use-dashboard-data.ts
++++ b/hooks/use-dashboard-data.ts
+@@ -6,7 +6,12 @@ export function useDashboardData() {
+   const { data: patients = [], isLoading: isLoadingPatients } = useQuery({
+     queryKey: ['dashboard', 'patients'],
+     queryFn: async () => {
+-      const { data, count } = await supabase.from('patients').select('*', { count: 'exact', head: false }).limit(10)
++      console.log("[Dashboard] Fetching patients...")
++      const { data, count, error } = await supabase.from('patients').select('*', { count: 'exact', head: false }).limit(10)
++      if (error) {
++        console.error("[Dashboard] Patients error:", error.message)
++        throw error
++      }
+       if (data) (data as any).totalCount = count
+       return data as Patient[]
+     }
+@@ -15,7 +20,11 @@ export function useDashboardData() {
+   const { data: dentists = [], isLoading: isLoadingDentists } = useQuery({
+     queryKey: ['dashboard', 'dentists'],
+     queryFn: async () => {
+-      const { data } = await supabase.from('profiles').select('*').eq('role', 'doctor')
++      const { data, error } = await supabase.from('profiles').select('*').eq('role', 'doctor')
++      if (error) {
++        console.error("[Dashboard] Dentists error:", error.message)
++        throw error
++      }
+       return data as Doctor[]
+     }
+   })
+@@ -23,7 +32,11 @@ export function useDashboardData() {
+   const { data: treatments = [], isLoading: isLoadingTreatments } = useQuery({
+     queryKey: ['dashboard', 'services'],
+     queryFn: async () => {
+-      const { data } = await supabase.from('services').select('*')
++      const { data, error } = await supabase.from('services').select('*')
++      if (error) {
++        console.error("[Dashboard] Services error:", error.message)
++        throw error
++      }
+       return data as Treatment[]
+     }
+   })
+@@ -33,10 +46,15 @@ export function useDashboardData() {
+     queryFn: async () => {
+       const today = new Date()
+       today.setHours(0, 0, 0, 0)
+-      const { data } = await supabase.from('appointments')
++      const { data, error } = await supabase.from('appointments')
+         .select('*, patients(*), profiles(*)')
+         .gte('start_time', today.toISOString())
+         .order('start_time', { ascending: true })
++      
++      if (error) {
++        console.error("[Dashboard] Appointments error:", error.message)
++        throw error
++      }
+       return (data || []) as unknown as Appointment[]
+     }
+   })
+@@ -45,7 +63,11 @@ export function useDashboardData() {
+     queryKey: ['dashboard', 'billings'],
+     queryFn: async () => {
+       const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
+-      const { data } = await supabase.from('billings').select('*').gte('created_at', firstDayOfMonth)
++      const { data, error } = await supabase.from('billings').select('*').gte('created_at', firstDayOfMonth)
++      if (error) {
++        console.error("[Dashboard] Billings error:", error.message)
++        throw error
++      }
+       return data || []
+     }
+   })
+diff --git a/lib/env.ts b/lib/env.ts
+index e72167a..c819474 100644
+--- a/lib/env.ts
++++ b/lib/env.ts
+@@ -47,9 +47,10 @@ const processEnv = () => {
+ 
+   // Define defaults here, prioritizing valid values
+   const finalClientEnv = parsedClient.success ? parsedClient.data : {
+-    NEXT_PUBLIC_SUPABASE_URL: clientEnvData.NEXT_PUBLIC_SUPABASE_URL || "https://placeholder.supabase.co",
+-    NEXT_PUBLIC_SUPABASE_ANON_KEY: clientEnvData.NEXT_PUBLIC_SUPABASE_ANON_KEY || "placeholder_anon_key",
+-    NEXT_PUBLIC_APP_URL: clientEnvData.NEXT_PUBLIC_APP_URL || "http://localhost:3000",
++    NEXT_PUBLIC_SUPABASE_URL: clientEnvData.NEXT_PUBLIC_SUPABASE_URL,
++    NEXT_PUBLIC_SUPABASE_ANON_KEY: clientEnvData.NEXT_PUBLIC_SUPABASE_ANON_KEY,
++    NEXT_PUBLIC_APP_URL: clientEnvData.NEXT_PUBLIC_APP_URL || 
++                         (process.env.NEXT_PUBLIC_VERCEL_URL ? `https://${process.env.NEXT_PUBLIC_VERCEL_URL}` : "http://localhost:3000"),
+     NEXT_PUBLIC_INVOICE_PROVIDER: clientEnvData.NEXT_PUBLIC_INVOICE_PROVIDER,
+   };
+ 
+diff --git a/lib/supabase.ts b/lib/supabase.ts
+index 31420e1..5f0aa28 100644
+--- a/lib/supabase.ts
++++ b/lib/supabase.ts
+@@ -2,13 +2,8 @@ import { createBrowserClient } from '@supabase/ssr'
+ import { env } from './env'
+ 
+ // Ensure we ALWAYS have truthy strings to prevent Next.js build crash during prerendering.
+-const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL?.startsWith('http') 
+-  ? env.NEXT_PUBLIC_SUPABASE_URL 
+-  : 'https://placeholder.supabase.co'
+-  
+-const supabaseAnonKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY && env.NEXT_PUBLIC_SUPABASE_ANON_KEY.length > 5
+-  ? env.NEXT_PUBLIC_SUPABASE_ANON_KEY 
+-  : 'placeholder_anon_key'
++const supabaseUrl = env.NEXT_PUBLIC_SUPABASE_URL || ''
++const supabaseAnonKey = env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+ 
+ export const supabase = createBrowserClient(
+   supabaseUrl, 

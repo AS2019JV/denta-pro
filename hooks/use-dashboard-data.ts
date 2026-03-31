@@ -6,7 +6,12 @@ export function useDashboardData() {
   const { data: patients = [], isLoading: isLoadingPatients } = useQuery({
     queryKey: ['dashboard', 'patients'],
     queryFn: async () => {
-      const { data, count } = await supabase.from('patients').select('*', { count: 'exact', head: false }).limit(10)
+      console.log("[Dashboard] Fetching patients...")
+      const { data, count, error } = await supabase.from('patients').select('*', { count: 'exact', head: false }).limit(10)
+      if (error) {
+        console.error("[Dashboard] Patients error:", error.message)
+        throw error
+      }
       if (data) (data as any).totalCount = count
       return data as Patient[]
     }
@@ -15,7 +20,11 @@ export function useDashboardData() {
   const { data: dentists = [], isLoading: isLoadingDentists } = useQuery({
     queryKey: ['dashboard', 'dentists'],
     queryFn: async () => {
-      const { data } = await supabase.from('profiles').select('*').eq('role', 'doctor')
+      const { data, error } = await supabase.from('profiles').select('*').eq('role', 'doctor')
+      if (error) {
+        console.error("[Dashboard] Dentists error:", error.message)
+        throw error
+      }
       return data as Doctor[]
     }
   })
@@ -23,7 +32,11 @@ export function useDashboardData() {
   const { data: treatments = [], isLoading: isLoadingTreatments } = useQuery({
     queryKey: ['dashboard', 'services'],
     queryFn: async () => {
-      const { data } = await supabase.from('services').select('*')
+      const { data, error } = await supabase.from('services').select('*')
+      if (error) {
+        console.error("[Dashboard] Services error:", error.message)
+        throw error
+      }
       return data as Treatment[]
     }
   })
@@ -33,10 +46,15 @@ export function useDashboardData() {
     queryFn: async () => {
       const today = new Date()
       today.setHours(0, 0, 0, 0)
-      const { data } = await supabase.from('appointments')
+      const { data, error } = await supabase.from('appointments')
         .select('*, patients(*), profiles(*)')
         .gte('start_time', today.toISOString())
         .order('start_time', { ascending: true })
+      
+      if (error) {
+        console.error("[Dashboard] Appointments error:", error.message)
+        throw error
+      }
       return (data || []) as unknown as Appointment[]
     }
   })
@@ -45,7 +63,11 @@ export function useDashboardData() {
     queryKey: ['dashboard', 'billings'],
     queryFn: async () => {
       const firstDayOfMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString()
-      const { data } = await supabase.from('billings').select('*').gte('created_at', firstDayOfMonth)
+      const { data, error } = await supabase.from('billings').select('*').gte('created_at', firstDayOfMonth)
+      if (error) {
+        console.error("[Dashboard] Billings error:", error.message)
+        throw error
+      }
       return data || []
     }
   })
