@@ -29,6 +29,7 @@ interface AuthContextType {
   user: User | null
   login: (email: string, password: string) => Promise<{ error: any }>
   signup: (email: string, password: string, fullName: string, role: "doctor" | "receptionist" | "clinic_owner") => Promise<{ error: any }>
+  resetPassword: (email: string) => Promise<{ error: any }>
   signInWithGoogle: () => Promise<{ error: any }>
   logout: () => Promise<void>
   isLoading: boolean
@@ -185,11 +186,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
       options: {
+        emailRedirectTo: `${window.location.origin}/dashboard`,
         data: {
           full_name: fullName,
           role: role,
         },
       },
+    })
+    return { error }
+  }
+
+  const resetPassword = async (email: string) => {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/update-password`,
     })
     return { error }
   }
@@ -217,7 +226,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user?.role === role
   }
 
-  return <AuthContext.Provider value={{ user, login, signup, signInWithGoogle, logout, isLoading, hasRole, currentClinicId, switchClinic }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, login, signup, resetPassword, signInWithGoogle, logout, isLoading, hasRole, currentClinicId, switchClinic }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

@@ -1,5 +1,5 @@
 
-import { serve } from "https://deno.land/std@0.168.0/http/server.ts"
+import "jsr:@supabase/functions-js/edge-runtime.d.ts"
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2"
 
 const corsHeaders = {
@@ -7,7 +7,7 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
-serve(async (req) => {
+Deno.serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response('ok', { headers: corsHeaders })
   }
@@ -54,19 +54,59 @@ serve(async (req) => {
 
       if (appointments) {
         for (const app of appointments) {
-          // Mock Sending Message
+          // Prepare Message
           const message = setting.reminder_template
             .replace('{patient_name}', app.patients.first_name)
             .replace('{date}', startDate)
             .replace('{time}', app.start_time.split('T')[1].substring(0, 5))
-            .replace('{doctor_name}', 'Dr. ' + (app.doctor_id || '')) // Ideally fetch doctor name too
+            .replace('{doctor_name}', 'Dr. ' + (app.doctor_id || ''))
 
-          console.log(`[Sending Reminder] To: ${app.patients.phone}, Msg: ${message}`)
+          console.log(`[Sending Reminder] To: ${app.patients.email || app.patients.phone}, Msg: ${message}`)
           
+          let status = 'sent';
+
+          // Actually send the email using Resend if whatsapp is not enabled
+          if (!setting.whatsapp_enabled && app.patients.email) {
+            const RESEND_API_KEY = Deno.env.get('RESEND_API_KEY');
+            const RESEND_FROM_EMAIL = Deno.env.get('RESEND_FROM_EMAIL') ?? 'Clinia+ <onboarding@resend.dev>';
+            
+            if (RESEND_API_KEY) {
+              try {
+                const res = await fetch('https://api.resend.com/emails', {
+                  method: 'POST',
+                  headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${RESEND_API_KEY}`,
+                  },
+                  body: JSON.stringify({
+                    from: RESEND_FROM_EMAIL,
+                    to: app.patients.email,
+                    subject: 'Recordatorio de Cita', // "Appointment Reminder" in Spanish based on the system
+                    html: `<p>${message.replace(/\n/g, '<br>')}</p>`,
+                  }),
+                });
+                
+                if (!res.ok) {
+                  const errorData = await res.text();
+                  console.error('Failed to send email:', errorData);
+                  status = 'failed';
+                } else {
+                  console.log(`Email sent successfully to ${app.patients.email}`);
+                }
+              } catch (e) {
+                console.error('Error sending email:', e);
+                status = 'failed';
+              }
+            } else {
+              console.warn('RESEND_API_KEY is not defined. Skipping email sending.');
+              status = 'failed_missing_key';
+            }
+          }
+
           results.push({
             id: app.id,
             patient: app.patients.first_name,
-            status: 'sent',
+            status: status,
             channel: setting.whatsapp_enabled ? 'whatsapp' : 'email'
           })
         }
@@ -78,8 +118,9 @@ serve(async (req) => {
       { headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
   } catch (error) {
+    const err = error as Error;
     return new Response(
-      JSON.stringify({ error: error.message }),
+      JSON.stringify({ error: err.message }),
       { status: 400, headers: { ...corsHeaders, 'Content-Type': 'application/json' } },
     )
   }

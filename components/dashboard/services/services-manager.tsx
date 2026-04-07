@@ -2,7 +2,10 @@
 
 import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
-import { Plus, Search, Pencil, Trash2, Clock, Info, CheckCircle2, Copy } from "lucide-react"
+import { 
+  Plus, Search, Pencil, Trash2, Clock, Info, CheckCircle2, Copy,
+  LayoutGrid, Palette, Settings2, Sparkles, Filter, MoreHorizontal, Check, Zap 
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -10,8 +13,17 @@ import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, D
 import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"
+import { Separator } from "@/components/ui/separator"
 import { toast } from "sonner"
 import { useAuth } from "@/components/auth-context"
+import { cn } from "@/lib/utils"
+
+interface ServiceCategory {
+  id: string
+  name: string
+  color: string
+}
 
 interface Service {
   id: string
@@ -19,12 +31,24 @@ interface Service {
   description?: string
   price: number
   duration_minutes: number
-  category?: string
+  category_id?: string
+  category_name?: string // Joined name
   clinic_id: string
+  color?: string
 }
 
-// Templates Array
-const STANDARD_TEMPLATES: Partial<Service>[] = [
+const CATEGORY_COLORS = [
+  { name: "Deep Teal", hex: "#145247" },
+  { name: "Warm Orange", hex: "#FAA805" },
+  { name: "Electric Blue", hex: "#007AFF" },
+  { name: "Soft Mint", hex: "#34C759" },
+  { name: "Royal Purple", hex: "#5856D6" },
+  { name: "Candy Pink", hex: "#FF2D55" },
+  { name: "Sun Yellow", hex: "#FFCC00" },
+  { name: "Space Gray", hex: "#8E8E93" }
+]
+
+const STANDARD_TEMPLATES: any[] = [
   {
     name: "Consulta General / Diagnóstico",
     price: 20.00,
@@ -68,7 +92,7 @@ const STANDARD_TEMPLATES: Partial<Service>[] = [
     description: "Cirugía de muela del juicio impactada."
   },
   {
-    name: "Endodoncia (Tratamiento de Canal)",
+    name: "Endodoncia",
     price: 150.00,
     duration_minutes: 90,
     category: "Endodoncia",
@@ -82,21 +106,7 @@ const STANDARD_TEMPLATES: Partial<Service>[] = [
     description: "Tratamiento LED/Láser en consultorio."
   },
   {
-    name: "Corona de Porcelana/Zirconio",
-    price: 300.00,
-    duration_minutes: 90,
-    category: "Restauradora",
-    description: "Alta durabilidad y estética."
-  },
-  {
-    name: "Implante Dental (Fase Quirúrgica)",
-    price: 700.00,
-    duration_minutes: 90,
-    category: "Cirugía",
-    description: "Colocación del implante (no incluye corona)."
-  },
-  {
-    name: "Ortodoncia (Control Mensual)",
+    name: "Ortodoncia (Control)",
     price: 30.00,
     duration_minutes: 20,
     category: "Ortodoncia",
@@ -104,407 +114,569 @@ const STANDARD_TEMPLATES: Partial<Service>[] = [
   }
 ]
 
-const CATEGORIES = [
-  "General",
-  "Preventiva",
-  "Restauradora",
-  "Cosmética",
-  "Ortodoncia",
-  "Cirugía",
-  "Endodoncia",
-  "Periodoncia",
-  "Pediatría",
-  "Otro"
-]
-
 export function ServicesManager() {
-  const { user } = useAuth()
+  const { currentClinicId } = useAuth()
   const [services, setServices] = useState<Service[]>([])
+  const [categories, setCategories] = useState<ServiceCategory[]>([])
   const [loading, setLoading] = useState(true)
   const [searchTerm, setSearchTerm] = useState("")
+  const [activeTab, setActiveTab] = useState("all")
   const [isDialogOpen, setIsDialogOpen] = useState(false)
   const [isTemplatesOpen, setIsTemplatesOpen] = useState(false)
+  const [isCatDialogOpen, setIsCatDialogOpen] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
   
-  // Initialize 'category' to string explicitly to match Select value type
   const [currentService, setCurrentService] = useState<Partial<Service>>({
     name: "",
     description: "",
     price: 0,
     duration_minutes: 30,
-    category: "General" 
+    category_id: "",
+    color: "#145247"
   })
 
+  const [currentCategory, setCurrentCategory] = useState<Partial<ServiceCategory>>({
+    name: "",
+    color: "#145247"
+  })
+
+  const [priceInput, setPriceInput] = useState<string>("0")
+  const [durationInput, setDurationInput] = useState<string>("30")
+
   useEffect(() => {
-    console.log("ServicesManager Effect:", { user, clinic_id: user?.clinic_id })
-    
-    if (!user) return; // Wait for user
-
-    if (user.clinic_id) {
-      fetchServices()
-    } else {
-      setLoading(false)
+    if (currentClinicId) {
+      fetchData()
     }
-  }, [user])
+  }, [currentClinicId])
 
-  const fetchServices = async () => {
+  const fetchData = async () => {
+    setLoading(true)
     try {
-      const { data, error } = await supabase
-        .from('services')
+      // Fetch Categories
+      const { data: cats } = await supabase
+        .from('service_categories')
         .select('*')
-        .eq('clinic_id', user!.clinic_id)
-        .order('name', { ascending: true })
+        .eq('clinic_id', currentClinicId)
+        .order('name')
+      
+      setCategories(cats || [])
 
-      if (error) throw error
-      setServices(data || [])
+      // Fetch Services with category names
+      const { data: srvs } = await supabase
+        .from('services')
+        .select('*, service_categories(name)')
+        .eq('clinic_id', currentClinicId)
+        .order('name')
+
+      setServices((srvs || []).map(s => ({
+        ...s,
+        category_name: s.service_categories?.name
+      })))
     } catch (error) {
-      console.error('Error fetching services:', error)
-      toast.error('Error al cargar servicios')
+      toast.error('Error al cargar datos')
     } finally {
       setLoading(false)
     }
   }
 
-  const handleUseTemplate = async (template: Partial<Service>) => {
-      // Direct insertion to DB for the user's clinic
-      try {
-          const serviceData = {
-              ...template,
-              clinic_id: user!.clinic_id,
-              duration_minutes: Number(template.duration_minutes),
-              price: Number(template.price)
-          }
-          
-          const { error } = await supabase.from('services').insert([serviceData]).select()
-          
-          if(error) {
-              console.error("Template Insert Error:", error)
-              throw error
-          }
-          
-          toast.success(`Servicio "${template.name}" agregado.`)
-          fetchServices()
-      } catch(e: any) {
-          toast.error("Error al agregar plantilla: " + e.message)
-      }
+  const handleSaveCategory = async () => {
+    if (!currentCategory.name || !currentClinicId) return
+    try {
+      const { error } = await supabase
+        .from('service_categories')
+        .upsert({
+          clinic_id: currentClinicId,
+          name: currentCategory.name,
+          color: currentCategory.color
+        })
+      if (error) throw error
+      toast.success("Categoría guardada")
+      setIsCatDialogOpen(false)
+      setCurrentCategory({ name: "", color: "#145247" })
+      fetchData()
+    } catch (e) {
+      toast.error("Error al guardar categoría")
+    }
   }
 
-  const handleSave = async () => {
-    if (!currentService.name || !user?.clinic_id) {
-      toast.error("El nombre es requerido")
-      return
+  const handleSaveService = async () => {
+    if (!currentService.name || !currentClinicId) return
+
+    const price = parseFloat(priceInput) || 0
+    const duration = parseInt(durationInput) || 30
+    
+    // Auto-pick color from category if service color is default
+    let finalColor = currentService.color
+    if (currentService.category_id) {
+       const cat = categories.find(c => c.id === currentService.category_id)
+       if (cat) finalColor = cat.color
     }
 
     try {
       const serviceData = {
         name: currentService.name,
         description: currentService.description,
-        price: Number(currentService.price),
-        duration_minutes: Number(currentService.duration_minutes),
-        category: currentService.category,
-        clinic_id: user.clinic_id
+        price,
+        duration_minutes: duration,
+        category_id: currentService.category_id,
+        color: finalColor,
+        clinic_id: currentClinicId
       }
 
-      if (isEditing && currentService.id) {
-        const { error } = await supabase
-          .from('services')
-          .update(serviceData)
-          .eq('id', currentService.id)
-
-        if (error) throw error
-        toast.success("Servicio actualizado correctamente")
-      } else {
-        const { error } = await supabase
-          .from('services')
-          .insert([serviceData])
-
-        if (error) throw error
-        toast.success("Servicio creado correctamente")
-      }
-
-      setIsDialogOpen(false)
-      resetForm()
-      fetchServices()
-    } catch (error: any) {
-      console.error('Error saving service:', error)
-      toast.error(`Error: ${error.message}`)
-    }
-  }
-
-  const handleDelete = async (id: string) => {
-    if (!confirm("¿Estás seguro de eliminar este servicio?")) return
-
-    try {
-      const { error } = await supabase
-        .from('services')
-        .delete()
-        .eq('id', id)
+      const { error } = isEditing && currentService.id 
+        ? await supabase.from('services').update(serviceData).eq('id', currentService.id)
+        : await supabase.from('services').insert([serviceData])
 
       if (error) throw error
-      toast.success("Servicio eliminado")
-      fetchServices()
-    } catch (error) {
-       console.error('Error deleting:', error)
-       toast.error("No se pudo eliminar el servicio")
+      toast.success(isEditing ? "Servicio actualizado" : "Servicio creado")
+      setIsDialogOpen(false)
+      fetchData()
+    } catch (e) {
+      toast.error("Error al guardar servicio")
     }
   }
 
-  const resetForm = () => {
-    setCurrentService({
-      name: "",
-      description: "",
-      price: 0,
-      duration_minutes: 30,
-      category: "General"
-    })
-    setIsEditing(false)
+  const handleDeleteService = async (id: string) => {
+    if (!confirm("¿Eliminar este servicio?")) return
+    await supabase.from('services').delete().eq('id', id)
+    fetchData()
   }
 
-  const filteredServices = services.filter(s => 
-    s.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
-    s.category?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredServices = services.filter(s => {
+    const matchesSearch = s.name.toLowerCase().includes(searchTerm.toLowerCase())
+    const matchesCategory = activeTab === "all" || s.category_id === activeTab
+    return matchesSearch && matchesCategory
+  })
 
   return (
-    <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-        <div className="relative w-full sm:w-96">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-          <Input 
-            placeholder="Buscar por nombre o categoría..." 
-            className="pl-10 h-10 bg-white"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
+    <div className="max-w-7xl mx-auto space-y-8 py-6 px-4 sm:px-0 select-none animate-in fade-in duration-700">
+      {/* Header Section - Modern Apple Style */}
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+        <div className="space-y-1">
+          <h1 className="text-5xl font-bold tracking-tight text-slate-900 font-teko leading-none">
+            Servicios <span className="text-primary">Profesionales</span>
+          </h1>
+          <p className="text-slate-400 max-w-md text-sm font-medium">
+            Personaliza tu catálogo de tratamientos con los estándares de Clinia+.
+          </p>
         </div>
-        
-        <div className="flex gap-2">
-            {/* View Templates Button */}
-            <Dialog open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
-                <DialogTrigger asChild>
-                     <Button variant="outline" className="gap-2">
-                        <Copy className="h-4 w-4" /> Plantillas
-                     </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[700px] max-h-[80vh] overflow-y-auto">
-                    <DialogHeader>
-                        <DialogTitle>Plantillas de Tratamientos Comunes</DialogTitle>
-                        <DialogDescription>
-                            Selecciona los tratamientos que deseas agregar a tu catálogo. Puedes editar los precios después.
-                        </DialogDescription>
-                    </DialogHeader>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-                        {STANDARD_TEMPLATES.map((template, idx) => (
-                            <Card key={idx} className="bg-slate-50 border shadow-sm">
-                                <CardHeader className="pb-2 p-4">
-                                    <div className="flex justify-between items-start">
-                                        <Badge variant="outline" className="mb-1 text-[10px] bg-white text-slate-500 border-slate-200">
-                                            {template.category}
-                                        </Badge>
-                                        <span className="font-bold text-primary text-sm">${template.price}</span>
-                                    </div>
-                                    <CardTitle className="text-sm font-semibold text-slate-800 leading-tight">
-                                        {template.name}
-                                    </CardTitle>
-                                </CardHeader>
-                                <CardContent className="p-4 pt-0">
-                                    <p className="text-xs text-slate-500 line-clamp-2 h-8 mb-3">
-                                        {template.description}
-                                    </p>
-                                    <Button 
-                                        size="sm" 
-                                        className="w-full bg-white border border-slate-200 text-slate-700 hover:bg-slate-100 hover:text-primary hover:border-primary/50 transition-colors text-xs h-8"
-                                        onClick={() => {
-                                            handleUseTemplate(template)
-                                            setIsTemplatesOpen(false) // Optional: keep open to add more? Let's close for feedback
-                                        }}
-                                    >
-                                        <Plus className="h-3 w-3 mr-1.5" /> Usar Plantilla
-                                    </Button>
-                                </CardContent>
-                            </Card>
-                        ))}
-                    </div>
-                </DialogContent>
-            </Dialog>
+        <div className="flex flex-wrap gap-3">
+          <Button 
+            onClick={() => setIsTemplatesOpen(true)}
+            variant="ghost"
+            className="rounded-2xl h-12 px-6 hover:bg-slate-50 transition-all font-bold text-slate-500"
+          >
+            <Copy className="mr-2 h-4 w-4" /> Plantillas
+          </Button>
+          <Button 
+            onClick={() => {
+              setIsEditing(false)
+              setCurrentService({ name: "", price: 0, duration_minutes: 30, color: "#145247" })
+              setPriceInput("0")
+              setDurationInput("30")
+              setIsDialogOpen(true)
+            }}
+            className="rounded-2xl bg-primary hover:bg-primary/95 text-white h-12 px-8 shadow-xl shadow-primary/20 transition-all hover:scale-[1.02] active:scale-95 font-bold"
+          >
+            <Plus className="mr-2 h-5 w-5" /> Agregar Nuevo
+          </Button>
+        </div>
+      </header>
 
-            {/* Create New Button */}
-            <Dialog open={isDialogOpen} onOpenChange={(open) => {
-                setIsDialogOpen(open)
-                if (!open) resetForm()
-            }}>
-            <DialogTrigger asChild>
-                <Button className="bg-primary hover:bg-primary/90 text-white shadow-lg shadow-primary/20">
-                <Plus className="mr-2 h-4 w-4" /> Nuevo Servicio
-                </Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
-                {/* Existing Form Content Remains Exactly Same */}
-                <DialogHeader>
-                <DialogTitle>{isEditing ? "Editar Servicio" : "Nuevo Servicio"}</DialogTitle>
-                <DialogDescription>
-                    Configura los detalles del tratamiento. Esto se sincronizará con tu calendario.
-                </DialogDescription>
-                </DialogHeader>
-                <div className="grid gap-4 py-4">
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right">Nombre</Label>
-                    <Input 
-                        id="name" 
-                        value={currentService.name} 
-                        onChange={(e) => setCurrentService({...currentService, name: e.target.value})} 
-                        className="col-span-3" 
-                        placeholder="Ej. Limpieza Profunda"
-                    />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="category" className="text-right">Categoría</Label>
-                    <Select 
-                        value={currentService.category} 
-                        onValueChange={(val) => setCurrentService({...currentService, category: val})}
+      {/* Control Bar - Clean & Professional */}
+      <div className="flex flex-col sm:flex-row gap-6 items-center justify-between">
+         {/* Categories - Professional Scrollable Pills */}
+         <div className="w-full sm:w-auto overflow-hidden relative group">
+            <div className="flex items-center gap-2 overflow-x-auto scrollbar-hide px-1 py-2 mask-linear-right">
+                <button 
+                    onClick={() => setActiveTab("all")}
+                    className={cn(
+                        "px-6 py-2 rounded-full text-xs font-bold transition-all border whitespace-nowrap",
+                        activeTab === "all" ? "bg-primary border-primary text-white shadow-lg shadow-primary/20" : "bg-white border-slate-200 text-slate-500 hover:border-primary/30"
+                    )}
+                >
+                    Todos
+                </button>
+                {categories.map(cat => (
+                    <button 
+                        key={cat.id}
+                        onClick={() => setActiveTab(cat.id)}
+                        className={cn(
+                            "px-6 py-2 rounded-full text-xs font-bold transition-all border flex items-center gap-2 whitespace-nowrap",
+                            activeTab === cat.id ? "bg-white border-slate-100 text-slate-900 shadow-md" : "bg-white border-slate-200 text-slate-500 hover:border-primary/30"
+                        )}
                     >
-                        <SelectTrigger className="col-span-3">
-                            <SelectValue placeholder="Seleccionar" />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {CATEGORIES.map(cat => (
-                                <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="price" className="text-right">Precio ($)</Label>
-                    <Input 
-                        id="price" 
-                        type="number" 
-                        min="0"
-                        step="0.01"
-                        value={currentService.price} 
-                        onChange={(e) => setCurrentService({...currentService, price: parseFloat(e.target.value)})} 
-                        className="col-span-3" 
-                    />
-                </div>
-                <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="duration" className="text-right">Duración (min)</Label>
-                    <div className="col-span-3 flex items-center gap-2">
-                        <Input 
-                            id="duration" 
-                            type="number" 
-                            step="5"
-                            min="5"
-                            value={currentService.duration_minutes} 
-                            onChange={(e) => setCurrentService({...currentService, duration_minutes: parseInt(e.target.value)})} 
-                        />
-                        <span className="text-xs text-muted-foreground whitespace-nowrap">Para Agenda</span>
-                    </div>
-                </div>
-                <div className="grid grid-cols-4 items-start gap-4">
-                    <Label htmlFor="description" className="text-right pt-2">Descripción</Label>
-                    <textarea 
-                        id="description" 
-                        className="flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 col-span-3"
-                        value={currentService.description || ""}
-                        onChange={(e) => setCurrentService({...currentService, description: e.target.value})}
-                        placeholder="Detalles opcionales..."
-                    />
-                </div>
-                </div>
-                <DialogFooter>
-                <Button variant="outline" onClick={() => setIsDialogOpen(false)}>Cancelar</Button>
-                <Button onClick={handleSave} className="bg-primary text-white">Guardar</Button>
-                </DialogFooter>
-            </DialogContent>
-            </Dialog>
-        </div>
+                        <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: cat.color }} />
+                        {cat.name}
+                    </button>
+                ))}
+                <button 
+                    onClick={() => setIsCatDialogOpen(true)}
+                    className="flex-shrink-0 h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all ml-2"
+                >
+                    <Settings2 className="h-4 w-4" />
+                </button>
+            </div>
+         </div>
+
+         <div className="relative group w-full sm:w-80">
+            <Search className="absolute left-5 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-300 group-focus-within:text-primary transition-colors" />
+            <input 
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                placeholder="Buscar tratamiento..."
+                className="w-full bg-slate-50 border-none h-12 pl-12 pr-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/10 transition-all font-semibold placeholder:font-normal placeholder:text-slate-300"
+            />
+         </div>
       </div>
 
+      {/* Services Grid */}
       {loading ? (
-        <div className="text-center py-20 text-muted-foreground">Cargando servicios...</div>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 opacity-50">
+           {[1,2,3].map(i => <div key={i} className="h-64 bg-slate-50 rounded-[2.5rem] animate-pulse" />)}
+        </div>
       ) : filteredServices.length === 0 ? (
-        <Card className="bg-slate-50 border-dashed border-2">
-            <CardContent className="flex flex-col items-center justify-center py-16 text-center">
-                <div className="bg-white p-4 rounded-full shadow-sm mb-4">
-                    <Copy className="h-8 w-8 text-muted-foreground/50" />
-                </div>
-                <h3 className="text-lg font-semibold text-slate-800">No hay servicios registrados</h3>
-                <p className="text-slate-500 mb-6 max-w-sm">
-                    Puedes crear servicios desde cero o usar nuestras plantillas predefinidas.
-                </p>
-                <div className="flex gap-4">
-                    <Button variant="outline" onClick={() => setIsDialogOpen(true)}>
-                        Crear Nuevo
-                    </Button>
-                    <Button onClick={() => setIsTemplatesOpen(true)} className="bg-primary text-white">
-                        <Copy className="mr-2 h-4 w-4" /> Ver Plantillas
-                    </Button>
-                </div>
-            </CardContent>
-        </Card>
+        <div className="py-24 text-center space-y-6 bg-slate-50/50 rounded-[3rem] border border-dashed border-slate-200">
+           <div className="bg-white h-20 w-20 rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-slate-100">
+              <LayoutGrid className="h-8 w-8 text-primary/10" />
+           </div>
+           <div className="space-y-1">
+              <h3 className="text-2xl font-bold font-teko">No hay resultados</h3>
+              <p className="text-slate-400 text-xs font-bold uppercase tracking-wider">Ajusta tu búsqueda o filtros</p>
+           </div>
+        </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredServices.map((service) => (
-                <Card key={service.id} className="hover:shadow-md transition-shadow group relative overflow-hidden">
-                    <div className={`absolute top-0 left-0 w-1 h-full ${
-                        service.category === 'General' ? 'bg-slate-300' :
-                        service.category === 'Ortodoncia' ? 'bg-purple-400' :
-                        service.category === 'Cirugía' ? 'bg-red-400' :
-                        'bg-primary'
-                    }`} />
-                    <CardHeader className="pb-3 pl-6">
-                        <div className="flex justify-between items-start">
-                            <div>
-                                <Badge variant="secondary" className="mb-2 text-[10px] uppercase tracking-wider font-semibold text-muted-foreground/80">
-                                    {service.category}
-                                </Badge>
-                                <CardTitle className="text-lg font-bold text-slate-800 leading-tight">
-                                    {service.name}
-                                </CardTitle>
-                            </div>
-                            <div className="text-right">
-                                <span className="text-lg font-bold text-primary block">
-                                    ${service.price.toFixed(2)}
-                                </span>
-                            </div>
+                <div 
+                    key={service.id} 
+                    className="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative flex flex-col gap-6"
+                >
+                    {/* Vertical Color Indicator */}
+                    <div className="absolute top-10 bottom-10 left-0 w-1 rounded-r-full" style={{ backgroundColor: service.color }} />
+                    
+                    <div className="flex justify-between items-start">
+                        <div className="space-y-1">
+                            <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300 block">
+                                {service.category_name || "General"}
+                            </span>
+                            <h3 className="text-2xl font-bold font-teko text-slate-800 leading-tight">
+                                {service.name}
+                            </h3>
                         </div>
-                    </CardHeader>
-                    <CardContent className="pl-6 pb-6">
-                        <div className="text-sm text-slate-500 mb-4 h-[40px] overflow-hidden leading-relaxed line-clamp-2">
-                             {service.description || "Sin descripción"}
+                        <div className="text-right">
+                             <span className="text-2xl font-bold font-teko text-primary leading-none">${service.price}</span>
                         </div>
-                        <div className="flex items-center justify-between pt-4 border-t border-slate-100">
-                             <div className="flex items-center text-xs font-medium text-slate-400 bg-slate-50 px-2.5 py-1 rounded-md">
-                                 <Clock className="w-3.5 h-3.5 mr-1.5" />
-                                 {service.duration_minutes} min
-                             </div>
-                             <div className="flex gap-2">
-                                 <Button 
-                                    size="icon" 
-                                    variant="ghost" 
-                                    className="h-8 w-8 hover:bg-slate-100 text-slate-400 hover:text-primary"
-                                    onClick={() => {
-                                        setCurrentService(service)
-                                        setIsEditing(true)
-                                        setIsDialogOpen(true)
-                                    }}
-                                >
-                                     <Pencil className="w-4 h-4" />
-                                 </Button>
-                                 <Button 
-                                    size="icon" 
-                                    variant="ghost" 
-                                    className="h-8 w-8 hover:bg-red-50 text-slate-400 hover:text-red-500"
-                                    onClick={() => handleDelete(service.id)}
-                                >
-                                     <Trash2 className="w-4 h-4" />
-                                 </Button>
-                             </div>
+                    </div>
+
+                    <p className="text-xs text-slate-400 font-medium leading-relaxed line-clamp-3 flex-1 italic">
+                        {service.description || "Inicia tu tratamiento profesional con Clinia+."}
+                    </p>
+
+                    <div className="flex items-center justify-between pt-6 border-t border-slate-50">
+                        <div className="flex items-center gap-2 text-[10px] font-bold text-slate-400 px-3 py-1 bg-slate-100/50 rounded-full">
+                            <Clock className="h-3 w-3" />
+                            {service.duration_minutes} MIN
                         </div>
-                    </CardContent>
-                </Card>
+                        
+                        <div className="flex gap-1">
+                            <button 
+                                onClick={() => {
+                                    setCurrentService(service)
+                                    setPriceInput(service.price.toString())
+                                    setDurationInput(service.duration_minutes.toString())
+                                    setIsEditing(true)
+                                    setIsDialogOpen(true)
+                                }}
+                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-slate-100 hover:text-slate-900 transition-all active:scale-90"
+                            >
+                                <Pencil className="h-3.5 w-3.5" />
+                            </button>
+                            <button 
+                                onClick={() => handleDeleteService(service.id)}
+                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90"
+                            >
+                                <Trash2 className="h-3.5 w-3.5" />
+                            </button>
+                        </div>
+                    </div>
+                </div>
             ))}
         </div>
       )}
+
+      {/* Floating Tooltips or Helpers can go here */}
+
+      {/* --- Dialogs --- */}
+
+      {/* 1. Add/Edit Service Dialog */}
+      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+        <DialogContent className="max-w-2xl rounded-[3rem] p-0 border-none shadow-3xl bg-white overflow-hidden">
+            <div className="flex flex-col md:flex-row h-full">
+                {/* Left Panel - Visual Preview */}
+                <div className="w-full md:w-56 bg-slate-50 p-10 flex flex-col items-center justify-center text-center gap-6 border-r border-slate-100">
+                    <div className="h-28 w-28 rounded-[2rem] shadow-2xl flex items-center justify-center transition-all duration-700" style={{ backgroundColor: currentService.color, boxShadow: `0 20px 40px ${currentService.color}30` }}>
+                        <Sparkles className="h-10 w-10 text-white" />
+                    </div>
+                    <div className="space-y-1">
+                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Vista Previa</p>
+                        <h4 className="font-teko text-xl font-bold text-slate-700">{currentService.name || "Servicio Premium"}</h4>
+                    </div>
+                </div>
+
+                {/* Right Panel - Form */}
+                <div className="flex-1 p-10 space-y-8">
+                    <header>
+                        <h2 className="text-3xl font-bold font-teko text-slate-900 leading-none mb-1">
+                            {isEditing ? "Optimizar Tratamiento" : "Atelier de Servicios"}
+                        </h2>
+                        <p className="text-slate-400 text-xs font-medium">Define los detalles del procedimiento clínico.</p>
+                    </header>
+
+                    <div className="grid gap-6">
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Identidad</Label>
+                                <Input 
+                                    placeholder="Nombre del servicio..."
+                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-semibold placeholder:font-normal focus:ring-2 focus:ring-primary/10"
+                                    value={currentService.name}
+                                    onChange={(e) => setCurrentService({...currentService, name: e.target.value})}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Categoría</Label>
+                                <Select 
+                                    value={currentService.category_id} 
+                                    onValueChange={v => setCurrentService({...currentService, category_id: v})}
+                                >
+                                    <SelectTrigger className="rounded-2xl bg-slate-50 border-none h-12 px-5 shadow-none focus:ring-2 focus:ring-primary/10">
+                                        <SelectValue placeholder="Seleccionar..." />
+                                    </SelectTrigger>
+                                    <SelectContent className="rounded-2xl border-none shadow-xl">
+                                        {categories.map(c => (
+                                            <SelectItem key={c.id} value={c.id} className="rounded-xl">
+                                                <div className="flex items-center gap-2">
+                                                    <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: c.color }} />
+                                                    {c.name}
+                                                </div>
+                                            </SelectItem>
+                                        ))}
+                                    </SelectContent>
+                                </Select>
+                            </div>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            <div className="space-y-2">
+                                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Inversión ($)</Label>
+                                <Input 
+                                    type="number"
+                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
+                                    value={priceInput}
+                                    onChange={(e) => setPriceInput(e.target.value)}
+                                />
+                            </div>
+                            <div className="space-y-2">
+                                <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Tiempo (Min)</Label>
+                                <Input 
+                                    type="number"
+                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
+                                    value={durationInput}
+                                    onChange={(e) => setDurationInput(e.target.value)}
+                                />
+                            </div>
+                        </div>
+
+                        <div className="space-y-3">
+                            <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Gama Cromática</Label>
+                            <div className="flex flex-wrap gap-2.5 p-3 bg-slate-50/50 rounded-[1.5rem]">
+                                {CATEGORY_COLORS.map(c => (
+                                    <button 
+                                        key={c.hex}
+                                        onClick={() => setCurrentService({...currentService, color: c.hex})}
+                                        className={cn(
+                                            "h-7 w-7 rounded-full transition-all duration-300 hover:scale-125 flex items-center justify-center",
+                                            currentService.color === c.hex ? "ring-4 ring-offset-2 ring-slate-100" : "opacity-40"
+                                        )}
+                                        style={{ backgroundColor: c.hex }}
+                                    >
+                                        {currentService.color === c.hex && <Check className="h-3 w-3 text-white" />}
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                             <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Notas Clínicas</Label>
+                             <textarea 
+                                className="w-full bg-slate-50 border-none rounded-2xl p-5 text-sm font-medium min-h-[6rem] focus:ring-2 focus:ring-primary/10 transition-all placeholder:font-normal"
+                                placeholder="Describe el alcance del tratamiento..."
+                                value={currentService.description}
+                                onChange={(e) => setCurrentService({...currentService, description: e.target.value})}
+                             />
+                        </div>
+                    </div>
+
+                    <footer className="flex gap-4 pt-4">
+                        <Button variant="ghost" onClick={() => setIsDialogOpen(false)} className="flex-1 rounded-2xl h-12 text-slate-500 font-bold hover:bg-slate-100 transition-all">
+                            Descartar
+                        </Button>
+                        <Button onClick={handleSaveService} className="flex-[2] rounded-2xl h-12 bg-primary text-white font-bold shadow-lg shadow-primary/20 transition-all hover:scale-[1.02]">
+                            {isEditing ? "Actualizar Registro" : "Crear Servicio"}
+                        </Button>
+                    </footer>
+                </div>
+            </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* 2. Category Management Dialog */}
+      <Dialog open={isCatDialogOpen} onOpenChange={setIsCatDialogOpen}>
+        <DialogContent className="max-w-md rounded-[2.5rem] p-10 border-none shadow-3xl bg-white">
+            <header className="space-y-2 mb-8 text-center">
+                <div className="h-16 w-16 bg-primary/5 rounded-3xl flex items-center justify-center mx-auto text-primary">
+                    <Palette className="h-8 w-8" />
+                </div>
+                <h2 className="text-3xl font-bold font-teko leading-none mt-4">Personalizar Categorías</h2>
+                <p className="text-slate-400 text-sm font-medium">Asigna colores únicos a tus grupos de tratamiento.</p>
+            </header>
+
+            <div className="space-y-8">
+                <div className="space-y-4">
+                    <div className="flex gap-3">
+                        <Input 
+                            placeholder="Nombre de categoría..."
+                            className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold"
+                            value={currentCategory.name}
+                            onChange={(e) => setCurrentCategory({...currentCategory, name: e.target.value})}
+                        />
+                        <Button onClick={handleSaveCategory} className="h-12 w-12 rounded-2xl bg-primary text-white p-0 shadow-lg shadow-primary/20">
+                            <Plus className="h-5 w-5" />
+                        </Button>
+                    </div>
+                    
+                    <div className="flex flex-wrap gap-2 justify-center py-2">
+                        {CATEGORY_COLORS.map(c => (
+                            <button 
+                                key={c.hex}
+                                onClick={() => setCurrentCategory({...currentCategory, color: c.hex})}
+                                className={cn(
+                                    "h-6 w-6 rounded-full transition-all",
+                                    currentCategory.color === c.hex ? "ring-2 ring-primary ring-offset-2 scale-110" : "opacity-40"
+                                )}
+                                style={{ backgroundColor: c.hex }}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+                <div className="space-y-2 max-h-48 overflow-y-auto px-2 scrollbar-hide">
+                    {categories.map(cat => (
+                        <div key={cat.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100">
+                            <div className="flex items-center gap-3">
+                                <div className="h-4 w-4 rounded-full" style={{ backgroundColor: cat.color }} />
+                                <span className="font-bold text-slate-700 text-sm">{cat.name}</span>
+                            </div>
+                            <button 
+                                onClick={async () => {
+                                   if(confirm("¿Eliminar categoría? Los servicios asociados quedarán sin categoría.")) {
+                                      await supabase.from('service_categories').delete().eq('id', cat.id)
+                                      fetchData()
+                                   }
+                                }}
+                                className="opacity-0 group-hover:opacity-100 p-2 text-red-300 hover:text-red-500 transition-all"
+                            >
+                                <Trash2 className="h-4 w-4" />
+                            </button>
+                        </div>
+                    ))}
+                </div>
+
+                <Button variant="outline" onClick={() => setIsCatDialogOpen(false)} className="w-full rounded-2xl h-12 font-bold text-slate-500 border-slate-200">
+                    Cerrar Ajustes
+                </Button>
+            </div>
+        </DialogContent>
+      </Dialog>
+      
+      {/* 3. Templates Gallery Dialog - Updated titles & styles */}
+      <Dialog open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
+         <DialogContent className="max-w-4xl rounded-[2rem] p-0 border-none shadow-2xl bg-slate-50/50 overflow-hidden flex flex-col max-h-[85vh]">
+            <header className="p-10 bg-white border-b border-slate-100 flex justify-between items-center shrink-0">
+                <div className="space-y-1">
+                    <h2 className="text-4xl font-bold font-teko text-slate-900 leading-none">Plantillas</h2>
+                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Catálogo institucional</p>
+                </div>
+                <div className="h-12 w-12 bg-primary/5 rounded-2xl flex items-center justify-center text-primary">
+                    <Sparkles className="h-6 w-6" />
+                </div>
+            </header>
+
+            <div className="flex-1 overflow-y-auto p-10 scrollbar-hide">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                     {(STANDARD_TEMPLATES as any).map((template: any, i: number) => (
+                         <div key={i} className="group bg-white rounded-3xl p-6 border border-slate-100 transition-all hover:shadow-xl hover:shadow-slate-200/40 relative flex flex-col gap-4">
+                             <div className="flex justify-between items-start">
+                                 <Badge className="bg-slate-50 text-slate-400 border-none rounded-full px-3 h-5 text-[10px] font-bold">
+                                    {template.category}
+                                 </Badge>
+                                 <span className="text-xl font-bold font-teko text-primary">${template.price}</span>
+                             </div>
+                             
+                             <h4 className="text-xl font-bold font-teko text-slate-800 leading-tight pr-8">{template.name}</h4>
+                             <p className="text-[11px] text-slate-400 font-medium leading-relaxed italic line-clamp-2">
+                                {template.description}
+                             </p>
+
+                             <div className="flex items-center justify-between pt-4 border-t border-slate-50">
+                                 <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{template.duration_minutes} MIN</span>
+                                 <Button 
+                                    onClick={async () => {
+                                        const color = CATEGORY_COLORS[i % CATEGORY_COLORS.length].hex
+                                        let catId = ""
+                                        const { data: existing } = await supabase.from('service_categories').select('id').eq('clinic_id', currentClinicId).eq('name', template.category).single()
+                                        
+                                        if (existing) {
+                                            catId = existing.id
+                                        } else {
+                                            const { data: nCat } = await supabase.from('service_categories').insert({ clinic_id: currentClinicId, name: template.category, color }).select().single()
+                                            if (nCat) catId = nCat.id
+                                        }
+
+                                        await supabase.from('services').insert({
+                                            clinic_id: currentClinicId,
+                                            name: template.name,
+                                            description: template.description,
+                                            price: template.price,
+                                            duration_minutes: template.duration_minutes,
+                                            category_id: catId,
+                                            color: color
+                                        })
+                                        toast.success("Servicio importado")
+                                        fetchData()
+                                    }}
+                                    className="rounded-xl h-10 px-6 bg-slate-900 hover:bg-primary text-white font-bold transition-all shadow-lg active:scale-90 text-[11px]"
+                                >
+                                     Importar
+                                 </Button>
+                             </div>
+                         </div>
+                     ))}
+                </div>
+            </div>
+            
+            <footer className="p-6 bg-white border-t border-slate-100 flex justify-center shrink-0">
+                <Button variant="ghost" onClick={() => setIsTemplatesOpen(false)} className="rounded-xl h-10 px-8 text-slate-300 font-bold hover:bg-slate-50 text-xs">
+                    Cerrar
+                </Button>
+            </footer>
+         </DialogContent>
+      </Dialog>
     </div>
   )
+}
+
+function cn(...classes: any[]) {
+    return classes.filter(Boolean).join(' ')
 }

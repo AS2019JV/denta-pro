@@ -39,7 +39,7 @@ const navigation = [
 
 const userNavigation = [
   { name: "profile", href: "/profile", icon: User },
-  { name: "dentist", href: "/dentists", icon: User },
+  { name: "team", href: "/dentists", icon: Users },
   { name: "settings", href: "/settings", icon: Settings },
 ]
 
@@ -166,15 +166,19 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
         return !["billing", "reports"].includes(item.name);
     }
     if (user?.role === "receptionist") {
-        // Receptionists can checkout (billing), view appointments (calendar), but NOT full patient records or reports
-        return !["patients", "reports", "services"].includes(item.name);
+        // Receptionists can see patients list, billing, calendar, but NOT reports or services management
+        return !["reports", "services"].includes(item.name);
     }
     return true;
   });
 
   const filteredUserNavigation = userNavigation.filter(item => {
     if (user?.role === "clinic_owner") return true;
-    // Non-admins can only see their own profile, not general settings or dentist lists
+    if (user?.role === "receptionist") {
+      // Receptionists can see their profile and the Team (dentist list)
+      return ["profile", "team"].includes(item.name);
+    }
+    // Doctors only see their profile
     return item.name === "profile"; 
   });
 

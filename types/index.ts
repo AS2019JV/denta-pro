@@ -66,7 +66,17 @@ export interface Treatment {
     id: string
     name: string
     price: number
+    duration_minutes: number
     description?: string
+    category_id?: string
+    color?: string
+}
+
+export interface ServiceCategory {
+    id: string
+    clinic_id: string
+    name: string
+    color: string
 }
 
 export interface Billing {

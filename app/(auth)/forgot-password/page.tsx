@@ -8,7 +8,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Alert, AlertDescription } from "@/components/ui/alert"
 import { Loader2, ArrowLeft } from "lucide-react"
 import { useRouter } from "next/navigation"
-import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/components/auth-context"
 
 export default function ForgotPasswordPage() {
   const [email, setEmail] = useState("")
@@ -16,6 +16,7 @@ export default function ForgotPasswordPage() {
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [error, setError] = useState("")
   const router = useRouter()
+  const { resetPassword } = useAuth()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -23,12 +24,9 @@ export default function ForgotPasswordPage() {
     setError("")
 
     try {
-      const { error } = await supabase.auth.resetPasswordForEmail(email, {
-        redirectTo: `${window.location.origin}/auth/callback?next=/settings/security`,
-      })
+      const { error } = await resetPassword(email)
 
       if (error) {
-        // Rate limit or other error
         setError(error.message)
       } else {
         setIsSubmitted(true)
@@ -45,8 +43,8 @@ export default function ForgotPasswordPage() {
       <Card className="w-full max-w-md border-border shadow-lg">
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
-             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center p-3">
-               <img src="/clinia-logo.png" alt="Clinia Logo" className="w-full h-full object-contain" />
+             <div className="w-16 h-16 bg-teal-50 rounded-2xl flex items-center justify-center p-3 shadow-inner ring-1 ring-slate-100/50">
+               <img src="/brand-logo.png" alt="Clinia Logo" className="w-full h-full object-contain" />
              </div>
           </div>
           <CardTitle className="text-2xl font-bold text-center">Recuperación de Cuenta</CardTitle>

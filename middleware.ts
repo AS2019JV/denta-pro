@@ -97,9 +97,15 @@ export async function middleware(request: NextRequest) {
 
       // 2. Receptionist restrictions
       if (userRole === "receptionist") {
-          // Receptionists can access calendar and checkout (pay/billing), but not the full patients CRM, services, or reports/settings
-          if (pathname.startsWith('/patients') || pathname.startsWith('/reports') || pathname.startsWith('/settings') || pathname.startsWith('/dashboard/services') || pathname.startsWith('/dentists')) {
+          // Receptionists can access lists (patients/team) but not detail views or admin areas
+          if (pathname.startsWith('/reports') || pathname.startsWith('/settings') || pathname.startsWith('/dashboard/services')) {
               url.pathname = '/dashboard';
+              return NextResponse.redirect(url);
+          }
+
+          // Block Patient details specifically, but allow the main list
+          if (pathname.startsWith('/patients/')) {
+              url.pathname = '/patients';
               return NextResponse.redirect(url);
           }
       }

@@ -71,6 +71,7 @@ export function ModernCalendar({
   initialView = "month",
   propAppointments,
 }: ModernCalendarProps) {
+  const { currentClinicId } = useAuth()
   const [currentDate, setCurrentDate] = useState(new Date())
   const [selectedDate, setSelectedDate] = useState(new Date())
   
@@ -109,9 +110,10 @@ export function ModernCalendar({
 
   // Fetch Patients, Doctors, Services (Statics)
   const { data: dbPatients = [] } = useQuery({
-    queryKey: ['patients'],
+    queryKey: ['patients', currentClinicId],
     queryFn: async () => {
-      const { data } = await supabase.from('patients').select('*').limit(100)
+      if (!currentClinicId) return []
+      const { data } = await supabase.from('patients').select('*').eq('clinic_id', currentClinicId).limit(200)
       return data || []
     }
   })
@@ -125,9 +127,10 @@ export function ModernCalendar({
   })
 
   const { data: dbTreatments = [] } = useQuery({
-    queryKey: ['treatments'],
+    queryKey: ['treatments', currentClinicId],
     queryFn: async () => {
-      const { data } = await supabase.from('services').select('*')
+      if (!currentClinicId) return []
+      const { data } = await supabase.from('services').select('*').eq('clinic_id', currentClinicId)
       return data || []
     }
   })
@@ -1122,41 +1125,81 @@ export function ModernCalendar({
             <div className="grid gap-4 py-4">
                 <div className="grid gap-2">
                     <Label>Paciente</Label>
-                    <Select value={newAppointment.patientId} onValueChange={v => setNewAppointment({...newAppointment, patientId: v})}>
-                        <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
-                        <SelectContent>
+                    <div className="relative group">
+                        <Input 
+                            value={newAppointment.patientId ? (dbPatients.find(p => p.id === newAppointment.patientId)?.first_name + " " + dbPatients.find(p => p.id === newAppointment.patientId)?.last_name) : ""}
+                            onChange={(e) => {
+                                const val = e.target.value.toLowerCase()
+                                const found = dbPatients.find(p => `${p.first_name} ${p.last_name}`.toLowerCase() === val)
+                                if (found) setNewAppointment({...newAppointment, patientId: found.id})
+                                else if (!e.target.value) setNewAppointment({...newAppointment, patientId: ""})
+                            }}
+                            placeholder="Buscar paciente..."
+                            list="patient-list"
+                        />
+                        <datalist id="patient-list">
                             {dbPatients.map(p => (
-                                <SelectItem key={p.id} value={p.id}>{p.first_name} {p.last_name}</SelectItem>
+                                <option key={p.id} value={`${p.first_name} ${p.last_name}`} />
                             ))}
-                        </SelectContent>
-                    </Select>
+                        </datalist>
+                    </div>
                 </div>
                 <div className="grid gap-2">
                     <Label>Tratamiento</Label>
-                    <Select value={newAppointment.treatment} onValueChange={v => {
-                        const t = dbTreatments.find(type => type.id === v)
-                        setNewAppointment({...newAppointment, treatment: v, invoiceAmount: t ? t.price.toString() : ""})
-                    }}>
-                        <SelectTrigger><SelectValue placeholder="Tipo..."/></SelectTrigger>
-                        <SelectContent>
-                            {dbTreatments.map(t => (
-                                <SelectItem key={t.id} value={t.id}>{t.name} (${t.price})</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
+                    <div className="relative group">
+                        <Input 
+                            value={dbTreatments.find(t => t.id === newAppointment.treatment)?.name || ""}
+                            onChange={(e) => {
+                                const val = e.target.value.toLowerCase()
+                                const found = dbTreatments.find(t => t.name.toLowerCase() === val)
+                                if (found) {
+                                  // Auto-calculate End Time
+                                  const duration = found.duration_minutes || 30
+                                  const totalMinutes = newAppointment.customStartTime.hours * 60 + newAppointment.customStartTime.minutes + duration
+                                  const endHours = Math.floor(totalMinutes / 60) % 24
+                                  const endMinutes = totalMinutes % 60
 
+                                  setNewAppointment({
+                                    ...newAppointment, 
+                                    treatment: found.id, 
+                                    invoiceAmount: found.price.toString(),
+                                    customEndTime: { hours: endHours, minutes: endMinutes }
+                                  })
+                                } else if (!e.target.value) {
+                                  setNewAppointment({...newAppointment, treatment: ""})
+                                }
+                            }}
+                            placeholder="Buscar servicio..."
+                            list="treatment-list"
+                        />
+                        <datalist id="treatment-list">
+                            {dbTreatments.map(t => (
+                                <option key={t.id} value={t.name} label={`$${t.price} - ${t.duration_minutes}min`} />
+                            ))}
+                        </datalist>
+                    </div>
                 </div>
                 
                  <div className="grid gap-2">
                     <Label>Dentista</Label>
-                    <Select value={newAppointment.dentistId} onValueChange={v => setNewAppointment({...newAppointment, dentistId: v})}>
-                        <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
-                        <SelectContent>
+                    <div className="relative group">
+                        <Input 
+                            value={dbDentists.find(d => d.id === newAppointment.dentistId)?.full_name || ""}
+                            onChange={(e) => {
+                                const val = e.target.value.toLowerCase()
+                                const found = dbDentists.find(d => (d.full_name || "").toLowerCase() === val)
+                                if (found) setNewAppointment({...newAppointment, dentistId: found.id})
+                                else if (!e.target.value) setNewAppointment({...newAppointment, dentistId: ""})
+                            }}
+                            placeholder="Buscar dentista..."
+                            list="dentist-list"
+                        />
+                        <datalist id="dentist-list">
                             {dbDentists.map(d => (
-                                <SelectItem key={d.id} value={d.id}>{d.full_name || d.avatar_url || "Dentista"}</SelectItem>
+                                <option key={d.id} value={d.full_name || "Dentista"} />
                             ))}
-                        </SelectContent>
-                    </Select>
+                        </datalist>
+                    </div>
                 </div>
 
                 <div className="grid flex-row items-center gap-2">

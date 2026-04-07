@@ -131,6 +131,7 @@ export default function PatientsPage() {
   
   const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics
   const clinicName = currentClinic?.name || "su Clínica Dental"
+  const isReceptionist = user?.role === "receptionist"
   const [patients, setPatients] = useState<Patient[]>([])
   const [searchTerm, setSearchTerm] = useState("")
   const [timeFilter, setTimeFilter] = useState("all")
@@ -724,7 +725,7 @@ export default function PatientsPage() {
                   isFamilyCard ? "bg-slate-50 border-blue-100" : "bg-white border-slate-100"
                 )}
                 onClick={() => {
-                   if (!isFamilyCard) {
+                   if (!isFamilyCard && !isReceptionist) {
                      router.push(`/patients/${patient.id}`)
                    }
                 }}
@@ -892,26 +893,28 @@ export default function PatientsPage() {
                   <Progress value={profileScore} className="h-1" indicatorClassName={scoreColor} />
                 </div>
               </div>
-              <Button
-                variant={isFamilyCard ? "default" : "outline"}
-                className={cn(
-                  "w-full transition-all duration-200 font-bold",
-                  isFamilyCard 
-                    ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200 shadow-lg" 
-                    : "bg-transparent group-hover:bg-primary group-hover:text-primary-foreground"
-                )}
-                onClick={(e) => {
-                  e.stopPropagation() 
-                  if (isFamilyCard) {
-                     // In group mode, we want to open family context (handled by trigger but we can force it or just push to head)
-                     router.push(`/patients/${patient.id}`)
-                  } else {
-                     router.push(`/patients/${patient.id}`)
-                  }
-                }}
-              >
-                {isFamilyCard ? "Explorar Familia" : "Ver Detalles del Paciente"}
-              </Button>
+              {!isReceptionist && (
+                <Button
+                  variant={isFamilyCard ? "default" : "outline"}
+                  className={cn(
+                    "w-full transition-all duration-200 font-bold",
+                    isFamilyCard 
+                      ? "bg-blue-600 hover:bg-blue-700 text-white shadow-blue-200 shadow-lg" 
+                      : "bg-transparent group-hover:bg-primary group-hover:text-primary-foreground"
+                  )}
+                  onClick={(e) => {
+                    e.stopPropagation() 
+                    if (isFamilyCard) {
+                       // In group mode, we want to open family context (handled by trigger but we can force it or just push to head)
+                       router.push(`/patients/${patient.id}`)
+                    } else {
+                       router.push(`/patients/${patient.id}`)
+                    }
+                  }}
+                >
+                  {isFamilyCard ? "Explorar Familia" : "Ver Detalles del Paciente"}
+                </Button>
+              )}
             </CardContent>
           </Card>
         )

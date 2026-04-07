@@ -24,7 +24,7 @@ const translations = {
     profile: "Perfil",
     settings: "Configuración",
     logout: "Cerrar Sesión",
-    dentist: "Dentista",
+    team: "Equipo",
     services: "Servicios",
 
     // Common
@@ -206,7 +206,7 @@ const translations = {
     profile: "Profile",
     settings: "Settings",
     logout: "Logout",
-    dentist: "Dentist",
+    team: "Team",
     services: "Services",
 
     // Common

@@ -13,6 +13,7 @@ import { Users, CreditCard, Heart, ArrowRight, Loader2, Star, Plus } from "lucid
 import { cn } from "@/lib/utils"
 import { motion, AnimatePresence } from "framer-motion"
 import { useRouter } from "next/navigation"
+import { useAuth } from "@/components/auth-context"
 
 interface FamilyMember {
   id: string
@@ -39,6 +40,8 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
   const [loading, setLoading] = useState(false)
   const [familyMembers, setFamilyMembers] = useState<FamilyMember[]>([])
   const router = useRouter()
+  const { user } = useAuth()
+  const isReceptionist = user?.role === "receptionist"
 
   useEffect(() => {
     if (isOpen) {
@@ -131,12 +134,15 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
                       className={cn(
-                        "group relative bg-white rounded-2xl p-4 border-2 shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer overflow-hidden",
-                        getGroupStyle(null, biller.id)
+                        "group relative bg-white rounded-2xl p-4 border-2 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden",
+                        getGroupStyle(null, biller.id),
+                        !isReceptionist && "cursor-pointer"
                       )}
                       onClick={() => {
-                        setIsOpen(false)
-                        router.push(`/patients/${biller.id}`)
+                        if (!isReceptionist) {
+                          setIsOpen(false)
+                          router.push(`/patients/${biller.id}`)
+                        }
                       }}
                     >
                       <div className="absolute top-0 right-0 p-2">
@@ -193,12 +199,15 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ delay: (billers.length + idx) * 0.05 }}
                         className={cn(
-                          "group bg-white rounded-xl p-3 border-l-4 border shadow-sm hover:shadow-md transition-all cursor-pointer flex items-center justify-between",
-                          getGroupStyle(member.family_representative_id, member.id)
+                          "group bg-white rounded-xl p-3 border-l-4 border shadow-sm hover:shadow-md transition-all flex items-center justify-between",
+                          getGroupStyle(member.family_representative_id, member.id),
+                          !isReceptionist && "cursor-pointer"
                         )}
                         onClick={() => {
-                          setIsOpen(false)
-                          router.push(`/patients/${member.id}`)
+                          if (!isReceptionist) {
+                            setIsOpen(false)
+                            router.push(`/patients/${member.id}`)
+                          }
                         }}
                       >
                         <div className="flex items-center gap-3">

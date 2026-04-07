@@ -57,6 +57,7 @@ export async function registerClinic(formData: FormData) {
     user_metadata: {
       full_name: fullName,
       phone: phone,
+      role: 'clinic_owner',
       pending_clinic: {
         id: clinicId, // Pass the generated ID
         name: practiceName,

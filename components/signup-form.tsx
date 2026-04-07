@@ -67,75 +67,90 @@ export function SignupForm() {
 
   if (success) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-text">
+      <div className="h-screen w-full flex flex-col bg-[#F8FAFB] relative overflow-hidden font-text">
+        {/* Header matching user screenshot */}
+        <header className="w-full px-8 py-6 flex justify-between items-center z-20">
+          <div className="flex items-center gap-2">
+            <div className="w-8 h-8 bg-teal-600 rounded-lg flex items-center justify-center p-1.5">
+               <img src="/brand-logo.png" alt="Logo" className="w-full h-full object-contain brightness-0 invert" />
+            </div>
+            <span className="font-bold text-xl text-slate-800">Clinia+</span>
+          </div>
+          <button 
+            onClick={() => router.push("/")}
+            className="text-sm text-slate-500 hover:text-teal-600 transition-colors font-medium"
+          >
+            Volver al inicio
+          </button>
+        </header>
+
         {/* Ambient Background */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
            <div className="absolute top-[-5%] left-[-5%] w-[500px] h-[500px] bg-teal-100/40 rounded-full blur-[120px] opacity-60"></div>
            <div className="absolute bottom-[-10%] right-[-10%] w-[700px] h-[700px] bg-blue-100/30 rounded-full blur-[150px] opacity-50"></div>
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-          className="w-full max-w-lg p-6 relative z-10"
-        >
-          <Card className="border-0 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.1)] bg-white/90 backdrop-blur-2xl ring-1 ring-white/80 overflow-hidden rounded-[32px]">
-            <CardHeader className="space-y-6 text-center pt-12 pb-8">
-              <motion.div 
-                initial={{ scale: 0, rotate: -10 }}
-                animate={{ scale: 1, rotate: 0 }}
-                transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-                className="mx-auto w-24 h-24 bg-gradient-to-tr from-teal-500 to-emerald-400 rounded-3xl flex items-center justify-center shadow-[0_20px_40px_-10px_rgba(16,185,129,0.3)]"
-              >
-                 <CheckCircle2 className="h-12 w-12 text-white" />
-              </motion.div>
-              <div className="space-y-2">
-                <CardTitle className="text-3xl font-bold text-slate-900 tracking-tight">¡Casi listo!</CardTitle>
-                <CardDescription className="text-lg text-slate-600 px-4">
-                  Hemos enviado un enlace de verificación a: <br/>
-                  <span className="font-bold text-teal-600 mt-1 inline-block selection:bg-teal-100">{email}</span>
-                </CardDescription>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-8 px-10 pb-12">
-               <div className="space-y-4">
-                 <div className="flex items-start gap-3 p-4 bg-slate-50/80 rounded-2xl border border-slate-100">
-                    <div className="mt-1 w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                      <span className="text-teal-700 text-[10px] font-bold">1</span>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Revisa tu bandeja de entrada y haz clic en el botón de confirmación.
-                    </p>
+        <div className="flex-1 flex items-center justify-center p-4 relative z-10">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full max-w-lg"
+          >
+            <Card className="border-0 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.08)] bg-white/90 backdrop-blur-2xl ring-1 ring-white/100 overflow-hidden rounded-[40px]">
+              <CardHeader className="space-y-6 text-center pt-10 pb-4">
+                <motion.div 
+                  initial={{ scale: 0 }}
+                  animate={{ scale: 1 }}
+                  transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
+                  className="mx-auto w-20 h-20 bg-teal-50 rounded-full flex items-center justify-center ring-4 ring-white shadow-inner"
+                >
+                   <div className="w-12 h-12 bg-white rounded-2xl shadow-sm flex items-center justify-center border border-teal-50">
+                     <svg className="w-6 h-6 text-teal-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                     </svg>
+                   </div>
+                </motion.div>
+                <div className="space-y-1">
+                  <CardTitle className="text-[32px] font-bold text-slate-900 tracking-tight">¡Revisa tu correo!</CardTitle>
+                  <CardDescription className="text-base text-slate-500 font-medium pt-2">
+                    Hemos enviado un enlace de confirmación a tu bandeja de entrada.
+                  </CardDescription>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-6 px-12 pb-12">
+                 <div className="space-y-3">
+                   <div className="flex items-center gap-4 p-4 bg-teal-50/30 rounded-2xl border border-teal-100/50">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-teal-600 font-bold text-sm border border-teal-50">1</div>
+                      <div className="flex-1">
+                        <p className="font-bold text-slate-800 text-sm">Abre el correo de Clinia+</p>
+                        <p className="text-xs text-slate-500">Podría estar en la carpeta de Spam</p>
+                      </div>
+                   </div>
+                   <div className="flex items-center gap-4 p-4 bg-teal-50/30 rounded-2xl border border-teal-100/50">
+                      <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center shadow-sm text-teal-600 font-bold text-sm border border-teal-50">2</div>
+                      <div className="flex-1">
+                        <p className="font-bold text-slate-800 text-sm">Haz clic en "Confirmar mi cuenta"</p>
+                        <p className="text-xs text-slate-500">Accederás inmediatamente a tu panel</p>
+                      </div>
+                   </div>
                  </div>
-                 <div className="flex items-start gap-3 p-4 bg-slate-50/80 rounded-2xl border border-slate-100">
-                    <div className="mt-1 w-5 h-5 rounded-full bg-teal-100 flex items-center justify-center flex-shrink-0">
-                      <span className="text-teal-700 text-[10px] font-bold">2</span>
-                    </div>
-                    <p className="text-sm text-slate-600 leading-relaxed">
-                      Si no lo encuentras, revisa tu carpeta de <strong>correo no deseado (SPAM)</strong>.
-                    </p>
-                 </div>
-               </div>
 
-               <div className="pt-2 space-y-4">
-                 <Button 
-                   className="w-full h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-slate-200"
-                   onClick={() => router.push("/login")}
-                 >
-                    Ir al Inicio de Sesión
-                 </Button>
-                 
-                 <p className="text-center text-sm text-slate-400">
-                   ¿No recibiste el correo? {" "}
-                   <button className="text-teal-600 font-semibold hover:underline" onClick={() => setSuccess(false)}>
-                     Intentar de nuevo
-                   </button>
-                 </p>
-               </div>
-            </CardContent>
-          </Card>
-        </motion.div>
+                 <div className="pt-4 text-center">
+                    <p className="text-sm text-slate-400 italic font-medium mb-6">
+                      "El primer paso hacia tu transformación digital"
+                    </p>
+                    <Button 
+                      className="w-full h-14 bg-teal-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-slate-200"
+                      onClick={() => router.push("/login")}
+                    >
+                       Ir al Inicio de Sesión
+                    </Button>
+                 </div>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </div>
       </div>
     )
   }
@@ -261,6 +276,8 @@ export function SignupForm() {
                   type="checkbox"
                   className="mt-1 h-4 w-4 rounded border-slate-300 text-teal-600 focus:ring-teal-500 transition-all cursor-pointer accent-teal-600"
                   required
+                  onInvalid={(e) => (e.target as HTMLInputElement).setCustomValidity('Por favor, marca esta casilla para continuar.')}
+                  onInput={(e) => (e.target as HTMLInputElement).setCustomValidity('')}
                 />
                 <Label htmlFor="terms" className="text-[13px] text-slate-500 leading-snug cursor-pointer font-normal">
                   Acepto los{" "}
