@@ -1,39 +1,57 @@
-<!-- Subject: ¡Confirma tu cuenta en Clinia+! -->
+<!-- Subject: ¡Bienvenido a Clinia +! -->
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Confirma tu cuenta</title>
+  <title>Verifica tu cuenta | Clinia +</title>
   <style>
-    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f8fafb; margin: 0; padding: 0; }
-    .container { max-width: 600px; margin: 40px auto; background: #ffffff; border-radius: 24px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-    .header { background: #0d9488; padding: 40px 20px; text-align: center; }
-    .content { padding: 40px; text-align: center; color: #1e293b; }
-    .footer { padding: 20px; text-align: center; font-size: 12px; color: #94a3b8; background: #f8fafb; }
-    .button { display: inline-block; padding: 16px 32px; background-color: #0d9488; color: #ffffff !important; text-decoration: none; border-radius: 12px; font-weight: bold; margin-top: 20px; }
-    h1 { font-size: 24px; margin-bottom: 16px; color: #0f172a; }
-    p { font-size: 16px; line-height: 1.6; color: #475569; }
+    body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background-color: #f4f7f6; margin: 0; padding: 0; }
+    .wrapper { width: 100%; table-layout: fixed; background-color: #f4f7f6; padding-bottom: 40px; }
+    .main { max-width: 600px; margin: 40px auto; background-color: #ffffff; border-radius: 16px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+    .header { background-color: #0A2E2A; padding: 40px 20px; text-align: center; }
+    .logo { width: 48px; height: auto; margin-bottom: 12px; }
+    .brand { color: #ffffff; font-size: 24px; font-weight: 700; margin: 0; letter-spacing: -0.5px; }
+    .content { padding: 48px 40px; text-align: center; color: #334155; }
+    .title { font-size: 28px; font-weight: 800; color: #0f172a; margin-bottom: 24px; line-height: 1.2; }
+    .text { font-size: 16px; line-height: 1.7; color: #475569; margin-bottom: 32px; }
+    .button-container { margin: 40px 0; }
+    .button { display: inline-block; padding: 18px 36px; background-color: #0d9488; color: #ffffff !important; text-decoration: none; border-radius: 12px; font-weight: 700; font-size: 16px; box-shadow: 0 10px 15px -3px rgba(13, 148, 136, 0.2); transition: all 0.3s ease; }
+    .security-notice { margin-top: 48px; padding: 24px; background-color: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0; }
+    .security-text { font-size: 14px; color: #64748b; margin: 0; display: flex; align-items: center; justify-content: center; gap: 8px; }
+    .footer { padding: 32px 20px; text-align: center; font-size: 13px; color: #94a3b8; }
+    .footer p { margin: 8px 0; }
+    @media screen and (max-width: 600px) {
+      .content { padding: 32px 24px; }
+      .title { font-size: 24px; }
+    }
   </style>
 </head>
 <body>
-  <div class="container">
-    <div class="header">
-      <img src="https://v0-denta-pro.vercel.app/brand-logo.png" alt="Clinia+" width="48" height="48">
-    </div>
-    <div class="content">
-      <h1>¡Te damos la bienvenida a Clinia+!</h1>
-      <p>Gracias por registrarte. Solo falta un paso para comenzar tu transformación digital.</p>
-      <p>Haz clic en el botón de abajo para confirmar tu correo electrónico y activar tu prueba de 14 días.</p>
-      <a href="{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup" class="button">Confirmar mi cuenta</a>
-      <!--
-      <p style="margin-top: 30px; font-size: 14px;">Si el botón no funciona, copia y pega el siguiente enlace en tu navegador:</p>
-      <p style="font-size: 12px; color: #0d9488; word-break: break-all;">{{ .SiteURL }}/api/auth/confirm?token_hash={{ .TokenHash }}&type=signup</p>
-      -->
-    </div>
-    <div class="footer">
-      <p>&copy; 2026 Clinia+. Todos los derechos reservados.</p>
-      <p>Si no creaste esta cuenta, puedes ignorar este correo.</p>
+  <div class="wrapper">
+    <div class="main">
+      <div class="header">
+        <img src="https://v0-denta-pro.vercel.app/logo.png" alt="Clinia +" class="logo">
+        <h2 class="brand">Clinia +</h2>
+      </div>
+      <div class="content">
+        <h1 class="title">¡Te damos la bienvenida a Clinia+!</h1>
+        <p class="text">Gracias por confiar en nosotros para potenciar tu práctica médica. Estás a un solo paso de acceder a tu panel de control y comenzar a gestionar tu clínica de manera inteligente.</p>
+        
+        <div class="button-container">
+          <a href="{{ .SiteURL }}/auth/confirm?token_hash={{ .TokenHash }}&type={{ .Type }}" class="button">Activar mi cuenta</a>
+        </div>
+
+        <div class="security-notice">
+          <p class="security-text">
+            Este enlace de verificación es personal y expirará en las próximas 24 horas por motivos de seguridad.
+          </p>
+        </div>
+      </div>
+      <div class="footer">
+        <p>&copy; 2026 Clinia +. Transformación Digital para el Sector Salud.</p>
+        <p>Si no has solicitado este registro, puedes ignorar este mensaje de forma segura.</p>
+      </div>
     </div>
   </div>
 </body>

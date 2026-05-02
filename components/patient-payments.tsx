@@ -152,7 +152,7 @@ export function PatientPayments({ patientId }: { patientId: string }) {
                             const isPending = dynamicStatus === 'pending'
                             
                             return (
-                                <AccordionItem value={billing.id} key={billing.id} className="border-b px-6 py-2 last:border-0 hover:bg-slate-50/50 transition-colors">
+                                <AccordionItem value={billing.id} key={billing.id} className="border-b px-6 py-2 last:border-0 hover:bg-muted/50/50 transition-colors">
                                     <AccordionTrigger className="hover:no-underline py-4">
                                         <div className="flex flex-1 items-center justify-between pr-6">
                                             <div className="flex flex-col items-start gap-1">
@@ -192,16 +192,16 @@ export function PatientPayments({ patientId }: { patientId: string }) {
                                     </AccordionTrigger>
                                     
                                     <AccordionContent className="pb-6">
-                                        <div className="bg-white rounded-lg border border-slate-100 p-5 shadow-sm space-y-4">
-                                            <h4 className="text-sm font-bold text-slate-800 border-b pb-2 mb-3">Tratamientos Incluidos</h4>
+                                        <div className="bg-card rounded-lg border border-border/50 p-5 shadow-sm space-y-4">
+                                            <h4 className="text-sm font-bold text-foreground/90 border-b pb-2 mb-3">Tratamientos Incluidos</h4>
                                             
                                             {billing.appointments ? (
-                                                <div className="flex items-center justify-between bg-slate-50 p-3 rounded-md border border-slate-100">
+                                                <div className="flex items-center justify-between bg-muted/50 p-3 rounded-md border border-border/50">
                                                     <div className="flex items-center gap-3">
                                                        <div className="w-2 h-2 rounded-full bg-primary" />
                                                        <span className="font-medium text-slate-700">{billing.appointments.type}</span>
                                                     </div>
-                                                    <span className="text-xs text-slate-500 font-medium font-mono bg-white px-2 py-1 rounded shadow-sm border">
+                                                    <span className="text-xs text-slate-500 font-medium font-mono bg-card px-2 py-1 rounded shadow-sm border">
                                                        {format(new Date(billing.appointments.start_time), "dd/MM/yyyy HH:mm")}
                                                     </span>
                                                 </div>
@@ -242,10 +242,10 @@ export function PatientPayments({ patientId }: { patientId: string }) {
                     
                     {selectedBilling && (
                         <div className="py-4 space-y-6">
-                            <div className="bg-slate-50 p-4 rounded-lg flex justify-between items-center border">
+                            <div className="bg-muted/50 p-4 rounded-lg flex justify-between items-center border">
                                 <div>
                                     <p className="text-sm text-slate-500 font-medium">Total a Pagar</p>
-                                    <p className="text-3xl font-black text-slate-800">${selectedBilling.amount.toFixed(2)}</p>
+                                    <p className="text-3xl font-black text-foreground/90">${selectedBilling.amount.toFixed(2)}</p>
                                 </div>
                                 <div className="text-right">
                                     <p className="text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1">Estado</p>
@@ -276,7 +276,7 @@ export function PatientPayments({ patientId }: { patientId: string }) {
                                    <FileText className="w-4 h-4 text-primary" /> Factura Adjunta
                                 </Label>
                                 {selectedBilling.invoices?.[0]?.pdf_url ? (
-                                    <div className="border border-slate-200 rounded-lg p-3 flex justify-between items-center bg-white shadow-sm">
+                                    <div className="border border-border rounded-lg p-3 flex justify-between items-center bg-card shadow-sm">
                                         <div className="flex items-center gap-3">
                                            <div className="w-10 h-10 bg-rose-100 text-rose-600 rounded-lg flex items-center justify-center">
                                               <FileText className="w-5 h-5" />
@@ -293,7 +293,7 @@ export function PatientPayments({ patientId }: { patientId: string }) {
                                         </Button>
                                     </div>
                                 ) : (
-                                    <div className="border border-dashed border-slate-200 rounded-lg p-6 flex flex-col items-center justify-center bg-slate-50 text-slate-400">
+                                    <div className="border border-dashed border-border rounded-lg p-6 flex flex-col items-center justify-center bg-muted/50 text-slate-400">
                                         <FileText className="w-8 h-8 mb-2 opacity-20" />
                                         <p className="text-sm italic">Sin factura generada aún</p>
                                     </div>

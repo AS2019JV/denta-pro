@@ -118,13 +118,13 @@ const Tooth = ({
   const renderInputs = () => (
     <div className="flex flex-col gap-0.5">
        <input 
-          className="w-8 h-4 text-[9px] font-bold text-center border border-slate-200 outline-none focus:border-blue-500 bg-white"
+          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card"
           placeholder="R"
           value={data?.recesion || ''}
           onChange={(e) => onApply(id, 'recesion', { id: 'meta' }, e.target.value as any)}
        />
        <input 
-          className="w-8 h-4 text-[9px] font-bold text-center border border-slate-200 outline-none focus:border-blue-500 bg-white"
+          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card"
           placeholder="M"
           value={data?.movilidad || ''}
           onChange={(e) => onApply(id, 'movilidad', { id: 'meta' }, e.target.value as any)}
@@ -278,25 +278,25 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   );
 
   return (
-    <div className="bg-white rounded-xl shadow-2xl border overflow-hidden flex flex-col h-full min-h-[700px]">
+    <div className="bg-card rounded-xl shadow-2xl border overflow-hidden flex flex-col h-full min-h-[700px]">
       {/* TOOLBAR */}
-      <div className="bg-slate-50 border-b p-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50">
+      <div className="bg-muted/50 border-b p-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50">
          <div className="flex items-center gap-6">
             <div className="space-y-1">
                <h3 className="text-xs font-black uppercase tracking-tighter text-slate-400">Estado Clínico</h3>
-               <div className="flex bg-white rounded-lg p-1 border shadow-sm">
+               <div className="flex bg-card rounded-lg p-1 border shadow-sm">
                   <button 
                     onClick={() => setActiveMode('red')}
                     className={cn("px-4 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-2", activeMode === 'red' ? "bg-red-500 text-white shadow-lg shadow-red-200" : "text-slate-500")}
                   >
-                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-white" : "bg-red-500")} />
+                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-card" : "bg-red-500")} />
                     PATOLOGÍA
                   </button>
                   <button 
                     onClick={() => setActiveMode('blue')}
                     className={cn("px-4 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-2", activeMode === 'blue' ? "bg-blue-600 text-white shadow-lg shadow-blue-200" : "text-slate-500")}
                   >
-                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'blue' ? "bg-white" : "bg-blue-600")} />
+                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'blue' ? "bg-card" : "bg-blue-600")} />
                     REALIZADO
                   </button>
                </div>
@@ -311,13 +311,13 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                         onClick={() => { setActiveTool(tool); setRangeStart(null); }}
                         className={cn(
                             "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap",
-                            activeTool.id === tool.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-white text-slate-600 hover:border-slate-400"
+                            activeTool.id === tool.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-card text-slate-600 hover:border-slate-400"
                         )}
                      >
                         {tool.label}
                      </button>
                   ))}
-                  <button onClick={() => setActiveTool(TOOLS.ERASER)} className={cn("p-2 rounded-lg border", activeTool.id === 'eraser' ? "bg-red-100 border-red-200 text-red-600" : "bg-white")}><Eraser size={14} /></button>
+                  <button onClick={() => setActiveTool(TOOLS.ERASER)} className={cn("p-2 rounded-lg border", activeTool.id === 'eraser' ? "bg-red-100 border-red-200 text-red-600" : "bg-card")}><Eraser size={14} /></button>
                </div>
             </div>
          </div>
@@ -332,13 +332,13 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       </div>
 
       {/* CANVAS */}
-      <div className="flex-1 p-8 bg-slate-50/30 overflow-auto scrollbar-hide">
-         <div className="mx-auto max-w-5xl flex flex-col gap-12 bg-white p-12 rounded-[2rem] shadow-inner border border-slate-100">
+      <div className="flex-1 p-8 bg-muted/50/30 overflow-auto scrollbar-hide">
+         <div className="mx-auto max-w-5xl flex flex-col gap-12 bg-card p-12 rounded-[2rem] shadow-inner border border-border/50">
             
             {/* Legend/Header */}
             <div className="flex justify-between items-start border-b pb-6">
                 <div>
-                    <h2 className="text-2xl font-black text-slate-900 tracking-tight">6 ODONTOGRAMA</h2>
+                    <h2 className="text-2xl font-black text-foreground tracking-tight">6 ODONTOGRAMA</h2>
                     <p className="text-[11px] text-slate-400 font-medium max-w-sm mt-1">
                         PINTAR CON: <span className="text-blue-600 font-bold">AZUL PARA TRATAMIENTO REALIZADO</span> - <span className="text-red-500 font-bold">ROJO PARA PATOLOGÍA ACTUAL</span>
                     </p>
@@ -349,7 +349,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             </div>
 
             {/* Odontogram Grid with Labels */}
-            <div className="flex-1 min-w-[800px] bg-white p-6 rounded-2xl border shadow-sm overflow-x-auto">
+            <div className="flex-1 min-w-[800px] bg-card p-6 rounded-2xl border shadow-sm overflow-x-auto">
                 <div className="grid grid-cols-[100px_1fr] gap-4">
                     {/* Labels Column */}
                     <div className="flex flex-col justify-around py-12 text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
@@ -393,7 +393,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 pt-8 border-t">
                <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">7 INDICADORES</h4>
-                  <div className="text-[10px] p-4 bg-slate-50 rounded-xl border border-dashed text-slate-500 italic">
+                  <div className="text-[10px] p-4 bg-muted/50 rounded-xl border border-dashed text-slate-500 italic">
                      Los indicadores de salud bucal se calculan automáticamente basado en el historial clínico.
                   </div>
                </div>

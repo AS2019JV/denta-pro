@@ -56,9 +56,9 @@ export function RecallWidget() {
             <ScrollArea className="h-[250px]">
                 <div className="flex flex-col">
                     {patients.map((p) => (
-                        <div key={p.patient_id} className="flex items-center justify-between p-3 border-b last:border-0 hover:bg-slate-50 transition-colors">
+                        <div key={p.patient_id} className="flex items-center justify-between p-3 border-b last:border-0 hover:bg-muted/50 transition-colors">
                             <div className="flex flex-col gap-0.5">
-                                <span className="text-sm font-medium text-slate-900">{p.first_name} {p.last_name}</span>
+                                <span className="text-sm font-medium text-foreground">{p.first_name} {p.last_name}</span>
                                 <span className="text-[10px] text-slate-500">
                                     Última visita: {p.last_visit ? new Date(p.last_visit).toLocaleDateString('es-EC') : 'Nunca'}
                                 </span>

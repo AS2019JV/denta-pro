@@ -584,6 +584,15 @@ export const generatePrescription = (data: any) => {
   let y = margin;
 
   // Header / Branding
+  if (data.clinicLogo) {
+    try {
+      // Adding image to the top right
+      doc.addImage(data.clinicLogo, 'PNG', pageWidth - margin - 25, margin, 25, 12);
+    } catch (e) {
+      console.warn("Could not load clinic logo for PDF", e);
+    }
+  }
+
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(16);
   doc.setTextColor(59, 130, 246); // Primary blue

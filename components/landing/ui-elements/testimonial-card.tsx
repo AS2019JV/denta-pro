@@ -19,7 +19,7 @@ export function TestimonialCard({ name, role, quote, image, index }: Testimonial
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Card className="border-none shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full overflow-hidden group bg-white">
+      <Card className="border-none shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full overflow-hidden group bg-card">
         <div className="h-1.5 w-full bg-gradient-to-r from-primary to-teal-400"></div>
         <CardContent className="p-8">
           <div className="flex items-center gap-4 mb-6">
@@ -29,7 +29,7 @@ export function TestimonialCard({ name, role, quote, image, index }: Testimonial
               className="rounded-full h-14 w-14 object-cover ring-4 ring-slate-50 group-hover:ring-teal-100 transition-all"
             />
             <div>
-              <h4 className="font-bold font-title text-slate-900">{name}</h4>
+              <h4 className="font-bold font-title text-foreground">{name}</h4>
               <p className="text-teal-600 text-sm font-subtitle font-medium">{role}</p>
             </div>
           </div>

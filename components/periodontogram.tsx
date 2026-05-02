@@ -58,8 +58,8 @@ const MeasurementInput = ({
       className={`
         w-6 h-8 text-center text-xs border rounded-sm outline-none transition-colors
         focus:ring-1 focus:ring-teal-500 focus:border-teal-500
-        ${isHigh ? 'bg-red-50 text-red-600 font-bold border-red-200' : 'bg-white text-slate-700 border-slate-200'}
-        ${disabled ? 'bg-slate-50 opacity-50 cursor-not-allowed' : ''}
+        ${isHigh ? 'bg-red-50 text-red-600 font-bold border-red-200' : 'bg-card text-slate-700 border-border'}
+        ${disabled ? 'bg-muted/50 opacity-50 cursor-not-allowed' : ''}
       `}
       value={value ?? ''}
       onChange={(e) => {
@@ -118,7 +118,7 @@ const ToothColumn = ({
 
       {/* Tooth Number Visualization */}
       <div className="py-2 flex items-center justify-center">
-        <span className="text-sm font-bold text-slate-400 bg-slate-50 px-2 rounded">
+        <span className="text-sm font-bold text-slate-400 bg-muted/50 px-2 rounded">
           {id}
         </span>
       </div>
@@ -174,11 +174,11 @@ export function Periodontogram({ data = {}, onChange, readOnly = false }: Period
   }, 0)
 
   return (
-    <div className="w-full bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+    <div className="w-full bg-muted/50 rounded-xl border border-border overflow-hidden">
         {/* Header */}
-        <div className="bg-white border-b border-slate-200 p-4 flex justify-between items-center">
+        <div className="bg-card border-b border-border p-4 flex justify-between items-center">
              <div className="flex items-center gap-2">
-                 <h3 className="font-bold text-slate-800">Periodontograma</h3>
+                 <h3 className="font-bold text-foreground/90">Periodontograma</h3>
                  {diseaseCount > 0 && (
                      <Badge variant="destructive" className="flex items-center gap-1">
                          <AlertCircle size={12} />
@@ -193,14 +193,14 @@ export function Periodontogram({ data = {}, onChange, readOnly = false }: Period
                      <span>{'>'} 4mm (Patología)</span>
                  </div>
                  <div className="flex items-center gap-1">
-                     <div className="w-3 h-3 bg-white border border-slate-200 rounded-sm"></div>
+                     <div className="w-3 h-3 bg-card border border-border rounded-sm"></div>
                      <span>Normal</span>
                  </div>
              </div>
         </div>
 
         {/* Key Labels */}
-        <div className="p-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest flex justify-between bg-slate-50/50">
+        <div className="p-1 px-4 text-[10px] font-bold text-slate-400 uppercase tracking-widest flex justify-between bg-muted/50/50">
              <span>Vestibular (Buccal)</span>
              <span>Lingual / Palatino</span>
         </div>

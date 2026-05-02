@@ -4,7 +4,7 @@ import { HeartPulse } from "lucide-react"
 export function SiteFooter({ simplified = false }) {
   if (simplified) {
     return (
-      <footer className="w-full bg-white py-6">
+      <footer className="w-full bg-card py-6">
         <div className="container text-center text-gray-500 text-sm font-text">
           © 2026 Clinia+. Todos los derechos reservados.
         </div>
@@ -13,7 +13,7 @@ export function SiteFooter({ simplified = false }) {
   }
 
   return (
-    <footer className="w-full bg-white py-12 font-text">
+    <footer className="w-full bg-card py-12 font-text">
       <div className="container px-4 md:px-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-8">
           <div className="col-span-2">

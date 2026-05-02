@@ -24,14 +24,14 @@ export function FeatureCard({ icon, title, description, benefits, color, index }
       transition={{ duration: 0.5, delay: index * 0.1 }}
       className="group"
     >
-      <Card className="border border-slate-200/60 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-500 h-full overflow-hidden bg-white group-hover:border-slate-300/80">
+      <Card className="border border-border/60 shadow-[0_2px_8px_-2px_rgba(0,0,0,0.05)] hover:shadow-[0_20px_40px_-12px_rgba(0,0,0,0.1)] hover:-translate-y-1 transition-all duration-500 h-full overflow-hidden bg-card group-hover:border-slate-300/80">
         <CardContent className="p-8">
           <div
             className={`w-12 h-12 rounded-xl bg-gradient-to-br ${color} flex items-center justify-center mb-6 shadow-md transform group-hover:scale-105 transition-transform duration-500`}
           >
             {icon}
           </div>
-          <h3 className="text-xl font-bold mb-3 font-title text-slate-900 tracking-tight">{title}</h3>
+          <h3 className="text-xl font-bold mb-3 font-title text-foreground tracking-tight">{title}</h3>
           <p className="text-slate-500 mb-6 font-text leading-relaxed text-[15px]">{description}</p>
           <ul className="space-y-3">
             {benefits.map((benefit, i) => (

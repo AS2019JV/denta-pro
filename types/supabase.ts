@@ -431,6 +431,33 @@ export type Database = {
           },
         ]
       }
+      prescription_templates: {
+        Row: {
+          id: string
+          created_at: string | null
+          clinic_id: string
+          doctor_id: string | null
+          name: string
+          data: Json
+        }
+        Insert: {
+          id?: string
+          created_at?: string | null
+          clinic_id?: string
+          doctor_id?: string | null
+          name: string
+          data: Json
+        }
+        Update: {
+          id?: string
+          created_at?: string | null
+          clinic_id?: string
+          doctor_id?: string | null
+          name?: string
+          data?: Json
+        }
+        Relationships: []
+      }
       patients: {
         Row: {
           address: string | null

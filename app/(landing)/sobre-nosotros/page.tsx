@@ -120,7 +120,7 @@ export default function AboutUsPage() {
   ]
 
   return (
-    <div className="flex min-h-screen flex-col bg-white">
+    <div className="flex min-h-screen flex-col bg-card">
       <SiteHeader isHomePage={false} />
 
       <main className="flex-1 pt-20">
@@ -144,7 +144,7 @@ export default function AboutUsPage() {
               transition={{ duration: 0.6 }}
               className="max-w-3xl mx-auto text-center"
             >
-              <div className="inline-flex items-center rounded-full bg-white/10 px-4 py-1 text-sm text-white backdrop-blur-sm mb-6 font-subtitle">
+              <div className="inline-flex items-center rounded-full bg-card/10 px-4 py-1 text-sm text-white backdrop-blur-sm mb-6 font-subtitle">
                 <span className="mr-2 h-2 w-2 rounded-full bg-secondary animate-pulse"></span>
                 Sobre Nosotros
               </div>
@@ -211,7 +211,7 @@ export default function AboutUsPage() {
                 className="relative"
               >
                 <div className="absolute -inset-4 bg-gradient-to-r from-primary/10 to-tertiary/10 rounded-3xl blur-3xl"></div>
-                <div className="relative bg-white rounded-2xl overflow-hidden shadow-xl">
+                <div className="relative bg-card rounded-2xl overflow-hidden shadow-xl">
                   <img
                     src="/team-group.png"
                     alt="Equipo de Clinia+"
@@ -219,7 +219,7 @@ export default function AboutUsPage() {
                   />
                 </div>
 
-                <div className="absolute -bottom-6 -right-6 bg-white rounded-xl shadow-lg p-4 max-w-xs">
+                <div className="absolute -bottom-6 -right-6 bg-card rounded-xl shadow-lg p-4 max-w-xs">
                   <div className="flex items-center gap-4">
                     <div className="bg-primary/10 rounded-full p-3">
                       <HeartPulse className="h-8 w-8 text-primary" />
@@ -274,7 +274,7 @@ export default function AboutUsPage() {
               transition={{ duration: 0.6 }}
               className="mt-20 max-w-6xl mx-auto"
             >
-              <div className="bg-white rounded-3xl overflow-hidden shadow-xl p-8 md:p-12">
+              <div className="bg-card rounded-3xl overflow-hidden shadow-xl p-8 md:p-12">
                 <div className="grid md:grid-cols-3 gap-8 items-center">
                   <div className="md:col-span-1">
                     <div className="bg-primary/10 rounded-full p-4 inline-flex">
@@ -407,7 +407,7 @@ export default function AboutUsPage() {
                         <div className="absolute -left-[41px] bg-primary text-white rounded-full w-8 h-8 flex items-center justify-center">
                           <Calendar className="h-4 w-4" />
                         </div>
-                        <div className="bg-white rounded-lg shadow-md p-6">
+                        <div className="bg-card rounded-lg shadow-md p-6">
                           <div className="inline-block bg-primary/10 text-primary font-bold px-3 py-1 rounded-full text-sm mb-2 font-subtitle">
                             {item.year}
                           </div>
@@ -494,9 +494,9 @@ export default function AboutUsPage() {
               className="max-w-3xl mx-auto text-center"
             >
               <div className="inline-flex items-center gap-2 mb-6">
-                <div className="h-px w-12 bg-white/30"></div>
+                <div className="h-px w-12 bg-card/30"></div>
                 <p className="text-white/60 text-sm">ÚNETE A NUESTRA COMUNIDAD</p>
-                <div className="h-px w-12 bg-white/30"></div>
+                <div className="h-px w-12 bg-card/30"></div>
               </div>
               <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight lg:text-5xl mb-6 text-white font-title">
                 Forma parte de la revolución dental
@@ -510,7 +510,7 @@ export default function AboutUsPage() {
                   className="relative overflow-hidden bg-secondary hover:bg-secondary/90 text-secondary-foreground text-lg px-8 py-6 rounded-full shadow-lg hover:shadow-xl transition-all group font-subtitle"
                   asChild
                 >
-                  <Link href="/free-trial">
+                  <Link href="/signup">
                     <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-secondary/0 via-white/20 to-secondary/0 transform -translate-x-full group-hover:translate-x-full transition-transform duration-1000"></span>
                     Comienza Tu Prueba Gratuita
                     <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />

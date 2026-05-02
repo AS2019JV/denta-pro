@@ -251,9 +251,9 @@ export function ServicesManager() {
   return (
     <div className="max-w-7xl mx-auto space-y-8 py-6 px-4 sm:px-0 select-none animate-in fade-in duration-700">
       {/* Header Section - Modern Apple Style */}
-      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-white p-10 rounded-[2.5rem] border border-slate-100 shadow-sm">
+      <header className="flex flex-col md:flex-row justify-between items-start md:items-end gap-6 bg-card p-10 rounded-[2.5rem] border border-border/50 shadow-sm">
         <div className="space-y-1">
-          <h1 className="text-5xl font-bold tracking-tight text-slate-900 font-teko leading-none">
+          <h1 className="text-5xl font-bold tracking-tight text-foreground font-teko leading-none">
             Servicios <span className="text-primary">Profesionales</span>
           </h1>
           <p className="text-slate-400 max-w-md text-sm font-medium">
@@ -264,7 +264,7 @@ export function ServicesManager() {
           <Button 
             onClick={() => setIsTemplatesOpen(true)}
             variant="ghost"
-            className="rounded-2xl h-12 px-6 hover:bg-slate-50 transition-all font-bold text-slate-500"
+            className="rounded-2xl h-12 px-6 hover:bg-muted/50 transition-all font-bold text-slate-500"
           >
             <Copy className="mr-2 h-4 w-4" /> Plantillas
           </Button>
@@ -292,7 +292,7 @@ export function ServicesManager() {
                     onClick={() => setActiveTab("all")}
                     className={cn(
                         "px-6 py-2 rounded-full text-xs font-bold transition-all border whitespace-nowrap",
-                        activeTab === "all" ? "bg-primary border-primary text-white shadow-lg shadow-primary/20" : "bg-white border-slate-200 text-slate-500 hover:border-primary/30"
+                        activeTab === "all" ? "bg-primary border-primary text-white shadow-lg shadow-primary/20" : "bg-card border-border text-slate-500 hover:border-primary/30"
                     )}
                 >
                     Todos
@@ -303,7 +303,7 @@ export function ServicesManager() {
                         onClick={() => setActiveTab(cat.id)}
                         className={cn(
                             "px-6 py-2 rounded-full text-xs font-bold transition-all border flex items-center gap-2 whitespace-nowrap",
-                            activeTab === cat.id ? "bg-white border-slate-100 text-slate-900 shadow-md" : "bg-white border-slate-200 text-slate-500 hover:border-primary/30"
+                            activeTab === cat.id ? "bg-card border-border/50 text-foreground shadow-md" : "bg-card border-border text-slate-500 hover:border-primary/30"
                         )}
                     >
                         <div className="h-1.5 w-1.5 rounded-full" style={{ backgroundColor: cat.color }} />
@@ -312,7 +312,7 @@ export function ServicesManager() {
                 ))}
                 <button 
                     onClick={() => setIsCatDialogOpen(true)}
-                    className="flex-shrink-0 h-8 w-8 rounded-full border border-slate-200 flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all ml-2"
+                    className="flex-shrink-0 h-8 w-8 rounded-full border border-border flex items-center justify-center text-slate-400 hover:text-primary hover:border-primary transition-all ml-2"
                 >
                     <Settings2 className="h-4 w-4" />
                 </button>
@@ -325,7 +325,7 @@ export function ServicesManager() {
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 placeholder="Buscar tratamiento..."
-                className="w-full bg-slate-50 border-none h-12 pl-12 pr-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/10 transition-all font-semibold placeholder:font-normal placeholder:text-slate-300"
+                className="w-full bg-muted/50 border-none h-12 pl-12 pr-6 rounded-2xl text-sm focus:ring-2 focus:ring-primary/10 transition-all font-semibold placeholder:font-normal placeholder:text-slate-300"
             />
          </div>
       </div>
@@ -333,11 +333,11 @@ export function ServicesManager() {
       {/* Services Grid */}
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8 opacity-50">
-           {[1,2,3].map(i => <div key={i} className="h-64 bg-slate-50 rounded-[2.5rem] animate-pulse" />)}
+           {[1,2,3].map(i => <div key={i} className="h-64 bg-muted/50 rounded-[2.5rem] animate-pulse" />)}
         </div>
       ) : filteredServices.length === 0 ? (
-        <div className="py-24 text-center space-y-6 bg-slate-50/50 rounded-[3rem] border border-dashed border-slate-200">
-           <div className="bg-white h-20 w-20 rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-slate-100">
+        <div className="py-24 text-center space-y-6 bg-muted/50/50 rounded-[3rem] border border-dashed border-border">
+           <div className="bg-card h-20 w-20 rounded-3xl flex items-center justify-center mx-auto shadow-sm border border-border/50">
               <LayoutGrid className="h-8 w-8 text-primary/10" />
            </div>
            <div className="space-y-1">
@@ -350,7 +350,7 @@ export function ServicesManager() {
             {filteredServices.map((service) => (
                 <div 
                     key={service.id} 
-                    className="group bg-white rounded-[2.5rem] p-8 border border-slate-100 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative flex flex-col gap-6"
+                    className="group bg-card rounded-[2.5rem] p-8 border border-border/50 shadow-sm hover:shadow-2xl hover:shadow-slate-200/50 transition-all duration-500 relative flex flex-col gap-6"
                 >
                     {/* Vertical Color Indicator */}
                     <div className="absolute top-10 bottom-10 left-0 w-1 rounded-r-full" style={{ backgroundColor: service.color }} />
@@ -360,7 +360,7 @@ export function ServicesManager() {
                             <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300 block">
                                 {service.category_name || "General"}
                             </span>
-                            <h3 className="text-2xl font-bold font-teko text-slate-800 leading-tight">
+                            <h3 className="text-2xl font-bold font-teko text-foreground/90 leading-tight">
                                 {service.name}
                             </h3>
                         </div>
@@ -388,13 +388,13 @@ export function ServicesManager() {
                                     setIsEditing(true)
                                     setIsDialogOpen(true)
                                 }}
-                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-slate-100 hover:text-slate-900 transition-all active:scale-90"
+                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-muted/50 text-slate-300 hover:bg-slate-100 hover:text-foreground transition-all active:scale-90"
                             >
                                 <Pencil className="h-3.5 w-3.5" />
                             </button>
                             <button 
                                 onClick={() => handleDeleteService(service.id)}
-                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-slate-50 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90"
+                                className="h-9 w-9 flex items-center justify-center rounded-xl bg-muted/50 text-slate-300 hover:bg-red-50 hover:text-red-500 transition-all active:scale-90"
                             >
                                 <Trash2 className="h-3.5 w-3.5" />
                             </button>
@@ -411,10 +411,10 @@ export function ServicesManager() {
 
       {/* 1. Add/Edit Service Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl rounded-[3rem] p-0 border-none shadow-3xl bg-white overflow-hidden">
+        <DialogContent className="max-w-2xl rounded-[3rem] p-0 border-none shadow-3xl bg-card overflow-hidden">
             <div className="flex flex-col md:flex-row h-full">
                 {/* Left Panel - Visual Preview */}
-                <div className="w-full md:w-56 bg-slate-50 p-10 flex flex-col items-center justify-center text-center gap-6 border-r border-slate-100">
+                <div className="w-full md:w-56 bg-muted/50 p-10 flex flex-col items-center justify-center text-center gap-6 border-r border-border/50">
                     <div className="h-28 w-28 rounded-[2rem] shadow-2xl flex items-center justify-center transition-all duration-700" style={{ backgroundColor: currentService.color, boxShadow: `0 20px 40px ${currentService.color}30` }}>
                         <Sparkles className="h-10 w-10 text-white" />
                     </div>
@@ -427,7 +427,7 @@ export function ServicesManager() {
                 {/* Right Panel - Form */}
                 <div className="flex-1 p-10 space-y-8">
                     <header>
-                        <h2 className="text-3xl font-bold font-teko text-slate-900 leading-none mb-1">
+                        <h2 className="text-3xl font-bold font-teko text-foreground leading-none mb-1">
                             {isEditing ? "Optimizar Tratamiento" : "Atelier de Servicios"}
                         </h2>
                         <p className="text-slate-400 text-xs font-medium">Define los detalles del procedimiento clínico.</p>
@@ -439,7 +439,7 @@ export function ServicesManager() {
                                 <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Identidad</Label>
                                 <Input 
                                     placeholder="Nombre del servicio..."
-                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-semibold placeholder:font-normal focus:ring-2 focus:ring-primary/10"
+                                    className="rounded-2xl bg-muted/50 border-none h-12 px-5 font-semibold placeholder:font-normal focus:ring-2 focus:ring-primary/10"
                                     value={currentService.name}
                                     onChange={(e) => setCurrentService({...currentService, name: e.target.value})}
                                 />
@@ -450,7 +450,7 @@ export function ServicesManager() {
                                     value={currentService.category_id} 
                                     onValueChange={v => setCurrentService({...currentService, category_id: v})}
                                 >
-                                    <SelectTrigger className="rounded-2xl bg-slate-50 border-none h-12 px-5 shadow-none focus:ring-2 focus:ring-primary/10">
+                                    <SelectTrigger className="rounded-2xl bg-muted/50 border-none h-12 px-5 shadow-none focus:ring-2 focus:ring-primary/10">
                                         <SelectValue placeholder="Seleccionar..." />
                                     </SelectTrigger>
                                     <SelectContent className="rounded-2xl border-none shadow-xl">
@@ -472,7 +472,7 @@ export function ServicesManager() {
                                 <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Inversión ($)</Label>
                                 <Input 
                                     type="number"
-                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
+                                    className="rounded-2xl bg-muted/50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
                                     value={priceInput}
                                     onChange={(e) => setPriceInput(e.target.value)}
                                 />
@@ -481,7 +481,7 @@ export function ServicesManager() {
                                 <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Tiempo (Min)</Label>
                                 <Input 
                                     type="number"
-                                    className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
+                                    className="rounded-2xl bg-muted/50 border-none h-12 px-5 font-bold focus:ring-2 focus:ring-primary/10"
                                     value={durationInput}
                                     onChange={(e) => setDurationInput(e.target.value)}
                                 />
@@ -490,7 +490,7 @@ export function ServicesManager() {
 
                         <div className="space-y-3">
                             <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Gama Cromática</Label>
-                            <div className="flex flex-wrap gap-2.5 p-3 bg-slate-50/50 rounded-[1.5rem]">
+                            <div className="flex flex-wrap gap-2.5 p-3 bg-muted/50/50 rounded-[1.5rem]">
                                 {CATEGORY_COLORS.map(c => (
                                     <button 
                                         key={c.hex}
@@ -510,7 +510,7 @@ export function ServicesManager() {
                         <div className="space-y-2">
                              <Label className="text-[10px] font-bold text-slate-400 uppercase tracking-widest pl-1 text-xs">Notas Clínicas</Label>
                              <textarea 
-                                className="w-full bg-slate-50 border-none rounded-2xl p-5 text-sm font-medium min-h-[6rem] focus:ring-2 focus:ring-primary/10 transition-all placeholder:font-normal"
+                                className="w-full bg-muted/50 border-none rounded-2xl p-5 text-sm font-medium min-h-[6rem] focus:ring-2 focus:ring-primary/10 transition-all placeholder:font-normal"
                                 placeholder="Describe el alcance del tratamiento..."
                                 value={currentService.description}
                                 onChange={(e) => setCurrentService({...currentService, description: e.target.value})}
@@ -533,7 +533,7 @@ export function ServicesManager() {
 
       {/* 2. Category Management Dialog */}
       <Dialog open={isCatDialogOpen} onOpenChange={setIsCatDialogOpen}>
-        <DialogContent className="max-w-md rounded-[2.5rem] p-10 border-none shadow-3xl bg-white">
+        <DialogContent className="max-w-md rounded-[2.5rem] p-10 border-none shadow-3xl bg-card">
             <header className="space-y-2 mb-8 text-center">
                 <div className="h-16 w-16 bg-primary/5 rounded-3xl flex items-center justify-center mx-auto text-primary">
                     <Palette className="h-8 w-8" />
@@ -547,7 +547,7 @@ export function ServicesManager() {
                     <div className="flex gap-3">
                         <Input 
                             placeholder="Nombre de categoría..."
-                            className="rounded-2xl bg-slate-50 border-none h-12 px-5 font-bold"
+                            className="rounded-2xl bg-muted/50 border-none h-12 px-5 font-bold"
                             value={currentCategory.name}
                             onChange={(e) => setCurrentCategory({...currentCategory, name: e.target.value})}
                         />
@@ -573,7 +573,7 @@ export function ServicesManager() {
 
                 <div className="space-y-2 max-h-48 overflow-y-auto px-2 scrollbar-hide">
                     {categories.map(cat => (
-                        <div key={cat.id} className="flex items-center justify-between p-4 bg-slate-50 rounded-2xl group transition-all hover:bg-white hover:shadow-md border border-transparent hover:border-slate-100">
+                        <div key={cat.id} className="flex items-center justify-between p-4 bg-muted/50 rounded-2xl group transition-all hover:bg-card hover:shadow-md border border-transparent hover:border-border/50">
                             <div className="flex items-center gap-3">
                                 <div className="h-4 w-4 rounded-full" style={{ backgroundColor: cat.color }} />
                                 <span className="font-bold text-slate-700 text-sm">{cat.name}</span>
@@ -593,7 +593,7 @@ export function ServicesManager() {
                     ))}
                 </div>
 
-                <Button variant="outline" onClick={() => setIsCatDialogOpen(false)} className="w-full rounded-2xl h-12 font-bold text-slate-500 border-slate-200">
+                <Button variant="outline" onClick={() => setIsCatDialogOpen(false)} className="w-full rounded-2xl h-12 font-bold text-slate-500 border-border">
                     Cerrar Ajustes
                 </Button>
             </div>
@@ -602,10 +602,10 @@ export function ServicesManager() {
       
       {/* 3. Templates Gallery Dialog - Updated titles & styles */}
       <Dialog open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
-         <DialogContent className="max-w-4xl rounded-[2rem] p-0 border-none shadow-2xl bg-slate-50/50 overflow-hidden flex flex-col max-h-[85vh]">
-            <header className="p-10 bg-white border-b border-slate-100 flex justify-between items-center shrink-0">
+         <DialogContent className="max-w-4xl rounded-[2rem] p-0 border-none shadow-2xl bg-muted/50/50 overflow-hidden flex flex-col max-h-[85vh]">
+            <header className="p-10 bg-card border-b border-border/50 flex justify-between items-center shrink-0">
                 <div className="space-y-1">
-                    <h2 className="text-4xl font-bold font-teko text-slate-900 leading-none">Plantillas</h2>
+                    <h2 className="text-4xl font-bold font-teko text-foreground leading-none">Plantillas</h2>
                     <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Catálogo institucional</p>
                 </div>
                 <div className="h-12 w-12 bg-primary/5 rounded-2xl flex items-center justify-center text-primary">
@@ -616,15 +616,15 @@ export function ServicesManager() {
             <div className="flex-1 overflow-y-auto p-10 scrollbar-hide">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      {(STANDARD_TEMPLATES as any).map((template: any, i: number) => (
-                         <div key={i} className="group bg-white rounded-3xl p-6 border border-slate-100 transition-all hover:shadow-xl hover:shadow-slate-200/40 relative flex flex-col gap-4">
+                         <div key={i} className="group bg-card rounded-3xl p-6 border border-border/50 transition-all hover:shadow-xl hover:shadow-slate-200/40 relative flex flex-col gap-4">
                              <div className="flex justify-between items-start">
-                                 <Badge className="bg-slate-50 text-slate-400 border-none rounded-full px-3 h-5 text-[10px] font-bold">
+                                 <Badge className="bg-muted/50 text-slate-400 border-none rounded-full px-3 h-5 text-[10px] font-bold">
                                     {template.category}
                                  </Badge>
                                  <span className="text-xl font-bold font-teko text-primary">${template.price}</span>
                              </div>
                              
-                             <h4 className="text-xl font-bold font-teko text-slate-800 leading-tight pr-8">{template.name}</h4>
+                             <h4 className="text-xl font-bold font-teko text-foreground/90 leading-tight pr-8">{template.name}</h4>
                              <p className="text-[11px] text-slate-400 font-medium leading-relaxed italic line-clamp-2">
                                 {template.description}
                              </p>
@@ -666,8 +666,8 @@ export function ServicesManager() {
                 </div>
             </div>
             
-            <footer className="p-6 bg-white border-t border-slate-100 flex justify-center shrink-0">
-                <Button variant="ghost" onClick={() => setIsTemplatesOpen(false)} className="rounded-xl h-10 px-8 text-slate-300 font-bold hover:bg-slate-50 text-xs">
+            <footer className="p-6 bg-card border-t border-border/50 flex justify-center shrink-0">
+                <Button variant="ghost" onClick={() => setIsTemplatesOpen(false)} className="rounded-xl h-10 px-8 text-slate-300 font-bold hover:bg-muted/50 text-xs">
                     Cerrar
                 </Button>
             </footer>
@@ -675,8 +675,4 @@ export function ServicesManager() {
       </Dialog>
     </div>
   )
-}
-
-function cn(...classes: any[]) {
-    return classes.filter(Boolean).join(' ')
 }

@@ -19,6 +19,10 @@ import {
   X,
   CalendarClock,
   Send,
+  ArrowRight,
+  CircleCheckBig,
+  Activity,
+  CreditCard,
 } from "lucide-react"
 
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -59,7 +63,36 @@ export default function DashboardPage() {
   const { t } = useTranslation()
   const { appointments, patients, treatments, dentists, billings, isLoading, refreshData } = useDashboardData()
 
+  // Dynamic empty state phrases
+  const [todayPhrase] = useState(() => {
+    const phrases = [
+      "Un día tranquilo es perfecto para organizar tu clínica.",
+      "No hay citas hoy. ¿Qué tal si revisas el inventario?",
+      "Todo al día. Aprovecha para preparar tus próximos casos.",
+      "Día libre de citas. ¡Un buen momento para actualizar historias clínicas!"
+    ];
+    return phrases[Math.floor(Math.random() * phrases.length)];
+  })
 
+  const [upcomingPhrase] = useState(() => {
+    const phrases = [
+      "Tu calendario te está esperando. ¡Agrega nuevas citas!",
+      "Aún no hay citas futuras. Es buen momento para marketing.",
+      "El futuro está libre. Empieza a agendar pronto.",
+      "Invita a tus pacientes a su revisión anual."
+    ];
+    return phrases[Math.floor(Math.random() * phrases.length)];
+  })
+
+  // Strategic Onboarding progress
+  const onboardingSteps = [
+    { id: 'profile', title: 'Completa tu perfil profesional', done: !!user?.name && !!user?.phone && !!user?.bio, href: '/profile' },
+    { id: 'services', title: 'Configura tu catálogo de servicios', done: treatments.length > 0, href: '/settings?tab=services' },
+    { id: 'patients', title: 'Registra tu primera historia clínica', done: patients.length > 0, href: '/patients' },
+    { id: 'calendar', title: 'Agenda y confirma tu primera cita', done: appointments.length > 0, href: '/calendar' },
+  ]
+  const progressPercent = Math.round((onboardingSteps.filter(s => s.done).length / onboardingSteps.length) * 100)
+  const showOnboarding = progressPercent < 100
 
   // Computed data
   const recentAppointments = appointments
@@ -71,8 +104,18 @@ export default function DashboardPage() {
     .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
     .slice(0, 5) // Show only top 5
 
+  const recentBillings = [...billings]
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
+    .slice(0, 5)
+
   // Calculate real stats
-  const monthlyRevenue = billings.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+  const monthlyRevenue = billings
+    .filter(b => b.status === 'paid')
+    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+
+  const pendingRevenue = billings
+    .filter(b => b.status === 'pending' || b.status === 'overdue')
+    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
 
   const pendingTreatmentsCount = appointments.filter(a => 
       (a.status === 'scheduled' || a.status === 'confirmed') && 
@@ -83,7 +126,7 @@ export default function DashboardPage() {
     {
       title: t("total-patients"),
       value: (Array.isArray(patients) ? patients.length : 0).toString(),
-      change: "+12%", 
+      change: "", 
       icon: Users,
       color: "text-blue-600",
       href: "/patients"
@@ -91,27 +134,28 @@ export default function DashboardPage() {
     {
       title: t("appointments-today"),
       value: recentAppointments.length.toString(),
-      change: "+5%",
+      change: "",
       icon: Calendar,
       color: "text-green-600",
       href: "/calendar"
     },
     {
-      title: t("monthly-revenue"),
-      value: `$${monthlyRevenue.toLocaleString()}`, 
-      change: "+18%", // We would need previous month data to calculate real change
+      title: t("monthly-revenue") || "Ingresos del Mes",
+      value: `$${monthlyRevenue.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
+      change: "",
       icon: DollarSign,
-      color: "text-yellow-600",
+      color: "text-green-600",
       adminOnly: true,
-      href: "/reports"
+      href: "/billing"
     },
     {
-      title: t("pending-treatments"),
-      value: pendingTreatmentsCount.toString(),
-      change: "-3%",
-      icon: Clock,
-      color: "text-red-600",
-      href: "/calendar"
+      title: "Cuentas por Cobrar",
+      value: `$${pendingRevenue.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
+      change: "",
+      icon: CreditCard,
+      color: "text-amber-600",
+      adminOnly: true,
+      href: "/billing"
     },
   ]
 
@@ -511,6 +555,45 @@ export default function DashboardPage() {
         ))}
       </div>
 
+      {/* Onboarding Widget */}
+      {showOnboarding && (
+        <Card className="border-teal-100 shadow-sm bg-gradient-to-br from-white to-teal-50/30 overflow-hidden relative">
+           <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
+              <Activity className="w-32 h-32 text-teal-600" />
+           </div>
+           <CardHeader>
+             <CardTitle className="text-lg text-foreground/90">Guía de Inicio Rápido</CardTitle>
+             <CardDescription>Completa estos pasos para configurar tu clínica al 100%</CardDescription>
+           </CardHeader>
+           <CardContent>
+              <div className="mb-4 flex items-center gap-4">
+                 <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-teal-500 transition-all duration-1000 ease-out" 
+                      style={{ width: `${progressPercent}%` }}
+                    />
+                 </div>
+                 <span className="text-sm font-bold text-slate-700">{progressPercent}%</span>
+              </div>
+              <div className="grid sm:grid-cols-3 gap-4">
+                 {onboardingSteps.map((step) => (
+                    <Link href={step.href} key={step.id}>
+                      <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all hover:shadow-md ${step.done ? 'bg-card/60 border-teal-100/50 opacity-70' : 'bg-card border-teal-100 hover:border-teal-300'}`}>
+                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step.done ? 'bg-teal-100 text-teal-600' : 'bg-slate-100 text-slate-400'}`}>
+                            {step.done ? <CircleCheckBig className="w-4 h-4" /> : <div className="w-2 h-2 bg-current rounded-full" />}
+                         </div>
+                         <div className="flex-1">
+                            <p className={`text-sm font-medium ${step.done ? 'text-slate-500 line-through' : 'text-slate-700'}`}>{step.title}</p>
+                         </div>
+                         {!step.done && <ArrowRight className="w-4 h-4 text-slate-400" />}
+                      </div>
+                    </Link>
+                 ))}
+              </div>
+           </CardContent>
+        </Card>
+      )}
+
        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Recent/Today Appointments */}
         <Card>
@@ -520,7 +603,12 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-4">
                 {recentAppointments.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-8">No hay citas para hoy</p>
+                    <div className="flex flex-col items-center justify-center text-center py-10 space-y-3">
+                        <div className="w-12 h-12 bg-teal-50 text-teal-600 rounded-full flex items-center justify-center mb-2">
+                           <Activity className="w-6 h-6" />
+                        </div>
+                        <p className="text-muted-foreground text-sm max-w-[250px]">{todayPhrase}</p>
+                    </div>
                 ) : (
                     recentAppointments.map(app => (
                         <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
@@ -553,7 +641,12 @@ export default function DashboardPage() {
             </CardHeader>
             <CardContent className="space-y-4">
                  {upcomingAppointments.length === 0 ? (
-                    <p className="text-center text-muted-foreground py-8">No hay citas próximas</p>
+                    <div className="flex flex-col items-center justify-center text-center py-10 space-y-3">
+                        <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-full flex items-center justify-center mb-2">
+                           <Calendar className="w-6 h-6" />
+                        </div>
+                        <p className="text-muted-foreground text-sm max-w-[250px]">{upcomingPhrase}</p>
+                    </div>
                 ) : (
                     upcomingAppointments.map(app => (
                         <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
@@ -577,7 +670,118 @@ export default function DashboardPage() {
                 </Link>
             </CardContent>
         </Card>
+
+        {/* Recent Transactions (Only for Owners) */}
+        {user?.role === "clinic_owner" && (
+          <Card className="col-span-1 lg:col-span-2">
+            <CardHeader>
+              <CardTitle className="text-lg font-bold flex items-center gap-2 text-foreground/90">
+                <DollarSign className="w-5 h-5 text-green-600" />
+                Transacciones Recientes
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              {recentBillings.length === 0 ? (
+                <div className="text-center py-6 text-slate-500 text-sm">
+                  No hay transacciones recientes registradas.
+                </div>
+              ) : (
+                <div className="space-y-4">
+                  {recentBillings.map((billing) => (
+                    <div key={billing.id} className="flex items-center justify-between p-3 rounded-lg border border-border/50 bg-muted/50/50 hover:bg-muted/50 transition-colors">
+                      <div className="flex items-center gap-3">
+                        <div className={`p-2 rounded-full ${billing.status === 'paid' ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
+                          <DollarSign className="w-4 h-4" />
+                        </div>
+                        <div>
+                          <p className="font-semibold text-foreground/90 text-sm max-w-[150px] truncate">{billing.description || "Consulta Médica"}</p>
+                          <p className="text-xs text-slate-500">{format(new Date(billing.created_at), "dd MMM", { locale: es })}</p>
+                        </div>
+                      </div>
+                      <div className="text-right flex flex-col items-end">
+                        <p className="font-bold text-foreground/90">${Number(billing.amount).toFixed(2)}</p>
+                        <Badge variant={billing.status === 'paid' ? 'default' : 'secondary'} className="mt-1 text-[10px] uppercase">
+                          {billing.status === 'paid' ? 'Pagado' : billing.status === 'overdue' ? 'Vencido' : 'Pendiente'}
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
       </div>
+
+      {/* Recent Activity Feed */}
+      <Card className="border-border/50 shadow-sm">
+        <CardHeader className="pb-3 flex flex-row items-center justify-between">
+          <div>
+            <CardTitle className="text-lg font-bold flex items-center gap-2">
+              <Activity className="h-5 w-5 text-teal-600" />
+              Actividad Reciente
+            </CardTitle>
+            <CardDescription>Seguimiento de las últimas acciones en la clínica</CardDescription>
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-1">
+            {onboardingSteps.filter(s => s.done).map((step, idx) => (
+              <div key={step.id} className="flex items-start gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors group">
+                <div className="mt-1 w-8 h-8 rounded-full bg-teal-50 flex items-center justify-center text-teal-600 flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <CircleCheckBig className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-foreground/90 truncate">
+                      {step.id === 'profile' ? 'Identidad Clínica Verificada' : 
+                       step.id === 'services' ? 'Catálogo de Especialidades Activo' :
+                       step.id === 'patients' ? 'Base de Datos de Pacientes Iniciada' :
+                       'Calendario de Citas Operativo'}
+                    </p>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Completado</span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">{step.title}</p>
+                </div>
+              </div>
+            ))}
+
+            {/* If no onboarding tasks done yet and no appointments, show placeholder */}
+            {onboardingSteps.filter(s => s.done).length === 0 && appointments.length === 0 && (
+              <div className="py-10 text-center">
+                 <p className="text-sm text-slate-400 italic">No hay actividad reciente. ¡Comienza completando tu perfil!</p>
+              </div>
+            )}
+
+            {/* Real appointment activities (limited to last 2) */}
+            {appointments.slice(0, 2).map((app) => (
+              <div key={`app-${app.id}`} className="flex items-start gap-4 p-3 rounded-lg hover:bg-muted/50 transition-colors group">
+                <div className="mt-1 w-8 h-8 rounded-full bg-blue-50 flex items-center justify-center text-blue-600 flex-shrink-0 group-hover:scale-110 transition-transform">
+                  <Calendar className="w-4 h-4" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2">
+                    <p className="text-sm font-semibold text-foreground/90 truncate">Nueva Cita Programada</p>
+                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">
+                      {format(new Date(app.created_at || new Date()), "HH:mm")}
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Paciente: {app.patients?.first_name} {app.patients?.last_name} para {app.type}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+          
+          <div className="mt-4 pt-4 border-t border-slate-50">
+             <p className="text-[10px] text-center text-slate-400 font-medium uppercase tracking-widest">
+                La actividad se sincroniza en tiempo real con tu base de datos clínica
+             </p>
+          </div>
+        </CardContent>
+      </Card>
     </div>
   )
 }
+

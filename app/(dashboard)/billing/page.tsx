@@ -331,8 +331,9 @@ export default function BillingPage() {
         </TabsContent>
 
         {/* TRATAMIENTOS TAB */}
-        <TabsContent value="treatments" className="space-y-4">
-          <div className="flex justify-between items-center">
+        {isOwner && (
+          <TabsContent value="treatments" className="space-y-4">
+            <div className="flex justify-between items-center">
              <div>
                <h2 className="text-lg font-medium">Catálogo de Tratamientos</h2>
                <p className="text-sm text-muted-foreground">Gestiona los precios y duración de tus servicios.</p>
@@ -420,10 +421,13 @@ export default function BillingPage() {
             </CardContent>
           </Card>
         </TabsContent>
+        )}
 
-        <TabsContent value="settings" className="space-y-4">
-             <PaymentMethodsSettings />
-        </TabsContent>
+        {isOwner && (
+          <TabsContent value="settings" className="space-y-4">
+               <PaymentMethodsSettings />
+          </TabsContent>
+        )}
         
       </Tabs>
 

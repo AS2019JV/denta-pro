@@ -15,7 +15,7 @@ import {
   ArrowLeft, Calendar, Phone, Mail, MapPin, 
   FileText, Stethoscope, Clock, User, Loader2, Receipt,
   AlertTriangle, Heart, ShieldAlert, CreditCard, RefreshCcw, Search,
-  MessageCircle, Crown, ShieldCheck, Sparkles, User as UserIcon, Users
+  MessageCircle, Crown, ShieldCheck, Activity, User as UserIcon, Users
 } from "lucide-react"
 import { getWhatsAppUrl, getClinicWhatsAppMessage } from "@/lib/communication"
 import { calculateProfileCompletion, getCompletionColor, getCompletionLabel, getPatientLoyaltyStatus, getLoyaltyBadgeData } from "@/lib/patient-utils"
@@ -43,7 +43,7 @@ const LoyaltyIcon = ({ name, className }: { name: string, className?: string }) 
   switch (name) {
     case 'Crown': return <Crown className={cn("h-4 w-4 mr-1.5", className)} />;
     case 'ShieldCheck': return <ShieldCheck className={cn("h-4 w-4 mr-1.5", className)} />;
-    case 'Sparkles': return <Sparkles className={cn("h-4 w-4 mr-1.5", className)} />;
+    case 'Activity': return <Activity className={cn("h-4 w-4 mr-1.5", className)} />;
     default: return <UserIcon className={cn("h-4 w-4 mr-1.5", className)} />;
   }
 }
@@ -377,8 +377,8 @@ export default function PatientDetailsPage() {
                          
                          {/* Last Treatment Note & Odontogram Preview */}
                          {(patient.last_treatment_note || patient.odontogram_state) && (
-                            <div className="flex items-center gap-4 mt-4 p-3 bg-slate-50 rounded-xl border border-slate-100 shadow-inner animate-in fade-in slide-in-from-left-2">
-                               <div className="flex flex-col gap-1 pr-4 border-r border-slate-200">
+                            <div className="flex items-center gap-4 mt-4 p-3 bg-muted/50 rounded-xl border border-border/50 shadow-inner animate-in fade-in slide-in-from-left-2">
+                               <div className="flex flex-col gap-1 pr-4 border-r border-border">
                                   <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Último Tratamiento</span>
                                   <p className="text-sm font-bold text-slate-700 truncate max-w-[300px]">
                                      {patient.last_treatment_note || "Sin notas recientes"}

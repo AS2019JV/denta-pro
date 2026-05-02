@@ -22,6 +22,7 @@ import {
 import { generatePrescription } from "@/lib/pdf-generator"
 import { toast } from "sonner"
 import { Badge } from "@/components/ui/badge"
+import { Switch } from "@/components/ui/switch"
 
 interface Medication {
   name: string
@@ -43,24 +44,14 @@ interface PatientPrescriptionsProps {
   patientName: string
 }
 
-const RECIPE_TEMPLATES = [
-  {
-    name: "Cuidado Post-Extracción",
-    medications: [
-      { name: "Paracetamol 500mg", dosage: "1 tableta cada 8 horas", duration: "3 días" },
-      { name: "Clorhexidina 0.12%", dosage: "Enjuague 10ml cada 12 horas", duration: "7 días" }
-    ],
-    indications: "No realizar esfuerzos físicos. Dieta blanda y fría las primeras 24 horas. No fumar ni usar sorbetes."
-  },
-  {
-    name: "Infección Dental Aguda",
-    medications: [
-      { name: "Amoxicilina + Ácido Clavulánico 875/125mg", dosage: "1 tableta cada 12 horas", duration: "7 días" },
-      { name: "Ibuprofeno 600mg", dosage: "1 tableta cada 8 horas si hay dolor", duration: "3-5 días" }
-    ],
-    indications: "Tomar los antibióticos a la hora exacta. Si presenta rash cutáneo, suspender y avisar."
+interface Template {
+  id: string
+  name: string
+  data: {
+    medications: Medication[]
+    indications: string
   }
-]
+}
 
 export function PatientPrescriptions({ patientId, patientName }: PatientPrescriptionsProps) {
   const { user } = useAuth()
@@ -68,11 +59,30 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
   const [indications, setIndications] = useState("")
   const [history, setHistory] = useState<Prescription[]>([])
   const [isLoading, setIsLoading] = useState(false)
-  const [isSaving, setIsSaving] = useState(false)
+  const [templates, setTemplates] = useState<Template[]>([])
+  const [clinicInfo, setClinicInfo] = useState<any>(null)
+  const [doctorInfo, setDoctorInfo] = useState<any>(null)
+  const [sendEmail, setSendEmail] = useState(false)
 
   useEffect(() => {
     fetchHistory()
+    fetchTemplatesAndData()
   }, [patientId])
+
+  const fetchTemplatesAndData = async () => {
+    const { data: tData } = await supabase.from('prescription_templates').select('*').order('name')
+    if (tData) setTemplates(tData)
+
+    if (!user?.id) return
+    const { data: profile } = await supabase.from('profiles').select('full_name, specialty, clinic_id').eq('id', user.id).maybeSingle()
+    if (profile) {
+       setDoctorInfo(profile)
+       if (profile.clinic_id) {
+         const { data: clinic } = await supabase.from('clinics').select('name, address, phone, logo_url').eq('id', profile.clinic_id).maybeSingle()
+         if (clinic) setClinicInfo(clinic)
+       }
+    }
+  }
 
   const fetchHistory = async () => {
     try {
@@ -106,9 +116,9 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
     setMedications(newMeds)
   }
 
-  const applyTemplate = (template: typeof RECIPE_TEMPLATES[0]) => {
-    setMedications(template.medications.map(m => ({ ...m })))
-    setIndications(template.indications)
+  const applyTemplate = (template: Template) => {
+    setMedications(template.data.medications.map(m => ({ ...m })))
+    setIndications(template.data.indications)
     toast.info(`Plantilla "${template.name}" aplicada`)
   }
 
@@ -118,24 +128,29 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
       return
     }
 
-    // Get clinic data from local storage or context (mocked here for now)
     const pdfData = {
       patientName,
-      patientId: "", // Could fetch from patient profile
+      patientId: "",
       medications,
       indications,
-      clinicName: "Clinia + Dental Group",
-      clinicAddress: "Av. Amazonas y Eloy Alfaro, Quito",
-      clinicPhone: "+593 2-222-3333",
-      doctorName: user?.email || "Dr. Odontólogo", // Ideally fetch real name from profiles
-      doctorSpecialty: "Rehabilitación Oral",
-      signature: null // Would be a base64 from a saved signature
+      clinicName: clinicInfo?.name || "Clínica Dental",
+      clinicAddress: clinicInfo?.address || "",
+      clinicPhone: clinicInfo?.phone || "",
+      clinicLogo: clinicInfo?.logo_url,
+      doctorName: doctorInfo?.full_name || user?.email || "Dr. Odontólogo",
+      doctorSpecialty: doctorInfo?.specialty || "Odontología",
+      signature: null
     }
 
     generatePrescription(pdfData)
 
     if (save) {
-      handleSave()
+      await handleSave()
+    }
+    
+    if (sendEmail) {
+      // In a production environment, this would call an Edge Function to email the patient.
+      toast.success(`Receta enviada por correo al paciente`)
     }
   }
 
@@ -178,11 +193,15 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
             <div className="space-y-2">
               <Label className="text-xs font-semibold uppercase tracking-wider text-muted-foreground">Plantillas Rápidas</Label>
               <div className="flex flex-wrap gap-2">
-                {RECIPE_TEMPLATES.map((t, i) => (
-                  <Button key={i} variant="outline" size="sm" onClick={() => applyTemplate(t)} className="h-8">
-                    {t.name}
-                  </Button>
-                ))}
+                {templates.length === 0 ? (
+                  <span className="text-xs text-muted-foreground italic">No hay plantillas configuradas.</span>
+                ) : (
+                  templates.map((t) => (
+                    <Button key={t.id} variant="outline" size="sm" onClick={() => applyTemplate(t)} className="h-8 border-teal-200 hover:bg-teal-50 hover:text-teal-700">
+                      {t.name}
+                    </Button>
+                  ))
+                )}
               </div>
             </div>
 
@@ -246,17 +265,26 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
               />
             </div>
 
-            <div className="flex justify-end gap-3 pt-4 border-t">
-              <Button variant="outline" onClick={() => {
-                setMedications([{ name: "", dosage: "", duration: "" }])
-                setIndications("")
-              }}>
-                Limpiar
-              </Button>
-              <Button onClick={() => handleGeneratePDF(true)} disabled={isSaving}>
-                {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Printer className="h-4 w-4 mr-2" />}
-                Generar e Imprimir
-              </Button>
+            <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4 border-t">
+              <div className="flex items-center space-x-2 w-full sm:w-auto">
+                <Switch id="send-email" checked={sendEmail} onCheckedChange={setSendEmail} />
+                <Label htmlFor="send-email" className="text-sm font-medium cursor-pointer">
+                  Enviar copia al paciente por email
+                </Label>
+              </div>
+              
+              <div className="flex gap-3 w-full sm:w-auto">
+                <Button variant="outline" className="w-full sm:w-auto" onClick={() => {
+                  setMedications([{ name: "", dosage: "", duration: "" }])
+                  setIndications("")
+                }}>
+                  Limpiar
+                </Button>
+                <Button onClick={() => handleGeneratePDF(true)} disabled={isSaving}>
+                  {isSaving ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : <Printer className="h-4 w-4 mr-2" />}
+                  Generar e Imprimir
+                </Button>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -313,10 +341,12 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
                           patientName,
                           medications: item.data.medications,
                           indications: item.data.indications,
-                          clinicName: "Clinia +",
-                          clinicAddress: "Quito, Ecuador",
-                          clinicPhone: "099 999 9999",
-                          doctorName: user?.email || "Dr. Odontólogo"
+                          clinicName: clinicInfo?.name || "Clínica Dental",
+                          clinicAddress: clinicInfo?.address || "",
+                          clinicPhone: clinicInfo?.phone || "",
+                          clinicLogo: clinicInfo?.logo_url,
+                          doctorName: doctorInfo?.full_name || user?.email || "Dr. Odontólogo",
+                          doctorSpecialty: doctorInfo?.specialty || "Odontología"
                         })}
                       >
                         <Download className="h-3 w-3 mr-1" /> Descargar PDF

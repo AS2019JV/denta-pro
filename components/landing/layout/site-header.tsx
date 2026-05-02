@@ -33,8 +33,8 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
     <header
       className={`fixed top-0 z-50 w-full transition-all duration-300 ${
         isHomePage 
-          ? "bg-white/70 backdrop-blur-xl border-b border-white/20 supports-[backdrop-filter]:bg-white/60" 
-          : "bg-white/80 backdrop-blur-xl border-b border-gray-100"
+          ? "bg-card/70 backdrop-blur-xl border-b border-white/20 supports-[backdrop-filter]:bg-card/60" 
+          : "bg-card/80 backdrop-blur-xl border-b border-border/50"
       }`}
     >
       <div className="container flex h-16 md:h-20 items-center justify-between">
@@ -42,7 +42,7 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
           <div className="relative w-9 h-9 overflow-hidden rounded-xl bg-gradient-to-br from-primary to-teal-600 shadow-md group-hover:shadow-lg transition-all duration-300">
              <img src="/brand-logo.png" alt="Clinia+" className="w-full h-full object-cover" />
           </div>
-          <span className="font-bold text-xl font-title tracking-tight text-slate-800">Clinia<span className="text-primary">+</span></span>
+          <span className="font-bold text-xl font-title tracking-tight text-foreground/90">Clinia<span className="text-primary">+</span></span>
         </Link>
         
         {isHomePage ? (
@@ -52,8 +52,8 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
                 <button
                   key={item.id}
                   onClick={() => scrollToSection && scrollToSection(item.id)}
-                  className={`text-[15px] font-medium transition-all duration-200 hover:text-slate-900 font-subtitle ${
-                    activeSection === item.id ? "text-slate-900" : "text-slate-500"
+                  className={`text-[15px] font-medium transition-all duration-200 hover:text-foreground font-subtitle ${
+                    activeSection === item.id ? "text-foreground" : "text-slate-500"
                   }`}
                 >
                   {item.label}
@@ -64,13 +64,13 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
-                className="hidden md:flex text-slate-600 hover:text-slate-900 hover:bg-slate-100/50 rounded-full px-5 font-subtitle"
+                className="hidden md:flex text-slate-600 hover:text-foreground hover:bg-slate-100/50 rounded-full px-5 font-subtitle"
                 asChild
               >
                 <Link href="/login">Iniciar sesión</Link>
               </Button>
               <Button className="bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-500 hover:to-teal-400 text-white rounded-full px-6 shadow-lg shadow-teal-900/20 transition-all duration-300 hover:scale-105 hover:shadow-teal-500/30 font-subtitle text-[15px] active:scale-95" asChild>
-                <Link href="/free-trial">Prueba gratuita</Link>
+                <Link href="/signup">Prueba gratuita</Link>
               </Button>
 
               <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
@@ -107,7 +107,7 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
                         <Link href="/login">Iniciar sesión</Link>
                       </Button>
                       <Button className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground" asChild>
-                        <Link href="/free-trial">Prueba gratuita</Link>
+                        <Link href="/signup">Prueba gratuita</Link>
                       </Button>
                     </div>
                   </div>

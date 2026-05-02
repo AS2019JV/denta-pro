@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,11 +10,13 @@ import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { useTranslation } from "@/components/translations"
-import { PageHeader } from "@/components/page-header"
-import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw, CreditCard, Lock, Sparkles } from "lucide-react"
+import { Settings, Bell, Shield, Database, Save, Sun, Moon, Monitor, Users, UserPlus, RefreshCw, CreditCard, Lock, Zap, Building2, Search as SearchIcon, Mail, Phone, History, Stethoscope, ClipboardList } from "lucide-react"
 import { SubscriptionTab } from "@/components/settings/subscription-tab"
 import { PrivacyTab } from "@/components/settings/privacy-tab"
 import { AutomationTab } from "@/components/settings/automation-tab"
+import { ClinicTab } from "@/components/settings/clinic-tab"
+import { ServicesTab } from "@/components/settings/services-tab"
+import { RecipesTab } from "@/components/settings/recipes-tab"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Badge } from "@/components/ui/badge"
@@ -33,12 +35,20 @@ interface TeamMember {
   clinic_id: string
 }
 
-
 export default function SettingsPage() {
   const { t, language, setLanguage } = useTranslation()
   const { theme, setTheme } = useTheme()
   const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
+  const [activeTab, setActiveTab] = useState("general")
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search)
+    const tab = params.get('tab')
+    if (tab) setActiveTab(tab)
+  }, [])
+
+  const isAdmin = user?.role === "clinic_owner"
 
   const [generalSettings, setGeneralSettings] = useState({
     language: language,
@@ -47,8 +57,8 @@ export default function SettingsPage() {
     dateFormat: "dd/mm/yyyy",
   })
 
-  // Team Settings State
   const [teamMembers, setTeamMembers] = useState<TeamMember[]>([])
+  const [searchMember, setSearchMember] = useState("")
   const [isInviteLoading, setIsInviteLoading] = useState(false)
   const [inviteData, setInviteData] = useState({
     email: "",
@@ -56,28 +66,23 @@ export default function SettingsPage() {
     role: "doctor"
   })
 
-  // Fetch team members on mount
-  React.useEffect(() => {
+  useEffect(() => {
     fetchTeamMembers()
-  }, [])
+  }, [user])
 
   const fetchTeamMembers = async () => {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (!user) return
-
-    // Get current user's clinic_id
+    if (!user?.id) return
     const { data: profile } = await supabase
       .from('profiles')
       .select('clinic_id')
       .eq('id', user.id)
-      .single()
+      .maybeSingle()
 
     if (profile?.clinic_id) {
        const { data: members } = await supabase
          .from('profiles')
          .select('*')
          .eq('clinic_id', profile.clinic_id)
-       
        if (members) setTeamMembers(members)
     }
   }
@@ -85,268 +90,181 @@ export default function SettingsPage() {
   const handleInviteUserSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsInviteLoading(true)
-
     try {
       const { data, error } = await supabase.functions.invoke('invite-team-member', {
         body: inviteData
       })
-
       if (error) throw error
-
       toast.success(`${t("invite-sent")} ${inviteData.email}`)
       setInviteData({ email: "", fullName: "", role: "doctor" })
-      fetchTeamMembers() // Refresh list (though invite is pending, but maybe we want to see it if logic allows)
+      fetchTeamMembers()
     } catch (error: any) {
-      toast.error(error.message || "Error inviting user")
+      toast.error(error.message || "Error al invitar al usuario")
     } finally {
       setIsInviteLoading(false)
     }
   }
 
-  // Update local state when theme changes externally
-  // useEffect(() => {
-  //   setGeneralSettings(prev => ({ ...prev, theme: theme || "system" }))
-  // }, [theme])
-
-  const [notificationSettings, setNotificationSettings] = useState({
-    emailNotifications: true,
-    pushNotifications: true,
-    smsNotifications: false,
-    appointmentReminders: true,
-  })
-
-  const [securitySettings, setSecuritySettings] = useState({
-    twoFactorAuth: false,
-    sessionTimeout: "30",
-  })
-
-  const [backupSettings, setBackupSettings] = useState({
-    autoBackup: true,
-    backupFrequency: "daily",
-    backupLocation: "cloud",
-  })
-
   const handleGeneralSettingsSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsLoading(true)
     setLanguage(generalSettings.language as "es" | "en")
-    // Theme is already updated via onValueChange
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
+    await new Promise((resolve) => setTimeout(resolve, 800))
     setIsLoading(false)
+    toast.success("Ajustes generales guardados")
   }
 
-  const handleNotificationSettingsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-  }
-
-  const handleSecuritySettingsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-  }
-
-  const handleBackupSettingsSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setIsLoading(true)
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    setIsLoading(false)
-  }
-
-
+  const filteredMembers = teamMembers.filter(m => 
+    m.full_name?.toLowerCase().includes(searchMember.toLowerCase()) || 
+    m.email?.toLowerCase().includes(searchMember.toLowerCase())
+  )
 
   return (
-    <div className="space-y-6">
-      <PageHeader title={t("settings")} />
+    <div className="space-y-8 animate-in fade-in duration-500">
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+        <div>
+           <p className="text-sm font-medium text-teal-600 mb-1">Centro de Control</p>
+           <h1 className="text-3xl font-bold tracking-tight text-foreground">Configuración</h1>
+        </div>
+      </div>
 
-      <Tabs defaultValue="general" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 md:grid-cols-3 lg:grid-cols-8 gap-2 h-auto bg-transparent p-0">
-          <TabsTrigger value="general" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Settings className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("general-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="notifications" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Bell className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("notification-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="security" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Shield className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("security-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="privacy" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Lock className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("privacy-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="team" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Users className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("team-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="subscription" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <CreditCard className="h-4 w-4" />
-            <span className="hidden sm:inline">{language === "es" ? "Suscripción" : "Subscription"}</span>
-          </TabsTrigger>
-          <TabsTrigger value="backup" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Database className="h-4 w-4" />
-            <span className="hidden sm:inline">{t("backup-settings")}</span>
-          </TabsTrigger>
-          <TabsTrigger value="automation" className="flex items-center gap-2 py-3 data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl shadow-sm transition-all border">
-            <Sparkles className="h-4 w-4" />
-            <span className="hidden sm:inline">Automatización</span>
-          </TabsTrigger>
-        </TabsList>
+      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
+        <div className="flex overflow-x-auto pb-2 scrollbar-hide">
+          <TabsList className="bg-slate-100/80 p-1 border-border h-auto inline-flex whitespace-nowrap">
+            <TabsTrigger value="general" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Settings className="h-4 w-4" />
+              General
+            </TabsTrigger>
+            {isAdmin && (
+              <TabsTrigger value="clinic" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+                <Building2 className="h-4 w-4 text-teal-600" />
+                Mi Clínica
+              </TabsTrigger>
+            )}
+            {isAdmin && (
+              <TabsTrigger value="services" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+                <Stethoscope className="h-4 w-4 text-teal-600" />
+                Servicios
+              </TabsTrigger>
+            )}
+            <TabsTrigger value="recipes" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <ClipboardList className="h-4 w-4 text-teal-600" />
+              Recetas
+            </TabsTrigger>
+            <TabsTrigger value="notifications" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Bell className="h-4 w-4" />
+              Notificaciones
+            </TabsTrigger>
+            <TabsTrigger value="security" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Shield className="h-4 w-4" />
+              Seguridad
+            </TabsTrigger>
+            <TabsTrigger value="team" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Users className="h-4 w-4" />
+              Equipo
+            </TabsTrigger>
+            <TabsTrigger value="automation" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <Zap className="h-4 w-4 text-amber-500" />
+              Automatización
+            </TabsTrigger>
+            <TabsTrigger value="subscription" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
+              <CreditCard className="h-4 w-4" />
+              Suscripción
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <TabsContent value="general">
-          <Card>
+        <TabsContent value="general" className="animate-in slide-in-from-bottom-4 duration-300">
+          <Card className="border-border/60 shadow-sm">
             <CardHeader>
-              <CardTitle>{t("general-settings")}</CardTitle>
-              <CardDescription>{t("general-settings-description")}</CardDescription>
+              <CardTitle>Ajustes Generales</CardTitle>
+              <CardDescription>Idioma, tema y formatos regionales</CardDescription>
             </CardHeader>
             <CardContent>
-              <form onSubmit={handleGeneralSettingsSubmit} className="space-y-4">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="language">{t("language")}</Label>
+              <form onSubmit={handleGeneralSettingsSubmit} className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                  <div className="space-y-3">
+                    <Label htmlFor="language" className="font-semibold text-slate-700">Idioma</Label>
                     <Select
                       value={generalSettings.language}
                       onValueChange={(value) => setGeneralSettings({ ...generalSettings, language: value as "es" | "en" })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="es">Español</SelectItem>
-                        <SelectItem value="en">English</SelectItem>
+                        <SelectItem value="es">Español (Latinoamérica)</SelectItem>
+                        <SelectItem value="en">English (US)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="col-span-1 md:col-span-2 space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className="space-y-0.5">
-                        <Label className="text-base">{t("theme")}</Label>
-                        <p className="text-sm text-muted-foreground">
-                          {language === "es" ? "Selecciona tu tema preferido" : "Select your preferred theme"}
-                        </p>
-                      </div>
-                    </div>
-                    
-                    {/* Premium Toggle Switch Design */}
-                    <div className="relative inline-flex items-center p-1 bg-muted/50 rounded-2xl border shadow-inner">
-                      {/* Sliding Background Indicator */}
-                      <div 
-                        className={`absolute h-[calc(100%-8px)] rounded-xl bg-background shadow-md transition-all duration-300 ease-out ${
-                          theme === "light" ? "w-[calc(33.333%-4px)] left-1" :
-                          theme === "dark" ? "w-[calc(33.333%-4px)] left-[calc(33.333%+2px)]" :
-                          "w-[calc(33.333%-4px)] left-[calc(66.666%+3px)]"
-                        }`}
-                      />
-                      
-                      {/* Light Mode Button */}
-                      <button
-                        onClick={() => {
-                          setTheme("light")
-                          setGeneralSettings({ ...generalSettings, theme: "light" })
-                        }}
-                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
-                          theme === "light" 
-                            ? "text-foreground" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <Sun className={`h-4 w-4 transition-colors ${
-                          theme === "light" ? "text-orange-500" : ""
-                        }`} />
-                        <span className="text-sm font-medium whitespace-nowrap">
-                          {language === "es" ? "Claro" : "Light"}
-                        </span>
-                      </button>
 
-                      {/* Dark Mode Button */}
-                      <button
-                        onClick={() => {
-                          setTheme("dark")
-                          setGeneralSettings({ ...generalSettings, theme: "dark" })
-                        }}
-                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
-                          theme === "dark" 
-                            ? "text-foreground" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <Moon className={`h-4 w-4 transition-colors ${
-                          theme === "dark" ? "text-blue-500" : ""
-                        }`} />
-                        <span className="text-sm font-medium whitespace-nowrap">
-                          {language === "es" ? "Oscuro" : "Dark"}
-                        </span>
-                      </button>
-
-                      {/* System Mode Button */}
-                      <button
-                        onClick={() => {
-                          setTheme("system")
-                          setGeneralSettings({ ...generalSettings, theme: "system" })
-                        }}
-                        className={`relative z-10 flex items-center gap-2 px-6 py-3 rounded-xl transition-all duration-200 ${
-                          theme === "system" 
-                            ? "text-foreground" 
-                            : "text-muted-foreground hover:text-foreground"
-                        }`}
-                      >
-                        <Monitor className={`h-4 w-4 transition-colors ${
-                          theme === "system" ? "text-primary" : ""
-                        }`} />
-                        <span className="text-sm font-medium whitespace-nowrap">
-                          {language === "es" ? "Sistema" : "System"}
-                        </span>
-                      </button>
+                  <div className="space-y-3">
+                    <Label className="font-semibold text-slate-700">Tema</Label>
+                    <div className="flex p-1 bg-slate-100 rounded-lg border border-border w-full md:w-max">
+                      {[
+                        { id: 'light', icon: Sun, label: 'Claro' },
+                        { id: 'dark', icon: Moon, label: 'Oscuro' },
+                        { id: 'system', icon: Monitor, label: 'Sistema' }
+                      ].map((item) => (
+                        <button
+                          key={item.id}
+                          type="button"
+                          onClick={() => {
+                            setTheme(item.id)
+                            setGeneralSettings({ ...generalSettings, theme: item.id })
+                          }}
+                          className={`flex items-center gap-2 px-4 py-2 rounded-md transition-all text-sm font-medium ${
+                            theme === item.id 
+                            ? 'bg-card shadow-sm text-teal-600' 
+                            : 'text-slate-500 hover:text-slate-700'
+                          }`}
+                        >
+                          <item.icon className="h-4 w-4" />
+                          {item.label}
+                        </button>
+                      ))}
                     </div>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="timezone">{t("time-zone")}</Label>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="timezone" className="font-semibold text-slate-700">Zona Horaria</Label>
                     <Select
                       value={generalSettings.timeZone}
                       onValueChange={(value) => setGeneralSettings({ ...generalSettings, timeZone: value })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="America/Guayaquil">{language === "es" ? "Guayaquil" : "Guayaquil"} (GMT-5)</SelectItem>
-                        <SelectItem value="Europe/Madrid">{language === "es" ? "Madrid" : "Madrid"} (GMT+1)</SelectItem>
-                        <SelectItem value="Europe/London">{language === "es" ? "Londres" : "London"} (GMT+0)</SelectItem>
-                        <SelectItem value="America/New_York">{language === "es" ? "Nueva York" : "New York"} (GMT-5)</SelectItem>
+                        <SelectItem value="America/Guayaquil">Guayaquil (GMT-5)</SelectItem>
+                        <SelectItem value="Europe/Madrid">Madrid (GMT+1)</SelectItem>
+                        <SelectItem value="America/New_York">New York (GMT-5)</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="dateformat">{t("date-format")}</Label>
+
+                  <div className="space-y-3">
+                    <Label htmlFor="dateformat" className="font-semibold text-slate-700">Fecha</Label>
                     <Select
                       value={generalSettings.dateFormat}
                       onValueChange={(value) => setGeneralSettings({ ...generalSettings, dateFormat: value })}
                     >
-                      <SelectTrigger>
+                      <SelectTrigger className="h-11 border-border">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="dd/mm/yyyy">DD/MM/YYYY</SelectItem>
-                        <SelectItem value="mm/dd/yyyy">MM/DD/YYYY</SelectItem>
-                        <SelectItem value="yyyy-mm-dd">YYYY-MM-DD</SelectItem>
+                        <SelectItem value="dd/mm/yyyy">DD / MM / YYYY</SelectItem>
+                        <SelectItem value="mm/dd/yyyy">MM / DD / YYYY</SelectItem>
+                        <SelectItem value="yyyy-mm-dd">YYYY - MM - DD</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
-                <Separator />
-                <div className="flex justify-end">
-                  <Button type="submit" disabled={isLoading}>
+                <div className="pt-4 flex justify-end">
+                  <Button type="submit" disabled={isLoading} className="bg-teal-600 hover:bg-teal-700 h-11 px-8 font-bold">
                     <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? t("saving") : t("save")}
+                    {isLoading ? "Guardando..." : "Guardar Ajustes"}
                   </Button>
                 </div>
               </form>
@@ -354,317 +272,147 @@ export default function SettingsPage() {
           </Card>
         </TabsContent>
 
-        <TabsContent value="notifications">
-          <Card>
+        {isAdmin && (
+          <TabsContent value="clinic" className="animate-in slide-in-from-bottom-4 duration-300">
+            <ClinicTab />
+          </TabsContent>
+        )}
+
+        {isAdmin && (
+          <TabsContent value="services" className="animate-in slide-in-from-bottom-4 duration-300">
+            <ServicesTab />
+          </TabsContent>
+        )}
+
+        <TabsContent value="recipes" className="animate-in slide-in-from-bottom-4 duration-300">
+          <RecipesTab />
+        </TabsContent>
+
+        <TabsContent value="notifications" className="animate-in slide-in-from-bottom-4 duration-300">
+           <Card className="border-border/60 shadow-sm">
             <CardHeader>
-              <CardTitle>{t("notification-settings")}</CardTitle>
-              <CardDescription>{t("notification-settings-description")}</CardDescription>
+              <CardTitle>Canales de Comunicación</CardTitle>
+              <CardDescription>Notificaciones del sistema y recordatorios</CardDescription>
             </CardHeader>
-            <CardContent>
-              <form onSubmit={handleNotificationSettingsSubmit} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("email-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("email-notifications-description")}</p>
-                    </div>
-                    <Switch
-                      checked={notificationSettings.emailNotifications}
-                      onCheckedChange={(checked) =>
-                        setNotificationSettings({ ...notificationSettings, emailNotifications: checked })
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("push-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("push-notifications-description")}</p>
-                    </div>
-                    <Switch
-                      checked={notificationSettings.pushNotifications}
-                      onCheckedChange={async (checked) => {
-                        if (checked && typeof window !== 'undefined' && 'Notification' in window) {
-                           const permission = await Notification.requestPermission()
-                           if (permission !== 'granted') {
-                               toast.error("Permiso denegado para notificaciones. Por favor habilita las notificaciones en tu navegador.")
-                               setNotificationSettings({ ...notificationSettings, pushNotifications: false })
-                               return
-                           }
-                        }
-                        setNotificationSettings({ ...notificationSettings, pushNotifications: checked })
-                      }}
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("sms-notifications")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("sms-notifications-description")}</p>
-                    </div>
-                    <Switch
-                      checked={notificationSettings.smsNotifications}
-                      onCheckedChange={(checked) =>
-                        setNotificationSettings({ ...notificationSettings, smsNotifications: checked })
-                      }
-                    />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("appointment-reminders")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("appointment-reminders-description")}</p>
-                    </div>
-                    <Switch
-                      checked={notificationSettings.appointmentReminders}
-                      onCheckedChange={(checked) =>
-                        setNotificationSettings({ ...notificationSettings, appointmentReminders: checked })
-                      }
-                    />
-                  </div>
-                </div>
-                <Separator />
-                <div className="flex justify-end">
-                  <Button type="submit" disabled={isLoading}>
-                    <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? t("saving") : t("save")}
-                  </Button>
-                </div>
-              </form>
+            <CardContent className="space-y-6">
+               {[
+                 { id: 'email', label: 'Email', desc: 'Resúmenes y reportes.', icon: Mail },
+                 { id: 'push', label: 'Push', desc: 'Alertas en el navegador.', icon: Bell },
+                 { id: 'sms', label: 'SMS', desc: 'Alertas críticas.', icon: Phone },
+                 { id: 'reminders', label: 'Recordatorios', desc: 'Confirmaciones de citas.', icon: History }
+               ].map((item) => (
+                 <div key={item.id} className="flex items-center justify-between p-4 bg-muted/50/50 rounded-xl border border-border/50">
+                   <div className="flex items-center gap-4">
+                     <div className="w-10 h-10 rounded-lg bg-card flex items-center justify-center text-slate-400 shadow-sm border border-border/50">
+                       <item.icon className="h-5 w-5" />
+                     </div>
+                     <div className="space-y-0.5">
+                       <Label className="text-base font-bold text-foreground/90">{item.label}</Label>
+                       <p className="text-xs text-slate-500">{item.desc}</p>
+                     </div>
+                   </div>
+                   <Switch defaultChecked={item.id !== 'sms'} />
+                 </div>
+               ))}
             </CardContent>
-          </Card>
+           </Card>
         </TabsContent>
 
-        <TabsContent value="security">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("security-settings")}</CardTitle>
-              <CardDescription>{t("security-settings-description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleSecuritySettingsSubmit} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("two-factor-auth")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("two-factor-auth-description")}</p>
-                    </div>
-                    <Switch
-                      checked={securitySettings.twoFactorAuth}
-                      onCheckedChange={(checked) =>
-                        setSecuritySettings({ ...securitySettings, twoFactorAuth: checked })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="session-timeout">{t("session-timeout")} ({language === "es" ? "minutos" : "minutes"})</Label>
-                    <Input
-                      id="session-timeout"
-                      type="number"
-                      value={securitySettings.sessionTimeout}
-                      onChange={(e) => setSecuritySettings({ ...securitySettings, sessionTimeout: e.target.value })}
-                      className="max-w-xs"
-                    />
-                    <p className="text-sm text-muted-foreground">
-                      {t("session-timeout-description")}
-                    </p>
-                  </div>
-                </div>
-                <Separator />
-                <div className="flex justify-end">
-                  <Button type="submit" disabled={isLoading}>
-                    <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? t("saving") : t("save")}
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="privacy">
-           <PrivacyTab />
-        </TabsContent>
-
-        <TabsContent value="backup">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("backup-settings")}</CardTitle>
-              <CardDescription>{t("backup-settings-description")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <form onSubmit={handleBackupSettingsSubmit} className="space-y-6">
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="space-y-0.5">
-                      <Label>{t("auto-backup")}</Label>
-                      <p className="text-sm text-muted-foreground">{t("auto-backup-description")}</p>
-                    </div>
-                    <Switch
-                      checked={backupSettings.autoBackup}
-                      onCheckedChange={(checked) => setBackupSettings({ ...backupSettings, autoBackup: checked })}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="backup-frequency">{t("backup-frequency")}</Label>
-                    <Select
-                      value={backupSettings.backupFrequency}
-                      onValueChange={(value) => setBackupSettings({ ...backupSettings, backupFrequency: value })}
-                    >
-                      <SelectTrigger className="max-w-xs">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="hourly">{language === "es" ? "Cada hora" : "Hourly"}</SelectItem>
-                        <SelectItem value="daily">{language === "es" ? "Diario" : "Daily"}</SelectItem>
-                        <SelectItem value="weekly">{language === "es" ? "Semanal" : "Weekly"}</SelectItem>
-                        <SelectItem value="monthly">{language === "es" ? "Mensual" : "Monthly"}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="backup-location">{t("backup-location")}</Label>
-                    <Select
-                      value={backupSettings.backupLocation}
-                      onValueChange={(value) => setBackupSettings({ ...backupSettings, backupLocation: value })}
-                    >
-                      <SelectTrigger className="max-w-xs">
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="cloud">{language === "es" ? "Nube" : "Cloud"}</SelectItem>
-                        <SelectItem value="local">Local</SelectItem>
-                        <SelectItem value="both">{language === "es" ? "Ambos" : "Both"}</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-                <Separator />
-                <div className="flex justify-end space-x-2">
-                  <Button variant="outline" type="button">
-                    {t("create-backup-now")}
-                  </Button>
-                  <Button type="submit" disabled={isLoading}>
-                    <Save className="h-4 w-4 mr-2" />
-                    {isLoading ? t("saving") : t("save")}
-                  </Button>
-                </div>
-              </form>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="team">
-          <div className="grid gap-6">
-            {/* Invite Form */}
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("invite-member")}</CardTitle>
-                <CardDescription>{t("team-settings-description")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <form onSubmit={handleInviteUserSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <Label>{t("email")}</Label>
+        <TabsContent value="team" className="animate-in slide-in-from-bottom-4 duration-300">
+          <div className="space-y-6">
+            {isAdmin && (
+              <Card className="border-border/60 shadow-sm">
+                <CardHeader>
+                  <CardTitle>Invitar Miembro</CardTitle>
+                  <CardDescription>Envía una invitación por correo</CardDescription>
+                </CardHeader>
+                <CardContent>
+                   <form onSubmit={handleInviteUserSubmit} className="grid grid-cols-1 md:grid-cols-4 gap-4">
                       <Input 
-                        placeholder={t("email-placeholder")}
-                        type="email" 
-                        required
+                        placeholder="Nombre Completo" 
+                        value={inviteData.fullName}
+                        className="h-11 border-border"
+                        onChange={(e) => setInviteData({...inviteData, fullName: e.target.value})}
+                      />
+                      <Input 
+                        placeholder="Correo" 
+                        type="email"
                         value={inviteData.email}
+                        className="h-11 border-border"
                         onChange={(e) => setInviteData({...inviteData, email: e.target.value})}
                       />
-                    </div>
-                    <div className="space-y-2">
-                       <Label>{t("full-name")}</Label>
-                       <Input 
-                        placeholder={t("name-placeholder")}
-                        required
-                        value={inviteData.fullName}
-                        onChange={(e) => setInviteData({...inviteData, fullName: e.target.value})}
-                       />
-                    </div>
-                    <div className="space-y-2">
-                      <Label>{t("role")}</Label>
-                      <Select 
-                        value={inviteData.role}
-                        onValueChange={(val) => setInviteData({...inviteData, role: val})}
-                      >
-                        <SelectTrigger>
+                      <Select value={inviteData.role} onValueChange={(val) => setInviteData({...inviteData, role: val})}>
+                        <SelectTrigger className="h-11 border-border">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
-                          <SelectItem value="doctor">{t("doctor")}</SelectItem>
-                          <SelectItem value="receptionist">{t("reception")}</SelectItem>
+                          <SelectItem value="clinic_owner">Administrador</SelectItem>
+                          <SelectItem value="doctor">Especialista</SelectItem>
+                          <SelectItem value="receptionist">Gestión</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                  </div>
-                  <div className="flex justify-end">
-                    <Button type="submit" disabled={isInviteLoading}>
-                      <UserPlus className="h-4 w-4 mr-2" />
-                      {isInviteLoading ? t("inviting") : t("invite")}
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+                      <Button type="submit" disabled={isInviteLoading} className="h-11 bg-slate-900 font-bold">
+                        <UserPlus className="h-4 w-4 mr-2" />
+                        Invitar
+                      </Button>
+                   </form>
+                </CardContent>
+              </Card>
+            )}
 
-            {/* Team List */}
-            <Card>
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle>{t("member-list")}</CardTitle>
-                  <Button variant="ghost" size="icon" onClick={fetchTeamMembers}>
-                    <RefreshCw className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>{t("full-name")}</TableHead>
-                      <TableHead>{t("email")}</TableHead>
-                      <TableHead>{t("role")}</TableHead>
-                      <TableHead className="text-right">{t("actions")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {teamMembers.map((member) => (
-                      <TableRow key={member.id}>
-                        <TableCell className="font-medium">{member.full_name}</TableCell>
-                        <TableCell>{member.email}</TableCell>
-                        <TableCell>
-                          <Badge variant="outline" className="capitalize">
-                            {member.role === 'clinic_owner' ? t("admin") : 
-                             member.role === 'receptionist' ? t("reception") : t("doctor")}
-                          </Badge>
-                        </TableCell>
-                        <TableCell className="text-right">
-                          <Button variant="ghost" size="sm">
-                             {t("edit")}
-                          </Button>
-                        </TableCell>
+            <Card className="border-border/60 shadow-sm">
+               <CardHeader className="flex flex-row items-center justify-between pb-2">
+                 <div>
+                   <CardTitle>Equipo Actual</CardTitle>
+                 </div>
+                 <div className="relative w-64">
+                    <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-slate-400" />
+                    <Input 
+                      placeholder="Buscar..." 
+                      className="pl-9 h-10 border-border"
+                      value={searchMember}
+                      onChange={(e) => setSearchMember(e.target.value)}
+                    />
+                 </div>
+               </CardHeader>
+               <CardContent>
+                  <Table>
+                    <TableHeader>
+                      <TableRow className="border-border/50">
+                        <TableHead>Nombre</TableHead>
+                        <TableHead>Email</TableHead>
+                        <TableHead>Rol</TableHead>
+                        <TableHead className="text-right">Acción</TableHead>
                       </TableRow>
-                    ))}
-                    {teamMembers.length === 0 && (
-                      <TableRow>
-                        <TableCell colSpan={4} className="text-center text-muted-foreground py-8">
-                          No members found.
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </CardContent>
+                    </TableHeader>
+                    <TableBody>
+                       {filteredMembers.map(member => (
+                         <TableRow key={member.id} className="border-slate-50">
+                           <TableCell className="font-bold text-slate-700">{member.full_name}</TableCell>
+                           <TableCell className="text-slate-500">{member.email}</TableCell>
+                           <TableCell>
+                             <Badge variant="secondary" className="bg-slate-100 text-slate-600 border-none font-bold text-[10px] uppercase">
+                               {member.role === 'clinic_owner' ? 'Dirección' : (member.role === 'receptionist' ? 'Gestión' : 'Especialista')}
+                             </Badge>
+                           </TableCell>
+                           <TableCell className="text-right">
+                              <Button variant="ghost" size="sm" className="h-8 font-bold text-teal-600">Perfil</Button>
+                           </TableCell>
+                         </TableRow>
+                       ))}
+                    </TableBody>
+                  </Table>
+               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="subscription">
-           <SubscriptionTab />
+        <TabsContent value="automation" className="animate-in slide-in-from-bottom-4 duration-300">
+           <AutomationTab />
         </TabsContent>
 
-        <TabsContent value="automation">
-           <AutomationTab />
+        <TabsContent value="subscription" className="animate-in slide-in-from-bottom-4 duration-300">
+           <SubscriptionTab />
         </TabsContent>
       </Tabs>
     </div>

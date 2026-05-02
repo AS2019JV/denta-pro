@@ -46,9 +46,13 @@ export function useDashboardData() {
     queryFn: async () => {
       const today = new Date()
       today.setHours(0, 0, 0, 0)
+      const nextThirtyDays = new Date(today)
+      nextThirtyDays.setDate(today.getDate() + 30)
+
       const { data, error } = await supabase.from('appointments')
         .select('*, patients(*), profiles(*)')
         .gte('start_time', today.toISOString())
+        .lte('start_time', nextThirtyDays.toISOString())
         .order('start_time', { ascending: true })
       
       if (error) {

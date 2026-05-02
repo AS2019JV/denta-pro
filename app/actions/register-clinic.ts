@@ -18,6 +18,7 @@ export async function registerClinic(formData: FormData) {
   const supabase = createClient(supabaseUrl, supabaseServiceKey)
 
   // 1. Extract Data
+  const title = (formData.get('title') as string) || 'Dr.'
   const firstName = formData.get('firstName') as string
   const lastName = formData.get('lastName') as string
   const email = formData.get('email') as string
@@ -55,6 +56,7 @@ export async function registerClinic(formData: FormData) {
     password,
     email_confirm: false, // User must verify email
     user_metadata: {
+      title: title,
       full_name: fullName,
       phone: phone,
       role: 'clinic_owner',
@@ -63,15 +65,17 @@ export async function registerClinic(formData: FormData) {
         name: practiceName,
         address: address,
         phone: phone,
-        subscription_tier: 'trial'
+        subscription_tier: 'trial',
+        practice_size: practiceSize
       }
     }
   })
 
-  // Handle "User already exists" gracefully if needed, or let error bubble
+  // Handle "User already exists" gracefully
   if (authError) {
-    if (authError.message.includes("User already registered")) {
-        return { error: "Este correo electrónico ya está registrado. Por favor, inicia sesión." }
+    const errorMsg = authError.message.toLowerCase()
+    if (errorMsg.includes("already registered") || errorMsg.includes("already been registered")) {
+        return { error: "Ya te has registrado. Si tu enlace expiró, ve a Iniciar Sesión para enviarte uno nuevo." }
     }
     return { error: authError.message }
   }
@@ -101,20 +105,63 @@ export async function registerClinic(formData: FormData) {
     }
   }
 
-  // 5. Trigger the Confirmation Email explicitly
-  console.log("Attempting to send confirmation email")
-  const { error: emailError } = await supabase.auth.resend({ 
-    type: 'signup', 
+  // 5. Trigger the Confirmation Email Explicitly with Resend
+  console.log("Generating confirmation link to avoid hash-fragments...")
+  
+  // Use generateLink to create a deterministic verification URL
+  const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({
+    type: 'signup',
     email: email,
+    password: password,
     options: {
-        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/callback`
+        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
     }
   })
-  
-  if (emailError) {
-    console.warn("Could not send confirmation email:", emailError)
+
+  if (linkError || !linkData?.properties?.action_link) {
+    console.warn("Could not generate confirmation link:", linkError)
   } else {
-    console.log("Confirmation email sent successfully via Supabase.")
+    try {
+      // The generated action_link goes to Supabase's hosted API.
+      // We extract the hashed_token to manually construct the Next.js API route link
+      const actionUrl = new URL(linkData.properties.action_link)
+      const tokenHash = linkData.properties.hashed_token
+      const redirectUrl = actionUrl.searchParams.get('redirect_to')
+      
+      const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/confirm?token_hash=${tokenHash}&type=signup&next=${encodeURIComponent(redirectUrl || '/dashboard')}`
+
+      // Send the email via Resend
+      const { Resend } = await import('resend')
+      const resend = new Resend(process.env.RESEND_API_KEY)
+      
+      const fs = require('fs')
+      const path = require('path')
+      
+      const templatePath = path.join(process.cwd(), 'emails', 'signup-confirmation.html')
+      let htmlContent = fs.readFileSync(templatePath, 'utf8')
+      
+      const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, siteUrl)
+      
+      // Ensure the hashed token is properly URL encoded so characters like '+' don't turn into spaces
+      const safeTokenHash = encodeURIComponent(tokenHash || '')
+      htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, safeTokenHash)
+      htmlContent = htmlContent.replace(/\{\{ \.Type \}\}/g, 'signup')
+      
+      // Inject Doctor's name dynamically
+      const displayName = title ? `${title} ${firstName}`.trim() : firstName
+      htmlContent = htmlContent.replace('¡Te damos la bienvenida a Clinia+!', `¡Te damos la bienvenida, ${displayName}!`)
+
+      await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL || 'Clinia+ <soporte@cliniaplus.com>',
+        to: email,
+        subject: '¡Confirma tu cuenta en Clinia+!',
+        html: htmlContent
+      })
+      console.log("Confirmation email sent successfully via Resend.")
+    } catch (e) {
+      console.error("Failed to send email via Resend:", e)
+    }
   }
 
   // 6. Return Success

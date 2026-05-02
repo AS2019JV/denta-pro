@@ -73,7 +73,6 @@ export async function middleware(request: NextRequest) {
 
   const isAuth = pathname.startsWith('/login') || 
                  pathname.startsWith('/signup') ||
-                 pathname.startsWith('/onboarding') ||
                  pathname === '/';
 
   // Redirect to login if accessing dashboard without session
@@ -112,7 +111,7 @@ export async function middleware(request: NextRequest) {
   }
 
   // Redirect to dashboard if accessing auth pages with active session
-  if (isAuth && user && !pathname.startsWith('/onboarding') && pathname !== '/free-trial') {
+  if (isAuth && user && pathname !== '/free-trial') {
       // Allow them to stay if it's the landing page? The prompt doesn't specify landing page protection, but we treat '/' as landing.
       // Usually, logged-in users going to '/' are redirected to their dashboard in SAAS.
       if (pathname === '/' || pathname.startsWith('/login')) {

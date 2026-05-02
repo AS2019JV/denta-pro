@@ -92,7 +92,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden border-none shadow-2xl bg-slate-50/95 backdrop-blur-xl">
+      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden border-none shadow-2xl bg-muted/50/95 backdrop-blur-xl">
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600" />
         
         <DialogHeader className="p-6 pb-2">
@@ -101,7 +101,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
               <Users className="h-6 w-6" />
             </div>
             <div>
-              <DialogTitle className="text-2xl font-black tracking-tight text-slate-900">
+              <DialogTitle className="text-2xl font-black tracking-tight text-foreground">
                 Contexto Familiar
               </DialogTitle>
               <DialogDescription className="text-slate-500 font-medium">
@@ -134,7 +134,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: idx * 0.1 }}
                       className={cn(
-                        "group relative bg-white rounded-2xl p-4 border-2 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden",
+                        "group relative bg-card rounded-2xl p-4 border-2 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden",
                         getGroupStyle(null, biller.id),
                         !isReceptionist && "cursor-pointer"
                       )}
@@ -160,7 +160,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                           </AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <h4 className="font-bold text-slate-900 group-hover:text-blue-600 transition-colors truncate">
+                          <h4 className="font-bold text-foreground group-hover:text-blue-600 transition-colors truncate">
                             {biller.first_name} {biller.last_name}
                           </h4>
                           <p className="text-xs text-slate-500 font-medium">{biller.phone || "Sin teléfono"}</p>
@@ -174,7 +174,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                     </motion.div>
                   ))}
                   {billers.length === 0 && (
-                    <div className="col-span-full py-8 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center text-muted-foreground bg-slate-50/50">
+                    <div className="col-span-full py-8 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center text-muted-foreground bg-muted/50/50">
                       <p className="text-sm font-medium italic">No hay representantes de pago asignados.</p>
                       <Button variant="link" size="sm" className="text-blue-600 font-bold">Asignar ahora</Button>
                     </div>
@@ -199,7 +199,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                         exit={{ opacity: 0, scale: 0.95 }}
                         transition={{ delay: (billers.length + idx) * 0.05 }}
                         className={cn(
-                          "group bg-white rounded-xl p-3 border-l-4 border shadow-sm hover:shadow-md transition-all flex items-center justify-between",
+                          "group bg-card rounded-xl p-3 border-l-4 border shadow-sm hover:shadow-md transition-all flex items-center justify-between",
                           getGroupStyle(member.family_representative_id, member.id),
                           !isReceptionist && "cursor-pointer"
                         )}
@@ -213,12 +213,12 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
                             <AvatarImage src={member.avatar_url || ""} />
-                            <AvatarFallback className="bg-slate-50 text-slate-400 font-bold text-xs">
+                            <AvatarFallback className="bg-muted/50 text-slate-400 font-bold text-xs">
                               {member.first_name[0]}{member.last_name[0]}
                             </AvatarFallback>
                           </Avatar>
                           <div>
-                            <h4 className="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
+                            <h4 className="text-sm font-bold text-foreground group-hover:text-blue-600 transition-colors">
                               {member.first_name} {member.last_name}
                             </h4>
                             <div className="flex items-center gap-1.5 mt-0.5">
@@ -235,7 +235,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                   </AnimatePresence>
                   
                   {dependents.length === 0 && !loading && (
-                    <div className="col-span-full py-8 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center text-muted-foreground bg-slate-50/50">
+                    <div className="col-span-full py-8 border-2 border-dashed rounded-2xl flex flex-col items-center justify-center text-muted-foreground bg-muted/50/50">
                       <p className="text-sm font-medium italic">Sin dependientes vinculados.</p>
                     </div>
                   )}
@@ -245,7 +245,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
           )}
         </ScrollArea>
         
-        <div className="p-4 bg-white border-t flex justify-between items-center">
+        <div className="p-4 bg-card border-t flex justify-between items-center">
             <p className="text-[11px] text-slate-400 font-medium italic max-w-[60%]">
               * El color del borde indica el grupo administrativo vinculado al mismo responsable de pago.
             </p>

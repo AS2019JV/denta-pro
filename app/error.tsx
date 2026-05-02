@@ -17,14 +17,14 @@ export default function GlobalError({
   }, [error])
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-4">
-      <div className="max-w-md w-full bg-white rounded-3xl shadow-2xl p-8 text-center space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-muted/50 p-4">
+      <div className="max-w-md w-full bg-card rounded-3xl shadow-2xl p-8 text-center space-y-6">
         <div className="mx-auto w-16 h-16 bg-red-50 rounded-full flex items-center justify-center">
           <AlertTriangle className="h-8 w-8 text-red-500" />
         </div>
         
         <div className="space-y-2">
-          <h1 className="text-2xl font-bold text-slate-900">Algo salió mal</h1>
+          <h1 className="text-2xl font-bold text-foreground">Algo salió mal</h1>
           <p className="text-slate-500">
             Hemos encontrado un error inesperado. Por seguridad, la operación ha sido detenida.
           </p>

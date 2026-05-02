@@ -114,7 +114,7 @@ export function SignaturePad({ onSave, onCancel }: SignaturePadProps) {
 
   return (
     <div className="space-y-4">
-      <div className="border-2 border-dashed rounded-lg bg-white touch-none" style={{ cursor: 'crosshair' }}>
+      <div className="border-2 border-dashed rounded-lg bg-card touch-none" style={{ cursor: 'crosshair' }}>
         <canvas
           ref={canvasRef}
           className="w-full h-64 rounded-lg block"

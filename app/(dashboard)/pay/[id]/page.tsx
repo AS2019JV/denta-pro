@@ -91,7 +91,7 @@ export default function PaymentPage() {
 
     if (billing.status === 'paid') {
         return (
-            <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
+            <div className="min-h-screen bg-muted/50 flex items-center justify-center p-4">
                 <Card className="max-w-md w-full text-center py-10">
                     <CardContent>
                         <div className="mb-4 flex justify-center text-green-500">
@@ -110,7 +110,7 @@ export default function PaymentPage() {
     const stripeMethod = methods.find(m => m.type === 'STRIPE')
 
     return (
-        <div className="min-h-screen bg-slate-50 py-10 px-4">
+        <div className="min-h-screen bg-muted/50 py-10 px-4">
             <div className="max-w-3xl mx-auto space-y-6">
                  {/* Header Info */}
                  <div className="text-center space-y-2">

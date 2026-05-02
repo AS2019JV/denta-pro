@@ -11,6 +11,7 @@ interface ClinicMembership {
   role: "doctor" | "receptionist" | "clinic_owner"
   clinics?: {
     name: string
+    size?: string
     settings?: any
   }
 }
@@ -21,6 +22,8 @@ interface User {
   email: string
   role: "doctor" | "receptionist" | "clinic_owner"
   avatar: string
+  phone?: string
+  bio?: string
   clinic_id?: string
   clinic_memberships?: ClinicMembership[]
 }
@@ -97,24 +100,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         .from('profiles')
         .select('*')
         .eq('id', authUser.id)
-        .maybeSingle() // Use maybeSingle() instead of single() to avoid errors when profile doesn't exist
+        .maybeSingle()
+
+      const metaName = authUser.user_metadata?.full_name || authUser.email?.split('@')[0] || 'Usuario'
+      const metaRole = authUser.user_metadata?.role || 'clinic_owner'
 
       if (error) {
         console.error('Error fetching profile:', JSON.stringify(error, null, 2))
-        // Create fallback user profile
         setUser({
           id: authUser.id,
-          name: authUser.email?.split('@')[0] || 'User',
+          name: metaName,
           email: authUser.email || '',
-          role: 'doctor', // Default role
+          role: metaRole as any,
           avatar: '',
           clinic_id: undefined
         })
       } else if (data) {
-        // Fetch memberships
         const { data: memberships } = await supabase
             .from('clinic_members')
-            .select('clinic_id, role, clinics(name, settings)')
+            .select('clinic_id, role, clinics(name, size, settings)')
             .eq('user_id', authUser.id)
         
         const clinicMemberships = (memberships || []).map((m: any) => ({
@@ -122,41 +126,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             role: m.role,
             clinics: Array.isArray(m.clinics) ? m.clinics[0] : m.clinics
         })) as ClinicMembership[]
-        // Use profile clinic_id as default, or first membership
+        
         const defaultClinicId = data.clinic_id || (clinicMemberships.length > 0 ? clinicMemberships[0].clinic_id : undefined)
         
         setCurrentClinicId(defaultClinicId)
 
-        // Profile exists, use it
         setUser({
           id: data.id,
-          name: data.full_name || authUser.email?.split('@')[0],
+          name: data.full_name || metaName,
           email: authUser.email || '',
-          role: data.role || 'doctor',
+          role: (data.role || metaRole) as any,
           avatar: data.avatar_url || '',
+          phone: data.phone || '',
+          bio: data.bio || '',
           clinic_id: data.clinic_id,
           clinic_memberships: clinicMemberships
         })
       } else {
-        // Profile doesn't exist yet -> Valid "Limbo" State for Onboarding
-        console.log('User has no profile (Limbo State) - waiting for clinic creation.');
         setUser({
           id: authUser.id,
-          name: authUser.email?.split('@')[0] || 'Nuevo Usuario',
+          name: metaName,
           email: authUser.email || '',
-          role: 'clinic_owner', // Default permission level for setup
+          role: metaRole as any,
           avatar: '',
-          clinic_id: undefined // Explicitly undefined triggers Onboarding redirect
+          clinic_id: undefined
         })
       }
     } catch (error) {
       console.error('Error in fetchProfile:', error)
-      // Create fallback user even on unexpected errors
       setUser({
         id: authUser.id,
-        name: authUser.email?.split('@')[0] || 'User',
+        name: authUser.user_metadata?.full_name || 'Usuario',
         email: authUser.email || '',
-        role: 'clinic_owner',
+        role: (authUser.user_metadata?.role || 'clinic_owner') as any,
         avatar: '',
         clinic_id: undefined
       })

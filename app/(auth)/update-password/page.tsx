@@ -116,7 +116,7 @@ export default function UpdatePasswordPage() {
                   placeholder="••••••••"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  className="h-12 bg-slate-50 rounded-xl"
+                  className="h-12 bg-muted/50 rounded-xl"
                   required
                 />
                 <Button
@@ -139,7 +139,7 @@ export default function UpdatePasswordPage() {
                 placeholder="••••••••"
                 value={confirmPassword}
                 onChange={(e) => setConfirmPassword(e.target.value)}
-                className="h-12 bg-slate-50 rounded-xl"
+                className="h-12 bg-muted/50 rounded-xl"
                 required
               />
             </div>

@@ -93,7 +93,7 @@ export function SubscriptionTab() {
           <div className="absolute top-0 right-0 p-4 opacity-10">
               <ShieldCheck className="w-32 h-32" />
           </div>
-          <div className="relative bg-white/10 backdrop-blur-sm p-6 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4">
+          <div className="relative bg-card/10 backdrop-blur-sm p-6 rounded-lg flex flex-col md:flex-row items-center justify-between gap-4">
              <div>
                 <h2 className="text-2xl font-bond font-title flex items-center gap-2">
                    Plan Actual: <span className="uppercase font-black text-white">{currentPlanId}</span>
@@ -144,7 +144,7 @@ export function SubscriptionTab() {
                               <CardTitle className="text-2xl font-bold font-title">{plan.name}</CardTitle>
                               <CardDescription className="text-sm font-text">{plan.description}</CardDescription>
                               <div className="mt-4 flex items-baseline">
-                                  <span className="text-4xl font-extrabold text-slate-900 dark:text-white">${plan.price}</span>
+                                  <span className="text-4xl font-extrabold text-foreground dark:text-white">${plan.price}</span>
                                   <span className="text-muted-foreground ml-1">/mes</span>
                               </div>
                           </CardHeader>

@@ -232,6 +232,22 @@ export function ModernCalendar({
 
       const treatment = dbTreatments.find(t => t.id === newAppointment.treatment)
 
+      // Check for overlap
+      const { data: overlapping, error: overlapError } = await supabase
+        .from('appointments')
+        .select('id')
+        .eq('doctor_id', newAppointment.dentistId)
+        .lt('start_time', end.toISOString())
+        .gt('end_time', start.toISOString())
+        .neq('status', 'cancelled')
+
+      if (overlapError) throw overlapError
+
+      if (overlapping && overlapping.length > 0) {
+        toast.error("Conflicto de agenda: El especialista ya tiene una cita en ese horario.")
+        return
+      }
+
       const { data: appData, error: appError } = await supabase
         .from('appointments')
         .insert({
@@ -486,7 +502,7 @@ export function ModernCalendar({
         </div>
 
         {/* Scrollable Time Grid */}
-        <div className="flex-1 overflow-y-auto relative bg-white dark:bg-slate-950/50">
+        <div className="flex-1 overflow-y-auto relative bg-card dark:bg-slate-950/50">
             <div className="flex min-h-[1120px] relative"> {/* 80px per hour * 14 hours */}
                 
                 {/* Time Sidebar */}
@@ -502,7 +518,7 @@ export function ModernCalendar({
                 <div className="flex-1 grid grid-cols-7 relative">
                     {/* Horizontal Guide Lines */}
                     {hours.map(h => (
-                        <div key={h} className="absolute w-full border-t border-slate-100 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
+                        <div key={h} className="absolute w-full border-t border-border/50 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
                     ))}
 
                     {weekDays.map((day, dayIdx) => {
@@ -513,7 +529,7 @@ export function ModernCalendar({
                                {hours.map(hour => (
                                    <div 
                                        key={hour} 
-                                       className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-slate-100 dark:group-hover:border-slate-800"
+                                       className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-border/50 dark:group-hover:border-slate-800"
                                        onClick={() => {
                                            // Create new appointment at this time slot
                                            setSelectedDate(day)
@@ -737,7 +753,7 @@ export function ModernCalendar({
         </div>
 
         {/* Scrollable Time Grid */}
-        <div className="flex-1 overflow-y-auto relative bg-white dark:bg-slate-950/50">
+        <div className="flex-1 overflow-y-auto relative bg-card dark:bg-slate-950/50">
             <div className="flex min-h-[1120px] relative"> {/* 80px per hour * 14 hours */}
                 
                 {/* Time Sidebar */}
@@ -753,7 +769,7 @@ export function ModernCalendar({
                 <div className="flex-1 relative">
                     {/* Horizontal Guide Lines */}
                     {hours.map(h => (
-                        <div key={h} className="absolute w-full border-t border-slate-100 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
+                        <div key={h} className="absolute w-full border-t border-border/50 dark:border-slate-800 pointer-events-none" style={{ top: `${(h-7)*80}px`, height: '80px' }} />
                     ))}
 
                     <div className="relative group h-full">
@@ -761,7 +777,7 @@ export function ModernCalendar({
                         {hours.map(hour => (
                             <div 
                                 key={hour} 
-                                className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-slate-100 dark:group-hover:border-slate-800"
+                                className="h-20 hover:bg-muted/30 transition-colors cursor-pointer border-b border-transparent group-hover:border-dashed group-hover:border-border/50 dark:group-hover:border-slate-800"
                                 onClick={() => {
                                     // Create new appointment at this time slot
                                     setSelectedDate(day)
@@ -833,7 +849,7 @@ export function ModernCalendar({
                                     </div>
                                     
                                     {height > 60 && app.notes && (
-                                        <div className="mt-2 text-xs opacity-70 italic line-clamp-2 bg-white/30 p-1 rounded">
+                                        <div className="mt-2 text-xs opacity-70 italic line-clamp-2 bg-card/30 p-1 rounded">
                                             "{app.notes}"
                                         </div>
                                     )}

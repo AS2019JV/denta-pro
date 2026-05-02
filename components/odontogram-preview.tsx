@@ -36,7 +36,7 @@ export function OdontogramPreview({ data = {}, className, size = 'sm' }: Odontog
   }[size];
 
   return (
-    <div className={cn("inline-flex flex-col gap-1 p-2 bg-white rounded-lg border shadow-sm", className)}>
+    <div className={cn("inline-flex flex-col gap-1 p-2 bg-card rounded-lg border shadow-sm", className)}>
       <div className="flex gap-0.5">
         {ADULT_UP.map(id => (
           <div 

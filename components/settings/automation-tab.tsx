@@ -95,7 +95,7 @@ export function AutomationTab() {
         </CardHeader>
         <CardContent className="pt-6 space-y-8">
           {/* Main Toggle */}
-          <div className="flex items-center justify-between p-4 bg-white rounded-2xl border shadow-sm">
+          <div className="flex items-center justify-between p-4 bg-card rounded-2xl border shadow-sm">
             <div className="space-y-0.5">
               <Label className="text-base font-bold">Activar Módulo de Fidelización</Label>
               <p className="text-sm text-muted-foreground">Habilita el escaneo diario de pacientes para campañas de marketing.</p>
@@ -109,7 +109,7 @@ export function AutomationTab() {
           <div className={`space-y-8 transition-all duration-300 ${!settings.loyalty_enabled ? "opacity-40 pointer-events-none grayscale" : ""}`}>
             {/* VIP Settings */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <Card className="border-slate-100 shadow-none">
+              <Card className="border-border/50 shadow-none">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-2">
                     <Crown className="h-4 w-4 text-amber-500" />
@@ -136,7 +136,7 @@ export function AutomationTab() {
                 </CardContent>
               </Card>
 
-              <Card className="border-slate-100 shadow-none">
+              <Card className="border-border/50 shadow-none">
                 <CardHeader className="pb-4">
                   <div className="flex items-center gap-2">
                     <Bell className="h-4 w-4 text-blue-500" />

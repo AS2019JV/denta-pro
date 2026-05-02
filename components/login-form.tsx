@@ -14,6 +14,7 @@ import { useTranslation } from "@/components/translations"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
+import { resendConfirmationEmail } from "@/app/actions/resend-confirmation"
 
 import { motion } from "framer-motion"
 
@@ -29,12 +30,7 @@ export function LoginForm() {
 
   useEffect(() => {
     if (user) {
-      console.log("Login Form: User detected, redirecting...", user.clinic_id)
-      if (!user.clinic_id) {
-          window.location.href = "/onboarding"
-      } else {
-          window.location.href = "/dashboard"
-      }
+      window.location.href = "/dashboard"
     }
   }, [user])
 
@@ -71,17 +67,13 @@ export function LoginForm() {
   const handleResendConfirmation = async () => {
       setIsLoading(true)
       try {
-          const { error } = await supabase.auth.resend({
-              type: 'signup',
-              email: email,
-              options: {
-                  emailRedirectTo: `${window.location.origin}/dashboard`
-              }
-          })
+          const { error, success } = await resendConfirmationEmail(email)
           
-          if (error) throw error
-          setResendSuccess(true)
-          setError("")
+          if (error) throw new Error(error)
+          if (success) {
+            setResendSuccess(true)
+            setError("")
+          }
       } catch (err: any) {
           console.error("Resend error:", err)
           setError(err.message || "Error al reenviar correo")
@@ -91,7 +83,7 @@ export function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 relative overflow-hidden font-text">
+    <div className="min-h-screen flex items-center justify-center bg-muted/50 relative overflow-hidden font-text">
        {/* Ambient Background */}
        <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
@@ -104,14 +96,14 @@ export function LoginForm() {
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
         className="w-full max-w-md p-4 relative z-10"
       >
-        <Card className="border-0 shadow-2xl bg-white/80 backdrop-blur-xl ring-1 ring-white/60 overflow-hidden rounded-3xl">
+        <Card className="border-0 shadow-2xl bg-card/80 backdrop-blur-xl ring-1 ring-white/60 overflow-hidden rounded-3xl">
           <CardHeader className="space-y-2 text-center pt-8 pb-6">
             <div className="flex justify-center mb-4">
               <div className="w-14 h-14 bg-gradient-to-tr from-teal-50 to-blue-50 rounded-2xl flex items-center justify-center p-3 shadow-inner ring-1 ring-slate-100">
                 <img src="/brand-logo.png" alt="Clinia Logo" className="w-full h-full object-contain" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-slate-900 tracking-tight">{t("loginTitle")}</CardTitle>
+            <CardTitle className="text-2xl font-bold text-foreground tracking-tight">{t("loginTitle")}</CardTitle>
             <CardDescription className="text-slate-500 text-base">{t("loginSubtitle")}</CardDescription>
           </CardHeader>
           <CardContent className="px-8 pb-8">
@@ -124,7 +116,7 @@ export function LoginForm() {
                   placeholder="doctor@clinia.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all"
+                  className="h-12 bg-muted/50 border-border focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all"
                   required
                 />
               </div>
@@ -148,7 +140,7 @@ export function LoginForm() {
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="h-12 bg-slate-50 border-slate-200 focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
+                    className="h-12 bg-muted/50 border-border focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-10"
                     required
                   />
                   <Button
@@ -174,7 +166,7 @@ export function LoginForm() {
                     {error === "EmailNotConfirmed" ? (
                         <div className="flex flex-col gap-2">
                            <span>El correo no ha sido confirmado.</span>
-                           <Button variant="outline" size="sm" onClick={handleResendConfirmation} disabled={isLoading} className="bg-white hover:bg-slate-50 text-xs h-8">
+                           <Button variant="outline" size="sm" onClick={handleResendConfirmation} disabled={isLoading} className="bg-card hover:bg-muted/50 text-xs h-8">
                                {isLoading ? <Loader2 className="h-3 w-3 animate-spin"/> : "Reenviar Confirmación"}
                            </Button>
                         </div>
@@ -196,17 +188,17 @@ export function LoginForm() {
 
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
-                <span className="w-full border-t border-slate-200" />
+                <span className="w-full border-t border-border" />
               </div>
               <div className="relative flex justify-center text-xs uppercase">
-                <span className="bg-white px-3 text-slate-400 font-medium tracking-wide">O continuar con</span>
+                <span className="bg-card px-3 text-slate-400 font-medium tracking-wide">O continuar con</span>
               </div>
             </div>
 
             <Button
               type="button"
               variant="outline"
-              className="w-full h-12 rounded-xl border-slate-200 bg-white hover:bg-slate-50 text-slate-700 font-medium transition-all hover:border-slate-300"
+              className="w-full h-12 rounded-xl border-border bg-card hover:bg-muted/50 text-slate-700 font-medium transition-all hover:border-slate-300"
               onClick={async () => {
                 setIsLoading(true)
                 const { error } = await signInWithGoogle()

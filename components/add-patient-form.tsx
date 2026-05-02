@@ -42,6 +42,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
     defaultValues: {
       name: initialData?.name || "",
       lastName: initialData?.lastName || "",
+      cedula: initialData?.cedula || "",
       email: initialData?.email || "",
       phone: initialData?.phone || "",
       address: initialData?.address || "",
@@ -73,6 +74,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
       recallMonths: initialData?.recallMonths || 6,
       internalNotes: initialData?.internalNotes || "",
       accountBalance: initialData?.accountBalance || 0,
+      dataConsent: initialData?.dataConsent || false,
     },
   })
 
@@ -93,6 +95,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
           {
             first_name: values.name,
             last_name: values.lastName,
+            cedula: values.cedula,
             email: values.email || null,
             phone: values.phone,
             address: values.address,
@@ -124,6 +127,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             recall_months: values.recallMonths,
             internal_notes: values.internalNotes,
             account_balance: values.accountBalance,
+            data_consent: values.dataConsent,
             clinic_id: currentClinicId,
           }
         ])
@@ -169,7 +173,16 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
               </div>
             </div>
             
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-2 md:col-span-2">
+                <Label htmlFor="cedula">Cédula / DNI / Pasaporte *</Label>
+                <Input
+                  id="cedula"
+                  {...register("cedula")}
+                  className={errors.cedula ? "border-red-500" : ""}
+                />
+                {errors.cedula && <p className="text-xs text-red-500">{errors.cedula.message}</p>}
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre *</Label>
                 <Input
@@ -489,6 +502,25 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      <div className="flex flex-row items-start space-x-3 space-y-0 rounded-md border border-teal-100 p-4 bg-teal-50/50 mt-6">
+        <Checkbox
+          id="dataConsent"
+          checked={watch("dataConsent")}
+          onCheckedChange={(checked) => setValue("dataConsent", checked === true)}
+          className={errors.dataConsent ? "border-red-500" : ""}
+        />
+        <div className="space-y-1 leading-none">
+          <Label htmlFor="dataConsent" className="font-semibold text-teal-900">
+            Consentimiento de Tratamiento de Datos (GDPR/HIPAA) *
+          </Label>
+          <p className="text-sm text-teal-700">
+            El paciente autoriza el almacenamiento de sus datos personales y médicos con fines clínicos. 
+            Esta acción quedará registrada en la auditoría de la clínica.
+          </p>
+          {errors.dataConsent && <p className="text-xs text-red-500 mt-2">{errors.dataConsent.message}</p>}
+        </div>
       </div>
 
       {/* Form Actions */}

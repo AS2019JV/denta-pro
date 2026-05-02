@@ -58,10 +58,12 @@ import {
   History,
   LayoutGrid,
   ShieldAlert,
-  Sparkles,
   ShieldCheck,
+  Activity,
   Crown,
   MessageCircle,
+  FileText,
+  CheckCircle2,
   User as UserIcon
 } from "lucide-react"
 import { cn } from "@/lib/utils"
@@ -74,7 +76,7 @@ const LoyaltyIcon = ({ name, className }: { name: string, className?: string }) 
   switch (name) {
     case 'Crown': return <Crown className={cn("h-3 w-3 mr-1", className)} />;
     case 'ShieldCheck': return <ShieldCheck className={cn("h-3 w-3 mr-1", className)} />;
-    case 'Sparkles': return <Sparkles className={cn("h-3 w-3 mr-1", className)} />;
+    case 'Activity': return <Activity className={cn("h-3 w-3 mr-1", className)} />;
     default: return <UserIcon className={cn("h-3 w-3 mr-1", className)} />;
   }
 }
@@ -140,6 +142,9 @@ export default function PatientsPage() {
   const [isLoading, setIsLoading] = useState(true)
   const [page, setPage] = useState(0)
   const [hasMore, setHasMore] = useState(true)
+  const [isExportDialogOpen, setIsExportDialogOpen] = useState(false)
+  const [exportConfirmationText, setExportConfirmationText] = useState("")
+  const [exportFormat, setExportFormat] = useState<'csv' | 'json'>('csv')
   const PAGE_SIZE = 12
 
   const fetchPatients = useCallback(async (pageNum: number, search: string) => {
@@ -612,16 +617,65 @@ export default function PatientsPage() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => exportDatabase('csv')}>
+              <DropdownMenuItem onClick={() => {
+                setExportFormat('csv')
+                setIsExportDialogOpen(true)
+              }}>
                 <FileSpreadsheet className="mr-2 h-4 w-4" />
                 <span>Exportar como CSV</span>
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => exportDatabase('json')}>
+              <DropdownMenuItem onClick={() => {
+                setExportFormat('json')
+                setIsExportDialogOpen(true)
+              }}>
                 <FileJson className="mr-2 h-4 w-4" />
                 <span>Exportar como JSON</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          <Dialog open={isExportDialogOpen} onOpenChange={setIsExportDialogOpen}>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle className="flex items-center gap-2 text-rose-600">
+                  <ShieldAlert className="h-5 w-5" />
+                  Seguridad de Datos Clínicos
+                </DialogTitle>
+                <DialogDescription>
+                  Está a punto de exportar una copia de seguridad de la base de datos de pacientes. 
+                  Este archivo contiene información médica altamente sensible protegida por regulaciones (GDPR/HIPAA).
+                </DialogDescription>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="p-3 bg-amber-50 text-amber-800 text-sm rounded-lg border border-amber-200">
+                  Esta acción quedará registrada permanentemente en la auditoría de seguridad de la clínica junto con su IP y usuario.
+                </div>
+                <div className="space-y-2">
+                  <Label>Para confirmar, escriba <strong className="select-none">CONFIRMAR</strong></Label>
+                  <Input 
+                    value={exportConfirmationText}
+                    onChange={(e) => setExportConfirmationText(e.target.value)}
+                    placeholder="Escriba CONFIRMAR aquí..."
+                  />
+                </div>
+              </div>
+              <DialogFooter>
+                <Button variant="outline" onClick={() => setIsExportDialogOpen(false)}>Cancelar</Button>
+                <Button 
+                  variant="destructive" 
+                  disabled={exportConfirmationText !== "CONFIRMAR"}
+                  onClick={() => {
+                    setIsExportDialogOpen(false)
+                    setExportConfirmationText("")
+                    exportDatabase(exportFormat)
+                  }}
+                >
+                  <Download className="h-4 w-4 mr-2" />
+                  Exportar Base de Datos
+                </Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
           <Dialog open={isAddPatientOpen} onOpenChange={setIsAddPatientOpen}>
             <DialogTrigger asChild>
               <Button>
@@ -651,7 +705,7 @@ export default function PatientsPage() {
             placeholder={t("search-patients")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="pl-10 h-10 border-slate-200 focus-visible:ring-blue-500 shadow-sm"
+            className="pl-10 h-10 border-border focus-visible:ring-blue-500 shadow-sm"
           />
         </div>
 
@@ -659,11 +713,11 @@ export default function PatientsPage() {
            {/* View Toggle */}
            <Tabs value={groupByFamily ? "family" : "individual"} onValueChange={(v) => setGroupByFamily(v === "family")} className="bg-slate-100 p-1 rounded-lg">
              <TabsList className="bg-transparent h-8 p-0">
-               <TabsTriggerUI value="individual" className="data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 px-3 text-xs font-bold gap-1.5">
+               <TabsTriggerUI value="individual" className="data-[state=active]:bg-card data-[state=active]:shadow-sm h-7 px-3 text-xs font-bold gap-1.5">
                  <LayoutGrid className="h-3.5 w-3.5" />
                  Individual
                </TabsTriggerUI>
-               <TabsTriggerUI value="family" className="data-[state=active]:bg-white data-[state=active]:shadow-sm h-7 px-3 text-xs font-bold gap-1.5">
+               <TabsTriggerUI value="family" className="data-[state=active]:bg-card data-[state=active]:shadow-sm h-7 px-3 text-xs font-bold gap-1.5">
                  <Users className="h-3.5 w-3.5" />
                  Familias
                </TabsTriggerUI>
@@ -672,7 +726,7 @@ export default function PatientsPage() {
 
            {/* Time Filter */}
            <Select value={timeFilter} onValueChange={setTimeFilter}>
-             <SelectTrigger className="w-[140px] h-10 bg-white border-slate-200 font-medium text-xs">
+             <SelectTrigger className="w-[140px] h-10 bg-card border-border font-medium text-xs">
                <div className="flex items-center gap-2">
                  <History className="h-3.5 w-3.5 text-slate-400" />
                  <SelectValue placeholder="Tiempo" />
@@ -689,7 +743,7 @@ export default function PatientsPage() {
 
            {/* Badge Filter */}
            <Select value={badgeFilter} onValueChange={setBadgeFilter}>
-             <SelectTrigger className="w-[130px] h-10 bg-white border-slate-200 font-medium text-xs">
+             <SelectTrigger className="w-[130px] h-10 bg-card border-border font-medium text-xs">
                 <div className="flex items-center gap-2">
                  <Filter className="h-3.5 w-3.5 text-slate-400" />
                  <SelectValue placeholder="Categoría" />
@@ -708,7 +762,26 @@ export default function PatientsPage() {
       {/* Patients Grid */}
       <TooltipProvider>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {patients.map((patient) => {
+          {isLoading && patients.length === 0 ? (
+            Array.from({ length: 6 }).map((_, i) => (
+              <Card key={i} className="animate-pulse border-border/50 h-[220px]">
+                <CardHeader className="pb-3">
+                  <div className="flex items-center space-x-3">
+                    <div className="h-12 w-12 bg-slate-200 rounded-full" />
+                    <div className="flex-1 space-y-2">
+                       <div className="h-4 w-3/4 bg-slate-200 rounded" />
+                       <div className="h-3 w-1/2 bg-slate-100 rounded" />
+                    </div>
+                  </div>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                   <div className="h-3 w-full bg-muted/50 rounded" />
+                   <div className="h-3 w-2/3 bg-muted/50 rounded" />
+                   <div className="h-10 w-full bg-slate-100 rounded-lg mt-4" />
+                </CardContent>
+              </Card>
+            ))
+          ) : patients.map((patient) => {
             const hasAlerts = patient.hasDiabetes || patient.hasHypertension || patient.hasHeartDisease || patient.allergies || patient.isPregnant
             const profileScore = calculateProfileCompletion(patient)
             const scoreColor = getCompletionColor(profileScore)
@@ -722,7 +795,7 @@ export default function PatientsPage() {
                 key={patient.id}
                 className={cn(
                   "group relative overflow-hidden border-2 transition-all duration-300 hover:shadow-2xl hover:border-primary/30",
-                  isFamilyCard ? "bg-slate-50 border-blue-100" : "bg-white border-slate-100"
+                  isFamilyCard ? "bg-muted/50 border-blue-100" : "bg-card border-border/50"
                 )}
                 onClick={() => {
                    if (!isFamilyCard && !isReceptionist) {
@@ -747,7 +820,7 @@ export default function PatientsPage() {
                         </AvatarFallback>
                       </Avatar>
                       {isFamilyCard && (
-                        <div className="absolute -bottom-1 -right-1 bg-white rounded-full p-1 shadow-sm border border-slate-100">
+                        <div className="absolute -bottom-1 -right-1 bg-card rounded-full p-1 shadow-sm border border-border/50">
                           <Users className="h-3 w-3 text-blue-600" />
                         </div>
                       )}
@@ -936,11 +1009,32 @@ export default function PatientsPage() {
       )}
 
       {patients.length === 0 && !isLoading && (
-        <Card>
-          <CardContent className="flex flex-col items-center justify-center py-12">
-            <div className="text-muted-foreground text-center">
-              <p className="text-lg font-medium">No se encontraron pacientes</p>
-              <p className="text-sm">Intenta con otros términos de búsqueda</p>
+        <Card className="border-dashed border-2 bg-muted/50/50 py-16">
+          <CardContent className="flex flex-col items-center justify-center text-center max-w-md mx-auto space-y-6">
+            <div className="w-20 h-20 bg-card rounded-3xl shadow-sm flex items-center justify-center border border-border/50 rotate-3">
+              <FileText className="w-10 h-10 text-teal-600 -rotate-3" />
+            </div>
+            <div className="space-y-2">
+              <h3 className="text-2xl font-bold text-foreground">Comienza a construir tu base de datos</h3>
+              <p className="text-slate-500 font-medium">
+                {searchTerm 
+                  ? `No encontramos resultados para "${searchTerm}". Intenta con otro nombre o cédula.` 
+                  : "Tu lista de pacientes está vacía. Registra a tu primer paciente para comenzar a gestionar sus historias clínicas y citas."}
+              </p>
+            </div>
+            {!searchTerm && (
+              <div className="flex flex-col sm:flex-row gap-3 w-full">
+                <Button onClick={() => setIsAddPatientOpen(true)} className="flex-1 h-12 bg-teal-600 hover:bg-teal-700 rounded-xl font-bold gap-2">
+                  <Plus className="h-4 w-4" /> Registrar Paciente
+                </Button>
+                <Button variant="outline" onClick={() => document.getElementById("import-file")?.click()} className="flex-1 h-12 rounded-xl font-bold gap-2 bg-card">
+                  <Upload className="h-4 w-4" /> Importar Datos
+                </Button>
+              </div>
+            )}
+            <div className="flex items-center gap-2 text-xs text-slate-400 font-medium pt-4">
+              <CheckCircle2 className="h-3.5 w-3.5 text-teal-500" />
+              Tus datos están protegidos y son privados
             </div>
           </CardContent>
         </Card>

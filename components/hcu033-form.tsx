@@ -990,7 +990,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                   </div>
                                   <div className="flex-1 space-y-1 text-center font-bold">
                                       <Label className="text-xs text-emerald-700">TOTAL</Label>
-                                      <div className="h-8 flex items-center justify-center bg-white border rounded">
+                                      <div className="h-8 flex items-center justify-center bg-card border rounded">
                                           {formData.indices_cpo?.total}
                                       </div>
                                   </div>
@@ -1048,7 +1048,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                                   </div>
                                   <div className="flex-1 space-y-1 text-center font-bold">
                                       <Label className="text-xs text-amber-700">TOTAL</Label>
-                                      <div className="h-8 flex items-center justify-center bg-white border rounded">
+                                      <div className="h-8 flex items-center justify-center bg-card border rounded">
                                           {formData.indices_ceo?.total}
                                       </div>
                                   </div>
@@ -1394,7 +1394,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                       <Button 
                         variant="ghost" 
                         size="sm" 
-                        className="absolute top-0 right-0 h-6 w-6 p-0 bg-white/80 hover:bg-white"
+                        className="absolute top-0 right-0 h-6 w-6 p-0 bg-card/80 hover:bg-card"
                         onClick={() => updateField("firma_profesional", null)}
                       >
                         <Trash2 className="h-4 w-4 text-red-500" />
