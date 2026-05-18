@@ -296,7 +296,7 @@ export default function LandingPage() {
                Únete a la comunidad de dentistas que están definiendo el futuro de la odontología con tecnología de punta.
              </p>
              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                <Button size="lg" className="h-16 px-10 text-xl font-bold rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] bg-card text-teal-950 hover:bg-teal-950 hover:text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)] active:scale-95 font-subtitle group border border-transparent hover:border-teal-800" asChild>
+                <Button size="lg" className="h-16 px-10 text-xl font-bold rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] bg-card text-teal-950 hover:bg-teal-950 hover:text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)] active:scale-95 active:brightness-90 font-subtitle group border border-transparent hover:border-teal-800" asChild>
                    <Link href="/signup" className="flex items-center gap-3">
                       Empieza tu Prueba de 14 Días
                       <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 text-teal-600 group-hover:text-teal-400" />

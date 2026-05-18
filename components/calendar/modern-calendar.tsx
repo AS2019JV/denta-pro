@@ -49,6 +49,7 @@ import {
 } from "@/components/ui/tooltip"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
+import { useAuth } from "@/components/auth-context"
 import { Appointment as GlobalAppointment, Patient, Doctor, Treatment } from "@/types"
 
 // Extending GlobalAppointment for Calendar specific UI needs if any, or just use it + UI fields

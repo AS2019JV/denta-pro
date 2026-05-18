@@ -29,21 +29,17 @@ export function AvatarUpload({
   const [uploading, setUploading] = useState(false)
 
   useEffect(() => {
-    if (url) downloadImage(url)
-  }, [url])
-
-  async function downloadImage(path: string) {
-    try {
-      const { data, error } = await supabase.storage.from(bucket).download(path)
-      if (error) {
-        throw error
+    if (url) {
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        setAvatarUrl(url)
+      } else {
+        const { data } = supabase.storage.from(bucket).getPublicUrl(url)
+        setAvatarUrl(data.publicUrl)
       }
-      const url = URL.createObjectURL(data)
-      setAvatarUrl(url)
-    } catch (error) {
-      console.log('Error downloading image: ', error)
+    } else {
+      setAvatarUrl(null)
     }
-  }
+  }, [url, bucket])
 
   async function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
     try {
@@ -66,7 +62,8 @@ export function AvatarUpload({
       onUpload(filePath)
       
       // Refresh the view
-      downloadImage(filePath)
+      const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
+      setAvatarUrl(data.publicUrl)
       
       toast.success("Avatar actualizado correctamente")
     } catch (error) {

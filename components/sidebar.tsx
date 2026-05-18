@@ -160,7 +160,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
   // Role-Based Access Control (RBAC) Filtering
   const filteredNavigation = navigation.filter(item => {
-    if (user?.role === "clinic_owner") return true;
+    if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
     if (user?.role === "doctor") {
         // Doctors cannot see finances (billing) or general reports
         return !["billing", "reports"].includes(item.name);
@@ -173,7 +173,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   });
 
   const filteredUserNavigation = userNavigation.filter(item => {
-    if (user?.role === "clinic_owner") return true;
+    if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
     if (user?.role === "receptionist") {
       // Receptionists can see their profile and the Team (dentist list)
       return ["profile", "team"].includes(item.name);

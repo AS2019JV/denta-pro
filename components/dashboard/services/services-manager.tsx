@@ -115,7 +115,7 @@ const STANDARD_TEMPLATES: any[] = [
 ]
 
 export function ServicesManager() {
-  const { currentClinicId } = useAuth()
+  const { currentClinicId, isLoading: authLoading } = useAuth()
   const [services, setServices] = useState<Service[]>([])
   const [categories, setCategories] = useState<ServiceCategory[]>([])
   const [loading, setLoading] = useState(true)
@@ -146,8 +146,10 @@ export function ServicesManager() {
   useEffect(() => {
     if (currentClinicId) {
       fetchData()
+    } else if (!authLoading) {
+      setLoading(false)
     }
-  }, [currentClinicId])
+  }, [currentClinicId, authLoading])
 
   const fetchData = async () => {
     setLoading(true)
@@ -412,6 +414,7 @@ export function ServicesManager() {
       {/* 1. Add/Edit Service Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent className="max-w-2xl rounded-[3rem] p-0 border-none shadow-3xl bg-card overflow-hidden">
+            <DialogTitle className="sr-only">Administrar Servicio</DialogTitle>
             <div className="flex flex-col md:flex-row h-full">
                 {/* Left Panel - Visual Preview */}
                 <div className="w-full md:w-56 bg-muted/50 p-10 flex flex-col items-center justify-center text-center gap-6 border-r border-border/50">
@@ -534,6 +537,7 @@ export function ServicesManager() {
       {/* 2. Category Management Dialog */}
       <Dialog open={isCatDialogOpen} onOpenChange={setIsCatDialogOpen}>
         <DialogContent className="max-w-md rounded-[2.5rem] p-10 border-none shadow-3xl bg-card">
+            <DialogTitle className="sr-only">Administrar Categorías</DialogTitle>
             <header className="space-y-2 mb-8 text-center">
                 <div className="h-16 w-16 bg-primary/5 rounded-3xl flex items-center justify-center mx-auto text-primary">
                     <Palette className="h-8 w-8" />
@@ -602,35 +606,41 @@ export function ServicesManager() {
       
       {/* 3. Templates Gallery Dialog - Updated titles & styles */}
       <Dialog open={isTemplatesOpen} onOpenChange={setIsTemplatesOpen}>
-         <DialogContent className="max-w-4xl rounded-[2rem] p-0 border-none shadow-2xl bg-muted/50/50 overflow-hidden flex flex-col max-h-[85vh]">
-            <header className="p-10 bg-card border-b border-border/50 flex justify-between items-center shrink-0">
+         <DialogContent className="max-w-4xl w-full rounded-[2.5rem] p-0 border border-white/5 shadow-2xl bg-slate-950 text-white overflow-hidden flex flex-col h-[75vh] max-h-[80vh]">
+            {/* Glowing Mesh-Gradient Background Orbs */}
+            <div className="absolute -top-40 -left-40 w-[28rem] h-[28rem] bg-teal-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-40 -right-40 w-[28rem] h-[28rem] bg-blue-500/10 rounded-full blur-3xl pointer-events-none" />
+            
+            <DialogTitle className="sr-only">Plantillas de Servicios</DialogTitle>
+            
+            <header className="p-10 bg-slate-900/30 backdrop-blur-md border-b border-white/5 flex justify-between items-center shrink-0 relative z-10">
                 <div className="space-y-1">
-                    <h2 className="text-4xl font-bold font-teko text-foreground leading-none">Plantillas</h2>
-                    <p className="text-slate-400 text-xs font-bold uppercase tracking-widest">Catálogo institucional</p>
+                    <h2 className="text-4xl font-bold font-teko text-white leading-none tracking-tight">Plantillas de Servicios</h2>
+                    <p className="text-teal-400 text-xs font-bold uppercase tracking-widest">Catálogo institucional premium</p>
                 </div>
-                <div className="h-12 w-12 bg-primary/5 rounded-2xl flex items-center justify-center text-primary">
-                    <Sparkles className="h-6 w-6" />
-                </div>
+
+
+
             </header>
 
-            <div className="flex-1 overflow-y-auto p-10 scrollbar-hide">
+            <div className="flex-1 overflow-y-auto p-10 scrollbar-hide relative z-10">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                      {(STANDARD_TEMPLATES as any).map((template: any, i: number) => (
-                         <div key={i} className="group bg-card rounded-3xl p-6 border border-border/50 transition-all hover:shadow-xl hover:shadow-slate-200/40 relative flex flex-col gap-4">
+                         <div key={i} className="group bg-slate-900/30 backdrop-blur-md rounded-3xl p-6 border border-white/5 transition-all duration-300 hover:border-teal-500/30 hover:bg-slate-900/50 hover:shadow-2xl hover:shadow-teal-950/20 relative flex flex-col gap-4">
                              <div className="flex justify-between items-start">
-                                 <Badge className="bg-muted/50 text-slate-400 border-none rounded-full px-3 h-5 text-[10px] font-bold">
+                                 <Badge className="bg-white/5 text-slate-300 border border-white/5 rounded-full px-3 h-5 text-[10px] font-bold uppercase tracking-wide">
                                     {template.category}
                                  </Badge>
-                                 <span className="text-xl font-bold font-teko text-primary">${template.price}</span>
+                                 <span className="text-2xl font-bold font-teko text-teal-400">${template.price}</span>
                              </div>
                              
-                             <h4 className="text-xl font-bold font-teko text-foreground/90 leading-tight pr-8">{template.name}</h4>
+                             <h4 className="text-xl font-bold font-teko text-white leading-tight pr-8 group-hover:text-teal-300 transition-colors">{template.name}</h4>
                              <p className="text-[11px] text-slate-400 font-medium leading-relaxed italic line-clamp-2">
                                 {template.description}
                              </p>
 
-                             <div className="flex items-center justify-between pt-4 border-t border-slate-50">
-                                 <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">{template.duration_minutes} MIN</span>
+                             <div className="flex items-center justify-between pt-4 border-t border-white/5">
+                                 <span className="text-[10px] font-bold text-slate-500 uppercase tracking-widest">{template.duration_minutes} MIN</span>
                                  <Button 
                                     onClick={async () => {
                                         const color = CATEGORY_COLORS[i % CATEGORY_COLORS.length].hex
@@ -656,8 +666,8 @@ export function ServicesManager() {
                                         toast.success("Servicio importado")
                                         fetchData()
                                     }}
-                                    className="rounded-xl h-10 px-6 bg-slate-900 hover:bg-primary text-white font-bold transition-all shadow-lg active:scale-90 text-[11px]"
-                                >
+                                    className="rounded-xl h-10 px-6 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold transition-all shadow-lg active:scale-95 text-[11px] hover:shadow-teal-500/20"
+                                 >
                                      Importar
                                  </Button>
                              </div>
@@ -666,8 +676,8 @@ export function ServicesManager() {
                 </div>
             </div>
             
-            <footer className="p-6 bg-card border-t border-border/50 flex justify-center shrink-0">
-                <Button variant="ghost" onClick={() => setIsTemplatesOpen(false)} className="rounded-xl h-10 px-8 text-slate-300 font-bold hover:bg-muted/50 text-xs">
+            <footer className="p-6 bg-slate-950/30 backdrop-blur-md border-t border-white/5 flex justify-center shrink-0 relative z-10">
+                <Button variant="ghost" onClick={() => setIsTemplatesOpen(false)} className="rounded-xl h-10 px-8 text-slate-400 font-bold hover:bg-white/5 hover:text-white text-xs transition-all">
                     Cerrar
                 </Button>
             </footer>

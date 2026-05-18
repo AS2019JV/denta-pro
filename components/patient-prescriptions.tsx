@@ -63,6 +63,7 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
   const [clinicInfo, setClinicInfo] = useState<any>(null)
   const [doctorInfo, setDoctorInfo] = useState<any>(null)
   const [sendEmail, setSendEmail] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     fetchHistory()

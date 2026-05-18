@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -13,6 +14,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -128,7 +130,7 @@ interface Patient {
 
 export default function PatientsPage() {
   const { t } = useTranslation()
-  const { user, currentClinicId } = useAuth()
+  const { user, currentClinicId, isLoading: authLoading } = useAuth()
   const router = useRouter()
   
   const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics
@@ -148,6 +150,12 @@ export default function PatientsPage() {
   const PAGE_SIZE = 12
 
   const fetchPatients = useCallback(async (pageNum: number, search: string) => {
+    const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+    if (!currentClinicId || !uuidRegex.test(currentClinicId)) {
+      setIsLoading(false)
+      return
+    }
+
     try {
       setIsLoading(true)
       
@@ -225,8 +233,12 @@ export default function PatientsPage() {
     // Reset and fetch when search or filters change
     setPage(0)
     setPatients([])
-    fetchPatients(0, searchTerm)
-  }, [searchTerm, timeFilter, badgeFilter, groupByFamily, fetchPatients])
+    if (currentClinicId) {
+      fetchPatients(0, searchTerm)
+    } else if (!authLoading) {
+      setIsLoading(false)
+    }
+  }, [searchTerm, timeFilter, badgeFilter, groupByFamily, fetchPatients, currentClinicId, authLoading])
 
   const handleLoadMore = () => {
     const nextPage = page + 1

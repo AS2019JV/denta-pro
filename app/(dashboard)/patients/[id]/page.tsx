@@ -113,8 +113,8 @@ export default function PatientDetailsPage() {
   useEffect(() => {
     const fetchPatient = async () => {
       // Handle params.id being string or array
-      const id = Array.isArray(params.id) ? params.id[0] : params.id
-      if (!id) return
+      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      if (!id || !currentClinicId || !uuidRegex.test(currentClinicId)) return
       
       try {
         setIsLoading(true)

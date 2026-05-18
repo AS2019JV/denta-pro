@@ -15,7 +15,6 @@ import { SubscriptionTab } from "@/components/settings/subscription-tab"
 import { PrivacyTab } from "@/components/settings/privacy-tab"
 import { AutomationTab } from "@/components/settings/automation-tab"
 import { ClinicTab } from "@/components/settings/clinic-tab"
-import { ServicesTab } from "@/components/settings/services-tab"
 import { RecipesTab } from "@/components/settings/recipes-tab"
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -139,12 +138,6 @@ export default function SettingsPage() {
               <TabsTrigger value="clinic" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
                 <Building2 className="h-4 w-4 text-teal-600" />
                 Mi Clínica
-              </TabsTrigger>
-            )}
-            {isAdmin && (
-              <TabsTrigger value="services" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-                <Stethoscope className="h-4 w-4 text-teal-600" />
-                Servicios
               </TabsTrigger>
             )}
             <TabsTrigger value="recipes" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
@@ -275,12 +268,6 @@ export default function SettingsPage() {
         {isAdmin && (
           <TabsContent value="clinic" className="animate-in slide-in-from-bottom-4 duration-300">
             <ClinicTab />
-          </TabsContent>
-        )}
-
-        {isAdmin && (
-          <TabsContent value="services" className="animate-in slide-in-from-bottom-4 duration-300">
-            <ServicesTab />
           </TabsContent>
         )}
 

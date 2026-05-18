@@ -53,7 +53,20 @@ export async function middleware(request: NextRequest) {
      user = data?.user;
   } catch (e: any) {
      console.error(`[Middleware] Auth fetch failed: ${e.message}`);
-     // If fetch failed (likely timeout), we continue with null user rather than crashing
+  }
+
+  // Fallback to getSession (which reads local cookies without network fetch) 
+  // if getUser fails due to network/Edge runtime errors
+  if (!user) {
+    try {
+      const { data: sessionData } = await supabase.auth.getSession();
+      if (sessionData?.session?.user) {
+        user = sessionData.session.user;
+        console.warn(`[Middleware] Fell back to local session due to getUser failure.`);
+      }
+    } catch (sessionErr) {
+      // Ignore
+    }
   }
 
   const url = request.nextUrl.clone();

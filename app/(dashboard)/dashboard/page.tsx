@@ -3,6 +3,7 @@
 import Link from "next/link"
 import { useState } from "react"
 import { format, isToday, isFuture } from "date-fns"
+import { es } from "date-fns/locale"
 import { toast } from "sonner"
 import {
   Users,
@@ -87,7 +88,7 @@ export default function DashboardPage() {
   // Strategic Onboarding progress
   const onboardingSteps = [
     { id: 'profile', title: 'Completa tu perfil profesional', done: !!user?.name && !!user?.phone && !!user?.bio, href: '/profile' },
-    { id: 'services', title: 'Configura tu catálogo de servicios', done: treatments.length > 0, href: '/settings?tab=services' },
+    { id: 'services', title: 'Configura tu catálogo de servicios', done: treatments.length > 0, href: '/dashboard/services' },
     { id: 'patients', title: 'Registra tu primera historia clínica', done: patients.length > 0, href: '/patients' },
     { id: 'calendar', title: 'Agenda y confirma tu primera cita', done: appointments.length > 0, href: '/calendar' },
   ]
@@ -557,33 +558,33 @@ export default function DashboardPage() {
 
       {/* Onboarding Widget */}
       {showOnboarding && (
-        <Card className="border-teal-100 shadow-sm bg-gradient-to-br from-white to-teal-50/30 overflow-hidden relative">
+        <Card className="border-teal-100 dark:border-neutral-800 shadow-sm bg-gradient-to-br from-white to-teal-50/30 dark:from-neutral-900 dark:to-neutral-950 overflow-hidden relative">
            <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
               <Activity className="w-32 h-32 text-teal-600" />
            </div>
            <CardHeader>
-             <CardTitle className="text-lg text-foreground/90">Guía de Inicio Rápido</CardTitle>
-             <CardDescription>Completa estos pasos para configurar tu clínica al 100%</CardDescription>
+             <CardTitle className="text-lg text-foreground/90 dark:text-neutral-50">Guía de Inicio Rápido</CardTitle>
+             <CardDescription className="dark:text-neutral-400">Completa estos pasos para configurar tu clínica al 100%</CardDescription>
            </CardHeader>
            <CardContent>
               <div className="mb-4 flex items-center gap-4">
-                 <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
+                 <div className="flex-1 h-2 bg-slate-100 dark:bg-neutral-800 rounded-full overflow-hidden">
                     <div 
                       className="h-full bg-teal-500 transition-all duration-1000 ease-out" 
                       style={{ width: `${progressPercent}%` }}
                     />
                  </div>
-                 <span className="text-sm font-bold text-slate-700">{progressPercent}%</span>
+                 <span className="text-sm font-bold text-slate-700 dark:text-neutral-300">{progressPercent}%</span>
               </div>
               <div className="grid sm:grid-cols-3 gap-4">
                  {onboardingSteps.map((step) => (
                     <Link href={step.href} key={step.id}>
-                      <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all hover:shadow-md ${step.done ? 'bg-card/60 border-teal-100/50 opacity-70' : 'bg-card border-teal-100 hover:border-teal-300'}`}>
-                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step.done ? 'bg-teal-100 text-teal-600' : 'bg-slate-100 text-slate-400'}`}>
+                      <div className={`flex items-center gap-3 p-3 rounded-xl border transition-all hover:shadow-md active:scale-95 active:brightness-90 ${step.done ? 'bg-card/60 dark:bg-neutral-800/50 border-teal-100/50 dark:border-neutral-700 opacity-70' : 'bg-card dark:bg-neutral-800 border-teal-100 dark:border-neutral-700 hover:border-teal-300 dark:hover:border-teal-600'}`}>
+                         <div className={`w-8 h-8 rounded-full flex items-center justify-center ${step.done ? 'bg-teal-100 text-teal-600' : 'bg-slate-100 dark:bg-neutral-700 text-slate-400 dark:text-neutral-500'}`}>
                             {step.done ? <CircleCheckBig className="w-4 h-4" /> : <div className="w-2 h-2 bg-current rounded-full" />}
                          </div>
                          <div className="flex-1">
-                            <p className={`text-sm font-medium ${step.done ? 'text-slate-500 line-through' : 'text-slate-700'}`}>{step.title}</p>
+                            <p className={`text-sm font-medium ${step.done ? 'text-slate-500 dark:text-neutral-500 line-through' : 'text-slate-700 dark:text-neutral-100'}`}>{step.title}</p>
                          </div>
                          {!step.done && <ArrowRight className="w-4 h-4 text-slate-400" />}
                       </div>
