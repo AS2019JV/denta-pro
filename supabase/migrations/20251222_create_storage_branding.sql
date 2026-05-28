@@ -13,29 +13,34 @@ TO authenticated
 USING ( bucket_id = 'clinic-branding' );
 
 -- 2. Allow Clinic Owners to UPLOAD (INSERT) files.
---    We check if the user is a 'clinic_owner' in their metadata 
---    OR if they are listed as 'clinic_owner' in profiles (more robust).
---    For simplicity and speed, we check auth.uid().
 CREATE POLICY "Owners can upload logos"
 ON storage.objects FOR INSERT
 TO authenticated
 WITH CHECK (
-  bucket_id = 'clinic-branding' AND
-  (storage.foldername(name))[1] = (
-    SELECT clinic_id::text FROM public.profiles WHERE id = auth.uid()
+  bucket_id = 'clinic-branding' AND (
+    is_clinic_member((storage.foldername(name))[1]::uuid)
+    OR
+    EXISTS (
+      SELECT 1 FROM public.clinics 
+      WHERE id::text = (storage.foldername(name))[1] 
+      AND owner_id = auth.uid()
+    )
   )
 );
--- Note: The above policy assumes the file path starts with "{clinic_id}/..."
--- Our frontend code does exactly this: `${currentClinicId}/${sanitizedFileName}`
 
 -- 3. Allow Owners to UPDATE/DELETE their own files
 CREATE POLICY "Owners can update their logos"
 ON storage.objects FOR UPDATE
 TO authenticated
 USING (
-  bucket_id = 'clinic-branding' AND
-  (storage.foldername(name))[1] = (
-    SELECT clinic_id::text FROM public.profiles WHERE id = auth.uid()
+  bucket_id = 'clinic-branding' AND (
+    is_clinic_member((storage.foldername(name))[1]::uuid)
+    OR
+    EXISTS (
+      SELECT 1 FROM public.clinics 
+      WHERE id::text = (storage.foldername(name))[1] 
+      AND owner_id = auth.uid()
+    )
   )
 );
 
@@ -43,8 +48,13 @@ CREATE POLICY "Owners can delete their logos"
 ON storage.objects FOR DELETE
 TO authenticated
 USING (
-  bucket_id = 'clinic-branding' AND
-  (storage.foldername(name))[1] = (
-    SELECT clinic_id::text FROM public.profiles WHERE id = auth.uid()
+  bucket_id = 'clinic-branding' AND (
+    is_clinic_member((storage.foldername(name))[1]::uuid)
+    OR
+    EXISTS (
+      SELECT 1 FROM public.clinics 
+      WHERE id::text = (storage.foldername(name))[1] 
+      AND owner_id = auth.uid()
+    )
   )
 );

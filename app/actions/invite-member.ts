@@ -8,6 +8,7 @@ export async function inviteTeamMember(formData: FormData) {
   const name = formData.get("name") as string || "Doctor"
   const clinicId = formData.get("clinicId") as string
   const role = formData.get("role") as string || "receptionist"
+  const specialization = formData.get("specialization") as string || (role === 'doctor' ? 'Odontólogo General' : 'Administrativo')
 
   if (!email || !clinicId) {
     throw new Error("El correo electrónico y el ID de la clínica son obligatorios.")
@@ -33,6 +34,7 @@ export async function inviteTeamMember(formData: FormData) {
         clinic_id: clinicId,
         role: role,
         full_name: name,
+        specialization: specialization,
         pending_invite: true
       },
       redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
@@ -44,9 +46,9 @@ export async function inviteTeamMember(formData: FormData) {
     throw new Error("No se pudo generar el enlace de invitación.")
   }
 
-  const actionUrl = new URL(linkData.properties.action_link)
-  const tokenHash = actionUrl.searchParams.get('token')
-  const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/api/auth/confirm?token_hash=${tokenHash}&type=invite&next=/dashboard`
+  const tokenHash = linkData.properties.hashed_token
+  const safeTokenHash = encodeURIComponent(tokenHash || '')
+  const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/confirm?token_hash=${safeTokenHash}&type=invite&next=%2Fdashboard`
 
   // 2. Send email via Resend
   if (resendApiKey) {
@@ -101,9 +103,10 @@ export async function inviteTeamMember(formData: FormData) {
      await supabase.from('profiles').update({
        clinic_id: clinicId,
        role: role as any,
+       specialization: specialization,
        status: 'pending' // custom status if exists, otherwise it might just sit there
      }).eq('id', newUser.id)
   }
 
-  return { success: true }
+  return { success: true, inviteLink: confirmUrl }
 }

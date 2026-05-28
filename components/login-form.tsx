@@ -83,11 +83,11 @@ export function LoginForm() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-muted/50 relative overflow-hidden font-text">
+    <div className="min-h-screen flex items-center justify-center bg-[#E8D9C9]/20 relative overflow-hidden font-text">
        {/* Ambient Background */}
        <div className="absolute inset-0 pointer-events-none overflow-hidden">
-          <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-teal-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
-          <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-blue-100/40 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
+          <div className="absolute top-[-10%] left-[-10%] w-[600px] h-[600px] bg-[#145247]/10 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[600px] h-[600px] bg-[#FAA805]/10 rounded-full blur-[100px] opacity-70 animate-pulse-slow"></div>
        </div>
 
       <motion.div 
@@ -103,7 +103,7 @@ export function LoginForm() {
                 <img src="/brand-logo.png" alt="Clinia Logo" className="w-full h-full object-contain" />
               </div>
             </div>
-            <CardTitle className="text-2xl font-bold text-foreground tracking-tight">{t("loginTitle")}</CardTitle>
+            <CardTitle className="text-xl sm:text-2xl font-bold text-foreground tracking-tight">{t("loginTitle")}</CardTitle>
             <CardDescription className="text-slate-500 text-base">{t("loginSubtitle")}</CardDescription>
           </CardHeader>
           <CardContent className="px-8 pb-8">

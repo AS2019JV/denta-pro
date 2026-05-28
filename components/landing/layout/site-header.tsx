@@ -4,7 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { HeartPulse, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
+import { Sheet, SheetContent, SheetTrigger, SheetTitle } from "@/components/ui/sheet"
 
 interface SiteHeaderProps {
   activeSection?: string
@@ -64,7 +64,7 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
             <div className="flex items-center gap-3">
               <Button
                 variant="ghost"
-                className="hidden md:flex text-slate-600 hover:text-foreground hover:bg-slate-100/50 rounded-full px-5 font-subtitle"
+                className="hidden md:flex text-[#145247] hover:text-[#145247]/80 hover:bg-[#145247]/5 rounded-full px-5 font-subtitle"
                 asChild
               >
                 <Link href="/login">Iniciar sesión</Link>
@@ -81,6 +81,7 @@ export function SiteHeader({ activeSection, scrollToSection, isHomePage = true }
                   </Button>
                 </SheetTrigger>
                 <SheetContent side="right" className="w-full sm:max-w-sm">
+                  <SheetTitle className="sr-only">Menú de navegación</SheetTitle>
                   <div className="flex flex-col h-full">
                     <div className="flex items-center justify-between mb-8">
                       <div className="flex items-center gap-2 font-bold text-xl font-title text-primary">

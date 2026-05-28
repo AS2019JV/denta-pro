@@ -66,7 +66,8 @@ import {
   MessageCircle,
   FileText,
   CheckCircle2,
-  User as UserIcon
+  User as UserIcon,
+  Pencil
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { getWhatsAppUrl, getClinicWhatsAppMessage } from "@/lib/communication"
@@ -148,6 +149,15 @@ export default function PatientsPage() {
   const [exportConfirmationText, setExportConfirmationText] = useState("")
   const [exportFormat, setExportFormat] = useState<'csv' | 'json'>('csv')
   const PAGE_SIZE = 12
+  
+  const [editingPatient, setEditingPatient] = useState<Patient | null>(null)
+  const [isEditOpen, setIsEditOpen] = useState(false)
+
+  const handleEditPatientSubmit = async () => {
+    setIsEditOpen(false)
+    setEditingPatient(null)
+    fetchPatients(0, searchTerm)
+  }
 
   const fetchPatients = useCallback(async (pageNum: number, search: string) => {
     const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -186,7 +196,7 @@ export default function PatientsPage() {
             state: p.state,
             birthDate: p.birth_date,
             gender: p.gender,
-            status: p.status || 'active',
+            status: p.patient_status || 'active',
             lastVisit: p.last_visit,
             nextAppointment: p.next_appointment,
             emergencyContact: p.emergency_contact,
@@ -216,6 +226,12 @@ export default function PatientsPage() {
             family_member_count: Number(p.family_member_count) || 1,
             appointments_count: Number(p.appointments_count) || 0,
             total_billed: Number(p.total_billed) || 0,
+            avatar_url: (() => {
+              const avatar = p.avatar_url;
+              if (!avatar) return undefined;
+              if (avatar.startsWith('http://') || avatar.startsWith('https://')) return avatar;
+              return supabase.storage.from('patient-avatars').getPublicUrl(avatar).data.publicUrl;
+            })(),
           }))
 
         setPatients(prev => pageNum === 0 ? mappedPatients : [...prev, ...mappedPatients])
@@ -452,6 +468,10 @@ export default function PatientsPage() {
                      else if (h.includes('recall') || h.includes('ciclo')) data.recall_months = parseInt(value) || 6
                      else if (h.includes('nota_int') || h.includes('internal')) data.internal_notes = value
                      else if (h.includes('saldo') || h.includes('balance') || h.includes('account')) data.account_balance = parseFloat(value) || 0
+                     else if (h.includes('inactivo') || h.includes('inactive')) {
+                         const v = value.toLowerCase().trim()
+                         if (v === 'si' || v === 'sí' || v === 'yes' || v === '1' || v === 'true') data.is_inactive = true
+                     }
                 })
                 return data
             })
@@ -460,20 +480,45 @@ export default function PatientsPage() {
         // Validate and Transform
         const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
         
+        // Pre-flight: Ensure the current user has a clinic_members entry for RLS
+        // This fixes cases where the user profile has clinic_id but no clinic_members row
+        if (user?.id && currentClinicId) {
+            const { data: membership } = await supabase
+                .from('clinic_members')
+                .select('id')
+                .eq('user_id', user.id)
+                .eq('clinic_id', currentClinicId)
+                .maybeSingle()
+            
+            if (!membership) {
+                // Auto-insert clinic_members entry so RLS INSERT policy passes
+                const { error: memberError } = await supabase
+                    .from('clinic_members')
+                    .insert({
+                        user_id: user.id,
+                        clinic_id: currentClinicId,
+                        role: user.role || 'doctor'
+                    })
+                if (memberError) {
+                    logger.warn('Could not auto-create clinic membership', { error: memberError })
+                }
+            }
+        }
+
         const dbPatients = importedPatients.map(p => {
            // Basic field cleanup
            const email = p.email && p.email.trim() ? p.email.trim() : null
            const validEmail = email && emailRegex.test(email) ? email : null
            
-            return {
+           // Build the patient object with only safe/known columns
+           // Strip null/undefined values to avoid sending columns that may not exist
+           const patient: Record<string, any> = {
               first_name: p.first_name?.trim(),
               last_name: p.last_name?.trim() || '',
               cedula: p.cedula?.toString().trim() || null,
               email: validEmail,
               phone: p.phone?.toString().trim() || null,
               address: p.address?.trim() || null,
-              city: p.city?.trim() || null,
-              state: p.state?.trim() || null,
               birth_date: parseDate(p.birth_date),
               gender: p.gender || 'other',
               occupation: p.occupation || null,
@@ -490,20 +535,27 @@ export default function PatientsPage() {
               medical_conditions: p.medical_conditions || null,
               insurance_provider: p.insurance_provider || null,
               policy_number: p.policy_number || null,
-              blood_type: p.blood_type || null,
-              marital_status: p.marital_status || null,
-              has_diabetes: p.has_diabetes || false,
-              has_hypertension: p.has_hypertension || false,
-              has_heart_disease: p.has_heart_disease || false,
-              is_smoker: p.is_smoker || false,
-              is_pregnant: p.is_pregnant || false,
-              preferred_contact_method: p.preferred_contact_method || 'phone',
-              recall_months: p.recall_months || 6,
-              internal_notes: p.internal_notes || null,
-              account_balance: p.account_balance || 0,
-              status: 'active', 
+              status: p.is_inactive ? 'inactive' : 'active', 
               clinic_id: currentClinicId
-            }
+           }
+
+           // Extended columns - only include if they have values
+           // These columns may or may not exist in the DB depending on migrations applied
+           if (p.city) patient.city = p.city.trim()
+           if (p.state) patient.state = p.state.trim()
+           if (p.blood_type) patient.blood_type = p.blood_type
+           if (p.marital_status) patient.marital_status = p.marital_status
+           if (p.has_diabetes) patient.has_diabetes = true
+           if (p.has_hypertension) patient.has_hypertension = true
+           if (p.has_heart_disease) patient.has_heart_disease = true
+           if (p.is_smoker) patient.is_smoker = true
+           if (p.is_pregnant) patient.is_pregnant = true
+           if (p.preferred_contact_method) patient.preferred_contact_method = p.preferred_contact_method
+           if (p.recall_months) patient.recall_months = p.recall_months
+           if (p.internal_notes) patient.internal_notes = p.internal_notes
+           if (p.account_balance) patient.account_balance = p.account_balance
+           
+           return patient
         }).filter(p => p.first_name)
 
         if (dbPatients.length === 0) {
@@ -601,14 +653,16 @@ export default function PatientsPage() {
   }
 
   const calculateAge = (birthDate: string) => {
+    if (!birthDate) return "---"
     const today = new Date()
     const birth = new Date(birthDate)
+    if (isNaN(birth.getTime())) return "---"
     let age = today.getFullYear() - birth.getFullYear()
     const monthDiff = today.getMonth() - birth.getMonth()
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--
     }
-    return age
+    return `${age} años`
   }
 
   return (
@@ -806,8 +860,10 @@ export default function PatientsPage() {
               <Card 
                 key={patient.id}
                 className={cn(
-                  "group relative overflow-hidden border-2 transition-all duration-300 hover:shadow-2xl hover:border-primary/30",
-                  isFamilyCard ? "bg-muted/50 border-blue-100" : "bg-card border-border/50"
+                  "group relative overflow-hidden border transition-all duration-300 hover:-translate-y-1 hover:shadow-xl cursor-pointer rounded-2xl",
+                  isFamilyCard 
+                    ? "bg-blue-50/20 border-blue-200/60 shadow-sm" 
+                    : "bg-card border-border/60 shadow-sm hover:border-primary/30 hover:shadow-primary/5"
                 )}
                 onClick={() => {
                    if (!isFamilyCard && !isReceptionist) {
@@ -822,8 +878,8 @@ export default function PatientsPage() {
                 <CardHeader className="pb-3">
                   <div className="flex items-center space-x-3">
                     <div className="relative">
-                      <Avatar className="h-12 w-12 group-hover:scale-105 transition-transform duration-200 border-2 border-white shadow-sm">
-                        <AvatarImage src={patient.avatar_url || `/placeholder.svg?${patient.id}`} alt={`${patient.name} ${patient.lastName}`} />
+                      <Avatar className="h-12 w-12 group-hover:scale-110 transition-transform duration-300 border-2 border-background shadow-md">
+                        <AvatarImage src={patient.avatar_url || `/placeholder.svg?${patient.id}`} alt={`${patient.name} ${patient.lastName}`} className="object-cover w-full h-full" />
                         <AvatarFallback className={cn(
                           "font-bold",
                           isFamilyCard ? "bg-blue-600 text-white" : "bg-primary/10 text-primary"
@@ -913,7 +969,22 @@ export default function PatientsPage() {
                       }
                     />
 
-                    <span className="text-sm">{calculateAge(patient.birthDate)} años</span>
+                    {!isFamilyCard && (
+                      <Button 
+                        variant="ghost" 
+                        size="icon" 
+                        className="h-6 w-6 text-slate-400 hover:text-primary hover:bg-slate-50 transition-colors"
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setEditingPatient(patient)
+                          setIsEditOpen(true)
+                        }}
+                      >
+                        <Pencil className="h-3.5 w-3.5" />
+                      </Button>
+                    )}
+
+                    <span className="text-xs text-slate-400 font-bold">{calculateAge(patient.birthDate)}</span>
                     {patient.bloodType && (
                       <Badge variant="outline" className="text-[10px] h-4 px-1 border-rose-200 text-rose-600 bg-rose-50/50 uppercase">
                         {patient.bloodType}
@@ -1051,6 +1122,25 @@ export default function PatientsPage() {
           </CardContent>
         </Card>
       )}
+
+      {/* Edit Patient Dialog */}
+      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+        <DialogContent className="max-w-4xl max-h-[90vh] overflow-hidden">
+          <DialogHeader>
+            <DialogTitle>Editar Paciente</DialogTitle>
+            <DialogDescription>Completa y actualiza la información del paciente</DialogDescription>
+          </DialogHeader>
+          <ScrollArea className="max-h-[calc(90vh-120px)]">
+            {editingPatient && (
+              <AddPatientForm 
+                initialData={editingPatient} 
+                onSubmit={handleEditPatientSubmit} 
+                onCancel={() => setIsEditOpen(false)} 
+              />
+            )}
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
     </div>
   )
 }

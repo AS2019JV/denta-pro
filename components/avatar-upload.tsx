@@ -46,14 +46,20 @@ export function AvatarUpload({
       setUploading(true)
 
       if (!event.target.files || event.target.files.length === 0) {
-        throw new Error('You must select an image to upload.')
+        throw new Error('Debe seleccionar una imagen para subir.')
       }
 
       const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
-      const filePath = `${uid}-${Math.random()}.${fileExt}`
+      const originalExt = file.name.split('.').pop() || 'png'
+      const fileExt = originalExt.toLowerCase().replace(/[^a-z0-9]/g, '')
+      const filePath = bucket === "clinic-branding"
+        ? `${uid}/${uid}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
+        : `${uid}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
 
-      const { error: uploadError } = await supabase.storage.from(bucket).upload(filePath, file)
+      const { error: uploadError } = await supabase.storage.from(bucket).upload(filePath, file, {
+        upsert: true,
+        contentType: file.type
+      })
 
       if (uploadError) {
         throw uploadError
@@ -65,9 +71,9 @@ export function AvatarUpload({
       const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
       setAvatarUrl(data.publicUrl)
       
-      toast.success("Avatar actualizado correctamente")
-    } catch (error) {
-      toast.error('Error al subir el avatar')
+      toast.success("Imagen subida correctamente")
+    } catch (error: any) {
+      toast.error(`Error al subir imagen: ${error.message || 'Error desconocido'}`)
       console.error(error)
     } finally {
       setUploading(false)

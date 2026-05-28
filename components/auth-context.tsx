@@ -13,6 +13,7 @@ interface ClinicMembership {
     name: string
     size?: string
     settings?: any
+    logo_url?: string
   }
 }
 
@@ -24,6 +25,7 @@ interface User {
   avatar: string
   phone?: string
   bio?: string
+  title?: string
   clinic_id?: string
   clinic_memberships?: ClinicMembership[]
 }
@@ -39,6 +41,7 @@ interface AuthContextType {
   hasRole: (role: "doctor" | "receptionist" | "clinic_owner") => boolean
   currentClinicId: string | undefined
   switchClinic: (clinicId: string) => void
+  refreshProfile: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined)
@@ -118,7 +121,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } else if (data) {
         const { data: memberships } = await supabase
             .from('clinic_members')
-            .select('clinic_id, role, clinics(name, size, settings)')
+            .select('clinic_id, role, clinics(name, size, settings, logo_url)')
             .eq('user_id', authUser.id)
         
         const clinicMemberships = (memberships || []).map((m: any) => ({
@@ -139,6 +142,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           avatar: data.avatar_url || '',
           phone: data.phone || '',
           bio: data.bio || '',
+          title: data.title || '',
           clinic_id: data.clinic_id,
           clinic_memberships: clinicMemberships
         })
@@ -219,6 +223,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return { error }
   }
 
+  const refreshProfile = async () => {
+    const { data: { session } } = await supabase.auth.getSession()
+    if (session?.user) {
+      await fetchProfile(session.user)
+    }
+  }
+
   const logout = async () => {
     await supabase.auth.signOut()
     setUser(null)
@@ -228,7 +239,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user?.role === role
   }
 
-  return <AuthContext.Provider value={{ user, login, signup, resetPassword, signInWithGoogle, logout, isLoading, hasRole, currentClinicId, switchClinic }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, login, signup, resetPassword, signInWithGoogle, logout, isLoading, hasRole, currentClinicId, switchClinic, refreshProfile }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

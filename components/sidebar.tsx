@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { useSidebar } from "@/components/sidebar-context"
+import { useEffect, useState } from "react"
+import { supabase } from "@/lib/supabase"
 
 import {
   LayoutDashboard,
@@ -15,6 +17,8 @@ import {
   CreditCard,
   BarChart3,
   MessageSquare,
+  ClipboardList,
+  Building2,
   User,
   Settings,
   LogOut,
@@ -32,7 +36,7 @@ const navigation = [
   { name: "calendar", href: "/calendar", icon: Calendar },
   { name: "billing", href: "/billing", icon: CreditCard },
   { name: "reports", href: "/reports", icon: BarChart3 },
-  { name: "messages", href: "/messages", icon: MessageSquare },
+  { name: "recipes", href: "/recipes", icon: ClipboardList },
   { name: "services", href: "/dashboard/services", icon: Stethoscope },
 ]
 
@@ -40,6 +44,7 @@ const navigation = [
 const userNavigation = [
   { name: "profile", href: "/profile", icon: User },
   { name: "team", href: "/dentists", icon: Users },
+  { name: "clinic", href: "/clinic", icon: Building2 },
   { name: "settings", href: "/settings", icon: Settings },
 ]
 
@@ -58,9 +63,44 @@ interface SidebarProps {
 export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const pathname = usePathname()
   const router = useRouter()
-  const { user, logout } = useAuth()
+  const { user, logout, currentClinicId } = useAuth()
   const { t } = useTranslation()
   const { isOpen, setIsOpen } = useSidebar()
+
+  const activeMembership = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)
+  const activeClinicName = activeMembership?.clinics?.name
+  const rawLogoUrl = activeMembership?.clinics?.logo_url
+  const memberTitle = user?.title
+  const displayName = memberTitle ? `${memberTitle} ${user?.name || ''}`.trim() : (user?.name || '')
+
+  const [activeClinicLogo, setActiveClinicLogo] = useState<string | null>(null)
+  const [resolvedAvatar, setResolvedAvatar] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (rawLogoUrl) {
+      if (rawLogoUrl.startsWith('http://') || rawLogoUrl.startsWith('https://')) {
+        setActiveClinicLogo(rawLogoUrl)
+      } else {
+        const { data } = supabase.storage.from('clinic-branding').getPublicUrl(rawLogoUrl)
+        setActiveClinicLogo(data.publicUrl)
+      }
+    } else {
+      setActiveClinicLogo(null)
+    }
+  }, [rawLogoUrl])
+
+  useEffect(() => {
+    if (user?.avatar) {
+      if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://')) {
+        setResolvedAvatar(user.avatar)
+      } else {
+        const { data } = supabase.storage.from('doctor-avatars').getPublicUrl(user.avatar)
+        setResolvedAvatar(data.publicUrl)
+      }
+    } else {
+      setResolvedAvatar(null)
+    }
+  }, [user?.avatar])
 
   const handleLogout = () => {
     logout()
@@ -68,10 +108,6 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
   const handleItemClick = (href: string, name: string) => {
     setIsOpen(false)
-    if (name === "messages") {
-      window.open("https://web.whatsapp.com", "_blank")
-      return
-    }
     if (onNavigate) {
       onNavigate(href)
     } else {
@@ -174,6 +210,8 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
   const filteredUserNavigation = userNavigation.filter(item => {
     if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
+    // Clinic settings are admin-only
+    if (item.name === "clinic") return false;
     if (user?.role === "receptionist") {
       // Receptionists can see their profile and the Team (dentist list)
       return ["profile", "team"].includes(item.name);
@@ -212,21 +250,36 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           flex flex-col h-full
         `}
       >
-        {/* Logo */}
-        <div className="flex items-center gap-3 h-16 px-6 border-b shrink-0 bg-background/50">
-          <div className="relative h-8 w-8">
-            <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
+        {/* Personalized Branding: Clinic Name on Left, Logo on Right */}
+        <div className="flex items-center justify-between h-16 px-6 border-b shrink-0 bg-background/50 relative overflow-hidden group">
+          {/* Subtle glowing indicator */}
+          <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/80 to-transparent" />
+          
+          <div className="flex flex-col min-w-0 pr-2">
+            <h1 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground truncate font-montserrat tracking-tight leading-tight" title={activeClinicName || "Clinia +"}>
+              {activeClinicName || "Clinia +"}
+            </h1>
+            <span className="text-[9px] text-[#145247] dark:text-[#4FA89A] font-bold tracking-wider uppercase">
+              {activeClinicName ? "Mi Consultorio" : "Panel Clínico"}
+            </span>
           </div>
-          <h1 className="text-xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-primary/70">
-            Clinia +
-          </h1>
+          
+          {activeClinicLogo ? (
+            <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-border/80 shadow-md flex items-center justify-center bg-muted/20 shrink-0 hover:scale-105 transition-transform duration-300">
+              <img src={activeClinicLogo} alt="Clinic Logo" className="object-cover h-full w-full" />
+            </div>
+          ) : (
+            <div className="relative h-8 w-8 shrink-0 hover:scale-105 transition-transform duration-300">
+              <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
+            </div>
+          )}
         </div>
 
         {/* User info & Actions */}
         <div className="p-4 border-b bg-muted/20">
           <div className="flex items-center gap-3">
             <Avatar className="h-10 w-10 border-2 border-background ring-2 ring-muted shadow-sm transition-transform hover:scale-105">
-              <AvatarImage src={user?.avatar || "/placeholder.svg"} alt={user?.name} />
+              <AvatarImage src={resolvedAvatar || "/placeholder.svg"} alt={user?.name} />
               <AvatarFallback className="bg-primary/10 text-primary font-medium">
                 {user?.name
                   ?.split(" ")
@@ -235,7 +288,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
               </AvatarFallback>
             </Avatar>
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-semibold truncate text-foreground">{user?.name}</p>
+              <p className="text-sm font-semibold truncate text-foreground">{displayName}</p>
               <p className="text-xs text-muted-foreground capitalize font-medium">
                 {user?.role === "clinic_owner" 
                     ? "Administrador" 

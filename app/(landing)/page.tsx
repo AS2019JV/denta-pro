@@ -50,7 +50,7 @@ export default function LandingPage() {
       <SiteHeader activeSection={activeSection} scrollToSection={scrollToSection} isHomePage={true} />
 
       {/* HERO SECTION */}
-      <section id="hero" className="relative pt-20 pb-10 md:pt-24 md:pb-12 overflow-hidden bg-card max-h-[100vh] flex items-center">
+      <section id="hero" className="relative pt-32 pb-10 md:pt-40 md:pb-12 overflow-hidden bg-card min-h-[100vh] flex items-center">
         {/* Apple Pro Subtle Background - Refined */}
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
            <div className="absolute top-[-20%] left-[10%] w-[600px] h-[600px] bg-teal-100/30 rounded-full blur-[100px] opacity-50 mix-blend-multiply"></div>
@@ -191,8 +191,8 @@ export default function LandingPage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="py-20 bg-muted/50 relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-blue-50/50 via-transparent to-transparent"></div>
+      <section id="testimonials" className="py-20 bg-[#E8D9C9] text-[#145247] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#E8D9C9]/50 via-transparent to-transparent"></div>
         <div className="container px-4 md:px-6 relative">
            <SectionHeader 
              badge="Testimonios"
@@ -228,7 +228,7 @@ export default function LandingPage() {
 
       {/* PRICING */}
       <section id="pricing" className="py-20 bg-card relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-white to-white pointer-events-none"></div>
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-primary/5 via-background to-background pointer-events-none"></div>
         <div className="container px-4 md:px-6 relative">
           <SectionHeader 
              badge="Precios Transparentes"
@@ -296,7 +296,7 @@ export default function LandingPage() {
                Únete a la comunidad de dentistas que están definiendo el futuro de la odontología con tecnología de punta.
              </p>
              <div className="flex flex-col sm:flex-row gap-4 justify-center pt-8">
-                <Button size="lg" className="h-16 px-10 text-xl font-bold rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] bg-card text-teal-950 hover:bg-teal-950 hover:text-white transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_60px_-15px_rgba(255,255,255,0.5)] active:scale-95 active:brightness-90 font-subtitle group border border-transparent hover:border-teal-800" asChild>
+                <Button size="lg" className="h-16 px-10 text-xl font-bold rounded-full shadow-[0_0_40px_-10px_rgba(255,255,255,0.3)] bg-[#FAA805] text-[#145247] hover:bg-[#FAA805]/90 hover:text-[#145247] transition-all duration-300 hover:scale-[1.02] hover:shadow-[0_0_60px_-15px_rgba(250,168,5,0.5)] active:scale-95 active:brightness-90 font-subtitle group border border-transparent" asChild>
                    <Link href="/signup" className="flex items-center gap-3">
                       Empieza tu Prueba de 14 Días
                       <ArrowRight className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1 text-teal-600 group-hover:text-teal-400" />

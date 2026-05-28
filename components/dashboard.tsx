@@ -1,6 +1,6 @@
 "use client"
 import { Calendar, CreditCard, Home, Menu, PieChart, Users, MessageSquare, Megaphone } from "lucide-react"
-import type React from "react"
+import React, { useState, useEffect } from "react"
 
 import { useRouter, usePathname } from "next/navigation"
 
@@ -13,6 +13,8 @@ import { Sidebar } from "@/components/sidebar"
 import { useSidebar } from "@/components/sidebar-context"
 import { NotificationBell } from "@/components/notification-bell"
 import { useTranslation } from "@/components/translations"
+import { useAuth } from "@/components/auth-context"
+import { supabase } from "@/lib/supabase"
 
 const navItems = [
   { icon: Home, label: "Dashboard", href: "/", active: false },
@@ -34,6 +36,26 @@ export default function Dashboard({ children, showPageTitle = true }: DashboardP
   const router = useRouter()
   const pathname = usePathname()
   const { t } = useTranslation()
+  const { user, currentClinicId } = useAuth()
+
+  const activeMembership = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)
+  const activeClinicName = activeMembership?.clinics?.name
+  const rawLogoUrl = activeMembership?.clinics?.logo_url
+
+  const [activeClinicLogo, setActiveClinicLogo] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (rawLogoUrl) {
+      if (rawLogoUrl.startsWith('http://') || rawLogoUrl.startsWith('https://')) {
+        setActiveClinicLogo(rawLogoUrl)
+      } else {
+        const { data } = supabase.storage.from('clinic-branding').getPublicUrl(rawLogoUrl)
+        setActiveClinicLogo(data.publicUrl)
+      }
+    } else {
+      setActiveClinicLogo(null)
+    }
+  }, [rawLogoUrl])
 
   // Actualizar estado activo basado en la ruta actual
   const updatedNavItems = navItems.map((item) => ({
@@ -75,9 +97,30 @@ export default function Dashboard({ children, showPageTitle = true }: DashboardP
                       <span className="sr-only">Alternar Menú</span>
                     </Button>
                   </SheetTrigger>
-                  <SheetContent side="left" className="w-60 bg-card">
-                    <nav className="grid gap-2 text-lg font-medium">
-                      <h2 className="mb-2 text-xl font-bold text-primary font-montserrat">Clinia +</h2>
+                  <SheetContent side="left" className="w-60 bg-card p-0">
+                    {/* Personalized Mobile Branding: Clinic Name on Left, Logo on Right */}
+                    <div className="flex items-center justify-between h-16 px-5 border-b shrink-0 bg-background/50 relative overflow-hidden">
+                      <div className="flex flex-col min-w-0 pr-2">
+                        <h2 className="text-sm font-bold text-foreground font-montserrat truncate leading-tight">
+                          {activeClinicName || "Clinia +"}
+                        </h2>
+                        <span className="text-[9px] text-[#145247] dark:text-[#4FA89A] font-bold tracking-wider uppercase">
+                          {activeClinicName ? "Mi Consultorio" : "Panel Clínico"}
+                        </span>
+                      </div>
+                      
+                      {activeClinicLogo ? (
+                        <div className="relative h-7 w-7 rounded-lg overflow-hidden border border-border/80 shadow-sm flex items-center justify-center bg-muted/20 shrink-0">
+                          <img src={activeClinicLogo} alt="Clinic Logo" className="object-cover h-full w-full" />
+                        </div>
+                      ) : (
+                        <div className="relative h-6 w-6 shrink-0">
+                          <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
+                        </div>
+                      )}
+                    </div>
+                    
+                    <nav className="grid gap-2 text-lg font-medium p-4">
                       {updatedNavItems.map((item, index) => (
                         <Button
                           key={index}

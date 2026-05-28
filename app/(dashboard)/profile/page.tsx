@@ -19,13 +19,13 @@ import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 
 export default function ProfilePage() {
-  const { user, hasRole } = useAuth()
+  const { user, hasRole, refreshProfile } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
 
   const [profile, setProfile] = useState({
     full_name: "",
     email: "",
-    phone: "",
+    phone: "+593 ",
     specialization: "",
     license_number: "",
     bio: "",
@@ -58,7 +58,7 @@ export default function ProfilePage() {
         setProfile({
           full_name: data.full_name || authName,
           email: authEmail,
-          phone: data.phone || "",
+          phone: data.phone || "+593 ",
           specialization: data.specialization || "",
           license_number: data.license_number || "",
           bio: data.bio || "",
@@ -68,7 +68,8 @@ export default function ProfilePage() {
         setProfile({
           ...profile,
           full_name: authName,
-          email: authEmail
+          email: authEmail,
+          phone: "+593 "
         })
       }
     } catch (error) {
@@ -100,6 +101,7 @@ export default function ProfilePage() {
         .eq('id', user?.id)
 
       if (error) throw error
+      await refreshProfile()
       toast.success("Perfil actualizado correctamente")
     } catch (error) {
       console.error('Error updating profile:', error)
@@ -168,6 +170,7 @@ export default function ProfilePage() {
                           toast.error("Error al actualizar avatar")
                         } else {
                           setProfile({ ...profile, avatar_url: url })
+                          await refreshProfile()
                           toast.success("Foto de perfil actualizada")
                         }
                       }

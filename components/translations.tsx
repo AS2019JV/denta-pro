@@ -26,6 +26,8 @@ const translations = {
     logout: "Cerrar Sesión",
     team: "Equipo",
     services: "Servicios",
+    recipes: "Recetas",
+    clinic: "Mi Clínica",
 
     // Common
     welcomeBack: "Bienvenido de vuelta",
@@ -37,7 +39,7 @@ const translations = {
     email: "Correo electrónico",
     password: "Contraseña",
     login: "Iniciar Sesión",
-    loginTitle: "Iniciar Sesión en Clinia +",
+    loginTitle: "Iniciar Sesión en Clinia\u00A0+",
     loginSubtitle: "Ingresa tus credenciales para acceder al sistema",
     rememberSession: "Recordar sesión",
 
@@ -208,6 +210,8 @@ const translations = {
     logout: "Logout",
     team: "Team",
     services: "Services",
+    recipes: "Recipes",
+    clinic: "My Clinic",
 
     // Common
     welcomeBack: "Welcome back",
@@ -219,7 +223,7 @@ const translations = {
     email: "Email",
     password: "Password",
     login: "Login",
-    loginTitle: "Login to Clinia +",
+    loginTitle: "Login to Clinia\u00A0+",
     loginSubtitle: "Enter your credentials to access the system",
     rememberSession: "Remember session",
 

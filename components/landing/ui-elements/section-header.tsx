@@ -25,8 +25,8 @@ export function SectionHeader({ badge, title, description, center = true, classN
         <span className="mr-2 h-2 w-2 rounded-full bg-primary"></span>
         {badge}
       </div>
-      <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight lg:text-5xl mb-4 font-title">{title}</h2>
-      {description && <p className="text-gray-500 md:text-xl/relaxed font-text">{description}</p>}
+      <h2 className="text-3xl font-bold tracking-tighter md:text-4xl/tight lg:text-5xl mb-4 font-title text-inherit">{title}</h2>
+      {description && <p className="opacity-80 md:text-xl/relaxed font-text text-inherit">{description}</p>}
     </motion.div>
   )
 }

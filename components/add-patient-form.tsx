@@ -89,10 +89,11 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
 
     setIsLoading(true)
     try {
-      const { data, error } = await supabase
-        .from('patients')
-        .insert([
-          {
+      if (initialData?.id) {
+        // Mode: Update Existing Patient
+        const { data, error } = await supabase
+          .from('patients')
+          .update({
             first_name: values.name,
             last_name: values.lastName,
             cedula: values.cedula,
@@ -128,19 +129,70 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
             internal_notes: values.internalNotes,
             account_balance: values.accountBalance,
             data_consent: values.dataConsent,
-            clinic_id: currentClinicId,
-          }
-        ])
-        .select()
-        .single()
+          })
+          .eq('id', initialData.id)
+          .select()
+          .single()
 
-      if (error) throw error
+        if (error) throw error
 
-      toast.success("Paciente registrado correctamente")
-      onSubmit(data)
-    } catch (error) {
-      console.error("Error creating patient:", error)
-      toast.error("Error al registrar paciente")
+        toast.success("Paciente actualizado correctamente")
+        onSubmit(data)
+      } else {
+        // Mode: Insert New Patient
+        const { data, error } = await supabase
+          .from('patients')
+          .insert([
+            {
+              first_name: values.name,
+              last_name: values.lastName,
+              cedula: values.cedula,
+              email: values.email || null,
+              phone: values.phone,
+              address: values.address,
+              birth_date: values.birthDate,
+              gender: values.gender,
+              occupation: values.occupation,
+              guardian_name: values.guardianName,
+              referral_source: values.referralSource,
+              referred_by: values.referredBy,
+              medical_record_number: values.medicalRecordNumber,
+              clinical_notes: values.clinicalNotes,
+              emergency_contact: values.emergencyContact,
+              emergency_phone: values.emergencyPhone,
+              allergies: values.allergies,
+              medications: values.medications,
+              medical_conditions: values.medicalConditions,
+              insurance_provider: values.insuranceProvider,
+              policy_number: values.policyNumber,
+              blood_type: values.bloodType,
+              marital_status: values.maritalStatus,
+              city: values.city,
+              state: values.state,
+              has_diabetes: values.hasDiabetes,
+              has_hypertension: values.hasHypertension,
+              has_heart_disease: values.hasHeartDisease,
+              is_smoker: values.isSmoker,
+              is_pregnant: values.isPregnant,
+              preferred_contact_method: values.preferredContactMethod,
+              recall_months: values.recallMonths,
+              internal_notes: values.internalNotes,
+              account_balance: values.accountBalance,
+              data_consent: values.dataConsent,
+              clinic_id: currentClinicId,
+            }
+          ])
+          .select()
+          .single()
+
+        if (error) throw error
+
+        toast.success("Paciente registrado correctamente")
+        onSubmit(data)
+      }
+    } catch (error: any) {
+      console.error("Error saving patient:", error)
+      toast.error(`Error al guardar: ${error.message || 'Error desconocido'}`)
     } finally {
       setIsLoading(false)
     }

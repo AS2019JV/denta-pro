@@ -109,9 +109,30 @@ export default function PatientDetailsPage() {
   const [isEditOpen, setIsEditOpen] = useState(false)
   const [isHCUOpen, setIsHCUOpen] = useState(false)
   const [hcuData, setHcuData] = useState<any>(null)
+  const [filesCount, setFilesCount] = useState(0)
+
+  const fetchFilesCount = async () => {
+     const id = params.id as string
+     if (!id) return
+     try {
+       const { count, error } = await supabase
+         .from('patient_files')
+         .select('*', { count: 'exact', head: true })
+         .eq('patient_id', id)
+         .is('deleted_at', null)
+       
+       if (!error && count !== null) {
+         setFilesCount(count)
+       }
+     } catch (e) {
+       console.error("Error fetching files count:", e)
+     }
+  }
 
   useEffect(() => {
+    fetchFilesCount()
     const fetchPatient = async () => {
+      const id = params.id as string
       // Handle params.id being string or array
       const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
       if (!id || !currentClinicId || !uuidRegex.test(currentClinicId)) return
@@ -173,7 +194,7 @@ export default function PatientDetailsPage() {
               state: d.state,
               lastVisit: d.last_visit,
               nextAppointment: d.next_appointment,
-              status: d.status || 'active',
+              status: d.patient_status || 'active',
               avatar_url: d.avatar_url,
               family_representative_id: d.family_representative_id,
               family_relationship: d.family_relationship,
@@ -192,56 +213,91 @@ export default function PatientDetailsPage() {
     fetchPatient()
   }, [params.id])
 
-  const calculateAge = (birthDate: string) => {
+  const formatBirthDateAndAge = (birthDateString?: string) => {
+    if (!birthDateString) return "Fecha de nacimiento no registrada"
+    const birth = new Date(birthDateString)
+    if (isNaN(birth.getTime())) return "Fecha de nacimiento no registrada"
+    
     const today = new Date()
-    const birth = new Date(birthDate)
     let age = today.getFullYear() - birth.getFullYear()
     const monthDiff = today.getMonth() - birth.getMonth()
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--
     }
-    return age
+    return `${birth.toLocaleDateString("es-ES")} (${age} años)`
   }
 
-  const handleUpdatePatient = async (updatedData: any) => {
-    if (!patient) return
+  const handleUpdatePatient = async () => {
+    const id = params.id as string
+    if (!id || !currentClinicId) return
     try {
-      const { error } = await supabase
-        .from('patients')
-        .update({
-          first_name: updatedData.name,
-          last_name: updatedData.lastName,
-          email: updatedData.email,
-          phone: updatedData.phone,
-          address: updatedData.address,
-          birth_date: updatedData.birthDate,
-          gender: updatedData.gender,
-          occupation: updatedData.occupation,
-          guardian_name: updatedData.guardianName,
-          referral_source: updatedData.referralSource,
-          referred_by: updatedData.referredBy,
-          medical_record_number: updatedData.medicalRecordNumber,
-          clinical_notes: updatedData.clinicalNotes,
-          emergency_contact: updatedData.emergencyContact,
-          emergency_phone: updatedData.emergencyPhone,
-          allergies: updatedData.allergies,
-          medications: updatedData.medications,
-          medical_conditions: updatedData.medicalConditions,
-          insurance_provider: updatedData.insuranceProvider,
-          policy_number: updatedData.policyNumber,
-          blood_type: updatedData.bloodType,
-          marital_status: updatedData.maritalStatus,
-          city: updatedData.city,
-          state: updatedData.state,
-        })
-        .eq('id', patient.id)
-      
+      setIsLoading(true)
+      const { data, error } = await supabase.rpc('get_patients_with_stats', {
+         p_clinic_id: currentClinicId,
+         p_patient_id: id,
+         p_limit: 1
+      })
+
       if (error) throw error
-      
-      setPatient({ ...patient, ...updatedData })
+
+      if (data && data.length > 0) {
+         const d = data[0] as any
+         const mappedPatient: Patient = {
+            id: d.id,
+            name: d.first_name,
+            lastName: d.last_name,
+            email: d.email,
+            phone: d.phone,
+            address: d.address,
+            birthDate: d.birth_date,
+            gender: d.gender,
+            occupation: d.occupation,
+            guardianName: d.guardian_name,
+            referralSource: d.referral_source,
+            referredBy: d.referred_by,
+            medicalRecordNumber: d.medical_record_number,
+            clinicalNotes: d.clinical_notes,
+            emergencyContact: d.emergency_contact,
+            emergencyPhone: d.emergency_phone,
+            last_treatment_note: d.last_treatment_note,
+            odontogram_state: d.odontogram_state,
+            allergies: d.allergies,
+            medications: d.medications,
+            medicalConditions: d.medical_conditions,
+            insuranceProvider: d.insurance_provider,
+            policyNumber: d.policy_number,
+            bloodType: d.blood_type,
+            maritalStatus: d.marital_status,
+            hasDiabetes: d.has_diabetes,
+            hasHypertension: d.has_hypertension,
+            hasHeartDisease: d.has_heart_disease,
+            isSmoker: d.is_smoker,
+            isPregnant: d.is_pregnant,
+            preferredContactMethod: d.preferred_contact_method,
+            recallMonths: d.recall_months,
+            accountBalance: d.account_balance,
+            internalNotes: d.internal_notes,
+            city: d.city,
+            state: d.state,
+            lastVisit: d.last_visit,
+            nextAppointment: d.next_appointment,
+            status: d.patient_status || 'active',
+            avatar_url: d.avatar_url,
+            family_representative_id: d.family_representative_id,
+            family_relationship: d.family_relationship,
+            is_family_head: d.is_family_head,
+            appointments_count: Number(d.appointments_count) || 0,
+            total_billed: Number(d.total_billed) || 0,
+          }
+         setPatient(mappedPatient)
+      }
       setIsEditOpen(false)
+      // Trigger a count refresh as well
+      fetchFilesCount()
     } catch (e) {
       console.error("Error updating patient", e)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -360,7 +416,7 @@ export default function PatientDetailsPage() {
                         <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-sm text-muted-foreground">
                           <span className="flex items-center gap-1.5">
                             <Calendar className="h-4 w-4 opacity-70" />
-                            {new Date(patient.birthDate).toLocaleDateString("es-ES")} ({calculateAge(patient.birthDate)} años)
+                            {formatBirthDateAndAge(patient.birthDate)}
                           </span>
                           <span className="flex items-center gap-1.5">
                             <div className={`w-2 h-2 rounded-full ${patient.gender === 'male' ? 'bg-blue-400' : 'bg-pink-400'}`} />
@@ -451,7 +507,7 @@ export default function PatientDetailsPage() {
                                     {tab === 'files' && (
                                       <div className="flex items-center gap-2">
                                         Archivos
-                                        <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">3</Badge>
+                                        <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">{filesCount}</Badge>
                                       </div>
                                     )}
                                 </TabsTrigger>
@@ -464,7 +520,7 @@ export default function PatientDetailsPage() {
                     <ScrollArea className="h-full">
                         <div className="max-w-7xl mx-auto p-6 space-y-6">
                             <TabsContent value="files" className="mt-0 focus-visible:ring-0">
-                                <PatientFiles />
+                                <PatientFiles patientId={patient.id} onFilesChange={fetchFilesCount} />
                             </TabsContent>
 
                             <TabsContent value="payments" className="mt-0 focus-visible:ring-0">
@@ -495,7 +551,11 @@ export default function PatientDetailsPage() {
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fecha de Nacimiento</Label>
-                                            <p className="text-base font-medium text-foreground">{new Date(patient.birthDate).toLocaleDateString("es-ES")}</p>
+                                            <p className="text-base font-medium text-foreground">
+                                                {patient.birthDate && !isNaN(new Date(patient.birthDate).getTime()) 
+                                                    ? new Date(patient.birthDate).toLocaleDateString("es-ES") 
+                                                    : "No registrada"}
+                                            </p>
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono</Label>
