@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check } from 'lucide-react';
+import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
@@ -37,6 +37,13 @@ const CHILD_QUADRANTS = {
   Q6: [61, 62, 63, 64, 65],
   Q7: [85, 84, 83, 82, 81],
   Q8: [71, 72, 73, 74, 75],
+};
+
+const ARCH_SEQUENCES = {
+  UPPER_ADULT: [18, 17, 16, 15, 14, 13, 12, 11, 21, 22, 23, 24, 25, 26, 27, 28],
+  LOWER_ADULT: [48, 47, 46, 45, 44, 43, 42, 41, 31, 32, 33, 34, 35, 36, 37, 38],
+  UPPER_CHILD: [55, 54, 53, 52, 51, 61, 62, 63, 64, 65],
+  LOWER_CHILD: [85, 84, 83, 82, 81, 71, 72, 73, 74, 75]
 };
 
 // --- LOGICA DE ESTADO ---
@@ -80,7 +87,10 @@ const Tooth = ({
   isInsideFixedRange, isFixedEndpoint, isInsideRemovibleRange, onRangeStart 
 }: ToothProps) => {
   const condition = data?.condition;
-  const statusColor = data?.status === 'completed' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color;
+  const isRemovible = data?.bridge?.type === 'removible';
+  const statusColor = isRemovible 
+    ? '#8b5cf6' // Premium Violet 500 for Removable Bridge (notorious!)
+    : (data?.status === 'completed' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color);
   
   const isLoss = condition === 'loss_other';
   const isExtracted = condition === 'extraction';
@@ -136,15 +146,25 @@ const Tooth = ({
     <div className="flex flex-col items-center select-none">
       {isUpper && renderInputs()}
       
-      <div className="relative w-8 h-8 md:w-11 md:h-11 my-1 flex items-center justify-center">
+      <div className="relative w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 my-1 flex items-center justify-center">
         {isInsideFixedRange && (
-            <div className="absolute top-1/2 left-0 right-0 border-t-2 border-dashed h-0 z-10" style={{ borderColor: statusColor }} />
+            <div 
+               className={cn(
+                  "absolute top-1/2 left-0 right-0 h-0 z-10 flex items-center justify-center pointer-events-none",
+                  isFixedEndpoint ? "" : "border-t-2 border-solid"
+               )} 
+               style={{ borderColor: statusColor }}
+            >
+               {!isFixedEndpoint && (
+                  <span className="text-[12px] font-black leading-none select-none bg-card px-0.5 rounded" style={{ color: statusColor }}>-</span>
+               )}
+            </div>
         )}
         {isFixedEndpoint && (
-            <div className="absolute inset-x-0 inset-y-0 border-2 z-20 pointer-events-none" style={{ borderColor: statusColor }} />
+            <div className="absolute inset-x-0 inset-y-0 border-2 z-20 pointer-events-none rounded" style={{ borderColor: statusColor }} />
         )}
         {isInsideRemovibleRange && (
-            <div className="absolute top-[60%] left-0 right-0 h-1 border-t-2 border-black/40 border-dotted z-10" />
+            <div className="absolute top-[60%] left-0 right-0 h-0 z-10 flex items-center justify-center pointer-events-none border-t-[3px] border-dashed border-violet-500 dark:border-violet-400" />
         )}
 
         {isExtracted && <X className="absolute inset-0 w-full h-full z-30 opacity-80" strokeWidth={3} color={statusColor} />}
@@ -183,11 +203,124 @@ const Tooth = ({
 
 // --- COMPONENTE PRINCIPAL ---
 
-export function OdontogramaInteractive({ data = {}, onChange, patientName = "Paciente", patientId = "", readOnly = false }: any) {
+// --- CALCULO DINAMICO CPO-ceo ---
+const calculateCPOceo = (teeth: Record<string, any>) => {
+  let C = 0, P = 0, O = 0; // Permanente
+  let c = 0, e = 0, o = 0; // Temporario
+
+  Object.entries(teeth).forEach(([idKey, data]) => {
+    const id = parseInt(idKey);
+    const isDeciduous = (id >= 51 && id <= 65) || (id >= 71 && id <= 85);
+    
+    const condition = data?.condition;
+    const status = data?.status; // 'completed' (blue) or 'planned' (red)
+    
+    // Decayed (C / c)
+    let hasCariesPlanned = false;
+    let hasCariesCompleted = false;
+    if (data?.surfaces) {
+      Object.values(data.surfaces).forEach((val: any) => {
+        if (val) {
+          const [tool, mode] = val.split(':');
+          if (tool === 'caries') {
+            if (mode === 'red') hasCariesPlanned = true;
+            if (mode === 'blue') hasCariesCompleted = true;
+          }
+        }
+      });
+    }
+
+    if (isDeciduous) {
+      if (hasCariesPlanned) {
+        c++;
+      } else if (condition === 'extraction' && status === 'planned') {
+        e++;
+      } else if (hasCariesCompleted || (condition === 'crown' && status === 'completed')) {
+        o++;
+      }
+    } else {
+      if (hasCariesPlanned) {
+        C++;
+      } else if ((condition === 'extraction' || condition === 'loss_other') && status === 'planned') {
+        P++;
+      } else if (hasCariesCompleted || (condition === 'crown' && status === 'completed')) {
+        O++;
+      }
+    }
+  });
+
+  return {
+    C, P, O, totalCPO: C + P + O,
+    c, e, o, totalceo: c + e + o
+  };
+};
+
+export function OdontogramaInteractive({ data = {}, onChange, patientName = "Paciente", patientId = "", readOnly = false, stickyOffset = 96, onSave }: any) {
   const [teethState, setTeethState] = useState<Record<string, any>>(() => ({ ...generateInitialState(), ...data }));
   const [activeTool, setActiveTool] = useState<any>(TOOLS.SELECT);
   const [activeMode, setActiveMode] = useState<'red' | 'blue'>('red');
   const [rangeStart, setRangeStart] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (readOnly) return;
+      
+      // Ignore key events when the user is typing in inputs or textareas
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || (e.target as HTMLElement).isContentEditable) {
+        return;
+      }
+
+      const key = e.key;
+      const code = e.code;
+
+      // Color/Mode Shortcuts
+      if (key.toLowerCase() === 'p' || key === '*' || key === '-' || code === 'NumpadSubtract' || code === 'NumpadMultiply') {
+        setActiveMode('red');
+        e.preventDefault();
+      } else if (key.toLowerCase() === 'r' || key === '+' || key === 'Enter' || code === 'NumpadAdd' || code === 'NumpadEnter') {
+        setActiveMode('blue');
+        e.preventDefault();
+      }
+
+      // Tool Shortcuts (Standard & Numpad)
+      if (key === '1' || code === 'Numpad1') {
+        setActiveTool(TOOLS.CARIES);
+        setRangeStart(null);
+      } else if (key === '2' || code === 'Numpad2') {
+        setActiveTool(TOOLS.SEALANT);
+        setRangeStart(null);
+      } else if (key === '3' || code === 'Numpad3') {
+        setActiveTool(TOOLS.EXTRACTION);
+        setRangeStart(null);
+      } else if (key === '4' || code === 'Numpad4') {
+        setActiveTool(TOOLS.CROWN);
+        setRangeStart(null);
+      } else if (key === '5' || code === 'Numpad5') {
+        setActiveTool(TOOLS.ENDODONTICS);
+        setRangeStart(null);
+      } else if (key === '6' || code === 'Numpad6') {
+        setActiveTool(TOOLS.LOSS_OTHER);
+        setRangeStart(null);
+      } else if (key === '7' || code === 'Numpad7') {
+        setActiveTool(TOOLS.PROSTHESIS_FIXED);
+        setRangeStart(null);
+      } else if (key === '8' || code === 'Numpad8') {
+        setActiveTool(TOOLS.PROSTHESIS_REMOVABLE);
+        setRangeStart(null);
+      } else if (key === '0' || code === 'Numpad0' || key === 'Delete' || key === 'Backspace') {
+        setActiveTool(TOOLS.ERASER);
+        setRangeStart(null);
+      } else if (key === 'Escape' || key.toLowerCase() === 'v') {
+        setActiveTool(TOOLS.SELECT);
+        setRangeStart(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [readOnly]);
 
   useEffect(() => {
     if (data && Object.keys(data).length > 0) {
@@ -197,30 +330,32 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
 
   const applyTreatment = useCallback((toothId: number, zone: string, tool: any, mode: any) => {
     if (readOnly) return;
-    setTeethState(prev => {
-        const newState = { ...prev };
-        const tooth = newState[toothId] || { id: toothId, surfaces: {}, condition: null, status: null, recesion: '', movilidad: '' };
-        
-        if (tool.id === 'meta') {
-            tooth[zone] = mode;
-        } else if (tool.id === 'eraser') {
-            tooth.condition = null;
-            tooth.status = null;
-            tooth.surfaces = { top: null, bottom: null, left: null, right: null, center: null };
-            tooth.bridge = null;
-        } else if (tool.type === 'whole') {
-            tooth.condition = tooth.condition === tool.id ? null : tool.id;
-            tooth.status = mode === 'blue' ? 'completed' : 'planned';
-        } else if (tool.type === 'surface') {
-            const val = `${tool.id}:${mode}`;
-            tooth.surfaces[zone] = tooth.surfaces[zone] === val ? null : val;
-        }
-        
-        newState[toothId] = tooth;
-        onChange?.(newState);
-        return newState;
-    });
-  }, [onChange, readOnly]);
+    
+    // Compute the new state outside the state setter to avoid React render lifecycle warnings
+    const newState = { ...teethState };
+    const tooth = { ...(newState[toothId] || { id: toothId, surfaces: {}, condition: null, status: null, recesion: '', movilidad: '' }) };
+    tooth.surfaces = { ...tooth.surfaces }; // Shallow copy of surfaces for safety
+    
+    if (tool.id === 'meta') {
+        tooth[zone] = mode;
+    } else if (tool.id === 'eraser') {
+        tooth.condition = null;
+        tooth.status = null;
+        tooth.surfaces = { top: null, bottom: null, left: null, right: null, center: null };
+        tooth.bridge = null;
+    } else if (tool.type === 'whole') {
+        tooth.condition = tooth.condition === tool.id ? null : tool.id;
+        tooth.status = mode === 'blue' ? 'completed' : 'planned';
+    } else if (tool.type === 'surface') {
+        const val = `${tool.id}:${mode}`;
+        tooth.surfaces[zone] = tooth.surfaces[zone] === val ? null : val;
+    }
+    
+    newState[toothId] = tooth;
+    
+    setTeethState(newState);
+    onChange?.(newState);
+  }, [onChange, readOnly, teethState]);
 
   const handleRange = (endId: number) => {
     if (!rangeStart) {
@@ -228,33 +363,46 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
         return;
     }
     
-    // Apply range logic
-    setTeethState(prev => {
-        const newState = { ...prev };
-        const start = Math.min(rangeStart, endId);
-        const end = Math.max(rangeStart, endId);
-        
-        // Find all teeth in between
-        Object.keys(newState).forEach(idKey => {
-            const id = parseInt(idKey);
-            if (id >= start && id <= end) {
-                const tooth = newState[id];
-                if (activeTool.id === 'fixed' && (id === start || id === end)) {
-                    tooth.condition = 'crown';
-                    tooth.status = activeMode === 'blue' ? 'completed' : 'planned';
-                }
-                tooth.bridge = { type: activeTool.id, start, end, status: activeMode === 'blue' ? 'completed' : 'planned' };
+    let selectedArchSequence: number[] | null = null;
+
+    // Find which anatomical sequence contains BOTH teeth
+    for (const seq of Object.values(ARCH_SEQUENCES)) {
+        if (seq.includes(rangeStart) && seq.includes(endId)) {
+            selectedArchSequence = seq;
+            break;
+        }
+    }
+
+    if (selectedArchSequence) {
+        const newState = { ...teethState };
+        const startIndex = selectedArchSequence.indexOf(rangeStart);
+        const endIndex = selectedArchSequence.indexOf(endId);
+        const minIndex = Math.min(startIndex, endIndex);
+        const maxIndex = Math.max(startIndex, endIndex);
+
+        const activeRangeTeeth = selectedArchSequence.slice(minIndex, maxIndex + 1);
+        const start = selectedArchSequence[minIndex];
+        const end = selectedArchSequence[maxIndex];
+
+        activeRangeTeeth.forEach(id => {
+            const tooth = { ...(newState[id] || { id, surfaces: {}, condition: null, status: null, recesion: '', movilidad: '' }) };
+            if (activeTool.id === 'fixed' && (id === start || id === end)) {
+                tooth.condition = 'crown';
+                tooth.status = activeMode === 'blue' ? 'completed' : 'planned';
             }
+            tooth.bridge = { type: activeTool.id, start, end, status: activeMode === 'blue' ? 'completed' : 'planned' };
+            newState[id] = tooth;
         });
-        
+
+        setTeethState(newState);
         onChange?.(newState);
-        return newState;
-    });
+    }
+    
     setRangeStart(null);
   };
 
   const renderQuadrant = (ids: number[], isChild = false) => (
-    <div className="flex gap-1">
+    <div className="flex gap-0.5 sm:gap-1">
       {ids.map(id => {
         const toothData = teethState[id];
         const bridge = toothData?.bridge;
@@ -278,10 +426,13 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   );
 
   return (
-    <div className="bg-card rounded-xl shadow-2xl border overflow-hidden flex flex-col h-full min-h-[700px]">
+    <div className="bg-card rounded-xl shadow-2xl border flex flex-col w-full">
       {/* TOOLBAR */}
-      <div className="bg-muted/50 border-b p-4 flex flex-wrap items-center justify-between gap-4 sticky top-0 z-50">
-         <div className="flex items-center gap-6">
+      <div 
+         className="bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/60 border-b p-4 flex flex-wrap items-center justify-between gap-4 rounded-t-xl sticky z-20 transition-all shadow-sm"
+         style={{ top: `${stickyOffset}px` }}
+      >
+         <div className="flex items-center gap-6 flex-wrap">
             <div className="space-y-1">
                <h3 className="text-xs font-black uppercase tracking-tighter text-slate-400">Estado Clínico</h3>
                <div className="flex bg-card rounded-lg p-1 border shadow-sm">
@@ -291,6 +442,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                   >
                     <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-card" : "bg-red-500")} />
                     PATOLOGÍA
+                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded border border-current bg-black/5 opacity-60 ml-1">P / -</span>
                   </button>
                   <button 
                     onClick={() => setActiveMode('blue')}
@@ -298,29 +450,79 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                   >
                     <div className={cn("w-2 h-2 rounded-full", activeMode === 'blue' ? "bg-card" : "bg-blue-600")} />
                     REALIZADO
+                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded border border-current bg-black/5 opacity-60 ml-1">R / +</span>
                   </button>
                </div>
             </div>
-
+ 
             <div className="space-y-1">
                <h3 className="text-xs font-black uppercase tracking-tighter text-slate-400">Herramientas</h3>
-               <div className="flex gap-1.5">
+               <div className="flex gap-1.5 flex-wrap">
+                  <button
+                     onClick={() => { setActiveTool(TOOLS.SELECT); setRangeStart(null); }}
+                     className={cn(
+                         "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap flex items-center gap-1.5",
+                         activeTool.id === TOOLS.SELECT.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-card text-slate-600 hover:border-slate-400"
+                     )}
+                  >
+                     {TOOLS.SELECT.label}
+                     <span className={cn(
+                        "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
+                        activeTool.id === TOOLS.SELECT.id ? "border-white/20 bg-white/10" : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
+                     )}>
+                        Esc
+                     </span>
+                  </button>
+
                   {[TOOLS.CARIES, TOOLS.SEALANT, TOOLS.EXTRACTION, TOOLS.CROWN, TOOLS.ENDODONTICS, TOOLS.LOSS_OTHER, TOOLS.PROSTHESIS_FIXED, TOOLS.PROSTHESIS_REMOVABLE].map(tool => (
                      <button
                         key={tool.id}
                         onClick={() => { setActiveTool(tool); setRangeStart(null); }}
                         className={cn(
-                            "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap",
+                            "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap flex items-center gap-1.5",
                             activeTool.id === tool.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-card text-slate-600 hover:border-slate-400"
                         )}
+                        style={tool.id === 'removible' ? { borderColor: '#c084fc', color: activeTool.id === 'removible' ? undefined : '#6b21a8' } : undefined}
                      >
                         {tool.label}
-                     </button>
+                        <span className={cn(
+                           "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
+                           activeTool.id === tool.id ? "border-white/20 bg-white/10" : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
+                        )}>
+                           {tool.hotkey}
+                        </span>
+                      </button>
                   ))}
-                  <button onClick={() => setActiveTool(TOOLS.ERASER)} className={cn("p-2 rounded-lg border", activeTool.id === 'eraser' ? "bg-red-100 border-red-200 text-red-600" : "bg-card")}><Eraser size={14} /></button>
+                  
+                  <button 
+                     onClick={() => { setActiveTool(TOOLS.ERASER); setRangeStart(null); }} 
+                     className={cn("p-1.5 px-2.5 rounded-lg border flex items-center gap-1.5 text-xs font-bold transition-all", activeTool.id === 'eraser' ? "bg-red-100 border-red-200 text-red-600 shadow-sm" : "bg-card text-slate-600 hover:border-slate-400")}
+                     title="Borrador [0 / Del]"
+                  >
+                     <Eraser size={14} />
+                     <span className={cn(
+                        "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
+                        activeTool.id === 'eraser' ? "border-red-200 bg-red-50 text-red-600" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-900"
+                     )}>
+                        0
+                     </span>
+                  </button>
                </div>
             </div>
          </div>
+
+         {onSave && (
+            <div className="flex items-center gap-2 flex-shrink-0">
+               <button
+                  onClick={onSave}
+                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-blue-200 dark:shadow-none hover:shadow-lg transition-all"
+                  title="Guardar expediente"
+               >
+                  <Save size={13} />
+                  GUARDAR
+               </button>
+            </div>
+         )}
 
          {rangeStart && (
              <div className="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl flex items-center gap-3 animate-pulse">
@@ -332,8 +534,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       </div>
 
       {/* CANVAS */}
-      <div className="flex-1 p-8 bg-muted/50/30 overflow-auto scrollbar-hide">
-         <div className="mx-auto max-w-5xl flex flex-col gap-12 bg-card p-12 rounded-[2rem] shadow-inner border border-border/50">
+      <div className="flex-1 p-4 md:p-8 bg-muted/50/30">
+         <div className="mx-auto max-w-5xl flex flex-col gap-6 md:gap-12 bg-card p-4 sm:p-6 md:p-8 lg:p-12 rounded-xl md:rounded-[2rem] shadow-inner border border-border/50">
             
             {/* Legend/Header */}
             <div className="flex justify-between items-start border-b pb-6">
@@ -349,8 +551,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             </div>
 
             {/* Odontogram Grid with Labels */}
-            <div className="flex-1 min-w-[800px] bg-card p-6 rounded-2xl border shadow-sm overflow-x-auto">
-                <div className="grid grid-cols-[100px_1fr] gap-4">
+            <div className="flex-1 min-w-0 w-full bg-card p-4 md:p-6 rounded-xl md:rounded-2xl border shadow-sm overflow-x-auto custom-scrollbar">
+                <div className="grid grid-cols-[70px_1fr] sm:grid-cols-[100px_1fr] gap-2 sm:gap-4">
                     {/* Labels Column */}
                     <div className="flex flex-col justify-around py-12 text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
                         <div className="h-8 flex flex-col justify-center">Recesión<br/>Movilidad</div>
@@ -363,25 +565,25 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
 
                     <div className="space-y-8">
                         {/* Upper Teeth (Adult) */}
-                        <div className="flex justify-center gap-1">
+                        <div className="flex justify-center gap-0.5 sm:gap-1">
                             {renderQuadrant(ADULT_QUADRANTS.Q1)}
                             {renderQuadrant(ADULT_QUADRANTS.Q2)}
                         </div>
 
                         {/* Middle Row (Deciduous) */}
-                        <div className="flex flex-col gap-4 items-center">
-                            <div className="flex gap-1">
+                        <div className="flex flex-col gap-2 sm:gap-4 items-center">
+                            <div className="flex gap-0.5 sm:gap-1">
                                 {renderQuadrant(CHILD_QUADRANTS.Q5, true)}
                                 {renderQuadrant(CHILD_QUADRANTS.Q6, true)}
                             </div>
-                            <div className="flex gap-1">
+                            <div className="flex gap-0.5 sm:gap-1">
                                 {renderQuadrant(CHILD_QUADRANTS.Q8, true)}
                                 {renderQuadrant(CHILD_QUADRANTS.Q7, true)}
                             </div>
                         </div>
 
                         {/* Lower Teeth (Adult) */}
-                        <div className="flex justify-center gap-1">
+                        <div className="flex justify-center gap-0.5 sm:gap-1">
                             {renderQuadrant(ADULT_QUADRANTS.Q4)}
                             {renderQuadrant(ADULT_QUADRANTS.Q3)}
                         </div>
@@ -399,13 +601,27 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                </div>
                <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">8 ÍNDICES CPO-ceo</h4>
-                  <div className="grid grid-cols-4 gap-2">
-                     {['C', 'P', 'O', 'TOTAL'].map(h => <div key={h} className="text-center font-bold text-[9px] text-slate-400">{h}</div>)}
-                     <div className="bg-slate-100 p-2 text-center rounded">0</div>
-                     <div className="bg-slate-100 p-2 text-center rounded">0</div>
-                     <div className="bg-slate-100 p-2 text-center rounded">0</div>
-                     <div className="bg-blue-600 text-white p-2 text-center rounded font-bold">0</div>
-                  </div>
+                  {(() => {
+                     const indices = calculateCPOceo(teethState);
+                     return (
+                        <div className="grid grid-cols-5 gap-1.5 text-center text-[10px] items-center">
+                           <div className="font-extrabold text-slate-400 text-left">TIPO</div>
+                           {['C/c', 'P/e', 'O/o', 'TOTAL'].map(h => <div key={h} className="font-bold text-slate-400">{h}</div>)}
+                           
+                           <div className="font-bold text-slate-500 text-left">CPO (D)</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.C}</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.P}</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.O}</div>
+                           <div className="bg-blue-600 text-white p-1.5 rounded font-extrabold">{indices.totalCPO}</div>
+
+                           <div className="font-bold text-slate-500 text-left">ceo (d)</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.c}</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.e}</div>
+                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.o}</div>
+                           <div className="bg-teal-600 text-white p-1.5 rounded font-extrabold">{indices.totalceo}</div>
+                        </div>
+                     );
+                  })()}
                </div>
                <div className="space-y-4">
                   <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">9 SIMBOLOGÍA</h4>

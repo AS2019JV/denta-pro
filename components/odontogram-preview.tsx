@@ -41,7 +41,7 @@ export function OdontogramPreview({ data = {}, className, size = 'sm' }: Odontog
         {ADULT_UP.map(id => (
           <div 
             key={id} 
-            className={cn(toothSizeClass, "rounded-sm transition-colors", getToothColor(id))}
+            className={cn(toothSizeClass, "rounded-sm transition-colors flex-shrink-0", getToothColor(id))}
             title={`Pieza ${id}`}
           />
         ))}
@@ -50,7 +50,7 @@ export function OdontogramPreview({ data = {}, className, size = 'sm' }: Odontog
         {ADULT_DOWN.map(id => (
           <div 
             key={id} 
-            className={cn(toothSizeClass, "rounded-sm transition-colors", getToothColor(id))}
+            className={cn(toothSizeClass, "rounded-sm transition-colors flex-shrink-0", getToothColor(id))}
             title={`Pieza ${id}`}
           />
         ))}

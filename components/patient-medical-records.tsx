@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import { useAuth } from "@/components/auth-context"
 import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -33,13 +34,15 @@ import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle, User } from
 
 interface PatientMedicalRecordsProps {
   patientId: string
+  onSave?: () => void
 }
 
-export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps) {
+export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecordsProps) {
   const { user } = useAuth()
   const [activeTab, setActiveTab] = useState("overview")
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false)
   const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
+  const [isSavingOdontogram, setIsSavingOdontogram] = useState(false)
 
   // Form states
   const [newNote, setNewNote] = useState({ type: "Consulta", content: "" })
@@ -146,8 +149,57 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
 
   const handleOdontogramChange = async (newData: any) => {
     setOdontogramData(newData)
-    // Optional: We could trigger an update here if we want immediate persistence outside the full form
-    // but the system is designed to save via HCU-033 usually.
+  }
+
+  const handleSaveOdontogram = async () => {
+    try {
+      setIsSavingOdontogram(true)
+      
+      // 1. Update patient's global state
+      const { error: patientErr } = await supabase
+        .from('patients')
+        .update({ odontogram_state: odontogramData })
+        .eq('id', patientId)
+      
+      if (patientErr) throw patientErr
+
+      // 2. Insert/update the latest HCU-033 form's odontograma_data to guarantee total synchronization
+      const { data: latestForm } = await supabase
+        .from('hcu033_forms')
+        .select('id, form_data')
+        .eq('patient_id', patientId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+
+      if (latestForm && latestForm.length > 0) {
+        const form = latestForm[0]
+        const updatedFormData = {
+          ...form.form_data,
+          odontograma_data: odontogramData
+        }
+        await supabase
+          .from('hcu033_forms')
+          .update({ form_data: updatedFormData })
+          .eq('id', form.id)
+      } else {
+        // If no form exists yet, create one
+        await supabase
+          .from('hcu033_forms')
+          .insert({
+            patient_id: patientId,
+            doctor_id: user?.id,
+            form_data: { odontograma_data: odontogramData }
+          })
+      }
+
+      toast.success("Odontograma guardado correctamente")
+      onSave?.()
+    } catch (err) {
+      console.error("Error saving odontogram:", err)
+      toast.error("Error al guardar el odontograma")
+    } finally {
+      setIsSavingOdontogram(false)
+    }
   }
 
 
@@ -263,22 +315,35 @@ export function PatientMedicalRecords({ patientId }: PatientMedicalRecordsProps)
          <TabsContent value="odontogram" className="space-y-4">
             <Card className="border-none shadow-none bg-transparent">
                <CardHeader className="px-0">
-                  <div className="flex items-center justify-between">
+                  <div className="flex items-center justify-between gap-4 flex-wrap">
                      <div>
                         <CardTitle>Estado Dental Interactivo</CardTitle>
                         <CardDescription>Visualización y edición rápida del odontograma actual</CardDescription>
                      </div>
-                     <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                        Sincronizado con HCU-033
-                     </Badge>
+                     <div className="flex items-center gap-2 flex-wrap">
+                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
+                           Sincronizado con HCU-033
+                        </Badge>
+                        <Button 
+                          onClick={handleSaveOdontogram} 
+                          disabled={isSavingOdontogram}
+                          size="sm"
+                          className="text-xs font-bold gap-1.5 shadow-sm"
+                        >
+                           <Stethoscope className="h-4 w-4" />
+                           {isSavingOdontogram ? "Guardando..." : "Guardar Cambios"}
+                        </Button>
+                     </div>
                   </div>
                </CardHeader>
                <CardContent className="px-0">
-                  <div className="h-[750px]">
+                  <div className="w-full">
                      <OdontogramaInteractive 
                         data={odontogramData} 
                         onChange={handleOdontogramChange}
                         patientId={patientId}
+                        stickyOffset={96}
+                        onSave={handleSaveOdontogram}
                      />
                   </div>
                </CardContent>

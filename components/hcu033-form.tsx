@@ -271,6 +271,14 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         })
 
       if (error) throw error
+
+      // Sync odontogram data globally to the patient's record (Vista Rápida integration)
+      if (formData.odontograma_data) {
+        await supabase
+          .from('patients')
+          .update({ odontogram_state: formData.odontograma_data })
+          .eq('id', patientId)
+      }
       
       toast.success("Formulario guardado correctamente")
       onSave?.(formData)
@@ -364,19 +372,35 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
          <div className={isFullScreen ? "max-w-7xl mx-auto" : ""}>
 
         {/* Sticky Key Sections Navigation */}
-        <div className={`sticky top-0 z-50 bg-background/95 backdrop-blur border-b mb-6 -mx-2 px-2 overflow-x-auto shadow-sm transition-all`}>
-             <div className="flex gap-1 py-2 min-w-max">
-               {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map(section => (
+        <div 
+           className="sticky z-40 bg-background/95 backdrop-blur border-b mb-6 -mx-2 px-6 shadow-sm transition-all"
+           style={{ top: isFullScreen ? '0px' : '96px' }}
+        >
+             <div className="flex items-center justify-between py-2 gap-4 w-full">
+                <div className="flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden py-0.5">
+                  {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map(section => (
+                      <Button 
+                          key={section} 
+                          variant={activeSection === section ? "default" : "ghost"} 
+                          size="sm"
+                          className="h-8 text-xs sm:text-sm font-bold"
+                          onClick={() => scrollToSection(section)}
+                      >
+                          {section}
+                      </Button>
+                  ))}
+                </div>
+                <div className="flex items-center gap-1.5 flex-shrink-0">
                    <Button 
-                       key={section} 
-                       variant={activeSection === section ? "default" : "ghost"} 
-                       size="sm"
-                       className="h-8 text-xs sm:text-sm"
-                       onClick={() => scrollToSection(section)}
+                     onClick={handleSave} 
+                     disabled={isLoading}
+                     size="sm"
+                     className="h-8 text-xs font-bold gap-1 shadow-md hover:shadow-lg transition-all"
                    >
-                       {section}
+                     <Save className="h-3.5 w-3.5" />
+                     Guardar Formulario
                    </Button>
-               ))}
+                </div>
              </div>
         </div>
 
@@ -788,6 +812,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                 onChange={(data: any) => updateField("odontograma_data", data)}
                 patientName={patientName || formData.nombre_completo}
                 patientId={patientId}
+                stickyOffset={isFullScreen ? 48 : 144}
               />
 
               <div className="space-y-2">
@@ -818,7 +843,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                   {/* HIGIENE ORAL SIMPLIFICADA */}
                   <div>
                       <h4 className="text-sm font-bold mb-4 uppercase tracking-wide text-muted-foreground border-b pb-1">Higiene Oral Simplificada</h4>
-                      <div className="overflow-x-auto">
+                      <div className="overflow-x-auto custom-scrollbar">
                         <table className="w-full text-sm border-collapse">
                             <thead>
                                 <tr className="bg-muted">

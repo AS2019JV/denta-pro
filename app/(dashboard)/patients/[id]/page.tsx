@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -15,7 +16,8 @@ import {
   ArrowLeft, Calendar, Phone, Mail, MapPin, 
   FileText, Stethoscope, Clock, User, Loader2, Receipt,
   AlertTriangle, Heart, ShieldAlert, CreditCard, RefreshCcw, Search,
-  MessageCircle, Crown, ShieldCheck, Activity, User as UserIcon, Users
+  MessageCircle, Crown, ShieldCheck, Activity, User as UserIcon, Users,
+  PanelLeftClose, PanelLeftOpen
 } from "lucide-react"
 import { getWhatsAppUrl, getClinicWhatsAppMessage } from "@/lib/communication"
 import { calculateProfileCompletion, getCompletionColor, getCompletionLabel, getPatientLoyaltyStatus, getLoyaltyBadgeData } from "@/lib/patient-utils"
@@ -110,6 +112,16 @@ export default function PatientDetailsPage() {
   const [isHCUOpen, setIsHCUOpen] = useState(false)
   const [hcuData, setHcuData] = useState<any>(null)
   const [filesCount, setFilesCount] = useState(0)
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true)
+  const [isTransitioning, setIsTransitioning] = useState(false)
+
+  const handleSetSidebarOpen = (open: boolean) => {
+    setIsTransitioning(true)
+    setIsSidebarOpen(open)
+    setTimeout(() => {
+      setIsTransitioning(false)
+    }, 300)
+  }
 
   const fetchFilesCount = async () => {
      const id = params.id as string
@@ -319,464 +331,599 @@ export default function PatientDetailsPage() {
   }
 
   return (
-    <div className="flex flex-col h-screen bg-background text-foreground animate-in fade-in duration-300">
+    <div className="flex flex-col min-h-screen bg-background text-foreground animate-in fade-in duration-300">
       {/* Top Navigation Bar */}
-      <div className="flex-none border-b bg-card px-6 py-3 flex items-center gap-4">
-        <Button variant="ghost" size="sm" onClick={() => router.push('/patients')} className="-ml-3 gap-1 text-muted-foreground hover:text-foreground">
-            <ArrowLeft className="h-4 w-4" />
-            Volver
-        </Button>
-      </div>
+      <div className="flex-none border-b bg-card px-6 py-2.5 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-sm">
+        <div className="flex items-center gap-3">
+          <Button variant="ghost" size="sm" onClick={() => router.push('/patients')} className="-ml-3 gap-1 text-muted-foreground hover:text-foreground">
+              <ArrowLeft className="h-4 w-4" />
+              Volver a Pacientes
+          </Button>
+          <div className="hidden md:block w-px h-4 bg-border" />          {!isSidebarOpen && (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => handleSetSidebarOpen(true)} 
+              className="gap-1.5 hidden md:flex text-primary hover:text-primary-foreground hover:bg-primary px-2.5 h-8 border border-primary/20 bg-primary/5 rounded-lg animate-in slide-in-from-left duration-250 font-bold"
+            >
+              <PanelLeftOpen className="h-4 w-4 text-primary animate-pulse" />
+              <span className="text-xs">Mostrar Perfil</span>
+            </Button>
+          )}
+        </div>
+        <div className="flex items-center gap-4 flex-wrap">
+           {/* Dynamic Patient Stats Summary Widget (shown when sidebar is closed) */}
+           {!isSidebarOpen && patient && (
+              <div className="hidden md:flex items-center gap-3 px-3 py-1 bg-muted/40 border border-slate-200 dark:border-slate-800 rounded-lg animate-in fade-in slide-in-from-top-1 duration-200 text-xs">
+                 <Avatar className="h-6 w-6 border shadow-sm flex-shrink-0">
+                    <AvatarImage src={patient.avatar_url || undefined} />
+                    <AvatarFallback className="text-[10px] font-black bg-primary/10 text-primary">
+                       {patient.name[0]}{patient.lastName[0]}
+                    </AvatarFallback>
+                 </Avatar>
+                 <div className="flex items-center gap-1.5 font-bold">
+                    <span className="text-foreground">{patient.name} {patient.lastName}</span>
+                    {patient.birthDate && (
+                      <span className="text-muted-foreground font-medium">
+                         ({formatBirthDateAndAge(patient.birthDate).split(" (")[1]?.replace(")", "") || ""})
+                      </span>
+                    )}
+                 </div>
+                 <div className="w-px h-3 bg-border" />
+                 <div className="flex items-center gap-1 text-muted-foreground font-semibold">
+                    <Phone className="h-3.5 w-3.5 text-slate-400" />
+                    <span>{patient.phone}</span>
+                 </div>
+                 <div className="w-px h-3 bg-border" />
+                 <div className="flex items-center gap-1.5">
+                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Saldo:</span>
+                    <Badge 
+                       className={cn(
+                          "text-[10px] px-2 py-0 font-extrabold shadow-sm border",
+                          Number(patient.accountBalance || 0) > 0 
+                            ? "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-50 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30" 
+                            : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30"
+                       )}
+                    >
+                       ${patient.accountBalance || '0.00'}
+                    </Badge>
+                 </div>
+              </div>
+           )}
 
+           <div className="text-xs text-muted-foreground font-semibold flex items-center gap-1.5">
+              <Activity className="h-3.5 w-3.5 text-primary animate-pulse" />
+              Expediente Clínico Digital
+           </div>
+        </div>
+      </div>
+ 
       {/* Main Content Area */}
-      <div className="flex-1 overflow-hidden flex flex-col">
-          {/* Medical Alert Center (Pro Feature) */}
-          {patient && (patient.hasDiabetes || patient.hasHypertension || patient.hasHeartDisease || patient.allergies) && (
-            <div className="bg-rose-50 border-b border-rose-100 px-6 py-2 flex items-center gap-4 animate-in slide-in-from-top duration-500 shadow-sm">
-               <div className="flex items-center gap-2 text-rose-700 font-bold text-sm">
-                  <ShieldAlert className="h-4 w-4 animate-pulse" />
-                  ALERTA MÉDICA:
-               </div>
-               <div className="flex flex-wrap gap-2">
-                  {patient.hasDiabetes && <Badge className="bg-rose-600 hover:bg-rose-700">DIABETES</Badge>}
-                  {patient.hasHypertension && <Badge className="bg-rose-600 hover:bg-rose-700">HIPERTENSIÓN</Badge>}
-                  {patient.hasHeartDisease && <Badge className="bg-rose-600 hover:bg-rose-700">CARDIOPATÍA</Badge>}
-                  {patient.isPregnant && <Badge className="bg-pink-500 hover:bg-pink-600">EMBARAZO</Badge>}
-                  {patient.allergies && (
-                    <span className="text-sm font-semibold text-rose-700"> ⚠️ ALERGIAS: {patient.allergies}</span>
-                  )}
+      <div className="flex-1 flex flex-col md:flex-row">
+         
+         {/* Left Sidebar - Profile, Actions & Permanent Critical Info */}
+         <div className={cn(
+            "flex-none border-b md:border-b-0 md:border-r bg-card flex flex-col shadow-sm custom-scrollbar md:sticky md:top-[49px] md:h-[calc(100vh-49px)] md:overflow-y-auto",
+            isTransitioning && "transition-[width,opacity] duration-300 ease-in-out",
+            isSidebarOpen 
+              ? "w-full md:w-80 lg:w-96 opacity-100" 
+              : "w-0 md:w-0 lg:w-0 opacity-0 overflow-hidden border-r-0 border-b-0"
+         )}>
+            {/* Header / Avatar */}
+            <div className="p-6 border-b flex flex-col items-center text-center gap-4 bg-muted/10 relative">
+               {/* Sidebar Close Button placed at upper right side of left panel */}
+               <Button
+                  variant="ghost"
+                  size="icon"
+                  onClick={() => handleSetSidebarOpen(false)}
+                  className="absolute top-3 right-3 h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg hidden md:flex items-center justify-center transition-colors"
+                  title="Ocultar Perfil"
+               >
+                  <PanelLeftClose className="h-4 w-4" />
+               </Button>
+               <AvatarUpload
+                 uid={patient.id}
+                 url={patient.avatar_url || null}
+                 bucket="patient-avatars"
+                 size={100}
+                 fallbackName={`${patient.name} ${patient.lastName}`}
+                 onUpload={async (url) => {
+                    await supabase.from('patients').update({ avatar_url: url }).eq('id', patient.id)
+                    setPatient(prev => prev ? ({ ...prev, avatar_url: url }) : null)
+                 }}
+               />
+               <div className="space-y-1">
+                  <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center justify-center gap-1.5 flex-wrap">
+                    {patient.name} {patient.lastName}
+                  </h1>
+                  <div className="flex flex-wrap items-center justify-center gap-1.5 pt-1">
+                     <Badge variant={patient.status === "active" ? "default" : "secondary"} className="text-[10px] px-2 py-0">
+                       {patient.status === "active" ? "Activo" : "Inactivo"}
+                     </Badge>
+                     {(() => {
+                        const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics;
+                        const status = getPatientLoyaltyStatus(patient.appointments_count, patient.total_billed, currentClinic?.settings);
+                        const badgeData = getLoyaltyBadgeData(status.key, status.style);
+                        return (
+                          <Badge 
+                            className={cn(
+                              "text-[10px] px-2 py-0 border uppercase flex items-center transition-all",
+                              badgeData.className
+                            )}
+                          >
+                            <LoyaltyIcon name={badgeData.iconName} className="h-3 w-3 mr-1" />
+                            {status.label}
+                          </Badge>
+                        )
+                     })()}
+                  </div>
                </div>
             </div>
-          )}
 
-          {/* Data Quality Score (Gamification) */}
-          {patient && (
-             <div className="bg-card px-6 py-2 border-b flex items-center justify-between shadow-sm">
-                <div className="flex items-center gap-4 flex-1 max-w-md">
-                   <div className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground whitespace-nowrap">
-                      Calidad del Expediente
-                   </div>
-                   <div className="flex-1">
-                      <Progress value={calculateProfileCompletion(patient)} className="h-1.5" indicatorClassName={getCompletionColor(calculateProfileCompletion(patient))} />
-                   </div>
-                   <div className={`text-xs font-bold px-2 py-0.5 rounded ${
-                      calculateProfileCompletion(patient) >= 80 ? "bg-green-100 text-green-700" :
-                      calculateProfileCompletion(patient) >= 50 ? "bg-blue-100 text-blue-700" :
-                      "bg-rose-100 text-rose-700"
-                   }`}>
-                      {getCompletionLabel(calculateProfileCompletion(patient))} {calculateProfileCompletion(patient)}%
-                   </div>
-                </div>
-                <div className="hidden md:block text-[10px] text-muted-foreground italic">
-                   Complete todos los campos para alcanzar el 100% y mejorar la seguridad clínica.
-                </div>
-             </div>
-          )}
+            {/* Critical Medical Alerts Section */}
+            {patient && (patient.hasDiabetes || patient.hasHypertension || patient.hasHeartDisease || patient.allergies || patient.isPregnant) && (
+               <div className="p-4 bg-rose-50 dark:bg-rose-950/20 border-b border-rose-100 dark:border-rose-900/30 space-y-2 animate-in fade-in duration-300">
+                  <div className="flex items-center gap-2 text-rose-700 dark:text-rose-400 font-bold text-xs uppercase tracking-wider">
+                     <ShieldAlert className="h-4 w-4 animate-pulse text-rose-600 dark:text-rose-500" />
+                     Alertas Médicas Críticas
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                     {patient.hasDiabetes && <Badge className="bg-rose-600 hover:bg-rose-700 text-xs px-2 py-0.5 font-bold">DIABETES</Badge>}
+                     {patient.hasHypertension && <Badge className="bg-rose-600 hover:bg-rose-700 text-xs px-2 py-0.5 font-bold">HIPERTENSIÓN</Badge>}
+                     {patient.hasHeartDisease && <Badge className="bg-rose-600 hover:bg-rose-700 text-xs px-2 py-0.5 font-bold">CARDIOPATÍA</Badge>}
+                     {patient.isPregnant && <Badge className="bg-pink-500 hover:bg-pink-600 text-xs px-2 py-0.5 font-bold">EMBARAZO</Badge>}
+                  </div>
+                  {patient.allergies && (
+                     <div className="text-xs font-semibold text-rose-800 dark:text-rose-300 bg-white/60 dark:bg-slate-900/60 p-2 rounded-lg border border-rose-100 dark:border-rose-900/20 mt-1">
+                        ⚠️ Alergias: <span className="font-bold text-rose-700 dark:text-rose-400">{patient.allergies}</span>
+                     </div>
+                  )}
+               </div>
+            )}
 
-          {/* Patient Header Section */}
-          <div className="flex-none bg-card border-b p-6 shadow-sm z-10">
-                <div className="max-w-7xl mx-auto w-full flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
-                     <div className="flex items-center gap-5">
-                      <AvatarUpload
-                        uid={patient.id}
-                        url={patient.avatar_url || null}
-                        bucket="patient-avatars"
-                        size={96}
-                        fallbackName={`${patient.name} ${patient.lastName}`}
-                        onUpload={async (url) => {
-                           // Update patient record with new avatar url
-                           await supabase.from('patients').update({ avatar_url: url }).eq('id', patient.id)
-                           setPatient(prev => prev ? ({ ...prev, avatar_url: url }) : null)
-                        }}
-                      />
-                      <div>
-                        <h1 className="text-3xl font-bold flex items-center gap-3">
-                          {patient.name} {patient.lastName}
-                          <Badge variant={patient.status === "active" ? "default" : "secondary"} className="text-sm px-2.5 py-0.5">
-                            {patient.status === "active" ? "Activo" : "Inactivo"}
-                          </Badge>
-                          
-                          {(() => {
-                             const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics;
-                             const status = getPatientLoyaltyStatus(patient.appointments_count, patient.total_billed, currentClinic?.settings);
-                             const badgeData = getLoyaltyBadgeData(status.key, status.style);
-                             return (
-                               <Badge 
-                                 className={cn(
-                                   "text-sm px-2.5 py-0.5 border uppercase flex items-center transition-all",
-                                   badgeData.className
+            {/* Quick Actions Stack */}
+            <div className="p-4 border-b space-y-3">
+               <div className="grid grid-cols-2 gap-2">
+                  <Button 
+                    variant="outline" 
+                    className="w-full border-green-200 bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 hover:bg-green-100 hover:text-green-800 text-xs gap-1.5 h-9 px-2 shadow-sm"
+                    onClick={() => window.open(getWhatsAppUrl(patient.phone || "", getClinicWhatsAppMessage(patient.name, clinicName)), "_blank")}
+                  >
+                    <MessageCircle className="h-4 w-4 text-green-500" />
+                    WhatsApp
+                  </Button>
+                  <Button className="w-full text-xs gap-1.5 h-9 px-2 shadow-sm hover:shadow-md transition-all" onClick={() => setIsEditOpen(true)}>
+                    <UserIcon className="h-4 w-4" />
+                    Editar Perfil
+                  </Button>
+               </div>
+               
+               {patient && (
+                 <FamilyCenter 
+                   patientId={patient.id} 
+                   patientName={`${patient.name} ${patient.lastName}`} 
+                 />
+               )}
+               
+               <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
+                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+                     <DialogHeader>
+                        <DialogTitle>Editar Paciente</DialogTitle>
+                        <DialogDescription>Actualizar información del paciente</DialogDescription>
+                     </DialogHeader>
+                     <AddPatientForm 
+                        initialData={patient} 
+                        onSubmit={handleUpdatePatient} 
+                        onCancel={() => setIsEditOpen(false)} 
+                     />
+                  </DialogContent>
+               </Dialog>
+            </div>
+
+            <Accordion type="multiple" defaultValue={["metrics", "contact", "quality", "highlights"]} className="w-full">
+            {/* Core Patient Metrics */}
+            <AccordionItem value="metrics" className="border-b">
+               <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:no-underline">
+                  Métricas Principales
+               </AccordionTrigger>
+               <AccordionContent className="px-4 pb-4 space-y-3 text-xs">
+               <div className="flex items-center justify-between border-b pb-2">
+                  <span className="text-muted-foreground font-semibold uppercase tracking-wider">Edad / Nacimiento</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100">{formatBirthDateAndAge(patient.birthDate)}</span>
+               </div>
+               <div className="flex items-center justify-between border-b pb-2">
+                  <span className="text-muted-foreground font-semibold uppercase tracking-wider">Género</span>
+                  <span className="font-bold text-slate-800 dark:text-slate-100 capitalize">
+                     {patient.gender === "male" ? "Masculino" : patient.gender === "female" ? "Femenino" : "Otro"}
+                  </span>
+               </div>
+               <div className="flex items-center justify-between border-b pb-2">
+                  <span className="text-muted-foreground font-semibold uppercase tracking-wider">Nº Historia Clínica</span>
+                  <span className="font-mono font-bold text-slate-800 dark:text-slate-100">{patient.medicalRecordNumber || "---"}</span>
+               </div>
+               {patient.bloodType && (
+                  <div className="flex items-center justify-between border-b pb-2">
+                     <span className="text-muted-foreground font-semibold uppercase tracking-wider">Grupo Sanguíneo</span>
+                     <Badge variant="outline" className="font-bold border-rose-200 text-rose-700 bg-rose-50 dark:bg-rose-950/20 px-2 py-0 text-[10px]">
+                        {patient.bloodType}
+                     </Badge>
+                  </div>
+               )}
+               <div className="flex items-center justify-between border-b pb-2">
+                  <span className="text-muted-foreground font-semibold uppercase tracking-wider">Saldo de Cuenta</span>
+                  <span className={cn(
+                     "font-bold",
+                     Number(patient.accountBalance || 0) > 0 ? "text-rose-600" : "text-emerald-600"
+                  )}>
+                     ${patient.accountBalance || '0.00'}
+                  </span>
+               </div>
+               </AccordionContent>
+            </AccordionItem>
+
+            {/* Primary Contact Details */}
+            <AccordionItem value="contact" className="border-b">
+               <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:no-underline">
+                  Contacto Principal
+               </AccordionTrigger>
+               <AccordionContent className="px-4 pb-4 space-y-3 text-xs">
+               <div className="flex items-start gap-2.5">
+                  <Phone className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                  <div className="space-y-0.5">
+                     <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Teléfono Principal</span>
+                     <p className="font-semibold text-slate-800 dark:text-slate-100">{patient.phone}</p>
+                  </div>
+               </div>
+               {patient.email && (
+                  <div className="flex items-start gap-2.5">
+                     <Mail className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                     <div className="space-y-0.5">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Correo Electrónico</span>
+                        <p className="font-semibold text-slate-800 dark:text-slate-100 break-all">{patient.email}</p>
+                     </div>
+                  </div>
+               )}
+               {patient.address && (
+                  <div className="flex items-start gap-2.5">
+                     <MapPin className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
+                     <div className="space-y-0.5">
+                        <span className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider block">Dirección Residencia</span>
+                        <p className="font-semibold text-slate-700 dark:text-slate-200 leading-tight">
+                           {patient.address}
+                           {(patient.city || patient.state) && (
+                              <span className="text-muted-foreground block text-[10px] mt-0.5">
+                                 {patient.city}{patient.city && patient.state ? ', ' : ''}{patient.state}
+                              </span>
+                           )}
+                        </p>
+                     </div>
+                  </div>
+               )}
+               </AccordionContent>
+            </AccordionItem>
+
+            {/* Data Quality Widget */}
+            <AccordionItem value="quality" className="border-b">
+               <AccordionTrigger className="px-4 py-3 hover:bg-muted/50 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:no-underline">
+                  Expediente Clínico
+               </AccordionTrigger>
+               <AccordionContent className="px-4 pb-4 space-y-2">
+               <div className="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider">
+                  <span className="text-muted-foreground">Expediente Clínico</span>
+                  <span className={cn(
+                     "px-1.5 py-0.5 rounded text-[10px] font-extrabold",
+                     calculateProfileCompletion(patient) >= 80 ? "bg-green-100 text-green-700" :
+                     calculateProfileCompletion(patient) >= 50 ? "bg-blue-100 text-blue-700" :
+                     "bg-rose-100 text-rose-700"
+                  )}>
+                     {getCompletionLabel(calculateProfileCompletion(patient))} {calculateProfileCompletion(patient)}%
+                  </span>
+               </div>
+               <Progress value={calculateProfileCompletion(patient)} className="h-1.5" indicatorClassName={getCompletionColor(calculateProfileCompletion(patient))} />
+               </AccordionContent>
+            </AccordionItem>
+
+            {/* Clinical Highlights Widget */}
+            {(patient.last_treatment_note || patient.odontogram_state) && (
+               <AccordionItem value="highlights" className="border-b-0 bg-muted/20">
+                  <AccordionTrigger className="px-4 py-3 hover:bg-muted/30 text-[10px] font-bold uppercase tracking-wider text-muted-foreground hover:no-underline">
+                     Resumen Clínico
+                  </AccordionTrigger>
+                  <AccordionContent className="px-4 pb-4 space-y-3">
+                  {patient.last_treatment_note && (
+                     <div className="space-y-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Último Tratamiento</span>
+                        <p className="text-xs font-semibold text-slate-700 dark:text-slate-200 italic bg-white/60 dark:bg-slate-900/60 p-2.5 rounded-lg border border-border/50">
+                           {patient.last_treatment_note}
+                        </p>
+                     </div>
+                  )}
+                  {patient.odontogram_state && (
+                     <div className="space-y-1">
+                        <span className="text-[10px] font-bold uppercase tracking-wider text-slate-400">Estado Dental (Vista Rápida)</span>
+                        <div className="bg-white/60 dark:bg-slate-900/60 p-2.5 rounded-lg border border-border/50 flex items-center justify-center">
+                           <OdontogramPreview data={patient.odontogram_state || {}} size="sm" />
+                        </div>
+                     </div>
+                  )}
+                  </AccordionContent>
+               </AccordionItem>
+            )}
+            </Accordion>
+         </div>
+
+         {/* Right Sidebar - Main Working Area Tabs */}
+         <div className="flex-1 flex flex-col bg-muted/5">
+            <Tabs defaultValue="info" className="flex flex-col w-full h-full">
+               {/* Fixed Tabs List container */}
+               <div className="flex-none bg-background border-b px-6 shadow-sm z-10 sticky top-[49px]">
+                  <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
+                     <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
+                         {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'payments', 'files'].map((tab) => (
+                             <TabsTrigger 
+                                 key={tab}
+                                 value={tab}
+                                 className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none py-3 px-0 text-muted-foreground data-[state=active]:text-primary font-bold text-xs sm:text-sm transition-all"
+                             >
+                                 {tab === 'info' && "Perfil Completo"}
+                                 {tab === 'medical' && "Historial Médico"}
+                                 {tab === 'hcu033' && "HCU-033"}
+                                 {tab === 'appointments' && "Citas"}
+                                 {tab === 'recipes' && "Recetas / Prescripciones"}
+                                 {tab === 'payments' && "Pagos"}
+                                 {tab === 'files' && (
+                                   <div className="flex items-center gap-2">
+                                     Archivos
+                                     <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-extrabold">{filesCount}</Badge>
+                                   </div>
                                  )}
-                               >
-                                 <LoyaltyIcon name={badgeData.iconName} />
-                                 {status.label}
-                               </Badge>
-                             )
-                          })()}
-                        </h1>
-                        <div className="flex flex-wrap items-center gap-x-6 gap-y-2 mt-2 text-sm text-muted-foreground">
-                          <span className="flex items-center gap-1.5">
-                            <Calendar className="h-4 w-4 opacity-70" />
-                            {formatBirthDateAndAge(patient.birthDate)}
-                          </span>
-                          <span className="flex items-center gap-1.5">
-                            <div className={`w-2 h-2 rounded-full ${patient.gender === 'male' ? 'bg-blue-400' : 'bg-pink-400'}`} />
-                            {patient.gender === "male" ? "Masculino" : patient.gender === "female" ? "Femenino" : "Otro"}
-                          </span>
-                          <button 
-                            className="flex items-center gap-1.5 hover:text-green-600 transition-colors"
-                            onClick={() => window.open(getWhatsAppUrl(patient.phone || "", getClinicWhatsAppMessage(patient.name, clinicName)), "_blank")}
-                          >
-                            <MessageCircle className="h-4 w-4 opacity-70 text-green-500" />
-                            {patient.phone}
-                          </button>
-                        </div>
-                         
-                         {/* Last Treatment Note & Odontogram Preview */}
-                         {(patient.last_treatment_note || patient.odontogram_state) && (
-                            <div className="flex items-center gap-4 mt-4 p-3 bg-muted/50 rounded-xl border border-border/50 shadow-inner animate-in fade-in slide-in-from-left-2">
-                               <div className="flex flex-col gap-1 pr-4 border-r border-border">
-                                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Último Tratamiento</span>
-                                  <p className="text-sm font-bold text-slate-700 truncate max-w-[300px]">
-                                     {patient.last_treatment_note || "Sin notas recientes"}
-                                  </p>
-                               </div>
-                               <div className="flex flex-col gap-1">
-                                  <span className="text-[10px] font-black uppercase tracking-widest text-slate-400">Estado Dental (Vista Rápida)</span>
-                                  <OdontogramPreview data={patient.odontogram_state || {}} size="sm" />
-                               </div>
+                             </TabsTrigger>
+                         ))}
+                     </TabsList>
+                  </div>
+               </div>
+
+               {/* Scrollable Work Area Content */}
+               <div className="flex-1">
+                  <div className="max-w-7xl mx-auto p-6 space-y-6">
+                        <TabsContent value="files" className="mt-0 focus-visible:ring-0">
+                            <PatientFiles patientId={patient.id} onFilesChange={fetchFilesCount} />
+                        </TabsContent>
+
+                        <TabsContent value="payments" className="mt-0 focus-visible:ring-0">
+                            <PatientPayments patientId={patient.id} />
+                        </TabsContent>
+
+                        <TabsContent value="info" className="mt-0 space-y-6 focus-visible:ring-0">
+                            {/* Personal & Contact Section */}
+                            <div className="bg-card rounded-xl border shadow-sm p-6">
+                                <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
+                                    <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
+                                        <User className="h-5 w-5" />
+                                    </div>
+                                    Información de Registro
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-6 gap-x-12">
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Historia Clínica</Label>
+                                        <p className="text-base font-medium font-mono text-foreground">{patient.medicalRecordNumber || "---"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Completo</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.name} {patient.lastName}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ocupación</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.occupation || "---"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fecha de Nacimiento</Label>
+                                        <p className="text-base font-medium text-foreground">
+                                            {patient.birthDate && !isNaN(new Date(patient.birthDate).getTime()) 
+                                                ? new Date(patient.birthDate).toLocaleDateString("es-ES") 
+                                                : "No registrada"}
+                                        </p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono Principal</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.phone}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email</Label>
+                                        <p className="text-base font-medium text-foreground break-all">{patient.email || "No registrado"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Estado Civil</Label>
+                                        <p className="text-base font-medium text-foreground capitalize">{patient.maritalStatus || "---"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Grupo Sanguíneo</Label>
+                                        <Badge variant="outline" className="text-sm font-medium border-rose-200 text-rose-700 bg-rose-50 w-fit">
+                                            {patient.bloodType || "---"}
+                                        </Badge>
+                                    </div>
+                                </div>
                             </div>
-                         )}
-                      </div>
-                    </div>
-                    <div className="flex gap-3 w-full md:w-auto">
-                      <Button 
-                        variant="outline" 
-                        className="flex-1 md:flex-none border-green-200 bg-green-50 text-green-700 hover:bg-green-100 hover:text-green-800"
-                        onClick={() => window.open(getWhatsAppUrl(patient.phone || "", getClinicWhatsAppMessage(patient.name, clinicName)), "_blank")}
-                      >
-                        <MessageCircle className="h-4 w-4 mr-2" />
-                        WhatsApp
-                      </Button>
-                      <Button className="flex-1 md:flex-none shadow-sm hover:shadow-md transition-all" onClick={() => setIsEditOpen(true)}>
-                        <UserIcon className="h-4 w-4 mr-2" />
-                        Editar Perfil
-                      </Button>
 
-                      {patient && (
-                        <FamilyCenter 
-                          patientId={patient.id} 
-                          patientName={`${patient.name} ${patient.lastName}`} 
-                        />
-                      )}
-                      
-                      <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-                         <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                            <DialogHeader>
-                               <DialogTitle>Editar Paciente</DialogTitle>
-                               <DialogDescription>Actualizar información del paciente</DialogDescription>
-                            </DialogHeader>
-                            <AddPatientForm 
-                               initialData={patient} 
-                               onSubmit={handleUpdatePatient} 
-                               onCancel={() => setIsEditOpen(false)} 
+                            {/* Emergency Contact & Referral */}
+                            <div className="bg-card rounded-xl border shadow-sm p-6">
+                                <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
+                                    <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-500">
+                                        <Phone className="h-5 w-5" />
+                                    </div>
+                                    Contacto de Emergencia y Referencia
+                                </h3>
+                                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Contacto</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.emergencyContact || "No especificado"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono Emergencia</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.emergencyPhone || "No especificado"}</p>
+                                    </div>
+                                     <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Apoderado / Tutor</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.guardianName || "N/A"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">¿Cómo nos conoció?</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.referralSource || "---"}</p>
+                                    </div>
+                                    <div className="space-y-1.5">
+                                        <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Referido Por</Label>
+                                        <p className="text-base font-medium text-foreground">{patient.referredBy || "---"}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Medical & Insurance */}
+                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                                <div className="bg-card rounded-xl border shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
+                                        <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-500">
+                                            <Stethoscope className="h-5 w-5" />
+                                        </div>
+                                        Datos Médicos de Registro
+                                    </h3>
+                                    <div className="space-y-6">
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Alergias</Label>
+                                            <div>
+                                                {patient.allergies ? (
+                                                    <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-rose-50 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400">
+                                                        {patient.allergies}
+                                                    </span>
+                                                ) : (
+                                                    <span className="text-base text-muted-foreground">Ninguna conocida</span>
+                                                )}
+                                            </div>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nota Clínica Inicial</Label>
+                                            <p className="text-base font-medium text-foreground whitespace-pre-wrap">{patient.clinicalNotes || "---"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Condiciones</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.medicalConditions || "Ninguna"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Medicamentos</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.medications || "Ninguno"}</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div className="bg-card rounded-xl border shadow-sm p-6">
+                                    <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
+                                        <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500">
+                                            <FileText className="h-5 w-5" />
+                                        </div>
+                                        Seguro Médico y Preferencias
+                                    </h3>
+                                    <div className="space-y-6">
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Proveedor de Seguro</Label>
+                                            <p className="text-base font-medium text-foreground">{patient.insuranceProvider || "Particular / Privado"}</p>
+                                        </div>
+                                        <div className="space-y-1.5">
+                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Póliza</Label>
+                                            <p className="text-base font-medium font-mono text-foreground">{patient.policyNumber || "N/A"}</p>
+                                        </div>
+                                        <div className="grid grid-cols-2 gap-4">
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ciclo Recall</Label>
+                                                <p className="text-base font-medium text-foreground">{patient.recallMonths || 6} Meses</p>
+                                            </div>
+                                            <div className="space-y-1.5">
+                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Contacto Pref.</Label>
+                                                <p className="text-base font-medium text-foreground capitalize">{patient.preferredContactMethod || 'Teléfono'}</p>
+                                            </div>
+                                        </div>
+                                        {patient.internalNotes && (
+                                          <div className="space-y-1.5 p-3 bg-amber-50 rounded-lg border border-amber-100">
+                                              <Label className="text-[10px] font-bold text-amber-800 uppercase tracking-widest flex items-center gap-1">
+                                                 <AlertTriangle className="h-3 w-3" /> Nota Administrativa Interna
+                                              </Label>
+                                              <p className="text-sm text-amber-900 italic">{patient.internalNotes}</p>
+                                          </div>
+                                        )}
+                                    </div>
+                                </div>
+                            </div>
+                        </TabsContent>
+
+                        <TabsContent value="medical" className="mt-0 focus-visible:ring-0">
+                            <PatientMedicalRecords 
+                                patientId={patient.id} 
+                                onSave={handleUpdatePatient}
                             />
-                         </DialogContent>
-                      </Dialog>
-                    </div>
+                        </TabsContent>
+
+                        <TabsContent value="hcu033" className="mt-0 focus-visible:ring-0">
+                            <HCU033Form 
+                                patientId={patient.id} 
+                                patientName={`${patient.name} ${patient.lastName}`} 
+                                onSave={handleUpdatePatient}
+                                onExpand={(currentData) => {
+                                  setHcuData(currentData)
+                                  setIsHCUOpen(true)
+                                }}
+                                externalData={hcuData}
+                                onDataChange={setHcuData}
+                            />
+                        </TabsContent>
+
+                        <TabsContent value="recipes" className="mt-0 focus-visible:ring-0">
+                            <PatientPrescriptions 
+                                patientId={patient.id} 
+                                patientName={`${patient.name} ${patient.lastName}`} 
+                            />
+                        </TabsContent>
+
+                        <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
+                            <AppointmentsList patientId={patient.id} />
+                        </TabsContent>
+                     </div>
                 </div>
-          </div>
-
-          {/* Tabs Section */}
-          <div className="flex-1 overflow-hidden flex flex-col bg-muted/10">
-             <Tabs defaultValue="info" className="flex flex-col h-full">
-                <div className="flex-none bg-background border-b px-6">
-                    <div className="max-w-7xl mx-auto w-full">
-                        <TabsList className="h-auto p-0 bg-transparent gap-8">
-                            {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'payments', 'files'].map((tab) => (
-                                <TabsTrigger 
-                                    key={tab}
-                                    value={tab}
-                                    className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none py-4 px-0 text-muted-foreground data-[state=active]:text-primary font-medium transition-all"
-                                >
-                                    {tab === 'info' && "Perfil"}
-                                    {tab === 'medical' && "Historial Médico"}
-                                    {tab === 'hcu033' && "HCU-033"}
-                                    {tab === 'appointments' && "Citas"}
-                                    {tab === 'recipes' && "Recetas / Prescripciones"}
-                                    {tab === 'payments' && "Pagos"}
-                                    {tab === 'files' && (
-                                      <div className="flex items-center gap-2">
-                                        Archivos
-                                        <Badge variant="secondary" className="h-5 px-1.5 text-[10px]">{filesCount}</Badge>
-                                      </div>
-                                    )}
-                                </TabsTrigger>
-                            ))}
-                        </TabsList>
-                    </div>
-                </div>
-
-                <div className="flex-1 overflow-hidden">
-                    <ScrollArea className="h-full">
-                        <div className="max-w-7xl mx-auto p-6 space-y-6">
-                            <TabsContent value="files" className="mt-0 focus-visible:ring-0">
-                                <PatientFiles patientId={patient.id} onFilesChange={fetchFilesCount} />
-                            </TabsContent>
-
-                            <TabsContent value="payments" className="mt-0 focus-visible:ring-0">
-                                <PatientPayments patientId={patient.id} />
-                            </TabsContent>
-
-                            <TabsContent value="info" className="mt-0 space-y-6 focus-visible:ring-0">
-                                {/* Personal & Contact Section */}
-                                <div className="bg-card rounded-xl border shadow-sm p-6">
-                                    <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
-                                        <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-                                            <User className="h-5 w-5" />
-                                        </div>
-                                        Información Personal y Contacto
-                                    </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-y-8 gap-x-12">
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Historia Clínica</Label>
-                                            <p className="text-base font-medium font-mono text-foreground">{patient.medicalRecordNumber || "---"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Completo</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.name} {patient.lastName}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ocupación</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.occupation || "---"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fecha de Nacimiento</Label>
-                                            <p className="text-base font-medium text-foreground">
-                                                {patient.birthDate && !isNaN(new Date(patient.birthDate).getTime()) 
-                                                    ? new Date(patient.birthDate).toLocaleDateString("es-ES") 
-                                                    : "No registrada"}
-                                            </p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono</Label>
-                                            <div className="flex items-center gap-2">
-                                                <Phone className="h-4 w-4 text-muted-foreground" />
-                                                <p className="text-base font-medium text-foreground">{patient.phone}</p>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Email</Label>
-                                            <div className="flex items-center gap-2">
-                                                <Mail className="h-4 w-4 text-muted-foreground" />
-                                                <p className="text-base font-medium text-foreground">{patient.email || "No registrado"}</p>
-                                            </div>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Estado Civil</Label>
-                                            <p className="text-base font-medium text-foreground capitalize">{patient.maritalStatus || "---"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Grupo Sanguíneo</Label>
-                                            <Badge variant="outline" className="text-sm font-medium border-rose-200 text-rose-700 bg-rose-50">
-                                                {patient.bloodType || "---"}
-                                            </Badge>
-                                        </div>
-                                        <div className="col-span-1 md:col-span-2 lg:col-span-3 space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Dirección</Label>
-                                            <div className="flex items-start gap-2">
-                                                <MapPin className="h-4 w-4 text-muted-foreground mt-1" />
-                                                <div className="space-y-1">
-                                                    <p className="text-base font-medium text-foreground">{patient.address || "No registrada"}</p>
-                                                    {(patient.city || patient.state) && (
-                                                        <p className="text-sm text-muted-foreground">
-                                                            {patient.city}{patient.city && patient.state ? ', ' : ''}{patient.state}
-                                                        </p>
-                                                    )}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Emergency Contact & Referral */}
-                                <div className="bg-card rounded-xl border shadow-sm p-6">
-                                    <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
-                                        <div className="p-2.5 rounded-lg bg-rose-500/10 text-rose-500">
-                                            <Phone className="h-5 w-5" />
-                                        </div>
-                                        Contacto de Emergencia y Referencia
-                                    </h3>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nombre Emergencia</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.emergencyContact || "No especificado"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Teléfono Emergencia</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.emergencyPhone || "No especificado"}</p>
-                                        </div>
-                                         <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Apoderado</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.guardianName || "N/A"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">¿Cómo nos conoció?</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.referralSource || "---"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Referido Por</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.referredBy || "---"}</p>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {/* Medical & Insurance */}
-                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                                    <div className="bg-card rounded-xl border shadow-sm p-6">
-                                        <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
-                                            <div className="p-2.5 rounded-lg bg-blue-500/10 text-blue-500">
-                                                <Stethoscope className="h-5 w-5" />
-                                            </div>
-                                            Datos Médicos
-                                        </h3>
-                                        <div className="space-y-6">
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Alergias</Label>
-                                                <div>
-                                                    {patient.allergies ? (
-                                                        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-rose-50 text-rose-700 dark:bg-rose-900/20 dark:text-rose-400">
-                                                            {patient.allergies}
-                                                        </span>
-                                                    ) : (
-                                                        <span className="text-base text-muted-foreground">Ninguna conocida</span>
-                                                    )}
-                                                </div>
-                                            </div>
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nota Clínica Inicial</Label>
-                                                <p className="text-base font-medium text-foreground whitespace-pre-wrap">{patient.clinicalNotes || "---"}</p>
-                                            </div>
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Condiciones</Label>
-                                                <p className="text-base font-medium text-foreground">{patient.medicalConditions || "Ninguna"}</p>
-                                            </div>
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Medicamentos</Label>
-                                                <p className="text-base font-medium text-foreground">{patient.medications || "Ninguna"}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div className="bg-card rounded-xl border shadow-sm p-6">
-                                        <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
-                                            <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500">
-                                                <FileText className="h-5 w-5" />
-                                            </div>
-                                            Seguro Médico
-                                        </h3>
-                                        <div className="space-y-6">
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Proveedor</Label>
-                                                <p className="text-base font-medium text-foreground">{patient.insuranceProvider || "Privado"}</p>
-                                            </div>
-                                            <div className="space-y-1.5">
-                                                <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Póliza</Label>
-                                                <p className="text-base font-medium font-mono text-foreground">{patient.policyNumber || "N/A"}</p>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    {/* Financial & Management Overview (Pro) */}
-                                    <div className="bg-card rounded-xl border shadow-sm p-6 border-l-4 border-l-primary">
-                                        <h3 className="text-lg font-semibold mb-6 flex items-center gap-3 text-foreground">
-                                            <div className="p-2.5 rounded-lg bg-primary/10 text-primary">
-                                                <CreditCard className="h-5 w-5" />
-                                            </div>
-                                            Gestión y Finanzas
-                                        </h3>
-                                        <div className="space-y-6">
-                                            <div className="flex justify-between items-center bg-muted/30 p-4 rounded-lg">
-                                                <div className="space-y-0.5">
-                                                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Saldo de Cuenta</p>
-                                                    <p className={`text-2xl font-bold ${Number(patient.accountBalance || 0) > 0 ? 'text-rose-600' : 'text-emerald-600'}`}>
-                                                        ${patient.accountBalance || '0.00'}
-                                                    </p>
-                                                </div>
-                                                <Button size="sm" variant="outline" className="h-8">Ver Detalles</Button>
-                                            </div>
-                                            
-                                            <div className="grid grid-cols-2 gap-4">
-                                                <div className="space-y-1.5">
-                                                    <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ciclo de Recall</Label>
-                                                    <div className="flex items-center gap-2">
-                                                        <RefreshCcw className="h-4 w-4 text-primary" />
-                                                        <p className="text-base font-medium text-foreground">{patient.recallMonths || 6} Meses</p>
-                                                    </div>
-                                                </div>
-                                                <div className="space-y-1.5">
-                                                    <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Contacto Pref.</Label>
-                                                    <p className="text-base font-medium text-foreground capitalize">{patient.preferredContactMethod || 'Teléfono'}</p>
-                                                </div>
-                                            </div>
-
-                                            {patient.internalNotes && (
-                                              <div className="space-y-1.5 p-3 bg-amber-50 rounded-lg border border-amber-100">
-                                                  <Label className="text-[10px] font-bold text-amber-800 uppercase tracking-widest flex items-center gap-1">
-                                                     <AlertTriangle className="h-3 w-3" /> Nota Administrativa
-                                                  </Label>
-                                                  <p className="text-sm text-amber-900 line-clamp-2 italic">{patient.internalNotes}</p>
-                                              </div>
-                                            )}
-                                        </div>
-                                    </div>
-                                </div>
-                            </TabsContent>
-
-                            <TabsContent value="medical" className="mt-0 focus-visible:ring-0">
-                                <PatientMedicalRecords patientId={patient.id} />
-                            </TabsContent>
-
-                            <TabsContent value="hcu033" className="mt-0 focus-visible:ring-0">
-                                <HCU033Form 
-                                    patientId={patient.id} 
-                                    patientName={`${patient.name} ${patient.lastName}`} 
-                                    onExpand={(currentData) => {
-                                      setHcuData(currentData)
-                                      setIsHCUOpen(true)
-                                    }}
-                                    externalData={hcuData}
-                                    onDataChange={setHcuData}
-                                />
-                            </TabsContent>
-
-                            <TabsContent value="recipes" className="mt-0 focus-visible:ring-0">
-                                <PatientPrescriptions 
-                                    patientId={patient.id} 
-                                    patientName={`${patient.name} ${patient.lastName}`} 
-                                />
-                            </TabsContent>
-
-                            <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
-                                <AppointmentsList patientId={patient.id} />
-                            </TabsContent>
-                        </div>
-                    </ScrollArea>
-                </div>
-             </Tabs>
-          </div>
+            </Tabs>
+         </div>
       </div>
 
-      
       {isHCUOpen && patient && (
           <HCU033Form 
             patientId={patient!.id} 
             patientName={`${patient!.name} ${patient!.lastName}`} 
             isFullScreen={true}
             onClose={() => setIsHCUOpen(false)}
+            onSave={handleUpdatePatient}
             externalData={hcuData}
             onDataChange={setHcuData}
           />
       )}
+      <style jsx global>{`
+        /* Modern custom scrollbar styling for patient sidebars */
+        .custom-scrollbar::-webkit-scrollbar {
+          width: 5px;
+          height: 5px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(156, 163, 175, 0.25);
+          border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(156, 163, 175, 0.45);
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb {
+          background: rgba(75, 85, 99, 0.35);
+        }
+        .dark .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+          background: rgba(75, 85, 99, 0.55);
+        }
+      `}</style>
     </div>
   )
 }
