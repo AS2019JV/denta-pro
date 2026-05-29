@@ -19,25 +19,25 @@ export function TestimonialCard({ name, role, quote, image, index }: Testimonial
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
     >
-      <Card className="border-none shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 h-full overflow-hidden group bg-card">
-        <div className="h-1.5 w-full bg-gradient-to-r from-primary to-teal-400"></div>
+      <Card className="border border-[#145247]/10 shadow-md hover:shadow-xl hover:-translate-y-2 transition-all duration-300 h-full overflow-hidden group bg-[#F4F7F6]">
+        <div className="h-1.5 w-full bg-gradient-to-r from-[#145247] to-teal-500"></div>
         <CardContent className="p-8">
           <div className="flex items-center gap-4 mb-6">
             <img
               src={image || "/placeholder.svg"}
               alt={name}
-              className="rounded-full h-14 w-14 object-cover ring-4 ring-slate-50 group-hover:ring-teal-100 transition-all"
+              className="rounded-full h-14 w-14 object-cover ring-4 ring-white/60 group-hover:ring-[#145247]/20 transition-all"
             />
             <div>
-              <h4 className="font-bold font-title text-foreground">{name}</h4>
-              <p className="text-teal-600 text-sm font-subtitle font-medium">{role}</p>
+              <h4 className="font-bold font-title text-[#145247]">{name}</h4>
+              <p className="text-[#145247]/80 text-sm font-subtitle font-medium">{role}</p>
             </div>
           </div>
           <div className="relative mb-6">
-            <div className="absolute -top-2 -left-2 text-5xl text-teal-100 font-serif leading-none select-none">"</div>
-            <p className="text-gray-600 italic relative z-10 font-text leading-relaxed pl-2">{quote}</p>
+            <div className="absolute -top-2 -left-2 text-5xl text-[#145247]/10 font-serif leading-none select-none">"</div>
+            <p className="text-[#145247]/95 italic relative z-10 font-text leading-relaxed pl-2">{quote}</p>
           </div>
-          <div className="flex text-amber-400 gap-0.5">
+          <div className="flex text-[#FAA805] gap-0.5">
             {[1, 2, 3, 4, 5].map((star) => (
               <svg
                 key={star}

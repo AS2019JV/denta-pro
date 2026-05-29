@@ -191,8 +191,8 @@ export default function LandingPage() {
       </section>
 
       {/* TESTIMONIALS */}
-      <section id="testimonials" className="py-20 bg-[#E8D9C9] text-[#145247] relative overflow-hidden">
-        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-[#E8D9C9]/50 via-transparent to-transparent"></div>
+      <section id="testimonials" className="py-20 bg-white text-[#145247] relative overflow-hidden">
+        <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,_var(--tw-gradient-stops))] from-neutral-50 via-transparent to-transparent"></div>
         <div className="container px-4 md:px-6 relative">
            <SectionHeader 
              badge="Testimonios"
