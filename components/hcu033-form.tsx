@@ -59,6 +59,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     fecha: new Date().toISOString().split("T")[0],
     nombre_completo: patientName || "",
     identificacion: "",
+    nacionalidad: "Ecuatoriana",
     sexo: "",
     fecha_nacimiento: "",
     edad: "",
@@ -238,12 +239,15 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         .eq('patient_id', patientId)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
 
-      if (data) {
+      if (data && data.form_data) {
         setFormData((prev: any) => {
-            const merged = { ...prev, ...data.form_data };
-            // Ensure array/object fields are not undefined if missing in DB
+            const merged = { 
+              ...prev, 
+              ...data.form_data,
+              nacionalidad: data.form_data.nacionalidad || prev.nacionalidad || "Ecuatoriana" 
+            };
             if (!merged.indicadores_higiene) merged.indicadores_higiene = prev.indicadores_higiene;
             if (!merged.indices_cpo) merged.indices_cpo = prev.indices_cpo;
             if (!merged.indices_ceo) merged.indices_ceo = prev.indices_ceo;
@@ -251,6 +255,50 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
             if (onDataChange) Promise.resolve().then(() => onDataChange(merged))
             return merged;
         })
+      } else {
+        // If no prior HCU form exists, pre-populate from patients table
+        const { data: pData } = await supabase
+          .from('patients')
+          .select('*')
+          .eq('id', patientId)
+          .maybeSingle()
+
+        if (pData) {
+          const birthDate = pData.birth_date ? new Date(pData.birth_date) : null
+          let age = ""
+          if (birthDate && !isNaN(birthDate.getTime())) {
+            const today = new Date()
+            let calculatedAge = today.getFullYear() - birthDate.getFullYear()
+            const monthDiff = today.getMonth() - birthDate.getMonth()
+            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+              calculatedAge--
+            }
+            age = calculatedAge.toString()
+          }
+
+          setFormData((prev: any) => {
+            const populated = {
+              ...prev,
+              nombre_completo: `${pData.first_name || ''} ${pData.last_name || ''}`.trim() || prev.nombre_completo,
+              identificacion: pData.cedula || pData.identification || prev.identificacion,
+              sexo: pData.gender === 'female' ? 'F' : pData.gender === 'male' ? 'M' : prev.sexo,
+              fecha_nacimiento: pData.birth_date || prev.fecha_nacimiento,
+              edad: age || prev.edad,
+              direccion: pData.address || prev.direccion,
+              telefono: pData.phone || prev.telefono,
+              historia_numero: pData.medical_record_number || prev.historia_numero,
+              responsable: pData.guardian_name || pData.emergency_contact || prev.responsable,
+              nacionalidad: pData.nationality || "Ecuatoriana",
+              ant_diabetes: !!pData.has_diabetes,
+              ant_hipertension: !!pData.has_hypertension,
+              ant_enf_cardiaca: !!pData.has_heart_disease,
+              ant_asma: !!pData.is_smoker,
+              ant_otros: pData.allergies ? `Alergias: ${pData.allergies}` : prev.ant_otros
+            }
+            if (onDataChange) Promise.resolve().then(() => onDataChange(populated))
+            return populated
+          })
+        }
       }
     } catch (error) {
       console.error('Error loading form data:', error)
@@ -500,6 +548,19 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                     id="identificacion"
                     value={formData.identificacion}
                     onChange={(e) => updateField("identificacion", e.target.value)}
+                    required
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <Label htmlFor="nacionalidad">
+                    Nacionalidad <span className="text-red-500">*</span>
+                  </Label>
+                  <Input
+                    id="nacionalidad"
+                    value={formData.nacionalidad || "Ecuatoriana"}
+                    onChange={(e) => updateField("nacionalidad", e.target.value)}
+                    placeholder="Ecuatoriana"
                     required
                   />
                 </div>
@@ -1395,15 +1456,21 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                 />
               </div>
 
-              <div className="flex items-center space-x-2">
+              <div className="flex items-start space-x-3 p-3.5 bg-muted/30 rounded-xl border">
                 <Checkbox
                   id="consentimiento_informado"
                   checked={formData.consentimiento_informado}
                   onCheckedChange={(checked) => updateField("consentimiento_informado", checked)}
+                  className="mt-0.5"
                 />
-                <Label htmlFor="consentimiento_informado" className="cursor-pointer">
-                  Consentimiento informado (adjuntar/registrar)
-                </Label>
+                <div className="space-y-0.5">
+                  <Label htmlFor="consentimiento_informado" className="cursor-pointer font-bold text-xs text-foreground">
+                    Consentimiento informado del paciente registrado (Art. 7 Ley Orgánica de Salud / LOPDP Ecuador)
+                  </Label>
+                  <p className="text-[11px] text-muted-foreground leading-normal">
+                    El paciente o su apoderado legal fue informado sobre el diagnóstico, plan de tratamiento, pronóstico, riesgos y alternativas, otorgando su conformidad clínica y autorización de tratamiento de datos sensibles.
+                  </p>
+                </div>
               </div>
 
               <div className="space-y-2">

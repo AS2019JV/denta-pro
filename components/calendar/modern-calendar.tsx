@@ -22,7 +22,7 @@ import {
   endOfDay,
 } from "date-fns"
 import { es } from "date-fns/locale"
-import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil, Trash2, ShieldAlert, DollarSign } from "lucide-react"
+import { ChevronLeft, ChevronRight, Settings, Check, MessageSquare, X, List, Calendar as CalendarIcon, Clock, AlertTriangle, Pencil, Trash2, ShieldAlert, DollarSign, Search } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Card } from "@/components/ui/card"
@@ -96,10 +96,11 @@ export function ModernCalendar({
   const [selectedDentists, setSelectedDentists] = useState<string[]>([])
   const [isMonthChanging, setIsMonthChanging] = useState(false)
   const [monthChangeDirection, setMonthChangeDirection] = useState<"left" | "right">("right")
-
+  const [patientSearchQuery, setPatientSearchQuery] = useState("")
   const [newAppointment, setNewAppointment] = useState({
     patientId: "",
     treatment: "",
+    status: "confirmed" as "scheduled" | "confirmed" | "completed" | "cancelled" | "no_show",
     date: format(selectedDate, "yyyy-MM-dd"),
     customStartTime: { hours: 9, minutes: 0 },
     customEndTime: { hours: 10, minutes: 0 },
@@ -257,7 +258,7 @@ export function ModernCalendar({
           start_time: start.toISOString(),
           end_time: end.toISOString(),
           type: treatment?.name || 'Consulta',
-          status: 'confirmed',
+          status: newAppointment.status || 'confirmed',
           notes: newAppointment.notes
         })
         .select()
@@ -284,6 +285,7 @@ export function ModernCalendar({
       setNewAppointment({
         patientId: "",
         treatment: dbTreatments[0]?.id || "",
+        status: "confirmed",
         date: format(new Date(), "yyyy-MM-dd"),
         customStartTime: { hours: 9, minutes: 0 },
         customEndTime: { hours: 10, minutes: 0 },
@@ -1132,133 +1134,335 @@ export function ModernCalendar({
 
       {/* New Appointment Dialog */}
       <Dialog open={showNewAppointmentDialog} onOpenChange={setShowNewAppointmentDialog}>
-        <DialogContent className="sm:max-w-[500px]">
+        <DialogContent className="sm:max-w-[550px] max-h-[90vh] overflow-y-auto">
             <DialogHeader>
-            <DialogTitle>Nueva Cita</DialogTitle>
-            <DialogDescription>
-                Crear cita para {format(selectedDate, "d 'de' MMMM", { locale: es })}
-            </DialogDescription>
+              <DialogTitle className="text-xl font-bold flex items-center gap-2">
+                <CalendarIcon className="h-5 w-5 text-primary" />
+                Nueva Cita Médica
+              </DialogTitle>
+              <DialogDescription>
+                Agendamiento para el <span className="font-semibold text-foreground">{format(selectedDate, "EEEE d 'de' MMMM, yyyy", { locale: es })}</span>
+              </DialogDescription>
             </DialogHeader>
-            <div className="grid gap-4 py-4">
-                <div className="grid gap-2">
-                    <Label>Paciente</Label>
-                    <div className="relative group">
-                        <Input 
-                            value={newAppointment.patientId ? (dbPatients.find(p => p.id === newAppointment.patientId)?.first_name + " " + dbPatients.find(p => p.id === newAppointment.patientId)?.last_name) : ""}
-                            onChange={(e) => {
-                                const val = e.target.value.toLowerCase()
-                                const found = dbPatients.find(p => `${p.first_name} ${p.last_name}`.toLowerCase() === val)
-                                if (found) setNewAppointment({...newAppointment, patientId: found.id})
-                                else if (!e.target.value) setNewAppointment({...newAppointment, patientId: ""})
-                            }}
-                            placeholder="Buscar paciente..."
-                            list="patient-list"
-                        />
-                        <datalist id="patient-list">
-                            {dbPatients.map(p => (
-                                <option key={p.id} value={`${p.first_name} ${p.last_name}`} />
-                            ))}
-                        </datalist>
-                    </div>
-                </div>
-                <div className="grid gap-2">
-                    <Label>Tratamiento</Label>
-                    <div className="relative group">
-                        <Input 
-                            value={dbTreatments.find(t => t.id === newAppointment.treatment)?.name || ""}
-                            onChange={(e) => {
-                                const val = e.target.value.toLowerCase()
-                                const found = dbTreatments.find(t => t.name.toLowerCase() === val)
-                                if (found) {
-                                  // Auto-calculate End Time
-                                  const duration = found.duration_minutes || 30
-                                  const totalMinutes = newAppointment.customStartTime.hours * 60 + newAppointment.customStartTime.minutes + duration
-                                  const endHours = Math.floor(totalMinutes / 60) % 24
-                                  const endMinutes = totalMinutes % 60
 
-                                  setNewAppointment({
-                                    ...newAppointment, 
-                                    treatment: found.id, 
-                                    invoiceAmount: found.price.toString(),
-                                    customEndTime: { hours: endHours, minutes: endMinutes }
+            <div className="grid gap-5 py-3">
+                {/* 1. Patient Selector & White Card Display */}
+                <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Paciente</Label>
+                    
+                    {!newAppointment.patientId ? (
+                        <div className="space-y-2">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
+                                <Input 
+                                    value={patientSearchQuery}
+                                    onChange={(e) => setPatientSearchQuery(e.target.value)}
+                                    placeholder="Buscar paciente por nombre o teléfono..."
+                                    className="pl-9 h-10 font-medium"
+                                />
+                            </div>
+
+                            {/* Live Search Results Dropdown */}
+                            <div className="max-h-48 overflow-y-auto border rounded-xl divide-y bg-card shadow-sm">
+                                {dbPatients
+                                  .filter(p => {
+                                    if (!patientSearchQuery) return true;
+                                    const q = patientSearchQuery.toLowerCase();
+                                    const fullName = `${p.first_name || ''} ${p.last_name || ''}`.toLowerCase();
+                                    const phone = p.phone || '';
+                                    return fullName.includes(q) || phone.includes(q);
                                   })
-                                } else if (!e.target.value) {
-                                  setNewAppointment({...newAppointment, treatment: ""})
-                                }
-                            }}
-                            placeholder="Buscar servicio..."
-                            list="treatment-list"
-                        />
-                        <datalist id="treatment-list">
-                            {dbTreatments.map(t => (
-                                <option key={t.id} value={t.name} label={`$${t.price} - ${t.duration_minutes}min`} />
-                            ))}
-                        </datalist>
-                    </div>
-                </div>
-                
-                 <div className="grid gap-2">
-                    <Label>Dentista</Label>
-                    <div className="relative group">
-                        <Input 
-                            value={dbDentists.find(d => d.id === newAppointment.dentistId)?.full_name || ""}
-                            onChange={(e) => {
-                                const val = e.target.value.toLowerCase()
-                                const found = dbDentists.find(d => (d.full_name || "").toLowerCase() === val)
-                                if (found) setNewAppointment({...newAppointment, dentistId: found.id})
-                                else if (!e.target.value) setNewAppointment({...newAppointment, dentistId: ""})
-                            }}
-                            placeholder="Buscar dentista..."
-                            list="dentist-list"
-                        />
-                        <datalist id="dentist-list">
-                            {dbDentists.map(d => (
-                                <option key={d.id} value={d.full_name || "Dentista"} />
-                            ))}
-                        </datalist>
-                    </div>
-                </div>
+                                  .slice(0, 8)
+                                  .map(p => (
+                                    <div 
+                                      key={p.id}
+                                      onClick={() => {
+                                        setNewAppointment({ ...newAppointment, patientId: p.id });
+                                        setPatientSearchQuery("");
+                                      }}
+                                      className="p-2.5 px-3 flex items-center justify-between hover:bg-primary/5 hover:text-primary cursor-pointer transition-colors"
+                                    >
+                                      <div className="flex items-center gap-2.5">
+                                        <Avatar className="h-7 w-7 text-[10px] font-bold">
+                                          <AvatarFallback className="bg-primary/10 text-primary">
+                                            {p.first_name?.[0]}{p.last_name?.[0]}
+                                          </AvatarFallback>
+                                        </Avatar>
+                                        <div>
+                                          <p className="text-xs font-bold text-foreground">{p.first_name} {p.last_name}</p>
+                                          <p className="text-[10px] text-muted-foreground">{p.phone || "Sin teléfono"}</p>
+                                        </div>
+                                      </div>
+                                      {p.allergies && (
+                                        <Badge variant="outline" className="text-[9px] border-rose-200 text-rose-600 bg-rose-50 px-1.5 py-0">
+                                          Alergias
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  ))}
+                                {dbPatients.length === 0 && (
+                                  <div className="p-4 text-center text-xs text-muted-foreground">
+                                    No hay pacientes registrados.
+                                  </div>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        /* Selected Patient Distinct White Box Card */
+                        (() => {
+                          const selectedP = dbPatients.find(p => p.id === newAppointment.patientId);
+                          return (
+                            <div className="bg-card border-2 border-primary/30 rounded-xl p-3.5 shadow-sm flex items-center justify-between gap-3 animate-in fade-in duration-200">
+                              <div className="flex items-center gap-3">
+                                <Avatar className="h-11 w-11 border-2 border-primary/20 shadow-sm">
+                                  <AvatarFallback className="bg-primary text-primary-foreground font-black text-xs">
+                                    {selectedP?.first_name?.[0]}{selectedP?.last_name?.[0]}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <div className="space-y-0.5">
+                                  <div className="flex items-center gap-2">
+                                    <h4 className="text-sm font-bold text-foreground">{selectedP?.first_name} {selectedP?.last_name}</h4>
+                                    <Badge variant="outline" className="text-[9px] font-mono px-1.5 py-0 bg-muted">
+                                      {selectedP?.status === 'inactive' ? 'Inactivo' : 'Activo'}
+                                    </Badge>
+                                  </div>
+                                  <p className="text-xs text-muted-foreground font-medium flex items-center gap-2">
+                                    <span>Tel: {selectedP?.phone || 'N/A'}</span>
+                                    {selectedP?.medical_record_number && (
+                                      <span>• HC: #{selectedP.medical_record_number}</span>
+                                    )}
+                                  </p>
+                                  {(selectedP?.has_diabetes || selectedP?.has_hypertension || selectedP?.allergies) && (
+                                    <div className="flex gap-1 pt-0.5">
+                                      {selectedP.allergies && (
+                                        <Badge className="bg-rose-50 text-rose-700 border border-rose-200 text-[9px] px-1 py-0 font-bold">
+                                          ⚠️ {selectedP.allergies}
+                                        </Badge>
+                                      )}
+                                      {selectedP.has_diabetes && (
+                                        <Badge className="bg-rose-50 text-rose-700 border border-rose-200 text-[9px] px-1 py-0 font-bold">Diabetes</Badge>
+                                      )}
+                                      {selectedP.has_hypertension && (
+                                        <Badge className="bg-rose-50 text-rose-700 border border-rose-200 text-[9px] px-1 py-0 font-bold">Hipertensión</Badge>
+                                      )}
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
 
-                <div className="grid flex-row items-center gap-2">
-                    <Label className="flex items-center gap-2">
-                        <Switch checked={newAppointment.createInvoice} onCheckedChange={c => setNewAppointment({...newAppointment, createInvoice: c})} />
-                        Generar Factura Automática
-                    </Label>
-                    {newAppointment.createInvoice && (
-                        <Input 
-                            type="number" 
-                            placeholder="Monto" 
-                            value={newAppointment.invoiceAmount} 
-                            onChange={e => setNewAppointment({...newAppointment, invoiceAmount: e.target.value})}
-                        />
+                              <Button 
+                                type="button" 
+                                variant="ghost" 
+                                size="sm" 
+                                onClick={() => setNewAppointment({ ...newAppointment, patientId: "" })}
+                                className="text-xs text-muted-foreground hover:text-foreground h-8 px-2"
+                              >
+                                Cambiar
+                              </Button>
+                            </div>
+                          );
+                        })()
                     )}
                 </div>
-                
-                <div className="grid grid-cols-2 gap-2">
-                    <div className="grid gap-2">
-                        <Label>Hora Inicio</Label>
-                         <div className="flex items-center gap-1">
-                             <Input type="number" value={newAppointment.customStartTime.hours} onChange={e => setNewAppointment({...newAppointment, customStartTime: {...newAppointment.customStartTime, hours: parseInt(e.target.value)}})} className="w-16"/>
-                             :
-                             <Input type="number" value={newAppointment.customStartTime.minutes} onChange={e => setNewAppointment({...newAppointment, customStartTime: {...newAppointment.customStartTime, minutes: parseInt(e.target.value)}})} className="w-16"/>
-                         </div>
+
+                {/* 2. Treatment / Service Selection with Auto Duration */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Tratamiento / Servicio</Label>
+                    <Select 
+                      value={newAppointment.treatment} 
+                      onValueChange={(val) => {
+                        const found = dbTreatments.find(t => t.id === val);
+                        const duration = found?.duration_minutes || 30;
+                        const totalMinutes = newAppointment.customStartTime.hours * 60 + newAppointment.customStartTime.minutes + duration;
+                        const endHours = Math.floor(totalMinutes / 60) % 24;
+                        const endMinutes = totalMinutes % 60;
+
+                        setNewAppointment({
+                          ...newAppointment,
+                          treatment: val,
+                          invoiceAmount: found?.price ? found.price.toString() : newAppointment.invoiceAmount,
+                          customEndTime: { hours: endHours, minutes: endMinutes }
+                        });
+                      }}
+                    >
+                      <SelectTrigger className="h-10">
+                        <SelectValue placeholder="Seleccionar servicio..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {dbTreatments.map(t => (
+                          <SelectItem key={t.id} value={t.id}>
+                            <div className="flex items-center justify-between w-full gap-4">
+                              <span>{t.name}</span>
+                              <span className="text-xs text-muted-foreground font-mono">(${t.price} • {t.duration_minutes}m)</span>
+                            </div>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {/* 3. Dentist / Doctor Selection */}
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Especialista / Doctor</Label>
+                    <Select 
+                      value={newAppointment.dentistId} 
+                      onValueChange={(val) => setNewAppointment({ ...newAppointment, dentistId: val })}
+                    >
+                      <SelectTrigger className="h-10">
+                        <SelectValue placeholder="Seleccionar doctor..." />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {dbDentists.map(d => (
+                          <SelectItem key={d.id} value={d.id}>
+                            Dr. {d.full_name} {d.specialty ? `(${d.specialty})` : ''}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
+                {/* 4. Status and Date Selection */}
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Estado Inicial de la Cita</Label>
+                    <Select 
+                      value={newAppointment.status} 
+                      onValueChange={(val: any) => setNewAppointment({ ...newAppointment, status: val })}
+                    >
+                      <SelectTrigger className="h-10 font-bold">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="confirmed">
+                          <span className="text-emerald-600 font-bold">✓ Confirmada</span>
+                        </SelectItem>
+                        <SelectItem value="scheduled">
+                          <span className="text-amber-600 font-bold">⏱ Programada (Pendiente)</span>
+                        </SelectItem>
+                        <SelectItem value="completed">
+                          <span className="text-blue-600 font-bold">● Completada</span>
+                        </SelectItem>
+                        <SelectItem value="cancelled">
+                          <span className="text-rose-600 font-bold">✕ Cancelada</span>
+                        </SelectItem>
+                        <SelectItem value="no_show">
+                          <span className="text-slate-600 font-bold">⚠ No Asistió</span>
+                        </SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Fecha de la Cita</Label>
+                    <Input 
+                      type="date"
+                      value={newAppointment.date}
+                      onChange={(e) => setNewAppointment({ ...newAppointment, date: e.target.value })}
+                      className="h-10"
+                    />
+                  </div>
+                </div>
+
+                {/* 5. Start and End Time Display */}
+                <div className="grid grid-cols-2 gap-4 bg-muted/30 p-3.5 rounded-xl border">
+                    <div className="space-y-1.5">
+                        <Label className="text-xs font-semibold text-muted-foreground">Hora de Inicio</Label>
+                        <div className="flex items-center gap-1.5">
+                          <Input 
+                            type="number" 
+                            min={0} 
+                            max={23}
+                            value={newAppointment.customStartTime.hours} 
+                            onChange={e => setNewAppointment({ ...newAppointment, customStartTime: { ...newAppointment.customStartTime, hours: parseInt(e.target.value) || 0 } })} 
+                            className="w-16 text-center font-bold"
+                          />
+                          <span className="font-bold">:</span>
+                          <Input 
+                            type="number" 
+                            min={0} 
+                            max={59}
+                            step={5}
+                            value={newAppointment.customStartTime.minutes} 
+                            onChange={e => setNewAppointment({ ...newAppointment, customStartTime: { ...newAppointment.customStartTime, minutes: parseInt(e.target.value) || 0 } })} 
+                            className="w-16 text-center font-bold"
+                          />
+                        </div>
                     </div>
-                     <div className="grid gap-2">
-                        <Label>Hora Fin</Label>
-                         <div className="flex items-center gap-1">
-                             <Input type="number" value={newAppointment.customEndTime.hours} onChange={e => setNewAppointment({...newAppointment, customEndTime: {...newAppointment.customEndTime, hours: parseInt(e.target.value)}})} className="w-16"/>
-                             :
-                             <Input type="number" value={newAppointment.customEndTime.minutes} onChange={e => setNewAppointment({...newAppointment, customEndTime: {...newAppointment.customEndTime, minutes: parseInt(e.target.value)}})} className="w-16"/>
-                         </div>
+
+                    <div className="space-y-1.5">
+                        <Label className="text-xs font-semibold text-muted-foreground">Hora de Fin (Estimada)</Label>
+                        <div className="flex items-center gap-1.5">
+                          <Input 
+                            type="number" 
+                            min={0} 
+                            max={23}
+                            value={newAppointment.customEndTime.hours} 
+                            onChange={e => setNewAppointment({ ...newAppointment, customEndTime: { ...newAppointment.customEndTime, hours: parseInt(e.target.value) || 0 } })} 
+                            className="w-16 text-center font-bold"
+                          />
+                          <span className="font-bold">:</span>
+                          <Input 
+                            type="number" 
+                            min={0} 
+                            max={59}
+                            step={5}
+                            value={newAppointment.customEndTime.minutes} 
+                            onChange={e => setNewAppointment({ ...newAppointment, customEndTime: { ...newAppointment.customEndTime, minutes: parseInt(e.target.value) || 0 } })} 
+                            className="w-16 text-center font-bold"
+                          />
+                        </div>
                     </div>
                 </div>
-                <div className="grid gap-2">
-                    <Label>Notas</Label>
-                    <Textarea value={newAppointment.notes} onChange={e => setNewAppointment({...newAppointment, notes: e.target.value})} />
+
+                {/* 6. Invoice / Billing Toggle */}
+                <div className="flex items-center justify-between p-3 rounded-xl border bg-muted/20">
+                    <Label className="flex items-center gap-2 text-xs font-bold cursor-pointer">
+                        <Switch 
+                          checked={newAppointment.createInvoice} 
+                          onCheckedChange={c => setNewAppointment({ ...newAppointment, createInvoice: c })} 
+                        />
+                        <span>Generar Cobro / Registro Financiero</span>
+                    </Label>
+                    {newAppointment.createInvoice && (
+                        <div className="flex items-center gap-1">
+                          <span className="text-xs font-bold text-muted-foreground">$</span>
+                          <Input 
+                              type="number" 
+                              placeholder="Monto" 
+                              value={newAppointment.invoiceAmount} 
+                              onChange={e => setNewAppointment({ ...newAppointment, invoiceAmount: e.target.value })}
+                              className="w-24 h-8 text-xs font-bold"
+                          />
+                        </div>
+                    )}
+                </div>
+
+                {/* 7. Clinical & Internal Notes */}
+                <div className="space-y-1.5">
+                    <Label className="text-xs font-bold uppercase tracking-wider text-muted-foreground">Notas de la Cita</Label>
+                    <Textarea 
+                      value={newAppointment.notes} 
+                      onChange={e => setNewAppointment({ ...newAppointment, notes: e.target.value })}
+                      placeholder="Motivo específico, preparación requerida o indicaciones para el paciente..."
+                      rows={2}
+                      className="text-xs"
+                    />
                 </div>
             </div>
-            <DialogFooter>
-                <Button onClick={handleCreateAppointment}>Guardar Cita</Button>
+
+            <DialogFooter className="gap-2">
+                <Button variant="outline" onClick={() => setShowNewAppointmentDialog(false)}>
+                  Cancelar
+                </Button>
+                <Button 
+                  onClick={handleCreateAppointment}
+                  disabled={!newAppointment.patientId}
+                  className="bg-primary hover:bg-primary/95 text-white font-bold"
+                >
+                  Confirmar y Agendar Cita
+                </Button>
             </DialogFooter>
         </DialogContent>
       </Dialog>

@@ -1,15 +1,26 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save } from 'lucide-react';
+import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save, RotateCcw, Trash2, AlertCircle } from 'lucide-react';
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogClose,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
 
-// --- CONFIGURACIÓN Y COLORES ---
+// --- CONFIGURACIÓN Y COLORES (MSP SNS / HCU-033) ---
 const MODES = {
-  PATHOLOGY: { id: 'pathology', label: 'Patología', color: '#ef4444' }, // Red
-  TREATMENT: { id: 'treatment', label: 'Realizado', color: '#3b82f6' }  // Blue
+  PATHOLOGY: { id: 'pathology', label: 'Patología', color: '#ef4444' }, // Red (Rojo)
+  TREATMENT: { id: 'treatment', label: 'Realizado', color: '#2563eb' }  // Blue (Azul)
 };
 
 const TOOLS = {
@@ -46,7 +57,6 @@ const ARCH_SEQUENCES = {
   LOWER_CHILD: [85, 84, 83, 82, 81, 71, 72, 73, 74, 75]
 };
 
-// --- LOGICA DE ESTADO ---
 const generateInitialState = () => {
   const state: Record<string, any> = {};
   const allTeeth = [
@@ -66,8 +76,6 @@ const generateInitialState = () => {
   });
   return state;
 };
-
-// --- COMPONENTES UI ---
 
 interface ToothProps {
   id: number;
@@ -89,7 +97,7 @@ const Tooth = ({
   const condition = data?.condition;
   const isRemovible = data?.bridge?.type === 'removible';
   const statusColor = isRemovible 
-    ? '#8b5cf6' // Premium Violet 500 for Removable Bridge (notorious!)
+    ? '#8b5cf6' 
     : (data?.status === 'completed' ? MODES.TREATMENT.color : MODES.PATHOLOGY.color);
   
   const isLoss = condition === 'loss_other';
@@ -97,9 +105,6 @@ const Tooth = ({
   const isEndo = condition === 'endodontics';
   const isCrown = condition === 'crown';
 
-  // Logic to determine if it's an upper (maxilar) or lower (mandibular) tooth
-  // Upper: 18-11, 21-28, 55-51, 61-65
-  // Lower: 41-48, 31-38, 85-81, 71-75
   const isUpper = (id >= 11 && id <= 28) || (id >= 51 && id <= 65);
 
   const getSurfaceFill = (surface: string) => {
@@ -128,16 +133,18 @@ const Tooth = ({
   const renderInputs = () => (
     <div className="flex flex-col gap-0.5">
        <input 
-          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card"
+          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card rounded"
           placeholder="R"
           value={data?.recesion || ''}
           onChange={(e) => onApply(id, 'recesion', { id: 'meta' }, e.target.value as any)}
+          title="Recesión gingival"
        />
        <input 
-          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card"
+          className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card rounded"
           placeholder="M"
           value={data?.movilidad || ''}
           onChange={(e) => onApply(id, 'movilidad', { id: 'meta' }, e.target.value as any)}
+          title="Movilidad dental"
        />
     </div>
   );
@@ -146,107 +153,112 @@ const Tooth = ({
     <div className="flex flex-col items-center select-none">
       {isUpper && renderInputs()}
       
-      <div className="relative w-6 h-6 sm:w-7 sm:h-7 md:w-8 md:h-8 lg:w-9 lg:h-9 xl:w-10 xl:h-10 my-1 flex items-center justify-center">
+      <div className="relative w-7 h-7 sm:w-8 sm:h-8 md:w-9 md:h-9 lg:w-10 lg:h-10 my-1 flex items-center justify-center">
         {isInsideFixedRange && (
-            <div 
-               className={cn(
-                  "absolute top-1/2 left-0 right-0 h-0 z-10 flex items-center justify-center pointer-events-none",
-                  isFixedEndpoint ? "" : "border-t-2 border-solid"
-               )} 
-               style={{ borderColor: statusColor }}
-            >
-               {!isFixedEndpoint && (
-                  <span className="text-[12px] font-black leading-none select-none bg-card px-0.5 rounded" style={{ color: statusColor }}>-</span>
-               )}
-            </div>
-        )}
-        {isFixedEndpoint && (
-            <div className="absolute inset-x-0 inset-y-0 border-2 z-20 pointer-events-none rounded" style={{ borderColor: statusColor }} />
+          <div className="absolute inset-x-0 h-1 bg-red-500 top-1/2 -translate-y-1/2 z-0 opacity-80" />
         )}
         {isInsideRemovibleRange && (
-            <div className="absolute top-[60%] left-0 right-0 h-0 z-10 flex items-center justify-center pointer-events-none border-t-[3px] border-dashed border-violet-500 dark:border-violet-400" />
+          <div className="absolute inset-x-0 h-1.5 border-y border-dashed border-purple-500 top-1/2 -translate-y-1/2 z-0" />
         )}
 
-        {isExtracted && <X className="absolute inset-0 w-full h-full z-30 opacity-80" strokeWidth={3} color={statusColor} />}
-        {isLoss && <div className="absolute inset-0 flex items-center justify-center z-30"><div className="w-1 h-full" style={{ backgroundColor: statusColor }} /></div>}
-        {isEndo && <div className="absolute inset-0 flex items-center justify-center z-30"><div className="w-0.5 h-full relative" style={{ backgroundColor: statusColor }}><div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-3 rotate-45 border-t-2 border-l-2" style={{ borderColor: statusColor }} /></div></div>}
-        {isCrown && <div className="absolute inset-0 rounded-full border-4 z-20 pointer-events-none" style={{ borderColor: statusColor }} />}
+        <svg viewBox="0 0 100 100" className="w-full h-full z-10 drop-shadow-sm">
+          <polygon 
+            points="10,10 90,10 70,30 30,30" 
+            fill={getSurfaceFill('top')}
+            stroke={getSurfaceStroke('top')}
+            strokeWidth="2"
+            className="cursor-pointer hover:opacity-80 transition-colors"
+            onClick={() => handleApply('top')}
+          />
+          <polygon 
+            points="90,10 90,90 70,70 70,30" 
+            fill={getSurfaceFill('right')}
+            stroke={getSurfaceStroke('right')}
+            strokeWidth="2"
+            className="cursor-pointer hover:opacity-80 transition-colors"
+            onClick={() => handleApply('right')}
+          />
+          <polygon 
+            points="10,90 90,90 70,70 30,70" 
+            fill={getSurfaceFill('bottom')}
+            stroke={getSurfaceStroke('bottom')}
+            strokeWidth="2"
+            className="cursor-pointer hover:opacity-80 transition-colors"
+            onClick={() => handleApply('bottom')}
+          />
+          <polygon 
+            points="10,10 10,90 30,70 30,30" 
+            fill={getSurfaceFill('left')}
+            stroke={getSurfaceStroke('left')}
+            strokeWidth="2"
+            className="cursor-pointer hover:opacity-80 transition-colors"
+            onClick={() => handleApply('left')}
+          />
+          <rect 
+            x="30" y="30" width="40" height="40" 
+            fill={getSurfaceFill('center')}
+            stroke={getSurfaceStroke('center')}
+            strokeWidth="2"
+            className="cursor-pointer hover:opacity-80 transition-colors"
+            onClick={() => handleApply('center')}
+          />
 
-        <svg viewBox="0 0 100 100" className="w-full h-full drop-shadow-[0_1px_1px_rgba(0,0,0,0.05)]">
-            <g className="cursor-pointer">
-                {isDeciduous ? (
-                    <>
-                        <path d="M 20,20 L 80,20 L 50,51 Z" fill={getSurfaceFill('top')} stroke={getSurfaceStroke('top')} strokeWidth="1" onClick={() => handleApply('top')} />
-                        <path d="M 20,80 L 80,80 L 50,49 Z" fill={getSurfaceFill('bottom')} stroke={getSurfaceStroke('bottom')} strokeWidth="1" onClick={() => handleApply('bottom')} />
-                        <path d="M 20,20 L 20,80 L 49,50 Z" fill={getSurfaceFill('left')} stroke={getSurfaceStroke('left')} strokeWidth="1" onClick={() => handleApply('left')} />
-                        <path d="M 80,20 L 80,80 L 51,50 Z" fill={getSurfaceFill('right')} stroke={getSurfaceStroke('right')} strokeWidth="1" onClick={() => handleApply('right')} />
-                        <circle cx="50" cy="50" r="18" fill={getSurfaceFill('center')} stroke={getSurfaceStroke('center')} strokeWidth="1" onClick={() => handleApply('center')} />
-                    </>
-                ) : (
-                    <>
-                        <polygon points="5,5 95,5 70,30 30,30" fill={getSurfaceFill('top')} stroke={getSurfaceStroke('top')} strokeWidth="1" onClick={() => handleApply('top')} />
-                        <polygon points="30,70 70,70 95,95 5,95" fill={getSurfaceFill('bottom')} stroke={getSurfaceStroke('bottom')} strokeWidth="1" onClick={() => handleApply('bottom')} />
-                        <polygon points="5,5 30,30 30,70 5,95" fill={getSurfaceFill('left')} stroke={getSurfaceStroke('left')} strokeWidth="1" onClick={() => handleApply('left')} />
-                        <polygon points="95,5 95,95 70,70 70,30" fill={getSurfaceFill('right')} stroke={getSurfaceStroke('right')} strokeWidth="1" onClick={() => handleApply('right')} />
-                        <rect x="30" y="30" width="40" height="40" fill={getSurfaceFill('center')} stroke={getSurfaceStroke('center')} strokeWidth="1" onClick={() => handleApply('center')} />
-                    </>
-                )}
+          {isExtracted && (
+            <g stroke={statusColor} strokeWidth="6" strokeLinecap="round">
+              <line x1="15" y1="15" x2="85" y2="85" />
+              <line x1="85" y1="15" x2="15" y2="85" />
             </g>
+          )}
+
+          {isLoss && (
+            <rect x="25" y="10" width="50" height="80" fill="none" stroke={statusColor} strokeWidth="4" />
+          )}
+
+          {isEndo && (
+            <polygon points="50,15 85,85 15,85" fill="none" stroke={statusColor} strokeWidth="4" />
+          )}
+
+          {isCrown && (
+            <circle cx="50" cy="50" r="38" fill={statusColor} opacity="0.85" />
+          )}
         </svg>
       </div>
 
+      <span className="text-[10px] font-black text-muted-foreground font-mono mt-0.5">{id}</span>
       {!isUpper && renderInputs()}
-      <span className="text-[10px] font-black text-slate-400 mt-1">{id}</span>
     </div>
   );
 };
 
-// --- COMPONENTE PRINCIPAL ---
+export const calculateCPOceo = (teethState: Record<string, any>) => {
+  let C = 0, P = 0, O = 0;
+  let c = 0, e = 0, o = 0;
 
-// --- CALCULO DINAMICO CPO-ceo ---
-const calculateCPOceo = (teeth: Record<string, any>) => {
-  let C = 0, P = 0, O = 0; // Permanente
-  let c = 0, e = 0, o = 0; // Temporario
+  const adultTeeth = Object.values(ADULT_QUADRANTS).flat();
+  const childTeeth = Object.values(CHILD_QUADRANTS).flat();
 
-  Object.entries(teeth).forEach(([idKey, data]) => {
-    const id = parseInt(idKey);
-    const isDeciduous = (id >= 51 && id <= 65) || (id >= 71 && id <= 85);
-    
-    const condition = data?.condition;
-    const status = data?.status; // 'completed' (blue) or 'planned' (red)
-    
-    // Decayed (C / c)
-    let hasCariesPlanned = false;
-    let hasCariesCompleted = false;
-    if (data?.surfaces) {
-      Object.values(data.surfaces).forEach((val: any) => {
-        if (val) {
-          const [tool, mode] = val.split(':');
-          if (tool === 'caries') {
-            if (mode === 'red') hasCariesPlanned = true;
-            if (mode === 'blue') hasCariesCompleted = true;
-          }
-        }
-      });
-    }
+  adultTeeth.forEach(id => {
+    const t = teethState[id];
+    if (!t) return;
+    const hasCaries = Object.values(t.surfaces || {}).some((v: any) => v && v.startsWith('caries:red'));
+    const isPerdido = t.condition === 'extraction' || t.condition === 'loss_other';
+    const isObturado = Object.values(t.surfaces || {}).some((v: any) => v && v.startsWith('caries:blue')) || t.condition === 'crown';
 
-    if (isDeciduous) {
-      if (hasCariesPlanned) {
-        c++;
-      } else if (condition === 'extraction' && status === 'planned') {
-        e++;
-      } else if (hasCariesCompleted || (condition === 'crown' && status === 'completed')) {
-        o++;
-      }
-    } else {
-      if (hasCariesPlanned) {
-        C++;
-      } else if ((condition === 'extraction' || condition === 'loss_other') && status === 'planned') {
-        P++;
-      } else if (hasCariesCompleted || (condition === 'crown' && status === 'completed')) {
-        O++;
-      }
-    }
+    if (hasCaries) C++;
+    else if (isPerdido) P++;
+    else if (isObturado) O++;
+  });
+
+  childTeeth.forEach(id => {
+    const t = teethState[id];
+    if (!t) return;
+    const hasCaries = Object.values(t.surfaces || {}).some((v: any) => v && v.startsWith('caries:red'));
+    const isExtraccion = t.condition === 'extraction';
+    const isObturado = Object.values(t.surfaces || {}).some((v: any) => v && v.startsWith('caries:blue')) || t.condition === 'crown';
+
+    if (hasCaries) c++;
+    else if (isExtraccion) e++;
+    else if (isObturado) o++;
   });
 
   return {
@@ -255,8 +267,9 @@ const calculateCPOceo = (teeth: Record<string, any>) => {
   };
 };
 
-export function OdontogramaInteractive({ data = {}, onChange, patientName = "Paciente", patientId = "", readOnly = false, stickyOffset = 96, onSave }: any) {
+export function OdontogramaInteractive({ data = {}, onChange, patientName = "Paciente", patientId = "", readOnly = false, stickyOffset = 0, onSave }: any) {
   const [teethState, setTeethState] = useState<Record<string, any>>(() => ({ ...generateInitialState(), ...data }));
+  const [history, setHistory] = useState<Record<string, any>[]>([]);
   const [activeTool, setActiveTool] = useState<any>(TOOLS.SELECT);
   const [activeMode, setActiveMode] = useState<'red' | 'blue'>('red');
   const [rangeStart, setRangeStart] = useState<number | null>(null);
@@ -264,8 +277,6 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (readOnly) return;
-      
-      // Ignore key events when the user is typing in inputs or textareas
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || (e.target as HTMLElement).isContentEditable) {
         return;
       }
@@ -273,7 +284,6 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
       const key = e.key;
       const code = e.code;
 
-      // Color/Mode Shortcuts
       if (key.toLowerCase() === 'p' || key === '*' || key === '-' || code === 'NumpadSubtract' || code === 'NumpadMultiply') {
         setActiveMode('red');
         e.preventDefault();
@@ -282,7 +292,6 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
         e.preventDefault();
       }
 
-      // Tool Shortcuts (Standard & Numpad)
       if (key === '1' || code === 'Numpad1') {
         setActiveTool(TOOLS.CARIES);
         setRangeStart(null);
@@ -331,10 +340,11 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   const applyTreatment = useCallback((toothId: number, zone: string, tool: any, mode: any) => {
     if (readOnly) return;
     
-    // Compute the new state outside the state setter to avoid React render lifecycle warnings
+    setHistory(prev => [...prev.slice(-15), teethState]);
+
     const newState = { ...teethState };
     const tooth = { ...(newState[toothId] || { id: toothId, surfaces: {}, condition: null, status: null, recesion: '', movilidad: '' }) };
-    tooth.surfaces = { ...tooth.surfaces }; // Shallow copy of surfaces for safety
+    tooth.surfaces = { ...tooth.surfaces };
     
     if (tool.id === 'meta') {
         tooth[zone] = mode;
@@ -352,7 +362,6 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     }
     
     newState[toothId] = tooth;
-    
     setTeethState(newState);
     onChange?.(newState);
   }, [onChange, readOnly, teethState]);
@@ -365,7 +374,6 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     
     let selectedArchSequence: number[] | null = null;
 
-    // Find which anatomical sequence contains BOTH teeth
     for (const seq of Object.values(ARCH_SEQUENCES)) {
         if (seq.includes(rangeStart) && seq.includes(endId)) {
             selectedArchSequence = seq;
@@ -374,6 +382,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     }
 
     if (selectedArchSequence) {
+        setHistory(prev => [...prev.slice(-15), teethState]);
         const newState = { ...teethState };
         const startIndex = selectedArchSequence.indexOf(rangeStart);
         const endIndex = selectedArchSequence.indexOf(endId);
@@ -401,6 +410,21 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     setRangeStart(null);
   };
 
+  const handleUndo = () => {
+    if (history.length === 0) return;
+    const previous = history[history.length - 1];
+    setHistory(prev => prev.slice(0, -1));
+    setTeethState(previous);
+    onChange?.(previous);
+  };
+
+  const handleClearAll = () => {
+    setHistory(prev => [...prev.slice(-15), teethState]);
+    const cleanState = generateInitialState();
+    setTeethState(cleanState);
+    onChange?.(cleanState);
+  };
+
   const renderQuadrant = (ids: number[], isChild = false) => (
     <div className="flex gap-0.5 sm:gap-1">
       {ids.map(id => {
@@ -426,52 +450,50 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   );
 
   return (
-    <div className="bg-card rounded-xl shadow-2xl border flex flex-col w-full">
-      {/* TOOLBAR */}
+    <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full overflow-hidden">
       <div 
-         className="bg-muted/95 backdrop-blur supports-[backdrop-filter]:bg-muted/60 border-b p-4 flex flex-wrap items-center justify-between gap-4 rounded-t-xl sticky z-20 transition-all shadow-sm"
-         style={{ top: `${stickyOffset}px` }}
+         className="bg-card/95 backdrop-blur border-b p-3.5 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-30 transition-all shadow-sm"
       >
-         <div className="flex items-center gap-6 flex-wrap">
+         <div className="flex items-center gap-4 flex-wrap">
             <div className="space-y-1">
-               <h3 className="text-xs font-black uppercase tracking-tighter text-slate-400">Estado Clínico</h3>
-               <div className="flex bg-card rounded-lg p-1 border shadow-sm">
+               <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block">Diagnóstico / Estado</span>
+               <div className="flex bg-muted rounded-lg p-0.5 border shadow-inner">
                   <button 
                     onClick={() => setActiveMode('red')}
-                    className={cn("px-4 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-2", activeMode === 'red' ? "bg-red-500 text-white shadow-lg shadow-red-200" : "text-slate-500")}
+                    className={cn(
+                      "px-3 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1.5", 
+                      activeMode === 'red' ? "bg-red-500 text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+                    )}
                   >
-                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-card" : "bg-red-500")} />
-                    PATOLOGÍA
-                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded border border-current bg-black/5 opacity-60 ml-1">P / -</span>
+                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-white" : "bg-red-500")} />
+                    PATOLOGÍA (Rojo)
                   </button>
                   <button 
                     onClick={() => setActiveMode('blue')}
-                    className={cn("px-4 py-1.5 rounded-md text-xs font-bold transition-all flex items-center gap-2", activeMode === 'blue' ? "bg-blue-600 text-white shadow-lg shadow-blue-200" : "text-slate-500")}
+                    className={cn(
+                      "px-3 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1.5", 
+                      activeMode === 'blue' ? "bg-blue-600 text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+                    )}
                   >
-                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'blue' ? "bg-card" : "bg-blue-600")} />
-                    REALIZADO
-                    <span className="text-[9px] font-mono font-bold px-1 py-0.2 rounded border border-current bg-black/5 opacity-60 ml-1">R / +</span>
+                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'blue' ? "bg-white" : "bg-blue-600")} />
+                    REALIZADO (Azul)
                   </button>
                </div>
             </div>
  
             <div className="space-y-1">
-               <h3 className="text-xs font-black uppercase tracking-tighter text-slate-400">Herramientas</h3>
-               <div className="flex gap-1.5 flex-wrap">
+               <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block">Herramientas Normadas MSP</span>
+               <div className="flex gap-1 flex-wrap items-center">
                   <button
                      onClick={() => { setActiveTool(TOOLS.SELECT); setRangeStart(null); }}
                      className={cn(
-                         "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap flex items-center gap-1.5",
-                         activeTool.id === TOOLS.SELECT.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-card text-slate-600 hover:border-slate-400"
+                         "px-2.5 py-1 rounded-lg border text-[11px] font-bold uppercase transition-all whitespace-nowrap flex items-center gap-1",
+                         activeTool.id === TOOLS.SELECT.id ? "bg-foreground text-background border-foreground shadow" : "bg-card text-muted-foreground hover:border-border"
                      )}
+                     title="Seleccionar / Ver"
                   >
+                     <MousePointer2 className="h-3 w-3" />
                      {TOOLS.SELECT.label}
-                     <span className={cn(
-                        "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
-                        activeTool.id === TOOLS.SELECT.id ? "border-white/20 bg-white/10" : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
-                     )}>
-                        Esc
-                     </span>
                   </button>
 
                   {[TOOLS.CARIES, TOOLS.SEALANT, TOOLS.EXTRACTION, TOOLS.CROWN, TOOLS.ENDODONTICS, TOOLS.LOSS_OTHER, TOOLS.PROSTHESIS_FIXED, TOOLS.PROSTHESIS_REMOVABLE].map(tool => (
@@ -479,157 +501,211 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                         key={tool.id}
                         onClick={() => { setActiveTool(tool); setRangeStart(null); }}
                         className={cn(
-                            "px-3 py-1.5 rounded-lg border text-[10px] font-black uppercase transition-all whitespace-nowrap flex items-center gap-1.5",
-                            activeTool.id === tool.id ? "bg-slate-900 text-white border-slate-900 shadow-lg" : "bg-card text-slate-600 hover:border-slate-400"
+                            "px-2.5 py-1 rounded-lg border text-[11px] font-bold uppercase transition-all whitespace-nowrap flex items-center gap-1",
+                            activeTool.id === tool.id ? "bg-primary text-primary-foreground border-primary shadow" : "bg-card text-muted-foreground hover:border-primary/40"
                         )}
-                        style={tool.id === 'removible' ? { borderColor: '#c084fc', color: activeTool.id === 'removible' ? undefined : '#6b21a8' } : undefined}
                      >
                         {tool.label}
-                        <span className={cn(
-                           "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
-                           activeTool.id === tool.id ? "border-white/20 bg-white/10" : "border-slate-200 bg-slate-50 dark:border-slate-800 dark:bg-slate-900"
-                        )}>
-                           {tool.hotkey}
-                        </span>
+                        <span className="text-[9px] font-mono opacity-60 ml-0.5">({tool.hotkey})</span>
                       </button>
                   ))}
                   
                   <button 
                      onClick={() => { setActiveTool(TOOLS.ERASER); setRangeStart(null); }} 
-                     className={cn("p-1.5 px-2.5 rounded-lg border flex items-center gap-1.5 text-xs font-bold transition-all", activeTool.id === 'eraser' ? "bg-red-100 border-red-200 text-red-600 shadow-sm" : "bg-card text-slate-600 hover:border-slate-400")}
-                     title="Borrador [0 / Del]"
+                     className={cn(
+                       "p-1 px-2 rounded-lg border flex items-center gap-1 text-[11px] font-bold transition-all", 
+                       activeTool.id === 'eraser' ? "bg-red-500 text-white border-red-500 shadow-sm" : "bg-card text-red-600 border-red-200 hover:bg-red-50"
+                     )}
+                     title="Borrador dental [0 / Del]"
                   >
-                     <Eraser size={14} />
-                     <span className={cn(
-                        "text-[9px] font-mono font-bold px-1 py-0.2 rounded border",
-                        activeTool.id === 'eraser' ? "border-red-200 bg-red-50 text-red-600" : "border-slate-200 bg-slate-50 text-slate-500 dark:border-slate-800 dark:bg-slate-900"
-                     )}>
-                        0
-                     </span>
+                     <Eraser className="h-3 w-3" />
+                     Borrar
                   </button>
                </div>
             </div>
          </div>
 
-         {onSave && (
-            <div className="flex items-center gap-2 flex-shrink-0">
+         <div className="flex items-center gap-2 flex-shrink-0">
+            <button
+               onClick={handleUndo}
+               disabled={history.length === 0}
+               className={cn(
+                 "p-1.5 px-2.5 rounded-lg border flex items-center gap-1 text-xs font-bold transition-all",
+                 history.length > 0 ? "bg-card text-foreground hover:bg-muted" : "opacity-40 cursor-not-allowed bg-muted text-muted-foreground"
+               )}
+               title="Deshacer último cambio"
+            >
+               <RotateCcw className="h-3.5 w-3.5" />
+               <span className="hidden sm:inline">Deshacer</span>
+            </button>
+
+            <Dialog>
+               <DialogTrigger asChild>
+                  <button
+                     className="p-1.5 px-2.5 rounded-lg border border-rose-200 text-rose-600 bg-rose-50 hover:bg-rose-100 flex items-center gap-1 text-xs font-bold transition-all"
+                     title="Limpiar todos los símbolos del odontograma"
+                  >
+                     <Trash2 className="h-3.5 w-3.5" />
+                     <span className="hidden sm:inline">Limpiar Todo</span>
+                  </button>
+               </DialogTrigger>
+               <DialogContent className="sm:max-w-[425px]">
+                  <DialogHeader>
+                     <DialogTitle className="flex items-center gap-2 text-rose-600">
+                        <AlertCircle className="h-5 w-5" />
+                        ¿Limpiar todo el odontograma?
+                     </DialogTitle>
+                     <DialogDescription>
+                        Esta acción borrará todas las anotaciones, caries, prótesis y piezas dentales marcadas para este paciente. Podrás deshacerlo con el botón "Deshacer" si lo requieres.
+                     </DialogDescription>
+                  </DialogHeader>
+                  <DialogFooter className="gap-2 sm:gap-0">
+                     <DialogClose asChild>
+                        <Button variant="outline" size="sm">Cancelar</Button>
+                     </DialogClose>
+                     <DialogClose asChild>
+                        <Button size="sm" onClick={handleClearAll} className="bg-rose-600 hover:bg-rose-700 text-white font-bold">
+                           Sí, Limpiar Odontograma
+                        </Button>
+                     </DialogClose>
+                  </DialogFooter>
+               </DialogContent>
+            </Dialog>
+
+            {onSave && (
                <button
                   onClick={onSave}
-                  className="px-4 py-2 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md shadow-blue-200 dark:shadow-none hover:shadow-lg transition-all"
-                  title="Guardar expediente"
+                  className="px-4 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-xs font-black uppercase tracking-wider flex items-center gap-1.5 shadow-md hover:shadow-lg transition-all"
+                  title="Guardar odontograma"
                >
-                  <Save size={13} />
+                  <Save className="h-3.5 w-3.5" />
                   GUARDAR
                </button>
-            </div>
-         )}
+            )}
+         </div>
 
          {rangeStart && (
-             <div className="bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl flex items-center gap-3 animate-pulse">
-                <Info size={16} className="text-amber-600" />
-                <p className="text-xs font-bold text-amber-700">Seleccione la pieza final para {activeTool.label}</p>
-                <button onClick={() => setRangeStart(null)} className="text-[10px] uppercase font-black text-amber-900 underline">Cancelar</button>
+             <div className="w-full bg-amber-50 border border-amber-200 px-4 py-2 rounded-xl flex items-center justify-between text-xs font-bold text-amber-800 animate-in fade-in duration-200">
+                <div className="flex items-center gap-2">
+                   <Info className="h-4 w-4 text-amber-600 animate-pulse" />
+                   <span>Pieza #{rangeStart} seleccionada. Ahora haga clic en la pieza final para {activeTool.label}.</span>
+                </div>
+                <button onClick={() => setRangeStart(null)} className="text-[10px] uppercase font-black underline hover:text-amber-950">Cancelar</button>
              </div>
          )}
       </div>
 
-      {/* CANVAS */}
-      <div className="flex-1 p-4 md:p-8 bg-muted/50/30">
-         <div className="mx-auto max-w-5xl flex flex-col gap-6 md:gap-12 bg-card p-4 sm:p-6 md:p-8 lg:p-12 rounded-xl md:rounded-[2rem] shadow-inner border border-border/50">
+      <div className="flex-1 p-4 md:p-6 bg-muted/20">
+         <div className="mx-auto max-w-5xl flex flex-col gap-6 bg-card p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border">
             
-            {/* Legend/Header */}
-            <div className="flex justify-between items-start border-b pb-6">
+            <div className="flex justify-between items-start border-b pb-4">
                 <div>
-                    <h2 className="text-2xl font-black text-foreground tracking-tight">6 ODONTOGRAMA</h2>
-                    <p className="text-[11px] text-slate-400 font-medium max-w-sm mt-1">
-                        PINTAR CON: <span className="text-blue-600 font-bold">AZUL PARA TRATAMIENTO REALIZADO</span> - <span className="text-red-500 font-bold">ROJO PARA PATOLOGÍA ACTUAL</span>
+                    <h2 className="text-xl font-black text-foreground tracking-tight flex items-center gap-2">
+                       <span>6 ODONTOGRAMA</span>
+                       <Badge variant="outline" className="text-[10px] font-mono py-0 border-blue-200 text-blue-700 bg-blue-50">
+                          SNS-MSP / HCU-form.033 / 2008
+                       </Badge>
+                    </h2>
+                    <p className="text-xs text-muted-foreground font-medium mt-1">
+                        Pintar con: <span className="text-blue-600 font-bold">AZUL PARA TRATAMIENTO REALIZADO</span> • <span className="text-red-500 font-bold">ROJO PARA PATOLOGÍA ACTUAL</span>
                     </p>
                 </div>
                 <div className="text-right">
-                    <Badge variant="outline" className="text-[10px] font-mono py-0">{patientId || 'PACIENTE'}</Badge>
+                    <Badge variant="secondary" className="text-[11px] font-mono py-0.5">{patientName}</Badge>
                 </div>
             </div>
 
-            {/* Odontogram Grid with Labels */}
-            <div className="flex-1 min-w-0 w-full bg-card p-4 md:p-6 rounded-xl md:rounded-2xl border shadow-sm overflow-x-auto custom-scrollbar">
-                <div className="grid grid-cols-[70px_1fr] sm:grid-cols-[100px_1fr] gap-2 sm:gap-4">
-                    {/* Labels Column */}
-                    <div className="flex flex-col justify-around py-12 text-[9px] font-bold text-slate-400 uppercase tracking-tighter">
-                        <div className="h-8 flex flex-col justify-center">Recesión<br/>Movilidad</div>
-                        <div className="h-12 flex items-center">Vestibular</div>
-                        <div className="h-12 flex items-center">Palatino</div>
-                        <div className="h-8 flex items-center">Lingual</div>
-                        <div className="h-12 flex items-center">Vestibular</div>
-                        <div className="h-8 flex flex-col justify-center">Movilidad<br/>Recesión</div>
+            <div className="flex-1 min-w-0 w-full bg-card p-4 rounded-xl border shadow-inner overflow-x-auto custom-scrollbar">
+                <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[90px_1fr] gap-2 sm:gap-4 items-center">
+                    <div className="flex flex-col justify-around py-8 text-[9px] font-bold text-muted-foreground uppercase tracking-tight text-center">
+                        <div className="h-10 flex flex-col justify-center">Recesión<br/>Movilidad</div>
+                        <div className="h-10 flex items-center justify-center">Vestibular</div>
+                        <div className="h-10 flex items-center justify-center">Palatino</div>
+                        <div className="h-8 flex items-center justify-center">Lingual</div>
+                        <div className="h-10 flex items-center justify-center">Vestibular</div>
+                        <div className="h-10 flex flex-col justify-center">Movilidad<br/>Recesión</div>
                     </div>
 
-                    <div className="space-y-8">
-                        {/* Upper Teeth (Adult) */}
+                    <div className="space-y-6">
                         <div className="flex justify-center gap-0.5 sm:gap-1">
                             {renderQuadrant(ADULT_QUADRANTS.Q1)}
+                            <div className="w-px bg-border/80 mx-1 self-stretch" />
                             {renderQuadrant(ADULT_QUADRANTS.Q2)}
                         </div>
 
-                        {/* Middle Row (Deciduous) */}
-                        <div className="flex flex-col gap-2 sm:gap-4 items-center">
+                        <div className="flex flex-col gap-2 items-center bg-muted/20 py-3 px-2 rounded-xl border border-dashed">
                             <div className="flex gap-0.5 sm:gap-1">
                                 {renderQuadrant(CHILD_QUADRANTS.Q5, true)}
+                                <div className="w-px bg-border/80 mx-1 self-stretch" />
                                 {renderQuadrant(CHILD_QUADRANTS.Q6, true)}
                             </div>
                             <div className="flex gap-0.5 sm:gap-1">
-                                {renderQuadrant(CHILD_QUADRANTS.Q8, true)}
                                 {renderQuadrant(CHILD_QUADRANTS.Q7, true)}
+                                <div className="w-px bg-border/80 mx-1 self-stretch" />
+                                {renderQuadrant(CHILD_QUADRANTS.Q8, true)}
                             </div>
                         </div>
 
-                        {/* Lower Teeth (Adult) */}
                         <div className="flex justify-center gap-0.5 sm:gap-1">
-                            {renderQuadrant(ADULT_QUADRANTS.Q4)}
                             {renderQuadrant(ADULT_QUADRANTS.Q3)}
+                            <div className="w-px bg-border/80 mx-1 self-stretch" />
+                            {renderQuadrant(ADULT_QUADRANTS.Q4)}
                         </div>
                     </div>
                 </div>
             </div>
 
-            {/* SECTION 7, 8, 9 MINI PREVIEW */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-8 pt-8 border-t">
-               <div className="space-y-4">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">7 INDICADORES</h4>
-                  <div className="text-[10px] p-4 bg-muted/50 rounded-xl border border-dashed text-slate-500 italic">
-                     Los indicadores de salud bucal se calculan automáticamente basado en el historial clínico.
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4 border-t">
+               <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">7. Indicadores de Salud Bucal</h4>
+                  <div className="text-[11px] p-3 bg-muted/40 rounded-xl border text-muted-foreground leading-relaxed">
+                     Registrados en el Formulario 033 oficial: Higiene Oral Simplificada (Placa, Cálculo, Gingivitis), Enfermedad Periodontal, Maloclusión y Fluorosis.
                   </div>
                </div>
-               <div className="space-y-4">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">8 ÍNDICES CPO-ceo</h4>
+
+               <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">8. Índices CPO-ceo (Automático)</h4>
                   {(() => {
                      const indices = calculateCPOceo(teethState);
                      return (
-                        <div className="grid grid-cols-5 gap-1.5 text-center text-[10px] items-center">
-                           <div className="font-extrabold text-slate-400 text-left">TIPO</div>
-                           {['C/c', 'P/e', 'O/o', 'TOTAL'].map(h => <div key={h} className="font-bold text-slate-400">{h}</div>)}
+                        <div className="grid grid-cols-5 gap-1 text-center text-[10px] items-center bg-muted/20 p-2.5 rounded-xl border">
+                           <div className="font-extrabold text-muted-foreground text-left">DENT.</div>
+                           <div className="font-bold text-muted-foreground">C/c</div>
+                           <div className="font-bold text-muted-foreground">P/e</div>
+                           <div className="font-bold text-muted-foreground">O/o</div>
+                           <div className="font-extrabold text-foreground">TOTAL</div>
                            
-                           <div className="font-bold text-slate-500 text-left">CPO (D)</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.C}</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.P}</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.O}</div>
-                           <div className="bg-blue-600 text-white p-1.5 rounded font-extrabold">{indices.totalCPO}</div>
+                           <div className="font-bold text-foreground text-left">CPO (D)</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.C}</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.P}</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.O}</div>
+                           <div className="bg-blue-600 text-white p-1 rounded font-extrabold">{indices.totalCPO}</div>
 
-                           <div className="font-bold text-slate-500 text-left">ceo (d)</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.c}</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.e}</div>
-                           <div className="bg-slate-100 dark:bg-slate-800/80 p-1.5 rounded font-bold">{indices.o}</div>
-                           <div className="bg-teal-600 text-white p-1.5 rounded font-extrabold">{indices.totalceo}</div>
+                           <div className="font-bold text-foreground text-left">ceo (d)</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.c}</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.e}</div>
+                           <div className="bg-card p-1 rounded font-bold border">{indices.o}</div>
+                           <div className="bg-teal-600 text-white p-1 rounded font-extrabold">{indices.totalceo}</div>
                         </div>
                      );
                   })()}
                </div>
-               <div className="space-y-4">
-                  <h4 className="text-[10px] font-black text-slate-400 uppercase tracking-widest">9 SIMBOLOGÍA</h4>
-                  <div className="grid grid-cols-2 gap-x-4 gap-y-1 text-[9px] font-bold text-slate-500">
-                     <div className="flex items-center gap-2"><div className="w-2 h-2 border border-red-500" /> Sellante Necesario</div>
-                     <div className="flex items-center gap-2 font-black text-red-500">X Extracción Indicada</div>
-                     <div className="flex items-center gap-2 text-blue-600"><div className="w-2 h-2 border-2 border-blue-600 p-0.5"><div className="w-full h-full bg-blue-100" /></div> Sellante Realizado</div>
-                     <div className="flex items-center gap-2"><div className="w-1.5 h-1.5 bg-red-500 rounded-full" /> Caries</div>
+
+               <div className="space-y-2">
+                  <h4 className="text-xs font-bold text-muted-foreground uppercase tracking-wider">9. Simbología Normativa MSP</h4>
+                  <div className="grid grid-cols-2 gap-x-2 gap-y-1 text-[10px] font-medium text-muted-foreground bg-muted/20 p-2.5 rounded-xl border">
+                     <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 border border-red-500 bg-red-50" /> Sellante Necesario</div>
+                     <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 border border-blue-600 bg-blue-50" /> Sellante Realizado</div>
+                     <div className="flex items-center gap-1.5 text-red-600 font-bold">✕ Extracción Indicada</div>
+                     <div className="flex items-center gap-1.5 text-blue-600 font-bold">✕ Pérdida por Caries</div>
+                     <div className="flex items-center gap-1.5"><div className="w-2 h-3 border-2 border-red-500" /> Pérdida Otra Causa</div>
+                     <div className="flex items-center gap-1.5"><span className="text-red-500 font-bold">△</span> Endodoncia</div>
+                     <div className="flex items-center gap-1.5"><span className="text-red-500 font-bold">□--□</span> Prótesis Fija</div>
+                     <div className="flex items-center gap-1.5"><span className="text-purple-600 font-bold">(---)</span> P. Removible</div>
+                     <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-red-500 rounded-full" /> Corona</div>
+                     <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 border-2 border-blue-600 rounded-full" /> Obturado</div>
+                     <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 border-2 border-red-500 rounded-full" /> Caries</div>
+                     <div className="flex items-center gap-1.5 text-red-500 font-bold">═ Prótesis Total</div>
                   </div>
                </div>
             </div>
@@ -638,4 +714,3 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
     </div>
   );
 }
-

@@ -69,35 +69,36 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
   const dependents = familyMembers.filter(m => !m.is_family_head && m.family_representative_id !== null)
 
   // Color mapping for different family units (by billing rep)
-  const groupColors: Record<string, string> = {
-    0: "border-blue-500 shadow-blue-100",
-    1: "border-purple-500 shadow-purple-100",
-    2: "border-emerald-500 shadow-emerald-100",
-    3: "border-pink-500 shadow-pink-100",
+  const groupColors: Record<number, string> = {
+    0: "border-blue-500/70 bg-blue-50/30 dark:bg-blue-950/20 shadow-blue-500/5",
+    1: "border-purple-500/70 bg-purple-50/30 dark:bg-purple-950/20 shadow-purple-500/5",
+    2: "border-emerald-500/70 bg-emerald-50/30 dark:bg-emerald-950/20 shadow-emerald-500/5",
+    3: "border-amber-500/70 bg-amber-50/30 dark:bg-amber-950/20 shadow-amber-500/5",
   }
 
   const getGroupStyle = (repId: string | null, targetId: string) => {
     const effectiveRepId = repId || targetId
-    const index = billers.findIndex(b => b.id === effectiveRepId) % 4
-    return groupColors[index] || groupColors[0]
+    const index = billers.findIndex(b => b.id === effectiveRepId)
+    const normalizedIndex = index >= 0 ? index % 4 : 0
+    return groupColors[normalizedIndex] || groupColors[0]
   }
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         {trigger || (
-          <Button variant="outline" size="sm" className="gap-2">
-            <Users className="h-4 w-4" />
+          <Button variant="outline" size="sm" className="gap-2 text-xs font-semibold">
+            <Users className="h-4 w-4 text-blue-600" />
             Vincular Familia
           </Button>
         )}
       </DialogTrigger>
-      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden border-none shadow-2xl bg-muted/50/95 backdrop-blur-xl">
+      <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col p-0 overflow-hidden border shadow-2xl bg-card">
         <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600" />
         
         <DialogHeader className="p-6 pb-2">
           <div className="flex items-center gap-3">
-            <div className="p-2.5 bg-blue-100 text-blue-700 rounded-xl">
+            <div className="p-2.5 bg-blue-100 dark:bg-blue-950/40 text-blue-700 dark:text-blue-400 rounded-xl">
               <Users className="h-6 w-6" />
             </div>
             <div>

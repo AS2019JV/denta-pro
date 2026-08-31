@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
 import { 
   Plus, Search, Pencil, Trash2, Clock, Info, CheckCircle2, Copy,
-  LayoutGrid, Palette, Settings2, Sparkles, Filter, MoreHorizontal, Check, Zap 
+  LayoutGrid, Palette, Settings2, Sparkles, Filter, MoreHorizontal, Check, Zap, Activity 
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -409,31 +409,30 @@ export function ServicesManager() {
 
       {/* Floating Tooltips or Helpers can go here */}
 
-      {/* --- Dialogs --- */}
-
       {/* 1. Add/Edit Service Dialog */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent className="max-w-2xl rounded-[3rem] p-0 border-none shadow-3xl bg-card overflow-hidden">
+        <DialogContent className="max-w-2xl p-0 border shadow-2xl bg-card overflow-hidden rounded-2xl">
             <DialogTitle className="sr-only">Administrar Servicio</DialogTitle>
             <div className="flex flex-col md:flex-row h-full">
                 {/* Left Panel - Visual Preview */}
-                <div className="w-full md:w-56 bg-muted/50 p-10 flex flex-col items-center justify-center text-center gap-6 border-r border-border/50">
-                    <div className="h-28 w-28 rounded-[2rem] shadow-2xl flex items-center justify-center transition-all duration-700" style={{ backgroundColor: currentService.color, boxShadow: `0 20px 40px ${currentService.color}30` }}>
-                        <Sparkles className="h-10 w-10 text-white" />
+                <div className="w-full md:w-56 bg-muted/40 p-8 flex flex-col items-center justify-center text-center gap-4 border-r border-border/50">
+                    <div className="h-20 w-20 rounded-2xl shadow-lg flex items-center justify-center transition-all duration-500 text-white" style={{ backgroundColor: currentService.color || "#0284c7" }}>
+                        <Activity className="h-9 w-9 text-white" />
                     </div>
                     <div className="space-y-1">
-                        <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest leading-none">Vista Previa</p>
-                        <h4 className="font-teko text-xl font-bold text-slate-700">{currentService.name || "Servicio Premium"}</h4>
+                        <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-wider">Vista Previa</p>
+                        <h4 className="text-base font-bold text-foreground line-clamp-2">{currentService.name || "Nuevo Servicio"}</h4>
+                        <p className="text-xs font-mono font-bold text-primary">${priceInput || "0.00"}</p>
                     </div>
                 </div>
 
                 {/* Right Panel - Form */}
-                <div className="flex-1 p-10 space-y-8">
+                <div className="flex-1 p-8 space-y-6">
                     <header>
-                        <h2 className="text-3xl font-bold font-teko text-foreground leading-none mb-1">
-                            {isEditing ? "Optimizar Tratamiento" : "Atelier de Servicios"}
+                        <h2 className="text-xl font-bold text-foreground">
+                            {isEditing ? "Editar Servicio / Tratamiento" : "Nuevo Servicio Odontológico"}
                         </h2>
-                        <p className="text-slate-400 text-xs font-medium">Define los detalles del procedimiento clínico.</p>
+                        <p className="text-muted-foreground text-xs">Especificaciones del procedimiento y catálogo.</p>
                     </header>
 
                     <div className="grid gap-6">

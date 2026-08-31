@@ -351,7 +351,7 @@ export default function PatientDetailsPage() {
             </Button>
           )}
         </div>
-        <div className="flex items-center gap-4 flex-wrap">
+        <div className="flex items-center gap-3 flex-wrap">
            {/* Dynamic Patient Stats Summary Widget (shown when sidebar is closed) */}
            {!isSidebarOpen && patient && (
               <div className="hidden md:flex items-center gap-3 px-3 py-1 bg-muted/40 border border-slate-200 dark:border-slate-800 rounded-lg animate-in fade-in slide-in-from-top-1 duration-200 text-xs">
@@ -391,19 +391,31 @@ export default function PatientDetailsPage() {
               </div>
            )}
 
-           <div className="text-xs text-muted-foreground font-semibold flex items-center gap-1.5">
+           {/* Primary Top Action: Editar Información Principal */}
+           <Button 
+             size="sm"
+             onClick={() => setIsEditOpen(true)}
+             disabled={user?.role === 'receptionist'}
+             className="h-8 gap-1.5 bg-primary hover:bg-primary/95 text-primary-foreground font-bold text-xs shadow-sm hover:shadow transition-all"
+             title={user?.role === 'receptionist' ? "Solo lectura para recepcionistas" : "Editar información principal del paciente"}
+           >
+             <UserIcon className="h-3.5 w-3.5" />
+             <span>Editar Información Principal</span>
+           </Button>
+
+           <div className="text-xs text-muted-foreground font-semibold hidden lg:flex items-center gap-1.5">
               <Activity className="h-3.5 w-3.5 text-primary animate-pulse" />
-              Expediente Clínico Digital
+              Expediente Digital
            </div>
         </div>
       </div>
  
-      {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:flex-row">
+      {/* Main Content Area - Split Architecture with Independent Right Scrolling */}
+      <div className="flex-1 flex flex-col md:flex-row md:h-[calc(100vh-49px)] md:overflow-hidden">
          
          {/* Left Sidebar - Profile, Actions & Permanent Critical Info */}
          <div className={cn(
-            "flex-none border-b md:border-b-0 md:border-r bg-card flex flex-col shadow-sm custom-scrollbar md:sticky md:top-[49px] md:h-[calc(100vh-49px)] md:overflow-y-auto",
+            "flex-none border-b md:border-b-0 md:border-r bg-card flex flex-col shadow-sm custom-scrollbar md:h-full md:overflow-y-auto",
             isTransitioning && "transition-[width,opacity] duration-300 ease-in-out",
             isSidebarOpen 
               ? "w-full md:w-80 lg:w-96 opacity-100" 
@@ -652,11 +664,11 @@ export default function PatientDetailsPage() {
             </Accordion>
          </div>
 
-         {/* Right Sidebar - Main Working Area Tabs */}
-         <div className="flex-1 flex flex-col bg-muted/5">
-            <Tabs defaultValue="info" className="flex flex-col w-full h-full">
+         {/* Right Working Area Tabs with Independent Scrolling */}
+         <div className="flex-1 flex flex-col bg-muted/5 h-full md:overflow-y-auto custom-scrollbar">
+            <Tabs defaultValue="info" className="flex flex-col w-full min-h-full">
                {/* Fixed Tabs List container */}
-               <div className="flex-none bg-background border-b px-6 shadow-sm z-10 sticky top-[49px]">
+               <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 sticky top-0">
                   <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                      <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
                          {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'payments', 'files'].map((tab) => (

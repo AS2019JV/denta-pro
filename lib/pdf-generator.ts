@@ -111,7 +111,7 @@ export const generateHCU033 = (data: any) => {
   drawFieldBox('FECHA NACIMIENTO', data.fecha_nacimiento, margin+35, y, 25, row3H);
   drawFieldBox('LUGAR NACIMIENTO', '', margin+60, y, 40, row3H); // Placeholder
   drawFieldBox('CEDULA DE CIUDADANIA', data.identificacion, margin+100, y, 30, row3H);
-  drawFieldBox('NACIONALIDAD', 'Ecuatoriana', margin+130, y, 30, row3H);
+  drawFieldBox('NACIONALIDAD', data.nacionalidad || 'Ecuatoriana', margin+130, y, 30, row3H);
   drawFieldBox('GRUPO CULTURAL', '', margin+160, y, 30, row3H);
   y += row3H + 2;
 

@@ -564,12 +564,11 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
           className={errors.dataConsent ? "border-red-500" : ""}
         />
         <div className="space-y-1 leading-none">
-          <Label htmlFor="dataConsent" className="font-semibold text-teal-900">
-            Consentimiento de Tratamiento de Datos (GDPR/HIPAA) *
+          <Label htmlFor="dataConsent" className="font-semibold text-teal-900 dark:text-teal-300">
+            Consentimiento de Tratamiento de Datos de Salud (LOPDP Ecuador / HIPAA) *
           </Label>
-          <p className="text-sm text-teal-700">
-            El paciente autoriza el almacenamiento de sus datos personales y médicos con fines clínicos. 
-            Esta acción quedará registrada en la auditoría de la clínica.
+          <p className="text-xs text-teal-700 dark:text-teal-400 mt-1 leading-relaxed">
+            El paciente (o su representante legal) autoriza de forma libre, expresa e informada el tratamiento de sus datos personales y sensibles de salud para fines de atención clínica, diagnóstico odontológico y conformación de la Historia Clínica Digital (HCU-033), en estricto cumplimiento de la <strong>Ley Orgánica de Protección de Datos Personales (LOPDP)</strong> de la República del Ecuador.
           </p>
           {errors.dataConsent && <p className="text-xs text-red-500 mt-2">{errors.dataConsent.message}</p>}
         </div>

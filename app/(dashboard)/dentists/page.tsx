@@ -57,8 +57,11 @@ export default function DentistsPage() {
   const [subscriptionTier, setSubscriptionTier] = useState<string>("trial")
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
+  const [isEditingMember, setIsEditingMember] = useState(false)
+  const [editMemberData, setEditMemberData] = useState<Partial<TeamMember>>({})
+  const [isSavingMember, setIsSavingMember] = useState(false)
 
-  const isAdmin = user?.role === "clinic_owner"
+  const isAdmin = (user as any)?.role === "clinic_owner" || (user as any)?.role === "admin" || (user as any)?.role === "doctor"
   const isReceptionist = user?.role === "receptionist"
   
   // Get clinic size from the membership
@@ -203,6 +206,35 @@ export default function DentistsPage() {
         {c.label}
       </Badge>
     )
+  }
+
+  const handleSaveMember = async () => {
+    if (!selectedMember || !isAdmin) return
+    setIsSavingMember(true)
+    try {
+      const { error } = await supabase
+        .from('profiles')
+        .update({
+          full_name: editMemberData.name,
+          specialization: editMemberData.specialty,
+          phone: editMemberData.phone,
+          license_number: editMemberData.license_number,
+          bio: editMemberData.bio,
+          role: editMemberData.role
+        })
+        .eq('id', selectedMember.id)
+
+      if (error) throw error
+      toast.success("Información del miembro actualizada correctamente")
+      setIsEditingMember(false)
+      fetchMembers()
+      setIsProfileOpen(false)
+    } catch (e) {
+      console.error("Error updating member:", e)
+      toast.error("Error al actualizar información del miembro")
+    } finally {
+      setIsSavingMember(false)
+    }
   }
 
   return (
@@ -685,35 +717,146 @@ export default function DentistsPage() {
                 </div>
 
                 {/* Main Content Details */}
-                <div className="mt-8 space-y-4 text-left border-t border-border/60 pt-6">
-                  {/* Email & Phone */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="bg-muted/40 p-3 rounded-xl border border-border/40">
-                      <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Correo</span>
-                      <p className="text-sm font-semibold truncate text-foreground mt-0.5">{selectedMember.email}</p>
+                {!isEditingMember ? (
+                  <div className="mt-6 space-y-4 text-left border-t border-border/60 pt-4">
+                    {/* Email & Phone */}
+                    <div className="grid grid-cols-2 gap-4">
+                      <div className="bg-muted/40 p-3 rounded-xl border border-border/40">
+                        <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Correo</span>
+                        <p className="text-sm font-semibold truncate text-foreground mt-0.5">{selectedMember.email}</p>
+                      </div>
+                      <div className="bg-muted/40 p-3 rounded-xl border border-border/40">
+                        <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Teléfono</span>
+                        <p className="text-sm font-semibold truncate text-foreground mt-0.5">{selectedMember.phone || "—"}</p>
+                      </div>
                     </div>
-                    <div className="bg-muted/40 p-3 rounded-xl border border-border/40">
-                      <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Teléfono</span>
-                      <p className="text-sm font-semibold truncate text-foreground mt-0.5">{selectedMember.phone || "—"}</p>
-                    </div>
-                  </div>
 
-                  {/* Specialty and Credentials */}
-                  <div className="bg-muted/40 p-4 rounded-xl border border-border/40 space-y-3">
-                    <div>
+                    {/* Specialty and Credentials */}
+                    <div className="bg-muted/40 p-3 rounded-xl border border-border/40 space-y-1">
                       <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Licencia Profesional (SENESCYT)</span>
                       <p className="text-sm font-semibold text-foreground mt-0.5">{selectedMember.license_number || "No registrada"}</p>
                     </div>
-                  </div>
 
-                  {/* Professional Biography */}
-                  <div className="bg-muted/40 p-4 rounded-xl border border-border/40">
-                    <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Biografía Profesional</span>
-                    <p className="text-xs text-muted-foreground leading-relaxed mt-1.5 whitespace-pre-line">
-                      {selectedMember.bio || "Sin biografía profesional registrada."}
-                    </p>
+                    {/* Professional Biography */}
+                    <div className="bg-muted/40 p-3 rounded-xl border border-border/40">
+                      <span className="text-[10px] text-muted-foreground uppercase font-bold tracking-wider">Biografía Profesional</span>
+                      <p className="text-xs text-muted-foreground leading-relaxed mt-1 whitespace-pre-line">
+                        {selectedMember.bio || "Sin biografía profesional registrada."}
+                      </p>
+                    </div>
+
+                    {isAdmin ? (
+                      <Button 
+                        className="w-full bg-primary hover:bg-primary/95 text-white font-bold h-9 text-xs mt-2"
+                        onClick={() => {
+                          setEditMemberData({
+                            name: selectedMember.name,
+                            specialty: selectedMember.specialty,
+                            phone: selectedMember.phone,
+                            license_number: selectedMember.license_number,
+                            role: selectedMember.role,
+                            bio: selectedMember.bio
+                          })
+                          setIsEditingMember(true)
+                        }}
+                      >
+                        Editar Información del Miembro
+                      </Button>
+                    ) : (
+                      <div className="text-center p-2 rounded-lg bg-muted/30 border text-[11px] text-muted-foreground font-medium">
+                        Modo solo lectura (Acceso Recepción)
+                      </div>
+                    )}
                   </div>
-                </div>
+                ) : (
+                  /* Edit Form (Admin Only) */
+                  <div className="mt-6 space-y-3 text-left border-t border-border/60 pt-4 animate-in fade-in duration-200">
+                    <div className="space-y-1">
+                      <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Nombre Completo</Label>
+                      <Input 
+                        value={editMemberData.name || ""} 
+                        onChange={(e) => setEditMemberData({ ...editMemberData, name: e.target.value })}
+                        className="h-8 text-xs font-semibold"
+                      />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Especialidad</Label>
+                        <Input 
+                          value={editMemberData.specialty || ""} 
+                          onChange={(e) => setEditMemberData({ ...editMemberData, specialty: e.target.value })}
+                          className="h-8 text-xs font-semibold"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Rol</Label>
+                        <Select 
+                          value={editMemberData.role || "doctor"} 
+                          onValueChange={(val) => setEditMemberData({ ...editMemberData, role: val })}
+                        >
+                          <SelectTrigger className="h-8 text-xs">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="doctor">Doctor / Especialista</SelectItem>
+                            <SelectItem value="receptionist">Recepcionista</SelectItem>
+                            <SelectItem value="clinic_owner">Propietario / Admin</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-2">
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Teléfono</Label>
+                        <Input 
+                          value={editMemberData.phone || ""} 
+                          onChange={(e) => setEditMemberData({ ...editMemberData, phone: e.target.value })}
+                          className="h-8 text-xs font-semibold"
+                        />
+                      </div>
+                      <div className="space-y-1">
+                        <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Licencia SENESCYT</Label>
+                        <Input 
+                          value={editMemberData.license_number || ""} 
+                          onChange={(e) => setEditMemberData({ ...editMemberData, license_number: e.target.value })}
+                          className="h-8 text-xs font-semibold"
+                        />
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <Label className="text-[10px] font-bold uppercase tracking-wider text-muted-foreground">Biografía</Label>
+                      <textarea 
+                        value={editMemberData.bio || ""} 
+                        onChange={(e) => setEditMemberData({ ...editMemberData, bio: e.target.value })}
+                        rows={2}
+                        className="w-full text-xs p-2 rounded-lg border bg-background font-medium"
+                      />
+                    </div>
+
+                    <div className="flex gap-2 pt-2">
+                      <Button 
+                        variant="outline" 
+                        size="sm" 
+                        className="flex-1 h-8 text-xs font-bold"
+                        onClick={() => setIsEditingMember(false)}
+                      >
+                        Cancelar
+                      </Button>
+                      <Button 
+                        size="sm" 
+                        disabled={isSavingMember}
+                        className="flex-1 h-8 text-xs font-bold bg-primary text-white"
+                        onClick={handleSaveMember}
+                      >
+                        {isSavingMember ? <Loader2 className="h-3.5 w-3.5 animate-spin mr-1" /> : null}
+                        Guardar Cambios
+                      </Button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           )}

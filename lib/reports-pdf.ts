@@ -23,7 +23,7 @@ export const generateReportPDF = (data: ReportData) => {
     // Header
     doc.setFontSize(18);
     doc.setFont('helvetica', 'bold');
-    doc.text('Reporte de Gestión - DentaPro', pageWidth / 2, 20, { align: 'center' });
+    doc.text('Reporte de Gestión Clínica - Clinia+', pageWidth / 2, 20, { align: 'center' });
     
     doc.setFontSize(10);
     doc.setFont('helvetica', 'normal');

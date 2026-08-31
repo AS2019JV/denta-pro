@@ -1,118 +1,95 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useMemo } from "react"
 import { supabase } from "@/lib/supabase"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { PageHeader } from "@/components/page-header"
 import { Button } from "@/components/ui/button"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Progress } from "@/components/ui/progress"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Badge } from "@/components/ui/badge"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import {
   Download,
   Calendar,
   Users,
-  DollarSign,
-  CreditCard,
-  TrendingUp,
-  TrendingDown,
-  Activity,
+  CheckCircle2,
+  XCircle,
+  Clock,
+  UserCheck,
   BarChart3,
   LineChart as LineChartIcon,
   Trophy,
-  AlertCircle
+  Activity,
+  Layers
 } from "lucide-react"
 import { 
   BarChart, 
   Bar, 
-  LineChart, 
-  Line, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
   Tooltip, 
   ResponsiveContainer,
-  Legend
+  Legend,
+  PieChart,
+  Pie,
+  Cell
 } from "recharts"
-import { format, subMonths, startOfMonth, endOfMonth, eachMonthOfInterval, isSameMonth } from "date-fns"
+import { format, subMonths, startOfMonth, eachMonthOfInterval, isSameMonth } from "date-fns"
 import { es } from "date-fns/locale"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { generateReportPDF } from "@/lib/reports-pdf"
 
 export default function ReportsPage() {
-  const [selectedPeriod, setSelectedPeriod] = useState("month")
-  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear().toString())
+  const [selectedPeriod, setSelectedPeriod] = useState("6months")
   const [loading, setLoading] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
   
   // Data states
   const [appointments, setAppointments] = useState<any[]>([])
   const [patients, setPatients] = useState<any[]>([])
-  const [billings, setBillings] = useState<any[]>([])
+  const [services, setServices] = useState<any[]>([])
   const [monthlyStats, setMonthlyStats] = useState<any[]>([])
   
   // Rankings
   const [attendanceRanking, setAttendanceRanking] = useState<any[]>([])
-  const [revenueRanking, setRevenueRanking] = useState<any[]>([])
+  const [topServicesRanking, setTopServicesRanking] = useState<any[]>([])
 
   useEffect(() => {
     fetchData()
     setIsMounted(true)
   }, [])
 
-  const [isMounted, setIsMounted] = useState(false)
-
   const fetchData = async () => {
     try {
       setLoading(true)
-      
-      // Calculate 6 months ago
       const sixMonthsAgo = subMonths(startOfMonth(new Date()), 5).toISOString()
 
-      // Fetch only data for the relevant period
       const [
         { data: appointmentsData }, 
         { data: patientsData },
-        { data: billingsData }
+        { data: servicesData }
       ] = await Promise.all([
         supabase.from('appointments')
-          .select('*')
+          .select('*, patients(id, first_name, last_name, phone)')
           .gte('start_time', sixMonthsAgo),
         supabase.from('patients')
           .select('*')
-          .gte('created_at', sixMonthsAgo), // For "New Patients" metric
-        supabase.from('billings')
+          .gte('created_at', sixMonthsAgo),
+        supabase.from('services')
           .select('*')
-          .gte('created_at', sixMonthsAgo)
       ])
 
       const apps = appointmentsData || []
       const pats = patientsData || []
-      const bills = billingsData || []
+      const srvs = servicesData || []
 
       setAppointments(apps)
       setPatients(pats)
-      setBillings(bills)
+      setServices(srvs)
 
-      calculateStats(apps, pats, bills)
-
-      // For rankings, we need patient names. 
-      // If we only have IDs in apps/bills, we need to fetch those patients.
-      // But for simplicity in this MVP, we'll try to use the patients we already have 
-      // or fetch the top ones specifically.
-      // For now, let's just use the 'pats' which are only "New Patients".
-      // Actually, we should fetch patients that appear in the appointments/billings.
-      
-      const patientIds = new Set([
-        ...apps.map(a => a.patient_id),
-        ...bills.map(b => b.patient_id)
-      ])
-      
-      const { data: activePatients } = await supabase
-        .from('patients')
-        .select('*')
-        .in('id', Array.from(patientIds))
-
-      calculateRankings(apps, activePatients || [], bills)
+      calculateStats(apps, pats)
+      calculateRankings(apps, pats, srvs)
 
     } catch (error) {
       console.error("Error fetching report data:", error)
@@ -121,8 +98,7 @@ export default function ReportsPage() {
     }
   }
 
-  const calculateStats = (apps: any[], pats: any[], bills: any[]) => {
-    // Generate last 6 months buckets
+  const calculateStats = (apps: any[], pats: any[]) => {
     const today = new Date()
     const months = eachMonthOfInterval({
       start: subMonths(today, 5),
@@ -131,365 +107,399 @@ export default function ReportsPage() {
 
     const stats = months.map(month => {
       const monthApps = apps.filter(a => isSameMonth(new Date(a.start_time), month))
-      const monthBills = bills.filter(b => isSameMonth(new Date(b.created_at), month))
-      // Approximate new patients by created_at if available, else standard
       const monthPatients = pats.filter(p => isSameMonth(new Date(p.created_at), month))
+      const confirmedOrCompleted = monthApps.filter(a => ['confirmed', 'completed'].includes(a.status)).length
+      const cancelledOrNoShow = monthApps.filter(a => ['cancelled', 'no_show'].includes(a.status)).length
 
       return {
         month: format(month, 'MMM', { locale: es }),
         date: month,
-        patients: monthPatients.length, // This refers to NEW patients
+        totalBookings: monthApps.length,
+        newPatients: monthPatients.length,
         activePatients: new Set(monthApps.map(a => a.patient_id)).size,
-        revenue: monthBills.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0),
-        appointments: monthApps.length
+        confirmed: monthApps.filter(a => a.status === 'confirmed').length,
+        completed: monthApps.filter(a => a.status === 'completed').length,
+        cancelled: monthApps.filter(a => a.status === 'cancelled').length,
+        noShow: monthApps.filter(a => a.status === 'no_show').length,
+        scheduled: monthApps.filter(a => a.status === 'scheduled').length,
+        attendanceRate: monthApps.length > 0 ? Math.round((confirmedOrCompleted / monthApps.length) * 100) : 0,
+        cancellationRate: monthApps.length > 0 ? Math.round((cancelledOrNoShow / monthApps.length) * 100) : 0,
       }
     })
 
     setMonthlyStats(stats)
   }
 
-  const calculateRankings = (apps: any[], pats: any[], bills: any[]) => {
-    // Index data by patient_id for O(1) lookup
+  const calculateRankings = (apps: any[], pats: any[], srvs: any[]) => {
+    // 1. Patient Attendance Ranking
     const appsByPatient: Record<string, any[]> = {}
     apps.forEach(app => {
-        if (!app.patient_id) return
-        if (!appsByPatient[app.patient_id]) appsByPatient[app.patient_id] = []
-        appsByPatient[app.patient_id].push(app)
+      if (!app.patient_id) return
+      if (!appsByPatient[app.patient_id]) appsByPatient[app.patient_id] = []
+      appsByPatient[app.patient_id].push(app)
     })
 
-    const billsByPatient: Record<string, any[]> = {}
-    bills.forEach(bill => {
-        if (!bill.patient_id) return
-        if (!billsByPatient[bill.patient_id]) billsByPatient[bill.patient_id] = []
-        billsByPatient[bill.patient_id].push(bill)
-    })
+    const patientAttendance = Object.keys(appsByPatient).map(patId => {
+      const pApps = appsByPatient[patId]
+      const patientInfo = pApps[0]?.patients || pats.find(p => p.id === patId)
+      if (!patientInfo) return null
 
-    // 1. Attendance Ranking
-    const patientAttendance = pats.map(p => {
-      const pApps = appsByPatient[p.id] || []
       const total = pApps.length
-      if (total === 0) return null
-
       const attended = pApps.filter(a => ['completed', 'confirmed'].includes(a.status)).length
       const noShows = pApps.filter(a => a.status === 'no_show').length
-      
+      const cancelled = pApps.filter(a => a.status === 'cancelled').length
+
       return {
-        ...p,
+        id: patId,
+        first_name: patientInfo.first_name || 'Paciente',
+        last_name: patientInfo.last_name || '',
+        phone: patientInfo.phone,
         totalApps: total,
         attended,
         noShows,
-        rate: (attended / total) * 100
+        cancelled,
+        rate: total > 0 ? Math.round((attended / total) * 100) : 0
       }
-    }).filter(p => p !== null)
-    .sort((a, b) => b!.attended - a!.attended)
-    .slice(0, 5)
+    }).filter(Boolean)
+      .sort((a: any, b: any) => b.attended - a.attended || b.rate - a.rate)
+      .slice(0, 6)
 
-    setAttendanceRanking(patientAttendance as any[])
+    setAttendanceRanking(patientAttendance)
 
-    // 2. Revenue Ranking
-    const patientRevenue = pats.map(p => {
-      const pBills = billsByPatient[p.id] || []
-      const total = pBills.reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
+    // 2. Top Booked Services
+    const serviceCounts: Record<string, number> = {}
+    apps.forEach(a => {
+      const type = a.type || 'Consulta General'
+      serviceCounts[type] = (serviceCounts[type] || 0) + 1
+    })
+
+    const topServices = Object.entries(serviceCounts).map(([name, count]) => {
+      const matchSrv = srvs.find(s => s.name?.toLowerCase() === name?.toLowerCase())
       return {
-        ...p,
-        totalRevenue: total
+        name,
+        count,
+        price: matchSrv?.price || 0,
+        estimatedDemand: count * (matchSrv?.price || 30)
       }
-    }).filter(p => p.totalRevenue > 0)
-    .sort((a, b) => b.totalRevenue - a.totalRevenue)
-    .slice(0, 5)
+    }).sort((a, b) => b.count - a.count).slice(0, 6)
 
-    setRevenueRanking(patientRevenue)
+    setTopServicesRanking(topServices)
   }
 
-  // Derived current metrics
-  const currentMonthData = monthlyStats[monthlyStats.length - 1] || { revenue: 0, appointments: 0, patients: 0 }
-  const prevMonthData = monthlyStats[monthlyStats.length - 2] || { revenue: 0, appointments: 0, patients: 0 }
+  // Summary Metrics for current Month / Period
+  const currentMonthData = monthlyStats[monthlyStats.length - 1] || {
+    totalBookings: 0,
+    newPatients: 0,
+    activePatients: 0,
+    attendanceRate: 0,
+    cancellationRate: 0,
+    confirmed: 0,
+    completed: 0,
+    cancelled: 0,
+    noShow: 0,
+    scheduled: 0
+  }
 
-  const formatCurrency = (val: number) => `$${val.toLocaleString()}`
+  const prevMonthData = monthlyStats[monthlyStats.length - 2] || { totalBookings: 0, attendanceRate: 0 }
 
+  const statusDistributionData = useMemo(() => [
+    { name: 'Confirmadas', value: appointments.filter(a => a.status === 'confirmed').length, color: '#10b981' },
+    { name: 'Completadas', value: appointments.filter(a => a.status === 'completed').length, color: '#3b82f6' },
+    { name: 'Programadas', value: appointments.filter(a => a.status === 'scheduled').length, color: '#f59e0b' },
+    { name: 'Canceladas', value: appointments.filter(a => a.status === 'cancelled').length, color: '#ef4444' },
+    { name: 'No Asistió', value: appointments.filter(a => a.status === 'no_show').length, color: '#64748b' },
+  ].filter(d => d.value > 0), [appointments])
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      <PageHeader title="Reportes y Métricas">
+      <PageHeader title="Métricas de Pacientes y Agenda (Bookings)">
         <div className="flex items-center gap-2">
           <Select value={selectedPeriod} onValueChange={setSelectedPeriod}>
-            <SelectTrigger className="w-32">
+            <SelectTrigger className="w-40 h-9 font-medium">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="month">Mes</SelectItem>
-              <SelectItem value="year">Año</SelectItem>
+              <SelectItem value="6months">Últimos 6 meses</SelectItem>
+              <SelectItem value="year">Año Actual</SelectItem>
             </SelectContent>
           </Select>
-          <Button variant="outline" onClick={() => generateReportPDF({
-            period: selectedPeriod === 'month' ? 'Últimos 6 meses' : 'Año Actual',
-            generatedAt: format(new Date(), "dd 'de' MMMM, yyyy HH:mm", { locale: es }),
-            summary: {
-                revenue: currentMonthData.revenue,
-                appointments: currentMonthData.appointments,
-                patients: currentMonthData.patients, // New patients
+
+          <Button 
+            variant="outline" 
+            size="sm"
+            className="h-9 gap-1.5 font-bold shadow-sm"
+            onClick={() => generateReportPDF({
+              period: selectedPeriod === '6months' ? 'Últimos 6 meses' : 'Año Actual',
+              generatedAt: format(new Date(), "dd 'de' MMMM, yyyy HH:mm", { locale: es }),
+              summary: {
+                revenue: 0,
+                appointments: currentMonthData.totalBookings,
+                patients: currentMonthData.newPatients,
                 activePatients: currentMonthData.activePatients
-            },
-            monthlyStats,
-            topPatients: attendanceRanking
-          })}>
-            <Download className="mr-2 h-4 w-4" />
-            Descargar PDF
+              },
+              monthlyStats: monthlyStats.map(m => ({
+                month: m.month,
+                revenue: 0,
+                appointments: m.totalBookings,
+                patients: m.newPatients
+              })),
+              topPatients: attendanceRanking
+            })}
+          >
+            <Download className="h-4 w-4 text-primary" />
+            <span>Exportar Informe PDF</span>
           </Button>
         </div>
       </PageHeader>
 
-      <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Resumen General</TabsTrigger>
-          <TabsTrigger value="rankings">Ranking de Pacientes</TabsTrigger>
+      <Tabs defaultValue="overview" className="space-y-6">
+        <TabsList className="bg-muted/60 p-1 border">
+          <TabsTrigger value="overview" className="gap-2 font-bold text-xs sm:text-sm">
+            <BarChart3 className="h-4 w-4" />
+            Resumen de Citas y Pacientes
+          </TabsTrigger>
+          <TabsTrigger value="services" className="gap-2 font-bold text-xs sm:text-sm">
+            <Layers className="h-4 w-4" />
+            Demanda por Tratamiento
+          </TabsTrigger>
+          <TabsTrigger value="rankings" className="gap-2 font-bold text-xs sm:text-sm">
+            <Trophy className="h-4 w-4 text-yellow-500" />
+            Fidelidad y Asistencia
+          </TabsTrigger>
         </TabsList>
 
-        <TabsContent value="overview" className="space-y-4">
-          {/* KPI Cards */}
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {/* Revenue */}
-            <Card>
+        <TabsContent value="overview" className="space-y-6">
+          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <Card className="border-l-4 border-l-primary shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Ingresos Totales (Mes)</CardTitle>
-                <DollarSign className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Total Citas (Mes)
+                </CardTitle>
+                <Calendar className="h-4 w-4 text-primary" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{formatCurrency(currentMonthData.revenue)}</div>
-                <p className="text-xs text-muted-foreground flex items-center mt-1">
-                  {currentMonthData.revenue >= prevMonthData.revenue ? (
-                    <TrendingUp className="h-3 w-3 mr-1 text-green-500" />
+                <div className="text-3xl font-extrabold">{currentMonthData.totalBookings}</div>
+                <p className="text-xs text-muted-foreground flex items-center gap-1 mt-1 font-medium">
+                  {currentMonthData.totalBookings >= prevMonthData.totalBookings ? (
+                    <span className="text-emerald-600 font-bold flex items-center">↑ Creciendo</span>
                   ) : (
-                    <TrendingDown className="h-3 w-3 mr-1 text-red-500" />
+                    <span className="text-rose-600 font-bold flex items-center">↓ Menor</span>
                   )}
                   vs mes anterior
                 </p>
               </CardContent>
             </Card>
 
-            {/* Patients Active */}
-            <Card>
+            <Card className="border-l-4 border-l-emerald-500 shadow-sm hover:shadow-md transition-shadow">
               <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Pacientes Activos</CardTitle>
-                <Users className="h-4 w-4 text-muted-foreground" />
+                <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Tasa de Asistencia
+                </CardTitle>
+                <CheckCircle2 className="h-4 w-4 text-emerald-500" />
               </CardHeader>
               <CardContent>
-                <div className="text-2xl font-bold">{currentMonthData.activePatients || 0}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  En el último mes
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Appointments */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Total Citas</CardTitle>
-                <Calendar className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">{currentMonthData.appointments}</div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Agendadas este mes
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Avg Ticket */}
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">Ticket Promedio</CardTitle>
-                <CreditCard className="h-4 w-4 text-muted-foreground" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold">
-                  {formatCurrency(currentMonthData.appointments > 0 ? currentMonthData.revenue / currentMonthData.appointments : 0)}
+                <div className="text-3xl font-extrabold text-emerald-600">
+                  {currentMonthData.attendanceRate}%
                 </div>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Por cita
+                <p className="text-xs text-muted-foreground mt-1 font-medium">
+                  Citas confirmadas y asistidas
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-l-4 border-l-blue-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Pacientes Atendidos
+                </CardTitle>
+                <Users className="h-4 w-4 text-blue-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-extrabold text-blue-600">
+                  {currentMonthData.activePatients}
+                </div>
+                <p className="text-xs text-muted-foreground mt-1 font-medium">
+                  Pacientes únicos en agenda
+                </p>
+              </CardContent>
+            </Card>
+
+            <Card className="border-l-4 border-l-rose-500 shadow-sm hover:shadow-md transition-shadow">
+              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+                <CardTitle className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+                  Cancelaciones / Faltas
+                </CardTitle>
+                <XCircle className="h-4 w-4 text-rose-500" />
+              </CardHeader>
+              <CardContent>
+                <div className="text-3xl font-extrabold text-rose-600">
+                  {currentMonthData.cancellationRate}%
+                </div>
+                <p className="text-xs text-muted-foreground mt-1 font-medium">
+                  Ausencias y cancelaciones
                 </p>
               </CardContent>
             </Card>
           </div>
 
-            {/* Charts Section */}
-          <div className="grid gap-6 md:grid-cols-2">
-            <Card className="col-span-1">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <Card className="lg:col-span-2">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
+                <CardTitle className="text-base font-bold flex items-center gap-2">
                   <BarChart3 className="h-5 w-5 text-primary" />
-                  Ingresos Mensuales (Últimos 6 meses)
+                  Evolución de Citas y Nuevos Pacientes
                 </CardTitle>
+                <CardDescription>Citas programadas vs nuevos registros en los últimos 6 meses</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-[300px] w-full">
+                <div className="h-[320px] w-full">
                   {isMounted ? (
                     <ResponsiveContainer width="100%" height="100%">
                       <BarChart data={monthlyStats}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                        <XAxis 
-                          dataKey="month" 
-                          className="text-xs" 
-                          tickLine={false} 
-                          axisLine={false}
-                        />
-                        <YAxis 
-                          className="text-xs" 
-                          tickLine={false} 
-                          axisLine={false} 
-                          tickFormatter={(value) => `$${value}`} 
-                        />
+                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" vertical={false} />
+                        <XAxis dataKey="month" className="text-xs" tickLine={false} axisLine={false} />
+                        <YAxis className="text-xs" tickLine={false} axisLine={false} />
                         <Tooltip 
-                          formatter={(value: number) => [`$${value.toLocaleString()}`, "Ingresos"]}
-                          contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
+                          contentStyle={{ backgroundColor: 'hsl(var(--card))', borderRadius: '10px', border: '1px solid hsl(var(--border))' }}
                         />
-                        <Bar 
-                          dataKey="revenue" 
-                          fill="hsl(var(--primary))" 
-                          radius={[4, 4, 0, 0]} 
-                        />
+                        <Legend wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                        <Bar dataKey="totalBookings" name="Total Citas" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
+                        <Bar dataKey="newPatients" name="Nuevos Pacientes" fill="#10b981" radius={[4, 4, 0, 0]} />
                       </BarChart>
                     </ResponsiveContainer>
-                  ) : <div className="h-full flex items-center justify-center bg-muted/20 animate-pulse">Loading Chart...</div>}
+                  ) : <div className="h-full flex items-center justify-center bg-muted/20 animate-pulse">Cargando gráfico...</div>}
                 </div>
               </CardContent>
             </Card>
-            
-            <Card className="col-span-1">
+
+            <Card className="lg:col-span-1">
               <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <LineChartIcon className="h-5 w-5 text-blue-500" />
-                  Citas por Mes
+                <CardTitle className="text-base font-bold flex items-center gap-2">
+                  <Activity className="h-5 w-5 text-emerald-500" />
+                  Distribución de Estados
                 </CardTitle>
+                <CardDescription>Estado global de citas agendadas</CardDescription>
               </CardHeader>
               <CardContent>
-                 <div className="h-[300px] w-full">
-                  {isMounted ? (
+                <div className="h-[240px] w-full flex items-center justify-center">
+                  {isMounted && statusDistributionData.length > 0 ? (
                     <ResponsiveContainer width="100%" height="100%">
-                      <LineChart data={monthlyStats}>
-                        <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-                        <XAxis 
-                          dataKey="month" 
-                          className="text-xs" 
-                          tickLine={false} 
-                          axisLine={false}
-                        />
-                        <YAxis 
-                          className="text-xs" 
-                          tickLine={false} 
-                          axisLine={false} 
-                        />
-                        <Tooltip 
-                          contentStyle={{ backgroundColor: 'white', borderRadius: '8px', border: '1px solid #e2e8f0' }}
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="appointments" 
-                          stroke="#3b82f6" 
-                          strokeWidth={2}
-                          dot={{ r: 4, fill: "#3b82f6" }}
-                          activeDot={{ r: 6 }}
-                          name="Citas"
-                        />
-                        <Line 
-                          type="monotone" 
-                          dataKey="patients" 
-                          stroke="#10b981" 
-                          strokeWidth={2}
-                          dot={{ r: 4, fill: "#10b981" }}
-                          name="Nuevos Pacientes"
-                        />
-                        <Legend />
-                      </LineChart>
+                      <PieChart>
+                        <Pie
+                          data={statusDistributionData}
+                          innerRadius={55}
+                          outerRadius={80}
+                          paddingAngle={4}
+                          dataKey="value"
+                        >
+                          {statusDistributionData.map((entry, index) => (
+                            <Cell key={`cell-${index}`} fill={entry.color} />
+                          ))}
+                        </Pie>
+                        <Tooltip />
+                      </PieChart>
                     </ResponsiveContainer>
-                  ) : <div className="h-full flex items-center justify-center bg-muted/20 animate-pulse">Loading Chart...</div>}
+                  ) : (
+                    <div className="text-xs text-muted-foreground text-center">Sin citas registradas</div>
+                  )}
+                </div>
+
+                <div className="space-y-1.5 pt-2 border-t text-xs">
+                  {statusDistributionData.map((item) => (
+                    <div key={item.name} className="flex items-center justify-between font-medium">
+                      <div className="flex items-center gap-2">
+                        <span className="h-2.5 w-2.5 rounded-full" style={{ backgroundColor: item.color }} />
+                        <span>{item.name}</span>
+                      </div>
+                      <span className="font-bold text-foreground">{item.value}</span>
+                    </div>
+                  ))}
                 </div>
               </CardContent>
             </Card>
           </div>
         </TabsContent>
 
-        <TabsContent value="rankings" className="space-y-6">
-          <div className="grid gap-6 md:grid-cols-2">
-            {/* Ranking de Asistencia */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Trophy className="h-5 w-5 text-yellow-500" />
-                  Ranking de Asistencia
-                </CardTitle>
-                <CardDescription>Pacientes con más citas asistidas</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {attendanceRanking.length === 0 ? (
-                  <div className="text-center py-6 text-muted-foreground">No hay datos suficientes</div>
-                ) : (
-                  <div className="space-y-4">
-                    {attendanceRanking.map((patient, i) => (
-                      <div key={patient.id} className="flex items-center justify-between p-2 rounded-lg bg-muted/40 hover:bg-muted/60 transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm 
-                            ${i === 0 ? 'bg-yellow-100 text-yellow-700' : i === 1 ? 'bg-gray-100 text-gray-700' : 'bg-orange-50 text-orange-700'}`}>
-                            {i + 1}
-                          </div>
-                          <Avatar className="h-9 w-9">
-                            <AvatarFallback>{patient.first_name[0]}{patient.last_name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium text-sm">{patient.first_name} {patient.last_name}</p>
-                            <p className="text-xs text-muted-foreground">{patient.attended} asistencias | {patient.noShows} faltas</p>
-                          </div>
+        <TabsContent value="services" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base font-bold flex items-center gap-2">
+                <Layers className="h-5 w-5 text-primary" />
+                Ranking de Servicios y Tratamientos Más Agendados
+              </CardTitle>
+              <CardDescription>Frecuencia de demanda en citas médicas odontológicas</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {topServicesRanking.length === 0 ? (
+                <div className="text-center py-10 text-muted-foreground text-xs">No hay datos de tratamientos agendados aún.</div>
+              ) : (
+                <div className="space-y-4">
+                  {topServicesRanking.map((srv, idx) => (
+                    <div key={srv.name} className="p-3.5 rounded-xl border bg-card hover:bg-muted/40 transition-colors flex items-center justify-between gap-4">
+                      <div className="flex items-center gap-3">
+                        <div className="flex items-center justify-center w-8 h-8 rounded-lg bg-primary/10 text-primary font-black text-xs">
+                          #{idx + 1}
                         </div>
-                        <div className="text-right">
-                          <span className="text-sm font-bold text-green-600">{Math.round(patient.rate)}%</span>
-                          <p className="text-[10px] text-muted-foreground">Cumplimiento</p>
+                        <div>
+                          <h4 className="text-sm font-bold text-foreground">{srv.name}</h4>
+                          <p className="text-xs text-muted-foreground">{srv.count} citas programadas con este servicio</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
 
-            {/* Ranking de Ingresos */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <DollarSign className="h-5 w-5 text-green-600" />
-                  Ranking de Inversión
-                </CardTitle>
-                <CardDescription>Pacientes que más han invertido</CardDescription>
-              </CardHeader>
-              <CardContent>
-                {revenueRanking.length === 0 ? (
-                  <div className="text-center py-6 text-muted-foreground">No hay datos de facturación</div>
-                ) : (
-                  <div className="space-y-4">
-                    {revenueRanking.map((patient, i) => (
-                      <div key={patient.id} className="flex items-center justify-between p-2 rounded-lg bg-muted/40 hover:bg-muted/60 transition-colors">
-                        <div className="flex items-center gap-3">
-                          <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-sm 
-                            ${i === 0 ? 'bg-yellow-100 text-yellow-700' : 'bg-muted text-muted-foreground'}`}>
-                            {i + 1}
-                          </div>
-                          <Avatar className="h-9 w-9">
-                            <AvatarFallback>{patient.first_name[0]}{patient.last_name[0]}</AvatarFallback>
-                          </Avatar>
-                          <div>
-                            <p className="font-medium text-sm">{patient.first_name} {patient.last_name}</p>
-                            <p className="text-xs text-muted-foreground">{patient.email}</p>
-                          </div>
+                      <div className="text-right">
+                        <Badge variant="outline" className="font-mono text-xs px-2 py-0.5 border-primary/30 text-primary font-bold">
+                          {srv.count} reservas
+                        </Badge>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="rankings" className="space-y-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-base font-bold">
+                <Trophy className="h-5 w-5 text-yellow-500" />
+                Fidelidad y Asistencia de Pacientes
+              </CardTitle>
+              <CardDescription>Pacientes con mayor puntualidad y cumplimiento de citas en la clínica</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {attendanceRanking.length === 0 ? (
+                <div className="text-center py-10 text-muted-foreground text-xs">No hay datos suficientes de pacientes.</div>
+              ) : (
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {attendanceRanking.map((patient: any, i: number) => (
+                    <div key={patient.id} className="p-3.5 rounded-xl border bg-card hover:border-primary/40 transition-all flex items-center justify-between gap-3 shadow-sm">
+                      <div className="flex items-center gap-3">
+                        <div className={`flex items-center justify-center w-8 h-8 rounded-full font-bold text-xs shadow-sm
+                          ${i === 0 ? 'bg-amber-100 text-amber-700 border border-amber-300' : i === 1 ? 'bg-slate-200 text-slate-700' : 'bg-orange-100 text-orange-700'}`}>
+                          {i + 1}
                         </div>
-                        <div className="text-right">
-                          <span className="text-sm font-bold text-primary">{formatCurrency(patient.totalRevenue)}</span>
+                        <Avatar className="h-9 w-9 border">
+                          <AvatarFallback className="text-xs font-bold bg-primary/10 text-primary">
+                            {patient.first_name?.[0]}{patient.last_name?.[0]}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div>
+                          <p className="font-bold text-sm text-foreground">{patient.first_name} {patient.last_name}</p>
+                          <p className="text-xs text-muted-foreground">{patient.attended} asistidas | {patient.noShows} faltas | {patient.cancelled} canceladas</p>
                         </div>
                       </div>
-                    ))}
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </div>
+                      <div className="text-right">
+                        <span className="text-sm font-extrabold text-emerald-600">{patient.rate}%</span>
+                        <p className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Asistencia</p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </CardContent>
+          </Card>
         </TabsContent>
       </Tabs>
     </div>

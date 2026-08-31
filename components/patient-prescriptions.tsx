@@ -54,7 +54,7 @@ interface Template {
 }
 
 export function PatientPrescriptions({ patientId, patientName }: PatientPrescriptionsProps) {
-  const { user } = useAuth()
+  const { user, currentClinicId } = useAuth()
   const [medications, setMedications] = useState<Medication[]>([{ name: "", dosage: "", duration: "" }])
   const [indications, setIndications] = useState("")
   const [history, setHistory] = useState<Prescription[]>([])
@@ -62,26 +62,33 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
   const [templates, setTemplates] = useState<Template[]>([])
   const [clinicInfo, setClinicInfo] = useState<any>(null)
   const [doctorInfo, setDoctorInfo] = useState<any>(null)
+  const [patientCedula, setPatientCedula] = useState<string>("")
   const [sendEmail, setSendEmail] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
 
   useEffect(() => {
     fetchHistory()
     fetchTemplatesAndData()
-  }, [patientId])
+  }, [patientId, currentClinicId])
 
   const fetchTemplatesAndData = async () => {
     const { data: tData } = await supabase.from('prescription_templates').select('*').order('name')
     if (tData) setTemplates(tData)
 
-    if (!user?.id) return
-    const { data: profile } = await supabase.from('profiles').select('full_name, specialty, clinic_id').eq('id', user.id).maybeSingle()
-    if (profile) {
-       setDoctorInfo(profile)
-       if (profile.clinic_id) {
-         const { data: clinic } = await supabase.from('clinics').select('name, address, phone, logo_url').eq('id', profile.clinic_id).maybeSingle()
-         if (clinic) setClinicInfo(clinic)
-       }
+    if (patientId) {
+      const { data: pat } = await supabase.from('patients').select('cedula, identification').eq('id', patientId).maybeSingle()
+      if (pat) setPatientCedula(pat.cedula || pat.identification || "")
+    }
+
+    if (user?.id) {
+      const { data: profile } = await supabase.from('profiles').select('full_name, specialty, clinic_id').eq('id', user.id).maybeSingle()
+      if (profile) setDoctorInfo(profile)
+    }
+
+    const clinicToLoad = currentClinicId || doctorInfo?.clinic_id
+    if (clinicToLoad) {
+      const { data: clinic } = await supabase.from('clinics').select('name, address, phone, logo_url').eq('id', clinicToLoad).maybeSingle()
+      if (clinic) setClinicInfo(clinic)
     }
   }
 
@@ -131,7 +138,7 @@ export function PatientPrescriptions({ patientId, patientName }: PatientPrescrip
 
     const pdfData = {
       patientName,
-      patientId: "",
+      patientId: patientCedula || "",
       medications,
       indications,
       clinicName: clinicInfo?.name || "Clínica Dental",
