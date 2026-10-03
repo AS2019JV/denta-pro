@@ -1,0 +1,110 @@
+{
+  "state": "BASELINE_ARCHIVE_PLUS_PINNED_REQUEST_ID_OVERLAY_VERIFIED",
+  "startedAt": "2026-10-03T03:26:25.569Z",
+  "baselineProofSha256": "279c61d0584cef6fec59f7286a790e4423f380a900912a8d799ca28c8daea44a",
+  "databaseArchiveSha256": "5cb01e8a8055349e8b6e4c0f8cc23be4a314dac8ce39d8ccad4807ec13596f9f",
+  "storageArchiveSha256": "66dfeb10b16c639d82e77e85045ec0c53897b6b2c59f3ac992a7be057d9970ef",
+  "sourceRxProofSha256": "8b9f2746dd70249981061654d3cd0a1ff4850cfcc88d72b7d98eee9c545e40d4",
+  "forwardOverlay": {
+    "migration": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+    "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf",
+    "applied": true
+  },
+  "checks": [
+    {
+      "name": "Restored baseline ordinary explicit UUID insert reproduces42501 without a row",
+      "passed": true
+    },
+    {
+      "name": "Exact forward grant changes only permitted id column and preserves historical receipts",
+      "passed": true
+    },
+    {
+      "name": "Actual ordinary UUID insert201 then duplicate23505 yields one database-authored immutable receipt",
+      "passed": true
+    },
+    {
+      "name": "Receipt snapshot/content cannot be altered or chosen; original receipt remains identical",
+      "passed": true
+    },
+    {
+      "name": "Foreign ordinary clinic sees no receipt UUID and no patient-file listing",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "bff3f204057dcf9cc94afc4b0d667e9a430759ffb1bf3f44dc812817dca80b03"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "8ddeaddbc6df0c41022217f5ba920d5a9161f6ee5a17c4937725b1956ed28fa2"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "9c40975cd4c8b9841e43f02414886be4ebb54e46be65a4a24ef5ca3cce210e06"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 201,
+      "responseSha256": "881b12deba0833b6842b8ffaa980445f72f73e5fbcc2693ef6ee4f1b069b971f"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 409,
+      "code": "23505",
+      "responseSha256": "05efea5c060b0bbcc5bee2f8924c6342498c1c61f32f9262e95280f58a317640"
+    },
+    {
+      "method": "PATCH",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "b6c120a6f35434cc133c8e4192b73caf03f10a802f2858e4eb2b4c87eb84e9c9"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "9c40975cd4c8b9841e43f02414886be4ebb54e46be65a4a24ef5ca3cce210e06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 200,
+      "responseSha256": "881b12deba0833b6842b8ffaa980445f72f73e5fbcc2693ef6ee4f1b069b971f"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 200,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "adda10afcefeba83249a3138c827bc8481b7462d6929d3664be12faee7ed3e5e",
+      "status": 200,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    }
+  ],
+  "limits": [
+    "Baseline archive before INSERT(id); unchanged archive plus explicit forward migration tested separately",
+    "Source first nine actual Rx groups verified; separate source appointment deadlock remains outside this overlay",
+    "Synthetic local REST/Auth/RLS proof, not remote recovery, qualified signature or production SLA"
+  ],
+  "historicalReceiptSetSha256": "513b2e28117b884239a1d1a49d5f1a593a8f6cd6b2bc544bd3aba015ea819812",
+  "issuedReceiptSha256": "60302b76f299684b16d562e33d1ee0a7d183f83f52f295dfd78a6417ee2cc64c",
+  "targetStop": "STOPPED_VOLUMES_PRESERVED",
+  "completedAt": "2026-10-03T03:26:54.580Z"
+}

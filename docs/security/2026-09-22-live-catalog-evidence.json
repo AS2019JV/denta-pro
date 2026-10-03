@@ -1,0 +1,1030 @@
+{
+  "review_date": "2026-09-22",
+  "project_id": "leqsrfyjvuxxdsubjjin",
+  "scope": "Read-only database catalog metadata; no patient rows or object names queried.",
+  "view": [
+    "security_invoker=true"
+  ],
+  "grants": [
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_invitations",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "clinic_members",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "anon",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "INSERT",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "SELECT",
+      "with_hierarchy": "YES"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "UPDATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "DELETE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRUNCATE",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "REFERENCES",
+      "with_hierarchy": "NO"
+    },
+    {
+      "grantee": "authenticated",
+      "grantor": "postgres",
+      "table_name": "profiles",
+      "is_grantable": "NO",
+      "table_schema": "public",
+      "table_catalog": "postgres",
+      "privilege_type": "TRIGGER",
+      "with_hierarchy": "NO"
+    }
+  ],
+  "buckets": [
+    {
+      "id": "Whats-Storage",
+      "public": false,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "wstorag",
+      "public": false,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "avatars",
+      "public": true,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "doctor-avatars",
+      "public": true,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "patient-avatars",
+      "public": true,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "receipts",
+      "public": true,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "clinic-branding",
+      "public": true,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "clinia",
+      "public": false,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    },
+    {
+      "id": "patient-files",
+      "public": false,
+      "file_size_limit": null,
+      "allowed_mime_types": null
+    }
+  ],
+  "policies": [
+    {
+      "cmd": "UPDATE",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Anyone can update an avatar",
+      "schemaname": "storage",
+      "with_check": "(bucket_id = 'avatars'::text)"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Anyone can upload an avatar",
+      "schemaname": "storage",
+      "with_check": "(bucket_id = 'avatars'::text)"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Authenticated users update doctor avatars",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'doctor-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Authenticated users update patient avatars",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Authenticated users upload doctor avatars",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'doctor-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Authenticated users upload patient avatars",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'avatars'::text)",
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Avatar images are publicly accessible",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Owners can delete their logos",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Owners can update their logos",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Owners can upload logos",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'clinic-branding'::text)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Public Access to Clinic Logos",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'doctor-avatars'::text)",
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Public Access to Doctor Avatars",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'patient-avatars'::text)",
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Public Access to Patient Avatars",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'receipts'::text)",
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Public Access to Receipts",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Public Upload to Receipts",
+      "schemaname": "storage",
+      "with_check": "(bucket_id = 'receipts'::text)"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Tenant isolated delete for patient-files",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Tenant isolated read for patient-files",
+      "schemaname": "storage",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Tenant isolated update for patient-files",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "objects",
+      "permissive": "PERMISSIVE",
+      "policyname": "Tenant isolated upload for patient-files",
+      "schemaname": "storage",
+      "with_check": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((email = auth.email()) OR (email = (( SELECT users.email\n   FROM auth.users\n  WHERE (users.id = auth.uid())))::text))",
+      "roles": [
+        "public"
+      ],
+      "tablename": "clinic_invitations",
+      "permissive": "PERMISSIVE",
+      "policyname": "Anyone can view their own invitation by email",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "ALL",
+      "qual": "(EXISTS ( SELECT 1\n   FROM clinic_members\n  WHERE ((clinic_members.clinic_id = clinic_invitations.clinic_id) AND (clinic_members.user_id = auth.uid()) AND (clinic_members.role = 'clinic_owner'::text))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clinic_invitations",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can manage invitations",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((auth.uid() = user_id) OR (EXISTS ( SELECT 1\n   FROM clinics c\n  WHERE ((c.id = clinic_members.clinic_id) AND (c.owner_id = auth.uid())))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "clinic_members",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users and owners can view clinic memberships",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "hcu033_forms",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic members can view hcu033_forms",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "hcu033_forms",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can delete hcu033_forms",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "hcu033_forms",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinical staff can insert hcu033_forms",
+      "schemaname": "public",
+      "with_check": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR ((clinic_id IS NULL) AND (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "hcu033_forms",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinical staff can update hcu033_forms",
+      "schemaname": "public",
+      "with_check": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])))"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "patients",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can insert patients in their clinic",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND check_subscription_active(clinic_id))"
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "patients",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can insert patients in their valid clinics",
+      "schemaname": "public",
+      "with_check": "is_clinic_member(clinic_id)"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND check_subscription_active(clinic_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "patients",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can update patients in their clinic",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND check_subscription_active(clinic_id))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND check_subscription_active(clinic_id))",
+      "roles": [
+        "public"
+      ],
+      "tablename": "patients",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can view patients in their clinic",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "is_clinic_member(clinic_id)",
+      "roles": [
+        "public"
+      ],
+      "tablename": "patients",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can view patients in their valid clinics",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "prescriptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "Doctors and owners can insert prescriptions",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND (doctor_id = auth.uid()) AND check_subscription_active(clinic_id))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND ((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text)) AND check_subscription_active(clinic_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "prescriptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "Doctors and owners can update their prescriptions",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND ((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text)))"
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND check_subscription_active(clinic_id))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "prescriptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "Prescriptions are deletable by clinic owners",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "prescriptions",
+      "permissive": "PERMISSIVE",
+      "policyname": "Prescriptions are viewable by clinic members",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND (id <> auth.uid()))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can delete members in their clinic",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can update members in their clinic",
+      "schemaname": "public",
+      "with_check": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "((id = auth.uid()) OR ((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "Profiles are viewable by same clinic members",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "public"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can insert own profile",
+      "schemaname": "public",
+      "with_check": "(auth.uid() = id)"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "(auth.uid() = id)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "profiles",
+      "permissive": "PERMISSIVE",
+      "policyname": "Users can update own profile.",
+      "schemaname": "public",
+      "with_check": "(auth.uid() = id)"
+    },
+    {
+      "cmd": "SELECT",
+      "qual": "(clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "services",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic members can view services",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "DELETE",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "services",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can delete services",
+      "schemaname": "public",
+      "with_check": null
+    },
+    {
+      "cmd": "INSERT",
+      "qual": null,
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "services",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can insert services",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))"
+    },
+    {
+      "cmd": "UPDATE",
+      "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))",
+      "roles": [
+        "authenticated"
+      ],
+      "tablename": "services",
+      "permissive": "PERMISSIVE",
+      "policyname": "Clinic owners can update services",
+      "schemaname": "public",
+      "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))"
+    }
+  ],
+  "functions": [
+    {
+      "name": "remove_clinic_member(uuid,uuid)",
+      "owner": "postgres",
+      "source": "\nDECLARE\n  v_is_owner boolean := false;\nBEGIN\n  IF auth.uid() IS NULL THEN\n    RAISE EXCEPTION 'Authentication required.' USING ERRCODE = '42501';\n  END IF;\n\n  SELECT EXISTS (\n    SELECT 1 FROM public.clinics WHERE id = p_clinic_id AND owner_id = auth.uid()\n    UNION\n    SELECT 1 FROM public.clinic_members WHERE clinic_id = p_clinic_id AND user_id = auth.uid() AND role = 'clinic_owner' AND status = 'active'\n  ) INTO v_is_owner;\n\n  IF NOT v_is_owner THEN\n    RAISE EXCEPTION 'Access denied: Only clinic owners can remove team members.' USING ERRCODE = '42501';\n  END IF;\n\n  IF p_target_user_id = auth.uid() THEN\n    RAISE EXCEPTION 'Cannot remove clinic owner from clinic.' USING ERRCODE = '42501';\n  END IF;\n\n  UPDATE public.profiles\n  SET clinic_id = NULL\n  WHERE id = p_target_user_id AND clinic_id = p_clinic_id;\n\n  DELETE FROM public.clinic_members\n  WHERE user_id = p_target_user_id AND clinic_id = p_clinic_id;\n\n  RETURN true;\nEND;\n",
+      "definer": true,
+      "anon_exec": true,
+      "auth_exec": true
+    },
+    {
+      "name": "get_family_unit_with_stats(uuid)",
+      "owner": "postgres",
+      "source": "\nDECLARE\n    v_rep_id uuid;\nBEGIN\n    -- 1. Find the ultimate representative for this patient\n    SELECT COALESCE(family_representative_id, p_patient_id) INTO v_rep_id\n    FROM patients\n    WHERE id = p_patient_id;\n\n    -- 2. Return all members who either are the rep OR point to the rep\n    RETURN QUERY\n    SELECT \n        p.id, p.first_name, p.last_name, p.phone, p.avatar_url, \n        p.family_relationship, p.is_family_head, p.family_representative_id,\n        (SELECT COUNT(*) FROM appointments WHERE patient_id = p.id AND status = 'completed') as appointments_count,\n        (SELECT COALESCE(SUM(amount), 0) FROM billings WHERE patient_id = p.id AND status = 'paid') as total_billed,\n        p.status\n    FROM patients p\n    WHERE p.id = v_rep_id \n       OR p.family_representative_id = v_rep_id\n       -- Also catch cases where the rep might point to another rep (shallow tree support)\n       OR p.family_representative_id IN (SELECT id FROM patients WHERE family_representative_id = v_rep_id)\n    ORDER BY p.is_family_head DESC, p.first_name ASC;\nEND;\n",
+      "definer": true,
+      "anon_exec": true,
+      "auth_exec": true
+    },
+    {
+      "name": "enforce_patient_clinical_privileges()",
+      "owner": "postgres",
+      "source": "\nDECLARE\n  v_caller_role text;\nBEGIN\n  -- A. Administrative bypass (service_role, migrations, internal maintenance)\n  IF (\n    COALESCE(current_setting('request.jwt.claim.role', true), '') = 'service_role'\n    OR current_user IN ('postgres', 'service_role', 'supabase_admin')\n    OR auth.role() = 'service_role'\n  ) THEN\n    RETURN NEW;\n  END IF;\n\n  -- B. Prevent mutation of tenant partition key\n  IF (NEW.clinic_id IS DISTINCT FROM OLD.clinic_id) THEN\n    RAISE EXCEPTION 'Unauthorized patient mutation: clinic_id cannot be modified.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- C. Resolve caller role from JWT claim\n  v_caller_role := auth.jwt() -> 'app_metadata' ->> 'role';\n  \n  -- Fallback: resolve from clinic_members if JWT claim not yet hydrated\n  IF v_caller_role IS NULL THEN\n    SELECT cm.role INTO v_caller_role\n    FROM public.clinic_members cm\n    WHERE cm.user_id = auth.uid()\n      AND cm.clinic_id = OLD.clinic_id\n      AND cm.status = 'active';\n\n    IF v_caller_role IS NULL THEN\n      IF EXISTS (SELECT 1 FROM public.clinics WHERE id = OLD.clinic_id AND owner_id = auth.uid()) THEN\n        v_caller_role := 'clinic_owner';\n      END IF;\n    END IF;\n  END IF;\n\n  -- D. If caller is clinical staff (doctor or clinic_owner), permit all mutations\n  IF v_caller_role IN ('doctor', 'clinic_owner') THEN\n    RETURN NEW;\n  END IF;\n\n  -- E. If caller is non-clinical (e.g. receptionist):\n  -- Block alterations to clinical diagnoses, dental charting, and medical history\n  IF (\n    NEW.odontogram_state IS DISTINCT FROM OLD.odontogram_state\n    OR NEW.medical_history IS DISTINCT FROM OLD.medical_history\n    OR NEW.clinical_notes IS DISTINCT FROM OLD.clinical_notes\n    OR NEW.allergies IS DISTINCT FROM OLD.allergies\n    OR NEW.medications IS DISTINCT FROM OLD.medications\n    OR NEW.medical_conditions IS DISTINCT FROM OLD.medical_conditions\n    OR NEW.blood_type IS DISTINCT FROM OLD.blood_type\n    OR NEW.has_diabetes IS DISTINCT FROM OLD.has_diabetes\n    OR NEW.has_hypertension IS DISTINCT FROM OLD.has_hypertension\n    OR NEW.has_heart_disease IS DISTINCT FROM OLD.has_heart_disease\n    OR NEW.is_smoker IS DISTINCT FROM OLD.is_smoker\n    OR NEW.is_pregnant IS DISTINCT FROM OLD.is_pregnant\n  ) THEN\n    RAISE EXCEPTION 'Unauthorized clinical mutation: Non-clinical staff (%) cannot modify clinical diagnoses, dental charting, or medical history.', COALESCE(v_caller_role, 'receptionist')\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- Allow administrative and demographic modifications (name, phone, email, address, etc.)\n  RETURN NEW;\nEND;\n",
+      "definer": true,
+      "anon_exec": true,
+      "auth_exec": true
+    },
+    {
+      "name": "custom_access_token_hook(jsonb)",
+      "owner": "postgres",
+      "source": "\nDECLARE\n  claims jsonb;\n  user_role text;\n  user_clinic_id uuid;\n  \n  -- Clinic Data\n  c_subscription_status text;\n  c_trial_ends_at timestamptz;\n  c_bypass boolean;\n  \n  -- Computed\n  is_active boolean;\nBEGIN\n  -- Fetch Profile & Clinic Data in one efficient query\n  SELECT \n    p.role, \n    p.clinic_id,\n    c.subscription_status::text,\n    c.trial_ends_at,\n    c.bypass_subscription\n  INTO \n    user_role, user_clinic_id, c_subscription_status, c_trial_ends_at, c_bypass\n  FROM public.profiles p\n  LEFT JOIN public.clinics c ON p.clinic_id = c.id\n  WHERE p.id = (event->>'user_id')::uuid;\n\n  claims := event->'claims';\n\n  IF user_clinic_id IS NOT NULL THEN\n     -- 1. Standard Claims\n     claims := jsonb_set(claims, '{app_metadata, clinic_id}', to_jsonb(user_clinic_id));\n     claims := jsonb_set(claims, '{app_metadata, role}', to_jsonb(user_role));\n     \n     -- 2. Subscription Caching (Optimization)\n     -- Compute 'Active' status once at login/refresh time to save DB CPU on RLS\n     is_active := (\n        COALESCE(c_bypass, false) = true\n        OR c_subscription_status = 'active'\n        OR (\n             (c_subscription_status IS NULL OR c_subscription_status = 'trial') \n             AND \n             (c_trial_ends_at IS NULL OR c_trial_ends_at > NOW())\n           )\n     );\n     \n     -- Inject into JWT\n     claims := jsonb_set(claims, '{app_metadata, subscription_status}', to_jsonb(COALESCE(c_subscription_status, 'trial')));\n     claims := jsonb_set(claims, '{app_metadata, subscription_active}', to_jsonb(is_active));\n  END IF;\n\n  event := jsonb_set(event, '{claims}', claims);\n  return event;\nEND;\n",
+      "definer": true,
+      "anon_exec": false,
+      "auth_exec": false
+    },
+    {
+      "name": "cleanup_soft_deleted_records()",
+      "owner": "postgres",
+      "source": "\nBEGIN\n    -- Delete notifications older than 90 days\n    DELETE FROM public.notifications \n    WHERE created_at < NOW() - INTERVAL '90 days';\n    \n    RAISE NOTICE 'Cleanup run at %s. Safe mode active.', NOW();\nEND;\n",
+      "definer": true,
+      "anon_exec": true,
+      "auth_exec": true
+    }
+  ],
+  "advisors": [
+    {
+      "name": "function_search_path_mutable",
+      "level": "WARN",
+      "count": 10,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable"
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "level": "WARN",
+      "count": 16,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "level": "WARN",
+      "count": 19,
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "level": "WARN",
+      "count": 1,
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "runtime_probe": {
+    "query": "BEGIN READ ONLY; SET LOCAL statement_timeout = '3s'; SELECT count(*) FROM public.get_patients_with_stats(NULL::uuid); ROLLBACK;",
+    "sqlstate": "42803",
+    "message": "column \"pat.family_representative_id\" must appear in the GROUP BY clause or be used in an aggregate function",
+    "note": "Failed before returning patient data. This used the connector administrative context, not an end-user JWT."
+  }
+}

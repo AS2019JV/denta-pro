@@ -1,9 +1,13 @@
 import * as z from "zod"
+import { validateEcuadorianCedula } from "./patient-utils"
 
 export const patientSchema = z.object({
   name: z.string().min(2, "El nombre es obligatorio (mín. 2 caracteres)"),
   lastName: z.string().min(2, "El apellido es obligatorio (mín. 2 caracteres)"),
-  cedula: z.string().min(5, "La cédula/DNI es obligatoria para el registro médico"),
+  cedula: z.string().min(5, "La cédula/DNI es obligatoria para el registro médico").refine(
+    (val: string) => validateEcuadorianCedula(val).isValid,
+    { message: "Cédula de identidad ecuatoriana o documento extranjero inválido" }
+  ),
   email: z.string().email("Correo electrónico inválido").optional().or(z.literal("")),
   phone: z.string().min(7, "El teléfono debe tener al menos 7 dígitos"),
   address: z.string().optional(),

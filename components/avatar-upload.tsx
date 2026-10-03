@@ -1,7 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/components/auth-context"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
+import { privateMediaUploadPath } from "@/lib/private-media.mjs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Loader2, Camera, User } from "lucide-react"
 import { toast } from "sonner"
@@ -14,6 +17,7 @@ interface AvatarUploadProps {
   bucket: "doctor-avatars" | "patient-avatars" | "clinic-branding"
   editable?: boolean
   fallbackName?: string
+  clinicId?: string
 }
 
 export function AvatarUpload({ 
@@ -23,27 +27,37 @@ export function AvatarUpload({
   onUpload, 
   bucket,
   editable = true,
-  fallbackName = ""
+  fallbackName = "",
+  clinicId
 }: AvatarUploadProps) {
-  const [avatarUrl, setAvatarUrl] = useState<string | null>(null)
-  const [uploading, setUploading] = useState(false)
-
+  const { user, currentClinicId, isLoading, isRevalidating, authError } = useAuth()
+  const authority = !isLoading && !isRevalidating && !authError && user?.id && currentClinicId
+    ? `${user.id}:${currentClinicId}:${user.role}:${uid}:${bucket}:${url}` : ''
+  const currentAuthority = useRef(authority)
+  currentAuthority.current = authority
+  const publication = useRef({ authority, valid: true })
+  if (publication.current.authority !== authority) {
+    publication.current.valid = false
+    publication.current = { authority, valid: true }
+  }
+  const [uploaded, setUploaded] = useState<{ authority: string; path: string } | null>(null)
+  const avatarUrl = usePrivateMediaUrl(bucket, uploaded?.authority === authority ? uploaded.path : url)
+  const [uploadAuthority, setUploadAuthority] = useState<string | null>(null)
+  const uploading = !!authority && uploadAuthority === authority
   useEffect(() => {
-    if (url) {
-      if (url.startsWith('http://') || url.startsWith('https://')) {
-        setAvatarUrl(url)
-      } else {
-        const { data } = supabase.storage.from(bucket).getPublicUrl(url)
-        setAvatarUrl(data.publicUrl)
-      }
-    } else {
-      setAvatarUrl(null)
-    }
-  }, [url, bucket])
+    const token = publication.current
+    token.valid = true
+    currentAuthority.current = authority
+    return () => { token.valid = false; currentAuthority.current = '' }
+  }, [authority])
 
   async function uploadAvatar(event: React.ChangeEvent<HTMLInputElement>) {
+    const captured = authority
+    const token = publication.current
+    const current = () => token.valid && !!captured && currentAuthority.current === captured
+    if (!editable || !current()) return
     try {
-      setUploading(true)
+      setUploadAuthority(captured)
 
       if (!event.target.files || event.target.files.length === 0) {
         throw new Error('Debe seleccionar una imagen para subir.')
@@ -52,12 +66,11 @@ export function AvatarUpload({
       const file = event.target.files[0]
       const originalExt = file.name.split('.').pop() || 'png'
       const fileExt = originalExt.toLowerCase().replace(/[^a-z0-9]/g, '')
-      const filePath = bucket === "clinic-branding"
-        ? `${uid}/${uid}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
-        : `${uid}-${Math.random().toString(36).substring(2, 9)}.${fileExt}`
+      
+      const filePath = privateMediaUploadPath(bucket, uid, clinicId, `${crypto.randomUUID()}.${fileExt || 'png'}`)
 
       const { error: uploadError } = await supabase.storage.from(bucket).upload(filePath, file, {
-        upsert: true,
+        upsert: false,
         contentType: file.type
       })
 
@@ -65,25 +78,25 @@ export function AvatarUpload({
         throw uploadError
       }
 
+      if (!current()) return
+      setUploaded({ authority: captured, path: filePath })
       onUpload(filePath)
-      
-      // Refresh the view
-      const { data } = supabase.storage.from(bucket).getPublicUrl(filePath)
-      setAvatarUrl(data.publicUrl)
       
       toast.success("Imagen subida correctamente")
     } catch (error: any) {
-      toast.error(`Error al subir imagen: ${error.message || 'Error desconocido'}`)
-      console.error(error)
+      if (current()) toast.error(`Error al subir imagen: ${error.message || 'Error desconocido'}`)
     } finally {
-      setUploading(false)
+      if (current()) setUploadAuthority(null)
     }
   }
 
   return (
     <div className="relative group" style={{ width: size, height: size }}>
       <Avatar className="w-full h-full border-4 border-background shadow-md">
-        <AvatarImage src={avatarUrl || ""} className="object-cover" />
+        <AvatarImage 
+          src={avatarUrl || ""} 
+          className="object-cover" 
+        />
         <AvatarFallback className="bg-primary/10 text-primary text-2xl font-bold">
             {fallbackName ? (
                 <>
@@ -104,7 +117,7 @@ export function AvatarUpload({
               type="file"
               accept="image/*"
               onChange={uploadAvatar}
-              disabled={uploading}
+              disabled={uploading || !authority}
               className="hidden"
             />
           </label>

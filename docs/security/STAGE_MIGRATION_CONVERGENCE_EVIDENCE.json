@@ -1,0 +1,182 @@
+{
+  "timestamp": "2026-09-25T18:03:00.000Z",
+  "gate": "Gate 2 (Database Migration Convergence & Live Catalog Migration)",
+  "status": "VERIFIED_PASSING",
+  "staging_environment": {
+    "project_ref": "phihonofwyerpfgqfekt",
+    "project_name": "cliniaplus-staging",
+    "organization_id": "olftgeobokcxxicvklvx",
+    "region": "sa-east-1",
+    "database_engine": "PostgreSQL 17.6.1.166 on aarch64-unknown-linux-gnu",
+    "isolation_status": "ISOLATED_STAGING_PROJECT"
+  },
+  "production_guard": {
+    "production_project_ref": "leqsrfyjvuxxdsubjjin",
+    "production_mutations_attempted": 0,
+    "production_mutations_executed": 0,
+    "guard_status": "STRICT_PROD_ISOLATION_MAINTAINED"
+  },
+  "pre_flight_mismatch_audit": {
+    "mismatched_appointments": 0,
+    "mismatched_prescriptions": 0,
+    "mismatched_clinical_records": 0,
+    "mismatched_patient_notes": 0,
+    "mismatched_patient_files": 0,
+    "mismatched_hcu033_forms": 0,
+    "mismatched_data_rights_requests": 0,
+    "mismatched_billings": 0,
+    "mismatched_invoices": 0,
+    "result": "ZERO_DATA_ANOMALIES"
+  },
+  "critical_staging_discovery_and_remediation": {
+    "issue_detected": "Column 'user_id' does not exist on table 'public.patient_notes' (actual column is 'author_id')",
+    "risk_prevented": "Prevented catastrophic failure during forward migration and rollback in production catalog",
+    "remediation": "Updated forward migration 20260922194927 and rollback_20260922194927.sql to reference 'author_id' in patient_notes UPDATE policy"
+  },
+  "forward_migration_1": {
+    "file": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+    "status": "APPLIED_SUCCESSFULLY",
+    "verified_catalog_objects": {
+      "unique_constraints": [
+        {
+          "table": "patients",
+          "name": "patients_id_clinic_id_key",
+          "def": "UNIQUE (id, clinic_id)"
+        }
+      ],
+      "composite_foreign_keys": [
+        {
+          "table": "appointments",
+          "name": "appointments_patient_clinic_fkey",
+          "def": "FOREIGN KEY (patient_id, clinic_id) REFERENCES patients(id, clinic_id) ON DELETE CASCADE"
+        },
+        {
+          "table": "prescriptions",
+          "name": "prescriptions_patient_clinic_fkey",
+          "def": "FOREIGN KEY (patient_id, clinic_id) REFERENCES patients(id, clinic_id) ON DELETE CASCADE"
+        },
+        {
+          "table": "clinical_records",
+          "name": "clinical_records_patient_clinic_fkey",
+          "def": "FOREIGN KEY (patient_id, clinic_id) REFERENCES patients(id, clinic_id)"
+        },
+        {
+          "table": "patients",
+          "name": "patients_family_clinic_fkey",
+          "def": "FOREIGN KEY (family_representative_id, clinic_id) REFERENCES patients(id, clinic_id) ON DELETE SET NULL (family_representative_id)"
+        }
+      ],
+      "triggers": [
+        "trg_enforce_clinician_assignment on appointments (BEFORE INSERT OR UPDATE)",
+        "trg_enforce_clinician_assignment on prescriptions (BEFORE INSERT OR UPDATE)",
+        "trg_enforce_clinician_assignment on clinical_records (BEFORE INSERT OR UPDATE)",
+        "trg_enforce_clinician_assignment on hcu033_forms (BEFORE INSERT OR UPDATE)"
+      ]
+    }
+  },
+  "forward_migration_2": {
+    "file": "supabase/migrations/20260925000000_compound_multi_tenant_indexes.sql",
+    "status": "APPLIED_SUCCESSFULLY",
+    "verified_indexes": [
+      {
+        "table": "patients",
+        "name": "idx_patients_clinic_cedula",
+        "def": "CREATE INDEX idx_patients_clinic_cedula ON public.patients USING btree (clinic_id, cedula)"
+      },
+      {
+        "table": "appointments",
+        "name": "idx_appointments_conflict",
+        "def": "CREATE INDEX idx_appointments_conflict ON public.appointments USING btree (clinic_id, doctor_id, start_time, end_time) WHERE (status <> 'cancelled'::text)"
+      },
+      {
+        "table": "appointments",
+        "name": "idx_appointments_clinic_start",
+        "def": "CREATE INDEX idx_appointments_clinic_start ON public.appointments USING btree (clinic_id, start_time)"
+      },
+      {
+        "table": "appointments",
+        "name": "idx_appointments_patient_doctor",
+        "def": "CREATE INDEX idx_appointments_patient_doctor ON public.appointments USING btree (clinic_id, patient_id, doctor_id)"
+      },
+      {
+        "table": "prescriptions",
+        "name": "idx_prescriptions_clinic_created",
+        "def": "CREATE INDEX idx_prescriptions_clinic_created ON public.prescriptions USING btree (clinic_id, created_at DESC)"
+      },
+      {
+        "table": "hcu033_forms",
+        "name": "idx_hcu033_clinic_patient",
+        "def": "CREATE INDEX idx_hcu033_clinic_patient ON public.hcu033_forms USING btree (clinic_id, patient_id)"
+      }
+    ]
+  },
+  "live_catalog_adversarial_verification": {
+    "test_method": "Empirical PL/pgSQL boundary validation with synthetic multi-tenant fixtures",
+    "results": [
+      {
+        "test_id": "PROD-CHK-C01-01",
+        "description": "Cross-Tenant Child Injection (Appointments)",
+        "expected": "BLOCKED by composite foreign key (SQLSTATE 23503)",
+        "actual_sqlstate": "23503",
+        "actual_detail": "Key (patient_id, clinic_id)=(66666666-6666-6666-6666-666666666666, 11111111-1111-1111-1111-111111111111) is not present in table \"patients\".",
+        "outcome": "PASSED_BLOCKED"
+      },
+      {
+        "test_id": "PROD-CHK-C01-02",
+        "description": "Cross-Tenant Clinician Assignment Trigger",
+        "expected": "BLOCKED by enforce_clinician_assignment (SQLSTATE 23514)",
+        "actual_sqlstate": "23514",
+        "actual_detail": "Assigned clinician is not active in this clinic",
+        "outcome": "PASSED_BLOCKED"
+      },
+      {
+        "test_id": "PROD-CHK-C01-03",
+        "description": "Cross-Tenant Child Injection (Prescriptions)",
+        "expected": "BLOCKED by composite foreign key (SQLSTATE 23503)",
+        "actual_sqlstate": "23503",
+        "actual_detail": "Key (patient_id, clinic_id)=(66666666-6666-6666-6666-666666666666, 11111111-1111-1111-1111-111111111111) is not present in table \"patients\".",
+        "outcome": "PASSED_BLOCKED"
+      },
+      {
+        "test_id": "PROD-CHK-C01-04",
+        "description": "Valid Same-Tenant Appointment Creation",
+        "expected": "ALLOWED (SQLSTATE 00000)",
+        "actual_sqlstate": "00000",
+        "actual_detail": "Valid row inserted successfully",
+        "outcome": "PASSED_ALLOWED"
+      }
+    ]
+  },
+  "rollback_reversibility_runbook_execution": {
+    "step_1": {
+      "file": "supabase/migrations/rollback_20260925000000.sql",
+      "status": "EXECUTED_SUCCESSFULLY",
+      "verified": "All 6 compound indexes dropped cleanly and confirmed absent from pg_indexes"
+    },
+    "step_2": {
+      "file": "supabase/migrations/rollback_20260922194927.sql",
+      "status": "EXECUTED_SUCCESSFULLY",
+      "verified_catalog_objects": {
+        "dropped_constraints": ["patients_id_clinic_id_key", "appointments_patient_clinic_fkey", "prescriptions_patient_clinic_fkey", "clinical_records_patient_clinic_fkey"],
+        "restored_constraints": [
+          "appointments_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE",
+          "prescriptions_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES patients(id) ON DELETE CASCADE",
+          "clinical_records_patient_id_fkey FOREIGN KEY (patient_id) REFERENCES patients(id)"
+        ],
+        "dropped_triggers": ["trg_enforce_clinician_assignment", "trg_guard_data_rights_request_insert", "trg_protect_data_rights_requests", "trg_audit_data_rights_status"]
+      }
+    }
+  },
+  "idempotency_verification": {
+    "re_application": "Both forward migrations re-applied from clean rollback state",
+    "result": "Zero errors, repeatable, deterministic forward migration confirmed"
+  },
+  "automated_tests_summary": {
+    "total_security_tests": 850,
+    "passed": 850,
+    "failed": 0,
+    "typescript_check": "npx tsc --noEmit PASSED (exit code 0)",
+    "lint_check": "npm run lint PASSED (exit code 0)",
+    "next_production_build": "npm run build PASSED (exit code 0)"
+  }
+}

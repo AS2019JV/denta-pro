@@ -30,7 +30,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 
-import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle, User } from "lucide-react"
+import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle, User, Loader2 } from "lucide-react"
 
 interface PatientMedicalRecordsProps {
   patientId: string
@@ -38,7 +38,7 @@ interface PatientMedicalRecordsProps {
 }
 
 export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecordsProps) {
-  const { user } = useAuth()
+  const { user, currentClinicId } = useAuth()
   const [activeTab, setActiveTab] = useState("overview")
   const [isAddNoteOpen, setIsAddNoteOpen] = useState(false)
   const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
@@ -123,19 +123,25 @@ export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecor
          }
       }
       fetchSafeData();
-      fetchOdontogram();
+      if (user?.role !== 'receptionist') {
+        fetchOdontogram();
+      }
    }, [user, patientId]);
 
   const fetchOdontogram = async () => {
+    if (!currentClinicId) return
     try {
       setIsLoadingOdontogram(true)
       const { data, error } = await supabase
         .from('hcu033_forms')
         .select('form_data')
         .eq('patient_id', patientId)
+        .eq('clinic_id', currentClinicId)
         .order('created_at', { ascending: false })
         .limit(1)
-        .single()
+        .maybeSingle()
+
+      if (error) throw error
 
       if (data) {
         setOdontogramData(data.form_data.odontograma_data || {})
@@ -330,7 +336,7 @@ export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecor
                           size="sm"
                           className="text-xs font-bold gap-1.5 shadow-sm"
                         >
-                           <Stethoscope className="h-4 w-4" />
+                           {isSavingOdontogram ? <Loader2 className="h-4 w-4 animate-spin" /> : <Stethoscope className="h-4 w-4" />}
                            {isSavingOdontogram ? "Guardando..." : "Guardar Cambios"}
                         </Button>
                      </div>
@@ -359,31 +365,41 @@ export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecor
             </Button>
           </div>
           <div className="space-y-4">
-            {data.notes.map((note) => (
-              <Card key={note.id}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base flex items-center gap-2">
-                      <FileText className="h-4 w-4" />
-                      {note.type}
-                    </CardTitle>
-                    <div className="flex items-center gap-2">
-                       <Badge variant="secondary" className="gap-1 font-normal">
-                          <User className="h-3 w-3" />
-                          {note.doctor}
-                       </Badge>
-                       <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4" />
-                        {new Date(note.date).toLocaleDateString("es-ES")}
-                       </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm">{note.content}</p>
+            {data.notes.length === 0 ? (
+              <Card className="border-dashed bg-muted/20">
+                <CardContent className="p-8 text-center text-muted-foreground text-sm">
+                  <FileText className="h-8 w-8 mx-auto opacity-20 mb-2" />
+                  <p className="font-medium text-foreground">No hay notas clínicas registradas</p>
+                  <p className="text-xs text-muted-foreground mt-1">Usa el botón &quot;Nueva Nota&quot; para agregar anotaciones del paciente.</p>
                 </CardContent>
               </Card>
-            ))}
+            ) : (
+              data.notes.map((note) => (
+                <Card key={note.id}>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base flex items-center gap-2">
+                        <FileText className="h-4 w-4" />
+                        {note.type}
+                      </CardTitle>
+                      <div className="flex items-center gap-2">
+                         <Badge variant="secondary" className="gap-1 font-normal">
+                            <User className="h-3 w-3" />
+                            {note.doctor}
+                         </Badge>
+                         <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                          <Calendar className="h-4 w-4" />
+                          {new Date(note.date).toLocaleDateString("es-ES")}
+                         </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm">{note.content}</p>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </TabsContent>
 
@@ -396,33 +412,43 @@ export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecor
             </Button>
           </div>
           <div className="space-y-4">
-            {data.treatments.map((treatment) => (
-              <Card key={treatment.id}>
-                <CardHeader className="pb-3">
-                  <div className="flex items-center justify-between">
-                    <CardTitle className="text-base">
-                      {treatment.treatment} - Diente {treatment.tooth}
-                    </CardTitle>
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline" className="gap-1 font-normal text-muted-foreground border-dashed">
-                          <User className="h-3 w-3" />
-                          {treatment.doctor}
-                      </Badge>
-                      <Badge variant={treatment.status === "Completado" ? "default" : "secondary"}>
-                        {treatment.status}
-                      </Badge>
-                      <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                        <Calendar className="h-4 w-4" />
-                        {new Date(treatment.date).toLocaleDateString("es-ES")}
-                      </div>
-                    </div>
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  <p className="text-sm text-muted-foreground">{treatment.notes}</p>
+            {data.treatments.length === 0 ? (
+              <Card className="border-dashed bg-muted/20">
+                <CardContent className="p-8 text-center text-muted-foreground text-sm">
+                  <Stethoscope className="h-8 w-8 mx-auto opacity-20 mb-2" />
+                  <p className="font-medium text-foreground">No hay tratamientos registrados</p>
+                  <p className="text-xs text-muted-foreground mt-1">Usa el botón &quot;Nuevo Tratamiento&quot; para registrar un procedimiento odontológico.</p>
                 </CardContent>
               </Card>
-            ))}
+            ) : (
+              data.treatments.map((treatment) => (
+                <Card key={treatment.id}>
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between">
+                      <CardTitle className="text-base">
+                        {treatment.treatment} - Diente {treatment.tooth}
+                      </CardTitle>
+                      <div className="flex items-center gap-2">
+                        <Badge variant="outline" className="gap-1 font-normal text-muted-foreground border-dashed">
+                            <User className="h-3 w-3" />
+                            {treatment.doctor}
+                        </Badge>
+                        <Badge variant={treatment.status === "Completado" ? "default" : "secondary"}>
+                          {treatment.status}
+                        </Badge>
+                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
+                          <Calendar className="h-4 w-4" />
+                          {new Date(treatment.date).toLocaleDateString("es-ES")}
+                        </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-sm text-muted-foreground">{treatment.notes}</p>
+                  </CardContent>
+                </Card>
+              ))
+            )}
           </div>
         </TabsContent>
 

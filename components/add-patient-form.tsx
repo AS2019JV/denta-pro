@@ -11,7 +11,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Checkbox } from "@/components/ui/checkbox"
 import { useTranslation } from "@/components/translations"
-import { Save, X, AlertCircle } from "lucide-react"
+import { Save, X, AlertCircle, Loader2 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { toast } from "sonner"
 import { useAuth } from "@/components/auth-context"
@@ -232,8 +232,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                   id="cedula"
                   {...register("cedula")}
                   className={errors.cedula ? "border-red-500" : ""}
+                  aria-invalid={errors.cedula ? "true" : undefined}
+                  aria-describedby={errors.cedula ? "cedula-error" : undefined}
                 />
-                {errors.cedula && <p className="text-xs text-red-500">{errors.cedula.message}</p>}
+                {errors.cedula && <p id="cedula-error" role="alert" className="text-xs text-red-500">{errors.cedula.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="name">Nombre *</Label>
@@ -241,8 +243,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                   id="name"
                   {...register("name")}
                   className={errors.name ? "border-red-500" : ""}
+                  aria-invalid={errors.name ? "true" : undefined}
+                  aria-describedby={errors.name ? "name-error" : undefined}
                 />
-                {errors.name && <p className="text-xs text-red-500">{errors.name.message}</p>}
+                {errors.name && <p id="name-error" role="alert" className="text-xs text-red-500">{errors.name.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="lastName">Apellidos *</Label>
@@ -250,8 +254,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                   id="lastName"
                   {...register("lastName")}
                   className={errors.lastName ? "border-red-500" : ""}
+                  aria-invalid={errors.lastName ? "true" : undefined}
+                  aria-describedby={errors.lastName ? "lastName-error" : undefined}
                 />
-                {errors.lastName && <p className="text-xs text-red-500">{errors.lastName.message}</p>}
+                {errors.lastName && <p id="lastName-error" role="alert" className="text-xs text-red-500">{errors.lastName.message}</p>}
               </div>
             </div>
             <div className="space-y-2">
@@ -261,8 +267,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 type="email"
                 {...register("email")}
                 className={errors.email ? "border-red-500" : ""}
+                aria-invalid={errors.email ? "true" : undefined}
+                aria-describedby={errors.email ? "email-error" : undefined}
               />
-              {errors.email && <p className="text-xs text-red-500">{errors.email.message}</p>}
+              {errors.email && <p id="email-error" role="alert" className="text-xs text-red-500">{errors.email.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="phone">Teléfono *</Label>
@@ -270,8 +278,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                 id="phone"
                 {...register("phone")}
                 className={errors.phone ? "border-red-500" : ""}
+                aria-invalid={errors.phone ? "true" : undefined}
+                aria-describedby={errors.phone ? "phone-error" : undefined}
               />
-              {errors.phone && <p className="text-xs text-red-500">{errors.phone.message}</p>}
+              {errors.phone && <p id="phone-error" role="alert" className="text-xs text-red-500">{errors.phone.message}</p>}
             </div>
             <div className="space-y-2">
               <Label htmlFor="address">Dirección *</Label>
@@ -306,8 +316,10 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
                   type="date"
                   {...register("birthDate")}
                   className={errors.birthDate ? "border-red-500" : ""}
+                  aria-invalid={errors.birthDate ? "true" : undefined}
+                  aria-describedby={errors.birthDate ? "birthDate-error" : undefined}
                 />
-                {errors.birthDate && <p className="text-xs text-red-500">{errors.birthDate.message}</p>}
+                {errors.birthDate && <p id="birthDate-error" role="alert" className="text-xs text-red-500">{errors.birthDate.message}</p>}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="gender">Género</Label>
@@ -581,7 +593,7 @@ export function AddPatientForm({ initialData, onSubmit, onCancel }: AddPatientFo
           Cancelar
         </Button>
         <Button type="submit" disabled={isLoading}>
-          <Save className="h-4 w-4 mr-2" />
+          {isLoading ? <Loader2 className="h-4 w-4 mr-2 animate-spin" /> : <Save className="h-4 w-4 mr-2" />}
           {isLoading ? "Guardando..." : "Guardar"}
         </Button>
       </div>

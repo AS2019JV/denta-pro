@@ -1,0 +1,1194 @@
+{
+  "startedAt": "2026-09-27T15:35:28.682Z",
+  "environment": "local-synthetic-primary",
+  "state": "PARTIAL_FAILED_CASES",
+  "checks": [
+    {
+      "name": "Auth editable signup metadata grants no clinic/membership",
+      "passed": true,
+      "detail": {
+        "clinics": 0,
+        "members": 0,
+        "privilegedProfiles": 0
+      }
+    },
+    {
+      "name": "owner_A exact demographic projection/count/empty offset",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "owner_A foreign clinic and financial access denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "owner_A complete schedule joins and notes boundary",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "doctor_A exact demographic projection/count/empty offset",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "doctor_A foreign clinic and financial access denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "doctor_A complete schedule joins and notes boundary",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "receptionist_A exact demographic projection/count/empty offset",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "receptionist_A foreign clinic and financial access denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "receptionist_A complete schedule joins and notes boundary",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reception base and clinical rows denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reception demographic mutation preserves fields and history",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Reception appointment RPC works without clinical notes",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Clinical authorized read and HCU own author preserves absent chart fields",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Editable Auth metadata cannot promote receptionist",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Multiclinic role follows membership, not primary clinic",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Cross-clinic family and immutable author rejected even for dual owner",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Storage clinical bytes positive, reception/foreign paths denied",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Storage registered clinical bytes immutable",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Storage operational avatar upsert and branding roles",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Committed removal immediately denies original Auth JWT",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Inactive profile denies original JWT despite active membership",
+      "passed": false,
+      "error": "Local Docker exec failed (3); private diagnostics saved"
+    },
+    {
+      "name": "Committed demotion removes clinical access with original JWT",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Removed and anonymous have no tenant capabilities",
+      "passed": true,
+      "detail": null
+    },
+    {
+      "name": "Synthetic historical financial value unchanged",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "requests": [
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 667
+    },
+    {
+      "actor": "owner_A-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 272
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 198
+    },
+    {
+      "actor": "doctor_A-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 243
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 213
+    },
+    {
+      "actor": "receptionist_A-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 192
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 184
+    },
+    {
+      "actor": "removed_A-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 201
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 181
+    },
+    {
+      "actor": "owner_B-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 193
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 169
+    },
+    {
+      "actor": "doctor_B-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 179
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 167
+    },
+    {
+      "actor": "dual_role-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 186
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 148
+    },
+    {
+      "actor": "dual_owner-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 166
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "POST",
+      "path": "/auth/v1/admin/users",
+      "status": 200,
+      "elapsedMs": 150
+    },
+    {
+      "actor": "trusted-fixture-admin",
+      "method": "PUT",
+      "path": "/auth/v1/admin/users/9acd09ca-cdb3-48ae-b401-898628d92503",
+      "status": 200,
+      "elapsedMs": 61
+    },
+    {
+      "actor": "unaffiliated-signin",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "elapsedMs": 161
+    },
+    {
+      "actor": "unaffiliated",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 436
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 61
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 17
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 23
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 33
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 33
+    },
+    {
+      "actor": "owner_A",
+      "method": "PATCH",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 31
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/billings",
+      "status": 403,
+      "elapsedMs": 19
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/invoices",
+      "status": 403,
+      "elapsedMs": 14
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/payments",
+      "status": 403,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/expenses",
+      "status": 404,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/budgets",
+      "status": 404,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/services",
+      "status": 403,
+      "elapsedMs": 23
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_family_unit_with_stats",
+      "status": 404,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 200,
+      "elapsedMs": 15
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 70
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "doctor_A",
+      "method": "PATCH",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/billings",
+      "status": 403,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/invoices",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/payments",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/expenses",
+      "status": 404,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/budgets",
+      "status": 404,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/services",
+      "status": 403,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_family_unit_with_stats",
+      "status": 404,
+      "elapsedMs": 4
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 200,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 34
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "PATCH",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/billings",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/invoices",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/payments",
+      "status": 403,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/expenses",
+      "status": 404,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/budgets",
+      "status": 404,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/services",
+      "status": 403,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_family_unit_with_stats",
+      "status": 404,
+      "elapsedMs": 4
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 200,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 400,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "elapsedMs": 22
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "elapsedMs": 27
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/clinical_records",
+      "status": 200,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/hcu033_forms",
+      "status": 200,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patient_notes",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patient_files",
+      "status": 200,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/prescription_templates",
+      "status": 200,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "elapsedMs": 13
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 200,
+      "elapsedMs": 16
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 13
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "elapsedMs": 14
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/hcu033_forms",
+      "status": 201,
+      "elapsedMs": 15
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/hcu033_forms",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A-signin",
+      "method": "PUT",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "elapsedMs": 122
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "dual_role",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "elapsedMs": 92
+    },
+    {
+      "actor": "dual_role",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "dual_role",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_staff_directory",
+      "status": 200,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "dual_owner",
+      "method": "PATCH",
+      "path": "/rest/v1/patients",
+      "status": 409,
+      "elapsedMs": 36
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/patient_notes",
+      "status": 403,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/patient_notes",
+      "status": 403,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 200,
+      "elapsedMs": 503
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 200,
+      "elapsedMs": 43
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 200,
+      "elapsedMs": 38
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 22
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/dddddddd-dddd-4ddd-8ddd-dddddddddddd/foreign.pdf",
+      "status": 400,
+      "elapsedMs": 19
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/not-a-uuid/no.pdf",
+      "status": 400,
+      "elapsedMs": 20
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/patient_files",
+      "status": 201,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 16
+    },
+    {
+      "actor": "doctor_A",
+      "method": "DELETE",
+      "path": "/storage/v1/object/patient-files",
+      "status": 200,
+      "elapsedMs": 33
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 200,
+      "elapsedMs": 19
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/avatar.png",
+      "status": 200,
+      "elapsedMs": 52
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/avatar.png",
+      "status": 200,
+      "elapsedMs": 60
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/33333333-3333-4333-8333-333333333333/logo.png",
+      "status": 200,
+      "elapsedMs": 31
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/33333333-3333-4333-8333-333333333333/logo.png",
+      "status": 200,
+      "elapsedMs": 16
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/33333333-3333-4333-8333-333333333333/not-owner.png",
+      "status": 400,
+      "elapsedMs": 12
+    },
+    {
+      "actor": "doctor_B",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/33333333-3333-4333-8333-333333333333/logo.png",
+      "status": 400,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 403,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 14
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 18
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "elapsedMs": 24
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 13
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 401,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/33333333-3333-4333-8333-333333333333/cccccccc-cccc-4ccc-8ccc-cccccccccccc/synthetic-7e47ce28.pdf",
+      "status": 400,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 401,
+      "elapsedMs": 6
+    }
+  ],
+  "fixtures": [
+    {
+      "actor": "owner_A",
+      "userId": "a1600bca-0270-49ae-8a41-b750a7295b54",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "dfdd4d33dc7a0e5dbba9e863852924ad9acf8a6a20a3490f31ba185a8ecfcd35"
+    },
+    {
+      "actor": "doctor_A",
+      "userId": "1a410ebd-562c-4004-9387-74940765338a",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "b0e37114daa0ab7b8713de8ba117ebcb5dddbde10874b79df5630c35721a1579"
+    },
+    {
+      "actor": "receptionist_A",
+      "userId": "a3efa913-0f28-4dc1-89fa-194715159027",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "4ccb2229ad0201abe8f706ef1836ef4b7d1a1b868e4ed6dfb18c21d5156f0a25"
+    },
+    {
+      "actor": "removed_A",
+      "userId": "91832f55-4484-4c72-9984-9ca0758976f1",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "615683edeb3fe9c190c146077e667715baaa028b18e6d47d8f900fd8ea84db02"
+    },
+    {
+      "actor": "owner_B",
+      "userId": "55d1da11-c2a2-4e68-9693-548b36645b19",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "04aecd709ad37ac47f4c7cc7fa931ad8b819631740eefe53009521e12c7179b2"
+    },
+    {
+      "actor": "doctor_B",
+      "userId": "427d9f07-fca9-4181-ab89-1f257b5189b8",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "b186ef578a18670fdcb9ec2bb4eaa12cda6e707f1a9a6403dd6925d5ff5c4cae"
+    },
+    {
+      "actor": "dual_role",
+      "userId": "d9019ae1-3499-4575-9bfe-fdaaa59e0f72",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "cebe40b4f4039042855fe5e04849020c06abfa7325d42961863fa160cb43f543"
+    },
+    {
+      "actor": "dual_owner",
+      "userId": "82603366-6239-42f8-9bf6-34c98e743915",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "62cf5093d5a68e10be9c14f259e9c2c0665f0cf2923b5abed1b810a09fd284a9"
+    },
+    {
+      "actor": "unaffiliated",
+      "userId": "9acd09ca-cdb3-48ae-b401-898628d92503",
+      "authentication": "actual signInWithPassword",
+      "tokenSha256": "313346273295273ac52b25f128ad5fe36fee5b05ec907d67041a16f01240792f"
+    }
+  ],
+  "limitations": [
+    "Local providers, not deployed staging/browser acceptance.",
+    "Admin-created confirmed fixtures do not test confirmation email delivery.",
+    "No qualified signature, clinical UAT, legal approval or booking concurrency claim.",
+    "Full acceptance-cases.json including rights, containment and concurrent revocation remains pending."
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "completedAt": "2026-09-27T15:35:40.317Z"
+}

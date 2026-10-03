@@ -1,0 +1,48 @@
+{
+  "state": "BOUNDED_LOADERS_REPAIRED_LEGACY_CONTRACT_FAILURES_PRESERVED",
+  "exitCode": 1,
+  "command": "node --test test/security/challenger-m1-2-adversarial.test.cjs test/security/challenger-m3-stress.test.cjs test/security/m6-gap-03-email.test.cjs",
+  "tests": 124,
+  "passed": 113,
+  "failed": 11,
+  "skipped": 0,
+  "log": "docs/production/evidence/2026-10-02-release/security-loader-repair.log",
+  "scope": [
+    "Three specified legacy test files and one shared sandbox helper only",
+    "Real current TypeScript action/route plus real nested HTML and server-email-gate modules, mocked canonical authority and durable RPC responses",
+    "Synthetic configuration and trusted-ingress fixtures only; no provider delivery, actual SQL quota execution or deployed ingress claim"
+  ],
+  "formerlyUnloaded": {
+    "cases": 59,
+    "passed": 54,
+    "remainingLegacyContractMismatches": 5
+  },
+  "newBudgetDenials": {
+    "cases": 3,
+    "passed": 3,
+    "contract": "Explicit service durable RPC allowed=false response yields denial/retry and zero invitation reservation/Auth token/email side effects"
+  },
+  "remaining": [
+    {
+      "count": 1,
+      "cause": "Patient-files component-local signer AST is obsolete; no assertion changed"
+    },
+    {
+      "count": 1,
+      "cause": "No Origin unauthenticated request returns403 same-origin denial rather than legacy401"
+    },
+    {
+      "count": 3,
+      "cause": "Legacy process-local 31/101 limits expect429 even though explicit durable RPC fixture allows every reservation; candidate delegates to durable RPC"
+    },
+    {
+      "count": 1,
+      "cause": "Clinic-burst fixture has invalid clinic UUID and no live membership/profile; metadata grants no authority, so403"
+    },
+    {
+      "count": 5,
+      "cause": "Disabled payment route returns503 instead of obsolete active-payment401/403/500/200 contract"
+    }
+  ],
+  "completedAt": "2026-10-03T03:11:02.688Z"
+}

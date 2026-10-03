@@ -7,9 +7,9 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { useSidebar } from "@/components/sidebar-context"
-import { useEffect, useState } from "react"
-import { supabase } from "@/lib/supabase"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
+import { cn } from "@/lib/utils"
 import {
   LayoutDashboard,
   Users,
@@ -26,6 +26,10 @@ import {
   X,
   Bell,
   Stethoscope,
+  ChevronLeft,
+  ChevronRight,
+  PanelLeftClose,
+  PanelLeftOpen,
   type LucideIcon,
 } from "lucide-react"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -34,10 +38,9 @@ const navigation = [
   { name: "dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "patients", href: "/patients", icon: Users },
   { name: "calendar", href: "/calendar", icon: Calendar },
-  { name: "billing", href: "/billing", icon: CreditCard },
-  { name: "reports", href: "/reports", icon: BarChart3 },
   { name: "recipes", href: "/recipes", icon: ClipboardList },
   { name: "services", href: "/dashboard/services", icon: Stethoscope },
+  { name: "reports", href: "/reports", icon: BarChart3 },
 ]
 
 
@@ -65,7 +68,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const router = useRouter()
   const { user, logout, currentClinicId } = useAuth()
   const { t } = useTranslation()
-  const { isOpen, setIsOpen } = useSidebar()
+  const { isOpen, setIsOpen, isExpanded, toggleSidebar } = useSidebar()
 
   const activeMembership = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)
   const activeClinicName = activeMembership?.clinics?.name
@@ -73,34 +76,8 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const memberTitle = user?.title
   const displayName = memberTitle ? `${memberTitle} ${user?.name || ''}`.trim() : (user?.name || '')
 
-  const [activeClinicLogo, setActiveClinicLogo] = useState<string | null>(null)
-  const [resolvedAvatar, setResolvedAvatar] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (rawLogoUrl) {
-      if (rawLogoUrl.startsWith('http://') || rawLogoUrl.startsWith('https://')) {
-        setActiveClinicLogo(rawLogoUrl)
-      } else {
-        const { data } = supabase.storage.from('clinic-branding').getPublicUrl(rawLogoUrl)
-        setActiveClinicLogo(data.publicUrl)
-      }
-    } else {
-      setActiveClinicLogo(null)
-    }
-  }, [rawLogoUrl])
-
-  useEffect(() => {
-    if (user?.avatar) {
-      if (user.avatar.startsWith('http://') || user.avatar.startsWith('https://')) {
-        setResolvedAvatar(user.avatar)
-      } else {
-        const { data } = supabase.storage.from('doctor-avatars').getPublicUrl(user.avatar)
-        setResolvedAvatar(data.publicUrl)
-      }
-    } else {
-      setResolvedAvatar(null)
-    }
-  }, [user?.avatar])
+  const activeClinicLogo = usePrivateMediaUrl('clinic-branding', rawLogoUrl)
+  const resolvedAvatar = usePrivateMediaUrl('doctor-avatars', user?.avatar)
 
   const handleLogout = () => {
     logout()
@@ -115,95 +92,15 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
     }
   }
 
-  const notifications = [
-    { 
-      id: 1, 
-      type: "appointment",
-      title: "Nueva Cita Programada", 
-      message: "Paciente: María González - Limpieza dental", 
-      time: "Hace 5 min",
-      timestamp: "10:30 AM",
-      unread: true,
-      priority: "high"
-    },
-    { 
-      id: 2, 
-      type: "reminder",
-      title: "Recordatorio de Cita", 
-      message: "Dr. Rodríguez - Paciente en sala de espera", 
-      time: "Hace 15 min",
-      timestamp: "10:15 AM",
-      unread: true,
-      priority: "urgent"
-    },
-    { 
-      id: 3, 
-      type: "payment",
-      title: "Pago Recibido", 
-      message: "Factura #1234 - $150.00 pagada exitosamente", 
-      time: "Hace 2h",
-      timestamp: "8:30 AM",
-      unread: false,
-      priority: "normal"
-    },
-    { 
-      id: 4, 
-      type: "system",
-      title: "Actualización del Sistema", 
-      message: "Nueva versión disponible con mejoras de seguridad", 
-      time: "Ayer",
-      timestamp: "Ayer 5:00 PM",
-      unread: false,
-      priority: "low"
-    },
-  ]
-
-  const messages = [
-    {
-      id: 1,
-      sender: "Dr. Ana Martínez",
-      avatar: "/placeholder.svg",
-      message: "¿Podemos revisar el caso del paciente González?",
-      time: "Hace 10 min",
-      timestamp: "10:20 AM",
-      unread: true,
-      online: true
-    },
-    {
-      id: 2,
-      sender: "Recepción",
-      avatar: "/placeholder.svg",
-      message: "Paciente canceló cita de las 3:00 PM",
-      time: "Hace 30 min",
-      timestamp: "10:00 AM",
-      unread: true,
-      online: true
-    },
-    {
-      id: 3,
-      sender: "Dr. Carlos Ruiz",
-      avatar: "/placeholder.svg",
-      message: "Gracias por la información del tratamiento",
-      time: "Hace 2h",
-      timestamp: "8:30 AM",
-      unread: false,
-      online: false
-    },
-  ]
-
-  const unreadCount = notifications.filter((n) => n.unread).length
-  const unreadMessagesCount = messages.filter((m) => m.unread).length
-
   // Role-Based Access Control (RBAC) Filtering
   const filteredNavigation = navigation.filter(item => {
     if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
     if (user?.role === "doctor") {
-        // Doctors cannot see finances (billing) or general reports
-        return !["billing", "reports"].includes(item.name);
+        return item.name !== "billing";
     }
     if (user?.role === "receptionist") {
-        // Receptionists can see patients list, billing, calendar, but NOT reports or services management
-        return !["reports", "services"].includes(item.name);
+        // Reception uses demographic patients and operational navigation.
+        return !["reports", "services", "recipes"].includes(item.name);
     }
     return true;
   });
@@ -236,6 +133,9 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           variant="outline"
           size="icon"
           onClick={() => setIsOpen(!isOpen)}
+          aria-label={isOpen ? "Cerrar menú de navegación" : "Abrir menú de navegación"}
+          aria-expanded={isOpen}
+          aria-controls="clinic-sidebar"
           className="bg-background/95 backdrop-blur-sm shadow-sm"
         >
           {isOpen ? <X className="h-4 w-4" /> : <Menu className="h-4 w-4" />}
@@ -244,18 +144,22 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
       {/* Sidebar */}
       <div
-        className={`
-          fixed inset-y-0 left-0 z-40 w-64 bg-card/95 backdrop-blur border-r transform transition-transform duration-200 ease-in-out lg:translate-x-0 lg:static lg:inset-0
-          ${isOpen ? "translate-x-0" : "-translate-x-full"}
-          flex flex-col h-full
-        `}
+        id="clinic-sidebar"
+        className={cn(
+          "fixed inset-y-0 left-0 z-40 bg-card/95 backdrop-blur border-r transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-full",
+          isOpen ? "translate-x-0" : "-translate-x-full",
+          isExpanded ? "w-64 lg:w-64" : "w-64 lg:w-20"
+        )}
       >
         {/* Personalized Branding: Clinic Name on Left, Logo on Right */}
-        <div className="flex items-center justify-between h-16 px-6 border-b shrink-0 bg-background/50 relative overflow-hidden group">
+        <div className={cn(
+          "flex items-center justify-between h-16 border-b shrink-0 bg-background/50 relative overflow-hidden group transition-all duration-300",
+          isExpanded ? "px-6" : "px-3 lg:justify-center"
+        )}>
           {/* Subtle glowing indicator */}
           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/80 to-transparent" />
           
-          <div className="flex flex-col min-w-0 pr-2">
+          <div className={cn("flex flex-col min-w-0 pr-2", !isExpanded && "lg:hidden")}>
             <h1 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground truncate font-montserrat tracking-tight leading-tight" title={activeClinicName || "Clinia +"}>
               {activeClinicName || "Clinia +"}
             </h1>
@@ -265,20 +169,20 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           </div>
           
           {activeClinicLogo ? (
-            <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-border/80 shadow-md flex items-center justify-center bg-muted/20 shrink-0 hover:scale-105 transition-transform duration-300">
+            <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-border/80 shadow-md flex items-center justify-center bg-muted/20 shrink-0 hover:scale-105 transition-transform duration-300" title={activeClinicName || "Clinia +"}>
               <img src={activeClinicLogo} alt="Clinic Logo" className="object-cover h-full w-full" />
             </div>
           ) : (
-            <div className="relative h-8 w-8 shrink-0 hover:scale-105 transition-transform duration-300">
+            <div className="relative h-8 w-8 shrink-0 hover:scale-105 transition-transform duration-300" title="Clinia +">
               <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
             </div>
           )}
         </div>
 
         {/* User info & Actions */}
-        <div className="p-4 border-b bg-muted/20">
-          <div className="flex items-center gap-3">
-            <Avatar className="h-10 w-10 border-2 border-background ring-2 ring-muted shadow-sm transition-transform hover:scale-105">
+        <div className={cn("p-4 border-b bg-muted/20 transition-all duration-300", !isExpanded && "lg:p-2 lg:flex lg:flex-col lg:items-center")}>
+          <div className={cn("flex items-center gap-3", !isExpanded && "lg:flex-col lg:gap-1.5 lg:items-center")}>
+            <Avatar className="h-10 w-10 border-2 border-background ring-2 ring-muted shadow-sm transition-transform hover:scale-105" title={displayName}>
               <AvatarImage src={resolvedAvatar || "/placeholder.svg"} alt={user?.name} />
               <AvatarFallback className="bg-primary/10 text-primary font-medium">
                 {user?.name
@@ -287,7 +191,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
                   .join("")}
               </AvatarFallback>
             </Avatar>
-            <div className="flex-1 min-w-0">
+            <div className={cn("flex-1 min-w-0", !isExpanded && "lg:hidden")}>
               <p className="text-sm font-semibold truncate text-foreground">{displayName}</p>
               <p className="text-xs text-muted-foreground capitalize font-medium">
                 {user?.role === "clinic_owner" 
@@ -299,231 +203,31 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
               </p>
             </div>
             
-            {/* Notification & Message Icons - Professional SaaS Design */}
-            <div className="flex items-center gap-1">
-              {/* Notifications Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-9 w-9 rounded-lg relative hover:bg-primary/10 transition-all duration-200 group border border-transparent hover:border-primary/20"
-                  >
-                    <Bell className="h-4 w-4 text-primary/70 group-hover:text-primary transition-colors" />
-                    {unreadCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75 animate-ping" />
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary text-[9px] font-bold text-secondary-foreground items-center justify-center shadow-sm">
-                          {unreadCount}
-                        </span>
-                      </span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-96 p-0 overflow-hidden shadow-2xl border-primary/20 rounded-2xl">
-                   {/* Header */}
-                   <div className="p-5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-b border-primary/10">
-                       <div className="flex items-center justify-between mb-1">
-                           <div className="flex items-center gap-2.5">
-                             <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                               <Bell className="h-4 w-4 text-primary" />
-                             </div>
-                             <div>
-                               <h3 className="font-semibold text-base text-foreground">Notificaciones</h3>
-                               <p className="text-xs text-muted-foreground">Tienes {unreadCount} sin leer</p>
-                             </div>
-                           </div>
-                           {unreadCount > 0 && (
-                             <Badge className="text-[10px] h-6 px-2 bg-secondary text-secondary-foreground font-semibold">
-                               {unreadCount} nuevas
-                             </Badge>
-                           )}
-                       </div>
-                   </div>
-                   
-                   {/* Notifications List - Minimalist */}
-                   <div className="max-h-[400px] overflow-y-auto">
-                      {notifications.map((notification) => (
-                      <DropdownMenuItem 
-                        key={notification.id} 
-                        className={`cursor-pointer p-4 border-b last:border-0 transition-all duration-200 gap-3 items-start ${
-                          notification.unread ? "bg-primary/5 hover:bg-primary/10" : "hover:bg-muted/50"
-                        }`}
-                      >
-                         {/* Simple Priority Indicator */}
-                         <div className="flex flex-col items-center gap-1 pt-1">
-                           <div className={`h-2 w-2 rounded-full flex-shrink-0 transition-all ${
-                             notification.priority === "urgent" ? "bg-red-500 shadow-sm shadow-red-500/50 animate-pulse" :
-                             notification.priority === "high" ? "bg-secondary shadow-sm shadow-secondary/50" :
-                             notification.priority === "normal" ? "bg-primary/50" :
-                             "bg-muted-foreground/30"
-                           }`} />
-                         </div>
-                         
-                         <div className="space-y-1.5 flex-1 min-w-0">
-                           <p className={`text-sm font-semibold leading-tight ${
-                             notification.unread ? "text-foreground" : "text-muted-foreground"
-                           }`}>
-                             {notification.title}
-                           </p>
-                           <p className="text-xs text-muted-foreground leading-relaxed line-clamp-2">
-                             {notification.message}
-                           </p>
-                           <p className="text-[10px] text-muted-foreground/70 pt-0.5">
-                             {notification.time}
-                           </p>
-                         </div>
-                      </DropdownMenuItem>
-                      ))}
-                   </div>
-                   
-                   {/* Footer */}
-                   <div className="p-3 border-t bg-gradient-to-t from-muted/10 to-transparent flex gap-2">
-                       <Button 
-                         variant="ghost" 
-                         size="sm" 
-                         className="flex-1 text-xs h-9 text-primary hover:text-primary hover:bg-primary/10 transition-all duration-200 font-medium"
-                       >
-                           Marcar todas como leídas
-                       </Button>
-                       <Button 
-                         variant="ghost" 
-                         size="sm" 
-                         className="flex-1 text-xs h-9 hover:bg-muted transition-all duration-200 font-medium"
-                       >
-                           Ver todas
-                       </Button>
-                   </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
 
-              {/* Messages Dropdown */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button 
-                    variant="ghost" 
-                    size="icon" 
-                    className="h-9 w-9 rounded-lg relative hover:bg-primary/10 transition-all duration-200 group border border-transparent hover:border-primary/20"
-                  >
-                    <MessageSquare className="h-4 w-4 text-primary/70 group-hover:text-primary transition-colors" />
-                    {unreadMessagesCount > 0 && (
-                      <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center">
-                        <span className="absolute inline-flex h-full w-full rounded-full bg-secondary opacity-75 animate-ping" />
-                        <span className="relative inline-flex rounded-full h-4 w-4 bg-secondary text-[9px] font-bold text-secondary-foreground items-center justify-center shadow-sm">
-                          {unreadMessagesCount}
-                        </span>
-                      </span>
-                    )}
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent align="start" className="w-96 p-0 overflow-hidden shadow-2xl border-primary/20 rounded-2xl">
-                   {/* Header */}
-                   <div className="p-5 bg-gradient-to-br from-primary/10 via-primary/5 to-transparent border-b border-primary/10">
-                       <div className="flex items-center justify-between mb-1">
-                           <div className="flex items-center gap-2.5">
-                             <div className="h-8 w-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                               <MessageSquare className="h-4 w-4 text-primary" />
-                             </div>
-                             <div>
-                               <h3 className="font-semibold text-base text-foreground">Mensajes</h3>
-                               <p className="text-xs text-muted-foreground">{unreadMessagesCount} sin leer</p>
-                             </div>
-                           </div>
-                           <Button 
-                             variant="ghost" 
-                             size="sm"
-                             className="h-7 px-2 text-xs text-primary hover:bg-primary/10"
-                             onClick={() => window.open("https://web.whatsapp.com", "_blank")}
-                           >
-                             Ver todos
-                           </Button>
-                       </div>
-                   </div>
-                   
-                   {/* Messages List */}
-                   <div className="max-h-[400px] overflow-y-auto">
-                      {messages.map((message) => (
-                      <DropdownMenuItem 
-                        key={message.id} 
-                        className={`cursor-pointer p-4 border-b last:border-0 transition-all duration-200 gap-3 items-start ${
-                          message.unread ? "bg-primary/5 hover:bg-primary/10" : "hover:bg-muted/50"
-                        }`}
-                        onClick={() => window.open("https://web.whatsapp.com", "_blank")}
-                      >
-                         {/* Avatar with Online Status */}
-                         <div className="relative flex-shrink-0">
-                           <Avatar className="h-10 w-10 border-2 border-background">
-                             <AvatarImage src={message.avatar} alt={message.sender} />
-                             <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">
-                               {message.sender.split(" ").map(n => n[0]).join("")}
-                             </AvatarFallback>
-                           </Avatar>
-                           {message.online && (
-                             <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full bg-green-500 border-2 border-background" />
-                           )}
-                         </div>
-                         
-                         <div className="space-y-1 flex-1 min-w-0">
-                           <div className="flex items-start justify-between gap-2">
-                             <p className={`text-sm font-semibold leading-tight ${
-                               message.unread ? "text-foreground" : "text-muted-foreground"
-                             }`}>
-                               {message.sender}
-                             </p>
-                             <span className="text-[10px] text-muted-foreground/70 whitespace-nowrap">
-                               {message.time}
-                             </span>
-                           </div>
-                           <p className={`text-xs leading-relaxed line-clamp-2 ${
-                             message.unread ? "text-foreground font-medium" : "text-muted-foreground"
-                           }`}>
-                             {message.message}
-                           </p>
-                           {message.unread && (
-                             <div className="flex items-center gap-1.5 pt-1">
-                               <div className="h-1.5 w-1.5 rounded-full bg-secondary" />
-                               <span className="text-[10px] text-secondary font-semibold">Nuevo</span>
-                             </div>
-                           )}
-                         </div>
-                      </DropdownMenuItem>
-                      ))}
-                   </div>
-                   
-                   {/* Footer */}
-                   <div className="p-3 border-t bg-gradient-to-t from-muted/10 to-transparent">
-                       <Button 
-                         variant="default" 
-                         size="sm" 
-                         className="w-full text-xs h-9 bg-primary hover:bg-primary/90 transition-all duration-200 font-medium"
-                         onClick={() => window.open("https://web.whatsapp.com", "_blank")}
-                       >
-                           Abrir Mensajes
-                       </Button>
-                   </div>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
           </div>
         </div>
 
           {/* Navigation */}
-          <nav className="flex-1 px-4 py-4 space-y-2">
-            {itemsToRender.map((item) => {
-              // Handle label vs name for translation key
-              // If label is "Dashboard" (capitalized), we might need to lowercase it for translation key if that's what t() expects
-              // Based on dashboard.tsx: t(item.label.toLowerCase())
-              // Based on sidebar.tsx original: t(item.name) where name was "dashboard"
+          <nav className={cn("flex-1 py-4 space-y-2", isExpanded ? "px-4" : "px-4 lg:px-2")}>
+            {itemsToRender.filter(item => user?.role !== "receptionist" || !item.href.startsWith("/recipes")).map((item) => {
               const translationKey = item.label.toLowerCase()
-              
+              const labelText = t(translationKey as any)
               return (
                 <div key={item.label} onClick={() => handleItemClick(item.href, item.label.toLowerCase())}>
                   <Button
                     variant={item.active ? "default" : "ghost"}
-                    className="w-full justify-start cursor-pointer"
+                    className={cn(
+                      "w-full cursor-pointer transition-all duration-200",
+                      isExpanded 
+                        ? "justify-start" 
+                        : "justify-start lg:justify-center lg:px-2"
+                    )}
+                    title={!isExpanded ? labelText : undefined}
                   >
-                    <item.icon className="mr-3 h-4 w-4" />
-                    {t(translationKey as any)}
+                    <item.icon className={cn("h-4 w-4", isExpanded ? "mr-3" : "mr-3 lg:mr-0")} />
+                    <span className={cn("truncate", !isExpanded && "lg:hidden")}>
+                      {labelText}
+                    </span>
                   </Button>
                 </div>
               )
@@ -531,26 +235,68 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           </nav>
 
           {/* User navigation */}
-          <div className="p-4 border-t space-y-2">
+          <div className={cn("border-t space-y-2", isExpanded ? "p-4" : "p-4 lg:p-2")}>
             {filteredUserNavigation.map((item) => {
               const isActive = pathname === item.href
+              const labelText = t(item.name)
               return (
                 <Link key={item.name} href={item.href}>
                   <Button
                     variant={isActive ? "default" : "ghost"}
-                    className="w-full justify-start"
+                    className={cn(
+                      "w-full cursor-pointer transition-all duration-200",
+                      isExpanded 
+                        ? "justify-start" 
+                        : "justify-start lg:justify-center lg:px-2"
+                    )}
                     onClick={() => setIsOpen(false)}
+                    title={!isExpanded ? labelText : undefined}
                   >
-                    <item.icon className="mr-3 h-4 w-4" />
-                    {t(item.name)}
+                    <item.icon className={cn("h-4 w-4", isExpanded ? "mr-3" : "mr-3 lg:mr-0")} />
+                    <span className={cn("truncate", !isExpanded && "lg:hidden")}>
+                      {labelText}
+                    </span>
                   </Button>
                 </Link>
               )
             })}
-            <Button variant="ghost" className="w-full justify-start text-red-600" onClick={handleLogout}>
-              <LogOut className="mr-3 h-4 w-4" />
-              {t("logout")}
+            <Button 
+              variant="ghost" 
+              className={cn(
+                "w-full text-red-600 transition-all duration-200",
+                isExpanded ? "justify-start" : "justify-start lg:justify-center lg:px-2"
+              )} 
+              onClick={handleLogout}
+              title={!isExpanded ? t("logout") : undefined}
+            >
+              <LogOut className={cn("h-4 w-4", isExpanded ? "mr-3" : "mr-3 lg:mr-0")} />
+              <span className={cn("truncate", !isExpanded && "lg:hidden")}>
+                {t("logout")}
+              </span>
             </Button>
+
+            {/* Desktop Collapse/Expand Toggle Button */}
+            <div className="hidden lg:block pt-2 border-t">
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={toggleSidebar}
+                className={cn(
+                  "w-full text-muted-foreground hover:text-foreground transition-all duration-200",
+                  isExpanded ? "justify-start" : "justify-center px-0"
+                )}
+                title={isExpanded ? "Colapsar menú lateral" : "Expandir menú lateral"}
+              >
+                {isExpanded ? (
+                  <>
+                    <ChevronLeft className="h-4 w-4 mr-2" />
+                    <span className="text-xs font-medium">Colapsar menú</span>
+                  </>
+                ) : (
+                  <ChevronRight className="h-4 w-4" />
+                )}
+              </Button>
+            </div>
           </div>
 
       </div>

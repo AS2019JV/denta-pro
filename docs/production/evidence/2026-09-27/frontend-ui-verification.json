@@ -1,0 +1,27 @@
+{
+  "date": "2026-09-27",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "environment": "local optimized Next.js build, real Docker Supabase Auth/API, synthetic data only",
+  "status": "PARTIAL_LOCAL_VERIFIED",
+  "productionChanged": false,
+  "build": {"exitCode": 0, "log": "frontend-build-loopback-normalization.log", "typesAndLintEnabled": true},
+  "finalDeltaTests": {"exitCode": 0, "passed": 4, "failed": 0, "log": "canonical-config-tests.log"},
+  "recipeNavigation": {
+    "exitCode": 0,
+    "assertions": ["dashboard quick action opens selector", "patient selection opens recipes tab", "reload retains tab", "history then browser back restores recipes tab"],
+    "log": "browser-recipe-loopback.log",
+    "screenshot": "../../../../output/playwright/owner-recipes-loopback.png",
+    "prescriptionIssued": false
+  },
+  "reception": {
+    "exitCode": 0,
+    "dashboardPatientCount": 32,
+    "assertions": ["no prescription navigation", "direct clinical route redirects to same 127.0.0.1 origin patients list", "no clinical chart action", "previously created synthetic patient found", "previously edited phone persists", "date-only birth value persists", "search total reconciles", "second page loads", "no financial labels or currency values in tested list"],
+    "log": "browser-reception-loopback.redacted.log",
+    "screenshot": "../../../../output/playwright/reception-patients-canonical.png",
+    "mutationsRepeated": false
+  },
+  "earlierMutation": {"createdSyntheticPatients": 1, "editedPhone": true, "result": "CRUD steps passed; later clinical redirect failed before local normalization fix", "rawCredentialBearingLog": "retained privately under ignored .temp; not published"},
+  "method": "Playwright CLI run-code assertions throw on mismatch; recorded actual process exit codes and screenshots. Summarized assertions are not provider certification or field performance measurements.",
+  "notVerified": ["prescription issuance and PDF content", "mobile/dark/accessibility", "all remaining application routes", "Vercel execution", "remote schema parity", "full permission and containment matrix", "performance targets", "legal or clinical approval"]
+}

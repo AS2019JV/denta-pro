@@ -1,0 +1,97 @@
+{
+  "status": "PARTIAL",
+  "phase": "prove-revoked",
+  "project": "phihonofwyerpfgqfekt",
+  "attempt": "1",
+  "runNumber": "1",
+  "startedAt": "2026-10-03T22:37:54.398Z",
+  "driverSha256": "0949ca833fa03c97a6e7996afccbff39b5c28bcbfe10c7d701f66e7d8b94dbfb",
+  "requests": [
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/clinic_members",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    }
+  ],
+  "checks": [
+    {
+      "name": "Original doctor JWT loses all capabilities after committed member removal",
+      "expected": "no refresh; every private bucket read/write/list/sign denied",
+      "status": "FAILED"
+    }
+  ],
+  "limits": [
+    "Real hosted Auth/PostgREST/Storage API proof; not browser or Next server-action execution",
+    "Only owned synthetic fixtures; no production deployment or clinical approval",
+    "Signed URLs remain bearer capabilities until expiry; revocation proof concerns new authorized requests"
+  ],
+  "fixtureBindingSha256": "010fdacee5902cc09a833c5ea02910abcbd69dd67d501a7a6f52952da83f21ff",
+  "verifiedMatrix": {
+    "filename": "matrix-run-3.json",
+    "runNumber": "3",
+    "fileSha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+    "driverSha256": "0949ca833fa03c97a6e7996afccbff39b5c28bcbfe10c7d701f66e7d8b94dbfb",
+    "fixtureBindingSha256": "010fdacee5902cc09a833c5ea02910abcbd69dd67d501a7a6f52952da83f21ff",
+    "prescriptionId": "caa35d27-be07-47d4-9d06-c3a8e8289241"
+  },
+  "failure": "Hosted verification failed; inspect named checks/statuses, no provider bodies emitted",
+  "completedAt": "2026-10-03T22:37:57.198Z"
+}

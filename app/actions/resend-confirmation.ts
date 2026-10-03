@@ -1,16 +1,28 @@
 'use server'
 
 import { createClient } from '@supabase/supabase-js'
+import fs from 'fs'
+import path from 'path'
+import { logger, maskEmail } from '@/lib/logger'
+import { escapeHtml } from '@/lib/html-escape'
+import { z } from 'zod'
+import { headers } from 'next/headers'
+import { consumeEmailBudget } from '@/lib/server-email-gate'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 export async function resendConfirmationEmail(email: string) {
+  const input = z.string().trim().max(254).email().safeParse(email)
+  if (!input.success) return { error: 'Correo electrónico inválido.' }
+  email = input.data.toLowerCase()
   if (!supabaseUrl || !supabaseServiceKey) {
     return { error: "Server Configuration Error: Missing Database Credentials." }
   }
   
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const budget = await consumeEmailBudget({ action: 'resend', headers: await headers(), destination: email })
+  if (!budget.allowed) return { error: budget.message }
+  const supabase = createClient(supabaseUrl, supabaseServiceKey, { auth: { persistSession: false, autoRefreshToken: false } })
 
   try {
     // Check if the user exists and is not confirmed
@@ -29,7 +41,7 @@ export async function resendConfirmationEmail(email: string) {
         return { error: "Este correo ya está confirmado. Por favor, intenta iniciar sesión nuevamente." }
     }
 
-    console.log(`Resending confirmation to ${email}...`)
+    logger.info('[Resend Confirmation] Resending confirmation to recipient', { email: maskEmail(email) })
 
     // Use generateLink to create a signup confirmation link for the existing user
     // We cast to any to bypass the TS error about missing password (not required for existing users)
@@ -42,7 +54,7 @@ export async function resendConfirmationEmail(email: string) {
     } as any)
 
     if (linkError || !linkData?.properties?.action_link) {
-        console.error("Could not generate confirmation link:", linkError)
+        logger.error('[Resend Confirmation] Could not generate confirmation link', { error: linkError?.message })
         return { error: "Error al generar el enlace de confirmación." }
     }
 
@@ -57,40 +69,43 @@ export async function resendConfirmationEmail(email: string) {
     const { Resend } = await import('resend')
     const resend = new Resend(process.env.RESEND_API_KEY)
     
-    const fs = require('fs')
-    const path = require('path')
-    
     const templatePath = path.join(process.cwd(), 'emails', 'signup-confirmation.html')
     let htmlContent = fs.readFileSync(templatePath, 'utf8')
     
     const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-    htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, siteUrl)
+    htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, () => escapeHtml(siteUrl))
     
     // Ensure the hashed token is properly URL encoded so characters like '+' don't turn into spaces
     const safeTokenHash = encodeURIComponent(tokenHash || '')
-    htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, safeTokenHash)
+    htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, () => escapeHtml(safeTokenHash))
     htmlContent = htmlContent.replace(/\{\{ \.Type \}\}/g, 'signup')
     
     // Inject Doctor's name dynamically if available in user metadata
-    const firstName = user.user_metadata?.full_name?.split(' ')[0] || ''
-    const title = user.user_metadata?.title || 'Dr.'
+    const rawName = user.user_metadata?.full_name
+    const rawTitle = user.user_metadata?.title
+    const firstName = typeof rawName === 'string' ? rawName.slice(0, 200).split(' ')[0] : ''
+    const title = typeof rawTitle === 'string' ? rawTitle.slice(0, 32) : 'Dr.'
     if (firstName) {
         const displayName = title ? `${title} ${firstName}`.trim() : firstName
-        htmlContent = htmlContent.replace('¡Te damos la bienvenida a Clinia+!', `¡Te damos la bienvenida, ${displayName}!`)
+        htmlContent = htmlContent.replace('¡Te damos la bienvenida a Clinia+!', () => `¡Te damos la bienvenida, ${escapeHtml(displayName)}!`)
     }
 
-    await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || 'Clinia+ <soporte@cliniaplus.com>',
+    const { error: deliveryError } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL!,
         to: email,
         subject: '¡Confirma tu cuenta en Clinia+!',
         html: htmlContent
     })
+    if (deliveryError) {
+      logger.error('[Resend Confirmation] Email provider rejected delivery')
+      return { error: 'No se pudo enviar el correo. Intenta solicitar un nuevo enlace más tarde.' }
+    }
     
-    console.log("Resent confirmation email successfully via Resend.")
+    logger.info('[Resend Confirmation] Confirmation email dispatched successfully')
     return { success: true }
     
-  } catch (e: any) {
-    console.error("Failed to resend confirmation email:", e)
-    return { error: e.message || "Ocurrió un error al enviar el correo." }
+  } catch {
+    logger.error('[Resend Confirmation] Email delivery could not be confirmed')
+    return { error: 'No pudimos confirmar el envío. Revisa tu bandeja; si no llega, solicita otro enlace más tarde.' }
   }
 }

@@ -1,0 +1,653 @@
+{
+  "state": "PARTIAL_NO_GO_CLINICAL",
+  "verifiedAt": "2026-09-28T16:52:32.184Z",
+  "environment": "local-synthetic-3400",
+  "baseGit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "buildId": "B0ZWMN01nRkRynvSSF0zf",
+  "buildExitCodeObserved": 0,
+  "unitRunner": {
+    "exitCodeObserved": 0,
+    "reportedTests": 30,
+    "failed": 0
+  },
+  "agendaCases": [
+    {
+      "name": "Two ordinary JWTs racing for one interval persist exactly one appointment",
+      "passed": true
+    },
+    {
+      "name": "Consecutive appointments succeed; conflicting reschedule fails without losing original",
+      "passed": true
+    },
+    {
+      "name": "Reception sees operational joins and never clinical notes or financial fields",
+      "passed": true
+    },
+    {
+      "name": "Foreign patient/clinician/clinic, removed actor and anonymous requests fail",
+      "passed": true
+    },
+    {
+      "name": "All operational transitions persist and completed records reject reactivation/reprogramming",
+      "passed": true
+    },
+    {
+      "name": "Direct clinical writes cannot bypass overlap or transitions; reception cannot write base table",
+      "passed": true
+    },
+    {
+      "name": "Invalid initial states, duration and timestamp fail safely",
+      "passed": true
+    },
+    {
+      "name": "Inactive assigned clinician can be cancelled; old JWT loses access immediately",
+      "passed": true
+    },
+    {
+      "name": "Operational audit records real actors without clinical content; clients cannot read private audit",
+      "passed": true
+    },
+    {
+      "name": "Agenda creates no financial records and preserves historic balances",
+      "passed": true
+    }
+  ],
+  "uiFlow": {
+    "state": "VERIFIED_LOCAL_BOUNDED",
+    "role": "receptionist",
+    "appointmentId": "b6952597-b1e6-4bbf-9cdf-52a99e9b9d11",
+    "checks": [
+      "Reception booking opens without service catalogue or clinical notes",
+      "Dashboard appointment persists at 09:00 Guayaquil (14:00 UTC)",
+      "Calendar finds persisted booking, reprograms and reloads at 10:00",
+      "Reception arrival and completion persist and refresh calendar",
+      "Reception calendar has no page horizontal overflow at 360px"
+    ],
+    "api": [
+      {
+        "path": "/rest/v1/clinic_members",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/profiles",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_member_role",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/check_subscription_active",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_member_role",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/clinics",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_patient_demographics",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_staff_directory",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_patient_demographics",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/save_clinic_appointment",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_patient_demographics",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/profiles",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/clinic_members",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_member_role",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/check_subscription_active",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_staff_directory",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/save_clinic_appointment",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/profiles",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/clinic_members",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_member_role",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/check_subscription_active",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/save_clinic_appointment",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/save_clinic_appointment",
+        "status": 200
+      },
+      {
+        "path": "/rest/v1/rpc/get_clinic_schedule",
+        "status": 200
+      }
+    ],
+    "errors": []
+  },
+  "visualsAndPdf": {
+    "state": "VERIFIED_LOCAL_BOUNDED",
+    "layouts": [
+      {
+        "width": 320,
+        "overflow": false,
+        "headingMenuOverlap": false,
+        "dateHeight": 24
+      },
+      {
+        "width": 360,
+        "overflow": false,
+        "headingMenuOverlap": false,
+        "dateHeight": 24
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "headingMenuOverlap": false,
+        "dateHeight": 24
+      },
+      {
+        "width": 1280,
+        "overflow": false,
+        "headingMenuOverlap": false,
+        "dateHeight": 24
+      }
+    ],
+    "darkCalendarRendered": true,
+    "pdfDownload": true,
+    "errors": [],
+    "limitations": [
+      "Only calendar layout/light-dark and synthetic PDF delivery; full WCAG, HCU033/PDF clinical content and release UAT remain pending."
+    ]
+  },
+  "landing": {
+    "state": "VERIFIED_LOCAL_BOUNDED",
+    "layouts": [
+      {
+        "width": 320,
+        "overflow": false,
+        "loginVisible": true
+      },
+      {
+        "width": 360,
+        "overflow": false,
+        "loginVisible": true
+      },
+      {
+        "width": 768,
+        "overflow": false,
+        "loginVisible": true
+      },
+      {
+        "width": 1280,
+        "overflow": false,
+        "loginVisible": true
+      }
+    ],
+    "mobileLoginNavigation": true
+  },
+  "pdfEvidence": {
+    "bytes": 6417,
+    "sha256": "30aef71b2446785b017390fffbffd0dc86e61f5d8b16ca3d6dfbf547d3fd133b",
+    "header": "%PDF-1.3",
+    "eof": true,
+    "syntheticMarker": true,
+    "clinicalLayoutApproval": false
+  },
+  "browserMetrics": {
+    "before": [
+      {
+        "path": "/dashboard",
+        "readyMs": 1758,
+        "ttfbMs": 483,
+        "domContentLoadedMs": 574,
+        "loadMs": 576,
+        "lcpMs": 1604,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/dashboard",
+        "readyMs": 5813,
+        "ttfbMs": 3014,
+        "domContentLoadedMs": 3186,
+        "loadMs": 3187,
+        "lcpMs": 5456,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/dashboard",
+        "readyMs": 4369,
+        "ttfbMs": 980,
+        "domContentLoadedMs": 1611,
+        "loadMs": 1612,
+        "lcpMs": 3200,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "focus-burst",
+        "requests": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 302
+          },
+          {
+            "path": "/rest/v1/profiles",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 57
+          },
+          {
+            "path": "/rest/v1/clinic_members",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 102
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_member_role",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 18
+          },
+          {
+            "path": "/rest/v1/rpc/check_subscription_active",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 73
+          },
+          {
+            "path": "/rest/v1/rpc/get_patient_demographics",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 85
+          },
+          {
+            "path": "/rest/v1/services",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 81
+          },
+          {
+            "path": "/rest/v1/clinics",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 86
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_staff_directory",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 122
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_schedule",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 120
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_member_role",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 113
+          },
+          {
+            "path": "/rest/v1/profiles",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 36
+          }
+        ]
+      },
+      {
+        "path": "/calendar",
+        "readyMs": 2001,
+        "ttfbMs": 437,
+        "domContentLoadedMs": 556,
+        "loadMs": 637,
+        "lcpMs": 564,
+        "cls": 0,
+        "scriptTransferBytes": 28448
+      },
+      {
+        "path": "/patients",
+        "readyMs": 1932,
+        "ttfbMs": 662,
+        "domContentLoadedMs": 760,
+        "loadMs": 813,
+        "lcpMs": 1720,
+        "cls": 0,
+        "scriptTransferBytes": 5900
+      }
+    ],
+    "after": [
+      {
+        "path": "/dashboard",
+        "readyMs": 833,
+        "ttfbMs": 207,
+        "domContentLoadedMs": 265,
+        "loadMs": 266,
+        "lcpMs": 808,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/dashboard",
+        "readyMs": 1591,
+        "ttfbMs": 579,
+        "domContentLoadedMs": 641,
+        "loadMs": 646,
+        "lcpMs": 1224,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/dashboard",
+        "readyMs": 715,
+        "ttfbMs": 167,
+        "domContentLoadedMs": 224,
+        "loadMs": 228,
+        "lcpMs": 636,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "focus-burst",
+        "requests": [
+          {
+            "path": "/auth/v1/user",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 152
+          },
+          {
+            "path": "/rest/v1/profiles",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 12
+          },
+          {
+            "path": "/rest/v1/clinic_members",
+            "method": "GET",
+            "status": 200,
+            "durationMs": 15
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_member_role",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 11
+          },
+          {
+            "path": "/rest/v1/rpc/check_subscription_active",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 14
+          },
+          {
+            "path": "/rest/v1/rpc/get_clinic_member_role",
+            "method": "POST",
+            "status": 200,
+            "durationMs": 18
+          }
+        ]
+      },
+      {
+        "path": "/calendar",
+        "readyMs": 589,
+        "ttfbMs": 146,
+        "domContentLoadedMs": 198,
+        "loadMs": 200,
+        "lcpMs": 464,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/patients",
+        "readyMs": 638,
+        "ttfbMs": 236,
+        "domContentLoadedMs": 295,
+        "loadMs": 299,
+        "lcpMs": 584,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      }
+    ],
+    "anonymous": [
+      {
+        "path": "/",
+        "readyMs": 893,
+        "ttfbMs": 271,
+        "domContentLoadedMs": 528,
+        "loadMs": 717,
+        "lcpMs": 620,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/",
+        "readyMs": 143,
+        "ttfbMs": 16,
+        "domContentLoadedMs": 43,
+        "loadMs": 74,
+        "lcpMs": 104,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/",
+        "readyMs": 147,
+        "ttfbMs": 21,
+        "domContentLoadedMs": 47,
+        "loadMs": 69,
+        "lcpMs": 92,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      },
+      {
+        "path": "/login",
+        "readyMs": 267,
+        "ttfbMs": 70,
+        "domContentLoadedMs": 129,
+        "loadMs": 146,
+        "lcpMs": null,
+        "cls": 0,
+        "scriptTransferBytes": 0
+      }
+    ]
+  },
+  "api": {
+    "state": "MEASURED_LOCAL_BOUNDED",
+    "measuredAt": "2026-09-28T16:28:35.789Z",
+    "origin": "http://127.0.0.1:56321",
+    "actor": "synthetic-owner",
+    "concurrency": 1,
+    "measures": [
+      {
+        "name": "dashboard_patients",
+        "samplesMs": [
+          130.3,
+          46.5,
+          23.2,
+          23.5,
+          20.4,
+          14.7,
+          11.3,
+          25.6,
+          15.5,
+          13.9,
+          18.1,
+          17.3,
+          16.1,
+          12.4,
+          10.4,
+          17.5,
+          31.4,
+          18.8,
+          16.2,
+          17.5
+        ],
+        "count": 20,
+        "p50Ms": 17.5,
+        "p95Ms": 46.5,
+        "maxMs": 130.3,
+        "returnedCount": 32,
+        "warmupRequests": 1
+      },
+      {
+        "name": "dashboard_schedule",
+        "samplesMs": [
+          17.6,
+          19.9,
+          23,
+          18.3,
+          15.8,
+          19.1,
+          18.5,
+          18.1,
+          14.1,
+          12,
+          17.9,
+          19.2,
+          15.5,
+          15.7,
+          16.5,
+          14.8,
+          15,
+          14.8,
+          15.4,
+          15.2
+        ],
+        "count": 20,
+        "p50Ms": 15.8,
+        "p95Ms": 19.9,
+        "maxMs": 23,
+        "returnedCount": 32,
+        "warmupRequests": 1
+      },
+      {
+        "name": "patient_search",
+        "samplesMs": [
+          15.3,
+          15,
+          24.1,
+          16.8,
+          14,
+          15.6,
+          16.5,
+          18.4,
+          17.5,
+          21.4,
+          18.7,
+          23.9,
+          18.2,
+          16.8,
+          16.8,
+          18.6,
+          14.9,
+          15.9,
+          14.3,
+          14.8
+        ],
+        "count": 20,
+        "p50Ms": 16.8,
+        "p95Ms": 23.9,
+        "maxMs": 24.1,
+        "returnedCount": 31,
+        "warmupRequests": 1
+      }
+    ],
+    "limitations": [
+      "20 sequential samples after one warmup per RPC; elapsed time includes SDK/network/PostgREST/SQL.",
+      "33 synthetic patients, no production traffic or remote latency.",
+      "This does not validate the 5000-patient/10-user gate, EXPLAIN plans or field Core Web Vitals."
+    ]
+  },
+  "limitations": [
+    "Build source selection is fingerprinted, not a complete immutable release snapshot.",
+    "Final browser build includes a mobile layout delta after the earlier appointment mutation test; final read/layout/PDF and performance checks use the final build.",
+    "Hardware resources changed; small warm samples do not establish causal speedup or production SLOs.",
+    "Focus request snapshots can miss in-flight requests; use unit coalescing evidence, not an exact request-reduction claim.",
+    "33 synthetic patients; no 5000-patient/10-user load, INP, remote performance or field Core Web Vitals.",
+    "Schema/config parity01, full roles02/finance retirement04, clinical PDF09, privacy/security13 and DR/UAT15 remain pending.",
+    "No production mutation, external message/email or clinical/legal approval."
+  ]
+}

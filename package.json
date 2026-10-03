@@ -2,12 +2,19 @@
   "name": "dental-software",
   "version": "0.1.0",
   "private": true,
+  "engines": { "node": ">=22.20.0 <23" },
+  "packageManager": "npm@10.9.3",
   "scripts": {
     "build": "next build",
     "next-dev": "next dev",
     "dev": "node start-dev.js",
     "lint": "next lint",
-    "start": "next start"
+    "start": "next start",
+    "typecheck": "node scripts/clinia-verify.cjs typecheck",
+    "test:production": "node scripts/clinia-verify.cjs test",
+    "build:verification": "node scripts/clinia-verify.cjs build",
+    "verify": "node scripts/clinia-verify.cjs all",
+    "snapshot:release": "node scripts/clinia-release-snapshot.cjs"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
@@ -36,7 +43,7 @@
     "cmdk": "^1.1.1",
     "date-fns": "latest",
     "framer-motion": "^12.23.26",
-    "jspdf": "^4.2.0",
+    "jspdf": "^4.2.1",
     "jspdf-autotable": "^5.0.2",
     "lucide-react": "^0.454.0",
     "next": "^15.1.6",
@@ -49,11 +56,11 @@
     "resend": "^6.9.4",
     "sonner": "^2.0.7",
     "tailwind-merge": "^2.5.5",
-    "tailwindcss-animate": "^1.0.7",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/node": "^22",
+    "@types/pg": "^8.23.1",
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "autoprefixer": "^10.0.1",
@@ -63,10 +70,12 @@
     "eslint-plugin-prettier": "^5.5.5",
     "husky": "^9.1.7",
     "lint-staged": "^15.4.3",
-    "postcss": "^8.5",
+    "pg": "^8.23.0",
+    "postcss": "^8.5.28",
     "prettier": "^3.8.1",
     "supabase": "^2.95.4",
     "tailwindcss": "^3.3.0",
+    "tailwindcss-animate": "^1.0.7",
     "typescript": "^5"
   },
   "lint-staged": {
@@ -76,6 +85,7 @@
     ]
   },
   "overrides": {
-    "minimatch": "^10.2.1"
+    "minimatch": "^10.2.1",
+    "postcss": "^8.5.28"
   }
 }

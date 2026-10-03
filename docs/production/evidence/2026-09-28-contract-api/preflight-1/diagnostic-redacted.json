@@ -1,0 +1,53 @@
+[
+  {
+    "service": "auth",
+    "state": "exited",
+    "exitCode": 0,
+    "oomKilled": false,
+    "health": "unhealthy",
+    "healthProbes": [
+      {
+        "exitCode": 0,
+        "output": "Connecting to 127.0.0.1:9999 (127.0.0.1:9999)\nremote file exists\n"
+      },
+      {
+        "exitCode": 0,
+        "output": "Connecting to 127.0.0.1:9999 (127.0.0.1:9999)\nremote file exists\n"
+      },
+      {
+        "exitCode": 0,
+        "output": "Connecting to 127.0.0.1:9999 (127.0.0.1:9999)\nremote file exists\n"
+      }
+    ],
+    "log": "{\"level\":\"info\",\"msg\":\"Go runtime metrics collection started\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"component\":\"pop\",\"level\":\"info\",\"msg\":\"Migrations already up to date, nothing to apply\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"args\":[0.092902489],\"component\":\"pop\",\"level\":\"info\",\"msg\":\"%.4f seconds\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"count\":0,\"level\":\"info\",\"msg\":\"GoTrue migrations applied successfully\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"component\":\"api\",\"level\":\"warning\",\"msg\":\"DEPRECATION NOTICE: GOTRUE_JWT_ADMIN_GROUP_NAME not supported by Supabase's GoTrue, will be removed soon\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"component\":\"api\",\"level\":\"warning\",\"msg\":\"DEPRECATION NOTICE: GOTRUE_JWT_DEFAULT_GROUP_NAME not supported by Supabase's GoTrue, will be removed soon\",\"time\":\"2026-09-29T01:51:32Z\"}\n{\"level\":\"info\",\"msg\":\"GoTrue API started on: 0.0.0.0:9999\",\"time\":\"2026-09-29T01:51:32Z\",\"version\":\"v2.196.0\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: index worker started\",\"time\":\"2026-09-29T01:51:32Z\",\"worker_type\":\"apiworker_index_worker\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: config notifier started\",\"time\":\"2026-09-29T01:51:32Z\",\"worker_type\":\"apiworker_config_notifier\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: template cache worker started\",\"time\":\"2026-09-29T01:51:32Z\",\"worker_type\":\"apiworker_template_cache\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: db worker started\",\"time\":\"2026-09-29T01:51:32Z\",\"worker_type\":\"apiworker_db_worker\"}\n{\"component\":\"apiworker\",\"config_conn_max_idle_time\":\"0s\",\"config_conn_max_lifetime\":\"0s\",\"config_conn_percentage\":0,\"config_max_idle_pool_size\":0,\"config_max_pool_size\":0,\"level\":\"info\",\"limit_conn_max_idle_time\":\"0s\",\"limit_conn_max_lifetime\":\"0s\",\"limit_max_idle_conns\":0,\"limit_max_open_conns\":0,\"limit_strategy\":\"fixed\",\"msg\":\"applying connection limits to db using the \\\"fixed\\\" strategy\",\"server_max_conns\":100,\"time\":\"2026-09-29T01:51:32Z\",\"worker_type\":\"apiworker_db_worker\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: config notifier exited\",\"time\":\"2026-09-29T01:52:18Z\",\"worker_type\":\"apiworker_config_notifier\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: template cache worker exited\",\"time\":\"2026-09-29T01:52:18Z\",\"worker_type\":\"apiworker_template_cache\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: db worker exited\",\"time\":\"2026-09-29T01:52:18Z\",\"worker_type\":\"apiworker_db_worker\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"apiworker: index worker exited\",\"time\":\"2026-09-29T01:52:18Z\",\"worker_type\":\"apiworker_index_worker\"}\n{\"component\":\"api\",\"level\":\"info\",\"msg\":\"http server closed\",\"time\":\"2026-09-29T01:52:18Z\"}\n{\"level\":\"info\",\"msg\":\"received graceful shutdown signal\",\"time\":\"2026-09-29T01:52:18Z\"}\n{\"component\":\"apiworker\",\"level\":\"info\",\"msg\":\"background apiworker is exiting\",\"time\":\"2026-09-29T01:52:18Z\"}\n"
+  },
+  {
+    "service": "rest",
+    "state": "exited",
+    "exitCode": 0,
+    "oomKilled": false,
+    "log": "29/Sep/2026:01:51:29 +0000: Starting PostgREST 16.2...\n29/Sep/2026:01:51:29 +0000: Successfully connected to PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit\n29/Sep/2026:01:51:29 +0000: Connection Pool initialized with a maximum size of 3 connections\n29/Sep/2026:01:51:29 +0000: Listener connected to PostgreSQL 17.6 on x86_64-pc-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit on \"supabase_db_clinia-acceptance:5432\" and listening for database notifications on the \"pgrst\" channel\n29/Sep/2026:01:51:31 +0000: Schema cache queried in 1353.5 milliseconds \n29/Sep/2026:01:51:31 +0000: Schema cache loaded 25 Relations, 29 Relationships, 15 RPCs, 0 Domain Representations, 4 Media Type Handlers\n29/Sep/2026:01:51:31 +0000: Schema cache loaded in 14.0 milliseconds\n29/Sep/2026:01:51:31 +0000: API server listening on 0.0.0.0:3000\n29/Sep/2026:01:52:18 +0000: Received termination unix signal SIGTERM\n"
+  },
+  {
+    "service": "storage",
+    "state": "exited",
+    "exitCode": 137,
+    "oomKilled": false,
+    "health": "unhealthy",
+    "healthProbes": [
+      {
+        "exitCode": 1,
+        "output": "Connecting to 127.0.0.1:5000 (127.0.0.1:5000)\nwget: can't connect to remote host (127.0.0.1): Connection refused\n"
+      },
+      {
+        "exitCode": 1,
+        "output": "Connecting to 127.0.0.1:5000 (127.0.0.1:5000)\nwget: can't connect to remote host (127.0.0.1): Connection refused\n"
+      },
+      {
+        "exitCode": 1,
+        "output": "Connecting to 127.0.0.1:5000 (127.0.0.1:5000)\nwget: can't connect to remote host (127.0.0.1): Connection refused\n"
+      }
+    ],
+    "log": ""
+  }
+]

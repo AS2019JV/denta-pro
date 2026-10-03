@@ -1,0 +1,110 @@
+{
+  "projectRef": "phihonofwyerpfgqfekt",
+  "capturedAt": "2026-09-26T03:19:00Z",
+  "counts": [
+    {
+      "table_name": "appointments",
+      "row_count": 0
+    },
+    {
+      "table_name": "automation_settings",
+      "row_count": 0
+    },
+    {
+      "table_name": "billings",
+      "row_count": 0
+    },
+    {
+      "table_name": "clinic_invitations",
+      "row_count": 0
+    },
+    {
+      "table_name": "clinic_members",
+      "row_count": 0
+    },
+    {
+      "table_name": "clinical_records",
+      "row_count": 0
+    },
+    {
+      "table_name": "clinics",
+      "row_count": 0
+    },
+    {
+      "table_name": "data_rights_requests",
+      "row_count": 0
+    },
+    {
+      "table_name": "hcu033_forms",
+      "row_count": 0
+    },
+    {
+      "table_name": "invoices",
+      "row_count": 0
+    },
+    {
+      "table_name": "messages",
+      "row_count": 0
+    },
+    {
+      "table_name": "notifications",
+      "row_count": 0
+    },
+    {
+      "table_name": "patient_files",
+      "row_count": 0
+    },
+    {
+      "table_name": "patient_notes",
+      "row_count": 0
+    },
+    {
+      "table_name": "patients",
+      "row_count": 0
+    },
+    {
+      "table_name": "payment_methods",
+      "row_count": 0
+    },
+    {
+      "table_name": "payments",
+      "row_count": 0
+    },
+    {
+      "table_name": "prescription_templates",
+      "row_count": 0
+    },
+    {
+      "table_name": "prescriptions",
+      "row_count": 0
+    },
+    {
+      "table_name": "profile_audit_log",
+      "row_count": 0
+    },
+    {
+      "table_name": "profiles",
+      "row_count": 0
+    },
+    {
+      "table_name": "service_categories",
+      "row_count": 0
+    },
+    {
+      "table_name": "services",
+      "row_count": 0
+    },
+    {
+      "table_name": "treatments",
+      "row_count": 0
+    },
+    {
+      "table_name": "auth.users",
+      "row_count": 0
+    },
+    {
+      "table_name": "storage.objects",
+      "row_count": 0
+    }
+  ]
+}

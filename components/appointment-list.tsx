@@ -8,6 +8,7 @@ import { Calendar, Clock, Check, X, Loader2, MessageCircle } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { format } from "date-fns"
 import { es } from "date-fns/locale"
+import { useAuth } from "@/components/auth-context"
 import { toast } from "sonner" // Assuming sonner or similar toast is used, or will use standard alert for now if not found, but dashboard typically has one. switching to simple console/alert if import fails, but let's try standard UI patterns.
 // Actually let's assume shadcn/ui toast or similar. Use console.error for safety if not sure, but I'll stick to simple UI updates.
 
@@ -28,6 +29,7 @@ interface Appointment {
 }
 
 export function AppointmentList() {
+  const { currentClinicId } = useAuth()
   const [appointments, setAppointments] = useState<Appointment[]>([])
   const [loading, setLoading] = useState(true)
 
@@ -38,7 +40,7 @@ export function AppointmentList() {
       const tomorrow = new Date(today)
       tomorrow.setDate(tomorrow.getDate() + 1)
 
-      const { data, error } = await supabase
+      let query = supabase
         .from('appointments')
         .select(`
           *,
@@ -51,6 +53,12 @@ export function AppointmentList() {
         .gte('start_time', today.toISOString())
         .lt('start_time', tomorrow.toISOString())
         .order('start_time', { ascending: true })
+
+      if (currentClinicId) {
+        query = query.eq('clinic_id', currentClinicId)
+      }
+
+      const { data, error } = await query
 
       if (error) throw error
 
@@ -65,31 +73,44 @@ export function AppointmentList() {
   useEffect(() => {
     fetchAppointments()
     
-    // Subscribe to changes
+    // Subscribe to changes scoped to clinic_id
+    const channelName = currentClinicId ? `appointments-list-${currentClinicId}` : 'appointments-list'
     const channel = supabase
-      .channel('appointments-list')
-      .on('postgres_changes', { event: '*', schema: 'public', table: 'appointments' }, () => {
-        fetchAppointments()
-      })
+      .channel(channelName)
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'appointments',
+          filter: currentClinicId ? `clinic_id=eq.${currentClinicId}` : undefined
+        },
+        () => {
+          fetchAppointments()
+        }
+      )
       .subscribe()
 
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [])
+  }, [currentClinicId])
 
   const updateStatus = async (id: string, status: 'confirmed' | 'no_show') => {
+    if (!currentClinicId) return
     try {
-      const { error } = await supabase
-        .from('appointments')
-        .update({ status })
-        .eq('id', id)
+      const { data, error } = await supabase.rpc('save_clinic_appointment', {
+        p_clinic_id: currentClinicId,
+        p_appointment_id: id,
+        p_data: { status },
+      })
 
       if (error) throw error
+      if (!data || data.id !== id) throw new Error('No se pudo verificar la cita actualizada')
       
       // Optimistic update
       setAppointments(prev => prev.map(app => 
-        app.id === id ? { ...app, status } : app
+        app.id === id ? { ...app, status: data.status } : app
       ))
 
     } catch (error) {

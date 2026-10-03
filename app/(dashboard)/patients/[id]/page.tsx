@@ -1,7 +1,10 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { useParams, useRouter } from "next/navigation"
+import { useEffect, useState, useRef } from "react"
+import { useParams, useRouter, useSearchParams } from "next/navigation"
+import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
+import { loadPatientDetail } from "@/lib/patient-detail.mjs"
+import { readPatientTab } from "@/lib/prescription-policy.mjs"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -14,106 +17,61 @@ import { Label } from "@/components/ui/label"
 import { useTranslation } from "@/components/translations"
 import { 
   ArrowLeft, Calendar, Phone, Mail, MapPin, 
-  FileText, Stethoscope, Clock, User, Loader2, Receipt,
-  AlertTriangle, Heart, ShieldAlert, CreditCard, RefreshCcw, Search,
-  MessageCircle, Crown, ShieldCheck, Activity, User as UserIcon, Users,
+  FileText, Stethoscope, Clock, User, Loader2,
+  AlertTriangle, Heart, ShieldAlert, RefreshCcw, Search,
+  MessageCircle, Activity, Users,
   PanelLeftClose, PanelLeftOpen
 } from "lucide-react"
 import { getWhatsAppUrl, getClinicWhatsAppMessage } from "@/lib/communication"
-import { calculateProfileCompletion, getCompletionColor, getCompletionLabel, getPatientLoyaltyStatus, getLoyaltyBadgeData } from "@/lib/patient-utils"
+import { calculateProfileCompletion, getCompletionColor, getCompletionLabel } from "@/lib/patient-utils"
 import { useAuth } from "@/components/auth-context"
 import { Progress } from "@/components/ui/progress"
 import { cn } from "@/lib/utils"
-import { 
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle, 
-} from "@/components/ui/dialog"
-import { AddPatientForm } from "@/components/add-patient-form"
 import { PatientFiles } from "@/components/patient-files"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 import { PatientMedicalRecords } from "@/components/patient-medical-records"
 import { HCU033Form } from "@/components/hcu033-form"
-import { AvatarUpload } from "@/components/avatar-upload"
-import { PatientPayments } from "@/components/patient-payments"
 import { PatientPrescriptions } from "@/components/patient-prescriptions"
-import { FamilyCenter } from "@/components/family-center"
 import { OdontogramPreview } from "@/components/odontogram-preview"
+import { QuickAppointmentDialog } from "@/components/quick-appointment-dialog"
 
-const LoyaltyIcon = ({ name, className }: { name: string, className?: string }) => {
-  switch (name) {
-    case 'Crown': return <Crown className={cn("h-4 w-4 mr-1.5", className)} />;
-    case 'ShieldCheck': return <ShieldCheck className={cn("h-4 w-4 mr-1.5", className)} />;
-    case 'Activity': return <Activity className={cn("h-4 w-4 mr-1.5", className)} />;
-    default: return <UserIcon className={cn("h-4 w-4 mr-1.5", className)} />;
-  }
-}
-
-interface Patient {
-  id: string
-  name: string
-  lastName: string
-  email?: string
-  phone: string
-  address?: string
-  city?: string
-  state?: string
-  birthDate: string
-  gender?: string
-  occupation?: string
-  guardianName?: string
-  referralSource?: string
-  referredBy?: string
-  medicalRecordNumber?: string
-  clinicalNotes?: string
-  emergencyContact?: string
-  emergencyPhone?: string
-  allergies?: string
-  medications?: string
-  medicalConditions?: string
-  insuranceProvider?: string
-  policyNumber?: string
-  bloodType?: string
-  maritalStatus?: string
-  hasDiabetes?: boolean
-  hasHypertension?: boolean
-  hasHeartDisease?: boolean
-  isSmoker?: boolean
-  isPregnant?: boolean
-  preferredContactMethod?: string
-  recallMonths?: number
-  accountBalance?: number
-  internalNotes?: string
-  lastVisit?: string
-  nextAppointment?: string
-  status: "active" | "inactive"
-  avatar_url?: string
-  appointments_count?: number
-  total_billed?: number
-  family_representative_id?: string
-  family_relationship?: string
-  is_family_head?: boolean
-  last_treatment_note?: string
-  odontogram_state?: any
-}
 
 export default function PatientDetailsPage() {
   const params = useParams()
   const router = useRouter()
   const { t } = useTranslation()
-  const { user, currentClinicId } = useAuth()
+  const { user, currentClinicId, isLoading: authLoading, authError } = useAuth()
   
   const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics
   const clinicName = currentClinic?.name || "su Clínica Dental"
   const [patient, setPatient] = useState<Patient | null>(null)
+  const patientAvatar = usePrivateMediaUrl('patient-avatars', patient?.avatar_url)
   const [isLoading, setIsLoading] = useState(true)
-  const [isEditOpen, setIsEditOpen] = useState(false)
   const [isHCUOpen, setIsHCUOpen] = useState(false)
   const [hcuData, setHcuData] = useState<any>(null)
-  const [filesCount, setFilesCount] = useState(0)
+  const [filesCount, setFilesCount] = useState<number | null>(null)
+  const [filesError, setFilesError] = useState(false)
+  const [loadError, setLoadError] = useState(false)
+  const [reload, setReload] = useState(0)
+  const [loadedScope, setLoadedScope] = useState("")
+  const patientId = typeof params.id === "string" ? params.id : ""
+  const authorized = !authLoading && !authError && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
+  const scope = authorized ? `${currentClinicId}:${user?.id}:${user?.role}:${patientId}` : ""
+  const scopeRef = useRef(scope)
+  scopeRef.current = scope
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
+  const [isScheduleOpen, setIsScheduleOpen] = useState(false)
+  const searchParams = useSearchParams()
+  const requestedTab = readPatientTab(searchParams.get("tab"))
+  const activeTab = requestedTab === "payments" ? "info" : requestedTab
+
+  const handleTabChange = (value: string) => {
+    const tab = readPatientTab(value)
+    const url = new URL(window.location.href)
+    url.searchParams.set("tab", tab)
+    router.push(`${url.pathname}${url.search}`, { scroll: false })
+  }
 
   const handleSetSidebarOpen = (open: boolean) => {
     setIsTransitioning(true)
@@ -123,107 +81,50 @@ export default function PatientDetailsPage() {
     }, 300)
   }
 
-  const fetchFilesCount = async () => {
-     const id = params.id as string
-     if (!id) return
-     try {
-       const { count, error } = await supabase
-         .from('patient_files')
-         .select('*', { count: 'exact', head: true })
-         .eq('patient_id', id)
-         .is('deleted_at', null)
-       
-       if (!error && count !== null) {
-         setFilesCount(count)
-       }
-     } catch (e) {
-       console.error("Error fetching files count:", e)
-     }
+  const handleUpdatePatient = async () => {
+    if (scope && scopeRef.current === scope) setReload(value => value + 1)
   }
 
   useEffect(() => {
-    fetchFilesCount()
-    const fetchPatient = async () => {
-      const id = params.id as string
-      // Handle params.id being string or array
-      const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
-      if (!id || !currentClinicId || !uuidRegex.test(currentClinicId)) return
-      
+    const controller = new AbortController()
+    const current = () => !controller.signal.aborted && scopeRef.current === scope
+    setPatient(null)
+    setFilesCount(null)
+    setFilesError(false)
+    setLoadError(false)
+    setLoadedScope("")
+    setIsHCUOpen(false)
+    setHcuData(null)
+    setIsScheduleOpen(false)
+    setIsLoading(!!scope)
+    if (!scope || !currentClinicId) return () => controller.abort()
+    const load = async () => {
       try {
-        setIsLoading(true)
-        
-        // Use standard query instead of RPC to avoid JWT dependency for clinic_id
-        // which can be missing in some session states
-        const { data, error } = await supabase.rpc('get_patients_with_stats', {
-           p_clinic_id: currentClinicId,
-           p_patient_id: id,
-           p_limit: 1
-        })
-
-        if (error) {
-           console.error(`[PatientDetails] Fetch error for ID ${id}:`, error.message);
-           throw error;
-        }
-
-        if (data && data.length > 0) {
-           const d = data[0] as any
-           const mappedPatient: Patient = {
-              id: d.id,
-              name: d.first_name,
-              lastName: d.last_name,
-              email: d.email,
-              phone: d.phone,
-              address: d.address,
-              birthDate: d.birth_date,
-              gender: d.gender,
-              occupation: d.occupation,
-              guardianName: d.guardian_name,
-              referralSource: d.referral_source,
-              referredBy: d.referred_by,
-              medicalRecordNumber: d.medical_record_number,
-              clinicalNotes: d.clinical_notes,
-              emergencyContact: d.emergency_contact,
-              emergencyPhone: d.emergency_phone,
-              last_treatment_note: d.last_treatment_note,
-              odontogram_state: d.odontogram_state,
-              allergies: d.allergies,
-              medications: d.medications,
-              medicalConditions: d.medical_conditions,
-              insuranceProvider: d.insurance_provider,
-              policyNumber: d.policy_number,
-              bloodType: d.blood_type,
-              maritalStatus: d.marital_status,
-              hasDiabetes: d.has_diabetes,
-              hasHypertension: d.has_hypertension,
-              hasHeartDisease: d.has_heart_disease,
-              isSmoker: d.is_smoker,
-              isPregnant: d.is_pregnant,
-              preferredContactMethod: d.preferred_contact_method,
-              recallMonths: d.recall_months,
-              accountBalance: d.account_balance,
-              internalNotes: d.internal_notes,
-              city: d.city,
-              state: d.state,
-              lastVisit: d.last_visit,
-              nextAppointment: d.next_appointment,
-              status: d.patient_status || 'active',
-              avatar_url: d.avatar_url,
-              family_representative_id: d.family_representative_id,
-              family_relationship: d.family_relationship,
-              is_family_head: d.is_family_head,
-              appointments_count: Number(d.appointments_count) || 0,
-              total_billed: Number(d.total_billed) || 0,
-            }
-           setPatient(mappedPatient)
-        }
-      } catch (e) {
-        console.error("Error fetching patient", e)
+        const result = await loadPatientDetail(supabase, currentClinicId, patientId, controller.signal)
+        if (!current()) return
+        setPatient(result ?? null)
+        setLoadedScope(scope)
+      } catch {
+        if (current()) { setLoadError(true); setLoadedScope(scope) }
       } finally {
-        setIsLoading(false)
+        if (current()) setIsLoading(false)
       }
     }
-    fetchPatient()
-  }, [params.id])
+    const countFiles = async () => {
+      try {
+        const { count, error } = await supabase.from('patient_files')
+          .select('id', { count: 'exact', head: true })
+          .eq('clinic_id', currentClinicId).eq('patient_id', patientId)
+          .is('deleted_at', null).abortSignal(controller.signal)
+        if (!current()) return
+        if (error || count === null) throw error || new Error('Missing file count')
+        setFilesCount(count)
+      } catch { if (current()) setFilesError(true) }
+    }
+    void load()
+    void countFiles()
+    return () => controller.abort()
+  }, [scope, currentClinicId, patientId, reload])
 
   const formatBirthDateAndAge = (birthDateString?: string) => {
     if (!birthDateString) return "Fecha de nacimiento no registrada"
@@ -239,86 +140,20 @@ export default function PatientDetailsPage() {
     return `${birth.toLocaleDateString("es-ES")} (${age} años)`
   }
 
-  const handleUpdatePatient = async () => {
-    const id = params.id as string
-    if (!id || !currentClinicId) return
-    try {
-      setIsLoading(true)
-      const { data, error } = await supabase.rpc('get_patients_with_stats', {
-         p_clinic_id: currentClinicId,
-         p_patient_id: id,
-         p_limit: 1
-      })
-
-      if (error) throw error
-
-      if (data && data.length > 0) {
-         const d = data[0] as any
-         const mappedPatient: Patient = {
-            id: d.id,
-            name: d.first_name,
-            lastName: d.last_name,
-            email: d.email,
-            phone: d.phone,
-            address: d.address,
-            birthDate: d.birth_date,
-            gender: d.gender,
-            occupation: d.occupation,
-            guardianName: d.guardian_name,
-            referralSource: d.referral_source,
-            referredBy: d.referred_by,
-            medicalRecordNumber: d.medical_record_number,
-            clinicalNotes: d.clinical_notes,
-            emergencyContact: d.emergency_contact,
-            emergencyPhone: d.emergency_phone,
-            last_treatment_note: d.last_treatment_note,
-            odontogram_state: d.odontogram_state,
-            allergies: d.allergies,
-            medications: d.medications,
-            medicalConditions: d.medical_conditions,
-            insuranceProvider: d.insurance_provider,
-            policyNumber: d.policy_number,
-            bloodType: d.blood_type,
-            maritalStatus: d.marital_status,
-            hasDiabetes: d.has_diabetes,
-            hasHypertension: d.has_hypertension,
-            hasHeartDisease: d.has_heart_disease,
-            isSmoker: d.is_smoker,
-            isPregnant: d.is_pregnant,
-            preferredContactMethod: d.preferred_contact_method,
-            recallMonths: d.recall_months,
-            accountBalance: d.account_balance,
-            internalNotes: d.internal_notes,
-            city: d.city,
-            state: d.state,
-            lastVisit: d.last_visit,
-            nextAppointment: d.next_appointment,
-            status: d.patient_status || 'active',
-            avatar_url: d.avatar_url,
-            family_representative_id: d.family_representative_id,
-            family_relationship: d.family_relationship,
-            is_family_head: d.is_family_head,
-            appointments_count: Number(d.appointments_count) || 0,
-            total_billed: Number(d.total_billed) || 0,
-          }
-         setPatient(mappedPatient)
-      }
-      setIsEditOpen(false)
-      // Trigger a count refresh as well
-      fetchFilesCount()
-    } catch (e) {
-      console.error("Error updating patient", e)
-    } finally {
-      setIsLoading(false)
-    }
-  }
-
-  if (isLoading) {
+  if (authLoading || (authorized && (isLoading || loadedScope !== scope))) {
       return (
           <div className="h-screen w-full flex items-center justify-center bg-background">
               <Loader2 className="h-8 w-8 animate-spin text-primary" />
           </div>
       )
+  }
+
+  if (!authorized || loadError) {
+    return <div className="p-10 text-center space-y-4" role="alert">
+      <p>No se pudo cargar la ficha clínica.</p>
+      {authorized && <Button onClick={() => setReload(value => value + 1)}>Reintentar</Button>}
+      <Button variant="outline" onClick={() => router.push('/patients')}>Volver a Pacientes</Button>
+    </div>
   }
 
   if (!patient) {
@@ -356,7 +191,7 @@ export default function PatientDetailsPage() {
            {!isSidebarOpen && patient && (
               <div className="hidden md:flex items-center gap-3 px-3 py-1 bg-muted/40 border border-slate-200 dark:border-slate-800 rounded-lg animate-in fade-in slide-in-from-top-1 duration-200 text-xs">
                  <Avatar className="h-6 w-6 border shadow-sm flex-shrink-0">
-                    <AvatarImage src={patient.avatar_url || undefined} />
+                    <AvatarImage src={patientAvatar || undefined} />
                     <AvatarFallback className="text-[10px] font-black bg-primary/10 text-primary">
                        {patient.name[0]}{patient.lastName[0]}
                     </AvatarFallback>
@@ -375,32 +210,18 @@ export default function PatientDetailsPage() {
                     <span>{patient.phone}</span>
                  </div>
                  <div className="w-px h-3 bg-border" />
-                 <div className="flex items-center gap-1.5">
-                    <span className="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Saldo:</span>
-                    <Badge 
-                       className={cn(
-                          "text-[10px] px-2 py-0 font-extrabold shadow-sm border",
-                          Number(patient.accountBalance || 0) > 0 
-                            ? "bg-rose-50 text-rose-700 border-rose-200 hover:bg-rose-50 dark:bg-rose-950/20 dark:text-rose-400 dark:border-rose-900/30" 
-                            : "bg-emerald-50 text-emerald-700 border-emerald-200 hover:bg-emerald-50 dark:bg-emerald-950/20 dark:text-emerald-400 dark:border-emerald-900/30"
-                       )}
-                    >
-                       ${patient.accountBalance || '0.00'}
-                    </Badge>
-                 </div>
+
               </div>
            )}
 
-           {/* Primary Top Action: Editar Información Principal */}
+           {/* Fast Appointment Scheduling Button */}
            <Button 
              size="sm"
-             onClick={() => setIsEditOpen(true)}
-             disabled={user?.role === 'receptionist'}
-             className="h-8 gap-1.5 bg-primary hover:bg-primary/95 text-primary-foreground font-bold text-xs shadow-sm hover:shadow transition-all"
-             title={user?.role === 'receptionist' ? "Solo lectura para recepcionistas" : "Editar información principal del paciente"}
+             onClick={() => setIsScheduleOpen(true)}
+             className="h-8 gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs shadow-sm hover:shadow transition-all"
            >
-             <UserIcon className="h-3.5 w-3.5" />
-             <span>Editar Información Principal</span>
+             <Calendar className="h-3.5 w-3.5" />
+             <span>Agendar Cita</span>
            </Button>
 
            <div className="text-xs text-muted-foreground font-semibold hidden lg:flex items-center gap-1.5">
@@ -433,17 +254,10 @@ export default function PatientDetailsPage() {
                >
                   <PanelLeftClose className="h-4 w-4" />
                </Button>
-               <AvatarUpload
-                 uid={patient.id}
-                 url={patient.avatar_url || null}
-                 bucket="patient-avatars"
-                 size={100}
-                 fallbackName={`${patient.name} ${patient.lastName}`}
-                 onUpload={async (url) => {
-                    await supabase.from('patients').update({ avatar_url: url }).eq('id', patient.id)
-                    setPatient(prev => prev ? ({ ...prev, avatar_url: url }) : null)
-                 }}
-               />
+               <Avatar className="h-24 w-24">
+                 <AvatarImage src={patientAvatar || undefined} />
+                 <AvatarFallback>{patient.name[0]}{patient.lastName[0]}</AvatarFallback>
+               </Avatar>
                <div className="space-y-1">
                   <h1 className="text-2xl font-bold tracking-tight text-foreground flex items-center justify-center gap-1.5 flex-wrap">
                     {patient.name} {patient.lastName}
@@ -452,22 +266,7 @@ export default function PatientDetailsPage() {
                      <Badge variant={patient.status === "active" ? "default" : "secondary"} className="text-[10px] px-2 py-0">
                        {patient.status === "active" ? "Activo" : "Inactivo"}
                      </Badge>
-                     {(() => {
-                        const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics;
-                        const status = getPatientLoyaltyStatus(patient.appointments_count, patient.total_billed, currentClinic?.settings);
-                        const badgeData = getLoyaltyBadgeData(status.key, status.style);
-                        return (
-                          <Badge 
-                            className={cn(
-                              "text-[10px] px-2 py-0 border uppercase flex items-center transition-all",
-                              badgeData.className
-                            )}
-                          >
-                            <LoyaltyIcon name={badgeData.iconName} className="h-3 w-3 mr-1" />
-                            {status.label}
-                          </Badge>
-                        )
-                     })()}
+
                   </div>
                </div>
             </div>
@@ -504,32 +303,7 @@ export default function PatientDetailsPage() {
                     <MessageCircle className="h-4 w-4 text-green-500" />
                     WhatsApp
                   </Button>
-                  <Button className="w-full text-xs gap-1.5 h-9 px-2 shadow-sm hover:shadow-md transition-all" onClick={() => setIsEditOpen(true)}>
-                    <UserIcon className="h-4 w-4" />
-                    Editar Perfil
-                  </Button>
                </div>
-               
-               {patient && (
-                 <FamilyCenter 
-                   patientId={patient.id} 
-                   patientName={`${patient.name} ${patient.lastName}`} 
-                 />
-               )}
-               
-               <Dialog open={isEditOpen} onOpenChange={setIsEditOpen}>
-                  <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
-                     <DialogHeader>
-                        <DialogTitle>Editar Paciente</DialogTitle>
-                        <DialogDescription>Actualizar información del paciente</DialogDescription>
-                     </DialogHeader>
-                     <AddPatientForm 
-                        initialData={patient} 
-                        onSubmit={handleUpdatePatient} 
-                        onCancel={() => setIsEditOpen(false)} 
-                     />
-                  </DialogContent>
-               </Dialog>
             </div>
 
             <Accordion type="multiple" defaultValue={["metrics", "contact", "quality", "highlights"]} className="w-full">
@@ -561,15 +335,6 @@ export default function PatientDetailsPage() {
                      </Badge>
                   </div>
                )}
-               <div className="flex items-center justify-between border-b pb-2">
-                  <span className="text-muted-foreground font-semibold uppercase tracking-wider">Saldo de Cuenta</span>
-                  <span className={cn(
-                     "font-bold",
-                     Number(patient.accountBalance || 0) > 0 ? "text-rose-600" : "text-emerald-600"
-                  )}>
-                     ${patient.accountBalance || '0.00'}
-                  </span>
-               </div>
                </AccordionContent>
             </AccordionItem>
 
@@ -666,12 +431,12 @@ export default function PatientDetailsPage() {
 
          {/* Right Working Area Tabs with Independent Scrolling */}
          <div className="flex-1 flex flex-col bg-muted/5 h-full md:overflow-y-auto custom-scrollbar">
-            <Tabs defaultValue="info" className="flex flex-col w-full min-h-full">
+            <Tabs value={activeTab} onValueChange={handleTabChange} className="flex flex-col w-full min-h-full">
                {/* Fixed Tabs List container */}
                <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 sticky top-0">
                   <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                      <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
-                         {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'payments', 'files'].map((tab) => (
+                         {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'files'].map((tab) => (
                              <TabsTrigger 
                                  key={tab}
                                  value={tab}
@@ -682,11 +447,10 @@ export default function PatientDetailsPage() {
                                  {tab === 'hcu033' && "HCU-033"}
                                  {tab === 'appointments' && "Citas"}
                                  {tab === 'recipes' && "Recetas / Prescripciones"}
-                                 {tab === 'payments' && "Pagos"}
                                  {tab === 'files' && (
                                    <div className="flex items-center gap-2">
                                      Archivos
-                                     <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-extrabold">{filesCount}</Badge>
+                                     <Badge variant="secondary" className="h-5 px-1.5 text-[10px] font-extrabold">{filesCount ?? "—"}</Badge>
                                    </div>
                                  )}
                              </TabsTrigger>
@@ -699,12 +463,10 @@ export default function PatientDetailsPage() {
                <div className="flex-1">
                   <div className="max-w-7xl mx-auto p-6 space-y-6">
                         <TabsContent value="files" className="mt-0 focus-visible:ring-0">
-                            <PatientFiles patientId={patient.id} onFilesChange={fetchFilesCount} />
+                            {filesError && <p role="alert" className="text-sm text-destructive mb-3">No se pudo contar los archivos.</p>}
+                            <PatientFiles key={scope} patientId={patient.id} onFilesChange={handleUpdatePatient} />
                         </TabsContent>
 
-                        <TabsContent value="payments" className="mt-0 focus-visible:ring-0">
-                            <PatientPayments patientId={patient.id} />
-                        </TabsContent>
 
                         <TabsContent value="info" className="mt-0 space-y-6 focus-visible:ring-0">
                             {/* Personal & Contact Section */}
@@ -831,17 +593,9 @@ export default function PatientDetailsPage() {
                                         <div className="p-2.5 rounded-lg bg-emerald-500/10 text-emerald-500">
                                             <FileText className="h-5 w-5" />
                                         </div>
-                                        Seguro Médico y Preferencias
+                                        Preferencias de contacto
                                     </h3>
                                     <div className="space-y-6">
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Proveedor de Seguro</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.insuranceProvider || "Particular / Privado"}</p>
-                                        </div>
-                                        <div className="space-y-1.5">
-                                            <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Nº Póliza</Label>
-                                            <p className="text-base font-medium font-mono text-foreground">{patient.policyNumber || "N/A"}</p>
-                                        </div>
                                         <div className="grid grid-cols-2 gap-4">
                                             <div className="space-y-1.5">
                                                 <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Ciclo Recall</Label>
@@ -894,7 +648,7 @@ export default function PatientDetailsPage() {
                         </TabsContent>
 
                         <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
-                            <AppointmentsList patientId={patient.id} />
+                            <AppointmentsList patientId={patient.id} onNewAppointment={() => setIsScheduleOpen(true)} />
                         </TabsContent>
                      </div>
                 </div>
@@ -912,6 +666,16 @@ export default function PatientDetailsPage() {
             externalData={hcuData}
             onDataChange={setHcuData}
           />
+      )}
+
+      {patient && (
+        <QuickAppointmentDialog 
+          patientId={patient.id}
+          patientName={`${patient.name} ${patient.lastName}`}
+          isOpen={isScheduleOpen}
+          onOpenChange={setIsScheduleOpen}
+          onSuccess={handleUpdatePatient}
+        />
       )}
       <style jsx global>{`
         /* Modern custom scrollbar styling for patient sidebars */
@@ -940,43 +704,63 @@ export default function PatientDetailsPage() {
   )
 }
 
-function AppointmentsList({ patientId }: { patientId: string }) {
+function AppointmentsList({ patientId, onNewAppointment }: { patientId: string, onNewAppointment?: () => void }) {
   const [appointments, setAppointments] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(false)
+  const [retry, setRetry] = useState(0)
+  const [loadedScope, setLoadedScope] = useState("")
+  const { user, currentClinicId, isLoading: authLoading, authError } = useAuth()
+  const authorized = !authLoading && !authError && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
+  const scope = authorized ? `${currentClinicId}:${user?.id}:${user?.role}:${patientId}` : ""
+  const scopeRef = useRef(scope)
+  scopeRef.current = scope
 
   useEffect(() => {
+    const controller = new AbortController()
+    const current = () => !controller.signal.aborted && scopeRef.current === scope
+    setAppointments([])
+    setError(false)
+    setLoading(!!scope)
+    setLoadedScope("")
+    if (!scope) return () => controller.abort()
     const fetchHistory = async () => {
-      setLoading(true)
-      const { data: apps, error } = await supabase
-        .from('appointments')
-        .select(`
-          *,
-          billings (
-            id,
-            amount,
-            status,
-            invoice_number
-          )
-        `)
-        .eq('patient_id', patientId)
-        .order('start_time', { ascending: false })
-
-      if (apps) {
-        setAppointments(apps)
-      }
-      setLoading(false)
+      try {
+        const { data, error } = await supabase.from('appointments')
+          .select('id,patient_id,doctor_id,start_time,end_time,type,status')
+          .eq('clinic_id', currentClinicId!).eq('patient_id', patientId)
+          .is('deleted_at', null).order('start_time', { ascending: false })
+          .limit(100).abortSignal(controller.signal)
+        if (!current()) return
+        if (error || !Array.isArray(data)) throw error || new Error('Invalid appointments')
+        setAppointments(data)
+      } catch { if (current()) setError(true) }
+      finally { if (current()) { setLoading(false); setLoadedScope(scope) } }
     }
+    void fetchHistory()
+    return () => controller.abort()
+  }, [scope, currentClinicId, patientId, retry])
 
-    fetchHistory()
-  }, [patientId])
-
-  if (loading) return <div className="p-4 text-center"><Loader2 className="h-6 w-6 animate-spin mx-auto"/></div>
+  if (!authorized || error) return <div role="alert" className="p-4 space-y-3">
+    <p>No se pudieron cargar las citas.</p>
+    {authorized && <Button onClick={() => setRetry(value => value + 1)}>Reintentar</Button>}
+  </div>
+  if (loading || loadedScope !== scope) return <div className="p-4 text-center"><Loader2 className="h-6 w-6 animate-spin mx-auto"/></div>
 
   if (appointments.length === 0) {
     return (
       <Card>
-        <CardContent className="p-8 text-center text-muted-foreground">
-          No hay historial de citas.
+        <CardContent className="p-10 text-center flex flex-col items-center justify-center space-y-3 text-muted-foreground">
+          <div className="w-12 h-12 rounded-full bg-blue-50 dark:bg-blue-950/30 text-blue-600 flex items-center justify-center">
+            <Calendar className="h-6 w-6" />
+          </div>
+          <p className="text-sm font-semibold text-foreground">No hay historial de citas para este paciente.</p>
+          {onNewAppointment && (
+            <Button size="sm" onClick={onNewAppointment} className="bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
+              <Calendar className="h-3.5 w-3.5 mr-1.5" />
+              Agendar Primera Cita
+            </Button>
+          )}
         </CardContent>
       </Card>
     )
@@ -984,13 +768,18 @@ function AppointmentsList({ patientId }: { patientId: string }) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle className="text-xl">Historial de Citas e Inversión</CardTitle>
+      <CardHeader className="flex flex-row items-center justify-between">
+        <CardTitle className="text-xl">Últimas 100 citas</CardTitle>
+        {onNewAppointment && (
+          <Button size="sm" onClick={onNewAppointment} className="h-8 gap-1.5 bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs">
+            <Calendar className="h-3.5 w-3.5" />
+            <span>Nueva Cita</span>
+          </Button>
+        )}
       </CardHeader>
       <CardContent>
         <div className="space-y-4">
           {appointments.map((app) => {
-            const billing = app.billings?.[0]
             return (
               <div key={app.id} className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/50 transition-colors">
                 <div className="flex items-center gap-4">
@@ -1008,37 +797,14 @@ function AppointmentsList({ patientId }: { patientId: string }) {
                 </div>
                 
                 <div className="flex items-center gap-3">
-                   {billing ? (
-                     <div className="text-right mr-2">
-                        <div className="flex items-center gap-1 text-sm font-medium">
-                           <Receipt className="h-3.5 w-3.5 text-muted-foreground"/>
-                           <span>Factura #{billing.invoice_number?.slice(-6) || '---'}</span>
-                        </div>
-                        <Badge variant={billing.status === 'paid' ? 'default' : 'outline'} className="mt-1 text-xs">
-                           ${billing.amount} - {billing.status === 'paid' ? 'Pagado' : 'Pendiente'}
-                        </Badge>
-                        {billing.status !== 'paid' && (
-                            <Button 
-                                variant="link" 
-                                size="sm" 
-                                className="h-auto p-0 text-xs ml-2 text-blue-600"
-                                onClick={() => window.open(`/pay/${billing.id}`, '_blank')}
-                            >
-                                Pagar
-                            </Button>
-                        )}
-                     </div>
-                   ) : (
-                     <Badge variant="secondary" className="mr-2">Sin Factura</Badge>
-                   )}
-                   
                    <Badge 
                      variant={app.status === 'confirmed' || app.status === 'completed' ? 'default' : 'secondary'}
                      className={app.status === 'no_show' ? 'bg-red-100 text-red-700 hover:bg-red-100' : ''}
                    >
                      {app.status === 'confirmed' ? 'Confirmada' : 
                       app.status === 'completed' ? 'Completada' :
-                      app.status === 'no_show' ? 'No Asistió' : 
+                      app.status === 'no_show' ? 'No Asistió' :
+                      app.status === 'cancelled' ? 'Cancelada' : 
                       'Programada'}
                    </Badge>
                 </div>
@@ -1050,3 +816,4 @@ function AppointmentsList({ patientId }: { patientId: string }) {
     </Card>
   )
 }
+

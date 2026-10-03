@@ -1,0 +1,15 @@
+{
+  "capturedAt": "2026-10-02T17:36:32.478Z",
+  "status": "PARTIALLY VERIFIED",
+  "limits": [
+    "Actual scoped local operational catalog parity; not remote parity, bytes or provider configuration"
+  ],
+  "stageDatabase": "clinia_upgrade_stage_20261002_3",
+  "linkedDatabase": "clinia_upgrade_linked_20261002_2",
+  "stageContractSha256": "bf2d8f76aea435486421259471338847d25ce74054362e225bea1f805b040e48",
+  "linkedContractSha256": "65823597903feb9be1a4f9cff7e3baee28b0f4532f598a6f6d52fe9df15ff469",
+  "differences": [
+    "relations",
+    "schemas"
+  ]
+}

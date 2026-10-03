@@ -1,0 +1,46 @@
+{
+  "recordedAt": "2026-09-29T02:00:14.695Z",
+  "state": "LOCAL_PREP_VERIFIED_REMOTE_CI_PENDING",
+  "environment": "Windows; isolated source copy; synthetic providers",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "snapshot": {
+    "id": "prep-20260928-3",
+    "treeSha256": "2ed96c4f1464737c49690a3839b42a9259bc7e6a287e8c51894d407c02a932eb",
+    "files": 577,
+    "exclusions": 503,
+    "verifiedDrift": []
+  },
+  "observedToolExitCodes": {
+    "installation": 0,
+    "fullVerification": 0
+  },
+  "tests": {
+    "total": 83,
+    "passed": 83,
+    "failed": 0
+  },
+  "buildId": "rYVq5KXtdhAF5xvnwoJm-",
+  "logSha256": {
+    "install": "0112e4e89a162e22dfecea6676d3ffa7a5a154a02aa136141ee6532136cd9b91",
+    "verification": "5e0c0a3fc1cbd0981f19864d0a433b1496ac77297679d400f28bfa16efe3fbcb"
+  },
+  "checks": [
+    "Fresh lockfile installation without lifecycle scripts",
+    "Types and lint with no reported errors",
+    "83 production contract/tooling tests",
+    "Next production build",
+    "Four runner tests include real loopback/external denial, env scrubbing and fail-fast propagation"
+  ],
+  "warnings": [
+    "Existing image and hook lint warnings",
+    "next lint deprecated before future Next16 upgrade",
+    "Supabase dependency Edge Runtime warnings"
+  ],
+  "limits": [
+    "No GitHub/Linux execution",
+    "No deployed JWT/API/browser assertion from these tests",
+    "No runtime security patch approval",
+    "No load, clinical/legal/UAT/restore/release approval"
+  ],
+  "reversal": "Revert only tooling delta; preserve snapshots and active app/build"
+}

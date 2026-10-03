@@ -1,0 +1,44 @@
+{
+  "recordedAt": "2026-09-29T02:07:40.637Z",
+  "state": "PARTIAL_API_STARTUP_STOPPED_BEFORE_FIXTURES",
+  "database": "clinia_contract_stage_20260928_3",
+  "preparation": "own synthetic keys, original official image IDs, separate empty bytes volume, loopback endpoints",
+  "firstStartup": {
+    "authReady": true,
+    "restReady": true,
+    "storageReady": false,
+    "storageLogEmpty": true,
+    "storageOomKilled": false,
+    "storageExitCodeAfterStop": 137
+  },
+  "stop": "candidate auth/rest/storage stopped; DB and volume preserved",
+  "hostMemoryKiB": {
+    "total": 8072628,
+    "available": 220596
+  },
+  "cause": "Storage failed readiness before timeout; memory pressure observed, causality not established",
+  "checks": {
+    "syntaxExitCodes": {
+      "launcher": 0,
+      "verifier": 0
+    },
+    "independentReview": "secret-error/readiness and SQL seed role defects corrected before API fixture execution",
+    "realJwtStorageMatrix": "NOT_RUN"
+  },
+  "limits": [
+    "No reset, production mutation or email/message sends",
+    "No full clean/remote parity or clinical approval"
+  ],
+  "files": [
+    {
+      "path": "scripts/clinia-contract-api.cjs",
+      "sha256": "a28058af3ff64d6d2c498c9a8412f6fb8cdb887a41fada233ceaed0e8ac21e55",
+      "bytes": 13558
+    },
+    {
+      "path": "scripts/verify-clinia-contract-api.cjs",
+      "sha256": "6e7738dcb1d7b608332d6b82985af7cb98d3f56c17194daeecd4ad4925b38df4",
+      "bytes": 13864
+    }
+  ]
+}

@@ -1,0 +1,160 @@
+{
+  "capturedAt": "2026-10-03T03:22:11.778Z",
+  "project": "phihonofwyerpfgqfekt",
+  "scope": "Read-only counts of all application tables plus Auth users/sessions and Storage buckets/objects; no row values",
+  "queryKind": "pg_catalog table enumeration + query_to_xml count SELECT only",
+  "result": [
+    {
+      "current_user": "postgres",
+      "current_database": "postgres",
+      "version": "PostgreSQL 17.6 on aarch64-unknown-linux-gnu, compiled by gcc (GCC) 15.2.0, 64-bit",
+      "table_counts": [
+        {
+          "rows": 0,
+          "table": "sessions",
+          "schema": "auth"
+        },
+        {
+          "rows": 0,
+          "table": "users",
+          "schema": "auth"
+        },
+        {
+          "rows": 0,
+          "table": "access_audit",
+          "schema": "logs"
+        },
+        {
+          "rows": 0,
+          "table": "appointments",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "automation_settings",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "billings",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "clinic_invitations",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "clinic_members",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "clinical_records",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "clinics",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "data_rights_requests",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "hcu033_forms",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "invoices",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "messages",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "notifications",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "patient_files",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "patient_notes",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "patients",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "payment_methods",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "payments",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "prescription_templates",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "prescriptions",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "profile_audit_log",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "profiles",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "service_categories",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "services",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "treatments",
+          "schema": "public"
+        },
+        {
+          "rows": 0,
+          "table": "buckets",
+          "schema": "storage"
+        },
+        {
+          "rows": 0,
+          "table": "objects",
+          "schema": "storage"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,481 @@
+{
+  "startedAt": "2026-09-28T15:33:23.732Z",
+  "environment": "local-synthetic",
+  "state": "VERIFIED_LOCAL_BOUNDED",
+  "checks": [
+    {
+      "name": "Two ordinary JWTs racing for one interval persist exactly one appointment",
+      "passed": true
+    },
+    {
+      "name": "Consecutive appointments succeed; conflicting reschedule fails without losing original",
+      "passed": true
+    },
+    {
+      "name": "Reception sees operational joins and never clinical notes or financial fields",
+      "passed": true
+    },
+    {
+      "name": "Foreign patient/clinician/clinic, removed actor and anonymous requests fail",
+      "passed": true
+    },
+    {
+      "name": "All operational transitions persist and completed records reject reactivation/reprogramming",
+      "passed": true
+    },
+    {
+      "name": "Direct clinical writes cannot bypass overlap or transitions; reception cannot write base table",
+      "passed": true
+    },
+    {
+      "name": "Invalid initial states, duration and timestamp fail safely",
+      "passed": true
+    },
+    {
+      "name": "Inactive assigned clinician can be cancelled; old JWT loses access immediately",
+      "passed": true
+    },
+    {
+      "name": "Operational audit records real actors without clinical content; clients cannot read private audit",
+      "passed": true
+    },
+    {
+      "name": "Agenda creates no financial records and preserves historic balances",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "actor": "owner_A",
+      "path": "/auth/v1/token",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 225
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 55
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/auth/v1/token",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 131
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 26
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/auth/v1/token",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 115
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 28
+    },
+    {
+      "actor": "removed_A",
+      "path": "/auth/v1/token",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 112
+    },
+    {
+      "actor": "removed_A",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 24
+    },
+    {
+      "actor": "doctor_B",
+      "path": "/auth/v1/token",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 117
+    },
+    {
+      "actor": "doctor_B",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 20
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 19
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 31
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 13
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 403,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 4
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 403,
+      "elapsedMs": 4
+    },
+    {
+      "actor": "removed_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 403,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "anonymous",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 401,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/appointments",
+      "method": "POST",
+      "status": 201,
+      "elapsedMs": 10
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/appointments",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 11
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/appointments",
+      "method": "PATCH",
+      "status": 400,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/appointments",
+      "method": "POST",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/appointments",
+      "method": "PATCH",
+      "status": 403,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 7
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 4
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 403,
+      "elapsedMs": 5
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 200,
+      "elapsedMs": 6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "method": "POST",
+      "status": 400,
+      "elapsedMs": 8
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/appointment_events",
+      "method": "GET",
+      "status": 406,
+      "elapsedMs": 6
+    }
+  ],
+  "created": [
+    "62f9c4c9-f597-4c91-a026-c170b73f494d",
+    "1df69c72-57a2-413e-b590-fcd1f296a692",
+    "6b3a5827-8c13-491e-bf28-48a09c97a366",
+    "86a0a9eb-18cc-4bf0-bf7b-8233eb2124e8",
+    "7ee66492-b01c-4bb1-adb1-2caed9775ebe"
+  ],
+  "limitations": [
+    "This is the reviewed local schema, not complete remote migration parity or deployed acceptance.",
+    "Concurrency covers two overlapping requests; 10-user/5000-patient load and idempotency tokens remain pending.",
+    "Doctor availability across clinics and clinical/privacy UAT remain separate release gates."
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "audit": {
+    "events": 13,
+    "actors": 2,
+    "allTagged": true,
+    "contentSafe": true,
+    "clientRead": false
+  },
+  "finishedAt": "2026-09-28T15:33:27.684Z"
+}

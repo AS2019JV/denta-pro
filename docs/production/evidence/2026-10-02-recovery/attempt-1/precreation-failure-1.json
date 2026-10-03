@@ -1,0 +1,35 @@
+{
+  "state": "BLOCKED_BEFORE_TARGET",
+  "sourceProject": "clinia-clean-20261002-1",
+  "targetProject": "clinia-recovery-20261002-1",
+  "ports": {
+    "api": 56511,
+    "db": 56512,
+    "mail": 56514
+  },
+  "steps": [],
+  "checks": [],
+  "requests": [],
+  "limits": [
+    "Synthetic local logical recovery; not production RTO/RPO or provider SLA",
+    "Same pinned local image family; not cross-version or geographically independent recovery",
+    "Realtime was not active in source and is not exercised; no external email, browser, clinical or legal certification"
+  ],
+  "resources": {
+    "availableMemoryBytes": 2854359040,
+    "availableDiskBytes": 1019520581632
+  },
+  "sourceComposeSha256": "309083b6fa49d63a9b66e2d48b95707963a60afca702ac65d144648c98d1ca1c",
+  "imageIds": {
+    "db": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "kong": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+    "auth": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+    "inbucket": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+    "realtime": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+    "rest": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+    "storage": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120"
+  },
+  "startedAt": "2026-10-02T23:31:02.693Z",
+  "error": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'CLEAN_GATEWAY_CORE_API_VERIFIED_NEW_WORKFLOWS_REMOTE_PENDING'\n- 'SCOPED_CANONICAL_API_VERIFIED_CLEAN_REMOTE_PENDING'\n",
+  "completedAt": "2026-10-02T23:31:02.709Z"
+}

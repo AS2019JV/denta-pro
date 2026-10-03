@@ -1,0 +1,6 @@
+{
+  "file": "supabase/schema.sql",
+  "sha256": "493B7F6DCAC8CAF47DDF43B9B2393D6840EC8BE7EC1C5E57EF50B57702482EC9",
+  "exit": 3,
+  "output": "CREATE EXTENSION\r\nERROR:  schema \"auth\" does not exist"
+}

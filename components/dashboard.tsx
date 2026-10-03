@@ -1,6 +1,6 @@
 "use client"
 import { Calendar, CreditCard, Home, Menu, PieChart, Users, MessageSquare, Megaphone } from "lucide-react"
-import React, { useState, useEffect } from "react"
+import React from "react"
 
 import { useRouter, usePathname } from "next/navigation"
 
@@ -14,7 +14,7 @@ import { useSidebar } from "@/components/sidebar-context"
 import { NotificationBell } from "@/components/notification-bell"
 import { useTranslation } from "@/components/translations"
 import { useAuth } from "@/components/auth-context"
-import { supabase } from "@/lib/supabase"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
 const navItems = [
   { icon: Home, label: "Dashboard", href: "/", active: false },
@@ -42,20 +42,7 @@ export default function Dashboard({ children, showPageTitle = true }: DashboardP
   const activeClinicName = activeMembership?.clinics?.name
   const rawLogoUrl = activeMembership?.clinics?.logo_url
 
-  const [activeClinicLogo, setActiveClinicLogo] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (rawLogoUrl) {
-      if (rawLogoUrl.startsWith('http://') || rawLogoUrl.startsWith('https://')) {
-        setActiveClinicLogo(rawLogoUrl)
-      } else {
-        const { data } = supabase.storage.from('clinic-branding').getPublicUrl(rawLogoUrl)
-        setActiveClinicLogo(data.publicUrl)
-      }
-    } else {
-      setActiveClinicLogo(null)
-    }
-  }, [rawLogoUrl])
+  const activeClinicLogo = usePrivateMediaUrl('clinic-branding', rawLogoUrl)
 
   // Actualizar estado activo basado en la ruta actual
   const updatedNavItems = navItems.map((item) => ({

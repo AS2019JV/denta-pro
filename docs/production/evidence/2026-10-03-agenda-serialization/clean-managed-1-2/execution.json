@@ -1,0 +1,180 @@
+{
+  "state": "PARTIAL",
+  "startedAt": "2026-10-03T14:55:09.184Z",
+  "project": "clinia-clean-20261002-1",
+  "migration": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+  "migrationSha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+  "expectedSaveBodyMd5": "caae0bd668648dac2b32686b658be02d",
+  "driverSha256": "6efc67bfa938bb862ad1f76b2a6bb3f94416f2f9be952e2b730580d732d19622",
+  "checks": [
+    {
+      "name": "Reviewed RPC and live authority exact bodies; direct ordinary DML closed",
+      "passed": true,
+      "detail": {
+        "sourceAndCatalogMatch": true,
+        "directWritableColumns": 0,
+        "directWritableTables": 0
+      }
+    },
+    {
+      "name": "Twenty-four real doctor/reception insert races return one save and sanitized 23P01",
+      "passed": false
+    }
+  ],
+  "requests": [
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 401,
+      "code": "PGRST303",
+      "authenticationDiagnostic": "JWT issued at future"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    }
+  ],
+  "createdIds": [],
+  "limits": [
+    "Synthetic loopback real Auth/PostgREST JWTs; not hosted/browser acceptance",
+    "Bounded scheduling races; not capacity or clinical acceptance",
+    "Appointment evidence is preserved; no rows are deleted"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-clean-20261002-1",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_storage_clinia-clean-20261002-1",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-clean-20261002-1",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56411"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_rest_clinia-clean-20261002-1",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_inbucket_clinia-clean-20261002-1",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56414"
+          }
+        ]
+      }
+    }
+  ],
+  "catalogBefore": {
+    "save": "caae0bd668648dac2b32686b658be02d",
+    "owner": "postgres",
+    "securityDefiner": true,
+    "volatile": "v",
+    "config": [
+      "search_path=\"\""
+    ],
+    "guard": "852e98f6d3e11eb76557f652f10c725d",
+    "require": "e7c822cbffb3195f70088e7e4617a043",
+    "session": "69a325cf0b73743dc5a50b2c6f4a7170",
+    "rls": true,
+    "overlap": 1,
+    "directWritableColumns": 0,
+    "directWritableTables": 0,
+    "deadlocks": 0
+  },
+  "authentication": [
+    {
+      "actor": "doctor_A",
+      "issuedAt": 1791039310,
+      "expiresAt": 1791040210,
+      "observedAt": 1791039310
+    },
+    {
+      "actor": "receptionist_A",
+      "issuedAt": 1791039310,
+      "expiresAt": 1791040210,
+      "observedAt": 1791039310
+    },
+    {
+      "actor": "owner_B",
+      "issuedAt": 1791039310,
+      "expiresAt": 1791040210,
+      "observedAt": 1791039310
+    }
+  ],
+  "failure": "Acceptance failed: Twenty-four real doctor/reception insert races return one save and sanitized 23P01",
+  "completedAt": "2026-10-03T14:55:11.980Z"
+}

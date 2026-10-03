@@ -1,0 +1,203 @@
+{
+  "projectRef": "phihonofwyerpfgqfekt",
+  "scope": "staging only; view permissions and security_invoker",
+  "migration": {
+    "version": "20260926155227",
+    "name": "enforce_staging_demographic_view_boundary"
+  },
+  "appliedSql": "-- REVIEW PROPOSAL ONLY: execute exclusively against phihonofwyerpfgqfekt.\n-- Not a canonical migration. Do not db push this directory or the legacy folder.\n-- The executor must verify the connector project_id and live preflight first.\n-- PostgreSQL current_database() is postgres in both projects and cannot prove identity.\nBEGIN;\nSET LOCAL lock_timeout = '5s';\nSET LOCAL statement_timeout = '30s';\n\nDO $guard$\nBEGIN\n  IF NOT EXISTS (\n    SELECT 1 FROM pg_class c\n    JOIN pg_namespace n ON n.oid = c.relnamespace\n    WHERE n.nspname = 'public' AND c.relname = 'receptionist_patient_view' AND c.relkind = 'v'\n  ) THEN\n    RAISE EXCEPTION 'Expected staging demographic view is absent; stop for review';\n  END IF;\nEND;\n$guard$;\n\n-- Preserve the existing columns and dependencies; make reads obey base-table RLS.\nALTER VIEW public.receptionist_patient_view SET (security_invoker = true);\nREVOKE ALL PRIVILEGES ON TABLE public.receptionist_patient_view FROM PUBLIC, anon;\nREVOKE INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER, MAINTAIN\n  ON TABLE public.receptionist_patient_view FROM authenticated;\n-- SELECT already exists in captured staging; no new grants or policies are added.\nCOMMIT;",
+  "before": {
+    "view": {
+      "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+      "options": null,
+      "definition": " SELECT id,\n    clinic_id,\n    first_name,\n    last_name,\n    cedula,\n    phone,\n    email,\n    created_at\n   FROM patients;"
+    },
+    "observed_at": "2026-09-26T15:52:04.014857+00:00",
+    "patients_rls": true,
+    "patient_policies": 0,
+    "anon_column_access": true,
+    "effective_privileges": [
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "DELETE"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "INSERT"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "REFERENCES"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "SELECT"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "TRIGGER"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "anon",
+        "allowed": true,
+        "privilege": "UPDATE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "DELETE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "INSERT"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "REFERENCES"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "SELECT"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "TRIGGER"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "UPDATE"
+      }
+    ]
+  },
+  "after": {
+    "view": {
+      "acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+      "options": [
+        "security_invoker=true"
+      ],
+      "definition": " SELECT id,\n    clinic_id,\n    first_name,\n    last_name,\n    cedula,\n    phone,\n    email,\n    created_at\n   FROM patients;"
+    },
+    "observed_at": "2026-09-26T15:52:36.379764+00:00",
+    "patients_rls": true,
+    "patient_policies": 0,
+    "anon_column_access": false,
+    "effective_privileges": [
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "DELETE"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "INSERT"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "SELECT"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "anon",
+        "allowed": false,
+        "privilege": "UPDATE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "DELETE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "INSERT"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "MAINTAIN"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "REFERENCES"
+      },
+      {
+        "role": "authenticated",
+        "allowed": true,
+        "privilege": "SELECT"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "TRIGGER"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "TRUNCATE"
+      },
+      {
+        "role": "authenticated",
+        "allowed": false,
+        "privilege": "UPDATE"
+      }
+    ]
+  },
+  "verified": "Catalog/effective object privileges only; not a JWT/PostgREST or clinical workflow test",
+  "limitations": [
+    "Patients has zero policies in this snapshot: authenticated reads remain unavailable/empty until reconciliation.",
+    "No production mutation, reset, data copy, message or cost-generating resource creation.",
+    "Local baseline and clean install/upgrade remain unverified. The SQL artifact is outside legacy migrations; never db push legacy folder blindly."
+  ]
+}

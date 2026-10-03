@@ -1,0 +1,577 @@
+{
+  "startedAt": "2026-09-28T18:51:15.570Z",
+  "state": "SCOPED_SQL_CONVERGENCE_VERIFIED_API_PENDING",
+  "databases": {
+    "stage": "clinia_contract_stage_20260928_2",
+    "prod": "clinia_contract_prod_20260928_2"
+  },
+  "steps": [
+    {
+      "label": "stage-clone",
+      "database": "template1",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "aee95bd5c4f7ef7fc04924d3ef48ae114f68b5e3de7d3b5fb1b3970d420478b2",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-sentinels",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "4a0afd691b63e8af641557bc3b79609fb54cb44b2560f4576864dcd9d377ca12",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-owners",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "a7cd77b3481403639db0f2ec6f11f7f0386081216ed40aff1d8a9646af063749",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-constraints",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "cadd8ca3f5f4f5cd0bfd8ca9d061bf045ab2ebe3845aaceb131f3f7737ba9f04",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-bucket-metadata-fixtures",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "6b98966c3173969b2a9dcb4f0d47d7308bc59edd8d4a6a113f139545e4981f84",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-authority",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "bd8b036aa82996c5c704542cd85f25c0c4ecaca1495ba82ce65b2401fa8b8946",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-callbacks",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "c3d8110a19d1d4246873bd45d1a6b5b0e0dfbeec33b824b6ac034005eca766ce",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-agenda",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "77ed2764a4cb02f4e3f5110eb02d69dac72fbfd6fc0c78c98a5eecbcb12791d1",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "stage-catalog-assertions",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "read-only",
+      "sha256": "31823f768d18626c6ead35f496ba9cc8a47cc3f68f0e0052482b09242d58dac7",
+      "state": "VERIFIED_READ_ONLY"
+    },
+    {
+      "label": "stage-boundary-assertions",
+      "database": "clinia_contract_stage_20260928_2",
+      "role": "postgres",
+      "kind": "read-only",
+      "sha256": "76298a2f9d8f52aba4ae2ff3291511182f714041e91b1487159830aa6cab512c",
+      "state": "VERIFIED_READ_ONLY"
+    },
+    {
+      "label": "prod-clone",
+      "database": "template1",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "5bd934cd4ff8929cc258388916b4a00b1fd7ae097f1016f9978daed6688a7306",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-sentinels",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "e7091cb5ab6ddbdd251fcf79d2fc5869224a7a81caaa884868463c8e9cc92a7b",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-owners",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "a7cd77b3481403639db0f2ec6f11f7f0386081216ed40aff1d8a9646af063749",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-constraints",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "cadd8ca3f5f4f5cd0bfd8ca9d061bf045ab2ebe3845aaceb131f3f7737ba9f04",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-bucket-metadata-fixtures",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "supabase_admin",
+      "kind": "mutation",
+      "sha256": "6b98966c3173969b2a9dcb4f0d47d7308bc59edd8d4a6a113f139545e4981f84",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-authority",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "bd8b036aa82996c5c704542cd85f25c0c4ecaca1495ba82ce65b2401fa8b8946",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-callbacks",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "c3d8110a19d1d4246873bd45d1a6b5b0e0dfbeec33b824b6ac034005eca766ce",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-agenda",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "mutation",
+      "sha256": "77ed2764a4cb02f4e3f5110eb02d69dac72fbfd6fc0c78c98a5eecbcb12791d1",
+      "state": "COMMITTED"
+    },
+    {
+      "label": "prod-catalog-assertions",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "read-only",
+      "sha256": "31823f768d18626c6ead35f496ba9cc8a47cc3f68f0e0052482b09242d58dac7",
+      "state": "VERIFIED_READ_ONLY"
+    },
+    {
+      "label": "prod-boundary-assertions",
+      "database": "clinia_contract_prod_20260928_2",
+      "role": "postgres",
+      "kind": "read-only",
+      "sha256": "76298a2f9d8f52aba4ae2ff3291511182f714041e91b1487159830aa6cab512c",
+      "state": "VERIFIED_READ_ONLY"
+    }
+  ],
+  "checks": [
+    {
+      "name": "stage preserves complete patients and historical finance rows",
+      "passed": true
+    },
+    {
+      "name": "prod preserves complete patients and historical finance rows",
+      "passed": true
+    },
+    {
+      "name": "captured operational contracts converge exactly",
+      "passed": true
+    },
+    {
+      "name": "stage seven real SQL invariants in rolled-back fixtures",
+      "passed": true
+    },
+    {
+      "name": "stage containment effective grants close without deleting rows; rollback restores contract",
+      "passed": true
+    },
+    {
+      "name": "prod seven real SQL invariants in rolled-back fixtures",
+      "passed": true
+    },
+    {
+      "name": "prod containment effective grants close without deleting rows; rollback restores contract",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Captured scoped contracts, not complete remote schema/configuration parity",
+    "Secondary databases have no independent Auth/API/Storage endpoints",
+    "SQL/catalog acceptance is not real JWT acceptance",
+    "No production mutation or clinical/LOPDP approval"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "stageBefore": {
+    "patients": [
+      {
+        "id": "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee",
+        "city": null,
+        "tags": null,
+        "email": null,
+        "phone": null,
+        "state": null,
+        "cedula": null,
+        "gender": null,
+        "status": "active",
+        "address": null,
+        "allergies": null,
+        "clinic_id": "55555555-5555-4555-8555-555555555555",
+        "is_smoker": false,
+        "last_name": "Conservar",
+        "avatar_url": null,
+        "birth_date": null,
+        "blood_type": null,
+        "created_at": "2026-09-28T18:51:24.192854+00:00",
+        "deleted_at": null,
+        "first_name": "Sintético",
+        "occupation": null,
+        "updated_at": "2026-09-28T18:51:24.192854+00:00",
+        "is_pregnant": false,
+        "medications": null,
+        "referred_by": null,
+        "has_diabetes": false,
+        "guardian_name": null,
+        "policy_number": null,
+        "recall_months": 6,
+        "clinical_notes": null,
+        "internal_notes": null,
+        "is_family_head": false,
+        "marital_status": null,
+        "medical_alerts": null,
+        "account_balance": 92.15,
+        "emergency_phone": null,
+        "medical_history": {},
+        "referral_source": null,
+        "has_hypertension": false,
+        "odontogram_state": {},
+        "emergency_contact": null,
+        "has_heart_disease": false,
+        "insurance_provider": null,
+        "medical_conditions": null,
+        "family_relationship": null,
+        "last_treatment_note": null,
+        "periodontogram_state": {},
+        "medical_record_number": null,
+        "family_representative_id": null,
+        "preferred_contact_method": "phone"
+      }
+    ],
+    "services": [
+      {
+        "id": "ffffffff-ffff-4fff-8fff-ffffffffffff",
+        "name": "Histórico cerrado",
+        "color": "#145247",
+        "price": 91.234567,
+        "category": "General",
+        "clinic_id": "55555555-5555-4555-8555-555555555555",
+        "is_active": true,
+        "created_at": "2026-09-28T18:51:24.192854+00:00",
+        "updated_at": "2026-09-28T18:51:24.192854+00:00",
+        "category_id": null,
+        "description": null,
+        "duration_minutes": 30
+      }
+    ]
+  },
+  "bucketFixture": [
+    {
+      "id": "clinic-branding",
+      "name": "clinic-branding",
+      "public": false,
+      "file_size_limit": 2097152,
+      "allowed_mime_types": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "doctor-avatars",
+      "name": "doctor-avatars",
+      "public": false,
+      "file_size_limit": 2097152,
+      "allowed_mime_types": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-avatars",
+      "name": "patient-avatars",
+      "public": false,
+      "file_size_limit": 2097152,
+      "allowed_mime_types": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-files",
+      "name": "patient-files",
+      "public": false,
+      "file_size_limit": 10485760,
+      "allowed_mime_types": [
+        "application/pdf",
+        "image/png",
+        "image/jpeg"
+      ]
+    }
+  ],
+  "prodBefore": {
+    "patients": [
+      {
+        "id": "aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa",
+        "city": null,
+        "tags": null,
+        "email": null,
+        "phone": null,
+        "state": null,
+        "cedula": null,
+        "gender": null,
+        "status": "active",
+        "address": null,
+        "allergies": null,
+        "clinic_id": "11111111-1111-4111-8111-111111111111",
+        "is_smoker": false,
+        "last_name": "A",
+        "avatar_url": null,
+        "birth_date": null,
+        "blood_type": null,
+        "created_at": "2026-09-27T04:36:08.698124+00:00",
+        "deleted_at": null,
+        "first_name": "Paciente sintético",
+        "occupation": null,
+        "updated_at": "2026-09-27T04:36:08.698124+00:00",
+        "is_pregnant": false,
+        "medications": null,
+        "referred_by": null,
+        "has_diabetes": false,
+        "guardian_name": null,
+        "policy_number": null,
+        "recall_months": 6,
+        "clinical_notes": null,
+        "internal_notes": null,
+        "is_family_head": false,
+        "marital_status": null,
+        "medical_alerts": null,
+        "account_balance": 0,
+        "emergency_phone": null,
+        "medical_history": {},
+        "referral_source": null,
+        "has_hypertension": false,
+        "odontogram_state": {},
+        "emergency_contact": null,
+        "has_heart_disease": false,
+        "insurance_provider": null,
+        "medical_conditions": null,
+        "family_relationship": null,
+        "last_treatment_note": null,
+        "periodontogram_state": {},
+        "medical_record_number": null,
+        "family_representative_id": null,
+        "preferred_contact_method": "phone"
+      },
+      {
+        "id": "bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb",
+        "city": null,
+        "tags": null,
+        "email": null,
+        "phone": null,
+        "state": null,
+        "cedula": null,
+        "gender": null,
+        "status": "active",
+        "address": null,
+        "allergies": null,
+        "clinic_id": "22222222-2222-4222-8222-222222222222",
+        "is_smoker": false,
+        "last_name": "B",
+        "avatar_url": null,
+        "birth_date": null,
+        "blood_type": null,
+        "created_at": "2026-09-27T04:36:08.698124+00:00",
+        "deleted_at": null,
+        "first_name": "Paciente sintético",
+        "occupation": null,
+        "updated_at": "2026-09-27T04:36:08.698124+00:00",
+        "is_pregnant": false,
+        "medications": null,
+        "referred_by": null,
+        "has_diabetes": false,
+        "guardian_name": null,
+        "policy_number": null,
+        "recall_months": 6,
+        "clinical_notes": null,
+        "internal_notes": null,
+        "is_family_head": false,
+        "marital_status": null,
+        "medical_alerts": null,
+        "account_balance": 0,
+        "emergency_phone": null,
+        "medical_history": {},
+        "referral_source": null,
+        "has_hypertension": false,
+        "odontogram_state": {},
+        "emergency_contact": null,
+        "has_heart_disease": false,
+        "insurance_provider": null,
+        "medical_conditions": null,
+        "family_relationship": null,
+        "last_treatment_note": null,
+        "periodontogram_state": {},
+        "medical_record_number": null,
+        "family_representative_id": null,
+        "preferred_contact_method": "phone"
+      },
+      {
+        "id": "eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee",
+        "city": null,
+        "tags": null,
+        "email": null,
+        "phone": null,
+        "state": null,
+        "cedula": null,
+        "gender": null,
+        "status": "active",
+        "address": null,
+        "allergies": null,
+        "clinic_id": "55555555-5555-4555-8555-555555555555",
+        "is_smoker": false,
+        "last_name": "Conservar",
+        "avatar_url": null,
+        "birth_date": null,
+        "blood_type": null,
+        "created_at": "2026-09-28T18:51:32.065306+00:00",
+        "deleted_at": null,
+        "first_name": "Sintético",
+        "occupation": null,
+        "updated_at": "2026-09-28T18:51:32.065306+00:00",
+        "is_pregnant": false,
+        "medications": null,
+        "referred_by": null,
+        "has_diabetes": false,
+        "guardian_name": null,
+        "policy_number": null,
+        "recall_months": 6,
+        "clinical_notes": null,
+        "internal_notes": null,
+        "is_family_head": false,
+        "marital_status": null,
+        "medical_alerts": null,
+        "account_balance": 92.15,
+        "emergency_phone": null,
+        "medical_history": {},
+        "referral_source": null,
+        "has_hypertension": false,
+        "odontogram_state": {},
+        "emergency_contact": null,
+        "has_heart_disease": false,
+        "insurance_provider": null,
+        "medical_conditions": null,
+        "family_relationship": null,
+        "last_treatment_note": null,
+        "periodontogram_state": {},
+        "medical_record_number": null,
+        "family_representative_id": null,
+        "preferred_contact_method": "phone"
+      }
+    ],
+    "services": [
+      {
+        "id": "ffffffff-ffff-4fff-8fff-ffffffffffff",
+        "name": "Histórico cerrado",
+        "color": "#145247",
+        "price": 91.23,
+        "category": "General",
+        "clinic_id": "55555555-5555-4555-8555-555555555555",
+        "is_active": true,
+        "created_at": "2026-09-28T18:51:32.065306+00:00",
+        "updated_at": "2026-09-28T18:51:32.065306+00:00",
+        "category_id": null,
+        "description": null,
+        "duration_minutes": 30
+      }
+    ]
+  },
+  "completedAt": "2026-09-28T18:51:41.187Z"
+}

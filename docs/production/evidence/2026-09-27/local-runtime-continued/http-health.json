@@ -1,0 +1,22 @@
+{
+  "capturedAt": "2026-09-27T04:37:52.919Z",
+  "kind": "real-local-http-service-health",
+  "checks": [
+    {
+      "path": "/auth/v1/health",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "path": "/rest/v1/",
+      "status": 200,
+      "ok": true
+    },
+    {
+      "path": "/storage/v1/status",
+      "status": 200,
+      "ok": true
+    }
+  ],
+  "boundary": "Official anonymous key; no user authorization, clinic isolation or browser evidence."
+}

@@ -1,8 +1,13 @@
 'use server'
 
 import { createClient } from '@supabase/supabase-js'
-import { redirect } from 'next/navigation'
 import { randomUUID } from 'crypto'
+import fs from 'fs'
+import path from 'path'
+import { escapeHtml } from '@/lib/html-escape'
+import { signupSchema } from '@/lib/signup-validation'
+import { headers } from 'next/headers'
+import { consumeEmailBudget } from '@/lib/server-email-gate'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -12,25 +17,44 @@ if (!supabaseUrl || !supabaseServiceKey) {
 }
 
 export async function registerClinic(formData: FormData) {
+  const input = signupSchema.safeParse({
+    title: formData.get('title') ?? undefined,
+    firstName: formData.get('firstName'),
+    lastName: formData.get('lastName'),
+    email: formData.get('email'),
+    password: formData.get('password'),
+    phoneRaw: formData.get('phone') ?? undefined,
+    countryCode: formData.get('countryCode') ?? undefined,
+    practiceName: formData.get('practiceName'),
+    practiceSize: formData.get('practiceSize'),
+    address: formData.get('address') ?? undefined,
+  })
+  if (!input.success) {
+    if (input.error.issues.some(issue => issue.path[0] === 'password')) {
+      return { error: 'La contraseña debe tener entre 12 y 128 caracteres.' }
+    }
+    return { error: 'Datos de registro inválidos. Revisa los campos y sus longitudes.' }
+  }
+
+  const logoFile = formData.get('logo')
+  if (logoFile !== null && (
+    typeof logoFile === 'string' ||
+    logoFile.size > 2 * 1024 * 1024 ||
+    !['image/png', 'image/jpeg', 'image/webp'].includes(logoFile.type)
+  )) {
+    return { error: 'El logo debe ser PNG, JPEG o WebP y no superar 2 MB.' }
+  }
+
   if (!supabaseUrl || !supabaseServiceKey) {
      return { error: "Server Configuration Error: Missing Database Credentials. Check .env file." }
   }
-  const supabase = createClient(supabaseUrl, supabaseServiceKey)
+  const budget = await consumeEmailBudget({ action: 'signup', headers: await headers(), destination: input.data.email })
+  if (!budget.allowed) return { error: budget.message }
+  const supabase = createClient(supabaseUrl, supabaseServiceKey, { auth: { persistSession: false, autoRefreshToken: false } })
 
-  // 1. Extract Data
-  const title = (formData.get('title') as string) || 'Dr.'
-  const firstName = formData.get('firstName') as string
-  const lastName = formData.get('lastName') as string
-  const email = formData.get('email') as string
-  const password = formData.get('password') as string
-  const phoneRaw = formData.get('phone') as string
-  const countryCode = formData.get('countryCode') as string || '+593'
+  const { title, firstName, lastName, email, password, phoneRaw, countryCode,
+    practiceName, practiceSize, address } = input.data
   const phone = `${countryCode} ${phoneRaw}`.trim()
-  const practiceName = formData.get('practiceName') as string
-  const practiceSize = formData.get('practiceSize') as string
-  // Address is optional in form but required by DB, stub it if missing
-  const address = (formData.get('address') as string) || 'Location Pending' 
-  const logoFile = formData.get('logo') as File | null
 
   const fullName = `${firstName} ${lastName}`.trim()
 
@@ -48,9 +72,8 @@ export async function registerClinic(formData: FormData) {
   // Generate Clinic ID upfront
   const clinicId = randomUUID()
 
-  // 3. Create Auth User with Pending Clinic Data
-  // We DO NOT inject into the database yet. We wait for email verification.
-  // The 'on_auth_user_verified' trigger will handle the actual creation.
+  // Display metadata never carries tenant authority. A private server intent
+  // binds this Auth ID to a fresh clinic, completed only after confirmation.
   const { data: authData, error: authError } = await supabase.auth.admin.createUser({
     email,
     password,
@@ -59,15 +82,6 @@ export async function registerClinic(formData: FormData) {
       title: title,
       full_name: fullName,
       phone: phone,
-      role: 'clinic_owner',
-      pending_clinic: {
-        id: clinicId, // Pass the generated ID
-        name: practiceName,
-        address: address,
-        phone: phone,
-        subscription_tier: 'trial',
-        practice_size: practiceSize
-      }
     }
   })
 
@@ -78,6 +92,17 @@ export async function registerClinic(formData: FormData) {
         return { error: "Ya te has registrado. Si tu enlace expiró, ve a Iniciar Sesión para enviarte uno nuevo." }
     }
     return { error: authError.message }
+  }
+
+  if (!authData?.user?.id) return { error: 'No se pudo confirmar la creación de tu cuenta. Contacta al soporte antes de repetir.' }
+  try {
+    const { error: intentError } = await supabase.rpc('store_clinic_registration_intent', {
+      p_user_id: authData.user.id, p_clinic_id: clinicId, p_email: email,
+      p_name: practiceName, p_address: address, p_phone: phone, p_size: practiceSize,
+    })
+    if (intentError) throw new Error('Unconfirmed registration intent')
+  } catch {
+    return { error: 'Tu cuenta fue creada, pero no se pudo registrar la clínica. Contacta al soporte antes de repetir.' }
   }
 
   // 4. Handle Logo Upload (if present)
@@ -92,7 +117,7 @@ export async function registerClinic(formData: FormData) {
         const { error: uploadError } = await supabase
           .storage
           .from('clinic-branding')
-          .upload(`${clinicId}/${logoFile.name}`, buffer, {
+          .upload(`${clinicId}/logo.${logoFile.type === 'image/png' ? 'png' : logoFile.type === 'image/jpeg' ? 'jpg' : 'webp'}`, buffer, {
             contentType: logoFile.type,
             upsert: true
           })
@@ -119,8 +144,12 @@ export async function registerClinic(formData: FormData) {
   })
 
   if (linkError || !linkData?.properties?.action_link) {
-    console.warn("Could not generate confirmation link:", linkError)
+    console.warn('Could not generate confirmation link')
+    return { error: 'Tu cuenta fue creada, pero no pudimos preparar el correo. Ve a Iniciar Sesión para solicitar un nuevo enlace.', canResend: true }
   } else {
+    if (linkData.user?.id !== authData.user.id) {
+      return { error: 'No se pudo confirmar que el enlace corresponde a tu solicitud de clínica. Contacta al soporte antes de repetir.' }
+    }
     try {
       // The generated action_link goes to Supabase's hosted API.
       // We extract the hashed_token to manually construct the Next.js API route link
@@ -134,33 +163,35 @@ export async function registerClinic(formData: FormData) {
       const { Resend } = await import('resend')
       const resend = new Resend(process.env.RESEND_API_KEY)
       
-      const fs = require('fs')
-      const path = require('path')
-      
       const templatePath = path.join(process.cwd(), 'emails', 'signup-confirmation.html')
       let htmlContent = fs.readFileSync(templatePath, 'utf8')
       
       const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
-      htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, siteUrl)
+      htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, () => escapeHtml(siteUrl))
       
       // Ensure the hashed token is properly URL encoded so characters like '+' don't turn into spaces
       const safeTokenHash = encodeURIComponent(tokenHash || '')
-      htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, safeTokenHash)
+      htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, () => escapeHtml(safeTokenHash))
       htmlContent = htmlContent.replace(/\{\{ \.Type \}\}/g, 'signup')
       
       // Inject Doctor's name dynamically
       const displayName = title ? `${title} ${firstName}`.trim() : firstName
-      htmlContent = htmlContent.replace('¡Te damos la bienvenida a Clinia+!', `¡Te damos la bienvenida, ${displayName}!`)
+      htmlContent = htmlContent.replace('¡Te damos la bienvenida a Clinia+!', () => `¡Te damos la bienvenida, ${escapeHtml(displayName)}!`)
 
-      await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || 'Clinia+ <soporte@cliniaplus.com>',
+      const { error: deliveryError } = await resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL!,
         to: email,
         subject: '¡Confirma tu cuenta en Clinia+!',
         html: htmlContent
       })
+      if (deliveryError) {
+        console.warn('Confirmation email provider rejected delivery')
+        return { error: 'Tu cuenta fue creada, pero el correo no se pudo enviar. Ve a Iniciar Sesión para solicitar un nuevo enlace.', canResend: true }
+      }
       console.log("Confirmation email sent successfully via Resend.")
-    } catch (e) {
-      console.error("Failed to send email via Resend:", e)
+    } catch {
+      console.error('Confirmation email delivery could not be confirmed')
+      return { error: 'Tu cuenta fue creada, pero no pudimos confirmar el envío del correo. Revisa tu bandeja; si no llega, solicita un nuevo enlace desde Iniciar Sesión.', canResend: true }
     }
   }
 

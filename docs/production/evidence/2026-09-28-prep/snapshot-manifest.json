@@ -1,0 +1,4909 @@
+{
+  "createdAt": "2026-09-29T00:21:29.521Z",
+  "id": "prep-20260928-3",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "kind": "working-tree source snapshot; not full Git backup or deployable artifact",
+  "files": [
+    {
+      "path": ".eslintignore",
+      "sha256": "e924065c3efc6244438510fa4e7c190643cc9b4c83543621f0086792578ce313",
+      "size": 85
+    },
+    {
+      "path": ".eslintrc.json",
+      "sha256": "ee0192e8e608c17e27326c965ee56d52d482bfafff2f0d53751248602d75b5d8",
+      "size": 432
+    },
+    {
+      "path": ".github/workflows/clinia-verification.yml",
+      "sha256": "20aad67bc71ed174f649e6ee5bfa26cba58691e218880fadd2acc13696b626ee",
+      "size": 947
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "823413c3d489e0f89c519fc9e60936018fa57b8d089a7d12ba49de2387ef60f7",
+      "size": 487
+    },
+    {
+      "path": ".node-version",
+      "sha256": "a0e27aeeac42d6102f4ff2bce40d8fb011c07e5cb28eff3c9d77e68df29e5dd6",
+      "size": 8
+    },
+    {
+      "path": ".prettierignore",
+      "sha256": "68870e99817d63b0926897fca14fe35d05595f1b9d85d4c155cd39f46d7dc6e7",
+      "size": 68
+    },
+    {
+      "path": ".prettierrc",
+      "sha256": "52751f894c0411b4ba26076f8a346748eb0a1d0249e120e7d29b6149f624742a",
+      "size": 114
+    },
+    {
+      "path": "AGENT_LEARNINGS_AND_TIPS.md",
+      "sha256": "018727d1a0f3cef303b4be033786202e1a0f60196f09f1d9743f9bce45af7cad",
+      "size": 6752
+    },
+    {
+      "path": "Architecture_map.md",
+      "sha256": "da1732c9e99d0468f819af824af07e18b9dd07abdcfcebfe246701da47d81746",
+      "size": 20074
+    },
+    {
+      "path": "CORRECTIONS_AND_ROADMAP.md",
+      "sha256": "f74102870f7ac79dcc1566871dc3d95e8646ee7e4f6823f8454490779e9dba09",
+      "size": 8427
+    },
+    {
+      "path": "Clinia_manual.md",
+      "sha256": "73f5f5946396b6a573e5c92177136b5a4c33598dbb611186e72dffaa33be7418",
+      "size": 11586
+    },
+    {
+      "path": "NEXT_STEPS.md",
+      "sha256": "16baed34c2960d6e588271a7f433d1398f175da54f145b8483d3cdd5259504d6",
+      "size": 1243
+    },
+    {
+      "path": "ORIGINAL_REQUEST.md",
+      "sha256": "324c2635f68642eb7bf0e6b9ba99a5d52ec3ce9e36db7f99996173ca315211d2",
+      "size": 8689
+    },
+    {
+      "path": "PRODUCTION_READINESS.md",
+      "sha256": "1fd66c3c21c8425d1ea46e1a190b1c1f3de3882446676f3dddfc6af70c76b15f",
+      "size": 12080
+    },
+    {
+      "path": "README.md",
+      "sha256": "f8edbcb0de4074ac8208639206f2fdfc6bf0129f47b7bc87381cb14beaa4c18d",
+      "size": 1205
+    },
+    {
+      "path": "REBRANDING_SUMMARY.md",
+      "sha256": "5e373ee4d9ca93ccab6f7ae88c43122f6f7f120521f1763169ec956d25546d42",
+      "size": 3328
+    },
+    {
+      "path": "RUNBOOK.md",
+      "sha256": "6155528db6c35910affd79c27b693109239537ef8ff9d4f13fc163a2111a557d",
+      "size": 15303
+    },
+    {
+      "path": "SECURITY_EVALUATION.md",
+      "sha256": "513cc45c33732fe502d8975db1d3a0bdc74681b1198b6ad2d88228561ffd3679",
+      "size": 27302
+    },
+    {
+      "path": "SECURITY_REMEDIATION_REPORT.md",
+      "sha256": "93441878a25c78f65c65cc1e9bd2c904a4c0aae053db3c0a44e3c34a0d081787",
+      "size": 18958
+    },
+    {
+      "path": "SUPABASE_RESOLUTION_PLAN.md",
+      "sha256": "4a6efac0f64ee56491bc7a061ef18b0eeb24dc3ff261953f0777fd4cee3d105f",
+      "size": 2761
+    },
+    {
+      "path": "SYSTEM_ARCHITECTURE_AND_OPERATION.md",
+      "sha256": "0d0b97f7385668e48a3c9dbb26287586e79faeee948d58a3317a9268c43f27de",
+      "size": 10717
+    },
+    {
+      "path": "TEST_READY.md",
+      "sha256": "2c2fe48fc62ea17a1573f077834344e14cad3a382fec23f46bedfa42f057d3be",
+      "size": 5234
+    },
+    {
+      "path": "app/(auth)/forgot-password/page.tsx",
+      "sha256": "2aa8372c774ccab7a6ca040d5f2b6e22f2c764cc81dd57aef6d222cfefaa6dbb",
+      "size": 4168
+    },
+    {
+      "path": "app/(auth)/layout.tsx",
+      "sha256": "ee16aaaad897056c58e2c0682db9b53bea0491b9ef72a07ade87c0749d50875d",
+      "size": 1506
+    },
+    {
+      "path": "app/(auth)/login/page.tsx",
+      "sha256": "7b32ebf29a07bd434cc6ac60be93bf91ed845db7804047970a8405e0c4294445",
+      "size": 121
+    },
+    {
+      "path": "app/(auth)/signup/page.tsx",
+      "sha256": "38b1e1ea16fa9728be574ebc7f440947ce5c370e1d19fc0d239129a95f90d45e",
+      "size": 125
+    },
+    {
+      "path": "app/(auth)/update-password/page.tsx",
+      "sha256": "40838c8ac9d005ce8382df832ebc4b794bf22e3b53eef7e6852a40afeb5d613a",
+      "size": 6252
+    },
+    {
+      "path": "app/(dashboard)/billing/page.tsx",
+      "sha256": "a16b6d3a12ae605780de6a2a89e9869241182ebc4369df899cbfdd96fd6d7bb4",
+      "size": 99
+    },
+    {
+      "path": "app/(dashboard)/calendar/page.tsx",
+      "sha256": "ed1b7b4f4a13b3dfcdd183c87441ae18e3774ede315edb9c72ab74aec751e27a",
+      "size": 757
+    },
+    {
+      "path": "app/(dashboard)/clinic/page.tsx",
+      "sha256": "e3d607b7587eb9f7ce320e2af7471dcedb0b22f5174aa90139e1666c15631ef4",
+      "size": 290
+    },
+    {
+      "path": "app/(dashboard)/dashboard/page.tsx",
+      "sha256": "b5814b65256c65b3ea64a9a35a71a5d31f478b3767082c65fd716eaca1d288a8",
+      "size": 46982
+    },
+    {
+      "path": "app/(dashboard)/dashboard/services/page.tsx",
+      "sha256": "6bcffd839ba6f25897350104725bdc0262aa02c9c3cbfdc4c9903077ac970921",
+      "size": 431
+    },
+    {
+      "path": "app/(dashboard)/dentists/page.tsx",
+      "sha256": "79063103c42b85f43bd9b4f936bdeb4981804ce342104c01439ebdd3b5818fd7",
+      "size": 43669
+    },
+    {
+      "path": "app/(dashboard)/layout.tsx",
+      "sha256": "a0e0ac712db7680db148fdce637f9cac52985f963f78921bfaf405e58a4a38d8",
+      "size": 2474
+    },
+    {
+      "path": "app/(dashboard)/loading.tsx",
+      "sha256": "6c325f1d969a99745aed28ceb470e7ff1f48d059f2ec616ca20f99484d6ba0c8",
+      "size": 55
+    },
+    {
+      "path": "app/(dashboard)/marketing/page.tsx",
+      "sha256": "8e0dd92d5d78065527a730eef078c70d58b2be2b320ce9f0dbc69b19bc9e173e",
+      "size": 102
+    },
+    {
+      "path": "app/(dashboard)/messages/loading.tsx",
+      "sha256": "6c325f1d969a99745aed28ceb470e7ff1f48d059f2ec616ca20f99484d6ba0c8",
+      "size": 55
+    },
+    {
+      "path": "app/(dashboard)/messages/page.tsx",
+      "sha256": "117999025cdb800369bd8c5b90210fe1c14968ade5400970f8225075b34d5572",
+      "size": 9266
+    },
+    {
+      "path": "app/(dashboard)/patients/[id]/page.tsx",
+      "sha256": "14d0054b4298eb65114b016bf321e7e9203babd46fc4716d72e1bb2021df4735",
+      "size": 48461
+    },
+    {
+      "path": "app/(dashboard)/patients/loading.tsx",
+      "sha256": "6c325f1d969a99745aed28ceb470e7ff1f48d059f2ec616ca20f99484d6ba0c8",
+      "size": 55
+    },
+    {
+      "path": "app/(dashboard)/patients/page.tsx",
+      "sha256": "33158d4326740a74d9537d99a6004234fcfe0dab799049d2b6f630dd27e09e0f",
+      "size": 13612
+    },
+    {
+      "path": "app/(dashboard)/pay/[id]/page.tsx",
+      "sha256": "1991db4c73887a147bb57c2819a5f6a2a94609381133830d77406e0afb48e1f7",
+      "size": 99
+    },
+    {
+      "path": "app/(dashboard)/profile/page.tsx",
+      "sha256": "8e8826191df9710033218c20d578345f50bac589ce891be13b27ca7739c35794",
+      "size": 17161
+    },
+    {
+      "path": "app/(dashboard)/recipes/page.tsx",
+      "sha256": "ea263b13c4b335064fca00c6f33b15bf6e96eeedc127500b07d3411af9c14a9b",
+      "size": 1403
+    },
+    {
+      "path": "app/(dashboard)/reports/page.tsx",
+      "sha256": "519a802c55f21456bd0328451e52e82d4c8a5b58684376e9350bebe7013e3083",
+      "size": 6987
+    },
+    {
+      "path": "app/(dashboard)/settings/page.tsx",
+      "sha256": "761c5f85bd01b2e07d49e5565ec2f3b470739b2769a9237b21df545b70061b4c",
+      "size": 10841
+    },
+    {
+      "path": "app/(landing)/globals.css",
+      "sha256": "a184e941f07d26502257498b89c20c2c6f6c79289c8e47d2908f6d2ffa47b424",
+      "size": 2774
+    },
+    {
+      "path": "app/(landing)/layout.tsx",
+      "sha256": "0f82d18f2d4b4a96deb7de74d29f866029998e48227263b285cb2e3920409b37",
+      "size": 804
+    },
+    {
+      "path": "app/(landing)/page.tsx",
+      "sha256": "b0d77a23125415cbb6205f5f9a54f7521e1614318a70dd45a65f668d7e5580d6",
+      "size": 7240
+    },
+    {
+      "path": "app/(landing)/schedule-demo/page.tsx",
+      "sha256": "a7c242697c53a7d1dee4ca2492fbcc558f4faf11976321efee499c2ff64c0572",
+      "size": 19006
+    },
+    {
+      "path": "app/(landing)/sobre-nosotros/page.tsx",
+      "sha256": "7f70b782f5c8391f18b4b6d6a76ef764f5276d7a39af2bcac6aa5accce463e81",
+      "size": 25819
+    },
+    {
+      "path": "app/actions/invite-member.ts",
+      "sha256": "14e77da4c956d166e8936f9e61a0083249da29358109b28f3e170775ddf3eab7",
+      "size": 11252
+    },
+    {
+      "path": "app/actions/migrations.ts",
+      "sha256": "98f5ca292a3b31f6c4dceaf89818319014a7e7d49341351721eeb02acc512bfd",
+      "size": 507
+    },
+    {
+      "path": "app/actions/register-clinic.ts",
+      "sha256": "04cb96142e64bb6f645b960c5ed6baa0bced927a2b009a0669258b8ed6d96dac",
+      "size": 6719
+    },
+    {
+      "path": "app/actions/resend-confirmation.ts",
+      "sha256": "bdaf08f9eccd079ed6e62d519c85f8bf0335bb57c13d723a4adc5bfe6ac78a71",
+      "size": 4119
+    },
+    {
+      "path": "app/actions/save-prescription.ts",
+      "sha256": "420d9552ec9c21c9f2cf5e352cc4574f1748ed51f803af69900f79bc3a2c0669",
+      "size": 2306
+    },
+    {
+      "path": "app/actions/settings.ts",
+      "sha256": "944cda194a023a4e5a4ebde9d8d927b5b777ef39d7f77edc8b8ea0962b5d4eb2",
+      "size": 1621
+    },
+    {
+      "path": "app/api/auth/confirm/route.ts",
+      "sha256": "eaec8f68a79cdc97ae5200da2859af9dd8428552d1bd445173b68fff9431adb2",
+      "size": 3082
+    },
+    {
+      "path": "app/api/payments/subscribe/route.ts",
+      "sha256": "edcd0eb1399431367eeeb76f177a0bc92abb9dd19ec9a1b906f338346e41cd42",
+      "size": 197
+    },
+    {
+      "path": "app/api/send-email/route.ts",
+      "sha256": "f28a43ec92566d5f8ba7c281679f9f63e869a67ff5a42d9f628d25892d3fca63",
+      "size": 23545
+    },
+    {
+      "path": "app/api/webhooks/kushki/route.ts",
+      "sha256": "edcd0eb1399431367eeeb76f177a0bc92abb9dd19ec9a1b906f338346e41cd42",
+      "size": 197
+    },
+    {
+      "path": "app/auth/callback/route.ts",
+      "sha256": "646fefd7428d617df6293c442bc71b3facce17bc12022d41c969be8732e75f06",
+      "size": 1827
+    },
+    {
+      "path": "app/auth/confirm/page.tsx",
+      "sha256": "ebb8d6377dc06014c7fbdaa095bcb462fd0df2d60fd2e02a1085d143876a3b82",
+      "size": 7395
+    },
+    {
+      "path": "app/auth/layout.tsx",
+      "sha256": "c76bf8f5d0e5d9dcad2d3d2a9b1aab9fd790a1c11224784e82d0ca39f0d63c35",
+      "size": 255
+    },
+    {
+      "path": "app/error.tsx",
+      "sha256": "4c91c45e60606c5e450867e677f03474862484f294385bee0efe7dc33b2b640b",
+      "size": 2076
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "8fd3b34670ea24402fb9217bacd21c86f9b42bacdfc0196c1ec800ccecc6daa5",
+      "size": 7606
+    },
+    {
+      "path": "app/sitemap.ts",
+      "sha256": "6f724f00d9261c848c634ba0d4a6b2c3f1076189daf9a87c763c579dd8f8c6d0",
+      "size": 567
+    },
+    {
+      "path": "auth-flow.md",
+      "sha256": "0b97aa90b1c8dbdee1936278dcc81d745aa62d884f0de169704afbe8770af0a6",
+      "size": 3871
+    },
+    {
+      "path": "build_errors.txt",
+      "sha256": "42f4219b62c64310ade26b98ecf41aba083c7c36bd01ecbf4c178c30034e29c2",
+      "size": 2946
+    },
+    {
+      "path": "components.json",
+      "sha256": "87a06793997ebf52e6471bbdb81227e54a1e85c2e635cb964f5dffb2aa991f4d",
+      "size": 465
+    },
+    {
+      "path": "components/add-patient-form.tsx",
+      "sha256": "0d3778f4cc346a78943c8d20a363a799990c25f6dc735106afd707b53671137b",
+      "size": 26093
+    },
+    {
+      "path": "components/appointment-editor.tsx",
+      "sha256": "30134a06cd4dd7e7d176d17b427ecbaea818dd4dd6d967367b4b19c7b6b52b14",
+      "size": 10192
+    },
+    {
+      "path": "components/appointment-list.tsx",
+      "sha256": "49c2ddc199d4ba7c18ea8c6573dee275b3b4e83cb1e6f1f23145b366d6d00bb9",
+      "size": 9376
+    },
+    {
+      "path": "components/appointment-timeline/timeline.tsx",
+      "sha256": "b72bca63b9246fd21e7a8df84a9c33998ad2db9ff010c69b584fa7d68c9423f7",
+      "size": 21779
+    },
+    {
+      "path": "components/async-patient-select.tsx",
+      "sha256": "8c55fcac2516992f0c26e90324cb3eb68619bc33aed15f9fed444c41d47091fa",
+      "size": 7238
+    },
+    {
+      "path": "components/auth-context.tsx",
+      "sha256": "dfacbf070a940323603b156658d679bb2a14809e182d2b76c260eb889b9b3cdc",
+      "size": 12042
+    },
+    {
+      "path": "components/avatar-upload.tsx",
+      "sha256": "3bd19fd8005153d847a7dc9188c9031b25c869891c280ac382dd885d80222949",
+      "size": 7435
+    },
+    {
+      "path": "components/billing/create-billing-dialog.tsx",
+      "sha256": "43d918dd4c9803a7d8aa81e77626cc7dd5c8be7c4d04a0ee7f2a1bab361423a5",
+      "size": 5426
+    },
+    {
+      "path": "components/billing/generate-invoice-dialog.tsx",
+      "sha256": "2004fa5bd4b82ead9967bd48a2c70d264d683daa7189f70f1f6b880f5d398e6a",
+      "size": 6988
+    },
+    {
+      "path": "components/billing/payment-methods-settings.tsx",
+      "sha256": "1f0d9eb74019a7053a7f5e60ddd3206832292d318285697142dbd7210b8d4347",
+      "size": 15005
+    },
+    {
+      "path": "components/calendar/modern-calendar.tsx",
+      "sha256": "1edb78a23f70a25a090f5ca757ef7d9e62357ad9a3014d60a741e360f2f1b0fd",
+      "size": 11892
+    },
+    {
+      "path": "components/dashboard-wrapper.tsx",
+      "sha256": "ab1b3e99c1ab9ffdb419f2c4f4d15840829cd1939a3a4e39a5ce900b928f9503",
+      "size": 2121
+    },
+    {
+      "path": "components/dashboard.tsx",
+      "sha256": "2488d1b0784c4e3d97a056debe6bec2280ac12e0251e170daa4f20a28cd96e86",
+      "size": 9959
+    },
+    {
+      "path": "components/dashboard/services/services-manager.tsx",
+      "sha256": "fbd5ae3c19e229e09b892f55d84e8222b22395f2b300e058de6d4512ef7a59e6",
+      "size": 8273
+    },
+    {
+      "path": "components/family-center.tsx",
+      "sha256": "2fd007471cfd422f3ad79c38fe3af0388c2b2318c34dff01fdfcde84c978440a",
+      "size": 12571
+    },
+    {
+      "path": "components/financial-overview.tsx",
+      "sha256": "80036ab6984bb25042fd3e06e8460e3ed873adb9ec8371d5f43c8f2cd3f345b2",
+      "size": 6676
+    },
+    {
+      "path": "components/hcu033-form.tsx",
+      "sha256": "fa3ee930f0f2dd321ab1f4cef4c0a310029130c19012d79ba0c6c42d118508f4",
+      "size": 73296
+    },
+    {
+      "path": "components/issued-prescriptions-list.tsx",
+      "sha256": "8eb3d1156f14538d48de23e16a75d48f8c62e23abee8082342ffe1ced44ae9bf",
+      "size": 13118
+    },
+    {
+      "path": "components/landing/layout/site-footer.tsx",
+      "sha256": "0c35c7faa18862a04554a80b899232a2b4c4b1d77ed3ceceb71d9067ca82b190",
+      "size": 6058
+    },
+    {
+      "path": "components/landing/layout/site-header.tsx",
+      "sha256": "7fd073fcc5927b136cbe5801b99c8f8f55f6b62ef3dcfd4f64828263f0e323e0",
+      "size": 3705
+    },
+    {
+      "path": "components/landing/theme-provider.tsx",
+      "sha256": "c3ad0a142080a20c3229c1ceefd74e3fe0fd1f371dec8b07889c9d2b448d5c50",
+      "size": 303
+    },
+    {
+      "path": "components/landing/ui-elements/feature-card.tsx",
+      "sha256": "aebc15fe996f348e0fa63f4b889df885dd8cf165827074c460fd33f4ebb4fc34",
+      "size": 1873
+    },
+    {
+      "path": "components/landing/ui-elements/pricing-card.tsx",
+      "sha256": "1f0ee539f35c2805e8ec486673aee0ad83e4147db00b2b68d373087f679572b0",
+      "size": 3362
+    },
+    {
+      "path": "components/landing/ui-elements/section-header.tsx",
+      "sha256": "cfe45df19bd5101ada2b3a96e8eb28b8fd0a78fa8586dab846e5f6d4e5e4f5a8",
+      "size": 1130
+    },
+    {
+      "path": "components/landing/ui-elements/testimonial-card.tsx",
+      "sha256": "966bb422ade0e0fb19a4a3a15bf159acd0511707e3737d68a03ea28cbfb5e23d",
+      "size": 2255
+    },
+    {
+      "path": "components/landing/ui/button.tsx",
+      "sha256": "944168c0b402da3f7d9dc504ca441716436b24605d16db8dcb2d7cfa88a42c14",
+      "size": 1959
+    },
+    {
+      "path": "components/landing/ui/card.tsx",
+      "sha256": "adb855b1e3e9be517b60f70de7770c0059842126fae5392c52f00e06ff36a7a0",
+      "size": 1939
+    },
+    {
+      "path": "components/landing/ui/input.tsx",
+      "sha256": "36815b2a1084ad92cd9eacef7c6c4641636ac746f5449c48ec85a9deea62e927",
+      "size": 815
+    },
+    {
+      "path": "components/landing/ui/label.tsx",
+      "sha256": "15cc22fc2c1e4933e248d535a1610cdf35d8a05757877c3d3574f3ce6702a258",
+      "size": 751
+    },
+    {
+      "path": "components/landing/ui/radio-group.tsx",
+      "sha256": "1118fa5e368b19fa9877ace9a3086cd415eb7640bcd57a99e370046413783bcc",
+      "size": 1526
+    },
+    {
+      "path": "components/landing/ui/select.tsx",
+      "sha256": "d1e1afa0f786480f158ab55eaa941c2741718af64a6630abbe71f214a290a6f4",
+      "size": 5795
+    },
+    {
+      "path": "components/landing/ui/sheet.tsx",
+      "sha256": "7639aa274b27c0e2e969dca694ca47b8259e9621a4572a206ae33df92d0a57f1",
+      "size": 4425
+    },
+    {
+      "path": "components/landing/ui/tabs.tsx",
+      "sha256": "6537bfc9f4f76099dcd2708fd4c94ed452403221d995a2f500659a24f196e56d",
+      "size": 1955
+    },
+    {
+      "path": "components/landing/ui/textarea.tsx",
+      "sha256": "d150a3210de21cc0b1be1ee37cd8f7ef2b1720852575eab06abb1caa5462758b",
+      "size": 712
+    },
+    {
+      "path": "components/login-form.tsx",
+      "sha256": "27a5a8419c79c6319c92ab8ee80cff5239f17c86026d13f13d3dc12e47d938ed",
+      "size": 11743
+    },
+    {
+      "path": "components/notification-bell.tsx",
+      "sha256": "40c17def4dcdb3f57f6424844e00497b3a1bc1713c1e6e34426a1ebfeced4549",
+      "size": 4329
+    },
+    {
+      "path": "components/odontogram-preview.tsx",
+      "sha256": "d965660431e0f3467e4344576f31068f00cfda2e3b7766ce25f950a9b3f716bc",
+      "size": 1889
+    },
+    {
+      "path": "components/odontogram.tsx",
+      "sha256": "f88126cac1119c967ae71455ac25b7f39becede35764a73d0f015b41f36a2a6c",
+      "size": 12542
+    },
+    {
+      "path": "components/odontograma-interactive.tsx",
+      "sha256": "bd4cfa0d5a2f31cb90c74a0d9189669aba3f2c6ec99ede2848bce6c8e3de4fe1",
+      "size": 39320
+    },
+    {
+      "path": "components/page-header.tsx",
+      "sha256": "e08a08698f59ecb46ab4bb2eaa4d0ebf397b21ff13b19cb9cf1f1c3238060bb5",
+      "size": 970
+    },
+    {
+      "path": "components/patient-files.tsx",
+      "sha256": "7fca105f7f534926dee0af4c49b428d281600c2d018a69a0b77c80d951ff3748",
+      "size": 17396
+    },
+    {
+      "path": "components/patient-info-carousel.tsx",
+      "sha256": "17be0ed8d38e26255845e147dc2df05c03faac61a4782b82cb4deca5a5886b36",
+      "size": 8111
+    },
+    {
+      "path": "components/patient-medical-records.tsx",
+      "sha256": "92362fce92685cf964975c5e4578f570f90403ff506202663d020aa3666f35ae",
+      "size": 24305
+    },
+    {
+      "path": "components/patient-payments.tsx",
+      "sha256": "7331731d8827338398399f3d99c3ba27b28e2621e4eb205c5c5db2a8b78fa605",
+      "size": 18428
+    },
+    {
+      "path": "components/patient-prescriptions.tsx",
+      "sha256": "d24650e01747402cfe309810f3309216eccc46b5d1eb5cfa28c948c9a7141293",
+      "size": 20211
+    },
+    {
+      "path": "components/patient-visits-chart.tsx",
+      "sha256": "28801449ef1b05239da12355653ffaeceb0d9c32e05636e14880079b7828e6fa",
+      "size": 2764
+    },
+    {
+      "path": "components/periodontogram.tsx",
+      "sha256": "ce84bb18fcbaf73639b14229f191107b30fa45cdcccc154dbdd0e854e366e727",
+      "size": 9639
+    },
+    {
+      "path": "components/query-provider.tsx",
+      "sha256": "de863998d46f53e0e42816c0a7a31e16dec243ab4612a497443f4c5206eadfff",
+      "size": 481
+    },
+    {
+      "path": "components/quick-appointment-dialog.tsx",
+      "sha256": "f4b1da7f88d8dcf1cb3eab167097489eb186781654088b44c2bf2fdac6b96926",
+      "size": 723
+    },
+    {
+      "path": "components/recall-widget.tsx",
+      "sha256": "475c0fb0cc734eabd7b4ea470e35e93df038b805e00ebfae4bc0cdce78220756",
+      "size": 3925
+    },
+    {
+      "path": "components/settings/automation-tab.tsx",
+      "sha256": "9a4401b213105008863fe69364630dedf42651e512ca73c5968c3e74a9852056",
+      "size": 8957
+    },
+    {
+      "path": "components/settings/clinic-tab.tsx",
+      "sha256": "8375c21bb387336fb91550ba6efab00788cffd60066059338ba4e9088cbf8b9e",
+      "size": 12304
+    },
+    {
+      "path": "components/settings/privacy-tab.tsx",
+      "sha256": "22b186a8f584774d64858e12f1bc50c5966bc52632eeb171e06ba4b6308770de",
+      "size": 23194
+    },
+    {
+      "path": "components/settings/recipes-tab.tsx",
+      "sha256": "b2652bcfd50276f932df5c79504d7eaffca7f81328af76d397eb826089893f52",
+      "size": 10592
+    },
+    {
+      "path": "components/settings/services-tab.tsx",
+      "sha256": "6cfb732f53cef8856472c5ff66197a5eb7f8fa51fa4ceb0a322f080cb2eb55bb",
+      "size": 13553
+    },
+    {
+      "path": "components/settings/subscription-tab.tsx",
+      "sha256": "63b9b385c890af758e86968657862fc8a2ca028de66a3876e34e033a483f2e6e",
+      "size": 1597
+    },
+    {
+      "path": "components/sidebar-context.tsx",
+      "sha256": "44fd122b69fc98b3a5f7f419196fe7558cb34b57131a9c579610d1106762372a",
+      "size": 1046
+    },
+    {
+      "path": "components/sidebar.tsx",
+      "sha256": "99c0e1c7c32d3517dd14073f9dae06dec85e2c0d97f9c0465a237a7aa131e35e",
+      "size": 13494
+    },
+    {
+      "path": "components/signature-pad.tsx",
+      "sha256": "bec2a4a35abafce6fd141a4b0414ec760bf642da5fc18c0ea94d4c81dfc958c7",
+      "size": 4680
+    },
+    {
+      "path": "components/signup-form.tsx",
+      "sha256": "a88a4ac755ad9589902ac614a5a3cd812efbfb50e083f1c9baf2fa8100ba8abc",
+      "size": 21089
+    },
+    {
+      "path": "components/subscription-blocker.tsx",
+      "sha256": "9ed09ef7bedd1480b500fcde5b79313c6cd6d38439c9e61fd96b3fdbbecc1c6c",
+      "size": 2786
+    },
+    {
+      "path": "components/theme-provider.tsx",
+      "sha256": "c3ad0a142080a20c3229c1ceefd74e3fe0fd1f371dec8b07889c9d2b448d5c50",
+      "size": 303
+    },
+    {
+      "path": "components/theme-toggle.tsx",
+      "sha256": "78a68ffb30d215a14513c17121a99a3dae650fb30f0557f950ae69ba80b3b337",
+      "size": 1881
+    },
+    {
+      "path": "components/time-range-selector.tsx",
+      "sha256": "c267f92c27db95014e16c2069faa99128ff9539ac2b06f6cd6a7d1369c63d077",
+      "size": 1476
+    },
+    {
+      "path": "components/translations.tsx",
+      "sha256": "7970619e05d30e7ba85a2d5dbafdfe82fbe0d907e00b73ea3026d8168690aba8",
+      "size": 13679
+    },
+    {
+      "path": "components/ui/accordion.tsx",
+      "sha256": "ea64ce754a00c13686cd52d24efafa6fcc610455a22e69f4d741a7416bcd83ef",
+      "size": 1990
+    },
+    {
+      "path": "components/ui/alert.tsx",
+      "sha256": "ba3255eeae1e8b6c16bebbb8d3d2a8356bd32dd809cfbb63b351b3b609494d01",
+      "size": 1268
+    },
+    {
+      "path": "components/ui/avatar.tsx",
+      "sha256": "496af5016d04bf3f490cdc1e275257890ebf024e051b77840a377c6012b28bd0",
+      "size": 1471
+    },
+    {
+      "path": "components/ui/badge.tsx",
+      "sha256": "0a2a5703add710de81080503392e2d90bd89ab82ebb4434feb6b6c79fc966862",
+      "size": 1165
+    },
+    {
+      "path": "components/ui/button.tsx",
+      "sha256": "c995b66f7930de695672608ded17a428877fbe88190a25f2c6ba2a1c195a4f25",
+      "size": 2013
+    },
+    {
+      "path": "components/ui/card.tsx",
+      "sha256": "adb855b1e3e9be517b60f70de7770c0059842126fae5392c52f00e06ff36a7a0",
+      "size": 1939
+    },
+    {
+      "path": "components/ui/checkbox.tsx",
+      "sha256": "42ce9ed4818e41860c07655da8f57b9f49754aedf88a026e3df33cbc076b0435",
+      "size": 1088
+    },
+    {
+      "path": "components/ui/dialog.tsx",
+      "sha256": "deec06b7219843db436a64d87d9cb8ba7cb88f15d7bf4ad77b1da97bc294bcd0",
+      "size": 3851
+    },
+    {
+      "path": "components/ui/dropdown-menu.tsx",
+      "sha256": "2dd034a15bbb10f4d3b07b941dcb4073a83b740ee121e27992772bc35b5b04a1",
+      "size": 7640
+    },
+    {
+      "path": "components/ui/input.tsx",
+      "sha256": "36815b2a1084ad92cd9eacef7c6c4641636ac746f5449c48ec85a9deea62e927",
+      "size": 815
+    },
+    {
+      "path": "components/ui/label.tsx",
+      "sha256": "0bbff895dae5af7035e0be211c161d310da1a730848653566f6dcfcce213b67a",
+      "size": 721
+    },
+    {
+      "path": "components/ui/popover.tsx",
+      "sha256": "fa3051cfd0196eaf41de55bb8b385c6cb32078edad8dbf59062d551347e80457",
+      "size": 1275
+    },
+    {
+      "path": "components/ui/progress.tsx",
+      "sha256": "4fffe7cc031bed90dfff155240f77b6c6aa527dc72fa9c0d54a6963874eba6d3",
+      "size": 878
+    },
+    {
+      "path": "components/ui/radio-group.tsx",
+      "sha256": "1118fa5e368b19fa9877ace9a3086cd415eb7640bcd57a99e370046413783bcc",
+      "size": 1526
+    },
+    {
+      "path": "components/ui/scroll-area.tsx",
+      "sha256": "dcfa57599d889f16bb50f07aeb8eb452036c8dd7d29a179625e8426fab834c77",
+      "size": 1645
+    },
+    {
+      "path": "components/ui/select.tsx",
+      "sha256": "d1e1afa0f786480f158ab55eaa941c2741718af64a6630abbe71f214a290a6f4",
+      "size": 5795
+    },
+    {
+      "path": "components/ui/separator.tsx",
+      "sha256": "13800cad87fd7d9651a4b5cda229365d2aef23618e28cdb4f3636b94c28697b0",
+      "size": 804
+    },
+    {
+      "path": "components/ui/sheet.tsx",
+      "sha256": "0392d4b4bef1177c0377b2abb4590625485f1c496e0ca1f116b456dc00c94cdf",
+      "size": 4420
+    },
+    {
+      "path": "components/ui/slider.tsx",
+      "sha256": "58a376350339a866b1b24d4425f3b0526e92dcd94a400112944dc6cfdc7b926e",
+      "size": 1119
+    },
+    {
+      "path": "components/ui/switch.tsx",
+      "sha256": "1684002a22f81e09e16d123af01bb6d32e559ba81d540cbfecb770b1e451f5cd",
+      "size": 1184
+    },
+    {
+      "path": "components/ui/table.tsx",
+      "sha256": "54bfa4489e6dc84dceb294b63023bb352c6c446c019c67230ce6f1dac76e3713",
+      "size": 2882
+    },
+    {
+      "path": "components/ui/tabs.tsx",
+      "sha256": "6537bfc9f4f76099dcd2708fd4c94ed452403221d995a2f500659a24f196e56d",
+      "size": 1955
+    },
+    {
+      "path": "components/ui/textarea.tsx",
+      "sha256": "83006d74aba92e1ce0f743aebc9af2d170710bdf48ba3697fee876f3c8bbc5bf",
+      "size": 766
+    },
+    {
+      "path": "components/ui/tooltip.tsx",
+      "sha256": "8efa92cb7e535e853507a4a382d15636536475cf11ecefc96232072371ec206e",
+      "size": 1190
+    },
+    {
+      "path": "components/user-nav.tsx",
+      "sha256": "f7458203df58968db9bdf85c011d0e1942d7dbbf531f4942f1a0213a34a8c2e9",
+      "size": 2131
+    },
+    {
+      "path": "docs/DEVELOPER.md",
+      "sha256": "2d945d6d8afca61f5ac3f0d6a3d8d58e66414bf77482eab746a20047fba04445",
+      "size": 3233
+    },
+    {
+      "path": "docs/INVESTOR.md",
+      "sha256": "37c203b372399e09bb26e0d5a226b5c3bcccbbcf8c2340a0a05687850c4ea587",
+      "size": 2486
+    },
+    {
+      "path": "docs/production/00_INVENTARIO_DE_CIERRE.md",
+      "sha256": "4ef6dd10263aace09c774c2e8ffd2318177a9c5578cb554e144cfda730260da4",
+      "size": 55180
+    },
+    {
+      "path": "docs/production/01_04_06_CONTINUACION_2026-09-28.md",
+      "sha256": "c4477e75e2ebe9e3e7f67fe4e74df1d77cc01bb962aa081ba34abb3a2b39a048",
+      "size": 18386
+    },
+    {
+      "path": "docs/production/01_DOCKER_DESKTOP_VERIFICATION.md",
+      "sha256": "e5e955128cc7701b89e5714e831ed8a1c66657f971a30811eefb3d45559a3784",
+      "size": 7628
+    },
+    {
+      "path": "docs/production/01_STAGING_RECONCILIACION.md",
+      "sha256": "9a3f2e7431697b268bfbfbefec0d1420638521874cc1b504b1127c0775ce2f3d",
+      "size": 19510
+    },
+    {
+      "path": "docs/production/02_04_VERIFICACION_LOCAL_2026-09-27.md",
+      "sha256": "1d797255eaa3bf899a97c9ae1b49916325a6105222d51988ce797059c53c4535",
+      "size": 9968
+    },
+    {
+      "path": "docs/production/03_RECETAS_ACCESO_RAPIDO.md",
+      "sha256": "55637ba6468c1f4143f2ba5db68c9148073116909314a51185322ca85b80798e",
+      "size": 8666
+    },
+    {
+      "path": "docs/production/04_RETIRO_FINANCIERO_PARCIAL.md",
+      "sha256": "a00c98988d4a91f5e45ba22bfc338663745baaa932494137be436448ab0b339c",
+      "size": 21876
+    },
+    {
+      "path": "docs/production/05_12_AGENDA_RENDIMIENTO_LOCAL_2026-09-28.md",
+      "sha256": "4d92169047043fda3767f6b8de585b84f80b9ac203e1fb92b7ba5e42c21785f5",
+      "size": 18942
+    },
+    {
+      "path": "docs/production/IMPLEMENTATION_PROGRESS.md",
+      "sha256": "c921598caf7dbbd4157c1d4497618be06ddc6723323482b3d774fa5fc40dabb3",
+      "size": 12209
+    },
+    {
+      "path": "docs/production/PLAN_DE_CIERRE_PRODUCCION_2026-09-28.md",
+      "sha256": "1257886748bd81ab35a94a2d1db99327e0a51f703173af393d09ae295e968b75",
+      "size": 54534
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/catalog-comparison.json",
+      "sha256": "93c69f6aa8be2e2cc708db809a342dd991bf0093bd6f55eccfd61c6fa02abc6c",
+      "size": 410171
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/catalog-diff-unclassified.json",
+      "sha256": "c1016d00108474cd2ed5b6a796d5adbe73f3fa6d006aa22c06ff683da762ef2b",
+      "size": 406538
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/catalog-expected-differences.json",
+      "sha256": "88b5e58d65c1defe4a9ecdc5e3d44e0b7ae524e3bdb53871c8666c852c094208",
+      "size": 21592
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/catalog-prod.json",
+      "sha256": "de01925e9693c8f106c139cee841e5c996262e6e83e297ec35292c675d383a63",
+      "size": 437700
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/catalog-stage.json",
+      "sha256": "934794453ec8c092b0675c91eeb484a1ce033a44b19284ceb5eacc8c5730643c",
+      "size": 315021
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/migrations-prod.json",
+      "sha256": "b257282b4378049afe6713e794ca63955a0193a7b6913678512080e20ee86e34",
+      "size": 5382
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/migrations-stage.json",
+      "sha256": "b43fb4935f4006b22efed3f63c20a47ce91132e451650610c93eaabd0a20a911",
+      "size": 1034
+    },
+    {
+      "path": "docs/production/evidence/2026-09-25/staging-row-counts.json",
+      "sha256": "67893e90911da7b9c39b30cbf30f01bbb90a098100c22572654b1c1506f08104",
+      "size": 1942
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/local-verification.json",
+      "sha256": "49dd5359beb547fe58b5052686a56f7700d480ccd28a0b13d8431c84a4898e0b",
+      "size": 1512
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/source-manifest.json",
+      "sha256": "c1215c2a1ac3590cd29e6f5138e9147b44d2ba7de8075b7894169d638623379e",
+      "size": 3591
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/staging-view-boundary.json",
+      "sha256": "21af3df17f7ec8c888cb2a562020cfb5d393c97017757abbf48a9e62ef7cce2e",
+      "size": 6275
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/README.md",
+      "sha256": "9b941d3b4d620d8eb765d920edff537d7fb8b601d71429c2dd8fab7f93a0d416",
+      "size": 4499
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/auth-matrix/execution.json",
+      "sha256": "5ff5a8fb978f0640c7b1c6626e1bad71244c84c4674759de3fa8a10ce3c900ac",
+      "size": 30041
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/auth-profile-state/execution.json",
+      "sha256": "6df09a93173a1f1c8e37756ba88282ebccad69980cb2997bbdffda74607ec56c",
+      "size": 2986
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/auth-rights-continued/execution.json",
+      "sha256": "92226705a6b644aeeb33926e06db5d8fb6f426210d9f07024735a1bfd783516c",
+      "size": 974
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/auth-rights/execution.json",
+      "sha256": "a10d3659d383411e0329889b5a76e584c1f4c29b184f9619b472d9baf0e049e2",
+      "size": 1966
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/capture-scoped-dependencies.sql",
+      "sha256": "89c49aa4191a90ea9976d2185ea02f2000128542816ac93f668c9c3e7c592c48",
+      "size": 2134
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/capture-scoped-metadata.sql",
+      "sha256": "2c41c5b1ab7751c4d0bbd1b8aea3a0c3e64dfc23adfd4a6e809bbb074a6cb344",
+      "size": 9174
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/catalog-prod-dependencies.metadata.json",
+      "sha256": "e6b2b5e393491ce5e62c0dc95c9a891bc62b3af14e3696931dca54f76fec3838",
+      "size": 249806
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/catalog-prod-scoped.metadata.json",
+      "sha256": "1b397bcc4406826a3fcb04bce060e1e62658f2b450a1ab9ffe67364b32aa744b",
+      "size": 355634
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/catalog-stage-dependencies.metadata.json",
+      "sha256": "1b90bac1f37f1e7b75b0f0724fde690902778ba4756cde7186883543f10255f2",
+      "size": 132577
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/catalog-stage-scoped.metadata.json",
+      "sha256": "a2716b554df9b2fe09d732123d089470f9aa32a56702441833e446ab1280e013",
+      "size": 215716
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/column-contract-differences.json",
+      "sha256": "d382af77aa44ae0ff73afccf94a3423a7dcb661d2f3be812cfffa5b7335dca3f",
+      "size": 17094
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-contract-tests.json",
+      "sha256": "ec15e49d597e4eaca40ff9351770706c1999ac89faf7954359212cc067feae10",
+      "size": 541
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-source-manifest.json",
+      "sha256": "05cc306b81b265d472ed6bb5d1d0dd6213446075a027afc9a21410340a410b79",
+      "size": 3814
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-ui-verification.json",
+      "sha256": "c386daed70aa728cad435ed4addb982a13ccc505c7d8092dc20c13e6746fe037",
+      "size": 2181
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/execution.json",
+      "sha256": "9f0908a0ea898d9f346498f5afd375fae5a19329270c5de26c0d4d72a80ce33c",
+      "size": 8620
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/stage-verification.json",
+      "sha256": "bb92c8f1a9bc5c095a7980b19b11d8c80a029c24175a56508e79ab831042a55d",
+      "size": 1150
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/stage.metadata.json",
+      "sha256": "7c8d142454b907d5f6d12430d54d06d4b970d3fa2f12e89cf003a70d98dfc830",
+      "size": 210454
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/execution.json",
+      "sha256": "6f435a49debc9ba0359f844c66ab58d7e5fc3f8719ee8774ee4bc3a1578f9b02",
+      "size": 10105
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/http-health.json",
+      "sha256": "84a38171ca57ff1801e2a6908c26aabdf3c1decba7b96c1bb959ef06d7995d7c",
+      "size": 459
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/post-m7-observed.json",
+      "sha256": "7589536e99edcf3c9d8e7bf2ef7c2ae91c72a20623ad4f31aef9cf21a4838f22",
+      "size": 414
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/prod-verification.json",
+      "sha256": "7a14abdbf598a1ac89f19d08bed974395930b0ebc523d2ad0fb5f28bb97ed5c7",
+      "size": 292
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/prod.metadata.json",
+      "sha256": "e0d06d79e8e8222f169ac9f00382933fd8490f156163a7603b8b12f2d4e13488",
+      "size": 328310
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/stage-verification.json",
+      "sha256": "3de654038f302b65ebd6471a1f51456f0415cc396814319553fb132aec35d6b5",
+      "size": 430
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/stage.metadata.json",
+      "sha256": "db06db2efaaf826f2bb5e6f645b32463cb9ff5fe73f84a0cd7b81920641b61b8",
+      "size": 210454
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime/execution.json",
+      "sha256": "3172de19c3f3d2dbfad19e3d2b88c3435042e936baa5c4497e82b55433e1f103",
+      "size": 8013
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/execution.json",
+      "sha256": "51ea36160195b2661a00fc26ddedbb393cec437db27900f2f4d4865748a1e434",
+      "size": 4592
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/closed-differences.json",
+      "sha256": "ef4fa6c04b0c3f0e507dbd089cd22a449ba5391ce86d52df078fc24c531656cb",
+      "size": 9209
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/contract-comparison.json",
+      "sha256": "90a7e7e57ebc617e88d1a298a251a4b02a01c94343d6b086ca484e0f90f3f8ee",
+      "size": 192
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/execution.json",
+      "sha256": "b068e9e66c76077387135dd7742ab2b7d5e0d3e308ee3a9ea7979b5f2417cdfc",
+      "size": 16246
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-after-containment.metadata.json",
+      "sha256": "8e26eb8c628cd5c7dfa9ab2ccac7111bf73db4dd45ebfddb3a9bf4249b9c9b0b",
+      "size": 359002
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-final.metadata.json",
+      "sha256": "a6f779417ac405e9607c12092edeb30127a8223282d38167b871bc1293c4cc6d",
+      "size": 359002
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-after-containment.metadata.json",
+      "sha256": "c9d31cb22f5bb75ce43e38f7736326c92baa749e739f50b9aef5ceedaea029b4",
+      "size": 309482
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-final.metadata.json",
+      "sha256": "68ce999d538874624801048cc2f5733fba941297f7b64d9c3b596e2b42082c5a",
+      "size": 309482
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/closed-differences.json",
+      "sha256": "ef4fa6c04b0c3f0e507dbd089cd22a449ba5391ce86d52df078fc24c531656cb",
+      "size": 9209
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/contract-comparison.json",
+      "sha256": "fdb1d07457d1c719908a4d7f261eb03c10910dc585d6e54eddc3ff9e615ee4a8",
+      "size": 192
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/execution.json",
+      "sha256": "970ca7fa33fe6c41d1888ddc42ede88a25eb38b74624f64aa432c079184ec43c",
+      "size": 17580
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-after-containment.metadata.json",
+      "sha256": "dc404d22204f75c75c4f31eb23ebd8e583f393fa40b234769e9edd840b6fd169",
+      "size": 359002
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-final.metadata.json",
+      "sha256": "ef4ddffb9b0ff242e5c5474db57917f7a6fbc1a86819558456f2bea1e76bdbf7",
+      "size": 359002
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-after-containment.metadata.json",
+      "sha256": "5169676ba094ae1e4c7831d3eb31512f7d2642b9d6ae0a276a317e67f1d393c1",
+      "size": 309482
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-final.metadata.json",
+      "sha256": "6c9a31c239d962edfba96154c2636e0bbf070668d35520b25b316c17c1dd4713",
+      "size": 309482
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/catalog-fixture-prepare.json",
+      "sha256": "58e1289219a718a872eb180b201e9ee31a703f44b5eca8dbd113e5de10b66948",
+      "size": 327
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/catalog-fixture-verify.json",
+      "sha256": "c970ab98df3d1afad8c1f608de9ab3edd7a290a1b8c11ba59130eaa4d9e83960",
+      "size": 337
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/informe-operativo.pdf",
+      "sha256": "caeab24578a29c2701e3bf90ed308352259dec72e553e839ab825fa2ce30bec8",
+      "size": 15924
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/informe-render-1.png",
+      "sha256": "39b8d1d8b81bb6d87d42b1d596dde9ee82113fdbb30db15a8832bf1369889508",
+      "size": 61955
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-1/execution.json",
+      "sha256": "d05d91608823243924aa75c35625a4faee1ace65d0424c6ad19ee65cd5b740c1",
+      "size": 7705
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-dark-bottom.png",
+      "sha256": "b79e857305e498e5ca2bd6dd7aeabd65f08cc58fa4c2c02b6b3a786f6aedd739",
+      "size": 25856
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-dark-stable.png",
+      "sha256": "28bc9a63377623b33dd09653f0f5267cb2fdc60b62f026d986564478a707a027",
+      "size": 25337
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-dark.png",
+      "sha256": "348886f95109e4702d917830a13db740fe9ae93ef5a9dec5c3010faebfd06a27",
+      "size": 25421
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-light-bottom.png",
+      "sha256": "f651a445630a17487caf32f26e873ca00a11837ce299a013669fd541ae0e6c8a",
+      "size": 24388
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-light-stable.png",
+      "sha256": "bd3f5aac4c074d5c1619b49c33eae296a378833b6b1013abb44d3746d4a6e222",
+      "size": 24121
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-360-light.png",
+      "sha256": "54797945dcf72d328a35501a198b08e7aea9fd578ab0bbdeab383460a83a4479",
+      "size": 35801
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/source-manifest.json",
+      "sha256": "afeee2d5622b17cb7822bad1da15947c579bc138fe6a343cb5bfc01cc2fc7589",
+      "size": 5676
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/treatments-360-light.png",
+      "sha256": "0e7cbeea0c42b9b3af9c2630d952c96c2f593d3d8ef377ea674e659b593f5f86",
+      "size": 22203
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/verification-summary.json",
+      "sha256": "07c1d70b31bcaf17ae907a8159b4df912e18b61a3170e1da883bf4e308d5647a",
+      "size": 11835
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-catalog-before.json",
+      "sha256": "529c8e8e3a3c3d351946f7548e02b504b657d9dcbbd0610b96b27b2e81329c41",
+      "size": 1684
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-guards-before.json",
+      "sha256": "f47e5e8eebdefe03db9bfe912e033bf3527aa635c0da3aff08d889db35712a5f",
+      "size": 2330
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-runtime-02/execution.json",
+      "sha256": "472ff0d509c652d7865d13b042b1e874cac244253c0ba4f93fc38574d2789325",
+      "size": 11959
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-runtime/execution.json",
+      "sha256": "6492df84811696bca46005c308840e1e9f4837caf26c53a17b1e85919ef88862",
+      "size": 8612
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-state-after-resume.json",
+      "sha256": "30c4d2e463d6b76c9f32e226d8b32895d532fdeb44ecf6a36fafc4b194ff1356",
+      "size": 104
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/api-latency.json",
+      "sha256": "1ed315b49bad363cc5c32ee33cb26703807317d5609cdfebd9c285a0a9b4ffd7",
+      "size": 1955
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/calendar-final-1280-light.png",
+      "sha256": "224af6ca836fbd3eb019f3a01cc3aa4fcde42862b20cc7a59653abf3ada43f00",
+      "size": 48114
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/calendar-final-360-dark.png",
+      "sha256": "d6b584e127e25d85661336b3675b7a9ef7488b5ad05d7375c7de6f39399df1fe",
+      "size": 13896
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/calendar-final-360-light.png",
+      "sha256": "94463ab99e397fb4c36305f39d62686c747e44bd703fc85ff085148fe2487adf",
+      "size": 18204
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/calendar-reception-360-stable.png",
+      "sha256": "7894f9ae440064852ddcf237f76869a1ac916862676a0ceba1dff23eba1be951",
+      "size": 18380
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/calendar-reception-360.png",
+      "sha256": "c60fe66451bc45adad4766734a292407291b23ed0bc8f53c159c5024a597fe9b",
+      "size": 30069
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/host-after.json",
+      "sha256": "4243d8430fbe44ab555f24f74e1802ec98cf1c4fdc30ef6bd50e2ee1f3a473f6",
+      "size": 108
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/landing-final-1280.png",
+      "sha256": "5df64ba8c27e5e3a2d3c1a79ad2e1e2f37dee4da77e93951f46b9ab6fae0812d",
+      "size": 107463
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/landing-final-360.png",
+      "sha256": "923191867735d8447fa12769f82c27d5963d0da661ad2ed385cb51496522a86d",
+      "size": 90565
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/receta-sintetica-lazy.pdf",
+      "sha256": "30aef71b2446785b017390fffbffd0dc86e61f5d8b16ca3d6dfbf547d3fd133b",
+      "size": 6417
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/source-manifest.json",
+      "sha256": "1dab115b74f226bbae7ee8071a03fd46943e25ab63168fbe26fdb5ed3efb3196",
+      "size": 5679
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/verification-summary.json",
+      "sha256": "0b228340dad7da7d8d0c91e2d2d813c4be0f53120d284963f6ebc7d4cef188ce",
+      "size": 16118
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/container.json",
+      "sha256": "b4c6fca372242164e4117d298b55ecddd5b3121781e70da0ba5f630661d0d5f9",
+      "size": 1497
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/daemon-listeners.json",
+      "sha256": "1b2476b4dfbe4c6f2287b57e7ab876c6763414cbf7c0313199c2975b8512dfe4",
+      "size": 94
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/final-state.txt",
+      "sha256": "0766cbbee949b04b8c8a9ea46537dc38ccf0b7aa7b60ecd4083c247388603095",
+      "size": 8
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/image.txt",
+      "sha256": "795a4d8c33e96ba5d3fd25e5a5c6221904cc0149030692781298642187cc6e86",
+      "size": 82
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/legacy_clean.json",
+      "sha256": "d1957751939bde6f8ad08ae6bf7621ae142477587b3ba0c22ffb315113e62f55",
+      "size": 310
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/legacy_schema.json",
+      "sha256": "9d1c455fd416a78adf924952368bcb179e921533716e7344814424968b913c23",
+      "size": 209
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/network.json",
+      "sha256": "4d2f8f6c0c57588c7ad4d0daf2e5e1ce73835e7a84610a845e97eb4a20366a75",
+      "size": 37
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/results.json",
+      "sha256": "67eadaace460b8c84e0d44bc3d21fd9a6163d1603c183a00c42bc520435c9ba5",
+      "size": 486
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/synthetic-convergence.txt",
+      "sha256": "6a65f7ecb7e27bccf0975559e76b89ed8033d88406d77519775b58cbf9ea3f51",
+      "size": 418
+    },
+    {
+      "path": "docs/production/reconciliation/encargo01_local_m7_owners.sql",
+      "sha256": "843aa4f398a3a8aadaa7b9a73309f787638ab6b8f5bece2d73f23bf224a39106",
+      "size": 2283
+    },
+    {
+      "path": "docs/production/reconciliation/encargo01_staging_view_boundary.proposal.sql",
+      "sha256": "7949c6628c17e655d27ec376b7e721518ea280dddc5495baab2c760991cf3fdc",
+      "size": 1195
+    },
+    {
+      "path": "docs/production/reconciliation/encargo01_staging_view_boundary.stop.sql",
+      "sha256": "375052d8ad2c3bbc70995df8be732441f0628e067b655f11143e8105246dcc78",
+      "size": 484
+    },
+    {
+      "path": "docs/production/reconciliation/encargo01_staging_view_boundary.verify.sql",
+      "sha256": "48770a6836a8bb4daf264b1a9bff06c156e557a411b4c6f29f0f1f666c3f1752",
+      "size": 1228
+    },
+    {
+      "path": "docs/production/reconciliation/encargo02/README.md",
+      "sha256": "af0efb77c43b029b327d3efeac55255f92d17c068e47fab8d8714d1179e7c7a9",
+      "size": 11792
+    },
+    {
+      "path": "docs/production/reconciliation/encargo02/acceptance-cases.json",
+      "sha256": "6f54bf4d4e6a996136cfd3a3ca32e0cd76be1e6ac5e97f178faa37b7568a8845",
+      "size": 10620
+    },
+    {
+      "path": "docs/production/reconciliation/encargo02/containment.sql",
+      "sha256": "56e52fa7aed7ced784f16423b180eb950865f5ccacea90ad7b5a95c087be8601",
+      "size": 3050
+    },
+    {
+      "path": "docs/production/reconciliation/encargo02/forward.sql",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+      "size": 58523
+    },
+    {
+      "path": "docs/production/reconciliation/encargo02/verify.sql",
+      "sha256": "e01c8c1c841c285824002564d6404c3d556e8b7441a6072c0c9e9199a79a07ba",
+      "size": 7483
+    },
+    {
+      "path": "docs/production/reconciliation/final-contract/verify.sql",
+      "sha256": "47df20b80c0661493d7d8e19ed5d77e144877b607c4e7672b85dde51b97ec3fe",
+      "size": 7558
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/README.md",
+      "sha256": "02258ab803ada7f8b6e6822a6044d689d590ae9ef21ffb43724dc488bd4edd0c",
+      "size": 4220
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5",
+      "size": 6355
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9",
+      "size": 29478
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/invariants.sql",
+      "sha256": "235d60b91fea04c462cf7fb7064de057e9b4f6cc89ba7d19864a01396f315d6f",
+      "size": 4762
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/proposal-manifest.json",
+      "sha256": "604dd892f9db9906467906c3019dbebcaac669a9e78aeb9f8358806a12573e04",
+      "size": 18147
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/verify-boundaries.sql",
+      "sha256": "79a5f2b8aada22b4a5fca7cb1fcb92d1e2205e0de6f4dee5d37f66fe6b8e0b97",
+      "size": 1557
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/README.md",
+      "sha256": "8f8ac07892b1022c47f6451afd24b685ad492d857d08396d4c7d3030f7e1ef3a",
+      "size": 9944
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-deny-v2.manifest.json",
+      "sha256": "2dd028ae33330ede68c0272a3725d3015f591c2db1717666168ecf1a5b102d6b",
+      "size": 1688487
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-deny-v2.sql",
+      "sha256": "d4986b8ea32454aa4428795ec1b4730c8633e5e0f61eee695744ceffb672cf7c",
+      "size": 161977
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-deny.manifest.json",
+      "sha256": "1c21eb994d2846c94094e3db456652bda118961f3befdc428b6e0c56ad3c01ac",
+      "size": 1688378
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-deny.sql",
+      "sha256": "d4986b8ea32454aa4428795ec1b4730c8633e5e0f61eee695744ceffb672cf7c",
+      "size": 161977
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-observed.manifest.json",
+      "sha256": "687af0e5a5075f8d85de552d164be7118ec616b7661c44c733f45fc9ed3cd117",
+      "size": 1672555
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/prod-observed.sql",
+      "sha256": "ef74a4f8893e77e27f1cfe30b92d0da4511b7a0edbc2fc18601a34706e78189e",
+      "size": 192140
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-deny-v2.manifest.json",
+      "sha256": "7bdf03c137e619ad107d453e695bd159e13fdf4c3c1201bbe0a4ecd193b4a179",
+      "size": 963414
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-deny-v2.sql",
+      "sha256": "0ede1a15c5c98437a40fe26f6060f4b769ee97113333d9451053f1d45b05d3b4",
+      "size": 71498
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-deny.manifest.json",
+      "sha256": "7d97481b442262c10aa33bc83a7225594ee9d5004cf33fa4d14f46fbe6725b4b",
+      "size": 962868
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-deny.sql",
+      "sha256": "0ede1a15c5c98437a40fe26f6060f4b769ee97113333d9451053f1d45b05d3b4",
+      "size": 71498
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-observed.manifest.json",
+      "sha256": "92df3a1809d2ca3fd1182f83303b0809c380882aa5b505a0a49e491daa4f2694",
+      "size": 950957
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/stage-observed.sql",
+      "sha256": "7b710ade74c2583912943485635aae77c8ce7b40f518adb583d6d3b707991cb7",
+      "size": 84723
+    },
+    {
+      "path": "docs/security/2026-09-19/coverage.json",
+      "sha256": "dfa46117e916f43a8068d9f42c61d6d2f41a9b0916868983646795b90e822ced",
+      "size": 22283
+    },
+    {
+      "path": "docs/security/2026-09-19/findings.json",
+      "sha256": "0787c3651fd7e30fe39ae53e504ed1a8867d14a96fa814d5c0d9d1352931e409",
+      "size": 63965
+    },
+    {
+      "path": "docs/security/2026-09-19/report.md",
+      "sha256": "2af96f586e43dbc7b24b4f8c54f16ab5901b85b989d89212a279b5e165d941b6",
+      "size": 91615
+    },
+    {
+      "path": "docs/security/2026-09-19/scan-manifest.json",
+      "sha256": "5cf723bab8758988b43a8407a58fc1ef03def52f631e31dcd15787b7e829c1d1",
+      "size": 9825
+    },
+    {
+      "path": "docs/security/2026-09-22-live-catalog-evidence.json",
+      "sha256": "fd57420daf5b2cc6979d5ab9e6b4634b07e677f6273a8972663483678460151f",
+      "size": 40287
+    },
+    {
+      "path": "docs/security/CANARY_ROLLOUT_AND_RELEASE_GATE.md",
+      "sha256": "2f84ea02e4929a57520833464a51227fe67f9e838fc71e6c1cb171b2a9adf2b8",
+      "size": 16914
+    },
+    {
+      "path": "docs/security/CLINICAL_UAT_SPECIFICATION_AND_SIGN_OFF.md",
+      "sha256": "c7513b2a49b0c973791f719c02422181e0a5cb21feeb4669b66a89239520106a",
+      "size": 13382
+    },
+    {
+      "path": "docs/security/DR_DRILL_EVIDENCE_LATEST.json",
+      "sha256": "4ebbb2a1c8c5bcbdcc98630752fad494f34b65c00808671fc0b30e8f92dd3fb3",
+      "size": 1317
+    },
+    {
+      "path": "docs/security/LOPDP_COMPLIANCE_AND_RETENTION_STANDARD.md",
+      "sha256": "afea31fc4834b53be93bcbf3694953920b7b0ba0c3b6824458519f0f8a5926bf",
+      "size": 13997
+    },
+    {
+      "path": "docs/security/M5_LIVE_EVIDENCE_2026-09-22.json",
+      "sha256": "f1a056c9fe248b2d761d5d4bba5a918fcca02c5958b0a15c9215bf0abde0d884",
+      "size": 43496
+    },
+    {
+      "path": "docs/security/M5_VERIFICATION_AND_NEXT_STEPS_2026-09-22.md",
+      "sha256": "58469aee9b674f38bd73662537f203bf43f2fa308fd113edf8c8a6b372ad0b6e",
+      "size": 12444
+    },
+    {
+      "path": "docs/security/M6_PRODUCTION_RELEASE_GATE_2026-09-22.md",
+      "sha256": "c620fa26abd0ec1bd73d37e3ce882c399e0748b98b08a77bea76d91bd6b67135",
+      "size": 9281
+    },
+    {
+      "path": "docs/security/M6_RELEASE_GATE_EVIDENCE_2026-09-22.json",
+      "sha256": "502a36c35f65e17311005f9a09d79b08193c05f9426930c88a134cc48f77189b",
+      "size": 37033
+    },
+    {
+      "path": "docs/security/M7_PRODUCTION_ACCEPTANCE_2026-09-22.md",
+      "sha256": "dc51ea0e3d0782a1a207b9a6f1beaa120b7a01e39b2d32416aad04871b01fac7",
+      "size": 5530
+    },
+    {
+      "path": "docs/security/PRODUCTION_READINESS_REVIEW_2026-09-22.md",
+      "sha256": "3376c15a7f991fd2f5fa9a1a0ee5737d18d641552187b2f5b45750c6a76a0757",
+      "size": 19478
+    },
+    {
+      "path": "docs/security/REMEDIATION_EVALUATION_REPORT.md",
+      "sha256": "2bd78e713682e7dc6749359a3ca1ef5c5fb1a2e6af553c39bd7a82b82f527523",
+      "size": 33894
+    },
+    {
+      "path": "docs/security/STAGE_MIGRATION_CONVERGENCE_EVIDENCE.json",
+      "sha256": "ab5d30c89ea8d4af06d459274201518988f8d345cbe57f7608b0078d65f98fe4",
+      "size": 8128
+    },
+    {
+      "path": "docs/superpowers/plans/2026-05-01-core-clinical-phase1.md",
+      "sha256": "2c1a09b26a009b9c5cddaeb4a5823483e35a5632c83010b233d35daabc1531f7",
+      "size": 8890
+    },
+    {
+      "path": "docs/superpowers/plans/2026-05-01-phase2-financial-hub.md",
+      "sha256": "20c0e0391777ca2a595c3b69c3b387c088be57a06c21c0e353d566795f72e8ec",
+      "size": 5671
+    },
+    {
+      "path": "docs/superpowers/plans/2026-05-18-dark-mode-readability.md",
+      "sha256": "73aea357014c2e60ec1af7596d84ba924586677fd57f89f46dde6beb8bcc3c96",
+      "size": 4726
+    },
+    {
+      "path": "docs/superpowers/specs/2026-05-01-core-clinical-phase1-design.md",
+      "sha256": "b804ed6fbc6147deac2605d16e57703680b5060557ce6f8d4945efd61ace8580",
+      "size": 2593
+    },
+    {
+      "path": "docs/superpowers/specs/2026-05-01-phase2-financial-hub-design.md",
+      "sha256": "67c6d08a4cec5cf3f8e46809c2e5c1194697cfa1f0995ac7e0936c99bea7f162",
+      "size": 2167
+    },
+    {
+      "path": "docs/superpowers/specs/2026-05-18-dark-mode-readability-design.md",
+      "sha256": "cde9e1985ed88e0c9a5a6291761bce77163cf3f61a26bee00061009751ef5cb9",
+      "size": 2495
+    },
+    {
+      "path": "emails/reset-password.html",
+      "sha256": "a62f885e156b3228b3a4edaaa4c23584f6ed9a709f8011b9482d5ac9f7d9301d",
+      "size": 2372
+    },
+    {
+      "path": "emails/signup-confirmation.html",
+      "sha256": "2bc2be8c0e400bc601c5d25da7ded26bc8c2bb96e0baea82b7b7b69f0ee74b3b",
+      "size": 3209
+    },
+    {
+      "path": "fix-dark-mode.js",
+      "sha256": "8a658a04e5a2d86412d81d0d42da302a9be97c3855926133f74c48dc1ca1b801",
+      "size": 1981
+    },
+    {
+      "path": "fix-role.js",
+      "sha256": "c8f7d97740a6c0acd3d2bc2c74f3e9398fc192a2cd01f0f9b949f7c55effb2b7",
+      "size": 1876
+    },
+    {
+      "path": "hooks/use-app-data.tsx",
+      "sha256": "02d97a049838119bfea49e650eeca50a26496c7285e116b39dfd2191cd2a9d4c",
+      "size": 4089
+    },
+    {
+      "path": "hooks/use-dashboard-data.ts",
+      "sha256": "35e2e216db32c55f2b3701e07d9ce218e89191dd32d173753843abc58bc224a3",
+      "size": 2740
+    },
+    {
+      "path": "hooks/use-realtime-notifications.ts",
+      "sha256": "8d74317f964a83cd767397fb51d05fef61e802385c7486c62e658488f53097cb",
+      "size": 937
+    },
+    {
+      "path": "lib/agenda.d.mts",
+      "sha256": "87d4bd3f5b440182970bd2b531db94178b98afd5e7bbd83e06f258f60e6f2a39",
+      "size": 2102
+    },
+    {
+      "path": "lib/agenda.mjs",
+      "sha256": "75d0103fb51120ee2ee294de76cdc889d27631838994e4200033cfb5b8eed701",
+      "size": 7384
+    },
+    {
+      "path": "lib/calendar-conflict.ts",
+      "sha256": "1357c1df8c057439b26858b3861070420f3e1c4d3814dd9a68bce8424da51a34",
+      "size": 2184
+    },
+    {
+      "path": "lib/clinic-authority.d.mts",
+      "sha256": "c2a0389efed0b8d942a6596e84044fc434263c73da67e14f57c786cca711cc51",
+      "size": 402
+    },
+    {
+      "path": "lib/clinic-authority.mjs",
+      "sha256": "4a3d92f2fab6883dca31c7ebb51a9642e48c8888d838e3618effa8d15652a69f",
+      "size": 780
+    },
+    {
+      "path": "lib/communication.ts",
+      "sha256": "af7d3d16d242dd5a6994932b397fa2fa7fd2b8867a0a24a32938d0aafb06b65c",
+      "size": 905
+    },
+    {
+      "path": "lib/constants.ts",
+      "sha256": "feb12d7f0b2fc1fb5fefe9f7796f986bdab31701185b37df6940914806665ba3",
+      "size": 472
+    },
+    {
+      "path": "lib/env.ts",
+      "sha256": "adfaf8330d001cbee6be3470fe947b32ee56204c7a4268facadb89ca0775d946",
+      "size": 4545
+    },
+    {
+      "path": "lib/invoicing/index.ts",
+      "sha256": "912fee50ffb3dec30a320fd991efea87cdfd216e385b0101c1b661b271c22d53",
+      "size": 471
+    },
+    {
+      "path": "lib/invoicing/providers/mock-sri.ts",
+      "sha256": "6695bf02cd449763381d7d5fce174b2b093692bfedfde5e65fcd550ae2f6afd6",
+      "size": 2430
+    },
+    {
+      "path": "lib/invoicing/types.ts",
+      "sha256": "8b9b61f8d39791e62dc269380b655b5f1789f65a3afea9b8c23a3549fcb5a7e5",
+      "size": 1441
+    },
+    {
+      "path": "lib/kushki.ts",
+      "sha256": "1f0d515fea721bb89d46e07ae7d1a1f92cfa817ff30fe5c477c6e242e1b694be",
+      "size": 2311
+    },
+    {
+      "path": "lib/logger.ts",
+      "sha256": "b55a50f8652d464f585833c4216ae8a545c2bf5f7a55a02f61fbbe76d78340b1",
+      "size": 5108
+    },
+    {
+      "path": "lib/notifications.ts",
+      "sha256": "607617a02fdadc47c9018c20bc1b1ad50687fd154565c5f02d3c95248b17557d",
+      "size": 1269
+    },
+    {
+      "path": "lib/operational-reports.d.mts",
+      "sha256": "09cf948e72788db7d54f3414b022c328bec98b40bd3bde4c7f64c2a6ee004aaf",
+      "size": 811
+    },
+    {
+      "path": "lib/operational-reports.mjs",
+      "sha256": "9f413fd578245bc77af7488d595e7a207ede735b354e065b32806cf61da61c56",
+      "size": 2549
+    },
+    {
+      "path": "lib/patient-demographics.d.mts",
+      "sha256": "877a837fde6a88c6f6181ec6a6228ad0d002689dab1b6debd768434e17894b5a",
+      "size": 1405
+    },
+    {
+      "path": "lib/patient-demographics.mjs",
+      "sha256": "79d3fba30ff98f8e1403e64b5d0a10c248ef202d6cc15fea666610c504f1a65f",
+      "size": 4131
+    },
+    {
+      "path": "lib/patient-detail.d.mts",
+      "sha256": "75e7a304009ad3d0ffb3edc1bf04a2e06f1a57345c92c2acd9d2965479912355",
+      "size": 1406
+    },
+    {
+      "path": "lib/patient-detail.mjs",
+      "sha256": "92e0caf19bdb04bb2231b67da8087892f93c163de4a384cccb03be83879e5247",
+      "size": 2464
+    },
+    {
+      "path": "lib/patient-utils.ts",
+      "sha256": "4e0f3eff2bd6d6c0ef9da99bda33fbefc2eaaaa4527dd6db7ee6484f71da1f57",
+      "size": 7575
+    },
+    {
+      "path": "lib/pdf-client.ts",
+      "sha256": "6f0ca39932b2832c70f8af5fa59c59634b00526c35cac341f5f0fd7fcd9ea9e3",
+      "size": 563
+    },
+    {
+      "path": "lib/pdf-generator-budget.ts",
+      "sha256": "3f72677a4b176658266598b4c65e7381b8b3c0e6226ed347582969f728c449ac",
+      "size": 4259
+    },
+    {
+      "path": "lib/pdf-generator.ts",
+      "sha256": "ea7399591fe4760ec630407cbf7616c9cb82902fbf83628b318deb5467cf6bb3",
+      "size": 25633
+    },
+    {
+      "path": "lib/prescription-policy.d.mts",
+      "sha256": "0394bb859870d8e19a8366449b32bd675d41963b771781ee74d1182f0b72ced2",
+      "size": 1317
+    },
+    {
+      "path": "lib/prescription-policy.mjs",
+      "sha256": "74047895197561c44f2786672cbd05235a888f56706b5f6daa1c6bb3c9aea194",
+      "size": 3431
+    },
+    {
+      "path": "lib/recall-service.ts",
+      "sha256": "17a7b8122ae2b495895857eb47fd131de87dad15043e894c346c2b6199164480",
+      "size": 717
+    },
+    {
+      "path": "lib/reports-pdf.ts",
+      "sha256": "a0ab6d43dbf501a8f71b9792aa1d92d0ae9a5b4978a6241473ccde693fe9ee0c",
+      "size": 2327
+    },
+    {
+      "path": "lib/sri-service.ts",
+      "sha256": "a78a553c89616fa30b45b1553d6c4510e9cd6ce4bea2e941d91159720bc125f5",
+      "size": 4389
+    },
+    {
+      "path": "lib/subscription-plans.ts",
+      "sha256": "85272e1ac8d3b89f5f2133d8c316c5f5637f82d98f22cf9740a89fdfb05df7ef",
+      "size": 1367
+    },
+    {
+      "path": "lib/supabase.ts",
+      "sha256": "4fa84b1332e83ffe4f38a3c97a8fac0b2361d5f07a8733e1a16f7b1dab97fd6d",
+      "size": 385
+    },
+    {
+      "path": "lib/utils.ts",
+      "sha256": "76db4720b8835194b5bb3c6e4f1049914e39a24121dee582eca62039c8c16dfb",
+      "size": 172
+    },
+    {
+      "path": "lib/validations.ts",
+      "sha256": "928b558103a58d5f02a6d7d7c738bf5a866d3829160094ecb1ea9364bb17fede",
+      "size": 2167
+    },
+    {
+      "path": "lint_output.txt",
+      "sha256": "5dc0f86f3207651707f0309ef609bd5d13f3695790d056ba2f336cf938962f85",
+      "size": 1072
+    },
+    {
+      "path": "middleware.ts",
+      "sha256": "20c4bed05e3b4bb2561e1ed565f81d3bbd4b3ca949b686fa0f4ace0101f41780",
+      "size": 6512
+    },
+    {
+      "path": "next.config.mjs",
+      "sha256": "e821f4c8df32d17aee745e545b47aef6944257e6c63b224e03e2d59ccb4bfc9d",
+      "size": 2955
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "9f6f4ca5c2e007c6946e94315d927be3a1e2dab0b1323aabcf1721b51c338a14",
+      "size": 386407
+    },
+    {
+      "path": "package.json",
+      "sha256": "597905038dce107ba40abafa9f25ab42091aae1041529cb1dd7470c2d43334bd",
+      "size": 2767
+    },
+    {
+      "path": "postcss.config.mjs",
+      "sha256": "d190bb8d77dc60ef467780ba3c61e0c0af8b211743c44c12969ba99a41693045",
+      "size": 141
+    },
+    {
+      "path": "proxy.ts",
+      "sha256": "4fe86e843df47633e6b8dfc1fcd6029cb05069d22867c1050f9982a6183f0a34",
+      "size": 4530
+    },
+    {
+      "path": "public/apple-icon.png",
+      "sha256": "da678942d4656a903f61000551cc51c09464d7a223faaae304e8210e1ca19257",
+      "size": 2626
+    },
+    {
+      "path": "public/avatar-1.png",
+      "sha256": "f0f241e08cc4363c98daffd5a181624b57657aebe3a069623998f80bdefe3e78",
+      "size": 579374
+    },
+    {
+      "path": "public/avatar-2.png",
+      "sha256": "0388e0024703f52c944a69f42c1f36aa5cb721d977003874f36f1ff36c730e97",
+      "size": 602104
+    },
+    {
+      "path": "public/avatar-3.png",
+      "sha256": "3d8854440fa3b81fc03d798f3af5b1026f2f0277fab8e3a06cbdb17593af5c5a",
+      "size": 600429
+    },
+    {
+      "path": "public/brand-logo.png",
+      "sha256": "6f168f801cd4b6dc74942490552313a3235cd98a9b081ae9da5759685480f499",
+      "size": 162925
+    },
+    {
+      "path": "public/clinia-logo.png",
+      "sha256": "d14e5d51dbe4d85eef9ee84696ad8d563ebea0e8bdbf69b8a7f2469252594aab",
+      "size": 92666
+    },
+    {
+      "path": "public/dental-chart-3d.png",
+      "sha256": "149615c06a8c4c95622f6ddca52534061e06836063d4f2635065760a4e085846",
+      "size": 616929
+    },
+    {
+      "path": "public/grid.svg",
+      "sha256": "a2f8b2f8a578d31cbaa335ca2f5cfeb903c3560d09939244be03b916eef6d6cd",
+      "size": 151
+    },
+    {
+      "path": "public/icon-dark-32x32.png",
+      "sha256": "8a1570b2955c3748b6844356a7487d88c60f9f1e699e870a3452a3decd1ba03c",
+      "size": 585
+    },
+    {
+      "path": "public/icon-light-32x32.png",
+      "sha256": "83145e5bb033ace23cd8e7fbb63e7c39733aaf58f8a7280d7800995cced6f7c2",
+      "size": 566
+    },
+    {
+      "path": "public/icon.svg",
+      "sha256": "234f561c4db09781786f4d0b24b2ecfaf876e78544710573b046aaafead3fbe6",
+      "size": 1329
+    },
+    {
+      "path": "public/logo.png",
+      "sha256": "d14e5d51dbe4d85eef9ee84696ad8d563ebea0e8bdbf69b8a7f2469252594aab",
+      "size": 92666
+    },
+    {
+      "path": "public/odontologic-dashboard.png",
+      "sha256": "8e087552bbfb6a4d18a56aff7e0f5ce274f9ff4aaf22b3ad061c9da3b6575c42",
+      "size": 465134
+    },
+    {
+      "path": "public/placeholder-logo.png",
+      "sha256": "d7c39d978af643ba9525de6fb8171e0f834882db4110c82ecad0df3f4f69551a",
+      "size": 568
+    },
+    {
+      "path": "public/placeholder-logo.svg",
+      "sha256": "19a9e968f4656d52a4c249b4056117ad109370ba9da51cdc630ddded74cec73b",
+      "size": 3208
+    },
+    {
+      "path": "public/placeholder-user.jpg",
+      "sha256": "22be067d748175598a5e00123902f5c8332dd7f101de03dfb92ec08d85bb5e53",
+      "size": 1635
+    },
+    {
+      "path": "public/placeholder.jpg",
+      "sha256": "14be0c7aa11cca1e78f0966176b286a6d36d00ec64be027775dfeb33d8e2dfdf",
+      "size": 1064
+    },
+    {
+      "path": "public/placeholder.svg",
+      "sha256": "64badf7aabda0b9630b87020ffb6095cb858ccbcf66b355c2aa08b1063954d3b",
+      "size": 3253
+    },
+    {
+      "path": "public/robots.txt",
+      "sha256": "e5e727329c96b451a03bcb229d2950ef428afa48e62c37167a3aacf6c40b4688",
+      "size": 131
+    },
+    {
+      "path": "public/team-ceo.png",
+      "sha256": "afa697918ec477a28a5c0e6adc78c7e011f897b5ae6ad8c673e0daf523827f8a",
+      "size": 636104
+    },
+    {
+      "path": "public/team-cs.png",
+      "sha256": "caa57d0c0e98c558a59deedc6d7483029f7fbbed1279e694c985847c92c01a35",
+      "size": 724404
+    },
+    {
+      "path": "public/team-cto.png",
+      "sha256": "d2ca8eb8d837fedb40db985af34f79e43d966e874f42a9080481cc457e2c365e",
+      "size": 779037
+    },
+    {
+      "path": "public/team-group.png",
+      "sha256": "302c7c5380085679b83040b663146f9aa349df48a0a1848a602b4f7e8aa91ab2",
+      "size": 804317
+    },
+    {
+      "path": "public/team-product.png",
+      "sha256": "efaf83630ded6727f8a01bfe282482132a4434b83f5e8565203d178a39ae7a79",
+      "size": 739621
+    },
+    {
+      "path": "scripts/clinia-catalog-fixture.cjs",
+      "sha256": "5366c190dc4c8ae902a21ac80c181f8aefcfd59df2f74c9a02ca6aeb37fd6aee",
+      "size": 1786
+    },
+    {
+      "path": "scripts/clinia-ci-network-guard.cjs",
+      "sha256": "a554cb48c8083c49b7d38877a6852e7a5d07c71ae313c87e324823035dcd6782",
+      "size": 1472
+    },
+    {
+      "path": "scripts/clinia-local-app.cjs",
+      "sha256": "3ce777045ca9df344c9079756f1caefb81834eadf629be732baf3ef0dd94ceb7",
+      "size": 1732
+    },
+    {
+      "path": "scripts/clinia-local-runtime.cjs",
+      "sha256": "1cd30ebf73400872bae505fe430353ea468f3470630c68a94d02d78b9ad088ae",
+      "size": 3731
+    },
+    {
+      "path": "scripts/clinia-local-supabase.ps1",
+      "sha256": "8daef19b855483a0abd8f641be9cf2a4471d30930c441f87483c8e71cd8ff0b7",
+      "size": 4076
+    },
+    {
+      "path": "scripts/clinia-release-snapshot.cjs",
+      "sha256": "567277f1be02da2968677e4772a8f800ed8c718cc6dc79c14b398de310e6eb69",
+      "size": 4300
+    },
+    {
+      "path": "scripts/clinia-verify.cjs",
+      "sha256": "3f0ef99a7c002c0ab8e3265955581072ef5cf2e5f8a45d18319438e700d86cfb",
+      "size": 3588
+    },
+    {
+      "path": "scripts/compare-supabase-catalogs.cjs",
+      "sha256": "43b2efd30b7dd7329ca2b356593af9bcc7fd4a74970b8ab700ae46fda6945a90",
+      "size": 6896
+    },
+    {
+      "path": "scripts/dr-drill-runner.cjs",
+      "sha256": "b5a4839b9dfc89c842413093fab59bebb88a6b12deeb9e50da75d403d7f46bdf",
+      "size": 11327
+    },
+    {
+      "path": "scripts/encargo01-docker-finalize.ps1",
+      "sha256": "e61f1cf49073f439d1ecc93d78ef23df2d60fdd00845724f6cbe4e031849908a",
+      "size": 2166
+    },
+    {
+      "path": "scripts/encargo01-docker-tests.ps1",
+      "sha256": "04cf8c4a8151dc27474bf5c1c7e846135ad78c2c89a5167df02df25e85dd83fc",
+      "size": 5921
+    },
+    {
+      "path": "scripts/encargo01-docker.ps1",
+      "sha256": "47e03924d80bc9a0d31e09878ac1fe834d938294e769066c58c8ad5517f8e760",
+      "size": 4716
+    },
+    {
+      "path": "scripts/generate-clinia-operational-convergence.cjs",
+      "sha256": "7ed71ae3e46e6d005a9e8d43ad4dd55b239f92d3363a05c4fc446611e81a59bc",
+      "size": 8104
+    },
+    {
+      "path": "scripts/generate-scoped-supabase-baseline.cjs",
+      "sha256": "b5bb15355468337f0fc37b8afbc5edf62654750456bb4f6c16fea1a080b4b4aa",
+      "size": 40101
+    },
+    {
+      "path": "scripts/measure-clinia-local-queries.cjs",
+      "sha256": "7dfc0cc465d33f34f8a9d2785868008e469b72a17270088e2395e4ef35e0dbe9",
+      "size": 3226
+    },
+    {
+      "path": "scripts/prepare-clinia-compose.cjs",
+      "sha256": "f3c9319e1c511ddaa4ddfb2c26b1f937d9a6b5518b8a89bde457fd411dd3b2fd",
+      "size": 10659
+    },
+    {
+      "path": "scripts/prepare-clinia-primary.cjs",
+      "sha256": "5223bd0396058b93b291d17a09f7ff0ba473efa7b0f3ad4a88c43b1c4288b2a9",
+      "size": 4643
+    },
+    {
+      "path": "scripts/record-clinia-convergence-evidence.cjs",
+      "sha256": "08ebb2fbf6be5919e2413ace5509604723f8cbb7d96f471f93e46591dd9699c5",
+      "size": 5674
+    },
+    {
+      "path": "scripts/summarize-clinia-local-evidence.cjs",
+      "sha256": "615e3852627f318e780c69b61a5f830e1ece4cefbe291a449e5f29b3bb0318fb",
+      "size": 5136
+    },
+    {
+      "path": "scripts/verify-clinia-agenda.cjs",
+      "sha256": "00637ecf0622e2596ff5bf05d6b76e75fd8a01e64ada7e1a24961ee63f827788",
+      "size": 13436
+    },
+    {
+      "path": "scripts/verify-clinia-auth.cjs",
+      "sha256": "c0c0597f1559296f648e5a64562437bfc8b6cb674e3cda5117fdf5f4690644cd",
+      "size": 20206
+    },
+    {
+      "path": "scripts/verify-clinia-operational-convergence.cjs",
+      "sha256": "e76c5c125f8f8b488a34fde685aee127c005f16c34d11eb1965df18024b4b411",
+      "size": 15098
+    },
+    {
+      "path": "scripts/verify-clinia-operational-report.cjs",
+      "sha256": "bb5a213f24338c1fe40e2b80b4133037aec7da60c2030160c28579765ec526db",
+      "size": 7257
+    },
+    {
+      "path": "scripts/verify-clinia-profile-state.cjs",
+      "sha256": "e3c3b5e1832cab2ed53c796a4ca485f49b6fdc639e8837c055704d59e990de59",
+      "size": 3724
+    },
+    {
+      "path": "scripts/verify-clinia-scoped-runtime.cjs",
+      "sha256": "6ae9582f157280610a5a67639e82578acf14537d5bc82b7597549bc277dc3d29",
+      "size": 10987
+    },
+    {
+      "path": "start-dev.js",
+      "sha256": "03fe7f3aeb31825f28205f845f438b793733ee5aeb50c5c5cffd809bfac4b2ef",
+      "size": 348
+    },
+    {
+      "path": "styles/globals.css",
+      "sha256": "34565ec7f652e7e96d068a18100d0f13f4a3bb4e89551d7981555e6e42c4b73d",
+      "size": 2547
+    },
+    {
+      "path": "supabase/README.md",
+      "sha256": "c730c2a56023d019128632d1948fbc3a6902d0b603667395470fdb8d71013f49",
+      "size": 2483
+    },
+    {
+      "path": "supabase/functions/admin-emergency-override/index.ts",
+      "sha256": "03a21afb7ecde27313d91539623306098c729688033f039f4c6979a64ee11de0",
+      "size": 2684
+    },
+    {
+      "path": "supabase/functions/deno.json",
+      "sha256": "47eca2c6be0365970e2cb0025c50e8e099370ce54fbcbf539a58997a6519b105",
+      "size": 155
+    },
+    {
+      "path": "supabase/functions/deno.lock",
+      "sha256": "096fb8b5980cac7e80fe4215f3a170e46fd3459848d1e4767f37c0e89a28b524",
+      "size": 10354
+    },
+    {
+      "path": "supabase/functions/invite-team-member/deno.json",
+      "sha256": "86c042f51551f372dd61f65311f3726a8937e37b107d913e0f104293bcc4a9df",
+      "size": 123
+    },
+    {
+      "path": "supabase/functions/invite-team-member/index.ts",
+      "sha256": "c3fcd98f0a9c480c499a95a202a14d1151f596c8b0926be2f6250f3a2ba48a6c",
+      "size": 3874
+    },
+    {
+      "path": "supabase/functions/loyalty-marketing/index.ts",
+      "sha256": "1563f8d0df895e2c624cb401859067fda7863fb13b73955271bc7d1b68801fe7",
+      "size": 5099
+    },
+    {
+      "path": "supabase/functions/purge-data/index.ts",
+      "sha256": "b243bc497892f2b99260c796a52a7e342d0a4f99be348a1b0de788e0e0fe805c",
+      "size": 2287
+    },
+    {
+      "path": "supabase/functions/send-reminders/index.ts",
+      "sha256": "686108f931a60d1b2d1e6dc0ab35e2d819cfa08ba84274b213fcce1fabd3809c",
+      "size": 1646
+    },
+    {
+      "path": "supabase/migrations/20231123_auto_create_profile.sql",
+      "sha256": "37a3fb483a43ac96b4cab481821cae3f49e6216a4cf3733e74e0effccb7413f7",
+      "size": 768
+    },
+    {
+      "path": "supabase/migrations/20251214_billing_enhancements.sql",
+      "sha256": "30a43241d339e42fa31e7a76a2c8563222f66cacf9fd25048e4f5ff551469fed",
+      "size": 3950
+    },
+    {
+      "path": "supabase/migrations/20251215_add_patient_columns.sql",
+      "sha256": "6eed433565683f058b379b3a0ddc5d28712bd2e66bb6af443960658625074464",
+      "size": 440
+    },
+    {
+      "path": "supabase/migrations/20251215_fix_patient_uniqueness.sql",
+      "sha256": "741091b452fd7a7e728c96edb687239a839d0f637f24eb7359e30f24f8b6faeb",
+      "size": 469
+    },
+    {
+      "path": "supabase/migrations/20251215_multi_clinic_support.sql",
+      "sha256": "b1bc9ccfbd15d923ab6000953bf14fa9f2247ca237ac77c2fc47d8a361b06815",
+      "size": 2125
+    },
+    {
+      "path": "supabase/migrations/20251216_clinic_invitations.sql",
+      "sha256": "f8af3707f264f19a55da2bff6a64ce7924c3ab321cfbaa472f8ef0815919ac73",
+      "size": 1780
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_audit_triggers.sql",
+      "sha256": "8059d4f60680d0d1472b0ad063d7804e5d927d03a4b3fba4422594fb905eadcc",
+      "size": 2049
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_functions.sql",
+      "sha256": "dab9db6799afd782380d52a77c6275c322ea895aeed6d9d5e95aa03b78c45aa1",
+      "size": 1928
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_schema.sql",
+      "sha256": "756af9f6cb44d54171a42bbeafa6071dd9d0b8fc3e2160a7c16e9b3a26795e96",
+      "size": 6245
+    },
+    {
+      "path": "supabase/migrations/20251219_add_clinic_metadata.sql",
+      "sha256": "b486fa51d28e009c0f7c9607fa3a0672bef8369ca1cb1f1a9a3bddb6c732108a",
+      "size": 208
+    },
+    {
+      "path": "supabase/migrations/20251219_allow_create_clinic.sql",
+      "sha256": "d71510c652f508215971856e10442e0ba00f22384a7d29fb9ce9f477f35803bf",
+      "size": 663
+    },
+    {
+      "path": "supabase/migrations/20251219_genesis_flow.sql",
+      "sha256": "f2064ef0d7e1b10f3529dbbc6ab9750903c0f80d455530262b8eddfd3137f5e1",
+      "size": 2474
+    },
+    {
+      "path": "supabase/migrations/20251222_add_disclaimer_text.sql",
+      "sha256": "e0cd594f95cd3239b881d7f32fbc0e5e83062607551247b613351655ab9a08a5",
+      "size": 170
+    },
+    {
+      "path": "supabase/migrations/20251222_add_medical_alerts.sql",
+      "sha256": "d7569627ca6f787b80a5e0cd977db7593d96ec0832d7721a00936c353d2b1949",
+      "size": 832
+    },
+    {
+      "path": "supabase/migrations/20251222_add_odontogram_state.sql",
+      "sha256": "9061c1188531d2d62381180dd33160ed64d9254d4fb373f5ae33a134cc79e31f",
+      "size": 253
+    },
+    {
+      "path": "supabase/migrations/20251222_add_periodontogram_state.sql",
+      "sha256": "3d2eac6a39ad4c50ef95cd7835641143faf7db95fb13a88616d4b458aafc84b6",
+      "size": 261
+    },
+    {
+      "path": "supabase/migrations/20251222_add_trial_support.sql",
+      "sha256": "4a6f601e1c15aafe0619061092c71973e74b2451768dfc0b5d65ac1a298ee555",
+      "size": 1957
+    },
+    {
+      "path": "supabase/migrations/20251222_add_working_hours.sql",
+      "sha256": "003f4fe5872b65fbbf500aa9c1abc0aca04ac80c0b9ab953113154c9d966199e",
+      "size": 285
+    },
+    {
+      "path": "supabase/migrations/20251222_create_recall_queue_view.sql",
+      "sha256": "20c00847f3f0757231d9fde9fd122a65301e7e51ffa0dcd15162301fa2a53a21",
+      "size": 694
+    },
+    {
+      "path": "supabase/migrations/20251222_create_storage_branding.sql",
+      "sha256": "6e9e8692cc876f5662070f0bc1f604fd387dc2a4db9ec0fc06f458ffb5a22939",
+      "size": 1667
+    },
+    {
+      "path": "supabase/migrations/20251222_enforce_enums.sql",
+      "sha256": "f26aabe4aa9a3c25eefde42a5f5e3934ff2bbb20db008f216f99d973e26559da",
+      "size": 2690
+    },
+    {
+      "path": "supabase/migrations/20251222_fix_permissions.sql",
+      "sha256": "f3549fb2ef578a14e57ce5f2fd7004b40608f6d12590c5fbd5a0605855dcd44e",
+      "size": 1158
+    },
+    {
+      "path": "supabase/migrations/20251227_audit_read_beacon.sql",
+      "sha256": "2d94dbf8e1297648f065ee85a57afdfa5e5a9211e02b081b23ee51ba27344acc",
+      "size": 1133
+    },
+    {
+      "path": "supabase/migrations/20251227_data_retention_lifecycle.sql",
+      "sha256": "a665fc5649fb4fdb45f88f02e36d9967c2a81b7e6daaae65a60bdfe564b03398",
+      "size": 1413
+    },
+    {
+      "path": "supabase/migrations/20251227_enforce_subscription_rls.sql",
+      "sha256": "05bb4b6d5d1884ef22286fdeff70e19d88ea084142678179771f86ccac97b32a",
+      "size": 3260
+    },
+    {
+      "path": "supabase/migrations/20251227_ensure_clinics_rls.sql",
+      "sha256": "369a3e110593bfcf6a49430cd23a893c39ea49c78669f898be0f2ca168f0cc92",
+      "size": 1151
+    },
+    {
+      "path": "supabase/migrations/20251227_fix_signup_error.sql",
+      "sha256": "8828015c1d960226643dd308c5cf3f87d1aa9face346c57ef6cdf7542325b66b",
+      "size": 434
+    },
+    {
+      "path": "supabase/migrations/20251227_optimize_rls_jwt.sql",
+      "sha256": "5b7b0b4ce6e9daa09dcf20d7f42074d407f357aa7af6c1340da9ef862e748a50",
+      "size": 3147
+    },
+    {
+      "path": "supabase/migrations/20251227_payment_schema.sql",
+      "sha256": "f2ef7db427e290203bdc4c3b0bb0d37ca328b98bf8b6a6ecc8b195cf8ca242a5",
+      "size": 1512
+    },
+    {
+      "path": "supabase/migrations/20251227_secure_rpc_access.sql",
+      "sha256": "b497fcb362a85cd2433ac284df5e4cdae74ee5dd91c033fc747663b076a5c9a3",
+      "size": 1020
+    },
+    {
+      "path": "supabase/migrations/20251227_security_checklist.sql",
+      "sha256": "d834d28c02132f5e4d43fa19c161a32e26a8fe46ac3866def33d25675d211fcb",
+      "size": 563
+    },
+    {
+      "path": "supabase/migrations/20251227_subscription_bypass.sql",
+      "sha256": "f6800d5f08eadb1ef6204346e083a6e40a8f21665ede31f90037325be21ecef4",
+      "size": 346
+    },
+    {
+      "path": "supabase/migrations/20251228_add_services.sql",
+      "sha256": "fcf909a57578c956212e04570addda3f3c3e8708db88c9670d259a77fe01fbc4",
+      "size": 1701
+    },
+    {
+      "path": "supabase/migrations/20251228_seed_services.sql",
+      "sha256": "d5ced329f900b8731ef7c6cd4c74ce3d8a936a0f9037069899442010b75f6e78",
+      "size": 1989
+    },
+    {
+      "path": "supabase/migrations/20251228_update_patients_schema.sql",
+      "sha256": "0c5fca6f0d79b346e04144af68cf5926a1e9ee4989adee8d1e170e607bfd4ab7",
+      "size": 571
+    },
+    {
+      "path": "supabase/migrations/20260113_defer_clinic_creation.sql",
+      "sha256": "da6b2093efadd97da9a0b8ee412d70470adcf6702bc2cdd7ac3e8f53829d0fec",
+      "size": 3315
+    },
+    {
+      "path": "supabase/migrations/20260113_production_indexes.sql",
+      "sha256": "b91b814824a0d01fd1d960bf6422a45f2ed60f1f6d3d06a8bcae02c734e611fe",
+      "size": 1331
+    },
+    {
+      "path": "supabase/migrations/20260130_fix_security_definer.sql",
+      "sha256": "69a5bea65b8ef3d2fce5e6e3a1108f0fc07c4f888acedde99cd7a5bc757e7133",
+      "size": 333
+    },
+    {
+      "path": "supabase/migrations/20260220_add_prescriptions.sql",
+      "sha256": "92eee78786182a7232361fe5e45680988e4818234143c60f9462a3f6e2a98d49",
+      "size": 1550
+    },
+    {
+      "path": "supabase/migrations/20260220_analytics_view.sql",
+      "sha256": "9d5091de54baf5ec9669a4685c02547ea399a66e1f8bd84fc39a3fbd6c348180",
+      "size": 907
+    },
+    {
+      "path": "supabase/migrations/20260220_performance_indexes.sql",
+      "sha256": "e6eaa89653a6697aeed9a9fe80842804c0803f4b0b03871dcb305bf8a688905f",
+      "size": 814
+    },
+    {
+      "path": "supabase/migrations/20260220_secure_audit_view.sql",
+      "sha256": "84f94fe854b76e5f2d2b7b1011fe3d6c4d7283676afc05aca8e0f8b2ce7c0b16",
+      "size": 459
+    },
+    {
+      "path": "supabase/migrations/20260222_loyalty_marketing.sql",
+      "sha256": "2d16775b5b223b91ca72b35edcdbdbc8b88b8bfd2c0f521431c9d6fe870e5bef",
+      "size": 1944
+    },
+    {
+      "path": "supabase/migrations/20260401_fix_admin_roles.sql",
+      "sha256": "fe294dff88abce581b7190a5933da611d19be6392e8050378426045b749ffee2",
+      "size": 3575
+    },
+    {
+      "path": "supabase/migrations/20260423_fix_clinic_trigger.sql",
+      "sha256": "dd288bc08735148b39d3b922223cd5e3da9a7156f86bf3214294bd433099de38",
+      "size": 2180
+    },
+    {
+      "path": "supabase/migrations/20260429_add_title_to_profiles.sql",
+      "sha256": "14a0f6a6fefff48fd41d488098acf5c53b5dd2db402ca70f20b7c5b019799d55",
+      "size": 998
+    },
+    {
+      "path": "supabase/migrations/20260502_prescription_templates.sql",
+      "sha256": "f4f789136b0085505fde8c8e92f6fe0bf3736de9b9c0e2685daf0016e21d2adf",
+      "size": 1689
+    },
+    {
+      "path": "supabase/migrations/20260508220424_enable_rls_prescriptions.sql",
+      "sha256": "719d7db3fa9e7534f1f601d851d3483ad1c8b6590bdd2a10bc85b1b391979aba",
+      "size": 1516
+    },
+    {
+      "path": "supabase/migrations/20260520_fix_get_patients_with_stats.sql",
+      "sha256": "a12304bf8e6563f6e1b351bd2919a1c2ab50a78c1ef6cdba9236e9de15e59594",
+      "size": 8669
+    },
+    {
+      "path": "supabase/migrations/20260521_fix_overloaded_function.sql",
+      "sha256": "4551a31a11024d4263b0f20edf49da9a9cbc30ef2456653c6c553b889bc75a83",
+      "size": 7632
+    },
+    {
+      "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+      "sha256": "31511709bcbb7bfd593de74c0b63ab26a1bc45893fcf2f13d29d3be7bf142485",
+      "size": 10637
+    },
+    {
+      "path": "supabase/migrations/20260526_create_patient_files_and_notes.sql",
+      "sha256": "a4bfe9df28a3c5b0ee4617adced1df6e7da9f144c1c5e2c2e9d33b6d32561744",
+      "size": 4399
+    },
+    {
+      "path": "supabase/migrations/20260920_m1_tenant_and_access_control.sql",
+      "sha256": "52bcd9144d85171cf3d1c12763c17ad30f8e1e23c280786bcd0a3f823d0fa319",
+      "size": 32065
+    },
+    {
+      "path": "supabase/migrations/20260920_m2_clinical_services_payment_methods.sql",
+      "sha256": "a87c70bd3c9ad9ef492181471139edc4c276770847d44d115f918ebb83e35f7e",
+      "size": 24248
+    },
+    {
+      "path": "supabase/migrations/20260920_m3_analytics_maintenance_rpcs.sql",
+      "sha256": "c524482fc7fa6074e6f46aeb72a434b96a7aa906e9ac0fe43a0729a4ce3b5bc0",
+      "size": 5773
+    },
+    {
+      "path": "supabase/migrations/20260920_m4_data_rights_requests_lopdp.sql",
+      "sha256": "b58c73c02c8690ad7689537ebcc0ac048eb089dce9f54cd3990c85f15421b59a",
+      "size": 5794
+    },
+    {
+      "path": "supabase/migrations/20260920_security_remediation_consolidated.sql",
+      "sha256": "ed4d65058a798b63178dcf13139ce3766fe49fe1ecd21d80fa3d43867e96ad64",
+      "size": 66608
+    },
+    {
+      "path": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d",
+      "size": 23431
+    },
+    {
+      "path": "supabase/migrations/20260922_m5_security_and_production_readiness.sql",
+      "sha256": "5ab5dd78878dcac89341fafe98b3fb42a3dcb2be379c2b4f22aea5e807f82231",
+      "size": 50423
+    },
+    {
+      "path": "supabase/migrations/20260922_m6_security_hardening_and_contract_fix.sql",
+      "sha256": "3222346ffb2d14c894400ce96b401d549ae2c4a77ed96192997458fa2a2876a3",
+      "size": 51666
+    },
+    {
+      "path": "supabase/migrations/20260925000000_compound_multi_tenant_indexes.sql",
+      "sha256": "ccbb943456a8c2777bc87085c65d590f52bda77260cbd62a1bb5e4456e4b2c79",
+      "size": 2441
+    },
+    {
+      "path": "supabase/migrations/rollback_20260922194927.sql",
+      "sha256": "c9ed69cd5b768d9a52976fb0772a4aaffba10f2b7f488b3b5f0dceac0e189268",
+      "size": 12657
+    },
+    {
+      "path": "supabase/migrations/rollback_20260925000000.sql",
+      "sha256": "b73799f8199ad1c5b6d6f1a251df7ef4621398b6769930e3e8166eafe3ba74e7",
+      "size": 761
+    },
+    {
+      "path": "supabase/schema.sql",
+      "sha256": "493b7f6dcac8caf47ddf43b9b2393d6840ec8be7ec1c5e57ef50b57702482ec9",
+      "size": 12240
+    },
+    {
+      "path": "tailwind.config.ts",
+      "sha256": "ea9f4ba1f678b02c223ab2f312db5246c8636a171dd6811ee9617f750c22f303",
+      "size": 2567
+    },
+    {
+      "path": "test/production/agenda-contract.test.cjs",
+      "sha256": "b622e47d438f6982d313574dea4e3cfee361463b465df7d7d3aaa6112d66bb9f",
+      "size": 4934
+    },
+    {
+      "path": "test/production/auth-context-race.test.cjs",
+      "sha256": "198f90d7e74797e620890f5de2a58d5d771614520a2cafea8d3625492fe274d0",
+      "size": 6178
+    },
+    {
+      "path": "test/production/catalog-comparison.test.cjs",
+      "sha256": "9a7a56b6402aaca6396cfd6c3e4d2b25f22aa777fa19812ac7abe773c4d12546",
+      "size": 4155
+    },
+    {
+      "path": "test/production/clinic-authority.test.cjs",
+      "sha256": "d196350c5b000c764924a041f801ef503fe83673e356bf247687bca0009e9a36",
+      "size": 1766
+    },
+    {
+      "path": "test/production/dashboard-authorized-contracts.test.cjs",
+      "sha256": "4349b771ae2ff415ccd7ae28aa8674f2a7ab00611d7455b09b29ad97d05fe550",
+      "size": 7334
+    },
+    {
+      "path": "test/production/encargo02-contract.test.cjs",
+      "sha256": "975ebc6a009df1aa9693a1c56f23152a7adf097f7e617d89f3e2320945235d11",
+      "size": 9440
+    },
+    {
+      "path": "test/production/financial-retirement.test.cjs",
+      "sha256": "001a2309a87e8aff09b210325d0c88af351e95737fc4c92c7d2c77345ac8d1e3",
+      "size": 2235
+    },
+    {
+      "path": "test/production/local-compose.test.cjs",
+      "sha256": "6235bd2a37c4c60824e6c45ab86d61a96318b5c3fd920f3de2ae32a6f28bc4e0",
+      "size": 1811
+    },
+    {
+      "path": "test/production/local-csp.test.cjs",
+      "sha256": "9e49c0b7ea8ee76b14e5fe16b90e7dafa7351705756d32352f7aad39f78ce15c",
+      "size": 1528
+    },
+    {
+      "path": "test/production/middleware-authority.test.cjs",
+      "sha256": "1cad7885e4567e97694b6eab9bd6a33e487414258f708bbbd9e7c2882704c521",
+      "size": 3392
+    },
+    {
+      "path": "test/production/operational-reports.test.cjs",
+      "sha256": "0ffe3417a582e68c708ffcc3e61315b8702dac50ce5d8e2eb35485b73c1b48a0",
+      "size": 1461
+    },
+    {
+      "path": "test/production/patient-demographics-contracts.test.cjs",
+      "sha256": "9ce4cc424c2f361f3debd07d20983b39ffef1fccc58436d7ab99728819dfdf19",
+      "size": 10362
+    },
+    {
+      "path": "test/production/patient-detail-contracts.test.cjs",
+      "sha256": "340084f702e391b26a2903363bf90b79bf9b460bc64db1a4f85091fd87cea290",
+      "size": 8890
+    },
+    {
+      "path": "test/production/pdf-publication.test.cjs",
+      "sha256": "e386c32db93fd73bdf839790b093c3df30c1ab44649bf5b78a5cbbd9ed065c42",
+      "size": 969
+    },
+    {
+      "path": "test/production/prescription-policy.test.cjs",
+      "sha256": "d7f53352ebd517fa23a9b153b36da3f5dbfeb86f42e8875b0c008725fd36205b",
+      "size": 4578
+    },
+    {
+      "path": "test/production/scoped-baseline.test.cjs",
+      "sha256": "852f71b9fe894615b0f54f8ce147130cbdadde4aa406dcc298007d8dee4c8a13",
+      "size": 10422
+    },
+    {
+      "path": "test/production/verification-runner.test.cjs",
+      "sha256": "39ee93550d2a55a3920ac9ade5516fa33f3d486e7832d1056db8c1d99dea1b78",
+      "size": 4087
+    },
+    {
+      "path": "test/security-kushki.test.cjs",
+      "sha256": "e913dff6f9e96bf1870f832f7399edff1ce6c4272ed0fc7efc810e977c404c9d",
+      "size": 2776
+    },
+    {
+      "path": "test/security/challenger-m1-2-adversarial.test.cjs",
+      "sha256": "4a82e0da10a3dffa02bad97d45b5a260870b66874c2edc00632fc8feadae4e90",
+      "size": 35976
+    },
+    {
+      "path": "test/security/challenger-m1-stress.test.cjs",
+      "sha256": "bcd8e360dcca21a8f44bc64f672addb700de7e0f046ababa3beb2282d9557b04",
+      "size": 30331
+    },
+    {
+      "path": "test/security/challenger-m2-2-sec13.test.cjs",
+      "sha256": "8c5410ffadb9913397e71eecb77ebe33a883c69c457a1a439def1c5251759b28",
+      "size": 33083
+    },
+    {
+      "path": "test/security/challenger-m2-stress.test.cjs",
+      "sha256": "ae2f1cd78a46500fb768b22acbc450382d03c09db7a4a55dc5fd6896a202d014",
+      "size": 65659
+    },
+    {
+      "path": "test/security/challenger-m3-stress.test.cjs",
+      "sha256": "5872d189ed67d6fd8b0a9d286eb8864e315e121f86f1661816e44033ba6b182b",
+      "size": 60529
+    },
+    {
+      "path": "test/security/challenger-m4-adversarial.test.cjs",
+      "sha256": "282e58d851ed5ea3324989aad77588e635711d42282779f7393efbf9501870f0",
+      "size": 24396
+    },
+    {
+      "path": "test/security/challenger-m4-ast-stress.test.cjs",
+      "sha256": "ef6b492ccc25c2f8b0d7ada89db993f2a7a82e2dcd2af4556967c10f1b5baef3",
+      "size": 22207
+    },
+    {
+      "path": "test/security/challenger-m5-2-adversarial.test.cjs",
+      "sha256": "9747806a679d9b529416bb9574c0c1006fc504c1003b8a0a8f4781c033112068",
+      "size": 30520
+    },
+    {
+      "path": "test/security/harness/action-runner.cjs",
+      "sha256": "ea19178d3c6431a11b3824cd3972f99dd2bccd37c17d8b9ae39498320493f5b1",
+      "size": 4455
+    },
+    {
+      "path": "test/security/harness/database-security-engine.cjs",
+      "sha256": "2383d4fce37b71de1e164041d1a4d2099307aa6ad2c49f1147dd4638c77e2780",
+      "size": 22215
+    },
+    {
+      "path": "test/security/harness/migration-verifier.cjs",
+      "sha256": "605eb135b9f6f7b957f673427504d33ad04facb20046bad460b976ebfa1be433",
+      "size": 1756
+    },
+    {
+      "path": "test/security/harness/security-context.cjs",
+      "sha256": "5ab5d979c072a2b4e5ceb518e9471ab336a0833d896f2f7ca4a00b5e926460d7",
+      "size": 5908
+    },
+    {
+      "path": "test/security/m6-gap-03-email.test.cjs",
+      "sha256": "11ad4894a7cab02bf5c2455c2552e5d0e19901f6e3467b95351fa97c05efa578",
+      "size": 35675
+    },
+    {
+      "path": "test/security/m6-gap-04-headers.test.cjs",
+      "sha256": "85929db58223f8ac7427d1fc47bb7f6af4980337397bf382fb300303d798ac53",
+      "size": 18410
+    },
+    {
+      "path": "test/security/m6-gap-05.test.cjs",
+      "sha256": "9813c7d777b92afa016095b18adb2be7a7dda7e71c7f1a6c9e593dfed546f820",
+      "size": 9759
+    },
+    {
+      "path": "test/security/m6-verification.test.cjs",
+      "sha256": "303590216609bbe7fccbf1e51bfd57baa6031c174e6b03b3fa0062821ce44603",
+      "size": 18306
+    },
+    {
+      "path": "test/security/m7-blk04-least-privilege-clinical-rls.test.cjs",
+      "sha256": "b641e6f6fcab5c1a7c86981c8dffe177876deefb6f53458119acf177bc81f097",
+      "size": 16224
+    },
+    {
+      "path": "test/security/m7-blk05-m6-gap01-privacy-media.test.cjs",
+      "sha256": "14a997cf8569677494b7bdc846b044497f06e07a7cd60c8bb5c7c646fb884c1b",
+      "size": 21142
+    },
+    {
+      "path": "test/security/m7-blk07-lopdp-retention.test.cjs",
+      "sha256": "921b21c18a980eac0f389c0de164043b5fe3f56e52d60fd052524819d94d0839",
+      "size": 9256
+    },
+    {
+      "path": "test/security/pr01-pr07-readiness.test.cjs",
+      "sha256": "c942e58c101bdfe621793041859e528cb4a13bb1c4632f2887d7630c36e4b90a",
+      "size": 15569
+    },
+    {
+      "path": "test/security/prod-chk-a02-uat-protocol.test.cjs",
+      "sha256": "21f68f54b278cb6ca3295f0420accc3e5cefbf7f781e5fb2bd3e1beac15eac76",
+      "size": 7291
+    },
+    {
+      "path": "test/security/prod-chk-b01-clinical-workflows.test.cjs",
+      "sha256": "cb983ca0990ab1d5c6a7b7f4fc7ef8f4dd6aebd1c6a16a252284454c4d98eb8e",
+      "size": 11898
+    },
+    {
+      "path": "test/security/prod-chk-b02-ui-states.test.cjs",
+      "sha256": "f8e1846ba00e88702a9060807cc9df2e1ebc1b864ee5e800051e17a221a829f5",
+      "size": 6878
+    },
+    {
+      "path": "test/security/prod-chk-b03-responsive-ui.test.cjs",
+      "sha256": "8cbbcdf3705d680a2c4f1bdb2e29078108477f225bd6a991b41a0099814844fd",
+      "size": 6752
+    },
+    {
+      "path": "test/security/prod-chk-b04-accessibility.test.cjs",
+      "sha256": "b9b54c1237c219d0e028890a03686f72f5827be8d3b0c742ad0d149f6e5a380c",
+      "size": 7095
+    },
+    {
+      "path": "test/security/prod-chk-b05-calendar-double-booking.test.cjs",
+      "sha256": "ec14c7409350aa1a0f1388943040a604fe4c87154444bee3087d3f76f657f032",
+      "size": 12497
+    },
+    {
+      "path": "test/security/prod-chk-c02-compound-indexes.test.cjs",
+      "sha256": "831a4f13e09f8643542d7be33e7f34e1e0628aa82cce86d658aeaa9242c4bc05",
+      "size": 9917
+    },
+    {
+      "path": "test/security/prod-chk-c03-backup-restore.test.cjs",
+      "sha256": "b6d3ab8959abe65c6ea2fa1fc5f689bf11a8de238387618a6d3e25eda4b437c2",
+      "size": 14290
+    },
+    {
+      "path": "test/security/prod-chk-f01-env-hygiene.test.cjs",
+      "sha256": "af2630b7b33f58d51a15d7d73d43028cc4e79e461a9f0aceb0203c8b6d91e20c",
+      "size": 8516
+    },
+    {
+      "path": "test/security/prod-chk-f02-logging-pii.test.cjs",
+      "sha256": "93d26493a3c8a6d22cf7bca43312b691ab71b569fa745037e9b1462fe61f10df",
+      "size": 8644
+    },
+    {
+      "path": "test/security/prod-chk-g01-rollback-reversibility.test.cjs",
+      "sha256": "f38904bf4b77de399b723966ecf97531bb8f3d532e8c237bbd3b4891593ae348",
+      "size": 9904
+    },
+    {
+      "path": "test/security/prod-chk-gate7-canary-release.test.cjs",
+      "sha256": "a7ffb243ad641c27effc54a35bbf8e45519e97d6d6d83ddf6960ce555d00b852",
+      "size": 9345
+    },
+    {
+      "path": "test/security/prod-chk-h01-runbook.test.cjs",
+      "sha256": "d40d9535cff9141e383deab8270ce75ca2d296543d1e1b5e39bb6a5a576bb508",
+      "size": 6669
+    },
+    {
+      "path": "test/security/r4-consolidated-and-lopdp.test.cjs",
+      "sha256": "750af9cf2788a25065dc357e62f444d9f4546eb8cebfe8ae10c33fab098ef7e3",
+      "size": 13074
+    },
+    {
+      "path": "test/security/sec01-sec06-implementation.test.cjs",
+      "sha256": "45f0f114cf0435d48f304087a2e18d9ca6ad77bf43b599566ef54d877dd8015f",
+      "size": 6426
+    },
+    {
+      "path": "test/security/sec06-invite-ownership.test.cjs",
+      "sha256": "b431c86b11fdcd281a912a0d58ef1a4c899fe2cde9c34bc31eb2e9a861d191e1",
+      "size": 28138
+    },
+    {
+      "path": "test/security/sec11-kushki.test.cjs",
+      "sha256": "542d16f7dfa462a3348796fd5f351f3b37f6d819b8fe3d8baeb46e5d5a0656b8",
+      "size": 3326
+    },
+    {
+      "path": "test/security/sec11-sec13.test.cjs",
+      "sha256": "dbe278daa49dcdf22541ad6eac8742b6273b56ed02b82772313a460e7480e9dd",
+      "size": 14281
+    },
+    {
+      "path": "test/security/tier1-features.test.cjs",
+      "sha256": "42f8623b44535018c2faef26d5e6a1205e2987b7d3eee383dc6315038b849adc",
+      "size": 25256
+    },
+    {
+      "path": "test/security/tier2-boundaries.test.cjs",
+      "sha256": "adcf4930efe1853c8cb343bcb081a915851870337326ff2a19d7e26cc5f1facb",
+      "size": 10995
+    },
+    {
+      "path": "test/security/tier3-combinations.test.cjs",
+      "sha256": "d25241e76bd24f001e8a6071bee47e8244a958f4f94d154889eaf44d95f254b4",
+      "size": 9369
+    },
+    {
+      "path": "test/security/tier4-scenarios.test.cjs",
+      "sha256": "f37b27d61979ed66847999807dbd115cf6c3cd300ebe1034f8bbc31055d36bb2",
+      "size": 11281
+    },
+    {
+      "path": "test/security/tier5-adversarial-hardening.test.cjs",
+      "sha256": "34b2f85622375d491319c403ec2d27c333a1b6f8d17ba5248b61d9a3da486b75",
+      "size": 32748
+    },
+    {
+      "path": "test/test-action.js",
+      "sha256": "2f26c059656dfd8365aba0c51f360ea0c978f633c89f3d2a7d0dd8026b033364",
+      "size": 294
+    },
+    {
+      "path": "test/test-api-confirm.js",
+      "sha256": "b853721e9f6c14a8de0aabd4989dc8e4bd366473fcf87c655551bf445765fd2a",
+      "size": 958
+    },
+    {
+      "path": "test/test-link.js",
+      "sha256": "d687ded1ca66b2764912bfe54f6596ba861281add534f9a381ed10a142523af0",
+      "size": 417
+    },
+    {
+      "path": "test/test-ssr-verify.js",
+      "sha256": "7718e3c936817bd7ad381cac4ae7b4338a0082aa1101fd205ca4e79a5f57eccc",
+      "size": 981
+    },
+    {
+      "path": "test/test-verify-already.js",
+      "sha256": "a45a6e716f333c4abc5aefaa8012d184d27bb7132b82623a36c6bd78d44f7a5a",
+      "size": 579
+    },
+    {
+      "path": "test/test-verify-unverified.js",
+      "sha256": "68361f78456bae3cdf829fd4d69268eb0b50d6012d21b9e41729cf1e52361b21",
+      "size": 580
+    },
+    {
+      "path": "test/test-verify.js",
+      "sha256": "5fd2a05deac9412edaac4dd93983ee8650280b83c2f2be0581408a9cdd57f681",
+      "size": 655
+    },
+    {
+      "path": "tools/local-supabase/README.md",
+      "sha256": "3dbe6d29adbe1697745bf597300a543b99de8743db247a68e0e50ea6f7e6787e",
+      "size": 9437
+    },
+    {
+      "path": "tools/local-supabase/browser-agenda.js",
+      "sha256": "634efe9ec1a19edd8cfb631f8c10d8e39222b214f8682215207c6dbf61e47f83",
+      "size": 5236
+    },
+    {
+      "path": "tools/local-supabase/browser-authority-draft.js",
+      "sha256": "01c3c64d317338609284667f1dd8a2d8344137652774e08d474f593360710d0c",
+      "size": 4699
+    },
+    {
+      "path": "tools/local-supabase/browser-doctor-reports.js",
+      "sha256": "252af2b595ab790d5710b1cadfc0b3ce3248687177342fbf3b485fb0643c64cb",
+      "size": 780
+    },
+    {
+      "path": "tools/local-supabase/browser-landing.js",
+      "sha256": "dea1d35c8e69b354a652905ea6a16050af019473803ca6f7941275f9104e2946",
+      "size": 1357
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-review.js",
+      "sha256": "fc6c95e8e6d7dd6590e9520466a26ccfbcf5803d3ec72512afbb710705c9b0b5",
+      "size": 6185
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-timings.js",
+      "sha256": "3b47abf4cec004300a85939984222bc2c14b82398266e0ffa5e931d3611def31",
+      "size": 830
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-visual.js",
+      "sha256": "bf75a6c99a2e386a116a8595ce6526ad40aeab622588ae376008788ecf0a2c47",
+      "size": 1167
+    },
+    {
+      "path": "tools/local-supabase/browser-performance.js",
+      "sha256": "364cd03dad75a97421f8293b8a1804559c549a6f8b1eae1fa1b1f3c755abd26e",
+      "size": 3272
+    },
+    {
+      "path": "tools/local-supabase/browser-visuals-pdf.js",
+      "sha256": "213eb422f787816dda22814ca938645131077968f188f2001e8a46ad81e3acd1",
+      "size": 4036
+    },
+    {
+      "path": "tools/local-supabase/supabase/.gitignore",
+      "sha256": "507699eb91144818edf61d3a079212cacf31d8db520eae428e3b48fcf0d6919c",
+      "size": 72
+    },
+    {
+      "path": "tools/local-supabase/supabase/config.toml",
+      "sha256": "ecee70dbf86937d54efd6659f7908a6347c0a9b9fbd6076a3f3d17d2d439d26a",
+      "size": 15707
+    },
+    {
+      "path": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41",
+      "size": 10756
+    },
+    {
+      "path": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f",
+      "size": 3843
+    },
+    {
+      "path": "tsc_errors_pnpm.txt",
+      "sha256": "fd2f563e63d636028fa78b7df03c04e163282d7302e6c48fb95b1912772299e3",
+      "size": 2336
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "534ddc4a20a6115621b213e090758ee558b7d5906ebcbe7f9a2229ee643407a9",
+      "size": 866
+    },
+    {
+      "path": "types/index.ts",
+      "sha256": "8b2072037a4b606d8914ded6fb6513da83041b3a9f982f821bfbfa26f58a4510",
+      "size": 3211
+    },
+    {
+      "path": "types/next.d.ts",
+      "sha256": "c648357b1af39995527c441ae28ee94167ea19d5c11ec32c7c752f8a8e6ac2d5",
+      "size": 159
+    },
+    {
+      "path": "types/supabase.ts",
+      "sha256": "9cd522ae63e8ee2e61e8b2abf7ba5ce16e755c99c7d2bd352a2c50ac2a422565",
+      "size": 18392
+    },
+    {
+      "path": "types/types.ts",
+      "sha256": "07bdfb5c319a9e8866d515a2a9ce1eab5ce5f5d7b0bb260c7c3e9747347529d0",
+      "size": 261
+    },
+    {
+      "path": "update_role.sql",
+      "sha256": "485366a3ba5fd1d9be3a4e4dcbd9c4d0c9f7edb7b1bd72956f8ec6f075bec438",
+      "size": 172
+    }
+  ],
+  "exclusions": [
+    {
+      "path": ".agent/dark-mode-color-theory.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/ORIGINAL_REQUEST.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/rules/clinical-saas-invariants.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/rules/production-engineering.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/sentinel/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/sentinel/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/sentinel/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/skills/dental-clinical-standards/SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/ORIGINAL_REQUEST.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/PROJECT.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/SKILL_dental_clinical_standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/audit_report.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_auditor_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/challenge_r1_report.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/challenge_r2_report.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_challenger_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r1/survey_r1.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r2/survey_r2.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/dental_clinical_standards_skill.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_explorer_survey_r3/survey_r3.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/GATE_STATUS.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_orchestrator_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_1/review_r1.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_reviewer_2/review_r2.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_victory_auditor_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_victory_auditor_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_victory_auditor_1/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_victory_auditor_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_victory_auditor_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/context.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork/teamwork_preview_worker_verification/verification_report.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/dental-clinical-standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m1_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/SKILL_dental_clinical_standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m2_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m3_m4_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m3_m4_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m3_m4_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m3_m4_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m3_m4_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/dental-clinical-standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m4_rem_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_auditor_m5_1/skills/dental-clinical-standards/SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m1_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/SKILL_dental_clinical_standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m2_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/dental-clinical-standards_SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m3_m4_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/all_tables_rls_audit.json",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/check_all_tables_rls.cjs",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/inspect_undropped.cjs",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/inspect_undropped.txt",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/list_consolidated.cjs",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/policy_audit_report.json",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/policy_audit_summary.txt",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/policy_scanner.cjs",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m4_rem_2/test_adversarial_deep.cjs",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_challenger_m5_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_3/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m1_3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_3/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m2_3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_3/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_m4_rem_3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_3/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_explorer_survey_3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/GATE_STATUS.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/PROJECT.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/plan.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_e2e/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_orchestrator_m1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m1_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m2_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/check_policies.js",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m3_m4_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/audit_all_policies.js",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/find_is_clinic_member.js",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m4_rem_2/run_all_tests.js",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_reviewer_m5_2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_spec_miner_survey_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_spec_miner_survey_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_spec_miner_survey_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_spec_miner_survey_1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_spec_miner_survey_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/TEST_INFRA.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_test_writer_e2e/skills/dental-clinical-standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_victory_auditor_1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_victory_auditor_1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_victory_auditor_1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_victory_auditor_1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/dental-clinical-standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m1/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/dental-clinical-standards.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m2/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m3/skills/dental-clinical-standards/SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/dental-clinical-standards-SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/BRIEFING.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/DISPATCH.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/dental-clinical-standards.SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/handoff.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/info.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".agents/teamwork_preview_worker_m4_rem/progress.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": ".vscode/settings.json",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "build.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "build2-utf8.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "build2.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "desktop.ini",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "diff.patch",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/build-approved.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/build-final-repaired.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/build-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-26/build-sandbox.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-reception-loopback.redacted.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe-canonical.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe-continued.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe-loopback.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe-release-verified.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/browser-recipe.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/canonical-config-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/dashboard-authorized-contracts.final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/financial-retirement.final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-authority-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-build-canonical-origin.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-build-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-build-loopback-normalization.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-build-release-candidate.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-build.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/frontend-prescription-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/quiesce.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/resume.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/stage-capture.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/stage-install.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-admin/stage-verification.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/prod-capture.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/prod-install.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/prod-verification.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/stage-capture.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/stage-verification.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/upgrade-m7.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/upgrade-seed-owner.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/local-runtime-continued/upgrade-seed.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/middleware-authority-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/patient-demographics-contracts.final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/patient-detail-contracts.final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/baseline.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/encargo02.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/m7.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/owners.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-27/primary-install/verify.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/failure.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-agenda.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-authority.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-bucket-metadata-fixtures.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-callbacks.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-catalog-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-clone.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-constraints.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-containment.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-invariants.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-owners.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/prod-sentinels.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-agenda.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-authority.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-bucket-metadata-fixtures.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-callbacks.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-catalog-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-clone.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-constraints.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-containment.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-invariants.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-owners.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-1/stage-sentinels.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-agenda.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-authority.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-boundary-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-bucket-metadata-fixtures.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-callbacks.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-catalog-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-clone.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-constraints.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-containment.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-invariants.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-owners.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/prod-sentinels.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-agenda.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-authority.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-boundary-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-bucket-metadata-fixtures.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-callbacks.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-catalog-assertions.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-clone.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-constraints.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-containment.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-invariants.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-owners.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/attempt-2/stage-sentinels.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-authority-draft.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-corrected.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-doctor-reports.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-instrumentation-failure.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-timings.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-verified.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser-visual.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/browser.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/build-approved.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/build-authority-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/build-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/build-release-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/build.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/git-diff-check.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/reports-1/migration.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/unit-authority-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/unit-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/unit-release-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-convergence/unit.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-forward.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-runtime-02.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/agenda-runtime.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/auth-race.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-agenda.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-dev-before-continued.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-dev-before.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-landing-performance-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-landing-performance.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-landing.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-optimized-after.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-optimized-before.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-optimized-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-pdf-diagnostic.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-visuals-pdf-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/browser-visuals-pdf.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/build-after.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/build-before.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/build-final-mobile.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/build-final-pdf-split.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/middleware.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/types-before-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/unit-final-reviewed.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/unit-final.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/2026-09-28-performance/unit-primary.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/runtime.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/evidence/docker-encargo01/sql-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "docs/production/reconciliation/scoped-baseline/offline-tests.log",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "extra/free-trial/page.tsx",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "extra/onboarding/create-clinic/page.tsx",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "extra/onboarding/layout.tsx",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "extra/onboarding/page.tsx",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/owner-recipes-before-final.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/owner-recipes-canonical.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/owner-recipes-final.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/owner-recipes-loopback.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/reception-patients-canonical.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "output/playwright/reception-patients-final.png",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "scratch/delete-user.sql",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "scratch/diagnose.js",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "skill/SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "skills/dental-clinical-standards/SKILL.md",
+      "reason": "historical-or-local-artifact"
+    },
+    {
+      "path": "supabase/.temp/cli-latest",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/gotrue-version",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/linked-project.json",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/pooler-url",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/postgres-version",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/project-ref",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/rest-version",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/storage-migration",
+      "reason": "private-or-generated"
+    },
+    {
+      "path": "supabase/.temp/storage-version",
+      "reason": "private-or-generated"
+    }
+  ],
+  "treeSha256": "2ed96c4f1464737c49690a3839b42a9259bc7e6a287e8c51894d407c02a932eb",
+  "excludedIgnoredPrivateFiles": true
+}

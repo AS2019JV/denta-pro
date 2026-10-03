@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
@@ -21,6 +21,12 @@ import { useAuth } from "@/components/auth-context"
 import { inviteTeamMember } from "@/app/actions/invite-member"
 import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
+
+function PrivateTeamAvatar({ path }: { path: string }) {
+  const url = usePrivateMediaUrl('doctor-avatars', path)
+  return <AvatarImage src={url || ''} className="object-cover" />
+}
 
 interface TeamMember {
   id: string
@@ -36,7 +42,12 @@ interface TeamMember {
 }
 
 export default function DentistsPage() {
-  const { user, currentClinicId } = useAuth()
+  const { user, currentClinicId, isLoading: authLoading, isRevalidating, authError } = useAuth()
+  const scope = !authLoading && !isRevalidating && !authError && user?.id && currentClinicId
+    ? `${user.id}:${currentClinicId}:${user.role}` : ''
+  const scopeRef = useRef(scope)
+  scopeRef.current = scope
+  const [loadedScope, setLoadedScope] = useState('')
   const router = useRouter()
   const [members, setMembers] = useState<TeamMember[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -54,7 +65,8 @@ export default function DentistsPage() {
   const [generatedLink, setGeneratedLink] = useState("")
   const [isLinkCopyOpen, setIsLinkCopyOpen] = useState(false)
 
-  const [subscriptionTier, setSubscriptionTier] = useState<string>("trial")
+  // Subscription/seat entitlement is outside the operational directory contract.
+  const [subscriptionTier] = useState<string>("trial")
   const [selectedMember, setSelectedMember] = useState<TeamMember | null>(null)
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isEditingMember, setIsEditingMember] = useState(false)
@@ -81,58 +93,50 @@ export default function DentistsPage() {
   }
 
   useEffect(() => {
-    if (currentClinicId) {
-      fetchMembers()
+    let active = true
+    setMembers([])
+    setLoadedScope('')
+    setSelectedMember(null)
+    setIsProfileOpen(false)
+    if (scope) {
+      void fetchMembers(() => active && scopeRef.current === scope)
     } else {
       setIsLoading(false)
     }
-  }, [currentClinicId])
+    return () => { active = false }
+  }, [scope, currentClinicId])
 
-  const fetchMembers = async () => {
+  const fetchMembers = async (isActive: () => boolean = () => true) => {
+    const captured = scope
+    const current = () => !!captured && isActive() && scopeRef.current === captured
+    if (!current()) return
     setIsLoading(true)
     try {
-      // 1. Fetch clinic subscription tier
-      const { data: clinicData } = await supabase
-        .from('clinics')
-        .select('subscription_tier')
-        .eq('id', currentClinicId)
-        .single()
-      
-      if (clinicData) {
-        setSubscriptionTier(clinicData.subscription_tier || "trial")
-      }
-
-      // 2. Fetch profiles
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .eq('clinic_id', currentClinicId)
+      // The canonical directory projects live membership, not primary-profile clinic.
+      const { data, error } = await supabase.rpc('get_clinic_staff_directory', { p_clinic_id: currentClinicId })
       
       if (error) throw error
       
-      if (data) {
+      if (Array.isArray(data) && current()) {
         setMembers(data.map(p => ({
           id: p.id,
-          name: p.full_name || p.email?.split('@')[0] || "Usuario",
+          name: [p.title, p.full_name].filter(Boolean).join(' ') || "Usuario",
           specialty: p.specialization || (p.role === 'receptionist' ? 'Gestión Clínica' : 'Especialista'),
-          email: p.email || "",
-          phone: p.phone || "",
-          avatar: p.avatar_url 
-            ? (p.avatar_url.startsWith('http') 
-                ? p.avatar_url 
-                : supabase.storage.from('doctor-avatars').getPublicUrl(p.avatar_url).data.publicUrl)
-            : "",
+          email: "",
+          phone: "",
+          avatar: p.avatar_url || "",
           role: p.role,
-          status: p.status,
-          license_number: p.license_number || "No registrada",
-          bio: p.bio || "Sin biografía profesional registrada."
+          status: 'active',
+          license_number: undefined,
+          bio: undefined
         })))
+        setLoadedScope(captured)
       }
     } catch (err) {
       console.error("Error fetching members:", err)
-      toast.error("Error al cargar el equipo")
+      if (current()) toast.error("Error al cargar el equipo")
     } finally {
-      setIsLoading(false)
+      if (current()) setIsLoading(false)
     }
   }
 
@@ -151,8 +155,8 @@ export default function DentistsPage() {
       
       const result = await inviteTeamMember(formData)
       
-      if (result?.success && result?.inviteLink) {
-        setGeneratedLink(result.inviteLink)
+      if (result?.success && (result as any)?.inviteLink) {
+        setGeneratedLink((result as any).inviteLink)
         setIsLinkCopyOpen(true)
       }
       
@@ -171,13 +175,17 @@ export default function DentistsPage() {
 
   const handleDelete = async (id: string) => {
      if (!confirm("¿Seguro que deseas remover a este miembro del equipo?")) return
-     // Remove from clinic
-     const { error } = await supabase.from('profiles').update({ clinic_id: null }).eq('id', id)
+     if (!currentClinicId) return
+     // Remove from clinic via secure RPC
+     const { error } = await supabase.rpc('remove_clinic_member', {
+       p_target_user_id: id,
+       p_clinic_id: currentClinicId
+     })
      if (!error) {
        toast.success("Miembro removido de la clínica")
        fetchMembers()
      } else {
-       toast.error("Error al remover miembro")
+       toast.error(error.message || "Error al remover miembro")
      }
   }
 
@@ -392,7 +400,7 @@ export default function DentistsPage() {
         </div>
       </div>
 
-      {isLoading ? (
+      {isLoading || loadedScope !== scope || !scope ? (
         <div className="flex justify-center p-12">
           <Loader2 className="w-8 h-8 animate-spin text-teal-600" />
         </div>
@@ -406,7 +414,7 @@ export default function DentistsPage() {
               <CardHeader className="flex flex-row items-center gap-4 pb-3">
                 <div className="relative">
                   <Avatar className="h-14 w-14 border-2 border-slate-50 shadow-md transition-transform group-hover:scale-105 duration-500">
-                    <AvatarImage src={member.avatar} className="object-cover" />
+                    <PrivateTeamAvatar path={member.avatar} />
                     <AvatarFallback className="text-xl bg-teal-50 text-teal-700 font-bold">
                       {member.name.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -527,7 +535,7 @@ export default function DentistsPage() {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-9 w-9 border border-border">
-                          <AvatarImage src={member.avatar} className="object-cover" />
+                          <PrivateTeamAvatar path={member.avatar} />
                           <AvatarFallback className="text-xs bg-primary/10 text-primary font-bold">
                             {member.name.substring(0, 2).toUpperCase()}
                           </AvatarFallback>
@@ -682,7 +690,7 @@ export default function DentistsPage() {
       {/* Profile Detail Dialog */}
       <Dialog open={isProfileOpen} onOpenChange={setIsProfileOpen}>
         <DialogContent className="sm:max-w-[480px] p-0 overflow-hidden border-none rounded-3xl bg-card shadow-2xl">
-          {selectedMember && (
+          {selectedMember && scope && loadedScope === scope && (
             <div className="relative">
               {/* Header Gradient */}
               <div className="h-28 bg-gradient-to-r from-teal-500 via-teal-600 to-blue-600 relative">
@@ -699,7 +707,7 @@ export default function DentistsPage() {
                 <div className="flex justify-center mb-3">
                   <div className="p-1.5 bg-card rounded-full shadow-xl">
                     <Avatar className="h-24 w-24 border-2 border-background shadow-md">
-                      <AvatarImage src={selectedMember.avatar} className="object-cover" />
+                      <PrivateTeamAvatar path={selectedMember.avatar} />
                       <AvatarFallback className="text-3xl bg-teal-50 text-teal-700 font-bold">
                         {selectedMember.name.substring(0, 2).toUpperCase()}
                       </AvatarFallback>

@@ -1,14 +1,12 @@
 "use client"
 
 import Link from "next/link"
-import { useState, useEffect } from "react"
-import { format, isToday, isFuture } from "date-fns"
-import { es } from "date-fns/locale"
+import { useState, useEffect, useRef } from "react"
+import { useRouter } from "next/navigation"
 import { toast } from "sonner"
 import {
   Users,
   Calendar,
-  DollarSign,
   Clock,
   Mail,
   Plus,
@@ -24,7 +22,6 @@ import {
   ArrowRight,
   CircleCheckBig,
   Activity,
-  CreditCard,
   FileText,
 } from "lucide-react"
 
@@ -32,11 +29,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Textarea } from "@/components/ui/textarea"
-import { Switch } from "@/components/ui/switch"
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -55,50 +48,54 @@ import {
 import { useAuth } from "@/components/auth-context"
 import { useTranslation } from "@/components/translations"
 import { PageHeader } from "@/components/page-header"
-import { AddPatientForm } from "@/components/add-patient-form"
 import { useDashboardData } from "@/hooks/use-dashboard-data"
 import { supabase } from "@/lib/supabase"
 import { Appointment } from "@/types"
 import { AsyncPatientSelect } from "@/components/async-patient-select"
+import { AppointmentEditor } from "@/components/appointment-editor"
+import { clinicDayKey, clinicDate, clinicTime } from "@/lib/agenda.mjs"
+import { isPrescriptionRole, patientRecipesPath } from "@/lib/prescription-policy.mjs"
+import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
 export default function DashboardPage() {
-  const { user, currentClinicId } = useAuth()
+  const router = useRouter()
+  const { user, currentClinicId, authError } = useAuth()
+  const isClinical = user?.role === "doctor" || user?.role === "clinic_owner"
+  const scope = `${currentClinicId || ""}:${user?.id || ""}:${user?.role || ""}`
+  const scopeRef = useRef(scope)
+  scopeRef.current = scope
+  const operationController = useRef<AbortController | null>(null)
   const { t } = useTranslation()
-  const { appointments, patients, treatments, dentists, billings, isLoading, refreshData } = useDashboardData()
+  const { appointments, patients, patientTotal, isLoading, hasError, hasAuthority, refreshData } = useDashboardData()
 
   // Fetch clinic name & logo directly from Supabase so it's always fresh
   const [clinicName, setClinicName] = useState("Clinia +")
-  const [clinicLogoUrl, setClinicLogoUrl] = useState<string | null>(null)
+  const [clinicLogoPath, setClinicLogoPath] = useState<{ scope: string; raw: string | null } | null>(null)
+  const clinicLogoUrl = usePrivateMediaUrl('clinic-branding', clinicLogoPath?.scope === scope ? clinicLogoPath.raw : null)
 
   // Resolve professional title from profile
   const memberTitle = user?.title || ''
 
   useEffect(() => {
-    if (!currentClinicId) return
+    const controller = new AbortController()
+    setClinicName("Clinia +")
+    setClinicLogoPath(null)
+    if (!currentClinicId || !user?.id) return
     const fetchClinicBranding = async () => {
       const { data, error } = await supabase
         .from('clinics')
         .select('name, logo_url')
         .eq('id', currentClinicId)
-        .single()
+        .abortSignal(controller.signal).single()
 
-      if (!error && data) {
+      if (!controller.signal.aborted && scopeRef.current === scope && !error && data) {
         setClinicName(data.name || "Clinia +")
-        const raw = data.logo_url
-        if (raw) {
-          if (raw.startsWith('http://') || raw.startsWith('https://')) {
-            setClinicLogoUrl(raw)
-          } else {
-            const { data: urlData } = supabase.storage.from('clinic-branding').getPublicUrl(raw)
-            setClinicLogoUrl(urlData.publicUrl)
-          }
-        } else {
-          setClinicLogoUrl(null)
-        }
+        setClinicLogoPath({ scope, raw: data.logo_url || null })
       }
     }
-    fetchClinicBranding()
-  }, [currentClinicId])
+    void fetchClinicBranding().catch(() => {})
+    return () => controller.abort()
+  }, [scope, currentClinicId, user?.id, user?.role])
 
   const [collapsedSegments, setCollapsedSegments] = useState({
     metrics: false,
@@ -151,8 +148,7 @@ export default function DashboardPage() {
   // Strategic Onboarding progress
   const onboardingSteps = [
     { id: 'profile', title: 'Completa tu perfil profesional', done: !!user?.name && !!user?.phone && !!user?.bio, href: '/profile' },
-    { id: 'services', title: 'Configura tu catálogo de servicios', done: treatments.length > 0, href: '/dashboard/services' },
-    { id: 'patients', title: 'Registra tu primera historia clínica', done: patients.length > 0, href: '/patients' },
+    { id: 'patients', title: 'Registra tu primer paciente', done: (patientTotal || 0) > 0, href: '/patients' },
     { id: 'calendar', title: 'Agenda y confirma tu primera cita', done: appointments.length > 0, href: '/calendar' },
   ]
   const progressPercent = Math.round((onboardingSteps.filter(s => s.done).length / onboardingSteps.length) * 100)
@@ -160,36 +156,18 @@ export default function DashboardPage() {
 
   // Computed data
   const recentAppointments = appointments
-    .filter(a => isToday(new Date(a.start_time)))
+    .filter(a => clinicDayKey(a.start_time) === clinicDayKey())
     .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
 
   const upcomingAppointments = appointments
-    .filter(a => isFuture(new Date(a.start_time)))
+    .filter(a => Date.parse(a.start_time) > Date.now() && (a.status === 'scheduled' || a.status === 'confirmed'))
     .sort((a, b) => new Date(a.start_time).getTime() - new Date(b.start_time).getTime())
-    .slice(0, 5) // Show only top 5
-
-  const recentBillings = [...billings]
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime())
-    .slice(0, 5)
-
-  // Calculate real stats
-  const monthlyRevenue = billings
-    .filter(b => b.status === 'paid')
-    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
-
-  const pendingRevenue = billings
-    .filter(b => b.status === 'pending' || b.status === 'overdue')
-    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0)
-
-  const pendingTreatmentsCount = appointments.filter(a => 
-      (a.status === 'scheduled' || a.status === 'confirmed') && 
-      isFuture(new Date(a.start_time))
-  ).length
+  const displayedUpcomingAppointments = upcomingAppointments.slice(0, 5)
 
   const allStats = [
     {
       title: t("total-patients"),
-      value: (Array.isArray(patients) ? patients.length : 0).toString(),
+      value: patientTotal === undefined ? "No disponible" : patientTotal.toString(),
       change: "", 
       icon: Users,
       color: "text-blue-600",
@@ -200,55 +178,63 @@ export default function DashboardPage() {
       value: recentAppointments.length.toString(),
       change: "",
       icon: Calendar,
-      color: "text-green-600",
+      color: "text-emerald-600",
       href: "/calendar"
     },
     {
-      title: t("monthly-revenue") || "Ingresos del Mes",
-      value: `$${monthlyRevenue.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`, 
+      title: "Citas futuras (próximos 30 días)",
+      value: upcomingAppointments.length.toString(), 
       change: "",
-      icon: DollarSign,
-      color: "text-green-600",
-      adminOnly: true,
-      href: "/billing"
-    },
-    {
-      title: "Cuentas por Cobrar",
-      value: `$${pendingRevenue.toLocaleString('es-EC', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`,
-      change: "",
-      icon: CreditCard,
-      color: "text-amber-600",
-      adminOnly: true,
-      href: "/billing"
+      icon: Clock,
+      color: "text-purple-600",
+      href: "/calendar"
     },
   ]
 
-  const stats = allStats.filter(s => !s.adminOnly || user?.role === "clinic_owner")
+  const stats = allStats
 
   // State
-  const [isAddPatientOpen, setIsAddPatientOpen] = useState(false)
   const [isNewAppointmentOpen, setIsNewAppointmentOpen] = useState(false)
+  const [isNewPrescriptionOpen, setIsNewPrescriptionOpen] = useState(false)
+  const [prescriptionPatientId, setPrescriptionPatientId] = useState("")
+  const [canIssuePrescription, setCanIssuePrescription] = useState(false)
+  const [isSubmittingAppointment, setIsSubmittingAppointment] = useState(false)
   const [isAppointmentDetailsOpen, setIsAppointmentDetailsOpen] = useState(false)
   const [selectedAppointment, setSelectedAppointment] = useState<Appointment | null>(null)
 
-  // New Appointment Form State
-  const [newApp, setNewApp] = useState({
-    patientId: "",
-    treatmentId: "",
-    doctorId: "",
-    date: format(new Date(), "yyyy-MM-dd"),
-    time: "09:00",
-    notes: "",
-    createInvoice: true,
-    invoiceAmount: "",
-  })
+  useEffect(() => {
+    let active = true
+    setCanIssuePrescription(false)
+    setIsNewPrescriptionOpen(false)
+    setPrescriptionPatientId("")
+    if (!user?.id || !currentClinicId) return () => { active = false }
 
-  // Set default doctor on load if available
-  if (!newApp.doctorId && user?.id) {
-     // This causes infinite loop if we don't check carefully or use useEffect. 
-     // Better do it in handleCreateAppointment fallback or init state properly.
-     // But user is async. Let's just default in render if empty or handle in submit.
-  }
+    const checkPrescriptionAccess = async () => {
+      const { data: role, error: roleError } = await supabase.rpc("get_clinic_member_role", {
+        check_clinic_id: currentClinicId,
+      })
+      if (roleError || !isPrescriptionRole(role)) return
+
+      const { data: profile, error: profileError } = await supabase
+        .from("profiles")
+        .select("status")
+        .eq("id", user.id)
+        .maybeSingle()
+      if (active && !profileError && profile?.status === "active") setCanIssuePrescription(true)
+    }
+
+    void checkPrescriptionAccess()
+    return () => { active = false }
+  }, [user?.id, user?.role, currentClinicId])
+
+  useEffect(() => {
+    operationController.current?.abort()
+    setIsNewAppointmentOpen(false)
+    setIsAppointmentDetailsOpen(false)
+    setSelectedAppointment(null)
+    setIsSubmittingAppointment(false)
+    return () => operationController.current?.abort()
+  }, [scope])
 
   // Handlers
   const handleAppointmentClick = (appointment: Appointment) => {
@@ -257,21 +243,24 @@ export default function DashboardPage() {
   }
 
   const handleUpdateStatus = async (status: string) => {
-    if (!selectedAppointment) return
+    if (!selectedAppointment || !hasAuthority || !currentClinicId || isSubmittingAppointment) return
+    const operationScope = scope
+    const controller = new AbortController()
+    operationController.current = controller
+    setIsSubmittingAppointment(true)
     try {
-      const { error } = await supabase
-        .from('appointments')
-        .update({ status })
-        .eq('id', selectedAppointment.id)
-
-      if (error) throw error
-
-      toast.success(`Cita ${status === 'confirmed' ? 'confirmada' : 'actualizada'}`)
-      refreshData()
+      const { data, error } = await supabase.rpc("save_clinic_appointment", {
+        p_clinic_id: currentClinicId, p_appointment_id: selectedAppointment.id, p_data: { status },
+      }).abortSignal(controller.signal)
+      if (error || !data || typeof data.id !== "string") throw new Error("No se pudo actualizar")
+      if (scopeRef.current !== operationScope || controller.signal.aborted) return
+      toast.success(status === "confirmed" ? "Cita confirmada" : "Cita cancelada")
+      void refreshData()
       setIsAppointmentDetailsOpen(false)
-    } catch (e) {
-      console.error(e)
-      toast.error("Error al actualizar la cita")
+    } catch {
+      if (scopeRef.current === operationScope && !controller.signal.aborted) toast.error("No se pudo actualizar la cita. Revisa tu acceso y reintenta.")
+    } finally {
+      if (scopeRef.current === operationScope) setIsSubmittingAppointment(false)
     }
   }
 
@@ -284,73 +273,16 @@ export default function DashboardPage() {
     window.open(`https://wa.me/${selectedAppointment.patients.phone}?text=${encodeURIComponent(message)}`, '_blank')
   }
 
-  const handleCreateAppointment = async () => {
-    try {
-        if (!newApp.patientId || !newApp.treatmentId || !newApp.date || !newApp.time) {
-            toast.error("Por favor complete todos los campos requeridos")
-            return
-        }
-
-        const startDateTime = new Date(`${newApp.date}T${newApp.time}`)
-        const endDateTime = new Date(startDateTime.getTime() + 60 * 60 * 1000) // Default 1 hour duration
-
-        const treatment = treatments.find(t => t.id === newApp.treatmentId)
-
-        // 1. Create Appointment
-        const { data: appData, error: appError } = await supabase
-            .from('appointments')
-            .insert({
-                patient_id: newApp.patientId,
-                doctor_id: newApp.doctorId || user?.id,
-                start_time: startDateTime.toISOString(),
-                end_time: endDateTime.toISOString(),
-                type: treatment?.name || 'Consulta',
-                status: 'confirmed',
-                notes: newApp.notes
-            })
-            .select()
-            .single()
-
-        if (appError) throw appError
-
-        // 2. Create Invoice (Optional)
-        if (newApp.createInvoice && appData) {
-            const amount = newApp.invoiceAmount ? parseFloat(newApp.invoiceAmount) : treatment?.price || 0
-            await supabase.from('billings').insert({
-                patient_id: newApp.patientId,
-                appointment_id: appData.id,
-                amount: amount,
-                status: 'pending',
-                description: `Cita: ${treatment?.name}`,
-                invoice_number: `INV-${Date.now()}`
-            })
-        }
-
-        toast.success("Cita creada exitosamente")
-        setIsNewAppointmentOpen(false)
-        refreshData()
-        
-        // Reset form
-        setNewApp({
-            patientId: "",
-            treatmentId: "",
-            doctorId: user?.id || "",
-            date: format(new Date(), "yyyy-MM-dd"),
-            time: "09:00",
-            notes: "",
-            createInvoice: true,
-            invoiceAmount: "",
-        })
-
-    } catch (error) {
-        console.error("Error creating appointment:", error)
-        toast.error("Error al crear la cita")
-    }
-  }
-
   const handleSendReminder = () => {
       // Functional placeholder for now
       toast.info("Funcionalidad de envío masivo de correos próximamente")
+  }
+
+  if (!isLoading && (hasError || !hasAuthority || authError)) {
+    return <div role="alert" className="space-y-3 p-6">
+      <p>No se pudo cargar el panel. Revisa el acceso a la clínica y reintenta.</p>
+      {hasAuthority && <Button onClick={() => void refreshData()}>Reintentar</Button>}
+    </div>
   }
 
   if (isLoading) {
@@ -454,8 +386,8 @@ export default function DashboardPage() {
                   </Button>
                 </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-64 p-2">
-                <DropdownMenuItem 
-                  onClick={() => setIsAddPatientOpen(true)}
+                {hasAuthority && <DropdownMenuItem 
+                  onClick={() => router.push('/patients?new=1')}
                   className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 w-full">
@@ -467,10 +399,13 @@ export default function DashboardPage() {
                       <span className="text-xs text-muted-foreground/80">Registrar paciente</span>
                     </div>
                   </div>
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
                 
-                <DropdownMenuItem 
-                  onClick={() => window.location.href = '/dashboard/recipes'}
+                {isClinical && canIssuePrescription && <DropdownMenuItem 
+                  onClick={() => {
+                    setPrescriptionPatientId("")
+                    setIsNewPrescriptionOpen(true)
+                  }}
                   className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 w-full">
@@ -482,7 +417,7 @@ export default function DashboardPage() {
                       <span className="text-xs text-muted-foreground/80">Emitir receta o prescripción</span>
                     </div>
                   </div>
-                </DropdownMenuItem>
+                </DropdownMenuItem>}
                 
                 <DropdownMenuSeparator className="my-2" />
                 
@@ -506,107 +441,36 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      {/* Add Patient Dialog */}
-      <Dialog open={isAddPatientOpen} onOpenChange={setIsAddPatientOpen}>
-        <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <Dialog open={isClinical && canIssuePrescription && isNewPrescriptionOpen} onOpenChange={setIsNewPrescriptionOpen}>
+        <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
-            <DialogTitle>Añadir Paciente</DialogTitle>
-            <DialogDescription>Completa la información del nuevo paciente</DialogDescription>
+            <DialogTitle>Nueva Receta Médica</DialogTitle>
+            <DialogDescription>Selecciona al paciente para abrir su editor de recetas.</DialogDescription>
           </DialogHeader>
-          <AddPatientForm 
-            onSubmit={(data) => {
-              refreshData() // Reload patients list
-              setIsAddPatientOpen(false)
-            }} 
-            onCancel={() => setIsAddPatientOpen(false)} 
-          />
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label>Paciente</Label>
+              <AsyncPatientSelect value={prescriptionPatientId} onValueChange={setPrescriptionPatientId} />
+            </div>
+          </div>
+          <div className="flex justify-end gap-2">
+            <Button variant="outline" onClick={() => setIsNewPrescriptionOpen(false)}>Cancelar</Button>
+            <Button
+              disabled={!isClinical || !canIssuePrescription || !patientRecipesPath(prescriptionPatientId)}
+              onClick={() => {
+                const destination = patientRecipesPath(prescriptionPatientId)
+                if (!canIssuePrescription || !destination) return
+                setIsNewPrescriptionOpen(false)
+                router.push(destination)
+              }}
+            >
+              Abrir receta
+            </Button>
+          </div>
         </DialogContent>
       </Dialog>
 
-      {/* New Appointment Dialog */}
-      <Dialog open={isNewAppointmentOpen} onOpenChange={setIsNewAppointmentOpen}>
-        <DialogContent className="sm:max-w-[500px]">
-          <DialogHeader>
-            <DialogTitle>Nueva Cita</DialogTitle>
-            <DialogDescription>Programa una nueva cita.</DialogDescription>
-          </DialogHeader>
-          <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                  <Label>Paciente</Label>
-                  <AsyncPatientSelect 
-                      value={newApp.patientId} 
-                      onValueChange={v => setNewApp({...newApp, patientId: v})} 
-                  />
-              </div>
-              <div className="grid gap-2">
-                  <Label>Tratamiento</Label>
-                  <Select value={newApp.treatmentId} onValueChange={v => {
-                      const t = treatments.find(tr => tr.id === v)
-                      setNewApp({
-                          ...newApp, 
-                          treatmentId: v, 
-                          invoiceAmount: t ? t.price.toString() : ""
-                      })
-                  }}>
-                      <SelectTrigger><SelectValue placeholder="Tipo..."/></SelectTrigger>
-                      <SelectContent>
-                          {treatments.map(t => (
-                              <SelectItem key={t.id} value={t.id}>{t.name} (${t.price})</SelectItem>
-                          ))}
-                      </SelectContent>
-                  </Select>
-              </div>
-              <div className="grid gap-2">
-                  <Label>Doctor</Label>
-                  <Select value={newApp.doctorId} onValueChange={v => setNewApp({...newApp, doctorId: v})}>
-                      <SelectTrigger><SelectValue placeholder="Seleccionar..."/></SelectTrigger>
-                      <SelectContent>
-                           {/* Fallback to current user if dentist list empty or simply show all dentists */}
-                          {dentists.length > 0 ? dentists.map(d => (
-                              <SelectItem key={d.id} value={d.id}>{d.full_name || "Doctor"}</SelectItem>
-                          )) : (
-                              <SelectItem value={user?.id || "current"}>{user?.name || "Yo"}</SelectItem>
-                          )}
-                      </SelectContent>
-                  </Select>
-              </div>
-              <div className="grid grid-cols-2 gap-4">
-                  <div className="grid gap-2">
-                      <Label>Fecha</Label>
-                      <Input type="date" value={newApp.date} onChange={e => setNewApp({...newApp, date: e.target.value})} />
-                  </div>
-                   <div className="grid gap-2">
-                      <Label>Hora</Label>
-                      <Input type="time" value={newApp.time} onChange={e => setNewApp({...newApp, time: e.target.value})} />
-                  </div>
-              </div>
-              <div className="flex items-center space-x-2 border p-3 rounded-md">
-                  <Switch 
-                      checked={newApp.createInvoice} 
-                      onCheckedChange={c => setNewApp({...newApp, createInvoice: c})}
-                  />
-                  <Label className="flex-1">Generar Factura</Label>
-                  {newApp.createInvoice && (
-                      <Input 
-                          type="number" 
-                          className="w-24 h-8" 
-                          value={newApp.invoiceAmount} 
-                          onChange={e => setNewApp({...newApp, invoiceAmount: e.target.value})}
-                          placeholder="$"
-                      />
-                  )}
-              </div>
-              <div className="grid gap-2">
-                  <Label>Notas</Label>
-                  <Textarea value={newApp.notes} onChange={e => setNewApp({...newApp, notes: e.target.value})} />
-              </div>
-          </div>
-          <div className="flex justify-end gap-2">
-              <Button variant="outline" onClick={() => setIsNewAppointmentOpen(false)}>Cancelar</Button>
-              <Button onClick={handleCreateAppointment}>Guardar</Button>
-          </div>
-        </DialogContent>
-      </Dialog>
+      {isNewAppointmentOpen && <AppointmentEditor key={scope} open onOpenChange={setIsNewAppointmentOpen} onSuccess={() => { toast.success("Cita creada"); void refreshData() }} />}
 
       {/* Appointment Details */}
       <Dialog open={isAppointmentDetailsOpen} onOpenChange={setIsAppointmentDetailsOpen}>
@@ -628,30 +492,27 @@ export default function DashboardPage() {
                 <div className="grid grid-cols-2 gap-4 text-sm">
                     <div>
                         <Label className="text-muted-foreground">Fecha</Label>
-                        <p>{format(new Date(selectedAppointment.start_time), "dd/MM/yyyy")}</p>
+                        <p>{clinicDate(selectedAppointment.start_time)}</p>
                     </div>
                     <div>
                         <Label className="text-muted-foreground">Hora</Label>
-                        <p>{format(new Date(selectedAppointment.start_time), "HH:mm")}</p>
+                        <p>{clinicTime(selectedAppointment.start_time)}</p>
                     </div>
                     <div>
                         <Label className="text-muted-foreground">Tratamiento</Label>
                         <p>{selectedAppointment.type}</p>
                     </div>
                 </div>
-                {selectedAppointment.notes && (
+                {isClinical && selectedAppointment.notes && (
                     <div className="bg-muted p-2 rounded text-sm">
                         {selectedAppointment.notes}
                     </div>
                 )}
                 <div className="flex flex-wrap gap-2 pt-4 border-t">
-                    <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" onClick={() => handleUpdateStatus('confirmed')}>
+                    <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('confirmed')}>
                         <Check className="w-4 h-4 mr-1" /> Confirmar
                     </Button>
-                    <Button size="sm" variant="outline" onClick={() => handleUpdateStatus('rescheduled')}>
-                         <CalendarClock className="w-4 h-4 mr-1" /> Reagendar
-                    </Button>
-                    <Button size="sm" variant="destructive" onClick={() => handleUpdateStatus('cancelled')}>
+                    <Button size="sm" variant="destructive" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('cancelled')}>
                          <X className="w-4 h-4 mr-1" /> Cancelar
                     </Button>
                     <Button size="sm" variant="secondary" className="ml-auto" onClick={handleSendMessage}>
@@ -669,7 +530,7 @@ export default function DashboardPage() {
           <div className="flex items-center gap-2">
             <div className={`h-2 w-2 rounded-full transition-all duration-500 seg-dot-metrics ${collapsedSegments.metrics ? 'bg-muted-foreground/30' : 'bg-emerald-500 animate-slow-pulse'}`} />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80 font-montserrat">
-              {t("dashboard-metrics") || "Métricas Clave"}
+              Resumen de la clínica
             </h3>
           </div>
           <Button
@@ -703,9 +564,9 @@ export default function DashboardPage() {
                   </CardHeader>
                   <CardContent>
                     <div className="text-2xl font-bold">{stat.value}</div>
-                    <p className="text-xs text-muted-foreground mt-1">
-                      <span className={stat.change.startsWith("+") ? "text-emerald-500" : "text-rose-500"}>{stat.change}</span> vs mes anterior
-                    </p>
+                      {stat.change && <p className="text-xs text-muted-foreground mt-1">
+                        <span className={stat.change.startsWith("+") ? "text-emerald-500" : "text-rose-500"}>{stat.change}</span> vs mes anterior
+                      </p>}
                   </CardContent>
                 </Card>
               </Link>
@@ -846,7 +707,7 @@ export default function DashboardPage() {
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <Badge variant="outline">{format(new Date(app.start_time), "HH:mm")}</Badge>
+                                    <Badge variant="outline">{clinicTime(app.start_time)}</Badge>
                                 </div>
                             </div>
                         ))
@@ -872,7 +733,7 @@ export default function DashboardPage() {
                             <p className="text-muted-foreground text-sm max-w-[250px]">{upcomingPhrase}</p>
                         </div>
                     ) : (
-                        upcomingAppointments.map(app => (
+                        displayedUpcomingAppointments.map(app => (
                             <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
                                 <div className="flex items-center gap-3">
                                     <Avatar className="h-10 w-10">
@@ -880,11 +741,11 @@ export default function DashboardPage() {
                                     </Avatar>
                                     <div>
                                         <p className="font-medium">{app.patients?.first_name} {app.patients?.last_name}</p>
-                                        <p className="text-xs text-muted-foreground">{format(new Date(app.start_time), "dd MMM")}</p>
+                                        <p className="text-xs text-muted-foreground">{clinicDate(app.start_time)}</p>
                                     </div>
                                 </div>
                                 <div className="text-right">
-                                    <span className="text-sm font-mono">{format(new Date(app.start_time), "HH:mm")}</span>
+                                    <span className="text-sm font-mono">{clinicTime(app.start_time)}</span>
                                 </div>
                             </div>
                         ))
@@ -900,13 +761,13 @@ export default function DashboardPage() {
         )}
       </div>
 
-      {/* 4. Flujo Financiero y Actividad Segment */}
+      {/* 4. Pacientes Recientes & Actividad Clínica Segment */}
       <div className="space-y-3">
         <div className="flex items-center justify-between px-1">
           <div className="flex items-center gap-2">
-            <div className={`h-2 w-2 rounded-full transition-all duration-500 seg-dot-other ${collapsedSegments.otherMetrics ? 'bg-muted-foreground/30' : 'bg-violet-500 animate-slow-pulse'}`} />
+            <div className={`h-2 w-2 rounded-full transition-all duration-500 seg-dot-other ${collapsedSegments.otherMetrics ? 'bg-muted-foreground/30' : 'bg-teal-500 animate-slow-pulse'}`} />
             <h3 className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80 font-montserrat">
-              Flujo Financiero &amp; Actividad
+              Pacientes Recientes &amp; Actividad Clínica
             </h3>
           </div>
           <Button
@@ -931,46 +792,59 @@ export default function DashboardPage() {
 
         {!collapsedSegments.otherMetrics ? (
           <div className="space-y-6 animate-in fade-in duration-300">
-            {/* Recent Transactions — owners only */}
-            {user?.role === "clinic_owner" && (
-              <Card className="border-border/60 hover:border-violet-500/30 transition-colors">
-                <CardHeader>
-                  <CardTitle className="text-lg font-bold flex items-center gap-2 text-foreground/90">
-                    <DollarSign className="w-5 h-5 text-green-600" />
-                    Transacciones Recientes
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  {recentBillings.length === 0 ? (
-                    <div className="text-center py-6 text-slate-500 text-sm">
-                      No hay transacciones recientes registradas.
-                    </div>
-                  ) : (
-                    <div className="space-y-4">
-                      {recentBillings.map((billing) => (
-                        <div key={billing.id} className="flex items-center justify-between p-3 rounded-lg border border-border/50 bg-muted/50 hover:bg-muted/80 transition-colors">
-                          <div className="flex items-center gap-3">
-                            <div className={`p-2 rounded-full ${billing.status === 'paid' ? 'bg-green-100 text-green-600' : 'bg-amber-100 text-amber-600'}`}>
-                              <DollarSign className="w-4 h-4" />
-                            </div>
-                            <div>
-                              <p className="font-semibold text-foreground/90 text-sm max-w-[150px] truncate">{billing.description || "Consulta Médica"}</p>
-                              <p className="text-xs text-slate-500">{format(new Date(billing.created_at), "dd MMM", { locale: es })}</p>
-                            </div>
-                          </div>
-                          <div className="text-right flex flex-col items-end">
-                            <p className="font-bold text-foreground/90">${Number(billing.amount).toFixed(2)}</p>
-                            <Badge variant={billing.status === 'paid' ? 'default' : 'secondary'} className="mt-1 text-[10px] uppercase">
-                              {billing.status === 'paid' ? 'Pagado' : billing.status === 'overdue' ? 'Vencido' : 'Pendiente'}
-                            </Badge>
+            {/* Recent Patients */}
+            <Card className="border-border/60 hover:border-teal-500/30 transition-colors">
+              <CardHeader className="flex flex-row items-center justify-between pb-3">
+                <CardTitle className="text-lg font-bold flex items-center gap-2 text-foreground/90">
+                  <Users className="w-5 h-5 text-teal-600" />
+                  Pacientes Recientes
+                </CardTitle>
+                <Link href="/patients">
+                  <Button variant="ghost" size="sm" className="text-xs font-bold text-teal-600 hover:text-teal-700">
+                    Ver todos ({patientTotal ?? "No disponible"})
+                  </Button>
+                </Link>
+              </CardHeader>
+              <CardContent>
+                {patients.length === 0 ? (
+                  <div className="text-center py-6 text-slate-500 text-sm">
+                    No hay pacientes registrados aún.
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    {patients.slice(0, 5).map((p: any) => (
+                      <Link 
+                        key={p.id} 
+                        href={isClinical ? `/patients/${p.id}` : "/patients"}
+                        className="flex items-center justify-between p-3 rounded-xl border border-border/50 bg-muted/40 hover:bg-muted/80 transition-all group"
+                      >
+                        <div className="flex items-center gap-3">
+                          <Avatar className="h-9 w-9 border border-border/60">
+                            <AvatarFallback className="font-bold text-xs bg-primary/10 text-primary">
+                              {p.first_name?.[0]}{p.last_name?.[0]}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div>
+                            <p className="font-semibold text-foreground text-sm group-hover:text-primary transition-colors">
+                              {p.first_name} {p.last_name}
+                            </p>
+                            <p className="text-xs text-muted-foreground">
+                              {p.cedula ? `C.I: ${p.cedula}` : p.phone || "Sin cédula"}
+                            </p>
                           </div>
                         </div>
-                      ))}
-                    </div>
-                  )}
-                </CardContent>
-              </Card>
-            )}
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-[10px] font-bold">
+                            {isClinical ? "Ver Historia HCU" : "Ver pacientes"}
+                          </Badge>
+                          <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:translate-x-0.5 transition-transform" />
+                        </div>
+                      </Link>
+                    ))}
+                  </div>
+                )}
+              </CardContent>
+            </Card>
 
             {/* Recent Activity Feed */}
             <Card className="border-border/50 shadow-sm hover:border-violet-500/30 transition-colors">
@@ -995,7 +869,7 @@ export default function DashboardPage() {
                           <p className="text-sm font-semibold text-foreground/90 truncate">
                             {step.id === 'profile' ? 'Identidad Clínica Verificada' :
                              step.id === 'services' ? 'Catálogo de Especialidades Activo' :
-                             step.id === 'patients' ? 'Base de Datos de Pacientes Iniciada' :
+                             step.id === 'patients' ? 'Primer paciente registrado' :
                              'Calendario de Citas Operativo'}
                           </p>
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">Completado</span>
@@ -1020,7 +894,7 @@ export default function DashboardPage() {
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-sm font-semibold text-foreground/90 truncate">Nueva Cita Programada</p>
                           <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest whitespace-nowrap">
-                            {format(new Date(app.created_at || new Date()), "HH:mm")}
+                            {clinicTime(app.created_at || new Date())}
                           </span>
                         </div>
                         <p className="text-xs text-slate-500 mt-0.5">
@@ -1033,7 +907,7 @@ export default function DashboardPage() {
 
                 <div className="mt-4 pt-4 border-t border-slate-100">
                    <p className="text-[10px] text-center text-slate-400 font-medium uppercase tracking-widest">
-                      La actividad se sincroniza en tiempo real con tu base de datos clínica
+                     Actividad basada en los registros de pacientes y agenda
                    </p>
                 </div>
               </CardContent>
@@ -1047,4 +921,3 @@ export default function DashboardPage() {
   </>
 )
 }
-

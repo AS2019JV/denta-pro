@@ -1,0 +1,232 @@
+{
+  "migrations": [
+    {
+      "version": "20251211161436",
+      "name": "add_automation_and_billing_link"
+    },
+    {
+      "version": "20251211205744",
+      "name": "create_treatments_and_bucket"
+    },
+    {
+      "version": "20251213174627",
+      "name": "setup_multitenancy_and_invoices"
+    },
+    {
+      "version": "20251214180019",
+      "name": "billing_enhancements"
+    },
+    {
+      "version": "20251214180042",
+      "name": "create_receipts_bucket"
+    },
+    {
+      "version": "20251215233936",
+      "name": "20251215_add_patient_columns"
+    },
+    {
+      "version": "20251216000048",
+      "name": "20251215_multi_clinic_support"
+    },
+    {
+      "version": "20251216000620",
+      "name": "20251215_fix_patient_uniqueness"
+    },
+    {
+      "version": "20251219002540",
+      "name": "20251218_saas_schema"
+    },
+    {
+      "version": "20251219002656",
+      "name": "20251218_saas_functions"
+    },
+    {
+      "version": "20251219002659",
+      "name": "20251218_saas_audit_triggers"
+    },
+    {
+      "version": "20251223033007",
+      "name": "20251222_add_disclaimer_text"
+    },
+    {
+      "version": "20251223033010",
+      "name": "20251222_add_working_hours"
+    },
+    {
+      "version": "20251223033122",
+      "name": "20251222_create_storage_branding"
+    },
+    {
+      "version": "20251223033128",
+      "name": "20251222_add_medical_alerts"
+    },
+    {
+      "version": "20251223033153",
+      "name": "20251222_create_recall_queue_view"
+    },
+    {
+      "version": "20251223033156",
+      "name": "20251222_add_odontogram_state"
+    },
+    {
+      "version": "20251223033158",
+      "name": "20251222_add_periodontogram_state"
+    },
+    {
+      "version": "20251223033228",
+      "name": "20251222_add_trial_support"
+    },
+    {
+      "version": "20251223033549",
+      "name": "20251222_enforce_enums"
+    },
+    {
+      "version": "20251223034944",
+      "name": "20251222_fix_permissions"
+    },
+    {
+      "version": "20251227150334",
+      "name": "20251227_subscription_bypass"
+    },
+    {
+      "version": "20251227155132",
+      "name": "20251227_enforce_subscription_rls"
+    },
+    {
+      "version": "20251227161007",
+      "name": "20251227_payment_schema"
+    },
+    {
+      "version": "20251227164725",
+      "name": "20251227_optimize_rls_jwt"
+    },
+    {
+      "version": "20251227165206",
+      "name": "20251227_audit_read_beacon"
+    },
+    {
+      "version": "20251227165904",
+      "name": "20251227_data_retention_lifecycle"
+    },
+    {
+      "version": "20251227170445",
+      "name": "20251227_security_checklist"
+    },
+    {
+      "version": "20251227171212",
+      "name": "20251227_secure_rpc_access"
+    },
+    {
+      "version": "20251227215955",
+      "name": "20251227_fix_signup_error"
+    },
+    {
+      "version": "20260114012556",
+      "name": "production_indexes"
+    },
+    {
+      "version": "20260114012614",
+      "name": "enforce_strict_subscription"
+    },
+    {
+      "version": "20260130204224",
+      "name": "security_hardening_views_and_policies"
+    },
+    {
+      "version": "20260221195214",
+      "name": "add_medical_and_personal_fields_to_patients"
+    },
+    {
+      "version": "20260221201538",
+      "name": "pro_clinical_and_financial_fields_to_patients"
+    },
+    {
+      "version": "20260222152622",
+      "name": "patient_aggregated_stats_view"
+    },
+    {
+      "version": "20260222152629",
+      "name": "default_loyalty_config"
+    },
+    {
+      "version": "20260222152737",
+      "name": "get_patients_with_stats_rpc"
+    },
+    {
+      "version": "20260222152839",
+      "name": "update_get_patients_with_stats_rpc"
+    },
+    {
+      "version": "20260222160327",
+      "name": "add_family_context_columns"
+    },
+    {
+      "version": "20260222160529",
+      "name": "augment_patient_list_rpc_with_family_data_v2"
+    },
+    {
+      "version": "20260222170444",
+      "name": "enhanced_patient_filters_rpc"
+    },
+    {
+      "version": "20260222174454",
+      "name": "patient_last_treatment_and_odontogram_preview"
+    },
+    {
+      "version": "20260401210942",
+      "name": "add_service_colors_and_fix_nulls"
+    },
+    {
+      "version": "20260401214622",
+      "name": "add_service_categories_table"
+    },
+    {
+      "version": "20260428214553",
+      "name": "update_clinic_creation_trigger_with_size"
+    },
+    {
+      "version": "20260428234751",
+      "name": "add_size_to_clinics"
+    },
+    {
+      "version": "20260502005610",
+      "name": "20260502_prescription_templates"
+    },
+    {
+      "version": "20260502025126",
+      "name": "create_prescriptions_table"
+    },
+    {
+      "version": "20260508225414",
+      "name": "enable_rls_prescriptions"
+    },
+    {
+      "version": "20260922062827",
+      "name": "test_migration"
+    },
+    {
+      "version": "20260922063147",
+      "name": "m1_tenant_and_access_control"
+    },
+    {
+      "version": "20260922063312",
+      "name": "m2_clinical_services_payment_methods"
+    },
+    {
+      "version": "20260922063323",
+      "name": "m3_analytics_maintenance_rpcs"
+    },
+    {
+      "version": "20260922063502",
+      "name": "m4_data_rights_requests_lopdp"
+    },
+    {
+      "version": "20260922174110",
+      "name": "m5_security_and_production_readiness"
+    },
+    {
+      "version": "20260922184028",
+      "name": "m6_security_hardening_and_contract_fix"
+    }
+  ]
+}

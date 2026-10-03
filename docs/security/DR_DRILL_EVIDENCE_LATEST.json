@@ -1,0 +1,55 @@
+{
+  "drill_id": "dr-20260925-drill-01",
+  "timestamp": "2026-09-25T04:55:46.204Z",
+  "operator": "Lead DevOps & Database Engineer (Clinia+ Security Team)",
+  "verdict": "PASS",
+  "target_environment": "scratch_staging",
+  "metrics": {
+    "rto": {
+      "elapsed_seconds": 1620,
+      "limit_seconds": 3600,
+      "margin_seconds": 1980,
+      "compliant": true
+    },
+    "rpo": {
+      "lag_seconds": 14400,
+      "limit_seconds": 86400,
+      "margin_seconds": 72000,
+      "compliant": true
+    }
+  },
+  "database": {
+    "status": "VERIFIED",
+    "tables_verified": [
+      "patients",
+      "appointments",
+      "prescriptions",
+      "clinical_records",
+      "hcu033_forms",
+      "patient_notes",
+      "patient_files",
+      "billings",
+      "invoices",
+      "data_rights_requests"
+    ],
+    "total_tables": 10
+  },
+  "storage": {
+    "status": "VERIFIED",
+    "buckets_verified": [
+      "patient-avatars",
+      "patient-files",
+      "receipts"
+    ],
+    "total_objects": 2910,
+    "total_bytes": 293601280
+  },
+  "security_controls": {
+    "status": "VERIFIED",
+    "mfa_enforced_for_owners": true,
+    "leaked_password_protection": true,
+    "custom_access_token_hook": true,
+    "service_key_isolated": true
+  },
+  "signature": "a2156a73ae50b1f6f8eba506624d723f41c739a5871ba2679eaead1abe454078"
+}

@@ -1,0 +1,104 @@
+{
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "buildId": "EyMMBqS0vPYQ5R1NNQ5iH",
+  "environment": "local synthetic acceptance; not a deployable production artifact",
+  "scope": "selected integration source hashes, not a complete release snapshot",
+  "files": [
+    {
+      "path": "middleware.ts",
+      "sha256": "1f3ef8c670ce7d33527168e4642557c418731f881b34939a2d33eee3916ad448"
+    },
+    {
+      "path": "next.config.mjs",
+      "sha256": "8e7385146bc6cf1822e1e2f91e073c0b23a14559d156b14e405f4500238ef306"
+    },
+    {
+      "path": "scripts/clinia-local-app.cjs",
+      "sha256": "3ce777045ca9df344c9079756f1caefb81834eadf629be732baf3ef0dd94ceb7"
+    },
+    {
+      "path": "lib/clinic-authority.mjs",
+      "sha256": "4a3d92f2fab6883dca31c7ebb51a9642e48c8888d838e3618effa8d15652a69f"
+    },
+    {
+      "path": "components/auth-context.tsx",
+      "sha256": "d45682b2f684584d869df26761e0bc1129c3a395591cb8ccb13640676ea15b61"
+    },
+    {
+      "path": "components/dashboard-wrapper.tsx",
+      "sha256": "367398855bc90a5d7bb0e65ec6ce2bc2f84c11fa23bdd881176c51a3ae0d22df"
+    },
+    {
+      "path": "components/login-form.tsx",
+      "sha256": "27a5a8419c79c6319c92ab8ee80cff5239f17c86026d13f13d3dc12e47d938ed"
+    },
+    {
+      "path": "hooks/use-dashboard-data.ts",
+      "sha256": "509afc86723b0094e15d31cc7d5713ba097ccac4bd9df4d41f86c9ba656a34ab"
+    },
+    {
+      "path": "components/async-patient-select.tsx",
+      "sha256": "8c55fcac2516992f0c26e90324cb3eb68619bc33aed15f9fed444c41d47091fa"
+    },
+    {
+      "path": "components/subscription-blocker.tsx",
+      "sha256": "9ed09ef7bedd1480b500fcde5b79313c6cd6d38439c9e61fd96b3fdbbecc1c6c"
+    },
+    {
+      "path": "components/sidebar.tsx",
+      "sha256": "5e8fa6275eb21f0b09d7fd38469f70c355439f7dbcef665a4852008e0f3279a3"
+    },
+    {
+      "path": "app/(dashboard)/dashboard/page.tsx",
+      "sha256": "d75fb2233060320e98af6a3f6d8ee73a380a425ff6b042ee9e9496891f48bfb8"
+    },
+    {
+      "path": "app/(dashboard)/patients/page.tsx",
+      "sha256": "33158d4326740a74d9537d99a6004234fcfe0dab799049d2b6f630dd27e09e0f"
+    },
+    {
+      "path": "app/(dashboard)/patients/[id]/page.tsx",
+      "sha256": "14d0054b4298eb65114b016bf321e7e9203babd46fc4716d72e1bb2021df4735"
+    },
+    {
+      "path": "lib/patient-demographics.mjs",
+      "sha256": "79d3fba30ff98f8e1403e64b5d0a10c248ef202d6cc15fea666610c504f1a65f"
+    },
+    {
+      "path": "lib/patient-detail.mjs",
+      "sha256": "92e0caf19bdb04bb2231b67da8087892f93c163de4a384cccb03be83879e5247"
+    },
+    {
+      "path": "lib/prescription-policy.mjs",
+      "sha256": "74047895197561c44f2786672cbd05235a888f56706b5f6daa1c6bb3c9aea194"
+    },
+    {
+      "path": "app/actions/save-prescription.ts",
+      "sha256": "420d9552ec9c21c9f2cf5e352cc4574f1748ed51f803af69900f79bc3a2c0669"
+    },
+    {
+      "path": "components/patient-prescriptions.tsx",
+      "sha256": "b35ae5f3605473389b7763ab48be301cc01f4d503246fb1752418fe127302172"
+    },
+    {
+      "path": "components/patient-medical-records.tsx",
+      "sha256": "92362fce92685cf964975c5e4578f570f90403ff506202663d020aa3666f35ae"
+    },
+    {
+      "path": "app/globals.css",
+      "sha256": "8fd3b34670ea24402fb9217bacd21c86f9b42bacdfc0196c1ec800ccecc6daa5"
+    },
+    {
+      "path": "app/(landing)/layout.tsx",
+      "sha256": "2fced41327a6bdba7b60ee92dd750a493660245ad74aec2704462ad0586d0f8a"
+    },
+    {
+      "path": "test/production/local-csp.test.cjs",
+      "sha256": "d32c7fcf8da94dae14a6eea41076164357ba530c21c150676721f37275e39b46"
+    },
+    {
+      "path": "test/production/middleware-authority.test.cjs",
+      "sha256": "b12fcd3b8e1d4044c21f1bdb11f9bdfc1c0951cd99c802baf5772394c71cedc2"
+    }
+  ]
+}

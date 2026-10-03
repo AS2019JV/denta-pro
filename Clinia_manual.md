@@ -1,4 +1,4 @@
-﻿# CLINIA+ DENTAL SAAS — DEVELOPER & AGENT MANUAL (AGENTS.MD)
+# CLINIA+ DENTAL SAAS — DEVELOPER & AGENT MANUAL (AGENTS.MD)
 
 > **Version**: 2.5 (Production Standard — MSP HCU-033 & LOPDP Compliant)  
 > **Target Audience**: AI Agents, Senior Full-Stack Developers, and Clinical Software Architects.
@@ -99,6 +99,20 @@ Official dental clinical history according to SNS-MSP / HCU-form.033 / 2008.
 - `price` (numeric), `duration_minutes` (integer, default: 30).
 - `active` (bool).
 
+### 3.7 `prescriptions` (Medical Prescriptions History)
+- `id` (uuid, PK).
+- `clinic_id` (uuid, FK), `patient_id` (uuid, FK), `doctor_id` (uuid, FK).
+- `created_at` (timestamp with tz).
+- `data` (jsonb):
+  - `medications`: Array of `{ name, dosage, duration }`.
+  - `indications`: Free text post-treatment instructions.
+  - `signature`: Base64 signature data or null.
+
+### 3.8 `prescription_templates` (Reusable Clinical Prescriptions)
+- `id` (uuid, PK).
+- `doctor_id` (uuid, FK), `name` (text).
+- `data` (jsonb): `{ medications: [...], indications: string }`.
+
 ---
 
 ## 4. Role-Based Access Control (RBAC) & Security Rules
@@ -143,12 +157,32 @@ Official dental clinical history according to SNS-MSP / HCU-form.033 / 2008.
 - **Removable Prosthetics Accent**: Violet (`#8b5cf6`).
 - **Never use distracting icons** (e.g. sparkles) in medical treatment catalogs or health records.
 
+### 5.4 Prescriptions Hub & Patient Prescriptions (`/recipes` & `components/patient-prescriptions.tsx`)
+- **Dual Tab Architecture**:
+  - Tab 1: **"Historial de Recetas Emitidas"** (`IssuedPrescriptionsList`): Searchable across patient name, cédula, and prescribed medications, with immediate MSP/SENESCYT PDF reprint.
+  - Tab 2: **"Plantillas de Recetas"** (`RecipesTab`): Clinical prescription templates for common dental procedures.
+- **Official Branding & Signature Line**: Injects clinic logo from Supabase Storage (`clinic-branding`), doctor SENESCYT license number (`profiles.license_number`), and patient cédula into standard A5 prescription PDF.
+
+### 5.5 Fast Chairside Appointment Booking (`components/quick-appointment-dialog.tsx`)
+- Triggered directly from the patient profile top bar (`patients/[id]`) and empty appointment states.
+- Pre-fills patient identity, auto-calculates duration based on selected service, and lets the practitioner select doctor, date, and initial status (`scheduled`, `confirmed`).
+
+### 5.6 LOPDP Data Export & Backup Standards
+- **Patient Directory Export (`app/(dashboard)/patients/page.tsx`)**:
+  - Strict compliance with LOPDP Ecuador and Ley Orgánica de Salud.
+  - Prepend UTF-8 BOM (`\uFEFF`) and semicolon delimiter (`;`) for seamless opening in Microsoft Excel on Windows in Spanish regions.
+  - Includes clinical antecedents: diabetes, hypertension, cardiology, allergies, emergency contacts, balance, and registration date.
+- **Clinic Portability (Art. 17 LOPDP)** (`components/settings/privacy-tab.tsx`):
+  - 1-click JSON backup export bundling clinic patients, appointments, service catalog, and HCU-033 records pursuant to the statutory Right to Portability (Art. 17 LOPDP).
+  - **Right of Elimination / Suppression (Art. 15 LOPDP)** and medical custody reconciliation: Requests for account deletion or suppression are logged in `public.data_rights_requests`. Under the **Ley Orgánica de Salud (Art. 7)** and MSP technical norms, medical and dental clinical records (HCU-033) must be retained under mandatory medical custody for 5 to 10 years, restricting immediate destruction and enforcing preventative archival and blocking. (Note: statutory Articles 20 and 21 of the LOPDP govern automated individual decisions and profiling).
+
 ---
 
 ## 6. Verification Protocol for Developers & Agents
 
 Whenever making changes or adding features:
 1. Run type check: `npx tsc --noEmit` (must exit with 0 errors).
-2. Validate multi-tenant scoping: Ensure `currentClinicId` is passed in queries.
-3. Validate PDF generators: Ensure `lib/pdf-generator.ts` and `lib/reports-pdf.ts` export with proper metadata and branding.
+2. Validate multi-tenant scoping: Ensure `currentClinicId` is passed in all queries and mutations.
+3. Validate PDF generators: Ensure `lib/pdf-generator.ts` handles missing logos or signatures gracefully.
 4. Verify responsive layout on mobile (<768px) and desktop (>1024px).
+5. All clinical terminology, labels, dialogs, and error messages MUST be in professional medical Spanish.

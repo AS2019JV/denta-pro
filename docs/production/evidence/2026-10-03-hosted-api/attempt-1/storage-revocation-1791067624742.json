@@ -1,0 +1,11 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T22:47:04.546Z",
+  "actor": "doctor_A",
+  "mode": "warm",
+  "requests": [],
+  "scope": "Read-only synthetic cached versus fresh resource probes; same authenticated URL across committed membership removal",
+  "failure": "Probe failed; preserved safe technical metadata",
+  "completedAt": "2026-10-03T22:47:04.742Z"
+}

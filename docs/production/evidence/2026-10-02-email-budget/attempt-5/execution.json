@@ -1,0 +1,79 @@
+{
+  "startedAt": "2026-10-02T16:58:40.032Z",
+  "status": "VERIFIED",
+  "database": "clinia_email_budget_20261002_5",
+  "source": "clinia_contract_stage_20260928_3",
+  "checks": [
+    {
+      "name": "Own profile update succeeds without created_at; authority changes denied",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Anonymous/authenticated execution denied; service cannot read private counters",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Malformed request and stale or non-owner actor rejected without counters",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Concurrent destination reservations allow exactly three of twelve",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Anonymous IP quota is shared between signup/resend",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Actor quota shared across invite/transactional and live demotion denial",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Shared authenticated IP ceiling sixty across seven actors",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Clinic ceiling one hundred twenty across actors and IPs",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Common destination ceiling ten across invite/transactional actions",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Suspended/deleted profiles and removed members lose server budget authority",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Bounded expiry cleanup skips locked rows and preserves current windows",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Global ceiling rejects atomically without new identity rows",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Actual local PostgreSQL17 SQL grants/concurrency with synthetic SQL role claims",
+    "Not ordinary Auth JWTs or deployed email/provider acceptance",
+    "No remote mutation or cleanup; clone preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "created": true,
+  "migrationSha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f",
+  "profileGuardSha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb",
+  "completedAt": "2026-10-02T16:58:43.794Z"
+}

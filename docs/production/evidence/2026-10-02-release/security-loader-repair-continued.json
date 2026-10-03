@@ -1,0 +1,40 @@
+{
+  "state": "FORMERLY_UNLOADED_59_EXECUTED_PASS_OTHER_LEGACY_FAILURES_PRESERVED",
+  "exitCode": 1,
+  "command": "node --test test/security/challenger-m1-2-adversarial.test.cjs test/security/challenger-m3-stress.test.cjs test/security/m6-gap-03-email.test.cjs",
+  "tests": 124,
+  "passed": 118,
+  "failed": 6,
+  "skipped": 0,
+  "log": "docs/production/evidence/2026-10-02-release/security-loader-repair-continued.log",
+  "priorFailedRun": "docs/production/evidence/2026-10-02-release/security-loader-repair.json",
+  "formerlyUnloaded": {
+    "cases": 59,
+    "passed": 59
+  },
+  "newDurableDenials": {
+    "cases": 3,
+    "passed": 3
+  },
+  "boundedContractChanges": [
+    "Missing Origin/identity denies401or403 with zero budget/email effects",
+    "Original31/101 request volumes preserved; explicit durable shared-destination10 replies deny later attempts and preserve variable Retry-After",
+    "Valid UUID inactive clinic receives403 throughout101 rotating-IP attempts; forged metadata never grants live membership"
+  ],
+  "remaining": [
+    {
+      "count": 1,
+      "cause": "Untouched component-local media signer AST"
+    },
+    {
+      "count": 5,
+      "cause": "Untouched active-payment expectations; currentroute503"
+    }
+  ],
+  "limits": [
+    "Three specified files and one helper only; complete legacy suite not rerun",
+    "Current nested TypeScript action/route/gate with explicit synthetic authority and quota mocks",
+    "No actual SQL quota execution, provider delivery, browser or deployed ingress claim"
+  ],
+  "completedAt": "2026-10-03T03:14:37.808Z"
+}

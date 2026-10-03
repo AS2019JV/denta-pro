@@ -1,0 +1,44 @@
+{
+  "evidenceKind": "scoped metadata comparison only; not JWT/RLS behavioral or restore evidence",
+  "matches": false,
+  "differences": [
+    {
+      "category": "columns",
+      "identity": "public.data_rights_requests.resolution_notes",
+      "expected": {
+        "acl": [],
+        "collation": "\"default\"",
+        "compression": "",
+        "default": null,
+        "generated": "",
+        "identity": "",
+        "name": "resolution_notes",
+        "notNull": false,
+        "position": 16,
+        "schema": "public",
+        "storage": "x",
+        "table": "data_rights_requests",
+        "type": "text",
+        "typeName": "text",
+        "typeSchema": "pg_catalog"
+      },
+      "actual": {
+        "acl": [],
+        "collation": "\"default\"",
+        "compression": "",
+        "default": null,
+        "generated": "",
+        "identity": "",
+        "name": "resolution_notes",
+        "notNull": false,
+        "position": 15,
+        "schema": "public",
+        "storage": "x",
+        "table": "data_rights_requests",
+        "type": "text",
+        "typeName": "text",
+        "typeSchema": "pg_catalog"
+      }
+    }
+  ]
+}
