@@ -1,0 +1,34 @@
+{
+  "status": "BLOCKED",
+  "candidateCommit": "544a092d24b61f0c36c9b32490e9be0d34dc1438",
+  "origin": "https://v0-denta-pro-git-codex-cl-3f4a77-alesuav2001-gmailcoms-projects.vercel.app",
+  "startedAt": "2026-10-03T23:40:17.690Z",
+  "requests": [
+    {
+      "path": "/",
+      "status": 302,
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "strict-transport-security": "max-age=63072000; includeSubDomains; preload",
+        "x-frame-options": "DENY",
+        "location": "https://vercel.com/sso-api"
+      },
+      "bytes": 263,
+      "bodySha256": "078d44efe538819a52deef2d03cc221b5b81ea1ae1f577dc80710db061c3766f"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Provider Preview protection denies unauthenticated CLI access",
+      "status": "VERIFIED",
+      "applicationRouteVerification": "BLOCKED"
+    }
+  ],
+  "assets": [],
+  "limits": [
+    "Anonymous HTTP checks and observed HTML-referenced JS only; browser roles and all lazy assets are separate gates",
+    "No deployed email/provider dispatch or clinical approval"
+  ],
+  "failure": "Provider SSO blocks CLI app verification; protection retained",
+  "completedAt": "2026-10-03T23:40:18.171Z"
+}

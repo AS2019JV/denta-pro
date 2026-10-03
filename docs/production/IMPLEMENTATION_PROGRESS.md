@@ -8,7 +8,8 @@
 - Agenda **8/8 grupos locales**,32 carreras e independencia entre clínicas; ocho carreras alojadas sin HTTP500. HCU/PDF: regresiones de contexto y verificación de bytes/render reales.
 - Recuperación DB+Storage+configuración y overlays: **6/6,5/5,6/6**. RTO sintético13021.311s/RPO0 en fuente quiescente; no acredita SLA ni backups alojados.
 - Audit producción cero; completo ocho HIGH propagados por braces de build sin parche. Plugin Tailwind dev-only, ninguna versión/integridad cambiada.
-- CI final, despliegue exacto, alertas, backup alojado y aceptación profesional/privacidad siguen abiertos. Cifras históricas pertenecen a snapshots anteriores.
+- [CI real37160546400](https://github.com/AS2019JV/denta-pro/actions/runs/37160546400), candidato544a092: tipos/lint/**222/222 tests**/build/scan776 textos/audit producción0;92 artefactos de navegador sin sentinel de secreto. Árbol probado y publicado iguales. [PR draft1](https://github.com/AS2019JV/denta-pro/pull/1), sin promoción de producción.
+- Preview manual del mismo commit creado en Vercel; variables staging limitadas a esa rama, APP_URL/Supabase origen HTTPS exacto y seis redirects sin wildcard. Runtime aún en verificación. Alertas, backup alojado y aceptación profesional/privacidad siguen abiertos. Cifras históricas pertenecen a snapshots anteriores.
 
 ## Evidencia histórica — 02-10-2026
 

@@ -569,7 +569,7 @@ export default function PatientDetailsPage() {
                                                         {patient.allergies}
                                                     </span>
                                                 ) : (
-                                                    <span className="text-base text-muted-foreground">Ninguna conocida</span>
+                                                    <span className="text-base text-muted-foreground">Sin alergias registradas</span>
                                                 )}
                                             </div>
                                         </div>
@@ -579,11 +579,11 @@ export default function PatientDetailsPage() {
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Condiciones</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.medicalConditions || "Ninguna"}</p>
+                                            <p className="text-base font-medium text-foreground">{patient.medicalConditions || "Sin condiciones registradas"}</p>
                                         </div>
                                         <div className="space-y-1.5">
                                             <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Medicamentos</Label>
-                                            <p className="text-base font-medium text-foreground">{patient.medications || "Ninguno"}</p>
+                                            <p className="text-base font-medium text-foreground">{patient.medications || "Sin medicamentos registrados"}</p>
                                         </div>
                                     </div>
                                 </div>

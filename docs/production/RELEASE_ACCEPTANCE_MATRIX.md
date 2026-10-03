@@ -10,7 +10,7 @@ Evidencia actual: [progreso](IMPLEMENTATION_PROGRESS.md), [convergencia/autorida
 
 | Inventario | Comportamiento | Encargos responsables | Estado para release | Qué falta para cerrar |
 | --- | --- | --- | --- | --- |
-| 00-01 | Evidencia y versión | PREP, 15B | PARTIALLY VERIFIED | Snapshot local verificado; ejecutar CI remota y revisar el mismo candidato final |
+| 00-01 | Evidencia y versión | PREP, 15B | PARTIALLY VERIFIED | Candidato544a092/CI remota222 tests verificados y PR draft; falta cierre de aceptación/despliegue/legacy suite |
 | 00-02 | Entornos, esquema y clínica | 01A, 01B, 02A | PARTIALLY VERIFIED | Cadena final/API, limpio/upgrade y paridad remota |
 | 00-03 | Registro, login y recuperación | 02A, 07B, 10B | PARTIALLY VERIFIED | Revocación completa, correo y flujo desplegado |
 | 00-04 | Equipo, roles e invitaciones | 02A, 07B, 10B | PARTIALLY VERIFIED | Matriz completa e invitación real sin elevación |

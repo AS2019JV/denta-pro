@@ -1,0 +1,60 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "mode": "prepare",
+  "startedAt": "2026-10-03T23:12:37.886Z",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "status": 200,
+      "code": null,
+      "cacheControl": null,
+      "cfCacheStatus": "DYNAMIC",
+      "bytes": 190,
+      "bodySha256": "9a0b0255c55bce6ae39aed0c9dcb30821cb054611729916fd30b6bfb66894f48"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "status": 200,
+      "code": null,
+      "cacheControl": "public, private, no-store, max-age=0, must-revalidate",
+      "cfCacheStatus": "MISS",
+      "bytes": 56,
+      "bodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "status": 200,
+      "code": null,
+      "cacheControl": "public, private, no-store, max-age=0, must-revalidate",
+      "cfCacheStatus": "HIT",
+      "bytes": 56,
+      "bodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "status": 200,
+      "code": null,
+      "cacheControl": "public, private, no-store, max-age=0, must-revalidate",
+      "cfCacheStatus": "HIT",
+      "bytes": 56,
+      "bodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "status": 200,
+      "code": null,
+      "cacheControl": "public, private, no-store, max-age=0, must-revalidate",
+      "cfCacheStatus": "HIT",
+      "bytes": 56,
+      "bodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+    }
+  ],
+  "scope": "New owned synthetic PDF only; tests response no-store instead of trusting upload configuration",
+  "completedAt": "2026-10-03T23:12:40.252Z"
+}
