@@ -48,6 +48,8 @@ async function harness(options = {}) {
         },
         async getClaims(token) {
           state.claims.push({ kind, token })
+          state.onClaims?.()
+          if (state.claimsThrow) throw state.claimsThrow
           return { data: { claims: { sub: state.userId, session_id: state.sessionId, role: state.claimRole || 'authenticated' } }, error: state.claimsError || null }
         },
       },
@@ -182,6 +184,27 @@ test('ordinary live denial blocks broker login and Storage fetch for each concre
     const h = await harness(); change(h.state); await deny(await h.POST(request()))
     assert.equal(h.state.logins.length, 0, label); assert.equal(h.state.fetches.length, 0, label)
   }
+})
+
+test('plain SDK claims exceptions fail closed before clinical queries, broker login or Storage', async () => {
+  for (const message of ['JWT has expired', 'Missing exp claim', 'Claims verification unavailable']) {
+    const h = await harness({ claimsThrow: new Error(message) })
+    await deny(await h.POST(request({ authorization: `Bearer ${humanToken}` })))
+    assert.equal(h.state.claims.length, 1)
+    assert.equal(h.state.queries.length, 0); assert.equal(h.state.rpc.length, 0)
+    assert.equal(h.state.logins.length, 0); assert.equal(h.state.fetches.length, 0)
+  }
+  const rejected = await harness({ identityError: { message: 'Rejected identity' }, claimsThrow: new Error('Must not run') })
+  await deny(await rejected.POST(request({ authorization: `Bearer ${humanToken}` })))
+  assert.equal(rejected.state.claims.length, 0)
+  const cancellation = new AbortController()
+  const aborted = await harness({ onClaims: () => cancellation.abort(), claimsThrow: new Error('Canceled verification') })
+  await deny(await aborted.POST(new Request(request({ authorization: `Bearer ${humanToken}` }), { signal: cancellation.signal })), 504)
+  assert.equal(aborted.state.fetches.length, 0)
+  const revokedDuringFetch = await harness({ onFetch: state => { state.claimsThrow = new Error('JWT has expired') } })
+  await deny(await revokedDuringFetch.POST(request({ authorization: `Bearer ${humanToken}` })))
+  assert.equal(revokedDuringFetch.state.fetches.length, 1); assert.equal(revokedDuringFetch.state.claims.length, 2)
+  assert.equal(revokedDuringFetch.state.rpc.some(call => call.name === 'clinia_audit_document_delivery'), false)
 })
 
 test('foreign clinic, patient and file scopes cannot access the legitimate object', async () => {

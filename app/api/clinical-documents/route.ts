@@ -54,7 +54,13 @@ export async function POST(request: Request) {
       caller = client
       return { authorize: async (scope: DocumentScope) => {
         const identity = bearer ? await client.auth.getUser(bearer) : await client.auth.getUser()
-        const claims = bearer ? await client.auth.getClaims(bearer) : await client.auth.getClaims()
+        if (identity.error || !identity.data.user) return null
+        // The pinned Auth SDK can throw a plain Error for expired JWTs instead
+        // of returning claims.error. Unverifiable claims never establish
+        // authority; request cancellation still follows the deadline path.
+        let claims
+        try { claims = bearer ? await client.auth.getClaims(bearer) : await client.auth.getClaims() }
+        catch { signal.throwIfAborted(); return null }
         const uid = identity.data.user?.id, sessionId = claims.data?.claims.session_id
         if (identity.error || claims.error || !uid || typeof sessionId !== 'string' || claims.data?.claims.role !== 'authenticated') return null
         const key = `${uid}:${sessionId}`
