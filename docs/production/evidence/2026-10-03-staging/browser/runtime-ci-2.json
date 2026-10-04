@@ -1,0 +1,88 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "environment": "Vercel protected Preview with cliniaplus-staging",
+  "candidateCommit": "a281fce8768b449c2274cafa8b506cc677b2a7d0",
+  "deploymentId": "8ed9JjDyMHXLhqh9Q3sYDB1wy48c",
+  "deploymentUrl": "https://v0-denta-paxzo58hc-alesuav2001-gmailcoms-projects.vercel.app",
+  "branchAlias": "https://v0-denta-pro-git-codex-cl-3f4a77-alesuav2001-gmailcoms-projects.vercel.app",
+  "project": "phihonofwyerpfgqfekt",
+  "recordedAt": "2026-10-04T00:04:21.735Z",
+  "tool": "cua_repl actual browser UI; no mock API/session or protection bypass",
+  "actors": [
+    {
+      "label": "doctor_A",
+      "id": "272d63b1-38e3-4a60-89a2-dd07f031b2d2",
+      "clinic": "d9a47157-1d36-43df-af1d-436d561ee551",
+      "synthetic": true
+    },
+    {
+      "label": "anonymous after actual logout"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Actual ordinary password login",
+      "action": "UI fill owned synthetic actor credentials, click Iniciar Sesión, observe dashboard",
+      "expected": "Doctor, clinicA, two own patients",
+      "result": "VERIFIED"
+    },
+    {
+      "name": "Foreign patient read",
+      "action": "goto /patients/421114c9-80e5-4533-9cfa-55966d90b162",
+      "expected": "Paciente no encontrado; own clinic role retained",
+      "result": "VERIFIED"
+    },
+    {
+      "name": "Owned clinical page and absent-value semantics",
+      "action": "goto /patients/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14",
+      "expected": "Own synthetic clinical note, Sin alergias registradas / Sin condiciones registradas / Sin medicamentos registrados",
+      "result": "VERIFIED"
+    },
+    {
+      "name": "Logout clears current clinical surface",
+      "action": "Click Cerrar Sesión",
+      "expected": "Clinical surface unmounted; no active clinic alert",
+      "result": "VERIFIED"
+    },
+    {
+      "name": "Anonymous protected dashboard",
+      "action": "After logout goto /dashboard",
+      "expected": "Redirect /login; no clinical note present",
+      "result": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Browser URL-wait returned early timeout while login completed; later actual dashboard observation is authoritative",
+    "No HTTP404 claim from a not-found UI",
+    "Logout remains on no-active-clinic screen until navigation; middleware then redirects to login",
+    "No deployed invitation/mail/recovery/MFA, reception/owner UI, signed export, browser revocation or capacity proof",
+    "CLI application probe blocked by Vercel SSO; protection retained"
+  ],
+  "regressionCoverage": [
+    "Production contract suite225/225 at exact CI commit",
+    "Three storage negative-control regression tests",
+    "Missing clinical label copy verified directly on deployed candidate"
+  ],
+  "screenshots": [
+    {
+      "path": "vercel-preview-ci-2-ready.png",
+      "sha256": "2e6f042d36dfc9d5b793f0dd91a6c87e8b14987de213483c9346f8755d62167c"
+    },
+    {
+      "path": "ci-2-doctor-dashboard.png",
+      "sha256": "a0b143a6ea606d1aeed9e310993e983d23e46e7cdf494220cdc619d8266fc298"
+    },
+    {
+      "path": "ci-2-doctor-foreign-denied.png",
+      "sha256": "d5f5bb9a898e79d75a95f9b210f2841c66269eeaa2da81e017a30267dddb36e0"
+    },
+    {
+      "path": "ci-2-doctor-own-clinical.png",
+      "sha256": "e2d6416e2498619ae177c19ff2f72f75f7fcd353741d573576be6dfaf943c790"
+    },
+    {
+      "path": "ci-2-anonymous-login.png",
+      "sha256": "33e366caeddfdcaf3c7ccd1568e44df52240c50bd7bce88ba2d8d6c6d97d9450"
+    }
+  ]
+}

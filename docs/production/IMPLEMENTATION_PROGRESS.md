@@ -9,7 +9,8 @@
 - Recuperación DB+Storage+configuración y overlays: **6/6,5/5,6/6**. RTO sintético13021.311s/RPO0 en fuente quiescente; no acredita SLA ni backups alojados.
 - Audit producción cero; completo ocho HIGH propagados por braces de build sin parche. Plugin Tailwind dev-only, ninguna versión/integridad cambiada.
 - [CI real37160546400](https://github.com/AS2019JV/denta-pro/actions/runs/37160546400), candidato544a092: tipos/lint/**222/222 tests**/build/scan776 textos/audit producción0;92 artefactos de navegador sin sentinel de secreto. Árbol probado y publicado iguales. [PR draft1](https://github.com/AS2019JV/denta-pro/pull/1), sin promoción de producción.
-- Preview manual del mismo commit creado en Vercel; variables staging limitadas a esa rama, APP_URL/Supabase origen HTTPS exacto y seis redirects sin wildcard. Runtime aún en verificación. Alertas, backup alojado y aceptación profesional/privacidad siguen abiertos. Cifras históricas pertenecen a snapshots anteriores.
+- [CI225/225 del nuevo candidato a281fce](https://github.com/AS2019JV/denta-pro/actions/runs/37163120300) y Preview8ed9JjDyMHXLhqh9Q3sYDB1wy48c Ready: login doctor, dos pacientes propios, paciente ajeno denegado, campos médicos vacíos correctamente etiquetados y logout/redirección anónima verificados en navegador. Variables staging limitadas a esa rama; seis redirects HTTPS exactos sin wildcard. CLI bloqueado por SSO conservado. Resto de matriz runtime/mail/MFA abierto.
+- P1 confirmado también25m32s después de expirar el JWT original: Postgres401 por expiración, PDF200/HIT mismo hash en dos rutas. No asumir contención acortando JWT o añadiendo no-store. Revisión independiente valida el alcance de un bucket/región; no acceso anónimo demostrado. Alertas, backup alojado y aceptación profesional/privacidad siguen abiertos.
 
 ## Evidencia histórica — 02-10-2026
 

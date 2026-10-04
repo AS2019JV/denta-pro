@@ -31,7 +31,7 @@ Evidencia actual: [progreso](IMPLEMENTATION_PROGRESS.md), [convergencia/autorida
 | 00-19 | Evoluciones/notas | 09A, 02A | NOT VERIFIED | Autoría, correcciones y edición concurrente |
 | 00-20 | Recetas/reimpresión | 09B, 03 | PARTIALLY VERIFIED | Emisión idempotente y documento histórico consistente |
 | 00-21 | Firma/credenciales | 09B, 07B | NOT VERIFIED | Fuente aprobada, permisos y requisito clínico/legal |
-| 00-22 | Adjuntos/imágenes | 02B, 09B, 14A | BLOCKED | Revocación CDN falla con200 cacheado; RLS/firma ajenos y recuperación local de bytes verificados |
+| 00-22 | Adjuntos/imágenes | 02B, 09B, 14A | BLOCKED | Revocación CDN falla con200 cacheado incluso25m32s tras expiración JWT; RLS/firma ajenos y recuperación local de bytes verificados |
 | 00-23 | WhatsApp manual | 10A | NOT VERIFIED | Teléfono/texto/revisión y estados honestos |
 | 00-24 | Marketing/bandejas/automatización | 04, 10A, 11B | PARTIALLY VERIFIED | Retiro completo de ejecución y promesas fuera de alcance |
 | 00-25 | Importación CSV | 08 | NOT VERIFIED | Más de 1.000 filas, duplicados y fallos parciales |
