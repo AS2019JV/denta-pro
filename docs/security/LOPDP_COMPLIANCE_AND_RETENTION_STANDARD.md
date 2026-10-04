@@ -1,5 +1,7 @@
 # Clinia+ Ecuador LOPDP Compliance & Clinical Retention Standard
 
+> **2026-10-04 qualification:** this is an unapproved policy draft. The historical `APPROVED` labels below are not signed acceptance evidence and must not be used to authorize release. Retention periods, controller/processor allocation, minors/consent and professional obligations require qualified Ecuador clinical/privacy review. See the current production acceptance matrix; no legal certification is claimed.
+
 **Document ID:** LOPDP-STD-2026-01  
 **Target System:** Clinia+ Dental EHR / Practice Management SaaS  
 **Governing Laws:**

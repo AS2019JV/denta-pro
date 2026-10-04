@@ -21,13 +21,45 @@ import {
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { toast } from "sonner"
-import { usePrivateMediaUrl } from "@/hooks/use-private-media"
+import { fetchClinicalDocument } from "@/lib/clinical-document-client.mjs"
 
-function PrivateFileDownload({ path }: { path: string }) {
-  const url = usePrivateMediaUrl('patient-files', path)
+function PrivateFileDownload({ fileId, patientId, name }: { fileId: string; patientId: string; name: string }) {
+  const { user, currentClinicId, isLoading, isRevalidating, authError } = useAuth()
+  const scope = !isLoading && !isRevalidating && !authError && user?.id && currentClinicId && ['doctor', 'clinic_owner'].includes(user.role)
+    ? `${user.id}:${currentClinicId}:${user.role}:${patientId}:${fileId}` : ''
+  const publication = useRef({ scope, valid: true })
+  if (publication.current.scope !== scope) { publication.current.valid = false; publication.current = { scope, valid: true } }
+  const controller = useRef<AbortController | null>(null)
+  const [busy, setBusy] = useState(false)
+  useEffect(() => {
+    const token = publication.current; token.valid = true; setBusy(false)
+    return () => { token.valid = false; controller.current?.abort() }
+  }, [scope])
+  async function download() {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current() || !currentClinicId || busy) return
+    const abort = new AbortController(); controller.current = abort; setBusy(true)
+    let url: string | null = null
+    try {
+      const blob = await fetchClinicalDocument({ clinicId: currentClinicId, patientId, fileId }, abort.signal, current)
+      if (!blob || !current()) return
+      url = URL.createObjectURL(blob)
+      const link = document.createElement('a'); link.href = url
+      link.download = name.replace(/[\x00-\x1f\x7f\\/]/g, '_').slice(0, 180) || 'documento'
+      link.rel = 'noopener noreferrer'; document.body.appendChild(link)
+      try { if (current()) link.click() } finally { link.remove() }
+    } catch { if (current() && !abort.signal.aborted) toast.error('No se pudo descargar el documento. Verifica tu acceso e intenta nuevamente.') }
+    finally {
+      // Retain no provider URL or reusable client object URL.
+      if (url) URL.revokeObjectURL(url)
+      if (controller.current === abort) controller.current = null
+      if (current()) setBusy(false)
+    }
+  }
   return <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-primary hover:bg-slate-50"
-    disabled={!url} onClick={() => { if (url) window.open(url, '_blank', 'noopener,noreferrer') }} title="Descargar archivo">
-    <Download className="h-4 w-4" />
+    disabled={!scope || busy} onClick={download} title="Descargar archivo">
+    {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
   </Button>
 }
 
@@ -74,7 +106,7 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
   const [newNote, setNewNote] = useState("")
   const [isDragging, setIsDragging] = useState(false)
 
-  // Download controls resolve short-lived signed URLs under their live authority.
+  // Downloads use the authenticated application route; object paths stay in DB.
   const fetchFiles = useCallback(async () => {
     const token = publication.current
     const current = () => token.valid && !!scope && token.scope === scope
@@ -178,17 +210,18 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
 
       for (const file of filesToUpload) {
         if (!current()) return
+        if (file.size > 10 * 1024 * 1024) throw new Error('Cada documento puede tener un máximo de 10 MB.')
         const fileExt = file.name.split('.').pop() || 'bin'
         const fileExtClean = fileExt.toLowerCase().replace(/[^a-z0-9]/g, '')
         
         // SEC-05 FIX: Storage path MUST be partitioned by <clinic_id>/<patient_id>/<filename>
-        const filePath = `${currentClinicId}/${patientId}/${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExtClean}`
+        const filePath = `${currentClinicId}/${patientId}/${crypto.randomUUID()}.${fileExtClean || 'bin'}`
 
         // A. Upload to storage bucket with tenant path prefix
         const { error: uploadError } = await supabase.storage
           .from('patient-files')
           .upload(filePath, file, {
-            upsert: true,
+            upsert: false,
             contentType: file.type
           })
 
@@ -381,7 +414,7 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
                          </div>
                        </div>
                        <div className="flex items-center gap-1.5 flex-none">
-                         <PrivateFileDownload path={file.filePath} />
+                         <PrivateFileDownload fileId={file.id} patientId={patientId} name={file.name} />
                          <Button 
                            variant="ghost" 
                            size="icon" 

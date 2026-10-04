@@ -2,6 +2,8 @@
 
 Fecha de inicio: 28-09-2026. **Estado global: NO-GO clínico.**
 
+Actualización04-10: [Production Acceptance Matrix vigente](CANDIDATE_READINESS_2026-10-04.md). La arquitectura de entrega clínica por servidor y sus controles son pruebas locales; todavía no cierran el P1 de URLs cacheadas ni los gates externos. Esta matriz histórica conserva su evidencia y no equivale a aprobación clínica/privacidad.
+
 Actualización03-10: [gates del candidato y evidencia real](CANDIDATE_READINESS_2026-10-03.md). La aceptación completa de cada comportamiento sigue separada de las pruebas técnicas acotadas.
 
 Esta matriz conecta los 36 IDs del [inventario](00_INVENTARIO_DE_CIERRE.md) con las tareas del [plan](PLAN_DE_CIERRE_PRODUCCION_2026-09-28.md). Una evidencia local acotada se conserva y reutiliza; no cierra automáticamente la aceptación desplegada de un comportamiento.

@@ -1,5 +1,7 @@
 # CLINIA+ DENTAL EHR/PMS — PRODUCTION OPERATIONAL RUNBOOK
 
+> **2026-10-04: superseded operational draft.** Use [current candidate acceptance](docs/production/CANDIDATE_READINESS_2026-10-04.md) and its rollback instructions. The historical sections below are not an approved procedure: never restore single-column tenant foreign keys, reopen private buckets, drop occupied schemas, or infer configured hooks/backups from this document. Its RPO/RTO and availability targets have not been approved or demonstrated for the candidate.
+
 > **Document Version**: 1.0.0  
 > **Release Target**: Production Milestone 7 (M7)  
 > **Classification**: Restricted — Internal Clinical SaaS Operations & DevOps  

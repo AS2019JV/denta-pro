@@ -396,17 +396,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
       if (error) throw error
       if (!isCurrent()) return
 
-      // Sync odontogram data globally to the patient's record (Vista Rápida integration)
-      if (formData.odontograma_data) {
-        await supabase
-          .from('patients')
-          .update({ odontogram_state: formData.odontograma_data })
-          .eq('clinic_id', currentClinicId)
-          .eq('id', patientId)
-          .is('deleted_at', null)
-      }
-      if (!isCurrent()) return
-      
+      // The canonical HCU AFTER trigger updates the patient summary in this
+      // INSERT transaction. A trigger failure rejects and rolls back the HCU;
+      // a second client UPDATE could race a newer HCU and overwrite its summary.
       toast.success("Formulario guardado correctamente")
       onSave?.(formData)
     } catch (error) {

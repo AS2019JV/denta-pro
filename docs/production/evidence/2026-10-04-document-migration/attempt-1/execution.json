@@ -1,0 +1,42 @@
+{
+  "status": "BLOCKED",
+  "startedAt": "2026-10-04T03:21:56.474Z",
+  "command": "node scripts/verify-clinia-document-migration.cjs 1",
+  "project": "clinia-clean-20261002-1",
+  "driverSha256": "bb3cb5bf81233958e81b0b9ab6799df784833dd114b8f2d7457a7a7986905b83",
+  "migration": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+  "migrationSha256": "eb38fedf98b48958156e75f4499ca9d5f7cff82e5c8f786d6fd3f9ba8d270f0b",
+  "initialState": "exited",
+  "checks": [],
+  "limits": [
+    "SQL roles with synthetic claims; no cryptographic HTTP JWT, managed hook or Storage/CDN proof",
+    "All prospective DDL, role/grants and probe rows rolled back",
+    "No remote or occupied production connection"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    }
+  ],
+  "before": {
+    "roleExists": false,
+    "registryExists": false,
+    "objects": 4,
+    "files": 1,
+    "policies": 4
+  },
+  "error": "Clean local API operation failed; private diagnostic preserved",
+  "finalState": "exited",
+  "completedAt": "2026-10-04T03:22:16.533Z"
+}

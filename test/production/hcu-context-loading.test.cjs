@@ -3,8 +3,8 @@
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),vm=require('node:vm'),ts=require('typescript')
 function deferred(){let resolve;const promise=new Promise(r=>{resolve=r});return {promise,resolve}}
 const settle=()=>new Promise(resolve=>setImmediate(resolve))
-function harness(){
-  const state={pending:new Map(),writes:[],published:[],calls:[],slots:[],effects:[],tree:null}
+function harness(options={}){
+  const state={pending:new Map(),writes:[],published:[],saved:[],successes:[],errors:[],updates:[],calls:[],slots:[],effects:[],tree:null,...options}
   const auth={user:{id:'doctor-a',role:'doctor'},currentClinicId:'clinic-a',isRevalidating:false}
   let cursor=0
   const react={
@@ -21,8 +21,8 @@ function harness(){
         if(table==='hcu033_forms'){const d=deferred();state.pending.set(filters.patient_id,d);return d.promise}
         return {data:{first_name:'SYNTHETIC',last_name:filters.id,is_smoker:true},error:null}
       },
-      insert(row){state.writes.push(row);return Promise.resolve({error:null})},
-      update(){return q},then(resolve){resolve({error:null})},
+      async insert(row){state.writes.push(row);if(state.saveWait)await state.saveWait.promise;return {error:state.saveError || null}},
+      update(row){state.updates.push({table,row});return q},then(resolve){resolve({error:null})},
     };return q}},
   jsx=(_type,props)=>({props})
   const m={exports:{}},js=ts.transpileModule(fs.readFileSync('components/hcu033-form.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText
@@ -31,7 +31,7 @@ function harness(){
     if(id==='react/jsx-runtime')return {jsx,jsxs:jsx}
     if(id==='@/components/auth-context')return {useAuth:()=>auth}
     if(id==='@/lib/supabase')return {supabase:client}
-    if(id==='sonner')return {toast:{success(){},error(){}}}
+    if(id==='sonner')return {toast:{success:message=>state.successes.push(message),error:message=>state.errors.push(message)}}
     return new Proxy({}, {get:()=>()=>null})
   }})
   function find(node,name){if(!node || typeof node!=='object')return
@@ -39,7 +39,7 @@ function harness(){
     for(const value of Object.values(node)){if(Array.isArray(value)){for(const child of value){const fn=find(child,name);if(fn)return fn}}else{const fn=find(value,name);if(fn)return fn}}
   }
   return {state,auth,
-    render(patientId){cursor=0;state.effects=[];state.tree=m.exports.HCU033Form({patientId,onDataChange:data=>state.published.push(data)})
+    render(patientId){cursor=0;state.effects=[];state.tree=m.exports.HCU033Form({patientId,onDataChange:data=>state.published.push(data),onSave:data=>state.saved.push(data)})
       for(const effect of state.effects)effect();return find(state.tree,'handleSave')},
     unmount(){for(const slot of state.slots)slot?.cleanup?.()},
     form(){return state.slots.find(value=>value && typeof value==='object' && 'nombre_completo' in value)},
@@ -80,4 +80,31 @@ test('smoking does not prefill asthma, and a failed HCU load cannot be saved as 
   assert.equal(h.form().ant_asma,false);assert.equal(h.form().nombre_completo,'SYNTHETIC patient-a')
   const failed=harness();failed.render('patient-a');failed.state.pending.get('patient-a').resolve({data:null,error:{message:'synthetic unavailable'}});await settle()
   await failed.render('patient-a')();assert.equal(failed.state.writes.length,0)
+})
+
+test('successful HCU save uses one insert and never repeats the atomic database summary update',async()=>{
+  const h=harness();h.render('patient-a')
+  const form={nombre_completo:'SYNTHETIC A',odontograma_data:{'11':{surfaces:{top:'caries:red'}}},odontograma_descripcion:'Synthetic finding'}
+  h.state.pending.get('patient-a').resolve({data:{form_data:form},error:null});await settle()
+  await h.render('patient-a')()
+  assert.equal(h.state.writes.length,1);assert.equal(h.state.updates.length,0)
+  assert.equal(h.state.successes.length,1);assert.equal(h.state.saved.length,1)
+  assert.equal(h.state.saved[0].odontograma_descripcion,form.odontograma_descripcion)
+})
+
+test('database summary-trigger failure never reports HCU success or invokes onSave',async()=>{
+  const h=harness({saveError:{code:'23514',message:'Synthetic summary rejection'}});h.render('patient-a')
+  h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A',odontograma_data:{'11':{condition:'extraction'}}}},error:null});await settle()
+  await h.render('patient-a')()
+  assert.equal(h.state.writes.length,1);assert.equal(h.state.updates.length,0)
+  assert.equal(h.state.successes.length,0);assert.equal(h.state.saved.length,0)
+  assert.deepEqual(h.state.errors,['Error al guardar el formulario'])
+})
+
+test('a save acknowledged after changing patient cannot publish success into the next HCU context',async()=>{
+  const saveWait=deferred(),h=harness({saveWait});h.render('patient-a')
+  h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A'}},error:null});await settle()
+  const pending=h.render('patient-a')();h.render('patient-b');saveWait.resolve();await pending
+  assert.equal(h.state.writes.length,1);assert.equal(h.state.writes[0].patient_id,'patient-a')
+  assert.equal(h.state.updates.length,0);assert.equal(h.state.successes.length,0);assert.equal(h.state.saved.length,0)
 })
