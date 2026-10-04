@@ -20,6 +20,7 @@ function inspectText(text) {
     try {
       const claims = JSON.parse(Buffer.from(match[1], 'base64url').toString('utf8'));
       if (claims.role === 'service_role') add('supabase-service-jwt', match.index);
+      if (claims.role === 'clinia_document_delivery') add('supabase-document-delivery-jwt', match.index);
     } catch { /* A non-JWT string is not evidence of a privileged credential. */ }
   }
   return results;

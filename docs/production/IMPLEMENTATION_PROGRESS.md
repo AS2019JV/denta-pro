@@ -4,6 +4,8 @@
 
 **NO-GO.** [Matriz compacta de aceptación y acciones](CANDIDATE_READINESS_2026-10-04.md). Entrega clínica por servidor preparada con JWT humano/RLS, principal aislado, auditoría, límites y revalidación; migración probada únicamente mediante transacción de rollback en DB sintética. HCU usa su trigger atómico existente, sin escritura duplicada. No despliegue nuevo ni cambios de producción; revocación de URLs históricas, Auth alojada, recuperación/alertas y aceptación clínica/LOPDP siguen abiertos. La evidencia del 03-10 siguiente se conserva con su alcance original.
 
+[CI real37175271836](https://github.com/AS2019JV/denta-pro/actions/runs/37175271836), head4cd56a2/merge208f107 con árbol Git idéntico: **256/256**, tipos/lint/build,824 textos sin hallazgos,audit producción0 y93 artefactos de navegador sin sentinel. Los ocho HIGH de herramientas permanecen declarados. Scanner/snapshot ahora rechazan también JWT del principal de entrega; el seguimiento necesita su CI propio. Prueba SQL de migración4 y HCU1 revierten todos sus cambios y dejan DB sintética detenida.
+
 ## Evidencia vigente — 03-10-2026
 
 **NO-GO.** [Candidato: arquitectura, gates, evidencias, bloqueo CDN y rollback](CANDIDATE_READINESS_2026-10-03.md). Cadena canónica aplicada solamente a cliniaplus-staging con guardas/readback; producción intacta.

@@ -12,6 +12,7 @@ test('Privileged credentials are detected without disclosing values', () => {
     ['github-token', 'gh' + 'p_' + 'a'.repeat(40)],
     ['private-key', '-----BEGIN ' + 'PRIVATE KEY-----'],
     ['supabase-service-jwt', jwt('service_role')],
+    ['supabase-document-delivery-jwt', jwt('clinia_document_delivery')],
     ['database-password-uri', 'postgresql://' + 'synthetic:syntheticPassword@db.invalid/postgres'],
   ];
   for (const [rule, value] of samples) {

@@ -30,7 +30,7 @@ function snapshot(id) {
       const text = bytes.toString('utf8');
       if (/-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----|\bre_[A-Za-z0-9]{24,}\b|\bsbp_[a-f0-9]{32,}\b/.test(text)) throw new Error('Potential secret in ' + relative + '; review before snapshot');
       for (const match of text.matchAll(/\beyJ[A-Za-z0-9_-]+\.([A-Za-z0-9_-]+)\.[A-Za-z0-9_-]+/g)) {
-        try { if (JSON.parse(Buffer.from(match[1], 'base64url')).role === 'service_role') throw new Error('Privileged JWT in ' + relative); } catch (error) { if (error.message.startsWith('Privileged JWT')) throw error; }
+        try { if (['service_role', 'clinia_document_delivery'].includes(JSON.parse(Buffer.from(match[1], 'base64url')).role)) throw new Error('Privileged JWT in ' + relative); } catch (error) { if (error.message.startsWith('Privileged JWT')) throw error; }
       }
     }
     entries.push({ path: relative, sha256: digest(bytes), size: bytes.length, bytes });

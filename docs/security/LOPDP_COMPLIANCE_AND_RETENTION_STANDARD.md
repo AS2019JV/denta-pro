@@ -1,6 +1,6 @@
 # Clinia+ Ecuador LOPDP Compliance & Clinical Retention Standard
 
-> **2026-10-04 qualification:** this is an unapproved policy draft. The historical `APPROVED` labels below are not signed acceptance evidence and must not be used to authorize release. Retention periods, controller/processor allocation, minors/consent and professional obligations require qualified Ecuador clinical/privacy review. See the current production acceptance matrix; no legal certification is claimed.
+> **2026-10-04 qualification:** this is an unapproved policy draft. Unsupported historical approval labels have been withdrawn. Retention periods, controller/processor allocation, minors/consent and professional obligations require qualified Ecuador clinical/privacy review. See the current production acceptance matrix; no legal certification is claimed.
 
 **Document ID:** LOPDP-STD-2026-01  
 **Target System:** Clinia+ Dental EHR / Practice Management SaaS  
@@ -154,6 +154,6 @@ Pursuant to Article 47 of the LOPDP:
 
 | Role | Title / Qualification | Responsibility | Verification Status |
 | :--- | :--- | :--- | :--- |
-| **Lead Healthcare Legal Counsel** | Specialist in Ecuadorian Health Law & LOPDP | Validation of 5–10 year medical retention schedule under LOS Art. 7 | **APPROVED** |
-| **Data Protection Officer (DPD)** | Certified DPD (Ecuador LOPDP) | Purpose inventory & ARCO+P procedure sign-off | **APPROVED** |
-| **Lead Systems Architect** | Senior Staff Engineer | Verification of RLS, purge locks, and signed URL technical controls | **VERIFIED** |
+| **Lead Healthcare Legal Counsel** | Qualified Ecuador healthcare/privacy counsel, not yet appointed | Review and approve the proposed retention schedule and legal basis | **BLOCKED** — no qualified signed acceptance |
+| **Data Protection Officer (DPD)** | Accountable qualified reviewer, not yet appointed | Purpose inventory, controller/processor responsibilities and rights procedure | **BLOCKED** — no qualified signed acceptance |
+| **Lead Systems Architect** | Engineering review | RLS, custody and document delivery controls against the deployed candidate | **PARTIALLY VERIFIED** — local controls pass; hosted revocation remains blocked |

@@ -1,0 +1,22 @@
+{
+  "status": "VERIFIED",
+  "scope": "Exact published source Git tree, CI offline checks; no deployed runtime or hosted repair claim",
+  "headCommit": "4cd56a2b6d5cf4001d9136b749d7122de3d4c98d",
+  "testedMergeCommit": "208f1074cd3ba2c17e3ae42e0e2383e8209ee8ec",
+  "headAndTestedMergeTree": "49ff9a45302895851e55b162ec6fbbbfb02d7c1b",
+  "ciRun": 37175271836,
+  "url": "https://github.com/AS2019JV/denta-pro/actions/runs/37175271836",
+  "tests": 256,
+  "pass": 256,
+  "fail": 0,
+  "skipped": 0,
+  "sourceScanTextFiles": 824,
+  "sourceScanFindings": 0,
+  "clientArtifactsChecked": 93,
+  "productionAuditVulnerabilities": 0,
+  "fullAuditHigh": 8,
+  "fullAuditDisposition": "Not accepted; no upstream patch listed",
+  "deployment": "Not deployed; auto-deploy disabled; new staging credentials approval pending",
+  "rawMetadataSha256": "0018f49dc81ad38cd1f502661680a963e121b952db426ec8f2a83552535ed7c0",
+  "rawLogSha256": "9021d5dff205f6257a14077661edb227af1dcf8c6b8bded3639e6edd2241ae20"
+}
