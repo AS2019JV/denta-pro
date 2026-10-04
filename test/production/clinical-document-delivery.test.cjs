@@ -72,6 +72,18 @@ test('authority cannot substitute foreign paths or external provider URLs',async
     assert.equal((await h.run(request())).status,404);assert.equal(h.state.reads,0)
   }
 })
+
+test('malformed JSON and invalid UTF-8 are client errors before any clinical authority or Storage work',async()=>{
+  for(const body of ['{','',new Uint8Array([0xff])]) {
+    const h=await harness(),r=await h.run(new Request(origin+'/api/clinical-documents',{
+      method:'POST',headers:{Origin:origin,'Content-Type':'application/json'},body,
+    }))
+    assert.equal(r.status,400)
+    assert.equal(await r.text(),'No se pudo entregar el documento.')
+    assert.match(r.headers.get('cache-control'),/no-store/)
+    assert.equal(h.state.checks,0);assert.equal(h.state.reads,0)
+  }
+})
 test('provider errors and oversized/malformed lengths or streams cannot escape as clinical content',async()=>{
   const {DOCUMENT_LIMIT}=await import('../../lib/clinical-document-delivery.mjs')
   for(const download of [async()=>new Response('provider detail',{status:403}),async()=>new Response(payload,{headers:{'Content-Length':'invalid'}}),async()=>new Response(payload,{headers:{'Content-Length':String(DOCUMENT_LIMIT+1)}}),async()=>new Response(new Uint8Array(DOCUMENT_LIMIT+1))]) {
