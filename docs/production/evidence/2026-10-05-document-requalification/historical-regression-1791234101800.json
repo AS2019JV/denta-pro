@@ -1,0 +1,197 @@
+{
+  "status": "VERIFIED",
+  "phase": "historical-regression",
+  "attempt": "2",
+  "candidate": {
+    "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+    "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+    "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+    "project": "phihonofwyerpfgqfekt"
+  },
+  "startedAt": "2026-10-05T21:01:41.800Z",
+  "manifestSha256": "0d54a50b94f4f0f7ec59c82580e1e385f642814bd03e30370b4e485602211d8b",
+  "transportSha256": "3e266a321cacb8e2b8f1854574f7321482bed4d0427212a5d7fe53abdde2b496",
+  "driverSha256": "b18afba56b8caf9911472df3a9f72355492e0f6107e9b2ab5130eb664d6ef080",
+  "helperSha256": "b9071500dcee8f28d8d220643c064ecab855dacae3d73d138267dcb864eb8655",
+  "runtimeHelperSha256": "7692cc30f9d0d753f48a8aa23e67456493248b7ab26210e1fa4aec870a527c85",
+  "command": "node scripts/verify-clinia-document-requalification.cjs historical-regression 2 phihonofwyerpfgqfekt",
+  "checks": [
+    {
+      "requirement": "fresh owner before regression",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "malformed JSON with fresh authorized owner",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "malformed JSON with fresh authorized owner",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "original naturally expired bearer and body",
+      "expected": 404,
+      "actual": 404,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "original naturally expired bearer and body",
+      "expected": 404,
+      "actual": 404,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "fresh owner after regression",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    }
+  ],
+  "requests": [
+    {
+      "actor": "fresh owner before regression",
+      "startedAt": "2026-10-05T21:01:43.089Z",
+      "requestSha256": "12434282c9c0b62513316271d887d3f871029b727558789ccf3e0a34c0c687d1",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:50.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:48.446Z"
+    },
+    {
+      "actor": "malformed JSON with fresh authorized owner",
+      "startedAt": "2026-10-05T21:01:48.448Z",
+      "requestSha256": "196d9f20302c9abebd63f1e947daba0c6a5ed1a27e73177bb8421d18693914d4",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:50.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:48.880Z"
+    },
+    {
+      "actor": "malformed JSON with fresh authorized owner",
+      "startedAt": "2026-10-05T21:01:48.882Z",
+      "requestSha256": "196d9f20302c9abebd63f1e947daba0c6a5ed1a27e73177bb8421d18693914d4",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:51.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:49.113Z"
+    },
+    {
+      "actor": "original naturally expired bearer and body",
+      "startedAt": "2026-10-05T21:01:49.115Z",
+      "requestSha256": "09345359d634fc48a3d6820bb6c83af31c430b8cad24459bf580660dc4595d4d",
+      "expected": 404,
+      "status": 404,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:51.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:49.412Z"
+    },
+    {
+      "actor": "original naturally expired bearer and body",
+      "startedAt": "2026-10-05T21:01:49.414Z",
+      "requestSha256": "09345359d634fc48a3d6820bb6c83af31c430b8cad24459bf580660dc4595d4d",
+      "expected": 404,
+      "status": 404,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:51.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:49.726Z"
+    },
+    {
+      "actor": "fresh owner after regression",
+      "startedAt": "2026-10-05T21:01:49.727Z",
+      "requestSha256": "12434282c9c0b62513316271d887d3f871029b727558789ccf3e0a34c0c687d1",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:01:53.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:01:51.972Z"
+    }
+  ],
+  "limits": [
+    "Pinned deployment hostname; observed source binding is not cryptographic runtime attestation",
+    "Synthetic 70-byte PDF only; operator authority changes are recorded separately",
+    "No clinical data, tokens, passwords or protection cookies emitted",
+    "Historical successful JWT/body replayed on new pinned hostname: URL changed; this is not a new-candidate warm-to-expiry transition"
+  ],
+  "historicalBindings": {
+    "manifestSha256": "d8afea9661118d94a7f8c69c173de555e7331e1c69546ca609c70d632584ae4a",
+    "preparedSha256": "f77794a6c5945df71b51879a0ef24e4ad60c228aaa329ab25e1738a9c741703c",
+    "transportSha256": "399b0a9444ba5127b9a11cbde7b5ffb050ecfc3ef946c60f73391806da289711",
+    "replaySha256": "56740bced851c6bb0422c331ef9d9fc71758f72f60c869fdce4936c669d8956a",
+    "driverSha256": "b9071500dcee8f28d8d220643c064ecab855dacae3d73d138267dcb864eb8655"
+  },
+  "historicalWarmEvidence": {
+    "filename": "probe-warm-1791151896913-108a8efb.json",
+    "sha256": "8b5df80a30373e7dca7e93db6d3e01e8a2c2592e798c8b02cb08d15c4fa53358"
+  },
+  "historicalCandidate": "cfdb93c5cfb5aec6d7fd0e300a84904c56bf619a",
+  "historicalRequestSha256": "4ac2e6b030c7b68bf5e9842abeb2c54cd16722e1d16c67a5598bcef29008a4bd",
+  "originalTokenSha256": "07fbc467c1e648e37d85f97e2a57a253ab509a343679158a5b816c199ec68e4e",
+  "originalExpiresAt": "2026-10-04T23:09:01.000Z",
+  "positiveControlCaptureSha256": "a561aa2a8f14f650abb420bcff70f574f3b247fdf33c7145da8cb3966ae77591",
+  "completedAt": "2026-10-05T21:01:51.974Z"
+}

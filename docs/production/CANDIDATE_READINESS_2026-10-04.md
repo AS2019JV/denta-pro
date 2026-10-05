@@ -1,5 +1,7 @@
 # Clinia+ production acceptance — 2026-10-04
 
+> Estado vigente del05-10: [revalidación y matriz de aceptación](STEP1_DOCUMENT_REQUALIFICATION_2026-10-05.md). Hito ordinario VERIFIED; Fase1 global PARTIALLY VERIFIED/Storage BLOCKED/NO-GO. Preview6a467b9 ya desplegado, expiración natural y contención verificadas;0correos en Fase2. El contenido histórico siguiente conserva su corte original.
+
 **NO-GO.** This replaces the current-status summary from 03 October, preserving its historical evidence. The new document-delivery patch is prepared; it is not deployed or installed in hosted staging. Production `leqsrfyjvuxxdsubjjin` remains untouched. Authorized staging is `phihonofwyerpfgqfekt`; the draft release branch is `codex/clinia-rc-20261002`, [PR 1](https://github.com/AS2019JV/denta-pro/pull/1).
 
 ## Architecture and trust boundaries

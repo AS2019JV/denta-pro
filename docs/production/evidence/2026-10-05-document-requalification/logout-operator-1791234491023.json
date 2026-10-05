@@ -1,0 +1,18 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "logout",
+  "actorId": "ab8235dd-784e-451e-a679-dc6450cc5fb9",
+  "tokenSha256": "e1155d9e1e9c0a31617836bbbc52c66053c9b25c6b0914db8d3cb41c545ba3dc",
+  "startedAt": "2026-10-05T21:08:10.236Z",
+  "completedAt": "2026-10-05T21:08:11.023Z",
+  "method": "POST",
+  "route": "/auth/v1/logout?scope=global",
+  "expected": 204,
+  "actual": 204,
+  "logoutScope": "global",
+  "limits": [
+    "Only the exact owned synthetic staging actor changed",
+    "No original token renewal or patient mutation"
+  ]
+}

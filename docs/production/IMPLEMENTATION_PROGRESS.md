@@ -1,5 +1,7 @@
 # Clinia+ — Estado de implementación
 
+> Estado vigente del05-10: [revalidación y matriz de aceptación](STEP1_DOCUMENT_REQUALIFICATION_2026-10-05.md). Hito ordinario VERIFIED; Fase1 global PARTIALLY VERIFIED/Storage BLOCKED/NO-GO. Preview6a467b9 ya desplegado, expiración natural y contención verificadas;0correos en Fase2. El contenido histórico siguiente conserva su corte original.
+
 ## Evidencia vigente — 04-10-2026
 
 **NO-GO.** [Matriz compacta de aceptación y acciones](CANDIDATE_READINESS_2026-10-04.md). Entrega clínica por servidor preparada con JWT humano/RLS, principal aislado, auditoría, límites y revalidación; migración probada únicamente mediante transacción de rollback en DB sintética. HCU usa su trigger atómico existente, sin escritura duplicada. No despliegue nuevo ni cambios de producción; revocación de URLs históricas, Auth alojada, recuperación/alertas y aceptación clínica/LOPDP siguen abiertos. La evidencia del 03-10 siguiente se conserva con su alcance original.

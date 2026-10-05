@@ -1,0 +1,27 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "reviewMode": "Independent read-only specialist review of actual artifacts and hash bindings",
+  "ordinaryDelivery": "VERIFIED",
+  "temporaryContainment": "VERIFIED",
+  "globalStorage": "BLOCKED",
+  "releaseDecision": "NO-GO",
+  "reviewed": [
+    "Frozen warm and restoration requests, driver and candidate bindings",
+    "Natural-expiry responses and independent SQL/provider witness binding",
+    "Fresh-owner positive-to-disabled503 controls",
+    "Revoked Vercel cookie401 controls distinct from application authorization",
+    "Final principal disabled, private buckets and owner0sessions readback"
+  ],
+  "challengeResults": [
+    "No artifact hash mismatch or contradiction invalidating the ordinary-user closure found",
+    "Expired broker200/HIT PDF remains a real failed provider-revocation requirement",
+    "No ordinary-user acquisition of the isolated broker capability demonstrated",
+    "Historical URLs, remaining private-media consumers and qualified clinical/privacy acceptance remain open"
+  ],
+  "limits": [
+    "Independent agent review is not qualified clinical/legal acceptance or provider-signed attestation",
+    "Evidence applies only to the recorded staging candidate and synthetic workflow",
+    "Zero messages sent is not proof of deliverability"
+  ]
+}

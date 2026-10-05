@@ -1,0 +1,1 @@
+UPDATE security_internal.document_delivery_principals SET enabled=true WHERE user_id='378b431f-f043-489c-820b-347901a78d11' AND enabled=false AND expires_at>now() AND NOT EXISTS (SELECT 1 FROM public.clinic_members WHERE user_id='378b431f-f043-489c-820b-347901a78d11') RETURNING now() observed_at,user_id,enabled,expires_at;

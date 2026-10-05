@@ -1,0 +1,18 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "ban",
+  "actorId": "20cfdd4b-c8b5-4f66-b96e-e1cfcc2d2a96",
+  "tokenSha256": "ad8ec1017df846ac236e5de84ca802e15aeeacac4531ac63f657f7df165ad735",
+  "startedAt": "2026-10-05T21:08:34.184Z",
+  "completedAt": "2026-10-05T21:08:34.702Z",
+  "method": "PUT",
+  "route": "/auth/v1/admin/users/20cfdd4b-c8b5-4f66-b96e-e1cfcc2d2a96",
+  "expected": 200,
+  "actual": 200,
+  "banDuration": "1h",
+  "limits": [
+    "Only the exact owned synthetic staging actor changed",
+    "No original token renewal or patient mutation"
+  ]
+}

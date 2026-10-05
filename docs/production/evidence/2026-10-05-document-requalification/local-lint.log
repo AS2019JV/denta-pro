@@ -1,0 +1,92 @@
+Clinia verification: lint; synthetic offline environment.
+`next lint` is deprecated and will be removed in Next.js 16.
+For new projects, use create-next-app to choose your preferred linter.
+For existing projects, migrate to the ESLint CLI:
+npx @next/codemod@canary next-lint-to-eslint-cli .
+
+
+./app/(auth)/forgot-password/page.tsx
+47:16  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(auth)/update-password/page.tsx
+100:16  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(dashboard)/dashboard/page.tsx
+342:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(dashboard)/dentists/page.tsx
+107:6  Warning: React Hook useEffect has a missing dependency: 'fetchMembers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./app/(dashboard)/messages/page.tsx
+45:6  Warning: React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+85:6  Warning: React Hook useEffect has a missing dependency: 'fetchMessages'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./app/(dashboard)/profile/page.tsx
+39:6  Warning: React Hook useEffect has a missing dependency: 'fetchProfile'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./app/(landing)/schedule-demo/page.tsx
+328:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./app/(landing)/sobre-nosotros/page.tsx
+215:19  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+351:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/appointment-list.tsx
+97:6  Warning: React Hook useEffect has a missing dependency: 'fetchAppointments'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/async-patient-select.tsx
+98:6  Warning: React Hook useCallback has an unnecessary dependency: 'user.role'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/auth-context.tsx
+216:20  Warning: The ref value 'generation.current' will likely have changed by the time this effect cleanup function runs. If this ref points to a node rendered by React, copy 'generation.current' to a variable inside the effect, and use that variable in the cleanup function.  react-hooks/exhaustive-deps
+
+./components/dashboard.tsx
+101:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+105:27  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/family-center.tsx
+50:6  Warning: React Hook useEffect has a missing dependency: 'fetchFamily'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/hcu033-form.tsx
+280:6  Warning: React Hook useEffect has missing dependencies: 'clinicalRole', 'currentClinicId', 'loadFormData', 'patientName', and 'user?.id'. Either include them or remove the dependency array. If 'setFormData' needs the current value of 'patientName', you can also switch to useReducer instead of useState and read 'patientName' in the reducer.  react-hooks/exhaustive-deps
+1551:23  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/issued-prescriptions-list.tsx
+76:6  Warning: React Hook useEffect has a missing dependency: 'fetchIssuedPrescriptions'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/landing/layout/site-footer.tsx
+21:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/landing/layout/site-header.tsx
+27:11  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/landing/ui-elements/testimonial-card.tsx
+26:13  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/login-form.tsx
+103:17  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/patient-medical-records.tsx
+129:7  Warning: React Hook useEffect has a missing dependency: 'fetchOdontogram'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/patient-payments.tsx
+80:8  Warning: React Hook useEffect has a missing dependency: 'fetchBillings'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/settings/automation-tab.tsx
+31:6  Warning: React Hook useEffect has a missing dependency: 'fetchSettings'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/settings/clinic-tab.tsx
+35:6  Warning: React Hook useEffect has a missing dependency: 'fetchClinicData'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/settings/privacy-tab.tsx
+95:6  Warning: React Hook useCallback has an unnecessary dependency: 'currentClinicId'. Either exclude it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./components/sidebar.tsx
+173:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+177:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+./components/signup-form.tsx
+108:15  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+180:21  Warning: Using `<img>` could result in slower LCP and higher bandwidth. Consider using `<Image />` from `next/image` or a custom image loader to automatically optimize images. This may incur additional usage or cost from your provider. See: https://nextjs.org/docs/messages/no-img-element  @next/next/no-img-element
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
