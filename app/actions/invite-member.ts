@@ -6,6 +6,7 @@ import { cookies, headers } from "next/headers"
 import { Resend } from "resend"
 import { escapeHtml } from "@/lib/html-escape"
 import { consumeEmailBudget } from "@/lib/server-email-gate"
+import { configuredAuthOrigin, validEmailToken, authEmailLink } from "@/lib/auth-email-contract"
 import { randomUUID } from "node:crypto"
 
 // SEC-06 INVARIANT: Allowed staff invitation roles (strictly excludes clinic_owner)
@@ -18,8 +19,9 @@ export async function inviteTeamMember(formData: FormData): Promise<{ success: b
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!
   const resendApiKey = process.env.RESEND_API_KEY
+  const appUrl = configuredAuthOrigin(process.env.NEXT_PUBLIC_APP_URL)
 
-  if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey || !resendApiKey) {
+  if (!supabaseUrl || !supabaseAnonKey || !supabaseServiceKey || !resendApiKey || !appUrl) {
     throw new Error("Configuración del servidor incompleta.")
   }
 
@@ -189,7 +191,7 @@ export async function inviteTeamMember(formData: FormData): Promise<{ success: b
           specialization: specialization,
           pending_invite: true,
         },
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/dashboard`,
+        redirectTo: `${appUrl}/dashboard`,
       },
     })
     linkData = generated.data
@@ -204,13 +206,12 @@ export async function inviteTeamMember(formData: FormData): Promise<{ success: b
     }
     throw new Error("El proveedor rechazó la generación del enlace. Puedes volver a intentarlo.")
   }
-  if (!linkData?.properties?.hashed_token) {
+  if (!validEmailToken(linkData?.properties?.hashed_token)) {
     throw new Error("No se pudo confirmar la generación del enlace; revisa la invitación antes de repetir.")
   }
 
   const tokenHash = linkData.properties.hashed_token
-  const safeTokenHash = encodeURIComponent(tokenHash)
-  const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL || "http://localhost:3000"}/auth/confirm?token_hash=${safeTokenHash}&type=invite&next=%2Fdashboard`
+  const confirmUrl = authEmailLink(appUrl, tokenHash, 'invite')
 
   try {
     const { data: recorded, error: tokenError } = await supabaseAdmin

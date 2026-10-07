@@ -5,7 +5,7 @@ const path = require('node:path')
 const vm = require('node:vm')
 const ts = require('typescript')
 
-// Execute the actual route and delivery handler. Only Auth/database/HTTP providers
+// Execute the actual route and delivery handler. Only Auth/database/S3 providers
 // are simulated: these application integration contracts are not hosted RLS proof.
 const origin = 'https://candidate.example'
 const provider = 'https://isolated.supabase.co'
@@ -30,7 +30,7 @@ async function harness(options = {}) {
     userId: actor, sessionId: session, sessionActive: true, banned: false,
     role: 'doctor', membershipActive: true, subscription: true,
     profile: { id: actor, status: 'active', deleted_at: null },
-    file: { id: scope.fileId, clinic_id: scope.clinicId, patient_id: scope.patientId, deleted_at: null, file_path: objectPath, name: 'clinical.pdf' },
+    file: { id: scope.fileId, clinic_id: scope.clinicId, patient_id: scope.patientId, deleted_at: null, file_path: objectPath.replace('immutable', 'retired'), delivery_path: objectPath, name: 'clinical.pdf' },
     patient: { id: scope.patientId, clinic_id: scope.clinicId, deleted_at: null },
     brokerActive: true, brokerUser: principal, brokerToken,
     clients: [], identities: [], claims: [], queries: [], rpc: [], fetches: [], logins: [], cookieWrites: [], cookieReads: 0,
@@ -98,16 +98,18 @@ async function harness(options = {}) {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText
   vm.runInNewContext(code, { module, exports: module.exports, process: { env }, Buffer, URL, AbortSignal,
-    fetch: async (url, init) => {
-      state.fetches.push({ url: String(url), init })
-      if (state.onFetch) await state.onFetch(state)
-      return new Response(bytes)
-    },
+    fetch: async () => { throw new Error('Unexpected direct HTTP transport') },
     require(name) {
       if (name === 'server-only') return {}
       if (name === '@/lib/env') return { env: { NEXT_PUBLIC_APP_URL: origin, NEXT_PUBLIC_SUPABASE_URL: provider, NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-anon' } }
       if (name === '@/lib/clinical-document-delivery.mjs') return delivery
       if (name === '@/lib/clinical-document-principal.mjs') return principalCache
+      if (name === '@/lib/storage-origin') return { downloadStorageOrigin: async (bucket, path, token, signal) => {
+        state.fetches.push({ bucket, path, token, signal })
+        if (state.onFetch) await state.onFetch(state)
+        if (state.originError) throw new Error('raw S3 credential or provider detail')
+        return new Response(bytes, { headers: { Authorization: 'must-not-escape', 'x-amz-request-id': 'must-not-escape', Location: 'https://provider.invalid/object' } })
+      } }
       if (name === 'next/headers') return { cookies: async () => store }
       if (name === '@supabase/ssr') return { createServerClient(url, key, config) {
         assert.equal(url, provider); assert.equal(key, 'synthetic-anon'); state.clients.push({ kind: 'cookie', config }); config.cookies.getAll(); return caller('cookie', config)
@@ -139,7 +141,7 @@ test('actual cookie route checks exact live scope twice and forwards only isolat
   for (let i = 0; i < 2; i++) {
     assert.deepEqual(h.state.queries.slice(i * 3, i * 3 + 3).map(q => [q.table, q.columns, q.filters]), [
       ['profiles', 'id', [['eq', 'id', actor], ['eq', 'status', 'active'], ['is', 'deleted_at', null]]],
-      ['patient_files', 'id,file_path,name', [['eq', 'id', scope.fileId], ['eq', 'clinic_id', scope.clinicId], ['eq', 'patient_id', scope.patientId], ['is', 'deleted_at', null]]],
+      ['patient_files', 'id,delivery_path,name', [['eq', 'id', scope.fileId], ['eq', 'clinic_id', scope.clinicId], ['eq', 'patient_id', scope.patientId], ['is', 'deleted_at', null]]],
       ['patients', 'id', [['eq', 'id', scope.patientId], ['eq', 'clinic_id', scope.clinicId], ['is', 'deleted_at', null]]],
     ])
   }
@@ -147,10 +149,9 @@ test('actual cookie route checks exact live scope twice and forwards only isolat
   assert.deepEqual(rpcs.map(r => r.name), ['clinia_session_active', 'get_clinic_member_role', 'check_subscription_active', 'clinia_session_active', 'get_clinic_member_role', 'check_subscription_active'])
   for (const r of rpcs.filter(r => r.name !== 'clinia_session_active')) assert.deepEqual(JSON.parse(JSON.stringify(r.args)), { check_clinic_id: scope.clinicId })
   const upstream = h.state.fetches[0]
-  assert.equal(upstream.url, `${provider}/storage/v1/object/authenticated/patient-files/${objectPath}`)
-  assert.equal(upstream.init.headers.Authorization, `Bearer ${brokerToken}`)
-  assert.equal(upstream.init.headers.apikey, 'synthetic-anon'); assert.equal(upstream.init.cache, 'no-store'); assert.equal(upstream.init.redirect, 'error')
-  assert.ok(upstream.init.signal instanceof AbortSignal)
+  assert.equal(upstream.bucket, 'patient-files'); assert.equal(upstream.path, objectPath)
+  assert.equal(upstream.token, brokerToken); assert.ok(upstream.signal instanceof AbortSignal)
+  for (const header of ['authorization', 'x-amz-security-token', 'x-amz-request-id', 'location', 'etag']) assert.equal(response.headers.get(header), null)
 })
 
 test('explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback', async () => {
@@ -159,8 +160,8 @@ test('explicit Bearer uses the exact token for identity, claims and ordinary RLS
   assert.deepEqual(h.state.clients.map(c => c.kind), ['bearer', 'broker-login', 'broker-rpc']); assert.equal(h.state.cookieReads, 0)
   assert.equal(h.state.clients[0].config.global.headers.Authorization, `Bearer ${humanToken}`)
   for (const call of [...h.state.identities, ...h.state.claims]) assert.equal(call.token, humanToken)
-  assert.equal(h.state.fetches[0].init.headers.Authorization, `Bearer ${brokerToken}`)
-  assert.notEqual(h.state.fetches[0].init.headers.Authorization, `Bearer ${humanToken}`)
+  assert.equal(h.state.fetches[0].token, brokerToken)
+  assert.notEqual(h.state.fetches[0].token, humanToken)
 })
 
 test('invalid or rejected explicit Bearer never falls back to a valid browser cookie', async () => {
@@ -226,7 +227,7 @@ test('the same original Bearer succeeds once then denies after live logout or re
 test('revocation committed during upstream fetch discards buffered clinical bytes', async () => {
   for (const change of [s => { s.membershipActive = false }, s => { s.role = 'receptionist' }, s => { s.sessionActive = false },
     s => { s.banned = true }, s => { s.subscription = false }, s => { s.profile.status = 'suspended' },
-    s => { s.file.deleted_at = '2026-10-03' }, s => { s.patient.deleted_at = '2026-10-03' }, s => { s.file.file_path = objectPath.replace('immutable', 'changed') }]) {
+    s => { s.file.deleted_at = '2026-10-03' }, s => { s.patient.deleted_at = '2026-10-03' }, s => { s.file.delivery_path = objectPath.replace('immutable', 'changed') }]) {
     const h = await harness({ onFetch: change }); await deny(await h.POST(request()))
     assert.equal(h.state.fetches.length, 1); assert.equal(h.state.identities.length, 2)
   }
@@ -261,4 +262,17 @@ test('actual route cannot publish if its ordinary-actor audit fails',async()=>{
     const h=await harness(options);await deny(await h.POST(request()),503)
     assert.equal(h.state.fetches.length,1);assert.equal(h.state.rpc.filter(x=>x.name==='clinia_audit_document_delivery').length,1)
   }
+})
+
+test('missing protected delivery path never falls back to the legacy path', async () => {
+  const h = await harness(); h.state.file.delivery_path = null
+  await deny(await h.POST(request()))
+  assert.equal(h.state.fetches.length, 0); assert.equal(h.state.logins.length, 0)
+})
+
+test('origin transport failure withholds provider details and never audits publication', async () => {
+  const h = await harness({ originError: true })
+  await deny(await h.POST(request()), 503)
+  assert.equal(h.state.fetches.length, 1)
+  assert.equal(h.state.rpc.some(call => call.name === 'clinia_audit_document_delivery'), false)
 })

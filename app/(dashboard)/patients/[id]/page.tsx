@@ -45,7 +45,7 @@ export default function PatientDetailsPage() {
   const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics
   const clinicName = currentClinic?.name || "su Clínica Dental"
   const [patient, setPatient] = useState<Patient | null>(null)
-  const patientAvatar = usePrivateMediaUrl('patient-avatars', patient?.avatar_url)
+  const patientAvatar = usePrivateMediaUrl('patient-avatar', patient?.id, patient?.avatar_url)
   const [isLoading, setIsLoading] = useState(true)
   const [isHCUOpen, setIsHCUOpen] = useState(false)
   const [hcuData, setHcuData] = useState<any>(null)

@@ -35,7 +35,7 @@ interface User {
 
 interface AuthContextType {
   user: User | null
-  login: (email: string, password: string) => Promise<{ error: any }>
+  login: (email: string, password: string) => Promise<{ error: any; requiresMfa: boolean }>
   signup: (email: string, password: string, fullName: string, role: "doctor" | "receptionist" | "clinic_owner") => Promise<{ error: any }>
   resetPassword: (email: string) => Promise<{ error: any }>
   signInWithGoogle: () => Promise<{ error: any }>
@@ -145,6 +145,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setAuthError(null)
     try {
+      // Never issue profile or membership reads at AAL1. RLS independently
+      // enforces this, but deferring here keeps auth and recovery flows usable.
+      const claimsResult = await supabase.auth.getClaims()
+      if (claimsResult.error || !claimsResult.data?.claims.sub || claimsResult.data.claims.role !== 'authenticated') {
+        if (mounted.current && ticket === generation.current) {
+          clearAuthority()
+          setAuthError(null)
+          setIsLoading(false)
+          setIsRevalidating(false)
+        }
+        return
+      }
+      const [assuranceResult, factorsResult] = await Promise.all([
+        supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
+        supabase.auth.mfa.listFactors(),
+      ])
+      const hasVerifiedTotp = factorsResult.data?.totp?.some(factor => factor.status === 'verified') === true
+      const hasMfaAuthority = !claimsResult.error && claimsResult.data?.claims.aal === 'aal2'
+        && assuranceResult.data?.currentLevel === 'aal2' && assuranceResult.data?.nextLevel === 'aal2'
+        && !factorsResult.error && hasVerifiedTotp
+      if (!hasMfaAuthority) {
+        if (mounted.current && ticket === generation.current) {
+          clearAuthority()
+          setAuthError(null)
+          setIsLoading(false)
+          setIsRevalidating(false)
+        }
+        return
+      }
       const {data: {user: authUser}, error} = await supabase.auth.getUser()
       if (!mounted.current || ticket !== generation.current) return
       if (error || !authUser) {
@@ -237,7 +266,19 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       email,
       password,
     })
-    return { error }
+    if (error) return { error, requiresMfa: false }
+    const [claims, assurance, factors] = await Promise.all([
+      supabase.auth.getClaims(),
+      supabase.auth.mfa.getAuthenticatorAssuranceLevel(),
+      supabase.auth.mfa.listFactors(),
+    ])
+    if (claims.error || assurance.error || factors.error) {
+      return { error: claims.error || assurance.error || factors.error, requiresMfa: false }
+    }
+    const hasVerifiedTotp = factors.data?.totp?.some(factor => factor.status === 'verified') === true
+    const hasMfaAuthority = claims.data?.claims.aal === 'aal2'
+      && assurance.data?.currentLevel === 'aal2' && assurance.data?.nextLevel === 'aal2' && hasVerifiedTotp
+    return { error: null, requiresMfa: !hasMfaAuthority }
   }
 
   const signup = async (email: string, password: string, fullName: string, role: "doctor" | "receptionist" | "clinic_owner") => {

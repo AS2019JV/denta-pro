@@ -1,0 +1,14 @@
+{
+  "status": "NOT VERIFIED",
+  "command": "node scripts/verify-clinia-retirement-causal.cjs replay phihonofwyerpfgqfekt",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "replay",
+  "startedAt": "2026-10-07T04:44:46.133Z",
+  "driverSha256": "22815a9f3cb60669f637264ed221528308ad19210d421f582f6c626f49a0ccce",
+  "checks": [],
+  "limits": [
+    "Maintenance-only synthetic disposable object; no ordinary-user authorization or production historical-retirement proof"
+  ],
+  "failure": "Synthetic guard, byte hash or exact unexpired capability denial failed; no secret/provider body emitted",
+  "completedAt": "2026-10-07T04:44:46.198Z"
+}

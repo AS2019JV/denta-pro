@@ -23,8 +23,8 @@ import { Badge } from "@/components/ui/badge"
 import { useRouter } from "next/navigation"
 import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
-function PrivateTeamAvatar({ path }: { path: string }) {
-  const url = usePrivateMediaUrl('doctor-avatars', path)
+function PrivateTeamAvatar({ id, path }: { id: string; path: string }) {
+  const url = usePrivateMediaUrl('doctor-avatar', id, path)
   return <AvatarImage src={url || ''} className="object-cover" />
 }
 
@@ -414,7 +414,7 @@ export default function DentistsPage() {
               <CardHeader className="flex flex-row items-center gap-4 pb-3">
                 <div className="relative">
                   <Avatar className="h-14 w-14 border-2 border-slate-50 shadow-md transition-transform group-hover:scale-105 duration-500">
-                    <PrivateTeamAvatar path={member.avatar} />
+                    <PrivateTeamAvatar id={member.id} path={member.avatar} />
                     <AvatarFallback className="text-xl bg-teal-50 text-teal-700 font-bold">
                       {member.name.substring(0, 2).toUpperCase()}
                     </AvatarFallback>
@@ -535,7 +535,7 @@ export default function DentistsPage() {
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <Avatar className="h-9 w-9 border border-border">
-                          <PrivateTeamAvatar path={member.avatar} />
+                          <PrivateTeamAvatar id={member.id} path={member.avatar} />
                           <AvatarFallback className="text-xs bg-primary/10 text-primary font-bold">
                             {member.name.substring(0, 2).toUpperCase()}
                           </AvatarFallback>
@@ -707,7 +707,7 @@ export default function DentistsPage() {
                 <div className="flex justify-center mb-3">
                   <div className="p-1.5 bg-card rounded-full shadow-xl">
                     <Avatar className="h-24 w-24 border-2 border-background shadow-md">
-                      <PrivateTeamAvatar path={selectedMember.avatar} />
+                      <PrivateTeamAvatar id={selectedMember.id} path={selectedMember.avatar} />
                       <AvatarFallback className="text-3xl bg-teal-50 text-teal-700 font-bold">
                         {selectedMember.name.substring(0, 2).toUpperCase()}
                       </AvatarFallback>

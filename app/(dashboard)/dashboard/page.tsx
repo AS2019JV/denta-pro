@@ -71,7 +71,7 @@ export default function DashboardPage() {
   // Fetch clinic name & logo directly from Supabase so it's always fresh
   const [clinicName, setClinicName] = useState("Clinia +")
   const [clinicLogoPath, setClinicLogoPath] = useState<{ scope: string; raw: string | null } | null>(null)
-  const clinicLogoUrl = usePrivateMediaUrl('clinic-branding', clinicLogoPath?.scope === scope ? clinicLogoPath.raw : null)
+  const clinicLogoUrl = usePrivateMediaUrl('clinic-logo', currentClinicId, clinicLogoPath?.scope === scope ? clinicLogoPath.raw : null)
 
   // Resolve professional title from profile
   const memberTitle = user?.title || ''

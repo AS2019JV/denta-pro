@@ -28,12 +28,22 @@ function inspectText(text) {
 
 function scan(root) {
   const manifestPath = path.join(root, '.clinia-release-snapshot.json');
-  const files = fs.existsSync(manifestPath)
+  const hasManifest = fs.existsSync(manifestPath);
+  const hasOwnGit = fs.existsSync(path.join(root, '.git'));
+  const files = new Set(hasManifest
     ? JSON.parse(fs.readFileSync(manifestPath, 'utf8')).files.map(file => file.path)
-    : execFileSync('git', ['ls-files', '-co', '--exclude-standard', '-z'], { cwd: root }).toString().split('\0').filter(Boolean);
+    : []);
+  // A snapshot may live inside its creator's repository. Only consult Git when
+  // this root has its own .git marker; otherwise the manifest is authoritative.
+  if (hasOwnGit) {
+    for (const file of execFileSync('git', ['ls-files', '-co', '--exclude-standard', '-z'], { cwd: root })
+      .toString().split('\0').filter(Boolean)) files.add(file);
+  } else if (!hasManifest) {
+    throw new Error('Secret scan requires a local Git root or release snapshot manifest');
+  }
   const findings = [];
   let scanned = 0;
-  for (const relative of new Set(files)) {
+  for (const relative of files) {
     const absolute = path.resolve(root, relative);
     if (!absolute.startsWith(path.resolve(root) + path.sep)) throw new Error('Scan path escaped workspace');
     if (!fs.existsSync(absolute)) continue;
@@ -43,7 +53,7 @@ function scan(root) {
     scanned++;
     for (const finding of inspectText(bytes.toString('utf8'))) findings.push({ path: relative, ...finding });
   }
-  return { state: findings.length ? 'FAIL' : 'PASS', scanned, scope: 'Current Git-visible text files or release snapshot; no history, ignored files or deployed-secret claim', findings };
+  return { state: findings.length ? 'FAIL' : 'PASS', scanned, scope: 'Release snapshot plus current Git-visible files when this root has its own Git metadata; no history, ignored files or deployed-secret claim', findings };
 }
 
 if (require.main === module) {

@@ -9,10 +9,10 @@ const clinic = '33333333-3333-4333-8333-333333333333'
 const deferred = () => { let resolve; const promise = new Promise(r => {resolve = r}); return {promise, resolve} }
 const flush = async () => { for (let i=0;i<15;i++) await Promise.resolve() }
 
-async function harness(withCache) {
+async function harness(withCache, aal='aal2') {
   const policy = await import('../../lib/clinic-authority.mjs')
   const profiles = {A:deferred(), B:deferred()}
-  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, liveRole='doctor', identityDelay
+  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, liveRole='doctor', identityDelay
   const windowListeners=new Map(), signOutPending=deferred()
   const published = [], timers = new Map(), contexts = {}, state = []
   const react = {
@@ -23,9 +23,12 @@ async function harness(withCache) {
     useEffect: fn => { cleanup=fn() },
   }
   const supabase = {
-    auth: {getUser:async()=>{identityCalls++;if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>signOutPending.promise,
+    auth: {getClaims:async()=>({data:{claims:{sub:identity,role:'authenticated',aal}},error:null}),
+      mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:aal,nextLevel:aal},error:null}),listFactors:async()=>({data:{totp:[{id:'factor-a',status:'verified'}]},error:null})},
+      getUser:async()=>{identityCalls++;if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>signOutPending.promise,
       onAuthStateChange:fn=>{listener=fn;return{data:{subscription:{unsubscribe(){}}}}}},
     from(table) {
+      profileReads++
       let id
       return {select(){return this},eq(key,value){if(key==='id'||key==='user_id') id=value;return this},
         maybeSingle(){return profiles[id].promise},
@@ -42,7 +45,7 @@ async function harness(withCache) {
   module.exports.AuthProvider({children:null})
   const drain = async () => {for(const [key,fn] of [...timers]) {timers.delete(key);fn()} await flush()}
   const profile = id => ({data:{id,status:'active',deleted_at:null,clinic_id:clinic,full_name:id},error:null})
-  return {published, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, logout:()=>api.logout(), resolveSignOut:()=>signOutPending.resolve(), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
+  return {published, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, logout:()=>api.logout(), resolveSignOut:()=>signOutPending.resolve(), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
 }
 for (const withCache of [false,true]) test(`previous response cannot publish between new Auth event and timer; cache=${withCache}`, async()=>{
   const h=await harness(withCache)
@@ -74,4 +77,13 @@ test('signout and unmount suppress pending authority responses',async()=>{
     assert.equal(h.published.length,0)
     if(stop!=='cleanup')h.cleanup()
   }
+})
+test('AAL1 first-factor sessions defer all profile and membership reads',async()=>{
+  const h=await harness(false,'aal1')
+  await h.drain()
+  assert.equal(h.profileReads(),0)
+  assert.equal(h.identityCalls(),0)
+  assert.equal(h.state[0],null)
+  assert.equal(h.state[4],null)
+  h.cleanup()
 })

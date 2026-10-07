@@ -1,6 +1,6 @@
 import jsPDF from "jspdf"
 import autoTable from "jspdf-autotable"
-import { supabase } from "@/lib/supabase"
+import { fetchPrivateMedia } from '@/lib/private-media-client.mjs'
 
 interface TreatmentItem {
   name: string
@@ -9,6 +9,7 @@ interface TreatmentItem {
 }
 
 interface BudgetData {
+  clinicId: string
   clinicName: string
   clinicAddress: string
   clinicPhone: string
@@ -22,7 +23,8 @@ interface BudgetData {
   disclaimer: string
 }
 
-export async function generateBudgetPDF(data: BudgetData) {
+export async function generateBudgetPDF(data: BudgetData, signal: AbortSignal = AbortSignal.timeout(20000), isCurrent: () => boolean = () => !signal.aborted) {
+  if (!isCurrent() || signal.aborted) throw new Error('Export canceled')
   const doc = new jsPDF()
 
   // 1. Header (Logo & Clinic Info)
@@ -31,20 +33,16 @@ export async function generateBudgetPDF(data: BudgetData) {
   // Try to fetch logo if available
   if (data.clinicLogoPath) {
     try {
-      const { data: logoData, error } = await supabase.storage
-        .from("clinic-branding")
-        .download(data.clinicLogoPath)
+      const logoData = await fetchPrivateMedia({ kind: 'clinic-logo', clinicId: data.clinicId, entityId: data.clinicId }, signal, isCurrent)
       
-      if (!error && logoData) {
-        const logoUrl = URL.createObjectURL(logoData)
-        // Add image to PDF (assuming PNG/JPEG) - keeping it small
-        // This requires converting blob to base64 or ensuring jspdf can handle the object URL
-        // Simplify: converting blob to base64
+      if (logoData && isCurrent()) {
         const base64 = await blobToBase64(logoData)
+        if (!isCurrent() || signal.aborted) throw new Error('Export canceled')
         const props = doc.getImageProperties(base64)
         const width = 30
         const height = (props.height * width) / props.width
-        doc.addImage(base64, "PNG", 14, yPos - 5, width, height)
+        const format = logoData.type === 'image/jpeg' ? 'JPEG' : logoData.type === 'image/webp' ? 'WEBP' : 'PNG'
+        doc.addImage(base64, format, 14, yPos - 5, width, height)
       }
     } catch (e) {
       console.warn("Could not load clinic logo for PDF", e)
@@ -133,13 +131,15 @@ export async function generateBudgetPDF(data: BudgetData) {
   doc.text(splitText, 14, finalY + 5)
 
   // Save PDF
+  if (!isCurrent() || signal.aborted) throw new Error('Export canceled')
   doc.save(`Presupuesto_${data.patientName.replace(/\s+/g, '_')}_${data.date}.pdf`)
 }
 
 function blobToBase64(blob: Blob): Promise<string> {
-  return new Promise((resolve, _) => {
+  return new Promise((resolve, reject) => {
     const reader = new FileReader()
-    reader.onloadend = () => resolve(reader.result as string)
+    reader.onload = () => resolve(reader.result as string)
+    reader.onerror = () => reject(new Error('Image conversion failed'))
     reader.readAsDataURL(blob)
   })
 }

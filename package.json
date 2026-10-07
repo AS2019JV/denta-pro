@@ -2,7 +2,9 @@
   "name": "dental-software",
   "version": "0.1.0",
   "private": true,
-  "engines": { "node": ">=22.20.0 <23" },
+  "engines": {
+    "node": ">=22.20.0 <23"
+  },
   "packageManager": "npm@10.9.3",
   "scripts": {
     "build": "next build",
@@ -17,6 +19,7 @@
     "snapshot:release": "node scripts/clinia-release-snapshot.cjs"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "3.1146.0",
     "@hookform/resolvers": "^5.2.2",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-avatar": "latest",
@@ -86,6 +89,8 @@
   },
   "overrides": {
     "minimatch": "^10.2.1",
-    "postcss": "^8.5.28"
+    "postcss": "^8.5.28",
+    "sharp": "0.35.5",
+    "source-map-js": "1.2.2"
   }
 }

@@ -22,6 +22,7 @@ import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { toast } from "sonner"
 import { fetchClinicalDocument } from "@/lib/clinical-document-client.mjs"
+import { CLINICAL_MEDIA_LIMIT, CLINICAL_MEDIA_LIMIT_LABEL } from "@/lib/clinical-media-limits.mjs"
 
 function PrivateFileDownload({ fileId, patientId, name }: { fileId: string; patientId: string; name: string }) {
   const { user, currentClinicId, isLoading, isRevalidating, authError } = useAuth()
@@ -210,7 +211,7 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
 
       for (const file of filesToUpload) {
         if (!current()) return
-        if (file.size > 10 * 1024 * 1024) throw new Error('Cada documento puede tener un máximo de 10 MB.')
+        if (file.size > CLINICAL_MEDIA_LIMIT) throw new Error(`Cada documento puede tener un máximo de ${CLINICAL_MEDIA_LIMIT_LABEL}.`)
         const fileExt = file.name.split('.').pop() || 'bin'
         const fileExtClean = fileExt.toLowerCase().replace(/[^a-z0-9]/g, '')
         
@@ -356,7 +357,7 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
             <Upload className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-lg font-semibold mb-1">Arrastra archivos aquí</h3>
-          <p className="text-sm text-muted-foreground mb-4">o haz clic para buscar en tu ordenador</p>
+          <p className="text-sm text-muted-foreground mb-4">o haz clic para buscar en tu ordenador · máximo {CLINICAL_MEDIA_LIMIT_LABEL} por archivo</p>
           
           <label className="cursor-pointer">
             <div className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 shadow-sm">

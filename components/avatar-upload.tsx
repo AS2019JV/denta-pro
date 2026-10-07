@@ -5,6 +5,7 @@ import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 import { privateMediaUploadPath } from "@/lib/private-media.mjs"
+import { CLINICAL_IMAGE_TYPES, CLINICAL_MEDIA_LIMIT, CLINICAL_MEDIA_LIMIT_LABEL } from "@/lib/clinical-media-limits.mjs"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Loader2, Camera, User } from "lucide-react"
 import { toast } from "sonner"
@@ -41,7 +42,8 @@ export function AvatarUpload({
     publication.current = { authority, valid: true }
   }
   const [uploaded, setUploaded] = useState<{ authority: string; path: string } | null>(null)
-  const avatarUrl = usePrivateMediaUrl(bucket, uploaded?.authority === authority ? uploaded.path : url)
+  const kind = bucket === 'doctor-avatars' ? 'doctor-avatar' : bucket === 'patient-avatars' ? 'patient-avatar' : 'clinic-logo'
+  const avatarUrl = usePrivateMediaUrl(kind, uid, uploaded?.authority === authority ? uploaded.path : url)
   const [uploadAuthority, setUploadAuthority] = useState<string | null>(null)
   const uploading = !!authority && uploadAuthority === authority
   useEffect(() => {
@@ -64,6 +66,8 @@ export function AvatarUpload({
       }
 
       const file = event.target.files[0]
+      if (!CLINICAL_IMAGE_TYPES.includes(file.type)) throw new Error('La imagen debe ser PNG, JPEG o WebP.')
+      if (file.size > CLINICAL_MEDIA_LIMIT) throw new Error(`La imagen puede tener un máximo de ${CLINICAL_MEDIA_LIMIT_LABEL}.`)
       const originalExt = file.name.split('.').pop() || 'png'
       const fileExt = originalExt.toLowerCase().replace(/[^a-z0-9]/g, '')
       
@@ -115,7 +119,7 @@ export function AvatarUpload({
             <input
               id={`avatar-upload-${uid}`}
               type="file"
-              accept="image/*"
+              accept={CLINICAL_IMAGE_TYPES.join(',')}
               onChange={uploadAvatar}
               disabled={uploading || !authority}
               className="hidden"

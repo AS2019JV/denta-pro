@@ -43,7 +43,7 @@ export function LoginForm() {
     setResendSuccess(false)
 
     try {
-      const { error } = await login(email, password)
+      const { error, requiresMfa } = await login(email, password)
       if (error) {
         if (error.message.includes("Email not confirmed")) {
             setError("EmailNotConfirmed") 
@@ -54,7 +54,7 @@ export function LoginForm() {
             console.error(error)
         }
       } else {
-        router.push("/dashboard")
+        router.push(requiresMfa ? "/auth/mfa" : "/dashboard")
       }
     } catch (err) {
       setError("Ocurrió un error inesperado.")

@@ -42,7 +42,7 @@ export default function Dashboard({ children, showPageTitle = true }: DashboardP
   const activeClinicName = activeMembership?.clinics?.name
   const rawLogoUrl = activeMembership?.clinics?.logo_url
 
-  const activeClinicLogo = usePrivateMediaUrl('clinic-branding', rawLogoUrl)
+  const activeClinicLogo = usePrivateMediaUrl('clinic-logo', currentClinicId, rawLogoUrl)
 
   // Actualizar estado activo basado en la ruta actual
   const updatedNavItems = navItems.map((item) => ({

@@ -2,14 +2,16 @@
 
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '@/components/auth-context'
-import { supabase } from '@/lib/supabase'
-import { PRIVATE_MEDIA_TTL, resolvePrivateMedia, type PrivateMediaBucket } from '@/lib/private-media.mjs'
+import { fetchPrivateMedia } from '@/lib/private-media-client.mjs'
+import type { PrivateImageKind } from '@/lib/private-media-delivery.mjs'
 
-export function usePrivateMediaUrl(bucket: PrivateMediaBucket, raw: string | null | undefined) {
+// The reference only invalidates the UI after an entity update. The request
+// contains entity IDs; the server resolves the registered current object.
+export function usePrivateMediaUrl(kind: PrivateImageKind, entityId: string | null | undefined, reference: string | null | undefined) {
   const { user, currentClinicId, isLoading, isRevalidating, authError } = useAuth()
   const scope = !isLoading && !isRevalidating && !authError && user?.id && currentClinicId
     ? `${user.id}:${currentClinicId}:${user.role}` : ''
-  const key = JSON.stringify([scope, bucket, raw])
+  const key = JSON.stringify([scope, kind, entityId, reference])
   const publication = useRef({ key, valid: true })
   if (publication.current.key !== key) {
     publication.current.valid = false
@@ -17,18 +19,26 @@ export function usePrivateMediaUrl(bucket: PrivateMediaBucket, raw: string | nul
   }
   const [result, setResult] = useState<{ token: typeof publication.current; url: string | null } | null>(null)
   useEffect(() => {
-    const token = publication.current
+    const token = publication.current, controller = new AbortController()
     token.valid = true
-    let timer: ReturnType<typeof setTimeout> | undefined
-    const current = () => token.valid && !!scope && publication.current === token
+    let ownedUrl: string | null = null, timer: ReturnType<typeof setTimeout> | undefined
+    const current = () => token.valid && !!scope && publication.current === token && !controller.signal.aborted
+    function clearUrl() { if (ownedUrl) URL.revokeObjectURL(ownedUrl); ownedUrl = null }
     async function load() {
-      const url = await resolvePrivateMedia(supabase, bucket, raw, process.env.NEXT_PUBLIC_SUPABASE_URL, current)
-      if (!current()) return
-      setResult({ token, url })
-      if (url) timer = setTimeout(() => { void load() }, (PRIVATE_MEDIA_TTL - 60) * 1000)
+      try {
+        if (!currentClinicId || !entityId) return
+        const blob = await fetchPrivateMedia({ kind, clinicId: currentClinicId, entityId }, controller.signal, current)
+        if (!current()) return
+        clearUrl()
+        ownedUrl = blob ? URL.createObjectURL(blob) : null
+        setResult({ token, url: ownedUrl })
+        if (ownedUrl) timer = setTimeout(() => { void load() }, 60000)
+      } catch {
+        if (current()) { clearUrl(); setResult({ token, url: null }) }
+      }
     }
-    if (scope && raw) void load()
-    return () => { token.valid = false; if (timer) clearTimeout(timer) }
-  }, [key, scope, bucket, raw])
+    if (scope && entityId && reference) void load()
+    return () => { token.valid = false; controller.abort(); if (timer) clearTimeout(timer); clearUrl() }
+  }, [key, scope, kind, entityId, reference, currentClinicId])
   return scope && result?.token === publication.current && result.token.valid ? result.url : null
 }

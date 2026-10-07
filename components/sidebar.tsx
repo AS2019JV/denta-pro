@@ -76,8 +76,8 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const memberTitle = user?.title
   const displayName = memberTitle ? `${memberTitle} ${user?.name || ''}`.trim() : (user?.name || '')
 
-  const activeClinicLogo = usePrivateMediaUrl('clinic-branding', rawLogoUrl)
-  const resolvedAvatar = usePrivateMediaUrl('doctor-avatars', user?.avatar)
+  const activeClinicLogo = usePrivateMediaUrl('clinic-logo', currentClinicId, rawLogoUrl)
+  const resolvedAvatar = usePrivateMediaUrl('doctor-avatar', user?.id, user?.avatar)
 
   const handleLogout = () => {
     logout()

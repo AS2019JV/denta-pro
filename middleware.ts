@@ -12,6 +12,9 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;
+  // Public metadata-only readiness owns its bounded provider probe. Do not
+  // refresh visitor sessions or add a second network call before that bound.
+  if (pathname === '/api/health') return response;
   const isDashboardRoute = ['/dashboard', '/patients', '/calendar', '/billing', '/reports', '/messages', '/dentists', '/settings', '/profile', '/recipes', '/clinic', '/marketing', '/pay']
     .some(path => pathname === path || pathname.startsWith(`${path}/`));
   const redirect = (path: string, reason?: string) => {
@@ -52,27 +55,44 @@ export async function middleware(request: NextRequest) {
     }
   );
 
-  // Refresh session if expired - required for Server Components
-  // We use try-catch to avoid hard crashes if the network request fails (e.g. timeout on Windows)
-  let user = null;
+  // getClaims refreshes the SSR session and verifies the JWT signature. The
+  // AAL claim is the server-side gate; client state never grants access.
+  let user: { id: string } | null = null;
+  let aal: string | undefined;
   try {
-     const { data, error } = await supabase.auth.getUser();
-     if (error) {
-        // Only log serious errors, ignore common session-missing scenarios
-        if (error.status !== 401 && error.status !== 400) {
-           console.warn('[Middleware] Unable to verify session');
-        }
+     const { data, error } = await supabase.auth.getClaims();
+     const claims = data?.claims;
+     if (!error && claims?.role === 'authenticated' && typeof claims.sub === 'string') {
+       user = { id: claims.sub };
+       aal = typeof claims.aal === 'string' ? claims.aal : 'aal1';
      }
-     user = data?.user;
-  } catch (e: any) {
+  } catch {
      console.error('[Middleware] Unable to verify session');
   }
 
-  // PR-06 FIX: Always verify identity via getUser(). Do not fall back to getSession()
-  // for protected routes. If getUser fails, user remains null and protected routes fail closed.
-  const isAuth = pathname.startsWith('/login') || 
+  // Only signed, verified claims establish the request identity; never trust
+  // client session state. Protected clinical data is independently gated by DB RLS.
+  const isAuth = pathname.startsWith('/login') ||
                  pathname.startsWith('/signup') ||
                  pathname === '/';
+
+  // Do not perform profile or membership lookups for an AAL1 session: those
+  // reads are protected by RLS too. Keep first-factor sessions on the MFA page.
+  if (user && aal !== 'aal2' && (isDashboardRoute || pathname === '/' || pathname.startsWith('/login'))) {
+    return redirect('/auth/mfa');
+  }
+
+  // A previously issued AAL2 JWT can outlive factor removal until refresh.
+  // Ask the database authority function before looking up profile/role data;
+  // RLS remains the final gate for every table and Storage request.
+  if (user && aal === 'aal2' && (isDashboardRoute || pathname === '/')) {
+    try {
+      const { data, error } = await supabase.rpc('clinia_mfa_active');
+      if (error || data !== true) return redirect('/auth/mfa');
+    } catch {
+      return redirect('/auth/mfa');
+    }
+  }
 
   // Redirect to login if accessing dashboard without verified session (fail closed)
   if (isDashboardRoute && !user) {

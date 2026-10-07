@@ -8,6 +8,7 @@ import { escapeHtml } from '@/lib/html-escape'
 import { signupSchema } from '@/lib/signup-validation'
 import { headers } from 'next/headers'
 import { consumeEmailBudget } from '@/lib/server-email-gate'
+import { configuredAuthOrigin, validEmailToken } from '@/lib/auth-email-contract'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -36,17 +37,13 @@ export async function registerClinic(formData: FormData) {
     return { error: 'Datos de registro inválidos. Revisa los campos y sus longitudes.' }
   }
 
-  const logoFile = formData.get('logo')
-  if (logoFile !== null && (
-    typeof logoFile === 'string' ||
-    logoFile.size > 2 * 1024 * 1024 ||
-    !['image/png', 'image/jpeg', 'image/webp'].includes(logoFile.type)
-  )) {
-    return { error: 'El logo debe ser PNG, JPEG o WebP y no superar 2 MB.' }
+  if (formData.has('logo')) {
+    return { error: 'Sube el logo desde Configuración después de confirmar tu cuenta.' }
   }
 
-  if (!supabaseUrl || !supabaseServiceKey) {
-     return { error: "Server Configuration Error: Missing Database Credentials. Check .env file." }
+  const appUrl = configuredAuthOrigin(process.env.NEXT_PUBLIC_APP_URL)
+  if (!supabaseUrl || !supabaseServiceKey || !appUrl) {
+     return { error: 'El registro no está disponible. Intenta más tarde.' }
   }
   const budget = await consumeEmailBudget({ action: 'signup', headers: await headers(), destination: input.data.email })
   if (!budget.allowed) return { error: budget.message }
@@ -105,31 +102,6 @@ export async function registerClinic(formData: FormData) {
     return { error: 'Tu cuenta fue creada, pero no se pudo registrar la clínica. Contacta al soporte antes de repetir.' }
   }
 
-  // 4. Handle Logo Upload (if present)
-  // We upload to the generated clinicId folder immediately.
-  // If the user never verifies, this file becomes orphaned garbage.
-  // We can have a cron job to clean up orphaned files later.
-  if (logoFile && logoFile.size > 0) {
-    try {
-        const arrayBuffer = await logoFile.arrayBuffer()
-        const buffer = Buffer.from(arrayBuffer)
-        
-        const { error: uploadError } = await supabase
-          .storage
-          .from('clinic-branding')
-          .upload(`${clinicId}/logo.${logoFile.type === 'image/png' ? 'png' : logoFile.type === 'image/jpeg' ? 'jpg' : 'webp'}`, buffer, {
-            contentType: logoFile.type,
-            upsert: true
-          })
-          
-        if (uploadError) {
-           console.error('Logo upload failed:', uploadError)
-        }
-    } catch (e) {
-        console.error('Error processing logo upload:', e)
-    }
-  }
-
   // 5. Trigger the Confirmation Email Explicitly with Resend
   console.log("Generating confirmation link to avoid hash-fragments...")
   
@@ -139,11 +111,11 @@ export async function registerClinic(formData: FormData) {
     email: email,
     password: password,
     options: {
-        redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`
+        redirectTo: `${appUrl}/dashboard`
     }
   })
 
-  if (linkError || !linkData?.properties?.action_link) {
+  if (linkError || !validEmailToken(linkData?.properties?.hashed_token)) {
     console.warn('Could not generate confirmation link')
     return { error: 'Tu cuenta fue creada, pero no pudimos preparar el correo. Ve a Iniciar Sesión para solicitar un nuevo enlace.', canResend: true }
   } else {
@@ -151,13 +123,8 @@ export async function registerClinic(formData: FormData) {
       return { error: 'No se pudo confirmar que el enlace corresponde a tu solicitud de clínica. Contacta al soporte antes de repetir.' }
     }
     try {
-      // The generated action_link goes to Supabase's hosted API.
-      // We extract the hashed_token to manually construct the Next.js API route link
-      const actionUrl = new URL(linkData.properties.action_link)
+      // Resend renders this application template; Supabase SMTP is independent.
       const tokenHash = linkData.properties.hashed_token
-      const redirectUrl = actionUrl.searchParams.get('redirect_to')
-      
-      const confirmUrl = `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/auth/confirm?token_hash=${tokenHash}&type=signup&next=${encodeURIComponent(redirectUrl || '/dashboard')}`
 
       // Send the email via Resend
       const { Resend } = await import('resend')
@@ -166,11 +133,11 @@ export async function registerClinic(formData: FormData) {
       const templatePath = path.join(process.cwd(), 'emails', 'signup-confirmation.html')
       let htmlContent = fs.readFileSync(templatePath, 'utf8')
       
-      const siteUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+      const siteUrl = appUrl
       htmlContent = htmlContent.replace(/\{\{ \.SiteURL \}\}/g, () => escapeHtml(siteUrl))
       
       // Ensure the hashed token is properly URL encoded so characters like '+' don't turn into spaces
-      const safeTokenHash = encodeURIComponent(tokenHash || '')
+      const safeTokenHash = encodeURIComponent(tokenHash)
       htmlContent = htmlContent.replace(/\{\{ \.TokenHash \}\}/g, () => escapeHtml(safeTokenHash))
       htmlContent = htmlContent.replace(/\{\{ \.Type \}\}/g, 'signup')
       

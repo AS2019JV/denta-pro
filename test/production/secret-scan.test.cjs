@@ -1,7 +1,11 @@
 'use strict';
 const { test } = require('node:test');
 const assert = require('node:assert/strict');
-const { inspectText } = require('../../scripts/clinia-secret-scan.cjs');
+const fs = require('node:fs');
+const os = require('node:os');
+const path = require('node:path');
+const { execFileSync } = require('node:child_process');
+const { inspectText, scan } = require('../../scripts/clinia-secret-scan.cjs');
 const jwt = role => ['eyJ' + Buffer.from('{"alg":"HS256"}').toString('base64url').slice(3), Buffer.from(JSON.stringify({ role })).toString('base64url'), 'syntheticSignature'].join('.');
 
 test('Privileged credentials are detected without disclosing values', () => {
@@ -24,4 +28,23 @@ test('Privileged credentials are detected without disclosing values', () => {
 
 test('Public anon JWT and symbolic environment references are not privileged credentials', () => {
   assert.deepEqual(inspectText(jwt('anon') + '\nprocess.env.SUPABASE_SERVICE_ROLE_KEY\nsynthetic-offline-ci-key'), []);
+});
+
+test('release manifest is unioned with current Git-visible files without disclosing credentials', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'clinia-secret-scan-'));
+  try {
+    execFileSync('git', ['init', '--quiet'], { cwd: root });
+    fs.writeFileSync(path.join(root, 'old.cjs'), 'safe');
+    execFileSync('git', ['add', 'old.cjs'], { cwd: root });
+    fs.writeFileSync(path.join(root, '.clinia-release-snapshot.json'), JSON.stringify({ files: [{ path: 'old.cjs' }] }));
+    const token = 'sb_' + 'secret_' + 'q'.repeat(30);
+    fs.writeFileSync(path.join(root, 'new-unmanifested.cjs'), `const value = '${token}';`);
+
+    const result = scan(root);
+    assert.equal(result.state, 'FAIL');
+    assert.ok(result.findings.some(finding => finding.path === 'new-unmanifested.cjs' && finding.rule === 'supabase-secret-key'));
+    assert.ok(!JSON.stringify(result).includes(token));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
 });

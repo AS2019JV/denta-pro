@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { documentDeliveryHandler, type DocumentScope } from '@/lib/clinical-document-delivery.mjs'
 import { deliveryTokenCache } from '@/lib/clinical-document-principal.mjs'
 import { env } from '@/lib/env'
+import { downloadStorageOrigin } from '@/lib/storage-origin'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
@@ -71,12 +72,12 @@ export async function POST(request: Request) {
           client.from('profiles').select('id').eq('id', uid).eq('status', 'active').is('deleted_at', null).maybeSingle(),
           client.rpc('get_clinic_member_role', { check_clinic_id: scope.clinicId }),
           client.rpc('check_subscription_active', { check_clinic_id: scope.clinicId }),
-          client.from('patient_files').select('id,file_path,name').eq('id', scope.fileId).eq('clinic_id', scope.clinicId).eq('patient_id', scope.patientId).is('deleted_at', null).maybeSingle(),
+          client.from('patient_files').select('id,delivery_path,name').eq('id', scope.fileId).eq('clinic_id', scope.clinicId).eq('patient_id', scope.patientId).is('deleted_at', null).maybeSingle(),
           client.from('patients').select('id').eq('id', scope.patientId).eq('clinic_id', scope.clinicId).is('deleted_at', null).maybeSingle(),
         ])
         if (live.error || live.data !== true || profile.error || !profile.data || role.error || !['doctor', 'clinic_owner'].includes(role.data)
           || subscription.error || subscription.data !== true || file.error || !file.data || patient.error || !patient.data) return null
-        return { userId: uid, sessionId, path: file.data.file_path, name: file.data.name }
+        return { userId: uid, sessionId, path: file.data.delivery_path, name: file.data.name }
       } }
     },
     deliveryActive: async signal => { const check = await (await machine(signal)).rpc('clinia_document_delivery_active'); return !check.error && check.data === true },
@@ -91,8 +92,7 @@ export async function POST(request: Request) {
       const client = await machine(signal), check = await client.rpc('clinia_document_delivery_active')
       if (check.error || check.data !== true) throw new Error('Delivery disabled')
       if (!transportToken) throw new Error('Delivery session absent')
-      const url = new URL('/storage/v1/object/authenticated/patient-files/' + path.split('/').map(encodeURIComponent).join('/'), env.NEXT_PUBLIC_SUPABASE_URL)
-      return guardedFetch(signal)(url, { headers: { apikey: env.NEXT_PUBLIC_SUPABASE_ANON_KEY, Authorization: `Bearer ${transportToken}` } })
+      return downloadStorageOrigin('patient-files', path, transportToken, signal)
     },
   })
   return handler(request)
