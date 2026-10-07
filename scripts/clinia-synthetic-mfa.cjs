@@ -145,7 +145,9 @@ async function authenticateAal2({ project, origin, publicKey, userId, email, pas
     assert.equal(saved.userId, userId); assert.equal(saved.email.toLowerCase(), email.toLowerCase());
     decodeBase32(saved.secret);
     const readyAal = result(await client.auth.mfa.getAuthenticatorAssuranceLevel(), 'factor-ready-assurance');
-    assert.equal(readyAal.currentLevel, 'aal1'); assert.equal(readyAal.nextLevel, 'aal2');
+    // An enrolled but not-yet-verified factor may still advertise AAL1 as its
+    // next level; successful verification below is the authoritative AAL2 proof.
+    assert.equal(readyAal.currentLevel, 'aal1');
     const challenge = result(await client.auth.mfa.challenge({ factorId: saved.factorId }), 'factor-challenge');
     assert.match(challenge.id || '', UUID);
     const verified = result(await client.auth.mfa.verify({ factorId: saved.factorId, challengeId: challenge.id,

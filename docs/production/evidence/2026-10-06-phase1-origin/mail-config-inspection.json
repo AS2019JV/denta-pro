@@ -1,6 +1,9 @@
 {
   "controlledRecipient": "test@auth.cliniaplus.com",
-  "resendKeyConfigured": false,
+  "resendKeyPresent": true,
+  "resendKeyConfigured": true,
   "fromConfigured": true,
-  "messagesSent": 0
+  "messagesSent": 0,
+  "readOnlyProviderStatus": 401,
+  "limit": "Provider list permission/configuration unavailable; no mail sent"
 }

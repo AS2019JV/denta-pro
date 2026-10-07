@@ -1,0 +1,61 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-07T05:05:30.027Z",
+  "scope": "three existing synthetic .invalid accounts; password authentication followed by owned TOTP challenge; no SQL or membership changes",
+  "actors": [
+    {
+      "label": "owner_A",
+      "userId": "baef66ba-f8d8-4943-af16-26bb429f9fe0",
+      "initialPasswordAuthLevel": "aal1",
+      "factorReadyLevel": "aal1",
+      "signedJwtVerified": true,
+      "jwtAal": "aal2",
+      "sessionId": "6406520e-210d-4b33-b62a-fe48d82f9ec0",
+      "expiresAt": "2026-10-07T06:05:32.000Z",
+      "liveGetUser": true,
+      "currentLevel": "aal2",
+      "currentFactor": {
+        "type": "totp",
+        "status": "verified"
+      }
+    },
+    {
+      "label": "owner_B",
+      "userId": "ee0cb878-2aaa-4265-a9b0-6d03d3659b1c",
+      "initialPasswordAuthLevel": "aal1",
+      "factorReadyLevel": "aal1",
+      "signedJwtVerified": true,
+      "jwtAal": "aal2",
+      "sessionId": "ddc52ca6-64b7-42f2-aae7-9e74cc7b8072",
+      "expiresAt": "2026-10-07T06:05:34.000Z",
+      "liveGetUser": true,
+      "currentLevel": "aal2",
+      "currentFactor": {
+        "type": "totp",
+        "status": "verified"
+      }
+    },
+    {
+      "label": "receptionist_A",
+      "userId": "1dcb64e5-1c7d-4991-8b17-68ddbdfd5306",
+      "initialPasswordAuthLevel": "aal1",
+      "factorReadyLevel": "aal1",
+      "signedJwtVerified": true,
+      "jwtAal": "aal2",
+      "sessionId": "84ca0774-4e36-4c31-af4c-e56a253f8478",
+      "expiresAt": "2026-10-07T06:05:37.000Z",
+      "liveGetUser": true,
+      "currentLevel": "aal2",
+      "currentFactor": {
+        "type": "totp",
+        "status": "verified"
+      }
+    }
+  ],
+  "limits": [
+    "No JWT, password, email, TOTP secret, QR, or provider response body recorded",
+    "Signed JWT claims verified locally through Supabase SDK; no JWT emitted"
+  ],
+  "completedAt": "2026-10-07T05:05:37.635Z"
+}

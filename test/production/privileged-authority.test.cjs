@@ -95,6 +95,7 @@ function harness(options = {}) {
       return {data:{id:'synthetic-message'},error:state.sendError || null}}}}}
     if(id==='@/lib/env')return {env:{}}
     if(id==='@/lib/html-escape')return sourceModule('lib/html-escape.ts',imports)
+    if(id==='@/lib/auth-email-contract')return sourceModule('lib/auth-email-contract.ts',imports)
     throw Error(`Unexpected import ${id}`)
   }
   return {...sourceModule('app/api/send-email/route.ts',imports,env),
