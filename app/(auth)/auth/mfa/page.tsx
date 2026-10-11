@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import type { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, ShieldCheck } from 'lucide-react'
@@ -11,6 +11,8 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
+import { cancelPendingTotpEnrollment, getEnrollmentRecoveryState } from '@/lib/mfa-enrollment'
 
 type Factor = { id: string; friendly_name?: string | null }
 
@@ -19,13 +21,15 @@ export default function MfaPage() {
   const { refreshProfile } = useAuth()
   const [busy, setBusy] = useState(true)
   const [working, setWorking] = useState(false)
-  const [mode, setMode] = useState<'enroll' | 'challenge' | 'pending'>('enroll')
+  const [mode, setMode] = useState<'enroll' | 'challenge' | 'pending' | 'blocked'>('enroll')
   const [factorId, setFactorId] = useState('')
   const [factors, setFactors] = useState<Factor[]>([])
   const [qrCode, setQrCode] = useState('')
   const [secret, setSecret] = useState('')
   const [code, setCode] = useState('')
   const [error, setError] = useState('')
+  const [restartOpen, setRestartOpen] = useState(false)
+  const enrollmentInProgress = useRef(false)
 
   useEffect(() => {
     let active = true
@@ -63,6 +67,7 @@ export default function MfaPage() {
           setMode('enroll')
         }
       } catch {
+        if (active) setMode('blocked')
         if (active) setError('No se pudo validar tu sesión. Inicia sesión de nuevo e inténtalo otra vez.')
       } finally {
         if (active) setBusy(false)
@@ -72,10 +77,23 @@ export default function MfaPage() {
     return () => { active = false }
   }, [refreshProfile, router])
 
-  const startEnrollment = async () => {
+  const startEnrollment = async (restart = false) => {
+    if (enrollmentInProgress.current) return
+    enrollmentInProgress.current = true
     setWorking(true)
     setError('')
+    setQrCode('')
+    setSecret('')
+    setCode('')
     try {
+      if (restart) {
+        if (!await cancelPendingTotpEnrollment(supabase)) {
+          await reconcileEnrollment()
+          return
+        }
+        setFactorId('')
+        setMode('enroll')
+      }
       const { data, error: enrollError } = await supabase.auth.mfa.enroll({
         factorType: 'totp',
         friendlyName: 'Clinia+ authenticator',
@@ -87,9 +105,31 @@ export default function MfaPage() {
       setMode('challenge')
       setFactors([])
     } catch {
-      setError('No se pudo iniciar la configuración del autenticador. Revisa la conexión e inténtalo otra vez.')
+      // An unknown enrollment outcome may have created a pending factor.
+      // Refresh the state before retrying; never blindly create another factor.
+      await reconcileEnrollment()
     } finally {
+      enrollmentInProgress.current = false
       setWorking(false)
+      setRestartOpen(false)
+    }
+  }
+
+  const reconcileEnrollment = async () => {
+    const state = await getEnrollmentRecoveryState(supabase)
+    setFactorId('')
+    setFactors([])
+    if (state.kind === 'challenge') {
+      setFactors(state.factors)
+      setFactorId(state.factors[0].id)
+      setMode('challenge')
+      setError('La configuración ya fue verificada. Ingresa el código de tu autenticador para continuar.')
+    } else if (state.kind === 'enroll') {
+      setMode('enroll')
+      setError('No hay una configuración pendiente. Puedes iniciar una nueva cuando tengas tu autenticador listo.')
+    } else {
+      setMode(state.kind === 'blocked' ? 'blocked' : 'pending')
+      setError('No se pudo completar la operación. Revisa la conexión y vuelve a intentarlo; si la sesión terminó, vuelve a iniciar sesión.')
     }
   }
 
@@ -147,7 +187,7 @@ export default function MfaPage() {
             <ShieldCheck aria-hidden="true" className="h-7 w-7" />
           </div>
           <CardTitle>Verificación de dos pasos</CardTitle>
-          <CardDescription>Configura o verifica tu autenticador para proteger el acceso clínico.</CardDescription>
+          <CardDescription>Configura o verifica tu autenticador antes de acceder a tu clínica. El QR se genera en tu cuenta; nunca lo envíes a soporte.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
           {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
@@ -156,15 +196,21 @@ export default function MfaPage() {
               <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin" />
               <span>Validando sesión…</span>
             </div>
+          ) : mode === 'blocked' ? (
+            <div className="space-y-4">
+              <p className="text-sm">No pudimos confirmar el estado de tu sesión y autenticador. Cierra sesión y vuelve a iniciar sesión antes de continuar.</p>
+              <Button className="w-full" variant="outline" onClick={logout} disabled={working}>Cerrar sesión</Button>
+            </div>
           ) : mode === 'pending' ? (
             <div className="space-y-4">
-              <Alert><AlertDescription>Hay una configuración de autenticador sin terminar. Vuelve a la pestaña donde generaste el código QR. Si ya no tienes ese código, contacta a soporte para recuperar el acceso.</AlertDescription></Alert>
+              <Alert><AlertDescription>Tu autenticador aún no está verificado. Si conservas el QR en otra pestaña, puedes terminar allí. Si lo perdiste, reinicia la configuración aquí cuando tengas tu aplicación autenticadora lista.</AlertDescription></Alert>
+              <Button className="w-full" onClick={() => setRestartOpen(true)} disabled={working}>Reiniciar configuración</Button>
               <Button className="w-full" variant="outline" onClick={logout} disabled={working}>Cerrar sesión</Button>
             </div>
           ) : mode === 'enroll' ? (
             <div className="space-y-4">
               <p className="text-sm text-muted-foreground">Necesitas una aplicación autenticadora compatible con códigos TOTP. El código cambia cada 30 segundos.</p>
-              <Button className="w-full" onClick={startEnrollment} disabled={working}>
+              <Button className="w-full" onClick={() => void startEnrollment()} disabled={working}>
                 {working && <Loader2 aria-hidden="true" className="mr-2 h-4 w-4 animate-spin" />}
                 Configurar autenticador
               </Button>
@@ -198,8 +244,24 @@ export default function MfaPage() {
             </form>
           )}
           {!busy && mode === 'challenge' && !qrCode && <Button className="w-full" variant="outline" onClick={logout} disabled={working}>Cerrar sesión</Button>}
+          {qrCode && <Button className="w-full" variant="outline" onClick={() => setRestartOpen(true)} disabled={working}>Cancelar esta configuración y empezar de nuevo</Button>}
         </CardContent>
       </Card>
+      <Dialog open={restartOpen} onOpenChange={open => { if (!working) setRestartOpen(open) }}>
+        <DialogContent onEscapeKeyDown={event => { if (working) event.preventDefault() }} onPointerDownOutside={event => { if (working) event.preventDefault() }}>
+          <DialogHeader>
+            <DialogTitle>¿Reiniciar la configuración pendiente?</DialogTitle>
+            <DialogDescription>El QR anterior dejará de funcionar. Se generará uno nuevo para que lo escanees con tu aplicación autenticadora. Tu cuenta y los autenticadores ya verificados se conservan.</DialogDescription>
+          </DialogHeader>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setRestartOpen(false)} disabled={working}>Volver</Button>
+            <Button onClick={() => void startEnrollment(true)} disabled={working}>
+              {working && <Loader2 aria-hidden="true" className="mr-2 h-4 w-4 animate-spin" />}
+              Cancelar el QR pendiente y generar uno nuevo
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </main>
   )
 }
