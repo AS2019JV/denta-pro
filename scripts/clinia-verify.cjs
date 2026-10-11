@@ -59,6 +59,20 @@ function verifyClientBundle(directory) {
   if (!scanned) throw new Error('Client bundle absent; secret boundary not verified');
   return { status: 'VERIFIED', scanned, scope: 'Synthetic server credential absent from compiled .next/static; no deployed-secret claim' };
 }
+function verifyAuthEmailTraces(directory) {
+  const template = path.resolve(directory, 'emails/signup-confirmation.html');
+  const routes = ['login', 'signup'];
+  for (const route of routes) {
+    const manifest = path.join(directory, '.next/server/app/(auth)', route, 'page.js.nft.json');
+    const trace = JSON.parse(fs.readFileSync(manifest, 'utf8'));
+    if (!Array.isArray(trace.files) || !trace.files.some(file =>
+      typeof file === 'string' && path.resolve(path.dirname(manifest), file) === template)) {
+      throw new Error(`Auth email runtime template absent from /${route} build trace`);
+    }
+  }
+  if (!fs.statSync(template).isFile()) throw new Error('Auth email runtime template absent');
+  return { status: 'VERIFIED', routes, scope: 'Runtime signup template included in compiled route traces; delivery verified separately' };
+}
 function run(mode, directory = root, inherited = process.env) {
   const env = verificationEnv(directory, inherited);
   const steps = mode === 'all' ? modes : [mode];
@@ -71,7 +85,10 @@ function run(mode, directory = root, inherited = process.env) {
     const result = spawnSync(process.execPath, command(step, directory), { cwd: directory, env, stdio: 'inherit', windowsHide: true });
     if (result.error) throw new Error(`Verification ${step} could not start: ${result.error.code}`);
     if (result.status !== 0) return result.status || 1;
-    if (step === 'build') console.log('Clinia client secret boundary: ' + JSON.stringify(verifyClientBundle(directory)));
+    if (step === 'build') {
+      console.log('Clinia client secret boundary: ' + JSON.stringify(verifyClientBundle(directory)));
+      console.log('Clinia auth email packaging: ' + JSON.stringify(verifyAuthEmailTraces(directory)));
+    }
   }
   return 0;
 }
@@ -82,4 +99,4 @@ if (require.main === module) {
     process.exitCode = run(mode);
   } catch (error) { console.error(error.message); process.exitCode = 1; }
 }
-module.exports = { verificationEnv, command, run, verifyClientBundle, SERVER_SECRET_SENTINEL };
+module.exports = { verificationEnv, command, run, verifyClientBundle, verifyAuthEmailTraces, SERVER_SECRET_SENTINEL };

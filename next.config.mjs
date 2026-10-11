@@ -7,6 +7,11 @@ const localConnections = localAcceptance ? ' http://127.0.0.1:56321 ws://127.0.0
 const localImages = localAcceptance ? ' http://127.0.0.1:56321' : '';
 const nextConfig = {
   outputFileTracingRoot: fileURLToPath(new URL('.', import.meta.url)),
+  // Server Actions read this file at runtime; automatic tracing omits it.
+  outputFileTracingIncludes: {
+    '/login': ['./emails/signup-confirmation.html'],
+    '/signup': ['./emails/signup-confirmation.html'],
+  },
   // Acceptance must not overwrite the .next directory used by localhost dev.
   distDir: localAcceptance ? '.next-clinia-acceptance' : '.next',
   // Next's middleware adapter otherwise rewrites 127.0.0.1 redirects to
