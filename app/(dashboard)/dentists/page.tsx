@@ -20,6 +20,7 @@ import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { inviteTeamMember } from "@/app/actions/invite-member"
 import { Badge } from "@/components/ui/badge"
+import { PendingInvitations } from "@/components/pending-invitations"
 import { useRouter } from "next/navigation"
 import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
@@ -61,6 +62,7 @@ export default function DentistsPage() {
   const [inviteRole, setInviteRole] = useState("doctor")
   const [inviteSpecialty, setInviteSpecialty] = useState("")
   const [isInviting, setIsInviting] = useState(false)
+  const [invitationsRevision, setInvitationsRevision] = useState(0)
 
   const [generatedLink, setGeneratedLink] = useState("")
   const [isLinkCopyOpen, setIsLinkCopyOpen] = useState(false)
@@ -165,6 +167,7 @@ export default function DentistsPage() {
       setInviteEmail("")
       setInviteName("")
       setInviteSpecialty("")
+      setInvitationsRevision(value => value + 1)
       fetchMembers() // Refresh list to show pending
     } catch (error: any) {
       toast.error(error.message || "Error al enviar la invitación")
@@ -304,6 +307,10 @@ export default function DentistsPage() {
           )}
         </div>
       </div>
+
+      {scope && currentClinicId && user?.role === 'clinic_owner' && (
+        <PendingInvitations key={scope} clinicId={currentClinicId} revision={invitationsRevision} />
+      )}
 
       {/* Dynamic Capacity Meter */}
       <div className="bg-card/45 backdrop-blur-md rounded-2xl border border-border/80 p-5 flex flex-col md:flex-row items-center justify-between gap-6 shadow-sm">
