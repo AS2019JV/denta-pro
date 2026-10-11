@@ -1,0 +1,96 @@
+{
+  "captured_at_utc": "2026-09-26T17:15:34.7553933Z",
+  "base_head": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "working_tree_changes_committed": false,
+  "scope": "Selected implementation sources and build inputs, not a complete release snapshot",
+  "files": [
+    {
+      "path": "app/(dashboard)/dashboard/page.tsx",
+      "sha256": "779879d5c8569e93a0b132398956f0f7f6da6b56b2329a4fe82b8ca3cdde96fd"
+    },
+    {
+      "path": "app/(dashboard)/patients/[id]/page.tsx",
+      "sha256": "8f90e5f84f6f2c70a8b30012aa6ea5c5babda2484af2ace416c7a8188f2c7594"
+    },
+    {
+      "path": "app/(dashboard)/billing/page.tsx",
+      "sha256": "a16b6d3a12ae605780de6a2a89e9869241182ebc4369df899cbfdd96fd6d7bb4"
+    },
+    {
+      "path": "app/(dashboard)/pay/[id]/page.tsx",
+      "sha256": "1991db4c73887a147bb57c2819a5f6a2a94609381133830d77406e0afb48e1f7"
+    },
+    {
+      "path": "app/actions/save-prescription.ts",
+      "sha256": "420d9552ec9c21c9f2cf5e352cc4574f1748ed51f803af69900f79bc3a2c0669"
+    },
+    {
+      "path": "app/api/payments/subscribe/route.ts",
+      "sha256": "edcd0eb1399431367eeeb76f177a0bc92abb9dd19ec9a1b906f338346e41cd42"
+    },
+    {
+      "path": "app/api/webhooks/kushki/route.ts",
+      "sha256": "edcd0eb1399431367eeeb76f177a0bc92abb9dd19ec9a1b906f338346e41cd42"
+    },
+    {
+      "path": "components/patient-prescriptions.tsx",
+      "sha256": "fa480e0981de2a28b312f3b44ee5d3468a34a88b13bb05668dad510ce929f5c5"
+    },
+    {
+      "path": "components/async-patient-select.tsx",
+      "sha256": "ea50d5faac48e5871a50cd686d705a6b63ca11f09194ce2c00fa7a8d0a7775c9"
+    },
+    {
+      "path": "components/calendar/modern-calendar.tsx",
+      "sha256": "a6bf3de7e58ecb29bd75f011b7b285f31cbedf270108cb7a1b9f2da9c1ba5889"
+    },
+    {
+      "path": "components/quick-appointment-dialog.tsx",
+      "sha256": "9629455ecfe8d35fd682feddbfdf1b18aea661ffb896ca919627ca32f5c87426"
+    },
+    {
+      "path": "components/subscription-blocker.tsx",
+      "sha256": "57ef61980f8bdacf6ee9b79fef639c6ea41510bad0e0cdd985464e204db1b9d1"
+    },
+    {
+      "path": "hooks/use-dashboard-data.ts",
+      "sha256": "a1f6c9f135c2e7e1ff3514eed5c12fc3a1b56151b23517affa6067d176f219c3"
+    },
+    {
+      "path": "lib/prescription-policy.mjs",
+      "sha256": "e870cc728dc6a2089df7c55fe3a092b7f9cfb9319471da61a10c60b2bc231fe5"
+    },
+    {
+      "path": "lib/prescription-policy.d.mts",
+      "sha256": "0394bb859870d8e19a8366449b32bd675d41963b771781ee74d1182f0b72ced2"
+    },
+    {
+      "path": "scripts/compare-supabase-catalogs.cjs",
+      "sha256": "43b2efd30b7dd7329ca2b356593af9bcc7fd4a74970b8ab700ae46fda6945a90"
+    },
+    {
+      "path": "test/production/catalog-comparison.test.cjs",
+      "sha256": "9a7a56b6402aaca6396cfd6c3e4d2b25f22aa777fa19812ac7abe773c4d12546"
+    },
+    {
+      "path": "test/production/prescription-policy.test.cjs",
+      "sha256": "d7f53352ebd517fa23a9b153b36da3f5dbfeb86f42e8875b0c008725fd36205b"
+    },
+    {
+      "path": "test/production/financial-retirement.test.cjs",
+      "sha256": "8c4a78b03dcea8a7ceeec23b6efa3807347b6275f98633f89426e397e1b3cc15"
+    },
+    {
+      "path": "package.json",
+      "sha256": "2e73cfec25acb500d178b09c292c9d749977caace74f80183860064975ef5d05"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "0943ad7c0e3e1bad913f39eef5f1757be8c0b034d77508dc02fc29e041382a38"
+    },
+    {
+      "path": "next.config.mjs",
+      "sha256": "f7901592b1639167c1122e0c43754f27e4fae889e4bd91960f9fa20dbdc3bbd2"
+    }
+  ]
+}

@@ -1,7 +1,8 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { supabase } from "@/lib/supabase"
+import { useAuth } from "@/components/auth-context"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,23 +11,27 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter }
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { toast } from "sonner"
 import { PaymentMethod } from "@/types"
-import { Loader2, Plus, Trash2, Building2, CreditCard, Smartphone } from "lucide-react"
+import { Loader2, Plus, Trash2, Building2, CreditCard, Smartphone, ShieldAlert } from "lucide-react"
 
 export function PaymentMethodsSettings() {
+    const { currentClinicId, hasRole } = useAuth()
+    const isOwner = hasRole("clinic_owner")
+
     const [methods, setMethods] = useState<PaymentMethod[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [newBank, setNewBank] = useState({ bank_name: '', account_type: 'Ahorros', account_number: '', holder_name: '', holder_id: '' })
     const [stripeKey, setStripeKey] = useState('')
     const [payphoneData, setPayphoneData] = useState({ client_id: '', client_secret: '' })
 
-    useEffect(() => {
-        fetchMethods()
-    }, [])
-
-    const fetchMethods = async () => {
+    const fetchMethods = useCallback(async () => {
+        if (!currentClinicId) return
         try {
             setIsLoading(true)
-            const { data, error } = await supabase.from('payment_methods').select('*').order('created_at', { ascending: false })
+            const { data, error } = await supabase
+                .from('payment_methods')
+                .select('*')
+                .eq('clinic_id', currentClinicId)
+                .order('created_at', { ascending: false })
             if (error) throw error
             if (data) setMethods(data)
         } catch (e) {
@@ -35,15 +40,30 @@ export function PaymentMethodsSettings() {
         } finally {
             setIsLoading(false)
         }
-    }
+    }, [currentClinicId])
+
+    useEffect(() => {
+        if (currentClinicId) {
+            fetchMethods()
+        }
+    }, [currentClinicId, fetchMethods])
 
     const addBankTransfer = async () => {
+        if (!currentClinicId) {
+            toast.error("No se ha seleccionado una clínica activa")
+            return
+        }
+        if (!isOwner) {
+            toast.error("Solo los propietarios de clínica pueden agregar métodos de pago")
+            return
+        }
         if (!newBank.bank_name || !newBank.account_number) {
             toast.error("Complete los datos del banco")
             return
         }
         try {
             const { error } = await supabase.from('payment_methods').insert({
+                clinic_id: currentClinicId,
                 type: 'BANK_TRANSFER',
                 title: `${newBank.bank_name} - ${newBank.account_number}`,
                 config: newBank,
@@ -53,58 +73,100 @@ export function PaymentMethodsSettings() {
             toast.success("Método agregado")
             fetchMethods()
             setNewBank({ bank_name: '', account_type: 'Ahorros', account_number: '', holder_name: '', holder_id: '' })
-        } catch (e) {
-            toast.error("Error agregando banco")
+        } catch (e: any) {
+            toast.error(e?.message || "Error agregando banco")
         }
     }
 
     const updateStripe = async () => {
+        if (!currentClinicId) {
+            toast.error("No se ha seleccionado una clínica activa")
+            return
+        }
+        if (!isOwner) {
+            toast.error("Solo los propietarios de clínica pueden configurar Stripe")
+            return
+        }
         if (!stripeKey) return
         try {
-            // Check if exists, update or insert
             const existing = methods.find(m => m.type === 'STRIPE')
             if (existing) {
-                await supabase.from('payment_methods').update({ config: { publishable_key: stripeKey } }).eq('id', existing.id)
+                const { error } = await supabase
+                    .from('payment_methods')
+                    .update({ config: { publishable_key: stripeKey } })
+                    .eq('id', existing.id)
+                    .eq('clinic_id', currentClinicId)
+                if (error) throw error
             } else {
-                await supabase.from('payment_methods').insert({
+                const { error } = await supabase.from('payment_methods').insert({
+                    clinic_id: currentClinicId,
                     type: 'STRIPE',
                     title: 'Stripe Payments',
                     config: { publishable_key: stripeKey },
                     is_active: true
                 })
+                if (error) throw error
             }
             toast.success("Configuración de Stripe guardada")
             fetchMethods()
-        } catch (e) {
-             toast.error("Error guardando Stripe")
+        } catch (e: any) {
+             toast.error(e?.message || "Error guardando Stripe")
         }
     }
 
-    // Similar logic for PayPhone/Kushki...
-
     const deleteMethod = async (id: string) => {
-        const { error } = await supabase.from('payment_methods').delete().eq('id', id)
+        if (!currentClinicId) return
+        if (!isOwner) {
+            toast.error("Solo los propietarios de clínica pueden eliminar métodos de pago")
+            return
+        }
+        const { error } = await supabase
+            .from('payment_methods')
+            .delete()
+            .eq('id', id)
+            .eq('clinic_id', currentClinicId)
         if (!error) {
             toast.success("Eliminado")
             setMethods(prev => prev.filter(m => m.id !== id))
+        } else {
+            toast.error(error.message || "Error eliminando método")
         }
     }
 
     const toggleActive = async (id: string, current: boolean) => {
-        await supabase.from('payment_methods').update({ is_active: !current }).eq('id', id)
-        setMethods(prev => prev.map(m => m.id === id ? { ...m, is_active: !current } : m))
+        if (!currentClinicId) return
+        if (!isOwner) {
+            toast.error("Solo los propietarios de clínica pueden modificar métodos de pago")
+            return
+        }
+        const { error } = await supabase
+            .from('payment_methods')
+            .update({ is_active: !current })
+            .eq('id', id)
+            .eq('clinic_id', currentClinicId)
+        if (!error) {
+            setMethods(prev => prev.map(m => m.id === id ? { ...m, is_active: !current } : m))
+        } else {
+            toast.error(error.message || "Error actualizando estado")
+        }
     }
-
-    // if (isLoading) return <Loader2 className="animate-spin" /> // Removed global loader
 
     const banks = methods.filter(m => m.type === 'BANK_TRANSFER')
     const stripe = methods.find(m => m.type === 'STRIPE')
 
     return (
         <div className="space-y-6">
-            <div className="flex items-center gap-2">
-                 <h2 className="text-lg font-medium">Configuración de Pasarela de Pagos</h2>
-                 {isLoading && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+            <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                     <h2 className="text-lg font-medium">Configuración de Pasarela de Pagos</h2>
+                     {isLoading && <Loader2 className="w-4 h-4 animate-spin text-muted-foreground" />}
+                </div>
+                {!isOwner && (
+                    <div className="flex items-center gap-1.5 text-xs text-amber-600 bg-amber-50 dark:bg-amber-950/30 px-2.5 py-1 rounded-md border border-amber-200 dark:border-amber-800">
+                        <ShieldAlert className="w-3.5 h-3.5" />
+                        <span>Modo Solo Lectura (Solo propietarios pueden editar)</span>
+                    </div>
+                )}
             </div>
             
             <Tabs defaultValue="bank" className="w-full">
@@ -118,34 +180,61 @@ export function PaymentMethodsSettings() {
                     <Card>
                         <CardHeader>
                             <CardTitle>Cuentas Bancarias Locales</CardTitle>
-                            <CardDescription>Añade cuentas para que los pacientes depositen.</CardDescription>
+                            <CardDescription>Añade cuentas para que los pacientes depositen en esta clínica.</CardDescription>
                         </CardHeader>
                         <CardContent className="space-y-4">
                             <div className="grid grid-cols-2 gap-4">
                                 <div className="space-y-2">
                                     <Label>Banco</Label>
-                                    <Input placeholder="Ej. Banco Pichincha" value={newBank.bank_name} onChange={e => setNewBank({...newBank, bank_name: e.target.value})} />
+                                    <Input 
+                                        placeholder="Ej. Banco Pichincha" 
+                                        value={newBank.bank_name} 
+                                        onChange={e => setNewBank({...newBank, bank_name: e.target.value})}
+                                        disabled={!isOwner}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Tipo de Cuenta</Label>
-                                    <Input placeholder="Ahorros / Corriente" value={newBank.account_type} onChange={e => setNewBank({...newBank, account_type: e.target.value})} />
+                                    <Input 
+                                        placeholder="Ahorros / Corriente" 
+                                        value={newBank.account_type} 
+                                        onChange={e => setNewBank({...newBank, account_type: e.target.value})}
+                                        disabled={!isOwner}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Número de Cuenta</Label>
-                                    <Input placeholder="XXXXXXXXXX" value={newBank.account_number} onChange={e => setNewBank({...newBank, account_number: e.target.value})} />
+                                    <Input 
+                                        placeholder="XXXXXXXXXX" 
+                                        value={newBank.account_number} 
+                                        onChange={e => setNewBank({...newBank, account_number: e.target.value})}
+                                        disabled={!isOwner}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Titular</Label>
-                                    <Input placeholder="Nombre del titular" value={newBank.holder_name} onChange={e => setNewBank({...newBank, holder_name: e.target.value})} />
+                                    <Input 
+                                        placeholder="Nombre del titular" 
+                                        value={newBank.holder_name} 
+                                        onChange={e => setNewBank({...newBank, holder_name: e.target.value})}
+                                        disabled={!isOwner}
+                                    />
                                 </div>
                                 <div className="space-y-2">
                                     <Label>Cédula / RUC</Label>
-                                    <Input placeholder="Identificación" value={newBank.holder_id} onChange={e => setNewBank({...newBank, holder_id: e.target.value})} />
+                                    <Input 
+                                        placeholder="Identificación" 
+                                        value={newBank.holder_id} 
+                                        onChange={e => setNewBank({...newBank, holder_id: e.target.value})}
+                                        disabled={!isOwner}
+                                    />
                                 </div>
                             </div>
                         </CardContent>
                         <CardFooter>
-                            <Button onClick={addBankTransfer}><Plus className="w-4 h-4 mr-2"/> Agregar Cuenta</Button>
+                            <Button onClick={addBankTransfer} disabled={!isOwner}>
+                                <Plus className="w-4 h-4 mr-2"/> Agregar Cuenta
+                            </Button>
                         </CardFooter>
                     </Card>
 
@@ -154,7 +243,7 @@ export function PaymentMethodsSettings() {
                             <div className="p-4 text-center text-muted-foreground text-sm">Cargando cuentas...</div>
                         )}
                         {!isLoading && banks.length === 0 && (
-                            <div className="p-4 text-center text-muted-foreground text-sm">No hay cuentas bancarias registradas.</div>
+                            <div className="p-4 text-center text-muted-foreground text-sm">No hay cuentas bancarias registradas en esta clínica.</div>
                         )}
                         {banks.map(bank => (
                             <div key={bank.id} className="flex items-center justify-between p-4 border rounded-lg bg-card">
@@ -165,8 +254,16 @@ export function PaymentMethodsSettings() {
                                     </p>
                                 </div>
                                 <div className="flex items-center gap-2">
-                                    <Switch checked={bank.is_active} onCheckedChange={() => toggleActive(bank.id, bank.is_active)} />
-                                    <Button variant="ghost" size="icon" onClick={() => deleteMethod(bank.id)}><Trash2 className="w-4 h-4 text-destructive"/></Button>
+                                    <Switch 
+                                        checked={bank.is_active} 
+                                        onCheckedChange={() => toggleActive(bank.id, bank.is_active)}
+                                        disabled={!isOwner}
+                                    />
+                                    {isOwner && (
+                                        <Button variant="ghost" size="icon" onClick={() => deleteMethod(bank.id)}>
+                                            <Trash2 className="w-4 h-4 text-destructive"/>
+                                        </Button>
+                                    )}
                                 </div>
                             </div>
                         ))}
@@ -177,7 +274,7 @@ export function PaymentMethodsSettings() {
                     <Card>
                          <CardHeader>
                             <CardTitle>Conexión Stripe</CardTitle>
-                            <CardDescription>Para pagos con tarjeta internacionales.</CardDescription>
+                            <CardDescription>Para pagos con tarjeta internacionales en esta clínica.</CardDescription>
                          </CardHeader>
                          <CardContent>
                             <div className="space-y-2">
@@ -187,12 +284,12 @@ export function PaymentMethodsSettings() {
                                     value={stripe?.config?.publishable_key || stripeKey} 
                                     onChange={e => setStripeKey(e.target.value)} 
                                     placeholder={isLoading ? "Cargando..." : "pk_test_..."}
-                                    disabled={isLoading}
+                                    disabled={isLoading || !isOwner}
                                 />
                             </div>
                          </CardContent>
                          <CardFooter>
-                             <Button onClick={updateStripe}>Guardar Configuración</Button>
+                             <Button onClick={updateStripe} disabled={!isOwner}>Guardar Configuración</Button>
                          </CardFooter>
                     </Card>
                 </TabsContent>

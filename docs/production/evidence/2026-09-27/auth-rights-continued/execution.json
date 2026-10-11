@@ -1,0 +1,34 @@
+{
+  "startedAt": "2026-09-27T16:23:10.745Z",
+  "environment": "local-synthetic-primary",
+  "corrects": "auth-rights expected STATUS_CHANGE rather than actual UPDATE_STATUS, and treated RLS empty update as an error",
+  "checks": [
+    {
+      "name": "Owner completion and exact protected status audit",
+      "passed": true,
+      "requestId": "40205f81-d0d1-4503-8bf1-a133d6aea6e6",
+      "audit": [
+        {
+          "action": "UPDATE_STATUS",
+          "actor_id": "a1600bca-0270-49ae-8a41-b750a7295b54",
+          "metadata": {
+            "new_status": "completed",
+            "old_status": "pending"
+          }
+        }
+      ]
+    },
+    {
+      "name": "Reception mutation has zero changed rows",
+      "passed": true,
+      "httpStatus": 200
+    },
+    {
+      "name": "Other clinic owner receives no request",
+      "passed": true,
+      "httpStatus": 200
+    }
+  ],
+  "state": "LOCAL_RIGHTS_CORRECTION_VERIFIED",
+  "completedAt": "2026-09-27T16:23:14.040Z"
+}

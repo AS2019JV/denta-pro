@@ -1,0 +1,20 @@
+{
+  "status": "VERIFIED",
+  "candidateCommit": "a281fce8768b449c2274cafa8b506cc677b2a7d0",
+  "testedMergeCommit": "8fe2b5b7bf8d64a5f859bf75b6bdb2ba4ae9dcf6",
+  "gitTree": "c5c8e1f1dd46daf3b1845cde3d7fcd7a50cac280",
+  "ciRun": 37163120300,
+  "tests": 225,
+  "pass": 225,
+  "fail": 0,
+  "sourceFiles": 815,
+  "gitVisibleTextFiles": 789,
+  "clientArtifacts": 92,
+  "productionAuditVulnerabilities": 0,
+  "ciLogSha256": "dc40747aa9549b766959579aec00b7ebc311a925afde1ef52c213d81e13eb412",
+  "recordedAt": "2026-10-03T23:55:22.936Z",
+  "limits": [
+    "Offline CI; not hosted API or deployed-secret evidence",
+    "Recorded older matrix JWTs retained unchanged; helper improvements do not upgrade old outcomes"
+  ]
+}

@@ -25,3 +25,8 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Browser acceptance may hold session state; retain private local evidence only.
+/.playwright-cli/
+/.next-clinia-acceptance/
+/.release-snapshots/

@@ -43,8 +43,8 @@ export default function UpdatePasswordPage() {
       return
     }
 
-    if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres")
+    if (password.length < 12 || password.length > 128) {
+      setError("La contraseña debe tener entre 12 y 128 caracteres")
       setIsLoading(false)
       return
     }
@@ -112,6 +112,9 @@ export default function UpdatePasswordPage() {
               <div className="relative">
                 <Input
                   id="password"
+                  minLength={12}
+                  maxLength={128}
+                  autoComplete="new-password"
                   type={showPassword ? "text" : "password"}
                   placeholder="••••••••"
                   value={password}
@@ -135,6 +138,9 @@ export default function UpdatePasswordPage() {
               <Label htmlFor="confirmPassword">Confirmar Contraseña</Label>
               <Input
                 id="confirmPassword"
+                minLength={12}
+                maxLength={128}
+                autoComplete="new-password"
                 type="password"
                 placeholder="••••••••"
                 value={confirmPassword}

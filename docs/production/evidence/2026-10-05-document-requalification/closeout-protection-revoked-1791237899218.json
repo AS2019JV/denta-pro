@@ -1,0 +1,60 @@
+{
+  "status": "VERIFIED",
+  "phase": "protection-revoked",
+  "project": "phihonofwyerpfgqfekt",
+  "candidate": {
+    "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+    "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+    "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+    "project": "phihonofwyerpfgqfekt"
+  },
+  "startedAt": "2026-10-05T22:04:59.208Z",
+  "command": "node scripts/verify-clinia-document-closeout.cjs protection-revoked phihonofwyerpfgqfekt",
+  "driverSha256": "d2a172176f17c49fd05a6060f695f66474a195ab35604c1586329ec4a9fa7f80",
+  "manifestSha256": "0d54a50b94f4f0f7ec59c82580e1e385f642814bd03e30370b4e485602211d8b",
+  "transportSha256": "3e266a321cacb8e2b8f1854574f7321482bed4d0427212a5d7fe53abdde2b496",
+  "positiveEvidence": {
+    "filename": "expired-1791237544119.json",
+    "sha256": "833ca440f4ab0ca2bcedf0b0f9a84c677cd6b72e8c0b3f0890c6f18f496622f8"
+  },
+  "originalRequestSha256": "856d358efd00b2441eac79e78f21e40dd1d6df4c3d8838c43b8114cba6494c68",
+  "requests": [
+    {
+      "expected": 401,
+      "requestSha256": "856d358efd00b2441eac79e78f21e40dd1d6df4c3d8838c43b8114cba6494c68",
+      "status": 401,
+      "bodyComplete": true,
+      "startedAt": "2026-10-05T22:04:59.220Z",
+      "bytes": 620,
+      "bodySha256": "a3e329a2d9c5aba76ff7d652aed40066df86abb25d9fcb30866ea0786692fff1",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "content-type": "application/json",
+        "content-length": "620"
+      },
+      "completedAt": "2026-10-05T22:04:59.779Z",
+      "layer": "vercel-protection"
+    },
+    {
+      "expected": 401,
+      "requestSha256": "856d358efd00b2441eac79e78f21e40dd1d6df4c3d8838c43b8114cba6494c68",
+      "status": 401,
+      "bodyComplete": true,
+      "startedAt": "2026-10-05T22:04:59.782Z",
+      "bytes": 620,
+      "bodySha256": "2b57d09e397bf2d6ee5a7033d6f4da9c084b0f57dbc21b150c4a299357b1a26b",
+      "headers": {
+        "cache-control": "no-store, max-age=0",
+        "content-type": "application/json",
+        "content-length": "620"
+      },
+      "completedAt": "2026-10-05T22:05:00.124Z",
+      "layer": "vercel-protection"
+    }
+  ],
+  "limits": [
+    "Synthetic PDF; exact fresh-owner positive-control request",
+    "Vercel access removal is separate from application authorization; no production or credential mutation"
+  ],
+  "completedAt": "2026-10-05T22:05:00.125Z"
+}

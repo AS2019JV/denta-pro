@@ -1,0 +1,394 @@
+TAP version 13
+# Subtest: legitimate delivery publishes exact bytes after two authority checks with no reusable provider URL or cache validator
+ok 1 - legitimate delivery publishes exact bytes after two authority checks with no reusable provider URL or cache validator
+  ---
+  duration_ms: 60.0437
+  type: 'test'
+  ...
+# Subtest: warm delivery then replay the exact client request denies each revoked authority state before Storage access
+ok 2 - warm delivery then replay the exact client request denies each revoked authority state before Storage access
+  ---
+  duration_ms: 33.5987
+  type: 'test'
+  ...
+# Subtest: revocation or changed user/session/object while upstream bytes are loading cannot publish
+ok 3 - revocation or changed user/session/object while upstream bytes are loading cannot publish
+  ---
+  duration_ms: 7.009
+  type: 'test'
+  ...
+# Subtest: invalid Authorization cannot fall back to cookies; cross-origin cookie and bearer requests deny
+ok 4 - invalid Authorization cannot fall back to cookies; cross-origin cookie and bearer requests deny
+  ---
+  duration_ms: 6.2411
+  type: 'test'
+  ...
+# Subtest: raw paths, unknown fields, malformed IDs, oversized JSON and conditional/range requests are rejected
+ok 5 - raw paths, unknown fields, malformed IDs, oversized JSON and conditional/range requests are rejected
+  ---
+  duration_ms: 2.6972
+  type: 'test'
+  ...
+# Subtest: authority cannot substitute foreign paths or external provider URLs
+ok 6 - authority cannot substitute foreign paths or external provider URLs
+  ---
+  duration_ms: 2.002
+  type: 'test'
+  ...
+# Subtest: malformed JSON and invalid UTF-8 are client errors before any clinical authority or Storage work
+ok 7 - malformed JSON and invalid UTF-8 are client errors before any clinical authority or Storage work
+  ---
+  duration_ms: 12.1744
+  type: 'test'
+  ...
+# Subtest: provider errors and oversized/malformed lengths or streams cannot escape as clinical content
+ok 8 - provider errors and oversized/malformed lengths or streams cannot escape as clinical content
+  ---
+  duration_ms: 7.5398
+  type: 'test'
+  ...
+# Subtest: bounded stream abort cancels its reader instead of leaving a hung upstream read
+ok 9 - bounded stream abort cancels its reader instead of leaving a hung upstream read
+  ---
+  duration_ms: 2.125
+  type: 'test'
+  ...
+# Subtest: four held deliveries bound per-process resource use and the slot is released after denial
+ok 10 - four held deliveries bound per-process resource use and the slot is released after denial
+  ---
+  duration_ms: 21.9321
+  type: 'test'
+  ...
+# Subtest: slow request bodies consume concurrency slots before buffering
+ok 11 - slow request bodies consume concurrency slots before buffering
+  ---
+  duration_ms: 4.201
+  type: 'test'
+  ...
+# Subtest: a supported trailing slash in APP_URL compares the canonical browser origin
+ok 12 - a supported trailing slash in APP_URL compares the canonical browser origin
+  ---
+  duration_ms: 0.7935
+  type: 'test'
+  ...
+# Subtest: client POST discards late bytes when scope changes and sends no object URL or local storage capability
+ok 13 - client POST discards late bytes when scope changes and sends no object URL or local storage capability
+  ---
+  duration_ms: 9.8973
+  type: 'test'
+  ...
+# Subtest: client bounds the actual stream even if Content-Length lies and discards a late completed body
+ok 14 - client bounds the actual stream even if Content-Length lies and discards a late completed body
+  ---
+  duration_ms: 13.6025
+  type: 'test'
+  ...
+# Subtest: audit outage denies publication rather than silently delivering unrecorded clinical bytes
+ok 15 - audit outage denies publication rather than silently delivering unrecorded clinical bytes
+  ---
+  duration_ms: 6.7859
+  type: 'test'
+  ...
+# Subtest: server transport cache coalesces logins, expires before JWT and bounds reuse to five minutes
+ok 16 - server transport cache coalesces logins, expires before JWT and bounds reuse to five minutes
+  ---
+  duration_ms: 9.9871
+  type: 'test'
+  ...
+# Subtest: bad roles/subjects/expiry deny and failed login has bounded backoff
+ok 17 - bad roles/subjects/expiry deny and failed login has bounded backoff
+  ---
+  duration_ms: 3.4383
+  type: 'test'
+  ...
+# Subtest: canceling the first waiter does not reject another waiter or discard completed transport login
+ok 18 - canceling the first waiter does not reject another waiter or discard completed transport login
+  ---
+  duration_ms: 1.22
+  type: 'test'
+  ...
+# Subtest: actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+ok 19 - actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+  ---
+  duration_ms: 208.0148
+  type: 'test'
+  ...
+# Subtest: explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+ok 20 - explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+  ---
+  duration_ms: 67.825
+  type: 'test'
+  ...
+# Subtest: invalid or rejected explicit Bearer never falls back to a valid browser cookie
+ok 21 - invalid or rejected explicit Bearer never falls back to a valid browser cookie
+  ---
+  duration_ms: 170.257
+  type: 'test'
+  ...
+# Subtest: ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+ok 22 - ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+  ---
+  duration_ms: 397.9612
+  type: 'test'
+  ...
+# Subtest: plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+ok 23 - plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+  ---
+  duration_ms: 124.7457
+  type: 'test'
+  ...
+# Subtest: foreign clinic, patient and file scopes cannot access the legitimate object
+ok 24 - foreign clinic, patient and file scopes cannot access the legitimate object
+  ---
+  duration_ms: 50.1007
+  type: 'test'
+  ...
+# Subtest: the same original Bearer succeeds once then denies after live logout or removal
+ok 25 - the same original Bearer succeeds once then denies after live logout or removal
+  ---
+  duration_ms: 33.3197
+  type: 'test'
+  ...
+# Subtest: revocation committed during upstream fetch discards buffered clinical bytes
+ok 26 - revocation committed during upstream fetch discards buffered clinical bytes
+  ---
+  duration_ms: 141.5
+  type: 'test'
+  ...
+# Subtest: user and session identity remain pinned across buffering even when both new identities are otherwise valid
+ok 27 - user and session identity remain pinned across buffering even when both new identities are otherwise valid
+  ---
+  duration_ms: 32.6833
+  type: 'test'
+  ...
+# Subtest: missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+ok 28 - missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+  ---
+  duration_ms: 105.7879
+  type: 'test'
+  ...
+# Subtest: broker revocation during fetch denies publication and query/RPC errors expose no provider details
+ok 29 - broker revocation during fetch denies publication and query/RPC errors expose no provider details
+  ---
+  duration_ms: 40.6916
+  type: 'test'
+  ...
+# Subtest: actual route cannot publish if its ordinary-actor audit fails
+ok 30 - actual route cannot publish if its ordinary-actor audit fails
+  ---
+  duration_ms: 52.9816
+  type: 'test'
+  ...
+# Subtest: missing protected delivery path never falls back to the legacy path
+ok 31 - missing protected delivery path never falls back to the legacy path
+  ---
+  duration_ms: 9.7237
+  type: 'test'
+  ...
+# Subtest: origin transport failure withholds provider details and never audits publication
+ok 32 - origin transport failure withholds provider details and never audits publication
+  ---
+  duration_ms: 12.3594
+  type: 'test'
+  ...
+# Subtest: delivery publishes a four-million-byte document but withholds one additional byte
+ok 33 - delivery publishes a four-million-byte document but withholds one additional byte
+  ---
+  duration_ms: 77.573
+  type: 'test'
+  ...
+# Subtest: document client accepts the exact bound and rejects oversized headers or a lying stream
+ok 34 - document client accepts the exact bound and rejects oversized headers or a lying stream
+  ---
+  duration_ms: 22.031
+  type: 'test'
+  ...
+# Subtest: actual avatar input offers PNG/JPEG/WebP and rejects disallowed types or one extra byte before upload
+ok 35 - actual avatar input offers PNG/JPEG/WebP and rejects disallowed types or one extra byte before upload
+  ---
+  duration_ms: 206.5114
+  type: 'test'
+  ...
+# Subtest: actual patient file selection and drag/drop share the same bound and explain rejection
+ok 36 - actual patient file selection and drag/drop share the same bound and explain rejection
+  ---
+  duration_ms: 146.6175
+  type: 'test'
+  ...
+# Subtest: registration rejects every supplied logo before budget, Auth, database or Storage effects
+ok 37 - registration rejects every supplied logo before budget, Auth, database or Storage effects
+  ---
+  duration_ms: 1744.4149
+  type: 'test'
+  ...
+# Subtest: server delivers exact raster bytes after two live checks, with no cache capability
+ok 38 - server delivers exact raster bytes after two live checks, with no cache capability
+  ---
+  duration_ms: 79.8161
+  type: 'test'
+  ...
+# Subtest: warm request is denied on replay after live revocation before transport
+ok 39 - warm request is denied on replay after live revocation before transport
+  ---
+  duration_ms: 3.834
+  type: 'test'
+  ...
+# Subtest: revocation, changed object or changed identity while buffering cannot publish bytes
+ok 40 - revocation, changed object or changed identity while buffering cannot publish bytes
+  ---
+  duration_ms: 40.6532
+  type: 'test'
+  ...
+# Subtest: body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+ok 41 - body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+  ---
+  duration_ms: 8.5599
+  type: 'test'
+  ...
+# Subtest: malformed Bearer never falls back to cookies and foreign origins never authorize
+ok 42 - malformed Bearer never falls back to cookies and foreign origins never authorize
+  ---
+  duration_ms: 4.7075
+  type: 'test'
+  ...
+# Subtest: conditional/range requests and foreign registered paths cannot reach image transport
+ok 43 - conditional/range requests and foreign registered paths cannot reach image transport
+  ---
+  duration_ms: 4.8948
+  type: 'test'
+  ...
+# Subtest: SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+ok 44 - SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+  ---
+  duration_ms: 21.3545
+  type: 'test'
+  ...
+# Subtest: aborting an in-flight stream cancels the reader and releases its concurrency slot
+ok 45 - aborting an in-flight stream cancels the reader and releases its concurrency slot
+  ---
+  duration_ms: 3.6746
+  type: 'test'
+  ...
+# Subtest: ordinary authority resolves each registered entity with receptionist-safe projections
+ok 46 - ordinary authority resolves each registered entity with receptionist-safe projections
+  ---
+  duration_ms: 3.5047
+  type: 'test'
+  ...
+# Subtest: every live authority denial prevents access and an otherwise valid new session stays pinned out
+ok 47 - every live authority denial prevents access and an otherwise valid new session stays pinned out
+  ---
+  duration_ms: 2.2698
+  type: 'test'
+  ...
+# Subtest: doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+ok 48 - doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+  ---
+  duration_ms: 1.1612
+  type: 'test'
+  ...
+# Subtest: client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+ok 49 - client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+  ---
+  duration_ms: 15.3609
+  type: 'test'
+  ...
+# Subtest: private media preserves canonical bucket upload paths and same-origin historical references
+ok 50 - private media preserves canonical bucket upload paths and same-origin historical references
+  ---
+  duration_ms: 17.7371
+  type: 'test'
+  ...
+# Subtest: origin, bucket, traversal, malformed and old flat avatar paths fail closed
+ok 51 - origin, bucket, traversal, malformed and old flat avatar paths fail closed
+  ---
+  duration_ms: 5.3974
+  type: 'test'
+  ...
+# Subtest: hook discards same-scope late responses, revokes replaced URLs and denies publication after authority changes
+ok 52 - hook discards same-scope late responses, revokes replaced URLs and denies publication after authority changes
+  ---
+  duration_ms: 514.8575
+  type: 'test'
+  ...
+# Subtest: Strict Mode cleanup and unmount abort old fetches even when the publication token is reused
+ok 53 - Strict Mode cleanup and unmount abort old fetches even when the publication token is reused
+  ---
+  duration_ms: 44.8461
+  type: 'test'
+  ...
+# Subtest: reference replacement invalidates immediately and rejected refresh removes the previous Blob URL
+ok 54 - reference replacement invalidates immediately and rejected refresh removes the previous Blob URL
+  ---
+  duration_ms: 59.4518
+  type: 'test'
+  ...
+# Subtest: origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+ok 55 - origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+  ---
+  duration_ms: 7.9775
+  type: 'test'
+  ...
+# Subtest: origin config rejects missing region, publishable/secret/service keys and wrong project
+ok 56 - origin config rejects missing region, publishable/secret/service keys and wrong project
+  ---
+  duration_ms: 2.4436
+  type: 'test'
+  ...
+# Subtest: actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+ok 57 - actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+  ---
+  duration_ms: 167.0772
+  type: 'test'
+  ...
+# Subtest: adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+ok 58 - adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+  ---
+  duration_ms: 140.3381
+  type: 'test'
+  ...
+# Subtest: invalid status, body and declared length fail closed and release the client
+ok 59 - invalid status, body and declared length fail closed and release the client
+  ---
+  duration_ms: 205.7526
+  type: 'test'
+  ...
+# Subtest: actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+ok 60 - actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+  ---
+  duration_ms: 121.7108
+  type: 'test'
+  ...
+# Subtest: exact maximum bytes succeed and cleanup does not depend on a close event
+ok 61 - exact maximum bytes succeed and cleanup does not depend on a close event
+  ---
+  duration_ms: 37.8867
+  type: 'test'
+  ...
+# Subtest: SDK and stream errors are generic and release transport resources
+ok 62 - SDK and stream errors are generic and release transport resources
+  ---
+  duration_ms: 52.4906
+  type: 'test'
+  ...
+# Subtest: caller cancellation destroys source even without close, and detaches its abort listener
+ok 63 - caller cancellation destroys source even without close, and detaches its abort listener
+  ---
+  duration_ms: 16.1911
+  type: 'test'
+  ...
+# Subtest: request abort before SDK, during send and during reading cannot leak bytes or retain resources
+ok 64 - request abort before SDK, during send and during reading cannot leak bytes or retain resources
+  ---
+  duration_ms: 44.5807
+  type: 'test'
+  ...
+1..64
+# tests 64
+# suites 0
+# pass 64
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2798.5189

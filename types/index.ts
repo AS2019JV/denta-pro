@@ -122,9 +122,11 @@ export interface Payment {
 
 export interface PaymentMethod {
     id: string
+    clinic_id: string
     doctor_id?: string
     type: 'BANK_TRANSFER' | 'STRIPE' | 'PAYPHONE'
     title: string
     config: any // { account_number, bank_name... }
     is_active: boolean
+    created_at?: string
 }

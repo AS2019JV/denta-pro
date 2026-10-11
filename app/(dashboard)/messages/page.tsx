@@ -5,7 +5,8 @@ import { PageHeader } from "@/components/page-header"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { PrivateMediaAvatar } from '@/components/private-media-avatar'
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Send, Search, User, Phone, Mail, MoreVertical } from "lucide-react"
 import { supabase } from "@/lib/supabase"
@@ -32,7 +33,7 @@ interface Profile {
 }
 
 export default function MessagesPage() {
-  const { user } = useAuth()
+  const { user, currentClinicId } = useAuth()
   const [messages, setMessages] = useState<Message[]>([])
   const [newMessage, setNewMessage] = useState("")
   const [users, setUsers] = useState<Profile[]>([])
@@ -41,8 +42,26 @@ export default function MessagesPage() {
   const scrollRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    fetchUsers()
-  }, [user])
+    const controller = new AbortController()
+    const actorId = user?.id
+    setUsers([])
+    setSelectedUser(null)
+    setMessages([])
+    async function loadDirectory() {
+      if (!actorId || !currentClinicId) return
+      try {
+        const { data, error } = await supabase.rpc('get_clinic_staff_directory', {
+          p_clinic_id: currentClinicId,
+        }).abortSignal(controller.signal)
+        if (error) throw error
+        if (!controller.signal.aborted && Array.isArray(data)) setUsers(data.filter((member: Profile) => member.id !== actorId))
+      } catch (error) {
+        if (!controller.signal.aborted) console.error('Error fetching users:', error)
+      }
+    }
+    void loadDirectory()
+    return () => controller.abort()
+  }, [user?.id, user?.role, currentClinicId])
 
   // Handle URL query parameters for direct messaging
   useEffect(() => {
@@ -89,20 +108,6 @@ export default function MessagesPage() {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight
     }
   }, [messages])
-
-  const fetchUsers = async () => {
-    try {
-      const { data, error } = await supabase
-        .from('profiles')
-        .select('*')
-        .neq('id', user?.id) // Exclude self
-
-      if (error) throw error
-      if (data) setUsers(data)
-    } catch (error) {
-      console.error('Error fetching users:', error)
-    }
-  }
 
   const fetchMessages = async (otherUserId?: string) => {
     if (!otherUserId || !user) return
@@ -173,7 +178,7 @@ export default function MessagesPage() {
                     }`}
                   >
                     <Avatar>
-                      <AvatarImage src={u.avatar_url || ""} />
+                      <PrivateMediaAvatar kind="doctor-avatar" entityId={u.id} reference={u.avatar_url} />
                       <AvatarFallback>{u.full_name?.[0] || "U"}</AvatarFallback>
                     </Avatar>
                     <div className="flex-1 overflow-hidden">
@@ -193,7 +198,7 @@ export default function MessagesPage() {
             <>
               <CardHeader className="p-4 border-b flex flex-row items-center gap-3">
                 <Avatar>
-                  <AvatarImage src={selectedUser.avatar_url || ""} />
+                  <PrivateMediaAvatar kind="doctor-avatar" entityId={selectedUser.id} reference={selectedUser.avatar_url} />
                   <AvatarFallback>{selectedUser.full_name?.[0]}</AvatarFallback>
                 </Avatar>
                 <div className="flex-1">

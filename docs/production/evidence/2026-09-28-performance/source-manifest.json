@@ -1,0 +1,158 @@
+{
+  "capturedAt": "2026-09-28T16:52:31.966Z",
+  "baseGit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "dirtyWorkingTree": true,
+  "buildDirectory": ".next-clinia-acceptance",
+  "buildId": "B0ZWMN01nRkRynvSSF0zf",
+  "notAReleaseCommit": true,
+  "files": [
+    {
+      "file": ".gitignore",
+      "sha256": "3e6e84903ee32a225209330bc31a9e50f7ee3c68da32f66827d32f5e68bc5989"
+    },
+    {
+      "file": "next.config.mjs",
+      "sha256": "dda8d3f9ccf92501ebea3f0f0bb58ed9a69a7274b15719ada3c885b7c438164b"
+    },
+    {
+      "file": "tsconfig.json",
+      "sha256": "4c8270e44d82777595eb74be24597e59e051c72d9e3dd4932cc34665f4e36be1"
+    },
+    {
+      "file": "middleware.ts",
+      "sha256": "7c9a1a6bef90865e214c8e8886f264761c8d6076713719aa79959850727e1d5b"
+    },
+    {
+      "file": "components/auth-context.tsx",
+      "sha256": "ba97669e9c44116db43c01bbc30e83d2c1f3cf240f32201d6a32a5e491dc327a"
+    },
+    {
+      "file": "hooks/use-dashboard-data.ts",
+      "sha256": "35e2e216db32c55f2b3701e07d9ce218e89191dd32d173753843abc58bc224a3"
+    },
+    {
+      "file": "hooks/use-realtime-notifications.ts",
+      "sha256": "8d74317f964a83cd767397fb51d05fef61e802385c7486c62e658488f53097cb"
+    },
+    {
+      "file": "components/appointment-editor.tsx",
+      "sha256": "30134a06cd4dd7e7d176d17b427ecbaea818dd4dd6d967367b4b19c7b6b52b14"
+    },
+    {
+      "file": "components/quick-appointment-dialog.tsx",
+      "sha256": "f4b1da7f88d8dcf1cb3eab167097489eb186781654088b44c2bf2fdac6b96926"
+    },
+    {
+      "file": "components/calendar/modern-calendar.tsx",
+      "sha256": "1edb78a23f70a25a090f5ca757ef7d9e62357ad9a3014d60a741e360f2f1b0fd"
+    },
+    {
+      "file": "components/sidebar.tsx",
+      "sha256": "6afc6f7d8ef4c51b6949c34b9939142968b94bd874e700fd9f657515e4130b21"
+    },
+    {
+      "file": "app/(dashboard)/dashboard/page.tsx",
+      "sha256": "b5814b65256c65b3ea64a9a35a71a5d31f478b3767082c65fd716eaca1d288a8"
+    },
+    {
+      "file": "app/(dashboard)/layout.tsx",
+      "sha256": "a0e0ac712db7680db148fdce637f9cac52985f963f78921bfaf405e58a4a38d8"
+    },
+    {
+      "file": "app/(landing)/page.tsx",
+      "sha256": "b0d77a23125415cbb6205f5f9a54f7521e1614318a70dd45a65f668d7e5580d6"
+    },
+    {
+      "file": "app/(landing)/layout.tsx",
+      "sha256": "0f82d18f2d4b4a96deb7de74d29f866029998e48227263b285cb2e3920409b37"
+    },
+    {
+      "file": "components/landing/layout/site-header.tsx",
+      "sha256": "7fd073fcc5927b136cbe5801b99c8f8f55f6b62ef3dcfd4f64828263f0e323e0"
+    },
+    {
+      "file": "components/patient-prescriptions.tsx",
+      "sha256": "bc1e17731ce7a21e5dde76e815c0a4695a9ac4e5fb72649510579f4d9f3dff56"
+    },
+    {
+      "file": "components/hcu033-form.tsx",
+      "sha256": "fa3ee930f0f2dd321ab1f4cef4c0a310029130c19012d79ba0c6c42d118508f4"
+    },
+    {
+      "file": "components/issued-prescriptions-list.tsx",
+      "sha256": "8eb3d1156f14538d48de23e16a75d48f8c62e23abee8082342ffe1ced44ae9bf"
+    },
+    {
+      "file": "lib/agenda.mjs",
+      "sha256": "75d0103fb51120ee2ee294de76cdc889d27631838994e4200033cfb5b8eed701"
+    },
+    {
+      "file": "lib/agenda.d.mts",
+      "sha256": "87d4bd3f5b440182970bd2b531db94178b98afd5e7bbd83e06f258f60e6f2a39"
+    },
+    {
+      "file": "lib/pdf-client.ts",
+      "sha256": "923c1a9383b62cca79a3a5478b76cebe9093f7bc54d0fa0a225485ad2b65d631"
+    },
+    {
+      "file": "lib/pdf-generator.ts",
+      "sha256": "ea7399591fe4760ec630407cbf7616c9cb82902fbf83628b318deb5467cf6bb3"
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41"
+    },
+    {
+      "file": "scripts/clinia-local-app.cjs",
+      "sha256": "3ce777045ca9df344c9079756f1caefb81834eadf629be732baf3ef0dd94ceb7"
+    },
+    {
+      "file": "scripts/verify-clinia-agenda.cjs",
+      "sha256": "00637ecf0622e2596ff5bf05d6b76e75fd8a01e64ada7e1a24961ee63f827788"
+    },
+    {
+      "file": "scripts/measure-clinia-local-queries.cjs",
+      "sha256": "7dfc0cc465d33f34f8a9d2785868008e469b72a17270088e2395e4ef35e0dbe9"
+    },
+    {
+      "file": "tools/local-supabase/browser-performance.js",
+      "sha256": "364cd03dad75a97421f8293b8a1804559c549a6f8b1eae1fa1b1f3c755abd26e"
+    },
+    {
+      "file": "tools/local-supabase/browser-agenda.js",
+      "sha256": "634efe9ec1a19edd8cfb631f8c10d8e39222b214f8682215207c6dbf61e47f83"
+    },
+    {
+      "file": "tools/local-supabase/browser-visuals-pdf.js",
+      "sha256": "213eb422f787816dda22814ca938645131077968f188f2001e8a46ad81e3acd1"
+    },
+    {
+      "file": "tools/local-supabase/browser-landing.js",
+      "sha256": "dea1d35c8e69b354a652905ea6a16050af019473803ca6f7941275f9104e2946"
+    },
+    {
+      "file": "test/production/agenda-contract.test.cjs",
+      "sha256": "b622e47d438f6982d313574dea4e3cfee361463b465df7d7d3aaa6112d66bb9f"
+    },
+    {
+      "file": "test/production/auth-context-race.test.cjs",
+      "sha256": "e8a9c8c1a1e5632d39117f170dd398a40be7ff8be5cc0bfaf5f929650d090d29"
+    },
+    {
+      "file": "test/production/middleware-authority.test.cjs",
+      "sha256": "da157d258c22478950212d4fac2b9f8dd0d42abbe906e4eacdc9983f0a5c6500"
+    },
+    {
+      "file": "test/production/dashboard-authorized-contracts.test.cjs",
+      "sha256": "4349b771ae2ff415ccd7ae28aa8674f2a7ab00611d7455b09b29ad97d05fe550"
+    },
+    {
+      "file": "test/production/financial-retirement.test.cjs",
+      "sha256": "001a2309a87e8aff09b210325d0c88af351e95737fc4c92c7d2c77345ac8d1e3"
+    },
+    {
+      "file": "test/production/local-csp.test.cjs",
+      "sha256": "9e49c0b7ea8ee76b14e5fe16b90e7dafa7351705756d32352f7aad39f78ce15c"
+    }
+  ]
+}

@@ -1,0 +1,64 @@
+{
+  "startedAt": "2026-10-02T16:52:52.711Z",
+  "status": "NOT VERIFIED",
+  "database": "clinia_email_budget_20261002_4",
+  "source": "clinia_contract_stage_20260928_3",
+  "checks": [
+    {
+      "name": "Anonymous/authenticated execution denied; service cannot read private counters",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Malformed request and stale or non-owner actor rejected without counters",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Concurrent destination reservations allow exactly three of twelve",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Anonymous IP quota is shared between signup/resend",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Actor quota shared across invite/transactional and live demotion denial",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Shared authenticated IP ceiling sixty across seven actors",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Clinic ceiling one hundred twenty across actors and IPs",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Common destination ceiling ten across invite/transactional actions",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Actual local PostgreSQL17 SQL grants/concurrency with synthetic SQL role claims",
+    "Not ordinary Auth JWTs or deployed email/provider acceptance",
+    "No remote mutation or cleanup; clone preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "created": true,
+  "migrationSha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f",
+  "diagnostic": "email-budget-4-validation.private.log",
+  "error": "42703 Local validation failed; inspect private diagnostics",
+  "completedAt": "2026-10-02T16:52:57.249Z"
+}

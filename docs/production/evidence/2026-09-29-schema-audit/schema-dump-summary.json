@@ -1,0 +1,40 @@
+{
+  "capturedAt": "2026-09-29",
+  "status": "SCOPED_SCHEMA_ONLY_SQL_CAPTURED_RESTORE_NOT_TESTED",
+  "method": "pg_dump from already present local PostgreSQL Docker image; temporary Supabase CLI login; read-only remote connection",
+  "clientImage": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+  "schemas": ["public", "logs", "security_internal"],
+  "dumps": {
+    "staging": {
+      "projectRef": "phihonofwyerpfgqfekt",
+      "privatePath": "tools/local-supabase/supabase/.temp/2026-09-29-staging-schema-local-client.sql",
+      "bytes": 79202,
+      "sha256": "fe8d692856e96091eac8ae48f6ce2438c6fab85ea8e4c01679a4a000cb0a4347",
+      "createTables": 25,
+      "createFunctions": 10,
+      "createPoliciesWithinSelectedSchemas": 11,
+      "topLevelCopyOrInsertStatements": 0,
+      "matchesLiveCatalogPhysicalTablesAndFunctions": true
+    },
+    "linkedMain": {
+      "projectRef": "leqsrfyjvuxxdsubjjin",
+      "privatePath": "tools/local-supabase/supabase/.temp/2026-09-29-linked-schema-local-client.sql",
+      "bytes": 177577,
+      "sha256": "e251b969c0b6df8c5281ecf753aedca1af146799d84ba41fc9a892a5fdb599f3",
+      "createTables": 25,
+      "createFunctions": 30,
+      "createPoliciesWithinSelectedSchemas": 75,
+      "topLevelCopyOrInsertStatements": 0,
+      "matchesLiveCatalogPhysicalTablesAndFunctions": true
+    }
+  },
+  "limits": [
+    "No isolated restore has been executed; restoreability is unverified",
+    "Excludes Supabase-managed Auth and Storage schemas, service configuration, and Storage object bytes",
+    "Does not establish parity with local migration candidate or production acceptance",
+    "SQL bodies and identifiers may be sensitive; dump files remain private and ignored by Git"
+  ],
+  "temporaryCredentialFilesRemoved": true,
+  "temporaryLoginRolesPresentAfterCapture": false,
+  "temporaryLoginRoleVerification": "Read-only pg_roles query in each project returned no cli_login_postgres.% roles"
+}

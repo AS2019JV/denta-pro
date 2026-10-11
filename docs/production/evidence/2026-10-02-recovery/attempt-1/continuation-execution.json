@@ -1,0 +1,171 @@
+{
+  "state": "REAL_SYNTHETIC_BASELINE_DB_STORAGE_CONFIGURATION_RECOVERY_VERIFIED_FORWARD_OVERLAY_PENDING",
+  "startedAt": "2026-10-03T03:14:07.500Z",
+  "baselineExecutionSha256": "b0cbf6dbf7a0f2dda5ad3e15d8ffe9ef71beac133ee7006c77bae369f4ec6b3c",
+  "checks": [
+    {
+      "name": "Restored role and database settings exactly equal preserved source, including library lists",
+      "passed": true
+    },
+    {
+      "name": "Bounded restored REST readiness and doctor clinical authority",
+      "passed": true
+    },
+    {
+      "name": "Reception, foreign clinic and anonymous clinical reads deny",
+      "passed": true
+    },
+    {
+      "name": "Every restored Storage byte still matches its captured source digest",
+      "passed": true
+    },
+    {
+      "name": "Own patient-file listing positive, foreign listing empty and raw clinical bytes protected",
+      "passed": true
+    },
+    {
+      "name": "Source quiescent table snapshot and configuration unchanged",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "5310b6614b1fa9d0c69c4b88a613f02d11a7e7f55a61895ef4ba81fe105c95de"
+    },
+    {
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "32c298725ed7b54287f5043ea40945cac8bc730205388ccbdb25898a05e44376"
+    },
+    {
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "8e8bfa275df43c9540dbbb2628a2c78a0e19c13da0baa06b1af38d3c79d13b4c"
+    },
+    {
+      "pathSha256": "a0e2656467885887ffaebfbc9885cdc7f9c989682ecd8df7999e9cd63e307429",
+      "status": 200,
+      "responseSha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "pathSha256": "5e352743a87a81f69668c9aa7af574e164b35b41792ef4361529e5025a63df54",
+      "status": 200,
+      "responseSha256": "bc78e990cd31601223208b703702a3b9fcb939f2a344beacc08f28a00c718d37"
+    },
+    {
+      "pathSha256": "5e352743a87a81f69668c9aa7af574e164b35b41792ef4361529e5025a63df54",
+      "status": 403,
+      "responseSha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574",
+      "code": "42501"
+    },
+    {
+      "pathSha256": "5e352743a87a81f69668c9aa7af574e164b35b41792ef4361529e5025a63df54",
+      "status": 403,
+      "responseSha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574",
+      "code": "42501"
+    },
+    {
+      "pathSha256": "5e352743a87a81f69668c9aa7af574e164b35b41792ef4361529e5025a63df54",
+      "status": 401,
+      "responseSha256": "2940fe9dcd53089448846cfc04dc0d61e456797fc25a1e18bebe3fc3fb1946d5",
+      "code": "42501"
+    },
+    {
+      "pathSha256": "7eccb329a26d37217da9f11de899252b6a63c37d1e9c3a75a6705723ed619533",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "pathSha256": "93d7145103f6d577a293ba69a64841842f55fc1dbadbfe075e7bc14197ee64b8",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "pathSha256": "8637528b7e74523f25b9c047ad8bd4c848ede58cfd011d7b577e21c964e90e36",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 200,
+      "responseSha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    },
+    {
+      "pathSha256": "adda10afcefeba83249a3138c827bc8481b7462d6929d3664be12faee7ed3e5e",
+      "status": 200,
+      "responseSha256": "7e1e15fdd46c7e27f01d5685e2ac8240a32e6a4517f8552adc9c98eb77631bb6"
+    },
+    {
+      "pathSha256": "adda10afcefeba83249a3138c827bc8481b7462d6929d3664be12faee7ed3e5e",
+      "status": 200,
+      "responseSha256": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945"
+    },
+    {
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 200,
+      "responseSha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    },
+    {
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 400,
+      "responseSha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "code": "NoSuchKey"
+    },
+    {
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 400,
+      "responseSha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "code": "NoSuchKey"
+    },
+    {
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 400,
+      "responseSha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "code": "NoSuchKey"
+    },
+    {
+      "pathSha256": "c6ddd03c192e31b02ffe38f92a3d102cf4cc6fbbd2a280ef9bd67fa5abeecc91",
+      "status": 403,
+      "responseSha256": "9c40975cd4c8b9841e43f02414886be4ebb54e46be65a4a24ef5ca3cce210e06",
+      "code": "42501"
+    }
+  ],
+  "backup": {
+    "databaseSha256": "5cb01e8a8055349e8b6e4c0f8cc23be4a314dac8ce39d8ccad4807ec13596f9f",
+    "databaseBytes": 578273,
+    "storageTarSha256": "66dfeb10b16c639d82e77e85045ec0c53897b6b2c59f3ac992a7be057d9970ef",
+    "storageTarBytes": 13824,
+    "tableSnapshotSha256": "9e73ae824ac7a6c00fbbad3c437eb664c043562fa0ba78c72fefff35d1285e4f",
+    "tables": 64,
+    "rows": 268,
+    "capturedAt": "2026-10-02T23:37:44.599Z"
+  },
+  "scope": "Baseline backup before INSERT(id) forward grant; forward overlay is separate",
+  "limits": [
+    "Synthetic local logical recovery; not production RTO/RPO or provider SLA",
+    "Same pinned local image family; not cross-version or geographically independent recovery",
+    "Realtime was not active in source and is not exercised; no external email, browser, clinical or legal certification"
+  ],
+  "availableMemoryBytes": 2998456320,
+  "roleSettingsSha256": "92de425365292d19c53782de109f64087ee563c505cc48bb810d9ad2846d5064",
+  "objectCount": 4,
+  "byteCount": 255,
+  "listing": {
+    "ownCount": 1,
+    "foreignCount": 0
+  },
+  "pendingForwardOverlay": {
+    "state": "EXPECTED_BASELINE_INSERT_ID_DENIED",
+    "code": "42501",
+    "originalSha256": "837ec8819dc751c8d94dd0c1b04bccf235279982a718d297f31d0ee29b73bc04"
+  },
+  "completedProofAt": "2026-10-03T03:14:46.408Z",
+  "syntheticRtoSeconds": 13021.311,
+  "syntheticBackupAgeAtIncidentSeconds": 0.498,
+  "syntheticRpoLostCommittedWrites": 0,
+  "rpoBasis": "Exact quiescent source tables and all physical byte hashes preserved; source unchanged through verification; no production SLA inference",
+  "targetStop": "STOPPED_VOLUMES_PRESERVED",
+  "completedAt": "2026-10-03T03:14:48.270Z"
+}

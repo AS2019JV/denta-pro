@@ -1,0 +1,1673 @@
+{
+  "state": "PARTIAL_FAILED_CASES",
+  "startedAt": "2026-10-02T19:09:50.215Z",
+  "database": "clinia_upgrade_linked_20261002_2",
+  "checks": [
+    {
+      "name": "Ordinary and anonymous cannot write private registration intentions",
+      "passed": true
+    },
+    {
+      "name": "Auth create(false), persisted intent, signup link identity, real OTP and concurrent registration",
+      "passed": true
+    },
+    {
+      "name": "Editable forged metadata without intention creates no clinic or authority",
+      "passed": true
+    },
+    {
+      "name": "Anonymous and service JWT cannot complete or redeem",
+      "passed": true
+    },
+    {
+      "name": "Actual invite link and OTP with concurrent redemption produce one active staff member",
+      "passed": true
+    },
+    {
+      "name": "Wrong confirmed email and unknown token grant no authority",
+      "passed": true
+    },
+    {
+      "name": "Reject legacy not provider-ready invitation",
+      "passed": true
+    },
+    {
+      "name": "Reject expired invitation",
+      "passed": true
+    },
+    {
+      "name": "Reject elevated owner role invitation",
+      "passed": false,
+      "error": "Local Docker operation failed; private diagnostic preserved"
+    },
+    {
+      "name": "Committed owner membership removed denies pending acceptance",
+      "passed": true
+    },
+    {
+      "name": "Committed owner Auth banned denies pending acceptance",
+      "passed": true
+    },
+    {
+      "name": "Committed owner profile suspended denies pending acceptance",
+      "passed": true
+    },
+    {
+      "name": "Accepted invitation retry cannot restore a removed membership",
+      "passed": true
+    },
+    {
+      "name": "Previously issued JWT with committed global logout cannot enroll",
+      "passed": false,
+      "error": "fetch failed"
+    },
+    {
+      "name": "Historical patients and managed migration versions remain unchanged",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "service": "auth",
+      "path": "/admin/users",
+      "status": 200,
+      "requestSha256": "af670cabf6847698be12e650b321c5ef856383ca09b38e31d27d0387cd32b4bc",
+      "responseSha256": "a3cec35263ec04f6228200750b9ce2e2e30c4a2dea5203df4a3248226a3f5ef5"
+    },
+    {
+      "service": "auth",
+      "path": "/admin/users",
+      "status": 200,
+      "requestSha256": "4cc1555bdd994e43b2e320f8698e3c1de4c2056d41d7c5c390ebf51c2781f719",
+      "responseSha256": "e52787ff525524f750a16d0ecce5c762a70910f33bd3c159c70b6c0975d341ff"
+    },
+    {
+      "service": "auth",
+      "path": "/token",
+      "status": 200,
+      "requestSha256": "10e8c2d8ed4d986846ea0a0bd231757ee376113cabb960772833b01c4fd2faee",
+      "responseSha256": "9d19a66c875069c29c28fd92e2a8269c61d9d390b8fceef38753064d2f4040a1"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/store_clinic_registration_intent",
+      "status": 401,
+      "requestSha256": "c017b1d8099025e79758447b2b8671e5020448d46fe020743a566cf714b01fd3",
+      "responseSha256": "795e35b18ca08752d560dff47bab0c90dfc4584379fa2d67ae8f3edd46a1c59d"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/store_clinic_registration_intent",
+      "status": 403,
+      "requestSha256": "c017b1d8099025e79758447b2b8671e5020448d46fe020743a566cf714b01fd3",
+      "responseSha256": "795e35b18ca08752d560dff47bab0c90dfc4584379fa2d67ae8f3edd46a1c59d"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/store_clinic_registration_intent",
+      "status": 204,
+      "requestSha256": "c017b1d8099025e79758447b2b8671e5020448d46fe020743a566cf714b01fd3",
+      "responseSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "service": "auth",
+      "path": "/admin/generate_link",
+      "status": 200,
+      "requestSha256": "7a1120000946fd42e1a96076362c5e23b29f888bf5a5a334cb742647b43ae0ec",
+      "responseSha256": "5242ea0ce6c33baf3a44bcdb566bc3382a7145bc4b5f3828b52bcc8f1736bc67"
+    },
+    {
+      "service": "auth",
+      "path": "/verify",
+      "status": 200,
+      "requestSha256": "72894d70d9c5c55eb07d2fef5889203ed3b0ef9bd602000a5b1be52c8861274f",
+      "responseSha256": "7ccf10452463a58f98ab91b6af540e8acafc05baf83c93c57b31d0c380311e38"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/complete_verified_clinic_registration",
+      "status": 200,
+      "requestSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "responseSha256": "3d28ce59bced01fd6713243fb49c457036c83911d98898697430a9515c818f78"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/complete_verified_clinic_registration",
+      "status": 200,
+      "requestSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "responseSha256": "3d28ce59bced01fd6713243fb49c457036c83911d98898697430a9515c818f78"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "status": 200,
+      "requestSha256": "f9793ce30d1506f960f40d0c6688f3babbc1ba4bd9e53512bde9b09bc1ec5306",
+      "responseSha256": "2c3adde939b5b6395af34af4a742f2017491508218fc68ab1c43a0010917d427"
+    },
+    {
+      "service": "auth",
+      "path": "/admin/users",
+      "status": 200,
+      "requestSha256": "cf36fecb67876d8b695f72369147e4ff484fd5b52b4cf181f4ecb2e21b1e2160",
+      "responseSha256": "54bd6446c31dbdd868406cd40f3ac31421372d27ccb292ae3cee0c7c3e74fa9a"
+    },
+    {
+      "service": "auth",
+      "path": "/token",
+      "status": 200,
+      "requestSha256": "4b14691389a65c238f37ec66760693be8a741e8ab1c0730ecaecdc76864d2ff4",
+      "responseSha256": "e5a6e00d2a488fc14cec1f3db4625f9ba9316d6b7102acb1da697b51605a4c6c"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/complete_verified_clinic_registration",
+      "status": 200,
+      "requestSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "responseSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "status": 200,
+      "requestSha256": "f9793ce30d1506f960f40d0c6688f3babbc1ba4bd9e53512bde9b09bc1ec5306",
+      "responseSha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/complete_verified_clinic_registration",
+      "status": 401,
+      "requestSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "responseSha256": "180bb484a416ae5e99617873ba9d15aa2837d1f08928816a69063aba4abcf9bd"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 401,
+      "requestSha256": "ec76409fa174bb20d0ca3368ab4b90f68dbfecc957f479c28692f45f0e823f2c",
+      "responseSha256": "6e8f63760de835770b23b0307eb9ff573b500b2ee12c7549953fed02123f84dc"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/complete_verified_clinic_registration",
+      "status": 403,
+      "requestSha256": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "responseSha256": "180bb484a416ae5e99617873ba9d15aa2837d1f08928816a69063aba4abcf9bd"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "205a116f9dd91766ce262f111ca55aff24b2c61c607d8596d77d621a8f52238e",
+      "responseSha256": "6e8f63760de835770b23b0307eb9ff573b500b2ee12c7549953fed02123f84dc"
+    },
+    {
+      "service": "auth",
+      "path": "/admin/generate_link",
+      "status": 200,
+      "requestSha256": "7e6d1201c6f097cf0b08ff56a3c9c3eaabe06008d718171faa73f47da2bddba9",
+      "responseSha256": "ccb62f607d17f6da1ee4cb2cc6728cdd1930e795e2a3948583e62909815875d1"
+    },
+    {
+      "service": "auth",
+      "path": "/verify",
+      "status": 200,
+      "requestSha256": "deb78fce30ef6751171281b5dfdc9e88b8feb5a028178a3548d32a3b1431c0fb",
+      "responseSha256": "84a6bb14cb5246eddad27897701fb7dfe3f8d3e9f11d9e605438bd04061a69b9"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 200,
+      "requestSha256": "ccb36f32ebf63890bf6233c3ced75914871c9b2e915cdff5f3b391c53de1a54b",
+      "responseSha256": "3d28ce59bced01fd6713243fb49c457036c83911d98898697430a9515c818f78"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 200,
+      "requestSha256": "ccb36f32ebf63890bf6233c3ced75914871c9b2e915cdff5f3b391c53de1a54b",
+      "responseSha256": "3d28ce59bced01fd6713243fb49c457036c83911d98898697430a9515c818f78"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "status": 200,
+      "requestSha256": "f9793ce30d1506f960f40d0c6688f3babbc1ba4bd9e53512bde9b09bc1ec5306",
+      "responseSha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "ccb36f32ebf63890bf6233c3ced75914871c9b2e915cdff5f3b391c53de1a54b",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "f750e6d5bd2416265dfb0101c4656f18d4b3a7d9cfeb167fcca1ec05ae65c4f8",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "4aff893108b9139cf31c3519e9d6ffa5282c24dcae8119fc608467cf024429ce",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "bfa85130c42c7d524bd002b8cc006b8040d9798871c23b74f83dddf6a024ff85",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "c47702aa4375533e5d28097844979cc3dc129c97a7f810f0e17b5cfb35a32fe0",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "475f18a3473ec4a3d9e19a805f4fddf5f179d2ae2baf37d0d2e42b10130cc703",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "f22ed0ff40eb0c44cd9e672575fbbe7872db75f9a13872213139aa4decbf60b7",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/redeem_verified_clinic_invitation",
+      "status": 403,
+      "requestSha256": "ccb36f32ebf63890bf6233c3ced75914871c9b2e915cdff5f3b391c53de1a54b",
+      "responseSha256": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485"
+    }
+  ],
+  "actors": [
+    {
+      "userIdSha256": "4b37076428ed42b5c5e98b993a6a75e42ff4a73b442213ea9fa21af0a1167bb6",
+      "tokenSha256": "c1b9e24abde4d4a791f1767be897795b96872d5cc0d4eee1b98ca9deb634fd48",
+      "authentication": "real signup OTP"
+    },
+    {
+      "userIdSha256": "1a011ac02bb821156d4ede363fc70662d498dbbb0e01d007ba6447c0300cd7de",
+      "tokenSha256": "d79d5990391459e7314b254ae8c338b9ff33d7995c5574192d1783d047418371",
+      "authentication": "real invite OTP"
+    }
+  ],
+  "sources": {
+    "supabase/migrations/20261002180423_live_session_revocation.sql": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d",
+    "supabase/migrations/20261002180800_trusted_enrollment.sql": "bcc0c79413c07f78be13de15c6d11f324e0a538084e8e7ee1e60c39c482c67f3",
+    "app/actions/register-clinic.ts": "76e119525e51f4df422aa49312b7f7eef4d50f45454ea4a831e3dfa829fa2672",
+    "app/actions/invite-member.ts": "7ea42a8e3cc5ad95d17af41ca8d3f38eb728af269efeb3bf6ffe5a7624db98be",
+    "lib/verified-enrollment.ts": "bddb617a4bf72aa8e04486583b735cde1e4335785fcd3dd80e8a4a0b51806425"
+  },
+  "limits": [
+    "Synthetic isolated local DB/Auth/PostgREST; not remote or browser acceptance",
+    "No SMTP/Resend/delivery, clinical or legal approval",
+    "New-account/new-member path only; legacy invitation restoration remains disabled"
+  ],
+  "runtime": [
+    {
+      "name": "/clinia-captured-linked-20261002-2-auth",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "9999/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56371"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-2-rest",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56372"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-2-storage",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56373"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "clinia-captured-linked-20261002-2-bytes",
+          "target": "/mnt"
+        }
+      ]
+    }
+  ],
+  "managedBefore": {
+    "authMigrations": [
+      {
+        "version": "00"
+      },
+      {
+        "version": "20171026211738"
+      },
+      {
+        "version": "20171026211808"
+      },
+      {
+        "version": "20171026211834"
+      },
+      {
+        "version": "20180103212743"
+      },
+      {
+        "version": "20180108183307"
+      },
+      {
+        "version": "20180119214651"
+      },
+      {
+        "version": "20180125194653"
+      },
+      {
+        "version": "20210710035447"
+      },
+      {
+        "version": "20210722035447"
+      },
+      {
+        "version": "20210730183235"
+      },
+      {
+        "version": "20210909172000"
+      },
+      {
+        "version": "20210927181326"
+      },
+      {
+        "version": "20211122151130"
+      },
+      {
+        "version": "20211124214934"
+      },
+      {
+        "version": "20211202183645"
+      },
+      {
+        "version": "20220114185221"
+      },
+      {
+        "version": "20220114185340"
+      },
+      {
+        "version": "20220224000811"
+      },
+      {
+        "version": "20220323170000"
+      },
+      {
+        "version": "20220429102000"
+      },
+      {
+        "version": "20220531120530"
+      },
+      {
+        "version": "20220614074223"
+      },
+      {
+        "version": "20220811173540"
+      },
+      {
+        "version": "20221003041349"
+      },
+      {
+        "version": "20221003041400"
+      },
+      {
+        "version": "20221011041400"
+      },
+      {
+        "version": "20221020193600"
+      },
+      {
+        "version": "20221021073300"
+      },
+      {
+        "version": "20221021082433"
+      },
+      {
+        "version": "20221027105023"
+      },
+      {
+        "version": "20221114143122"
+      },
+      {
+        "version": "20221114143410"
+      },
+      {
+        "version": "20221125140132"
+      },
+      {
+        "version": "20221208132122"
+      },
+      {
+        "version": "20221215195500"
+      },
+      {
+        "version": "20221215195800"
+      },
+      {
+        "version": "20221215195900"
+      },
+      {
+        "version": "20230116124310"
+      },
+      {
+        "version": "20230116124412"
+      },
+      {
+        "version": "20230131181311"
+      },
+      {
+        "version": "20230322519590"
+      },
+      {
+        "version": "20230402418590"
+      },
+      {
+        "version": "20230411005111"
+      },
+      {
+        "version": "20230508135423"
+      },
+      {
+        "version": "20230523124323"
+      },
+      {
+        "version": "20230818113222"
+      },
+      {
+        "version": "20230914180801"
+      },
+      {
+        "version": "20231027141322"
+      },
+      {
+        "version": "20231114161723"
+      },
+      {
+        "version": "20231117164230"
+      },
+      {
+        "version": "20240115144230"
+      },
+      {
+        "version": "20240214120130"
+      },
+      {
+        "version": "20240306115329"
+      },
+      {
+        "version": "20240314092811"
+      },
+      {
+        "version": "20240427152123"
+      },
+      {
+        "version": "20240612123726"
+      },
+      {
+        "version": "20240729123726"
+      },
+      {
+        "version": "20240802193726"
+      },
+      {
+        "version": "20240806073726"
+      },
+      {
+        "version": "20241009103726"
+      },
+      {
+        "version": "20250717082212"
+      },
+      {
+        "version": "20250731150234"
+      },
+      {
+        "version": "20250804100000"
+      },
+      {
+        "version": "20250901200500"
+      },
+      {
+        "version": "20250903112500"
+      },
+      {
+        "version": "20250904133000"
+      },
+      {
+        "version": "20250925093508"
+      },
+      {
+        "version": "20251007112900"
+      },
+      {
+        "version": "20251104100000"
+      },
+      {
+        "version": "20251111201300"
+      },
+      {
+        "version": "20251201000000"
+      },
+      {
+        "version": "20260115000000"
+      },
+      {
+        "version": "20260121000000"
+      },
+      {
+        "version": "20260219120000"
+      },
+      {
+        "version": "20260302000000"
+      },
+      {
+        "version": "20260625000000"
+      }
+    ],
+    "storageMigrations": [
+      {
+        "id": 0,
+        "hash": "e18db593bcde2aca2a408c4d1100f6abba2195df",
+        "name": "create-migrations-table",
+        "executed_at": "2026-09-27T04:10:56.220411"
+      },
+      {
+        "id": 1,
+        "hash": "6ab16121fbaa08bbd11b712d05f358f9b555d777",
+        "name": "initialmigration",
+        "executed_at": "2026-09-27T04:10:56.364034"
+      },
+      {
+        "id": 2,
+        "hash": "f6a1fa2c93cbcd16d4e487b362e45fca157a8dbd",
+        "name": "storage-schema",
+        "executed_at": "2026-09-27T04:10:56.375196"
+      },
+      {
+        "id": 3,
+        "hash": "2cb1b0004b817b29d5b0a971af16bafeede4b70d",
+        "name": "pathtoken-column",
+        "executed_at": "2026-09-27T04:10:56.47076"
+      },
+      {
+        "id": 4,
+        "hash": "427c5b63fe1c5937495d9c635c263ee7a5905058",
+        "name": "add-migrations-rls",
+        "executed_at": "2026-09-27T04:10:56.527572"
+      },
+      {
+        "id": 5,
+        "hash": "79e081a1455b63666c1294a440f8ad4b1e6a7f84",
+        "name": "add-size-functions",
+        "executed_at": "2026-09-27T04:10:56.532717"
+      },
+      {
+        "id": 6,
+        "hash": "ded78e2f1b5d7e616117897e6443a925965b30d2",
+        "name": "change-column-name-in-get-size",
+        "executed_at": "2026-09-27T04:10:56.544652"
+      },
+      {
+        "id": 7,
+        "hash": "e7e7f86adbc51049f341dfe8d30256c1abca17aa",
+        "name": "add-rls-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.550734"
+      },
+      {
+        "id": 8,
+        "hash": "fd670db39ed65f9d08b01db09d6202503ca2bab3",
+        "name": "add-public-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.5553"
+      },
+      {
+        "id": 9,
+        "hash": "af597a1b590c70519b464a4ab3be54490712796b",
+        "name": "fix-search-function",
+        "executed_at": "2026-09-27T04:10:56.561529"
+      },
+      {
+        "id": 10,
+        "hash": "b595f05e92f7e91211af1bbfe9c6a13bb3391e16",
+        "name": "search-files-search-function",
+        "executed_at": "2026-09-27T04:10:56.567959"
+      },
+      {
+        "id": 11,
+        "hash": "7425bdb14366d1739fa8a18c83100636d74dcaa2",
+        "name": "add-trigger-to-auto-update-updated_at-column",
+        "executed_at": "2026-09-27T04:10:56.575183"
+      },
+      {
+        "id": 12,
+        "hash": "8e92e1266eb29518b6a4c5313ab8f29dd0d08df9",
+        "name": "add-automatic-avif-detection-flag",
+        "executed_at": "2026-09-27T04:10:56.585714"
+      },
+      {
+        "id": 13,
+        "hash": "cce962054138135cd9a8c4bcd531598684b25e7d",
+        "name": "add-bucket-custom-limits",
+        "executed_at": "2026-09-27T04:10:56.59158"
+      },
+      {
+        "id": 14,
+        "hash": "941c41b346f9802b411f06f30e972ad4744dad27",
+        "name": "use-bytes-for-max-size",
+        "executed_at": "2026-09-27T04:10:56.600479"
+      },
+      {
+        "id": 15,
+        "hash": "934146bc38ead475f4ef4b555c524ee5d66799e5",
+        "name": "add-can-insert-object-function",
+        "executed_at": "2026-09-27T04:10:56.670605"
+      },
+      {
+        "id": 16,
+        "hash": "76debf38d3fd07dcfc747ca49096457d95b1221b",
+        "name": "add-version",
+        "executed_at": "2026-09-27T04:10:56.675698"
+      },
+      {
+        "id": 17,
+        "hash": "f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101",
+        "name": "drop-owner-foreign-key",
+        "executed_at": "2026-09-27T04:10:56.682989"
+      },
+      {
+        "id": 18,
+        "hash": "e7a511b379110b08e2f214be852c35414749fe66",
+        "name": "add_owner_id_column_deprecate_owner",
+        "executed_at": "2026-09-27T04:10:56.688764"
+      },
+      {
+        "id": 19,
+        "hash": "02e5e22a78626187e00d173dc45f58fa66a4f043",
+        "name": "alter-default-value-objects-id",
+        "executed_at": "2026-09-27T04:10:56.698491"
+      },
+      {
+        "id": 20,
+        "hash": "cd694ae708e51ba82bf012bba00caf4f3b6393b7",
+        "name": "list-objects-with-delimiter",
+        "executed_at": "2026-09-27T04:10:56.703517"
+      },
+      {
+        "id": 21,
+        "hash": "8c804d4a566c40cd1e4cc5b3725a664a9303657f",
+        "name": "s3-multipart-uploads",
+        "executed_at": "2026-09-27T04:10:56.710366"
+      },
+      {
+        "id": 22,
+        "hash": "9737dc258d2397953c9953d9b86920b8be0cdb73",
+        "name": "s3-multipart-uploads-big-ints",
+        "executed_at": "2026-09-27T04:10:56.758182"
+      },
+      {
+        "id": 23,
+        "hash": "9d7e604cddc4b56a5422dc68c9313f4a1b6f132c",
+        "name": "optimize-search-function",
+        "executed_at": "2026-09-27T04:10:56.791074"
+      },
+      {
+        "id": 24,
+        "hash": "8312e37c2bf9e76bbe841aa5fda889206d2bf8aa",
+        "name": "operation-function",
+        "executed_at": "2026-09-27T04:10:56.797875"
+      },
+      {
+        "id": 25,
+        "hash": "d974c6057c3db1c1f847afa0e291e6165693b990",
+        "name": "custom-metadata",
+        "executed_at": "2026-09-27T04:10:56.806877"
+      },
+      {
+        "id": 26,
+        "hash": "215cabcb7f78121892a5a2037a09fedf9a1ae322",
+        "name": "objects-prefixes",
+        "executed_at": "2026-09-27T04:10:56.813084"
+      },
+      {
+        "id": 27,
+        "hash": "859ba38092ac96eb3964d83bf53ccc0b141663a6",
+        "name": "search-v2",
+        "executed_at": "2026-09-27T04:10:56.821769"
+      },
+      {
+        "id": 28,
+        "hash": "c73a2b5b5d4041e39705814fd3a1b95502d38ce4",
+        "name": "object-bucket-name-sorting",
+        "executed_at": "2026-09-27T04:10:56.825867"
+      },
+      {
+        "id": 29,
+        "hash": "ad2c1207f76703d11a9f9007f821620017a66c21",
+        "name": "create-prefixes",
+        "executed_at": "2026-09-27T04:10:56.829639"
+      },
+      {
+        "id": 30,
+        "hash": "2be814ff05c8252fdfdc7cfb4b7f5c7e17f0bed6",
+        "name": "update-object-levels",
+        "executed_at": "2026-09-27T04:10:56.83624"
+      },
+      {
+        "id": 31,
+        "hash": "b40367c14c3440ec75f19bbce2d71e914ddd3da0",
+        "name": "objects-level-index",
+        "executed_at": "2026-09-27T04:10:56.840298"
+      },
+      {
+        "id": 32,
+        "hash": "e0c37182b0f7aee3efd823298fb3c76f1042c0f7",
+        "name": "backward-compatible-index-on-objects",
+        "executed_at": "2026-09-27T04:10:56.844469"
+      },
+      {
+        "id": 33,
+        "hash": "b480e99ed951e0900f033ec4eb34b5bdcb4e3d49",
+        "name": "backward-compatible-index-on-prefixes",
+        "executed_at": "2026-09-27T04:10:56.847947"
+      },
+      {
+        "id": 34,
+        "hash": "ca80a3dc7bfef894df17108785ce29a7fc8ee456",
+        "name": "optimize-search-function-v1",
+        "executed_at": "2026-09-27T04:10:56.853524"
+      },
+      {
+        "id": 35,
+        "hash": "458fe0ffd07ec53f5e3ce9df51bfdf4861929ccc",
+        "name": "add-insert-trigger-prefixes",
+        "executed_at": "2026-09-27T04:10:56.857062"
+      },
+      {
+        "id": 36,
+        "hash": "6ae5fca6af5c55abe95369cd4f93985d1814ca8f",
+        "name": "optimise-existing-functions",
+        "executed_at": "2026-09-27T04:10:56.860075"
+      },
+      {
+        "id": 37,
+        "hash": "3944135b4e3e8b22d6d4cbb568fe3b0b51df15c1",
+        "name": "add-bucket-name-length-trigger",
+        "executed_at": "2026-09-27T04:10:56.863275"
+      },
+      {
+        "id": 38,
+        "hash": "02716b81ceec9705aed84aa1501657095b32e5c5",
+        "name": "iceberg-catalog-flag-on-buckets",
+        "executed_at": "2026-09-27T04:10:56.870807"
+      },
+      {
+        "id": 39,
+        "hash": "6706c5f2928846abee18461279799ad12b279b78",
+        "name": "add-search-v2-sort-support",
+        "executed_at": "2026-09-27T04:10:56.942067"
+      },
+      {
+        "id": 40,
+        "hash": "7ad69982ae2d372b21f48fc4829ae9752c518f6b",
+        "name": "fix-prefix-race-conditions-optimized",
+        "executed_at": "2026-09-27T04:10:56.94791"
+      },
+      {
+        "id": 41,
+        "hash": "07fcf1a22165849b7a029deed059ffcde08d1ae0",
+        "name": "add-object-level-update-trigger",
+        "executed_at": "2026-09-27T04:10:56.952797"
+      },
+      {
+        "id": 42,
+        "hash": "771479077764adc09e2ea2043eb627503c034cd4",
+        "name": "rollback-prefix-triggers",
+        "executed_at": "2026-09-27T04:10:56.959291"
+      },
+      {
+        "id": 43,
+        "hash": "84b35d6caca9d937478ad8a797491f38b8c2979f",
+        "name": "fix-object-level",
+        "executed_at": "2026-09-27T04:10:56.975174"
+      },
+      {
+        "id": 44,
+        "hash": "99c20c0ffd52bb1ff1f32fb992f3b351e3ef8fb3",
+        "name": "vector-bucket-type",
+        "executed_at": "2026-09-27T04:10:56.980568"
+      },
+      {
+        "id": 45,
+        "hash": "049e27196d77a7cb76497a85afae669d8b230953",
+        "name": "vector-buckets",
+        "executed_at": "2026-09-27T04:10:56.991168"
+      },
+      {
+        "id": 46,
+        "hash": "fedeb96d60fefd8e02ab3ded9fbde05632f84aed",
+        "name": "buckets-objects-grants",
+        "executed_at": "2026-09-27T04:10:57.097775"
+      },
+      {
+        "id": 47,
+        "hash": "649df56855c24d8b36dd4cc1aeb8251aa9ad42c2",
+        "name": "iceberg-table-metadata",
+        "executed_at": "2026-09-27T04:10:57.118624"
+      },
+      {
+        "id": 48,
+        "hash": "e0e8b460c609b9999ccd0df9ad14294613eed939",
+        "name": "iceberg-catalog-ids",
+        "executed_at": "2026-09-27T04:10:57.130089"
+      },
+      {
+        "id": 49,
+        "hash": "072b1195d0d5a2f888af6b2302a1938dd94b8b3d",
+        "name": "buckets-objects-grants-postgres",
+        "executed_at": "2026-09-27T04:10:57.24876"
+      },
+      {
+        "id": 50,
+        "hash": "6323ac4f850aa14e7387eb32102869578b5bd478",
+        "name": "search-v2-optimised",
+        "executed_at": "2026-09-27T04:10:57.259491"
+      },
+      {
+        "id": 51,
+        "hash": "2ee395d433f76e38bcd3856debaf6e0e5b674011",
+        "name": "index-backward-compatible-search",
+        "executed_at": "2026-09-27T04:10:57.310609"
+      },
+      {
+        "id": 52,
+        "hash": "5cc44c8696749ac11dd0dc37f2a3802075f3a171",
+        "name": "drop-not-used-indexes-and-functions",
+        "executed_at": "2026-09-27T04:10:57.313951"
+      },
+      {
+        "id": 53,
+        "hash": "d0cb18777d9e2a98ebe0bc5cc7a42e57ebe41854",
+        "name": "drop-index-lower-name",
+        "executed_at": "2026-09-27T04:10:57.400179"
+      },
+      {
+        "id": 54,
+        "hash": "6289e048b1472da17c31a7eba1ded625a6457e67",
+        "name": "drop-index-object-level",
+        "executed_at": "2026-09-27T04:10:57.406865"
+      },
+      {
+        "id": 55,
+        "hash": "262a4798d5e0f2e7c8970232e03ce8be695d5819",
+        "name": "prevent-direct-deletes",
+        "executed_at": "2026-09-27T04:10:57.410041"
+      },
+      {
+        "id": 56,
+        "hash": "b823ed1e418101032fa01374edc9a436e54e3ed4",
+        "name": "fix-optimized-search-function",
+        "executed_at": "2026-09-27T04:10:57.433317"
+      },
+      {
+        "id": 57,
+        "hash": "f127886e00d1b374fadbc7c6b31e09336aad5287",
+        "name": "s3-multipart-uploads-metadata",
+        "executed_at": "2026-09-27T04:10:57.481929"
+      },
+      {
+        "id": 58,
+        "hash": "00ca5d483b3fe0d522133d9002ccc5df98365120",
+        "name": "operation-ergonomics",
+        "executed_at": "2026-09-27T04:10:57.494793"
+      },
+      {
+        "id": 59,
+        "hash": "38456f13e39691c2bbb4b5151d0d1cdbabd4a8c4",
+        "name": "drop-unused-functions",
+        "executed_at": "2026-09-27T04:10:57.518021"
+      },
+      {
+        "id": 60,
+        "hash": "db35e1c91a9201e59f4fef8d972c2f277d68b157",
+        "name": "optimize-existing-functions-again",
+        "executed_at": "2026-09-27T04:10:57.531034"
+      },
+      {
+        "id": 61,
+        "hash": "fe0096517ae9d60aaec1d110172ba9036dc66bb7",
+        "name": "mark-filename-immutable",
+        "executed_at": "2026-09-27T04:10:57.540049"
+      },
+      {
+        "id": 62,
+        "hash": "0b855f00ff3be0bfca91efee02a9858912491a9a",
+        "name": "object-versioning-core",
+        "executed_at": "2026-09-27T04:10:57.546707"
+      },
+      {
+        "id": 63,
+        "hash": "c7485e417624f795ce8bb2da21927f48e088904d",
+        "name": "fix-search-name-relative-to-prefix",
+        "executed_at": "2026-09-27T04:10:57.76936"
+      },
+      {
+        "id": 64,
+        "hash": "0af424ecd388a39bb1645184b222185a12149675",
+        "name": "fix-search-by-timestamp-sqli",
+        "executed_at": "2026-09-27T04:10:57.786303"
+      },
+      {
+        "id": 65,
+        "hash": "e63aa8274a637c696cfdac70eeb0988245fe87bd",
+        "name": "objects-key-version-index",
+        "executed_at": "2026-09-27T04:10:58.164174"
+      },
+      {
+        "id": 66,
+        "hash": "ef7a33ec298fefe19351e9ff542b52b7511c3f02",
+        "name": "objects-current-version-index",
+        "executed_at": "2026-09-27T04:10:58.227267"
+      },
+      {
+        "id": 67,
+        "hash": "351b645504ec2ad54c5ef2b42989db04b617579f",
+        "name": "objects-null-version-index",
+        "executed_at": "2026-09-27T04:10:58.259423"
+      }
+    ],
+    "authUsers": 7,
+    "storageObjects": 4
+  },
+  "historicalPatientCount": 3,
+  "historicalPatientSetSha256": "acbb525c0bcc295f391af80f20210c05c3640409ae35cace166ad0637d1b8713",
+  "managedAfter": {
+    "authMigrations": [
+      {
+        "version": "00"
+      },
+      {
+        "version": "20171026211738"
+      },
+      {
+        "version": "20171026211808"
+      },
+      {
+        "version": "20171026211834"
+      },
+      {
+        "version": "20180103212743"
+      },
+      {
+        "version": "20180108183307"
+      },
+      {
+        "version": "20180119214651"
+      },
+      {
+        "version": "20180125194653"
+      },
+      {
+        "version": "20210710035447"
+      },
+      {
+        "version": "20210722035447"
+      },
+      {
+        "version": "20210730183235"
+      },
+      {
+        "version": "20210909172000"
+      },
+      {
+        "version": "20210927181326"
+      },
+      {
+        "version": "20211122151130"
+      },
+      {
+        "version": "20211124214934"
+      },
+      {
+        "version": "20211202183645"
+      },
+      {
+        "version": "20220114185221"
+      },
+      {
+        "version": "20220114185340"
+      },
+      {
+        "version": "20220224000811"
+      },
+      {
+        "version": "20220323170000"
+      },
+      {
+        "version": "20220429102000"
+      },
+      {
+        "version": "20220531120530"
+      },
+      {
+        "version": "20220614074223"
+      },
+      {
+        "version": "20220811173540"
+      },
+      {
+        "version": "20221003041349"
+      },
+      {
+        "version": "20221003041400"
+      },
+      {
+        "version": "20221011041400"
+      },
+      {
+        "version": "20221020193600"
+      },
+      {
+        "version": "20221021073300"
+      },
+      {
+        "version": "20221021082433"
+      },
+      {
+        "version": "20221027105023"
+      },
+      {
+        "version": "20221114143122"
+      },
+      {
+        "version": "20221114143410"
+      },
+      {
+        "version": "20221125140132"
+      },
+      {
+        "version": "20221208132122"
+      },
+      {
+        "version": "20221215195500"
+      },
+      {
+        "version": "20221215195800"
+      },
+      {
+        "version": "20221215195900"
+      },
+      {
+        "version": "20230116124310"
+      },
+      {
+        "version": "20230116124412"
+      },
+      {
+        "version": "20230131181311"
+      },
+      {
+        "version": "20230322519590"
+      },
+      {
+        "version": "20230402418590"
+      },
+      {
+        "version": "20230411005111"
+      },
+      {
+        "version": "20230508135423"
+      },
+      {
+        "version": "20230523124323"
+      },
+      {
+        "version": "20230818113222"
+      },
+      {
+        "version": "20230914180801"
+      },
+      {
+        "version": "20231027141322"
+      },
+      {
+        "version": "20231114161723"
+      },
+      {
+        "version": "20231117164230"
+      },
+      {
+        "version": "20240115144230"
+      },
+      {
+        "version": "20240214120130"
+      },
+      {
+        "version": "20240306115329"
+      },
+      {
+        "version": "20240314092811"
+      },
+      {
+        "version": "20240427152123"
+      },
+      {
+        "version": "20240612123726"
+      },
+      {
+        "version": "20240729123726"
+      },
+      {
+        "version": "20240802193726"
+      },
+      {
+        "version": "20240806073726"
+      },
+      {
+        "version": "20241009103726"
+      },
+      {
+        "version": "20250717082212"
+      },
+      {
+        "version": "20250731150234"
+      },
+      {
+        "version": "20250804100000"
+      },
+      {
+        "version": "20250901200500"
+      },
+      {
+        "version": "20250903112500"
+      },
+      {
+        "version": "20250904133000"
+      },
+      {
+        "version": "20250925093508"
+      },
+      {
+        "version": "20251007112900"
+      },
+      {
+        "version": "20251104100000"
+      },
+      {
+        "version": "20251111201300"
+      },
+      {
+        "version": "20251201000000"
+      },
+      {
+        "version": "20260115000000"
+      },
+      {
+        "version": "20260121000000"
+      },
+      {
+        "version": "20260219120000"
+      },
+      {
+        "version": "20260302000000"
+      },
+      {
+        "version": "20260625000000"
+      }
+    ],
+    "storageMigrations": [
+      {
+        "id": 0,
+        "hash": "e18db593bcde2aca2a408c4d1100f6abba2195df",
+        "name": "create-migrations-table",
+        "executed_at": "2026-09-27T04:10:56.220411"
+      },
+      {
+        "id": 1,
+        "hash": "6ab16121fbaa08bbd11b712d05f358f9b555d777",
+        "name": "initialmigration",
+        "executed_at": "2026-09-27T04:10:56.364034"
+      },
+      {
+        "id": 2,
+        "hash": "f6a1fa2c93cbcd16d4e487b362e45fca157a8dbd",
+        "name": "storage-schema",
+        "executed_at": "2026-09-27T04:10:56.375196"
+      },
+      {
+        "id": 3,
+        "hash": "2cb1b0004b817b29d5b0a971af16bafeede4b70d",
+        "name": "pathtoken-column",
+        "executed_at": "2026-09-27T04:10:56.47076"
+      },
+      {
+        "id": 4,
+        "hash": "427c5b63fe1c5937495d9c635c263ee7a5905058",
+        "name": "add-migrations-rls",
+        "executed_at": "2026-09-27T04:10:56.527572"
+      },
+      {
+        "id": 5,
+        "hash": "79e081a1455b63666c1294a440f8ad4b1e6a7f84",
+        "name": "add-size-functions",
+        "executed_at": "2026-09-27T04:10:56.532717"
+      },
+      {
+        "id": 6,
+        "hash": "ded78e2f1b5d7e616117897e6443a925965b30d2",
+        "name": "change-column-name-in-get-size",
+        "executed_at": "2026-09-27T04:10:56.544652"
+      },
+      {
+        "id": 7,
+        "hash": "e7e7f86adbc51049f341dfe8d30256c1abca17aa",
+        "name": "add-rls-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.550734"
+      },
+      {
+        "id": 8,
+        "hash": "fd670db39ed65f9d08b01db09d6202503ca2bab3",
+        "name": "add-public-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.5553"
+      },
+      {
+        "id": 9,
+        "hash": "af597a1b590c70519b464a4ab3be54490712796b",
+        "name": "fix-search-function",
+        "executed_at": "2026-09-27T04:10:56.561529"
+      },
+      {
+        "id": 10,
+        "hash": "b595f05e92f7e91211af1bbfe9c6a13bb3391e16",
+        "name": "search-files-search-function",
+        "executed_at": "2026-09-27T04:10:56.567959"
+      },
+      {
+        "id": 11,
+        "hash": "7425bdb14366d1739fa8a18c83100636d74dcaa2",
+        "name": "add-trigger-to-auto-update-updated_at-column",
+        "executed_at": "2026-09-27T04:10:56.575183"
+      },
+      {
+        "id": 12,
+        "hash": "8e92e1266eb29518b6a4c5313ab8f29dd0d08df9",
+        "name": "add-automatic-avif-detection-flag",
+        "executed_at": "2026-09-27T04:10:56.585714"
+      },
+      {
+        "id": 13,
+        "hash": "cce962054138135cd9a8c4bcd531598684b25e7d",
+        "name": "add-bucket-custom-limits",
+        "executed_at": "2026-09-27T04:10:56.59158"
+      },
+      {
+        "id": 14,
+        "hash": "941c41b346f9802b411f06f30e972ad4744dad27",
+        "name": "use-bytes-for-max-size",
+        "executed_at": "2026-09-27T04:10:56.600479"
+      },
+      {
+        "id": 15,
+        "hash": "934146bc38ead475f4ef4b555c524ee5d66799e5",
+        "name": "add-can-insert-object-function",
+        "executed_at": "2026-09-27T04:10:56.670605"
+      },
+      {
+        "id": 16,
+        "hash": "76debf38d3fd07dcfc747ca49096457d95b1221b",
+        "name": "add-version",
+        "executed_at": "2026-09-27T04:10:56.675698"
+      },
+      {
+        "id": 17,
+        "hash": "f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101",
+        "name": "drop-owner-foreign-key",
+        "executed_at": "2026-09-27T04:10:56.682989"
+      },
+      {
+        "id": 18,
+        "hash": "e7a511b379110b08e2f214be852c35414749fe66",
+        "name": "add_owner_id_column_deprecate_owner",
+        "executed_at": "2026-09-27T04:10:56.688764"
+      },
+      {
+        "id": 19,
+        "hash": "02e5e22a78626187e00d173dc45f58fa66a4f043",
+        "name": "alter-default-value-objects-id",
+        "executed_at": "2026-09-27T04:10:56.698491"
+      },
+      {
+        "id": 20,
+        "hash": "cd694ae708e51ba82bf012bba00caf4f3b6393b7",
+        "name": "list-objects-with-delimiter",
+        "executed_at": "2026-09-27T04:10:56.703517"
+      },
+      {
+        "id": 21,
+        "hash": "8c804d4a566c40cd1e4cc5b3725a664a9303657f",
+        "name": "s3-multipart-uploads",
+        "executed_at": "2026-09-27T04:10:56.710366"
+      },
+      {
+        "id": 22,
+        "hash": "9737dc258d2397953c9953d9b86920b8be0cdb73",
+        "name": "s3-multipart-uploads-big-ints",
+        "executed_at": "2026-09-27T04:10:56.758182"
+      },
+      {
+        "id": 23,
+        "hash": "9d7e604cddc4b56a5422dc68c9313f4a1b6f132c",
+        "name": "optimize-search-function",
+        "executed_at": "2026-09-27T04:10:56.791074"
+      },
+      {
+        "id": 24,
+        "hash": "8312e37c2bf9e76bbe841aa5fda889206d2bf8aa",
+        "name": "operation-function",
+        "executed_at": "2026-09-27T04:10:56.797875"
+      },
+      {
+        "id": 25,
+        "hash": "d974c6057c3db1c1f847afa0e291e6165693b990",
+        "name": "custom-metadata",
+        "executed_at": "2026-09-27T04:10:56.806877"
+      },
+      {
+        "id": 26,
+        "hash": "215cabcb7f78121892a5a2037a09fedf9a1ae322",
+        "name": "objects-prefixes",
+        "executed_at": "2026-09-27T04:10:56.813084"
+      },
+      {
+        "id": 27,
+        "hash": "859ba38092ac96eb3964d83bf53ccc0b141663a6",
+        "name": "search-v2",
+        "executed_at": "2026-09-27T04:10:56.821769"
+      },
+      {
+        "id": 28,
+        "hash": "c73a2b5b5d4041e39705814fd3a1b95502d38ce4",
+        "name": "object-bucket-name-sorting",
+        "executed_at": "2026-09-27T04:10:56.825867"
+      },
+      {
+        "id": 29,
+        "hash": "ad2c1207f76703d11a9f9007f821620017a66c21",
+        "name": "create-prefixes",
+        "executed_at": "2026-09-27T04:10:56.829639"
+      },
+      {
+        "id": 30,
+        "hash": "2be814ff05c8252fdfdc7cfb4b7f5c7e17f0bed6",
+        "name": "update-object-levels",
+        "executed_at": "2026-09-27T04:10:56.83624"
+      },
+      {
+        "id": 31,
+        "hash": "b40367c14c3440ec75f19bbce2d71e914ddd3da0",
+        "name": "objects-level-index",
+        "executed_at": "2026-09-27T04:10:56.840298"
+      },
+      {
+        "id": 32,
+        "hash": "e0c37182b0f7aee3efd823298fb3c76f1042c0f7",
+        "name": "backward-compatible-index-on-objects",
+        "executed_at": "2026-09-27T04:10:56.844469"
+      },
+      {
+        "id": 33,
+        "hash": "b480e99ed951e0900f033ec4eb34b5bdcb4e3d49",
+        "name": "backward-compatible-index-on-prefixes",
+        "executed_at": "2026-09-27T04:10:56.847947"
+      },
+      {
+        "id": 34,
+        "hash": "ca80a3dc7bfef894df17108785ce29a7fc8ee456",
+        "name": "optimize-search-function-v1",
+        "executed_at": "2026-09-27T04:10:56.853524"
+      },
+      {
+        "id": 35,
+        "hash": "458fe0ffd07ec53f5e3ce9df51bfdf4861929ccc",
+        "name": "add-insert-trigger-prefixes",
+        "executed_at": "2026-09-27T04:10:56.857062"
+      },
+      {
+        "id": 36,
+        "hash": "6ae5fca6af5c55abe95369cd4f93985d1814ca8f",
+        "name": "optimise-existing-functions",
+        "executed_at": "2026-09-27T04:10:56.860075"
+      },
+      {
+        "id": 37,
+        "hash": "3944135b4e3e8b22d6d4cbb568fe3b0b51df15c1",
+        "name": "add-bucket-name-length-trigger",
+        "executed_at": "2026-09-27T04:10:56.863275"
+      },
+      {
+        "id": 38,
+        "hash": "02716b81ceec9705aed84aa1501657095b32e5c5",
+        "name": "iceberg-catalog-flag-on-buckets",
+        "executed_at": "2026-09-27T04:10:56.870807"
+      },
+      {
+        "id": 39,
+        "hash": "6706c5f2928846abee18461279799ad12b279b78",
+        "name": "add-search-v2-sort-support",
+        "executed_at": "2026-09-27T04:10:56.942067"
+      },
+      {
+        "id": 40,
+        "hash": "7ad69982ae2d372b21f48fc4829ae9752c518f6b",
+        "name": "fix-prefix-race-conditions-optimized",
+        "executed_at": "2026-09-27T04:10:56.94791"
+      },
+      {
+        "id": 41,
+        "hash": "07fcf1a22165849b7a029deed059ffcde08d1ae0",
+        "name": "add-object-level-update-trigger",
+        "executed_at": "2026-09-27T04:10:56.952797"
+      },
+      {
+        "id": 42,
+        "hash": "771479077764adc09e2ea2043eb627503c034cd4",
+        "name": "rollback-prefix-triggers",
+        "executed_at": "2026-09-27T04:10:56.959291"
+      },
+      {
+        "id": 43,
+        "hash": "84b35d6caca9d937478ad8a797491f38b8c2979f",
+        "name": "fix-object-level",
+        "executed_at": "2026-09-27T04:10:56.975174"
+      },
+      {
+        "id": 44,
+        "hash": "99c20c0ffd52bb1ff1f32fb992f3b351e3ef8fb3",
+        "name": "vector-bucket-type",
+        "executed_at": "2026-09-27T04:10:56.980568"
+      },
+      {
+        "id": 45,
+        "hash": "049e27196d77a7cb76497a85afae669d8b230953",
+        "name": "vector-buckets",
+        "executed_at": "2026-09-27T04:10:56.991168"
+      },
+      {
+        "id": 46,
+        "hash": "fedeb96d60fefd8e02ab3ded9fbde05632f84aed",
+        "name": "buckets-objects-grants",
+        "executed_at": "2026-09-27T04:10:57.097775"
+      },
+      {
+        "id": 47,
+        "hash": "649df56855c24d8b36dd4cc1aeb8251aa9ad42c2",
+        "name": "iceberg-table-metadata",
+        "executed_at": "2026-09-27T04:10:57.118624"
+      },
+      {
+        "id": 48,
+        "hash": "e0e8b460c609b9999ccd0df9ad14294613eed939",
+        "name": "iceberg-catalog-ids",
+        "executed_at": "2026-09-27T04:10:57.130089"
+      },
+      {
+        "id": 49,
+        "hash": "072b1195d0d5a2f888af6b2302a1938dd94b8b3d",
+        "name": "buckets-objects-grants-postgres",
+        "executed_at": "2026-09-27T04:10:57.24876"
+      },
+      {
+        "id": 50,
+        "hash": "6323ac4f850aa14e7387eb32102869578b5bd478",
+        "name": "search-v2-optimised",
+        "executed_at": "2026-09-27T04:10:57.259491"
+      },
+      {
+        "id": 51,
+        "hash": "2ee395d433f76e38bcd3856debaf6e0e5b674011",
+        "name": "index-backward-compatible-search",
+        "executed_at": "2026-09-27T04:10:57.310609"
+      },
+      {
+        "id": 52,
+        "hash": "5cc44c8696749ac11dd0dc37f2a3802075f3a171",
+        "name": "drop-not-used-indexes-and-functions",
+        "executed_at": "2026-09-27T04:10:57.313951"
+      },
+      {
+        "id": 53,
+        "hash": "d0cb18777d9e2a98ebe0bc5cc7a42e57ebe41854",
+        "name": "drop-index-lower-name",
+        "executed_at": "2026-09-27T04:10:57.400179"
+      },
+      {
+        "id": 54,
+        "hash": "6289e048b1472da17c31a7eba1ded625a6457e67",
+        "name": "drop-index-object-level",
+        "executed_at": "2026-09-27T04:10:57.406865"
+      },
+      {
+        "id": 55,
+        "hash": "262a4798d5e0f2e7c8970232e03ce8be695d5819",
+        "name": "prevent-direct-deletes",
+        "executed_at": "2026-09-27T04:10:57.410041"
+      },
+      {
+        "id": 56,
+        "hash": "b823ed1e418101032fa01374edc9a436e54e3ed4",
+        "name": "fix-optimized-search-function",
+        "executed_at": "2026-09-27T04:10:57.433317"
+      },
+      {
+        "id": 57,
+        "hash": "f127886e00d1b374fadbc7c6b31e09336aad5287",
+        "name": "s3-multipart-uploads-metadata",
+        "executed_at": "2026-09-27T04:10:57.481929"
+      },
+      {
+        "id": 58,
+        "hash": "00ca5d483b3fe0d522133d9002ccc5df98365120",
+        "name": "operation-ergonomics",
+        "executed_at": "2026-09-27T04:10:57.494793"
+      },
+      {
+        "id": 59,
+        "hash": "38456f13e39691c2bbb4b5151d0d1cdbabd4a8c4",
+        "name": "drop-unused-functions",
+        "executed_at": "2026-09-27T04:10:57.518021"
+      },
+      {
+        "id": 60,
+        "hash": "db35e1c91a9201e59f4fef8d972c2f277d68b157",
+        "name": "optimize-existing-functions-again",
+        "executed_at": "2026-09-27T04:10:57.531034"
+      },
+      {
+        "id": 61,
+        "hash": "fe0096517ae9d60aaec1d110172ba9036dc66bb7",
+        "name": "mark-filename-immutable",
+        "executed_at": "2026-09-27T04:10:57.540049"
+      },
+      {
+        "id": 62,
+        "hash": "0b855f00ff3be0bfca91efee02a9858912491a9a",
+        "name": "object-versioning-core",
+        "executed_at": "2026-09-27T04:10:57.546707"
+      },
+      {
+        "id": 63,
+        "hash": "c7485e417624f795ce8bb2da21927f48e088904d",
+        "name": "fix-search-name-relative-to-prefix",
+        "executed_at": "2026-09-27T04:10:57.76936"
+      },
+      {
+        "id": 64,
+        "hash": "0af424ecd388a39bb1645184b222185a12149675",
+        "name": "fix-search-by-timestamp-sqli",
+        "executed_at": "2026-09-27T04:10:57.786303"
+      },
+      {
+        "id": 65,
+        "hash": "e63aa8274a637c696cfdac70eeb0988245fe87bd",
+        "name": "objects-key-version-index",
+        "executed_at": "2026-09-27T04:10:58.164174"
+      },
+      {
+        "id": 66,
+        "hash": "ef7a33ec298fefe19351e9ff542b52b7511c3f02",
+        "name": "objects-current-version-index",
+        "executed_at": "2026-09-27T04:10:58.227267"
+      },
+      {
+        "id": 67,
+        "hash": "351b645504ec2ad54c5ef2b42989db04b617579f",
+        "name": "objects-null-version-index",
+        "executed_at": "2026-09-27T04:10:58.259423"
+      }
+    ],
+    "authUsers": 11,
+    "storageObjects": 4
+  },
+  "stop": {
+    "state": "STOPPED_VOLUMES_PRESERVED",
+    "database": "clinia_upgrade_linked_20261002_2"
+  },
+  "completedAt": "2026-10-02T19:11:17.933Z"
+}

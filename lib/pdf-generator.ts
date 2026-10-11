@@ -16,6 +16,13 @@ export const generateHCU033 = (data: any) => {
   const pageHeight = 297;
   const margin = 10;
   const contentWidth = pageWidth - (margin * 2);
+  const valueText = (value: unknown) => value == null ? '' : String(value);
+  // Fixed form cells never silently crop clinical content. Full values are
+  // repeated in the paginated complement below when the form cell is too small.
+  const boundedText = (value: unknown, x: number, y: number, width: number, maxLines = 1) => {
+    const lines = doc.splitTextToSize(valueText(value), width);
+    doc.text(lines.length > maxLines ? 'Anexo' : lines, x, y);
+  };
 
   // --- HELPERS ---
   
@@ -52,7 +59,7 @@ export const generateHCU033 = (data: any) => {
     doc.setFont('helvetica', 'bold');
     // Center value or align left depending on width
     if (value) {
-        doc.text(String(value).substring(0, w/1.5).toUpperCase(), x + 2, y + h - 1.5);
+        boundedText(valueText(value).toUpperCase(), x + 2, y + h - 1.5, w - 4);
     }
   };
   
@@ -75,7 +82,7 @@ export const generateHCU033 = (data: any) => {
   doc.setFont('helvetica', 'bold');
   doc.text('HISTORIA CLINICA ODONTOLOGICA', pageWidth / 2, y, { align: 'center' });
   doc.setFontSize(7);
-  doc.text('MINISTERIO DE SALUD PUBLICA', pageWidth / 2, y + 4, { align: 'center' });
+  doc.text('EXPORTACION DEL REGISTRO CLINICO GUARDADO', pageWidth / 2, y + 4, { align: 'center' });
   
   doc.setFontSize(14);
   doc.setFont('helvetica', 'bold');
@@ -89,7 +96,7 @@ export const generateHCU033 = (data: any) => {
   
   // Row 1: Institucion, Unicodigo, Est, Parroquia, Canton, Provincia
   const row1H = 8;
-  drawFieldBox('INSTITUCION DEL SISTEMA', 'Privado', margin, y, 40, row1H);
+  drawFieldBox('INSTITUCION DEL SISTEMA', data.institucion_sistema || 'No registrado', margin, y, 40, row1H);
   drawFieldBox('UNICODIGO', data.unicodigo, margin+40, y, 30, row1H);
   drawFieldBox('ESTABLECIMIENTO', data.establecimiento, margin+70, y, 50, row1H);
   drawFieldBox('NUMERO DE HISTORIA CLINICA', data.historia_numero, margin+120, y, contentWidth-120, row1H);
@@ -97,11 +104,7 @@ export const generateHCU033 = (data: any) => {
   
   // Row 2: Patient Name
   const row2H = 8;
-  const names = data.nombre_completo.split(' ');
-  drawFieldBox('PRIMER APELLIDO', names[0] || '', margin, y, 47.5, row2H);
-  drawFieldBox('SEGUNDO APELLIDO', names[1] || '', margin+47.5, y, 47.5, row2H);
-  drawFieldBox('PRIMER NOMBRE', names[2] || '', margin+95, y, 47.5, row2H);
-  drawFieldBox('SEGUNDO NOMBRE', names[3] || '', margin+142.5, y, 47.5, row2H);
+  drawFieldBox('NOMBRE COMPLETO REGISTRADO', data.nombre_completo, margin, y, contentWidth, row2H);
   y += row2H;
 
   // Row 3: Demographics
@@ -111,7 +114,7 @@ export const generateHCU033 = (data: any) => {
   drawFieldBox('FECHA NACIMIENTO', data.fecha_nacimiento, margin+35, y, 25, row3H);
   drawFieldBox('LUGAR NACIMIENTO', '', margin+60, y, 40, row3H); // Placeholder
   drawFieldBox('CEDULA DE CIUDADANIA', data.identificacion, margin+100, y, 30, row3H);
-  drawFieldBox('NACIONALIDAD', data.nacionalidad || 'Ecuatoriana', margin+130, y, 30, row3H);
+  drawFieldBox('NACIONALIDAD', data.nacionalidad || 'No registrada', margin+130, y, 30, row3H);
   drawFieldBox('GRUPO CULTURAL', '', margin+160, y, 30, row3H);
   y += row3H + 2;
 
@@ -119,13 +122,13 @@ export const generateHCU033 = (data: any) => {
   y = drawSectionHeader('2', 'MOTIVO DE CONSULTA', margin, y, contentWidth);
   drawRect(margin, y, contentWidth, 8);
   doc.setFontSize(7); doc.setFont('helvetica', 'normal');
-  doc.text(data.motivo_consulta || '', margin + 2, y + 4);
+  boundedText(data.motivo_consulta, margin + 2, y + 4, contentWidth - 4);
   y += 10;
 
   // 3. ENFERMEDAD ACTUAL
   y = drawSectionHeader('3', 'ENFERMEDAD O PROBLEMA ACTUAL', margin, y, contentWidth);
   drawRect(margin, y, contentWidth, 16); // Bigger box
-  doc.text(doc.splitTextToSize(data.enfermedad_actual || '', contentWidth - 4), margin + 2, y + 4);
+  boundedText(data.enfermedad_actual, margin + 2, y + 4, contentWidth - 4, 4);
   y += 18;
 
   // 4. ANTECEDENTES
@@ -158,7 +161,7 @@ export const generateHCU033 = (data: any) => {
   });
   
   // Text area for 'Otros' description
-  doc.text('Observaciones: ' + (data.ant_otros || ''), margin + 2, y + 16);
+  boundedText('Observaciones: ' + (data.ant_otros || ''), margin + 2, y + 16, contentWidth - 4);
   y += antH + 2;
 
   // 5. SIGNOS VITALES
@@ -199,12 +202,12 @@ export const generateHCU033 = (data: any) => {
   });
   
   // Description area
-  doc.line(margin, y + 15, margin + contentWidth, y + 15);
+  doc.line(margin, y + 16, margin + contentWidth, y + 16);
   doc.setFontSize(6);
-  doc.text('DESCRIPCION DE LA PATOLOGIA:', margin + 1, y + 18);
+  doc.text('DESCRIPCION DE LA PATOLOGIA:', margin + 1, y + 20);
   const descExamen = exItems.filter(i => i.v).map(i => `${i.l}: ${i.v}`).join('. ');
   doc.setFont('helvetica', 'normal');
-  doc.text(doc.splitTextToSize(descExamen, contentWidth - 20), margin + 35, y + 18);
+  boundedText(descExamen, margin + 35, y + 20, contentWidth - 37, 2);
   
   y += exH + 2;
 
@@ -346,17 +349,26 @@ export const generateHCU033 = (data: any) => {
       doc.text(String(id), cx - 2, isDeciduous ? cy + s : cy + s - 9);
 
       // 4. Conditions (X for extraction, etc)
+      const conditionColor: [number, number, number] = tData.status === 'completed' ? [59, 130, 246]
+        : tData.status === 'planned' ? [239, 68, 68] : [80, 80, 80];
       if (tData.condition === 'extraction') {
            doc.setFontSize(10);
-           doc.setTextColor(239, 68, 68);
+           doc.setTextColor(...conditionColor);
            doc.text('X', cx - 2, cy + 2.5);
       }
       if (tData.condition === 'crown') {
-          doc.setDrawColor(250, 168, 5); // Orange
+          doc.setDrawColor(...conditionColor);
           doc.setLineWidth(0.5);
           doc.circle(cx, cy, s/1.8);
           doc.setLineWidth(0.1); doc.setDrawColor(0);
       }
+      if (tData.condition === 'endodontics' || tData.condition === 'loss_other') {
+          doc.setDrawColor(...conditionColor); doc.setLineWidth(0.4);
+          if (tData.condition === 'endodontics') doc.triangle(cx, cy - h, cx + h, cy + h, cx - h, cy + h, 'S');
+          else doc.rect(cx - s/4, cy - h, s/2, s, 'S');
+          doc.setDrawColor(0); doc.setLineWidth(0.1);
+      }
+      doc.setTextColor(0);
   };
 
   // LAYOUT
@@ -377,12 +389,12 @@ export const generateHCU033 = (data: any) => {
   QUADRANTS.Q6.forEach((id, i) => drawTooth(id, startX_Q2 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 26, true));
   
   // Deciduous Rows (Q8, Q7) - Bottom
-  QUADRANTS.Q8.forEach((id, i) => drawTooth(id, startX_Q1 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
-  QUADRANTS.Q7.forEach((id, i) => drawTooth(id, startX_Q2 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
+  QUADRANTS.Q7.forEach((id, i) => drawTooth(id, startX_Q1 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
+  QUADRANTS.Q8.forEach((id, i) => drawTooth(id, startX_Q2 + offsetDeciduous + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 38, true));
 
   // Permanent Rows (Q4, Q3) - Bottom
-  QUADRANTS.Q4.forEach((id, i) => drawTooth(id, startX_Q1 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
-  QUADRANTS.Q3.forEach((id, i) => drawTooth(id, startX_Q2 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
+  QUADRANTS.Q3.forEach((id, i) => drawTooth(id, startX_Q1 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
+  QUADRANTS.Q4.forEach((id, i) => drawTooth(id, startX_Q2 + i*(TOOTH_SIZE+GAP) + TOOTH_SIZE/2, y + 50, false));
   
   // Grids for Input (Recesion, Movilidad)
   // Simplified placeholders aligned with teeth would be best, but complex alignment.
@@ -396,8 +408,8 @@ export const generateHCU033 = (data: any) => {
           doc.rect(startX + i*(TOOTH_SIZE+GAP), rowY, TOOTH_SIZE, 4);
           // Value
           const tData = data.odontograma_data?.[id] || {};
-          const val = label.startsWith('REC') ? tData.recession : tData.mobility;
-          if (val) {
+          const val = label.startsWith('REC') ? (tData.recesion ?? tData.recession) : (tData.movilidad ?? tData.mobility);
+          if (val != null && val !== '') {
              doc.setFontSize(6); doc.setTextColor(0);
              doc.text(String(val), startX + i*(TOOTH_SIZE+GAP) + 2, rowY + 3);
           }
@@ -412,29 +424,16 @@ export const generateHCU033 = (data: any) => {
   drawStatRow('MOVILIDAD', y + 7, QUADRANTS.Q2, startX_Q2);
   
   // Bottom Stats
-  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q4, startX_Q1);
-  drawStatRow('RECESION', y + 61, QUADRANTS.Q4, startX_Q1);
-  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q3, startX_Q2);
-  drawStatRow('RECESION', y + 61, QUADRANTS.Q3, startX_Q2);
+  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q3, startX_Q1);
+  drawStatRow('RECESION', y + 61, QUADRANTS.Q3, startX_Q1);
+  drawStatRow('MOVILIDAD', y + 57, QUADRANTS.Q4, startX_Q2);
+  drawStatRow('RECESION', y + 61, QUADRANTS.Q4, startX_Q2);
   
   // Legend / Symbology
-  doc.setFillColor(255,255,255);
-  doc.rect(margin + contentWidth - 60, y + 42, 58, 20, 'F');
-  doc.rect(margin + contentWidth - 60, y + 42, 58, 20); // Border
+  // Keep the legend outside the teeth and measurements.
   doc.setFontSize(6); doc.setTextColor(0);
-  doc.text('SIMBOLOGIA', margin + contentWidth - 58, y + 46);
-  
-  // Red/Blue dots
-  doc.setFillColor(239, 68, 68); doc.circle(margin + contentWidth - 55, y + 50, 1.5, 'F');
-  doc.text('Patologia', margin + contentWidth - 52, y + 51);
-  
-  doc.setFillColor(59, 130, 246); doc.circle(margin + contentWidth - 30, y + 50, 1.5, 'F');
-  doc.text('Tratamiento', margin + contentWidth - 27, y + 51);
-  
-  doc.setTextColor(239, 68, 68); doc.text('X', margin + contentWidth - 56, y + 55);
-  doc.setTextColor(0); doc.text('Extraccion', margin + contentWidth - 52, y + 55);
-  
-  y += odoH + 2;
+  doc.text('Gráfico resumido. Rojo: patología / Azul: realizado. Detalle por pieza en complemento.', margin + 2, y + odoH + 3);
+  y += odoH + 6;
 
   // 8. INDICADORES y 9. INDICES
   const halfW = contentWidth / 2;
@@ -449,7 +448,7 @@ export const generateHCU033 = (data: any) => {
     autoTable(doc, {
         startY: y,
         head: [['Pza', 'Placa', 'Cal', 'Gin']],
-        body: data.indicadores_higiene.map((h: any) => [h.piezas[0], h.placa, h.calculo, h.gingivitis]),
+        body: data.indicadores_higiene.map((h: any) => [(h.piezas || []).join('/'), h.placa, h.calculo, h.gingivitis]),
         theme: 'grid',
         styles: { fontSize: 5, cellPadding: 1 },
         margin: { left: margin },
@@ -460,7 +459,7 @@ export const generateHCU033 = (data: any) => {
   // CPO Table (on the right)
   const cpoY = y;
   const cpoData = [
-      ['D', 'C', 'P', 'O', 'Total'],
+      ['D', 'C', 'P / e', 'O', 'Total'],
       ['CPO', data.indices_cpo?.c, data.indices_cpo?.p, data.indices_cpo?.o, data.indices_cpo?.total],
       ['ceo', data.indices_ceo?.c, data.indices_ceo?.e, data.indices_ceo?.o, data.indices_ceo?.total]
   ];
@@ -482,9 +481,9 @@ export const generateHCU033 = (data: any) => {
   // 10. PLANES DE DIAGNOSTICO
   y = drawSectionHeader('10', 'PLANES DE DIAGNOSTICO, TERAPEUTICO Y EDUCACIONAL', margin, y, contentWidth);
   const planData = (data.plan_terapeutico || []).map((p: any) => [
-       'Diagnostico', // Tipo placeholder
+       'Plan registrado',
        p.procedimiento,
-       p.sesion // Used as Indicaciones for now
+       p.observaciones || ''
   ]);
   
   // If list is empty fill rows
@@ -509,7 +508,7 @@ export const generateHCU033 = (data: any) => {
       d.id || (data.diagnosticos.indexOf(d) + 1),
       d.descripcion,
       d.codigo,
-      'Def.' // Pre/Def placeholder
+      d.tipo === 'presuntivo' ? 'Pre.' : d.tipo === 'definitivo' ? 'Def.' : 'No registrado'
   ]);
   while(diagData.length < 3) diagData.push(['','','','']);
 
@@ -530,20 +529,20 @@ export const generateHCU033 = (data: any) => {
   // 12. TRATAMIENTO (SESSIONS)
   y = drawSectionHeader('12', 'TRATAMIENTO', margin, y, contentWidth);
   
-  const sesionData = (data.plan_terapeutico || []).map((t: any) => [
+  const sesionData = (data.registro_sesiones || []).map((t: any) => [
       t.fecha,
-      t.dientes_involucrados || '',
+      t.observaciones || '',
       t.procedimiento,
       t.codigo || '',
-      '', // Firma placeholder
-      t.sesion
+      t.profesional || '',
+      t.medicamentos || ''
   ]);
   // Fill page
   while(sesionData.length < 15) sesionData.push(['','','','','','']);
   
   autoTable(doc, {
       startY: y,
-      head: [['FECHA', 'DIAGNOSTICO Y COMPLICACIONES', 'PROCEDIMIENTOS', 'CODIGO', 'FIRMA PROFESIONAL', 'PRESCRIPCION']],
+      head: [['FECHA', 'OBSERVACIONES', 'PROCEDIMIENTOS REGISTRADOS', 'CODIGO', 'PROFESIONAL REGISTRADO', 'MEDICAMENTOS']],
       body: sesionData,
       theme: 'grid',
       styles: { fontSize: 8, minCellHeight: 8 },
@@ -553,7 +552,8 @@ export const generateHCU033 = (data: any) => {
 
   // Footer / Signatures
   // @ts-ignore
-  const finalY = doc.lastAutoTable.finalY + 15;
+  let finalY = doc.lastAutoTable.finalY + 25;
+  if (finalY + 8 > pageHeight - margin) { doc.addPage(); finalY = margin + 25; }
   
   doc.line(margin + 20, finalY, margin + 80, finalY);
   doc.text('FIRMA DEL PACIENTE', margin + 30, finalY + 4);
@@ -570,6 +570,77 @@ export const generateHCU033 = (data: any) => {
       }
   }
 
+  // Complete clinical text and custody context are paginated; a checkbox or an
+  // embedded signature image never certifies consent, representation or identity.
+  doc.addPage();
+  doc.setTextColor(0);
+  drawSectionHeader('', 'COMPLEMENTO CLINICO Y TRAZABILIDAD DEL REGISTRO', margin, margin, contentWidth);
+  const metadata = data.export_metadata || {};
+  const complement = [
+    ['HCU guardada (ID)', metadata.id || 'No disponible'],
+    ['Clínica (ID)', metadata.clinic_id || 'No disponible'],
+    ['Paciente (ID)', metadata.patient_id || 'No disponible'],
+    ['Autor guardado (UID de Auth)', metadata.doctor_id || 'No registrado'],
+    ['Creación del registro', metadata.created_at || 'No registrada'],
+    ['Última actualización del registro', metadata.updated_at || 'No registrada'],
+    ['Nombre completo registrado', data.nombre_completo],
+    ['Establecimiento / Unicódigo / Historia', [data.establecimiento, data.unicodigo, data.historia_numero].filter(Boolean).join(' / ')],
+    ['Identificación / Fecha de nacimiento', [data.identificacion, data.fecha_nacimiento].filter(Boolean).join(' / ')],
+    ['Sexo / Edad / Nacionalidad', [data.sexo, data.edad, data.nacionalidad].filter(v => v != null && v !== '').join(' / ')],
+    ['Dirección / Teléfono', [data.direccion, data.telefono].filter(Boolean).join(' / ')],
+    ['Responsable registrado', data.responsable || 'No registrado'],
+    ['Motivo de consulta', data.motivo_consulta], ['Enfermedad actual', data.enfermedad_actual],
+    ['Otros antecedentes', data.ant_otros],
+    ['Signos vitales registrados', [['Presión arterial', data.sv_presion_arterial], ['Frecuencia cardíaca', data.sv_fc], ['Temperatura', data.sv_temp], ['Frecuencia respiratoria', data.sv_fr]].map(([label, value]) => `${label}: ${valueText(value)}`).join('\n')],
+    ['Examen estomatognático completo', ['labios','mejillas','encia','lengua','paladar','piso_boca','carrillos','dientes','articulacion','ganglios'].filter(k => data[`ex_${k}`]).map(k => `${k}: ${data[`ex_${k}`]}`).join('\n')],
+    ['Observaciones del odontograma', data.odontograma_descripcion],
+    ['Índices CPO / ceo', 'Valores registrados en la HCU; no se recalculan desde el odontograma en este PDF.'],
+    ['Enfermedad periodontal / Maloclusión / Fluorosis', [data.indicadores_periodontal, data.indicadores_maloclusion, data.indicadores_fluorosis].filter(Boolean).join(' / ')],
+    ['Plan diagnóstico registrado', (data.plan_diagnostico || []).join(', ')],
+    ['Diagnósticos: fecha / responsable', (data.diagnosticos || []).map((d: any) => [d.descripcion, d.fecha, d.clinico].filter(Boolean).join(' / ')).join('\n')],
+    ['Plan terapéutico: sesión / fecha / dientes / observaciones', (data.plan_terapeutico || []).map((p: any) => [p.sesion, p.fecha, p.dientes_involucrados, p.observaciones].filter(v => v != null && v !== '').join(' / ')).join('\n')],
+    ['Observaciones finales', data.observaciones_finales],
+    ['Indicador de consentimiento en la ficha', data.consentimiento_informado === true ? 'Marcado como registrado' : 'No marcado'],
+    ['Alcance del indicador de consentimiento', 'No acredita por sí solo el consentimiento de un procedimiento, la firma del paciente ni la verificación de su representante.'],
+    ['Imagen de firma profesional', data.firma_profesional ? 'Imagen registrada; sin validación criptográfica de identidad.' : 'No registrada'],
+    ['Adjuntos', 'Este PDF no incorpora los archivos adjuntos. Requieren custodia y entrega por un canal seguro.'],
+  ];
+  autoTable(doc, { startY: margin + 7, head: [['CAMPO', 'VALOR REGISTRADO']],
+    body: complement.map(([label, value]) => [label, valueText(value)]), theme: 'grid',
+    styles: { fontSize: 8, overflow: 'linebreak', cellPadding: 2 },
+    headStyles: { fillColor: COLORS.HEADER_BG, textColor: 0 },
+    columnStyles: { 0: { cellWidth: 55 } }, margin: { left: margin, right: margin, top: margin, bottom: margin + 5 } });
+
+  const teeth = Object.entries(data.odontograma_data || {}).filter(([, state]: [string, any]) =>
+    state && (state.condition || state.status || state.bridge || state.notes || state.recesion || state.movilidad
+      || state.recession || state.mobility || Object.values(state.surfaces || {}).some(Boolean)));
+  if (teeth.length) {
+    // Keep every recorded symbol/state available even when the compact graphic
+    // does not represent prosthetic ranges or distinguish surface tools.
+    // @ts-ignore
+    let detailY = doc.lastAutoTable.finalY + 8;
+    if (detailY + 18 > pageHeight - margin) { doc.addPage(); detailY = margin; }
+    detailY = drawSectionHeader('', 'DETALLE DEL ODONTOGRAMA POR PIEZA', margin, detailY, contentWidth);
+    const validFDI = new Set(Object.values(QUADRANTS).flat().map(String));
+    autoTable(doc, { startY: detailY,
+      head: [['PIEZA FDI', 'ESTADO REGISTRADO']],
+      body: teeth.map(([id, state]: [string, any]) => [validFDI.has(id) ? id : `${id} (no validada)`, [
+        `Condición: ${state.condition || 'no registrada'}; estado: ${state.status || 'no registrado'}`,
+        ...Object.entries(state.surfaces || {}).filter(([, value]) => value).map(([surface, value]) => `${surface}: ${valueText(value)}`),
+        `Recesión: ${valueText(state.recesion ?? state.recession)}; movilidad: ${valueText(state.movilidad ?? state.mobility)}`,
+        state.bridge ? `Prótesis: ${valueText(state.bridge.type)}; inicio: ${valueText(state.bridge.start)}; fin: ${valueText(state.bridge.end)}; estado: ${valueText(state.bridge.status)}` : '',
+        state.notes ? `Notas: ${valueText(state.notes)}` : '',
+      ].filter(Boolean).join('\n')]), theme: 'grid', styles: { fontSize: 8, cellPadding: 2 },
+      headStyles: { fillColor: COLORS.HEADER_BG, textColor: 0 }, columnStyles: { 0: { cellWidth: 25 } },
+      margin: { left: margin, right: margin, top: margin, bottom: margin + 5 } });
+  }
+  const pages = doc.getNumberOfPages();
+  for (let page = 1; page <= pages; page++) {
+    doc.setPage(page); doc.setFont('helvetica', 'normal'); doc.setFontSize(7); doc.setTextColor(0);
+    doc.text(`HCU: ${metadata.id || 'ID no disponible'}`, margin, pageHeight - 6);
+    doc.text(`Página ${page} / ${pages}`, pageWidth - margin, pageHeight - 6, { align: 'right' });
+  }
+
   // Save
   doc.save(`HCU033_${data.identificacion || 'Paciente'}.pdf`);
 };
@@ -583,6 +654,22 @@ export const generatePrescription = (data: any) => {
 
   let y = margin;
 
+  // Clinical text and the recorded issuer flow onto additional pages. A fixed
+  // signature footer can overwrite drug rows after autoTable paginates.
+  const bodyBottom = pageHeight - margin - 4;
+  const ensureSpace = (height: number) => {
+    if (y + height > bodyBottom) { doc.addPage(); y = margin; }
+  };
+  const writeText = (value: unknown, size: number, bold = false, gap = 3) => {
+    doc.setTextColor(0); doc.setFont('helvetica', bold ? 'bold' : 'normal'); doc.setFontSize(size);
+    const lines = doc.splitTextToSize(value == null ? '' : String(value), contentWidth);
+    const lineHeight = size * 0.3528 * 1.2;
+    for (const line of lines) {
+      ensureSpace(lineHeight); doc.text(line, margin, y); y += lineHeight;
+    }
+    y += gap;
+  };
+
   // Header / Branding
   if (data.clinicLogo) {
     try {
@@ -593,45 +680,25 @@ export const generatePrescription = (data: any) => {
     }
   }
 
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(16);
-  doc.setTextColor(59, 130, 246); // Primary blue
-  doc.text(data.clinicName || 'CLINICA DENTAL', margin, y);
-  
-  doc.setFontSize(8);
-  doc.setTextColor(100);
-  doc.setFont('helvetica', 'normal');
-  doc.text(data.clinicAddress || 'Dirección de la Clínica', margin, y + 5);
-  doc.text(data.clinicPhone || 'Teléfono: +593 999 999 999', margin, y + 9);
-
-  y += 20;
+  writeText(data.clinicName || 'Establecimiento no informado', 14, true);
+  if (data.clinicAddress) writeText(data.clinicAddress, 8);
+  if (data.clinicPhone) writeText(data.clinicPhone, 8);
 
   // Separator line
   doc.setDrawColor(200);
+  ensureSpace(12);
   doc.line(margin, y, pageWidth - margin, y);
   y += 8;
 
   // Patient Info
-  doc.setFontSize(10);
-  doc.setTextColor(0);
-  doc.setFont('helvetica', 'bold');
-  doc.text('RECETA MÉDICA', pageWidth / 2, y, { align: 'center' });
-  y += 10;
-
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'normal');
-  doc.text(`Paciente: ${data.patientName}`, margin, y);
-  doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES')}`, pageWidth - margin, y, { align: 'right' });
-  y += 6;
-  doc.text(`Identificación: ${data.patientId || 'N/A'}`, margin, y);
-  
-  y += 12;
+  writeText('RECETA MÉDICA', 10, true);
+  writeText(`Paciente: ${data.patientName}`, 9);
+  writeText(`Fecha: ${new Date(data.issuedAt).toLocaleDateString('es-EC', { timeZone: 'America/Guayaquil' })}`, 9);
+  writeText(`Identificación: ${data.patientId || 'No informada'}`, 9, false, 8);
 
   // RP / Prescriptions
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(11);
-  doc.text('Rp.', margin, y);
-  y += 6;
+  ensureSpace(20);
+  writeText('Rp.', 11, true);
 
   // Medications Table
   autoTable(doc, {
@@ -641,45 +708,45 @@ export const generatePrescription = (data: any) => {
     theme: 'striped',
     styles: { fontSize: 9, cellPadding: 3 },
     headStyles: { fillColor: [59, 130, 246], textColor: 255 },
-    margin: { left: margin, right: margin }
+    margin: { left: margin, right: margin, top: margin, bottom: margin + 4 }
   });
 
   // @ts-ignore
-  y = doc.lastAutoTable.finalY + 15;
+  y = doc.lastAutoTable.finalY + 10;
 
   // Instructions
   if (data.indications) {
-    doc.setFont('helvetica', 'bold');
-    doc.text('Indicaciones:', margin, y);
-    y += 5;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(8.5);
-    const lines = doc.splitTextToSize(data.indications, contentWidth);
-    doc.text(lines, margin, y);
-    y += (lines.length * 4) + 10;
+    ensureSpace(12);
+    writeText('Indicaciones:', 9, true);
+    writeText(data.indications, 8.5, false, 8);
   }
 
-  // Footer / Signature
-  const footerY = pageHeight - 35;
+  // Recorded issuer and any explicitly supplied signature follow the content.
+  ensureSpace(30);
   
   // Signature Image
   if (data.signature) {
     try {
-      doc.addImage(data.signature, 'PNG', pageWidth / 2 - 20, footerY - 20, 40, 20);
+      ensureSpace(25);
+      doc.addImage(data.signature, 'PNG', margin, y, 40, 20);
+      y += 25;
     } catch (e) {
       console.error("Signature image error", e);
     }
   }
 
   doc.setDrawColor(150);
-  doc.line(pageWidth / 2 - 30, footerY, pageWidth / 2 + 30, footerY);
-  doc.setFontSize(9);
-  doc.setFont('helvetica', 'bold');
-  doc.text(data.doctorName || 'Dr. Profesional', pageWidth / 2, footerY + 5, { align: 'center' });
-  doc.setFontSize(7);
-  doc.setFont('helvetica', 'normal');
-  doc.text(data.doctorSpecialty || 'Odontólogo', pageWidth / 2, footerY + 8, { align: 'center' });
-  doc.text(data.doctorReg || 'Reg. Prof: 0000-00-000', pageWidth / 2, footerY + 11, { align: 'center' });
+  doc.line(margin, y, margin + 60, y);
+  y += 5;
+  writeText(data.doctorName || 'Profesional no informado', 9, true);
+  writeText(data.doctorSpecialty || 'Especialidad no informada', 7);
+  writeText(data.doctorReg || 'Registro no informado', 7);
+  const pages = doc.getNumberOfPages();
+  for (let page = 1; page <= pages; page++) {
+    doc.setPage(page); doc.setFont('helvetica', 'normal'); doc.setFontSize(7);
+    doc.text(`Receta: ${data.prescriptionId || 'ID no disponible'}`, margin, pageHeight - 6);
+    doc.text(`Página ${page} / ${pages}`, pageWidth - margin, pageHeight - 6, { align: 'right' });
+  }
 
   // Save
   doc.save(`Receta_${data.patientName.replace(/\s+/g, '_')}_${Date.now()}.pdf`);

@@ -1,0 +1,96 @@
+{
+  "createdAt": "2026-09-29T17:11:27.433Z",
+  "status": "LIVE_SCOPED_CATALOGS_CAPTURED_OFFICIAL_PG_DUMP_PENDING",
+  "sourceQuerySha256": "2c41c5b1ab7751c4d0bbd1b8aea3a0c3e64dfc23adfd4a6e809bbb074a6cb344",
+  "catalogs": {
+    "staging": {
+      "projectRef": "phihonofwyerpfgqfekt",
+      "privatePath": "tools/local-supabase/supabase/.temp/remote-stage-catalog-20260929-1.private.json",
+      "sha256": "9be1bbf7bc35db2499a3e7f1759acbcd1ef42f1af77b62239112b4da400a2266",
+      "bytes": 215966,
+      "capturedAt": "2026-09-29T17:09:21.342059+00:00",
+      "counts": {
+        "schemas": 3,
+        "relations": 28,
+        "columns": 294,
+        "constraints": 80,
+        "indexes": 40,
+        "policies": 13,
+        "triggers": 7,
+        "functions": 10,
+        "buckets": 0,
+        "extensions": 5,
+        "migrationHistory": 12
+      },
+      "unchangedSince20260927": [
+        "schemas",
+        "relations",
+        "columns",
+        "constraints",
+        "indexes",
+        "policies",
+        "triggers",
+        "functions",
+        "buckets",
+        "extensions",
+        "migrationHistory"
+      ],
+      "changedSince20260927": [],
+      "operationalReportRpcPresent": false,
+      "storageBucketCount": 0,
+      "lastRecordedMigration": "20260926155227"
+    },
+    "linked-main": {
+      "projectRef": "leqsrfyjvuxxdsubjjin",
+      "privatePath": "tools/local-supabase/supabase/.temp/remote-linked-catalog-20260929-1.private.json",
+      "sha256": "459657f961a91bcd7d06b855089bf22c17904cc9554da864cf9661aade6eb6cb",
+      "bytes": 355691,
+      "capturedAt": "2026-09-29T17:09:23.773336+00:00",
+      "counts": {
+        "schemas": 2,
+        "relations": 31,
+        "columns": 309,
+        "constraints": 92,
+        "indexes": 58,
+        "policies": 97,
+        "triggers": 15,
+        "functions": 30,
+        "buckets": 10,
+        "extensions": 6,
+        "migrationHistory": 57
+      },
+      "unchangedSince20260927": [
+        "schemas",
+        "relations",
+        "columns",
+        "constraints",
+        "indexes",
+        "policies",
+        "triggers",
+        "functions",
+        "buckets",
+        "extensions",
+        "migrationHistory"
+      ],
+      "changedSince20260927": [],
+      "operationalReportRpcPresent": false,
+      "storageBucketCount": 10,
+      "lastRecordedMigration": "20260922184028"
+    }
+  },
+  "officialDumpAttempt": {
+    "projectRef": "phihonofwyerpfgqfekt",
+    "command": "supabase db dump --project-ref ... --schema public,logs,security_internal --file (private ignored path)",
+    "exitCode": 1,
+    "reason": "Docker Desktop Linux Engine named pipe unavailable",
+    "resultSqlBytes": 0
+  },
+  "interpretation": [
+    "Read-only catalog snapshot for drift inspection; not pg_dump, full remote schema, or restorable backup",
+    "Neither remote catalog contains the operational report RPC present in the local SQL candidate",
+    "Staging has zero Storage bucket configurations in the captured catalog",
+    "No patient rows or Storage object bytes exported",
+    "Auth redirects/SMTP and managed schema internals require separate verification"
+  ],
+  "nextGate": "Run official schema-only db dump when Docker Desktop is available; never use db pull/push/reset as a substitute for read-only capture."
+}

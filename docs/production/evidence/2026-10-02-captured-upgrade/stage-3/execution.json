@@ -1,0 +1,128 @@
+{
+  "startedAt": "2026-10-02T17:02:33.166Z",
+  "status": "VERIFIED",
+  "variant": "stage",
+  "database": "clinia_upgrade_stage_20261002_3",
+  "source": "clinia_restore_stage_20261001_1",
+  "evidence": "C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\docs\\production\\evidence\\2026-10-02-captured-upgrade\\stage-3",
+  "steps": [
+    {
+      "name": "clone-restored-capture",
+      "role": "supabase_admin",
+      "database": "template1",
+      "sha256": "7c2bcb71149e4584f8dd02ad365d56da11a5e639152c99de62b38d94a3fca6bc",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "m7-captured-stage-bridge",
+      "role": "supabase_admin",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "ec6e6ce1d5d7f228f4dcb18e98244b57a01f52badbbac3d6eba3cbc50fc404c7",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "m7-exact-owners",
+      "role": "supabase_admin",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "843aa4f398a3a8aadaa7b9a73309f787638ab6b8f5bece2d73f23bf224a39106",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "operational-prerequisites",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "private-bucket-metadata-fixtures",
+      "role": "supabase_admin",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "6bfb68a0f8bdb51caeb3235c38d26c4f880390093386bb67347d69b1dc57d48a",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "authority",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "operational-callbacks",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "agenda",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "reports",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "canonical-catalog",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "47df20b80c0661493d7d8e19ed5d77e144877b607c4e7672b85dde51b97ec3fe",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "canonical-boundaries",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "79a5f2b8aada22b4a5fca7cb1fcb92d1e2205e0de6f4dee5d37f66fe6b8e0b97",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "pending-invitations",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "durable-email",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "profile-guard",
+      "role": "postgres",
+      "database": "clinia_upgrade_stage_20261002_3",
+      "sha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Captured application schema on local managed template; not clean managed install",
+    "Private bucket metadata fixtures; no restoration of bytes/configuration or independent API",
+    "No remote migration, repair, data copy or cleanup; all targets preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "completedAt": "2026-10-02T17:02:38.722Z"
+}

@@ -1,0 +1,24 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "reviewer": "Independent adversarial_closeout subagent",
+  "recordedAt": "2026-10-04T00:05:21.605Z",
+  "conclusion": "NO-GO; bounded P1 clinical Storage cache replay confirmed",
+  "verified": [
+    "Actual logout/ban positive and negative controls support P1",
+    "Cached bytes match original synthetic PDF SHA; anonymous denial observed",
+    "Expired original JWT bound to verified matrix; fresh RPC401 while cached PDF200",
+    "Safe provider expiration boolean added; no error body disclosed",
+    "Actual CI225/225 and tree equality recorded; deployed Preview binds commit a281fce"
+  ],
+  "corrected": [
+    "Anonymous negative control now included in probe success predicate; three regression tests pass",
+    "Future no-store probes require contemporaneous role null/clinical42501/sign NoSuchKey",
+    "No-store historical replay explicitly limited to cache/header corroboration",
+    "Vercel row now records actual protected Preview and narrow browser outcomes"
+  ],
+  "limits": [
+    "No claims of anonymous/cross-clinic cache compromise, indefinite duration, all buckets/regions",
+    "Helper changes do not upgrade historical runtime results; original matrix tokens preserved",
+    "Full deployed auth flows, hosted recovery/alerts and qualified clinical/privacy acceptance remain open"
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "startedAt": "2026-09-27T15:48:30.762Z",
+  "environment": "local-synthetic-primary",
+  "checks": [
+    {
+      "name": "Reception creates self rights request with server identity",
+      "passed": true
+    },
+    {
+      "name": "Rights foreign patient, forged requester and missing legal basis rejected",
+      "passed": true
+    },
+    {
+      "name": "Owner resolves and audit records protected transition",
+      "passed": false,
+      "error": "Expected values to be strictly equal:\n\n'0' !== '1'\n"
+    },
+    {
+      "name": "Original evidence/resolver/terminal state immutable",
+      "passed": false,
+      "error": "null == true"
+    }
+  ],
+  "requests": [
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "POST",
+      "status": 201
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "POST",
+      "status": 409
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "POST",
+      "status": 403
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "POST",
+      "status": 400
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "PATCH",
+      "status": 200
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "PATCH",
+      "status": 403
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "PATCH",
+      "status": 403
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "PATCH",
+      "status": 403
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/data_rights_requests",
+      "method": "PATCH",
+      "status": 204
+    }
+  ],
+  "state": "PARTIAL_FAILED_CASES",
+  "completedAt": "2026-09-27T15:48:33.314Z"
+}

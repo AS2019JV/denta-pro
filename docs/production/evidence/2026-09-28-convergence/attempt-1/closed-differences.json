@@ -1,0 +1,259 @@
+{
+  "stage": {
+    "closedFunctions": [
+      {
+        "identity": "public.handle_verified_clinic_creation()",
+        "definitionSha256": "bccded448e4c10674ee377f4ead915c3fa58b37a0943dc7e9508b933c8d31804",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.purge_clinic_data(target_clinic_id uuid)",
+        "definitionSha256": "80fad8f34eca442a677158c58e03877bac5c6ad981f57f801b20de48140052db",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      }
+    ],
+    "closedViews": [
+      {
+        "identity": "public.receptionist_patient_view",
+        "sha256": "c10e73061157667353977f5d5d8c3066be36ed057319597ef38a5b63fcf9666c"
+      }
+    ],
+    "closedBuckets": [],
+    "closedFinanceColumns": [
+      {
+        "acl": null,
+        "name": "amount",
+        "type": "numeric",
+        "table": "payments",
+        "schema": "public",
+        "default": null,
+        "notNull": true,
+        "storage": "m",
+        "identity": "",
+        "position": 4,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      {
+        "acl": null,
+        "name": "price",
+        "type": "numeric",
+        "table": "services",
+        "schema": "public",
+        "default": "0.00",
+        "notNull": true,
+        "storage": "m",
+        "identity": "",
+        "position": 5,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    ]
+  },
+  "prod": {
+    "closedFunctions": [
+      {
+        "identity": "logs.log_patient_view(p_patient_id uuid)",
+        "definitionSha256": "fc5f4222fc9e7d9bee98f92524d0658196ba3944f5601e0d6eaf546c150f92c4",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.accept_clinic_invitation(p_token text)",
+        "definitionSha256": "d581c1380646a137a59831358e0386201d3688f98f647c8b6c80f40fa7abe563",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.archive_clinic(target_clinic_id uuid)",
+        "definitionSha256": "9bf158c68ccf9dfef0d096d77ca150f9e0e44ab24c32d4a7b221705a4928f783",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.cleanup_soft_deleted_records()",
+        "definitionSha256": "bd924f85864e35654f16c81dd78663d383217f1e05c85fa238f61430051c2720",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.create_tenant_clinic(clinic_name text, clinic_address text, clinic_phone text)",
+        "definitionSha256": "d0876101d81755f280555f8d47942b43b5ef40e80f1e6d6a15198b6e5a0d53e2",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.custom_access_token_hook(event jsonb)",
+        "definitionSha256": "ac83ba5f560a267cdb5cb6ae6e2451612f504b0e9f7db337e65fdb8ab9b24596",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.enforce_patient_clinical_privileges()",
+        "definitionSha256": "c4d895037f09bb9cfff7d9817c20a6e5761503278d82a87a2f1700b1b19d8eef",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.get_checkout_payment_methods(p_billing_id uuid)",
+        "definitionSha256": "2cf15502529a20eedd5b93d2b66840d47f6415ecab6cb4270e18ae6761dd0766",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.get_family_unit_with_stats(p_patient_id uuid)",
+        "definitionSha256": "6ea626f5813c477004957d3012a10efa68f871b1d5b566937e7f879b5b8f5f1e",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.get_patient_profile_secure(p_patient_id uuid)",
+        "definitionSha256": "e98b0b1c897fd906d2aa008db39681619aef0d2c2a1a361d01038c94736694ce",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.guard_patient_clinical_insert()",
+        "definitionSha256": "32e535967aa7bb3af664ebef4424f81a86b793aa15a468d7ef7c1a8ac42a816c",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.handle_verified_clinic_creation()",
+        "definitionSha256": "bccded448e4c10674ee377f4ead915c3fa58b37a0943dc7e9508b933c8d31804",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.log_data_rights_request(p_request_type text, p_details jsonb, p_legal_basis text, p_retention_note text)",
+        "definitionSha256": "1f62ef129f2cd53dafa9e0aa0542d001e7c719b5cc85ee21f9ee6ff43389c104",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.purge_clinic_data(target_clinic_id uuid)",
+        "definitionSha256": "80fad8f34eca442a677158c58e03877bac5c6ad981f57f801b20de48140052db",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.seed_default_services(target_clinic_id uuid)",
+        "definitionSha256": "1a383891fbf39502225b047c03156ca53af17fdf8cf12d94aa80f37d5d75ab89",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.set_updated_at()",
+        "definitionSha256": "199f5c02bd7c5ee76f3d2ba98482eddd62afcaa2b4915baed2a47fe3383b428e",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      },
+      {
+        "identity": "public.update_billing_status()",
+        "definitionSha256": "ef25a0c3e8fe562d6f84dff3fa335edfd2d5c76a524371f47a9a570632cece9c",
+        "acl": "{postgres=X/postgres}",
+        "authenticatedExecute": false
+      }
+    ],
+    "closedViews": [
+      {
+        "identity": "public.dashboard_stats_view",
+        "sha256": "dc25d38271e1613b131647485ae322ac72cc32321c113159c1afae9ef348a63e"
+      },
+      {
+        "identity": "public.patient_stats_view",
+        "sha256": "e5873f3db468ff8a8bcb014ae43b9eef3e452382de09f839fcb49e4a28e46a1e"
+      },
+      {
+        "identity": "public.recall_queue",
+        "sha256": "3a0b01ab128f0dfeb4f200cd72b5481a5b698bd798504d2976e23f0d0c9e6338"
+      },
+      {
+        "identity": "public.receptionist_patient_view",
+        "sha256": "9a0177d2251b201505d47df51b1c3983c6a8c53b66056dd2f05d5320beda3aa9"
+      }
+    ],
+    "closedBuckets": [
+      {
+        "identity": "avatars",
+        "sha256": "9f22ec5763e49908d335a915e99dfc1dbc2efbb7a7f646c310d6f8727cd965e9",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      },
+      {
+        "identity": "clinia",
+        "sha256": "45af125a95a2fb92191e9b767832cd4116cb02668919cd7931be478d27bc48de",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      },
+      {
+        "identity": "clinia-assets",
+        "sha256": "06b9843298ed6643f4f87305a76f5aba231315a69cf547fbbb71a870a01a5f7d",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      },
+      {
+        "identity": "receipts",
+        "sha256": "92b9ffb5ec1d64f55c12656257a30a7b3475d828190893c66ee59a95630fd8d2",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      },
+      {
+        "identity": "Whats-Storage",
+        "sha256": "a40b946394d021ee784b399f241f823ff9d77c7c287f6d01614b976c52b7e50d",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      },
+      {
+        "identity": "wstorag",
+        "sha256": "399c3fe91d75190437d3a038632d68bbbe88d0a6859cb33b363dd2a4d6ccb609",
+        "public": false,
+        "decision": "Outside operational allowlist; Storage helper denies this bucket"
+      }
+    ],
+    "closedFinanceColumns": [
+      {
+        "acl": null,
+        "name": "amount",
+        "type": "numeric(10,2)",
+        "table": "payments",
+        "schema": "public",
+        "default": null,
+        "notNull": true,
+        "storage": "m",
+        "identity": "",
+        "position": 4,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      {
+        "acl": null,
+        "name": "price",
+        "type": "numeric(10,2)",
+        "table": "services",
+        "schema": "public",
+        "default": "0.00",
+        "notNull": true,
+        "storage": "m",
+        "identity": "",
+        "position": 5,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    ]
+  }
+}

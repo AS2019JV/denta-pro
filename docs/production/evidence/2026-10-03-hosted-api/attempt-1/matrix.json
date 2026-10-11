@@ -1,0 +1,200 @@
+{
+  "status": "PARTIAL",
+  "phase": "matrix",
+  "project": "phihonofwyerpfgqfekt",
+  "attempt": "1",
+  "startedAt": "2026-10-03T14:59:32.051Z",
+  "driverSha256": "1a2aa7cdbc2d5ce919cc5504efa759f9194d05a8504f646e498e85f35f416923",
+  "requests": [
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "auth_revoked_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 401,
+      "code": "42501"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 401,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "code": "22023"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Fixture actors have exact live roles via ordinary original JWTs",
+      "expected": "owner/doctor/reception/removed/foreign/auth-test roles",
+      "status": "VERIFIED",
+      "detail": {
+        "liveRoleChecks": 7
+      }
+    },
+    {
+      "name": "Demographics, clinical and financial boundaries use real RLS",
+      "expected": "operational roles allowed; clinical reception/foreign/anonymous denied",
+      "status": "FAILED"
+    }
+  ],
+  "limits": [
+    "Real hosted Auth/PostgREST/Storage API proof; not browser or Next server-action execution",
+    "Only owned synthetic fixtures; no production deployment or clinical approval",
+    "Signed URLs remain bearer capabilities until expiry; revocation proof concerns new authorized requests"
+  ],
+  "failure": "Hosted verification failed; inspect named checks/statuses, no provider bodies emitted",
+  "completedAt": "2026-10-03T14:59:37.581Z"
+}

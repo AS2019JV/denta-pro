@@ -1,0 +1,25 @@
+{
+  "syntheticOnly": true,
+  "engine": "installed real jsPDF + jspdf-autotable",
+  "sourceSha256": "590d79f91e2af03d52825e769b82688f341c937e2892991c1d440a833f9d1b3a",
+  "documents": [
+    {
+      "name": "receta-sintetica.pdf",
+      "bytes": 6263,
+      "pages": 1,
+      "sha256": "6e6c1bfed78e9900a3170d3f85e15532c1130f14aeef775112760a80b605c4a5"
+    },
+    {
+      "name": "receta-limite-sintetica.pdf",
+      "bytes": 23104,
+      "pages": 2,
+      "sha256": "7a2a569b61c00322f52f6f86b798bade62f57894a5a8c11015dbc18ce86a578f"
+    },
+    {
+      "name": "hcu-sintetica.pdf",
+      "bytes": 117108,
+      "pages": 2,
+      "sha256": "e9069c628de9afe5447e8f4484307ed200c087b39fdde414f23edd2f6845445a"
+    }
+  ]
+}

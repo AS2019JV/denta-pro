@@ -35,7 +35,7 @@ import {
   ArrowLeft,
   Maximize2,
 } from "lucide-react"
-import { generateHCU033 } from "@/lib/pdf-generator"
+import { exportPersistedHCU033 } from "@/lib/pdf-client"
 import { toast } from "sonner"
 
 interface HCU033FormProps {
@@ -50,6 +50,23 @@ interface HCU033FormProps {
 }
 
 export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClose, onExpand, externalData, onDataChange }: HCU033FormProps) {
+  const { user, currentClinicId, isRevalidating } = useAuth()
+  const clinicalRole = user?.role === "doctor" || user?.role === "clinic_owner"
+  const exportScope = `${currentClinicId || ""}:${user?.id || ""}:${user?.role || ""}:${patientId}`
+  const scopeRef = useRef(exportScope)
+  const publication = useRef({ valid: false })
+  if (scopeRef.current !== exportScope || isRevalidating || !clinicalRole) publication.current.valid = false
+  scopeRef.current = exportScope
+  const [isExporting, setIsExporting] = useState(false)
+  const exporting = useRef(false)
+  useEffect(() => {
+    const token = { valid: !isRevalidating }
+    publication.current = token
+    exporting.current = false
+    setIsExporting(false)
+    return () => { token.valid = false }
+  }, [exportScope, isRevalidating])
+
   const [formData, setFormData] = useState<any>({
     // Sección A: Datos del establecimiento y paciente
     establecimiento: "",
@@ -145,12 +162,18 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   })
 
   const [activeSection, setActiveSection] = useState("A")
+  const initialFormData = useRef(formData)
+  const loadedFormScope = useRef("")
   const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false)
 
   const updateField = (field: string, value: any) => {
+    const token = publication.current
+    const capturedScope = exportScope
+    const isCurrent = () => token.valid && publication.current === token && scopeRef.current === capturedScope
     setFormData((prev: any) => {
+      if (!isCurrent()) return prev
       const newData = { ...prev, [field]: value }
-      if (onDataChange) Promise.resolve().then(() => onDataChange(newData))
+      if (onDataChange) Promise.resolve().then(() => { if (isCurrent()) onDataChange(newData) })
       return newData
     })
   }
@@ -158,6 +181,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   // Sync external data changes to local state
   useEffect(() => {
     if (externalData) {
+       loadedFormScope.current = exportScope
        setFormData((prev: any) => {
           // Rudimentary check to avoid loop, deep equality would be better but stringify is okay for this size
           if (JSON.stringify(prev) !== JSON.stringify(externalData)) {
@@ -166,7 +190,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
           return prev
        })
     }
-  }, [externalData])
+  }, [externalData, exportScope])
 
   const addDiagnostico = () => {
     setFormData((prev: any) => ({
@@ -218,31 +242,64 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     }))
   }
 
-  const { user } = useAuth()
   const [isLoading, setIsLoading] = useState(false)
+
+  const handleExport = async () => {
+    const token = publication.current
+    const capturedScope = exportScope
+    const isCurrent = () => token.valid && publication.current === token && scopeRef.current === capturedScope
+    if (!user?.id || !currentClinicId || !clinicalRole || isRevalidating || !isCurrent() || exporting.current) return
+    exporting.current = true
+    setIsExporting(true)
+    try {
+      const exported = await exportPersistedHCU033(supabase, {
+        userId: user.id, clinicId: currentClinicId, patientId,
+      }, isCurrent)
+      if (exported && isCurrent()) toast.success("PDF generado desde la HCU guardada. Los cambios sin guardar no se incluyen.")
+    } catch {
+      if (isCurrent()) toast.error("No se pudo exportar la HCU guardada. Verifica que la ficha esté guardada y que tu acceso siga vigente.")
+    } finally {
+      if (isCurrent()) { exporting.current = false; setIsExporting(false) }
+    }
+  }
 
   useEffect(() => {
     // Only fetch if we don't have external data populated yet
     // Or if this is the first load instance.
     // If externalData is provided, we trust it more than DB fetch (which might be stale compared to in-memory edits).
-    if (patientId && !externalData) {
-      loadFormData()
-    }
-  }, [patientId, externalData])
+    if (!patientId || externalData || !currentClinicId || !user?.id || !clinicalRole || isRevalidating) return
+    const controller = new AbortController()
+    const token = publication.current
+    const capturedScope = exportScope
+    const isCurrent = () => !controller.signal.aborted && token.valid
+      && publication.current === token && scopeRef.current === capturedScope
+    loadedFormScope.current = ""
+    setFormData({ ...initialFormData.current, nombre_completo: patientName || "" })
+    void loadFormData(isCurrent, controller.signal)
+    return () => controller.abort()
+  }, [patientId, externalData, exportScope, isRevalidating])
 
-  const loadFormData = async () => {
+  const loadFormData = async (isCurrent: () => boolean, signal: AbortSignal) => {
     try {
       setIsLoading(true)
       const { data, error } = await supabase
         .from('hcu033_forms')
         .select('form_data')
+        .eq('clinic_id', currentClinicId!)
         .eq('patient_id', patientId)
+        .is('deleted_at', null)
         .order('created_at', { ascending: false })
+        .order('id', { ascending: false })
         .limit(1)
+        .abortSignal(signal)
         .maybeSingle()
+
+      if (!isCurrent()) return
+      if (error) throw error
 
       if (data && data.form_data) {
         setFormData((prev: any) => {
+            if (!isCurrent()) return prev
             const merged = { 
               ...prev, 
               ...data.form_data,
@@ -252,16 +309,23 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
             if (!merged.indices_cpo) merged.indices_cpo = prev.indices_cpo;
             if (!merged.indices_ceo) merged.indices_ceo = prev.indices_ceo;
             
-            if (onDataChange) Promise.resolve().then(() => onDataChange(merged))
+            loadedFormScope.current = exportScope
+            if (onDataChange) Promise.resolve().then(() => { if (isCurrent()) onDataChange(merged) })
             return merged;
         })
       } else {
         // If no prior HCU form exists, pre-populate from patients table
-        const { data: pData } = await supabase
+        const { data: pData, error: patientError } = await supabase
           .from('patients')
           .select('*')
+          .eq('clinic_id', currentClinicId!)
           .eq('id', patientId)
+          .is('deleted_at', null)
+          .abortSignal(signal)
           .maybeSingle()
+
+        if (!isCurrent()) return
+        if (patientError) throw patientError
 
         if (pData) {
           const birthDate = pData.birth_date ? new Date(pData.birth_date) : null
@@ -277,6 +341,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
           }
 
           setFormData((prev: any) => {
+            if (!isCurrent()) return prev
             const populated = {
               ...prev,
               nombre_completo: `${pData.first_name || ''} ${pData.last_name || ''}`.trim() || prev.nombre_completo,
@@ -292,49 +357,54 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               ant_diabetes: !!pData.has_diabetes,
               ant_hipertension: !!pData.has_hypertension,
               ant_enf_cardiaca: !!pData.has_heart_disease,
-              ant_asma: !!pData.is_smoker,
+              // Smoking status does not establish an asthma diagnosis.
+              ant_asma: prev.ant_asma,
               ant_otros: pData.allergies ? `Alergias: ${pData.allergies}` : prev.ant_otros
             }
-            if (onDataChange) Promise.resolve().then(() => onDataChange(populated))
+            loadedFormScope.current = exportScope
+            if (onDataChange) Promise.resolve().then(() => { if (isCurrent()) onDataChange(populated) })
             return populated
           })
         }
       }
     } catch (error) {
-      console.error('Error loading form data:', error)
+      if (isCurrent()) console.error('Error loading form data:', error)
     } finally {
-      setIsLoading(false)
+      if (isCurrent()) setIsLoading(false)
     }
   }
 
   const handleSave = async () => {
+    const token = publication.current
+    const capturedScope = exportScope
+    const isCurrent = () => token.valid && publication.current === token && scopeRef.current === capturedScope
+    if (!currentClinicId || !user?.id || !clinicalRole || isRevalidating || !isCurrent() || loadedFormScope.current !== capturedScope) {
+      toast.error("No se puede guardar hasta verificar la ficha de este paciente y tu acceso vigente.")
+      return
+    }
     try {
       setIsLoading(true)
       const { error } = await supabase
         .from('hcu033_forms')
         .insert({
+          clinic_id: currentClinicId,
           patient_id: patientId,
           doctor_id: user?.id,
           form_data: formData,
         })
 
       if (error) throw error
+      if (!isCurrent()) return
 
-      // Sync odontogram data globally to the patient's record (Vista Rápida integration)
-      if (formData.odontograma_data) {
-        await supabase
-          .from('patients')
-          .update({ odontogram_state: formData.odontograma_data })
-          .eq('id', patientId)
-      }
-      
+      // The canonical HCU AFTER trigger updates the patient summary in this
+      // INSERT transaction. A trigger failure rejects and rolls back the HCU;
+      // a second client UPDATE could race a newer HCU and overwrite its summary.
       toast.success("Formulario guardado correctamente")
       onSave?.(formData)
     } catch (error) {
-      console.error('Error saving form:', error)
-      toast.error("Error al guardar el formulario")
+      if (isCurrent()) { console.error('Error saving form:', error); toast.error("Error al guardar el formulario") }
     } finally {
-      setIsLoading(false)
+      if (isCurrent()) setIsLoading(false)
     }
   }
 
@@ -402,9 +472,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         )}
 
         <div className="flex gap-2 w-full md:w-auto md:ml-auto justify-end">
-          <Button variant="outline" size="sm" className="h-9" onClick={() => generateHCU033(formData)}>
+          <Button variant="outline" size="sm" className="h-9" onClick={handleExport} disabled={isExporting || isLoading || isRevalidating || !clinicalRole || !currentClinicId}>
             <Download className="h-4 w-4 mr-2" />
-            <span className="hidden sm:inline">Exportar PDF</span>
+            <span className="hidden sm:inline">Exportar HCU guardada</span>
             <span className="sm:hidden">PDF</span>
           </Button>
           <Button onClick={handleSave} className="h-9">

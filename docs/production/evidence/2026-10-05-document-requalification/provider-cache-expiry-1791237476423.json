@@ -1,0 +1,59 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "scope": "Isolated server broker only",
+  "startedAt": "2026-10-05T21:57:56.201Z",
+  "command": "node scripts/verify-clinia-provider-cache-expiry.cjs phihonofwyerpfgqfekt",
+  "driverSha256": "5f4a456d021f28f3f9e49b3f83c4399be62e881aae38aad18fd63503b9ecc273",
+  "principalId": "378b431f-f043-489c-820b-347901a78d11",
+  "principalTokenSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+  "originalExpiresAt": "2026-10-05T21:57:05.000Z",
+  "warmEvidence": {
+    "filename": "principal-warm-disable-replay-1791235075640.json",
+    "sha256": "dced5fce318262c3805ec86a58987bf1112b27e84d800e8f50123c6bbf187030"
+  },
+  "expected": "Both warmed provider routes deny after natural broker JWT expiry",
+  "requests": [
+    {
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "bodyComplete": true,
+      "startedAt": "2026-10-05T21:57:56.478Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "public, max-age=0",
+        "content-type": "application/pdf",
+        "content-length": "70",
+        "cf-cache-status": "HIT"
+      },
+      "serverDate": "Mon, 05 Oct 2026 21:58:00 GMT",
+      "completedAt": "2026-10-05T21:57:58.434Z"
+    },
+    {
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "bodyComplete": true,
+      "startedAt": "2026-10-05T21:57:58.436Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "public, max-age=0",
+        "content-type": "application/pdf",
+        "content-length": "70",
+        "cf-cache-status": "HIT"
+      },
+      "serverDate": "Mon, 05 Oct 2026 21:58:00 GMT",
+      "completedAt": "2026-10-05T21:57:58.769Z"
+    }
+  ],
+  "limits": [
+    "Needs the server-only isolated bearer and registered object path; no ordinary-user exposure demonstrated",
+    "Same bearer, methods and paths as the October5 warm-disable GET harness; original complete HTTP header capture was not recorded",
+    "A denial alone does not establish expiry causality or prove immediate flag revocation",
+    "No token refresh, nonce, URL replacement, flag mutation or storage mutation"
+  ],
+  "providerDenialsPassed": false,
+  "disposition": "Warmed document remained accessible after natural broker expiry",
+  "completedAt": "2026-10-05T21:57:58.770Z"
+}

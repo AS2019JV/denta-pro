@@ -1,0 +1,1041 @@
+{
+  "state": "VERIFIED_LOCAL_BOUNDED",
+  "startedAt": "2026-10-03T15:03:50.897Z",
+  "project": "clinia-clean-20261002-1",
+  "migration": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+  "migrationSha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+  "expectedSaveBodyMd5": "caae0bd668648dac2b32686b658be02d",
+  "driverSha256": "08c0f430f9b2cffc4b52f5590d5e6648b633e16082445c344cec080a08e7ea1e",
+  "checks": [
+    {
+      "name": "Reviewed RPC and live authority exact bodies; direct ordinary DML closed",
+      "passed": true,
+      "detail": {
+        "sourceAndCatalogMatch": true,
+        "directWritableColumns": 0,
+        "directWritableTables": 0
+      }
+    },
+    {
+      "name": "Twenty-four real doctor/reception insert races return one save and sanitized 23P01",
+      "passed": true,
+      "detail": {
+        "races": 24,
+        "identical": 12,
+        "partiallyOverlapping": 12,
+        "saves": 24,
+        "safeConflicts": 24
+      }
+    },
+    {
+      "name": "Eight conflicting two-row reschedule races preserve the rejected original",
+      "passed": true,
+      "detail": {
+        "races": 8,
+        "saves": 8,
+        "conflicts": 8,
+        "originalLoserPreserved": 8
+      }
+    },
+    {
+      "name": "Doctor and reception cannot bypass the serialized RPC by direct INSERT or UPDATE",
+      "passed": true,
+      "detail": {
+        "directDenials": 4,
+        "insertedRows": 0
+      }
+    },
+    {
+      "name": "Adjacent intervals remain available; invalid transition and cross-clinic requests fail",
+      "passed": true,
+      "detail": {
+        "adjacentSaved": true,
+        "invalidAndForeignDenials": 4
+      }
+    },
+    {
+      "name": "Queued actor revocation is rechecked after lock; another clinic remains independent",
+      "passed": true,
+      "detail": {
+        "observedQueue": true,
+        "revocationCommittedWhileQueued": true,
+        "deniedAfterLock": "42501",
+        "queuedRows": 0,
+        "clinicBCompletedWhileClinicALocked": true
+      }
+    },
+    {
+      "name": "Revoked real Auth session cannot create an appointment with its old JWT",
+      "passed": true,
+      "detail": {
+        "logout": 204,
+        "staleJwtDenial": "42501",
+        "rows": 0
+      }
+    },
+    {
+      "name": "No new PostgreSQL deadlocks or financial changes",
+      "passed": true,
+      "detail": {
+        "before": 0,
+        "after": 0,
+        "financialSnapshotUnchanged": true,
+        "observed40P01": 0
+      }
+    }
+  ],
+  "requests": [
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/appointments",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "PATCH",
+      "path": "/rest/v1/appointments",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/appointments",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "PATCH",
+      "path": "/rest/v1/appointments",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "22023",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 401,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A_revoked",
+      "method": "POST",
+      "path": "/auth/v1/logout",
+      "status": 204,
+      "code": null,
+      "authenticationDiagnostic": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 403,
+      "code": "42501",
+      "authenticationDiagnostic": null
+    }
+  ],
+  "createdIds": [
+    "9daba860-1f3d-4bcc-bb64-568e8a771a4e",
+    "7c1bfa28-4853-4a1a-befe-3187f33fc044",
+    "fca7e20d-9bc7-445b-8a80-e1e349ae8333",
+    "3b6c27ad-8cdf-47ba-b66a-d5a65ca4f264",
+    "3a463387-2079-439a-a454-8637803f4412",
+    "25508e34-a30f-4d45-80a7-d193718d7b98",
+    "f3dcf567-7382-4e5e-89b0-b89c4713bd0c",
+    "f819f4d2-c982-4be9-8fde-944ca0add7ad",
+    "e75bbf04-4ae5-4dd8-8fe0-b182261d9172",
+    "2fa867cc-f1a5-4bb1-a0d9-974f1212a5df",
+    "8d06a99d-7279-47da-9371-29f93efd62d0",
+    "f9504fd3-836f-47c9-a816-7712a7216768",
+    "dc5ea178-5558-4fc8-bad9-79809a7c3d61",
+    "346a49db-9b64-4433-865f-bcc33c9c0ff1",
+    "b4a06fbc-6cf8-4b3e-a501-a4577fda7a94",
+    "0d1ff38f-d8c5-4efd-8be8-28e83d4bfb73",
+    "385285ab-be74-4838-bff0-67e124178e0d",
+    "76e41697-37df-406e-881b-07131d70e97a",
+    "9ce945d7-c593-40bd-8960-a95177c96aca",
+    "bcde6185-c62a-45fe-a440-326ecd982812",
+    "e096c639-4526-47b6-a3d5-2f0a42875c68",
+    "dc3dc962-c63a-46b2-9bc6-4e7f3315fe43",
+    "be5be2d3-5f9b-4a78-bfed-51ced54e6b3c",
+    "02581668-8d9c-4509-b832-dbfaebc8e366",
+    "1a5217af-a6f2-4add-84d7-6927fecf8c52",
+    "9005a3c9-426c-4457-b692-ccae030be567",
+    "8e6f4b1c-8241-49ba-a9db-64ae03655bdc",
+    "1d092964-6397-408a-a4c0-b984e142b823",
+    "ff428ed4-8bd6-4468-a9e8-83dd076b8ac1",
+    "7b6aeb93-78bd-41be-9968-74ea5391732a",
+    "74d28a72-7bc9-465e-88ae-950159d4ee94",
+    "73373bd6-6932-4a1a-a85d-17a8ce8708de",
+    "ae8bcfac-8af2-401b-abd8-3016d0a66dfc",
+    "35ba165c-b001-446b-bede-b93d3f1bd4f7",
+    "27652f7c-cc41-4369-b9e7-a6aa6c1a3e6a",
+    "ccfcb285-d408-45f7-9136-8a7891f71db5",
+    "1ac8405b-80bd-40a6-9e7a-afa83ff193aa",
+    "fec89cb8-e81f-46ba-8803-abf36bb5897d",
+    "2c97055c-cba7-4fed-8022-d0c54633687d",
+    "42e9dc55-f7e0-446a-bb62-0a08e15704be",
+    "11c4380a-a906-44a2-810f-a7b6e8c50438",
+    "05653ae4-404a-4693-b770-b3a454232a20",
+    "60b8ff9c-ecfe-4def-bf92-15e09ac8d49a"
+  ],
+  "limits": [
+    "Synthetic loopback real Auth/PostgREST JWTs; not hosted/browser acceptance",
+    "Bounded scheduling races; not capacity or clinical acceptance",
+    "Appointment evidence is preserved; no rows are deleted"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-clean-20261002-1",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_storage_clinia-clean-20261002-1",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-clean-20261002-1",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56411"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_rest_clinia-clean-20261002-1",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_inbucket_clinia-clean-20261002-1",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56414"
+          }
+        ]
+      }
+    }
+  ],
+  "catalogBefore": {
+    "save": "caae0bd668648dac2b32686b658be02d",
+    "owner": "postgres",
+    "securityDefiner": true,
+    "volatile": "v",
+    "config": [
+      "search_path=\"\""
+    ],
+    "guard": "852e98f6d3e11eb76557f652f10c725d",
+    "require": "e7c822cbffb3195f70088e7e4617a043",
+    "session": "69a325cf0b73743dc5a50b2c6f4a7170",
+    "rls": true,
+    "overlap": 1,
+    "directWritableColumns": 0,
+    "directWritableTables": 0,
+    "deadlocks": 0
+  },
+  "authentication": [
+    {
+      "actor": "doctor_A",
+      "issuedAt": 1791039832,
+      "expiresAt": 1791040732,
+      "observedAt": 1791039832,
+      "issuanceClockWaitMs": 1665
+    },
+    {
+      "actor": "receptionist_A",
+      "issuedAt": 1791039834,
+      "expiresAt": 1791040734,
+      "observedAt": 1791039834,
+      "issuanceClockWaitMs": 1883
+    },
+    {
+      "actor": "owner_B",
+      "issuedAt": 1791039836,
+      "expiresAt": 1791040736,
+      "observedAt": 1791039836,
+      "issuanceClockWaitMs": 1863
+    },
+    {
+      "actor": "doctor_A",
+      "issuedAt": 1791039890,
+      "expiresAt": 1791040790,
+      "observedAt": 1791039890,
+      "issuanceClockWaitMs": 1423
+    }
+  ],
+  "deadlocksAfter": 0,
+  "completedAt": "2026-10-03T15:04:54.023Z"
+}

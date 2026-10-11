@@ -1,0 +1,29 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "requirement": "Delivery must recheck live authority before returning clinical bytes; isolated provider capability containment tracked independently",
+  "appDisable": {
+    "status": "VERIFIED",
+    "evidence": "principal-disabled-1791235022835.json",
+    "actual": "Exact warmed application request returned503 twice with handler denial body; no clinical PDF"
+  },
+  "providerWarmDisable": {
+    "status": "PARTIALLY VERIFIED",
+    "evidence": "principal-warm-disable-replay-1791235075640.json",
+    "expected": "Both warmed GET aliases deny after principal disabled",
+    "actual": "Both returned200 with70-byte synthetic PDF and cf-cache-status HIT"
+  },
+  "exploitPreconditions": [
+    "Possession of server-only isolated principal JWT and registered object path",
+    "Or equivalent disclosure of the authenticated provider request"
+  ],
+  "observedClientExposure": {
+    "status": "VERIFIED",
+    "evidence": "deployed-client-secrets-1791234951130.json",
+    "scope": "24 observed journey scripts; zero exact stored privileged credential matches; no exhaustive disclosure guarantee"
+  },
+  "decision": "No global Storage-revocation pass. Phase2 real mail stays on hold pending Phase1 closure.",
+  "remediationBoundary": "Server gateway provides tested live clinical authorization; provider cached byte revocation is not claimed. Nonce, token renewal, short TTL or headers do not prove containment of the original cached capability.",
+  "nextAction": "Finish original natural-expiry replay and independent authority evidence; retain provider investigation as an explicit unmet defense-in-depth requirement. Disable principal and revoke Preview link at containment."
+}

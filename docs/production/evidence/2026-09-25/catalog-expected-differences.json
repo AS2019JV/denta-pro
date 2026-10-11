@@ -1,0 +1,422 @@
+[
+  {
+    "section": "columns",
+    "identity": "public|appointments|clinic_id",
+    "productionHash": "40d7a1ee39ab3896f3b50dec35791eb0b2e3bfcb3e5c591a84abcc8420e5e201",
+    "stagingHash": "fa86c00a2469981405725d013614bafe15be39dfd0e5371f511b68a5c4f1b4bb",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|billings|clinic_id",
+    "productionHash": "0e94186d5d988a2e69058658351ab204ff4425f77fd864922a2e749baa17e3c5",
+    "stagingHash": "57c58f2554faf5357e3dcf2968325a91540c0d28fd84ea183725f20b6bbadce7",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|data_rights_requests|resolution_notes",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "6aeaf664a9780bb171ef13c26fbecda453c159dc9bd0ba7f1d48849fabb8d29c",
+    "reason": "M7 resolution evidence column; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|hcu033_forms|clinic_id",
+    "productionHash": "f09eb7c1d4ce2a9bb24b41af4425aa34005e231a87f3f1d8c5a465c3a7c4ac19",
+    "stagingHash": "4e064a03b8f5019999aded39445ff1d547efc8cd03cc1db07217c7be9a168d6e",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|invoices|clinic_id",
+    "productionHash": "aaf758c9b54361e8c192cdf03fc4133d7b4d97c1d84d2baa698dda2c8e6c4513",
+    "stagingHash": "1097417c72d857a39e27fe3d73acc9de5e9fa0d96ca54fa0ed256fc3ada064ed",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|patients|clinic_id",
+    "productionHash": "ba924a5fa21eb49c7a7d96588becdfe1841ca60544c863f2559f4fb8b538dd04",
+    "stagingHash": "5a54b8836383e75415327b6d41fb93bfca56abc3beeb36584a5ea43c1fa30c21",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "columns",
+    "identity": "public|prescriptions|clinic_id",
+    "productionHash": "86a25814fc0797e8d507e7ccac750374939df66dccc8aa76764fa2b228e1cb6f",
+    "stagingHash": "fee5d0a30db843d99d2bf4c1ba843ae11eea9ada05d4a24398eeffd72cf731d6",
+    "reason": "M7 mandatory tenant link; preserve"
+  },
+  {
+    "section": "policies",
+    "identity": "public|data_rights_requests|Authenticated users can submit data rights requests",
+    "productionHash": "5519fec7e5521834ecc5d1e39e8bd3ac83c2653da92f9b8f459374b2dd639ed0",
+    "stagingHash": "6da7ba3775fa56f9abe065e9c9b4c57cb22c43d2e33ebac061d7cc81d0b35946",
+    "reason": "M7 rights visibility and pending insert/owner resolution; preserve"
+  },
+  {
+    "section": "policies",
+    "identity": "public|data_rights_requests|Clinic members can view data rights requests",
+    "productionHash": "bfb59eff6993cafdeae24da162c817f62a33a5e6e9d689b7fa066b2aa17a8259",
+    "stagingHash": "e0ff5071ec93097acc5d8899b701b0269730fd797637466e4ce5ecd9ffa6232b",
+    "reason": "M7 rights visibility and pending insert/owner resolution; preserve"
+  },
+  {
+    "section": "policies",
+    "identity": "public|data_rights_requests|Clinic owners can update data rights requests",
+    "productionHash": "b28ce536f6a0bf129f8a2ec22ff3aac4c19ea2ebe3cec44a64ed582d36b5360f",
+    "stagingHash": "3caac8fade966c7a4967aa718030d95ec156448bd67836b221c11cc12cc50ac5",
+    "reason": "M7 rights visibility and pending insert/owner resolution; preserve"
+  },
+  {
+    "section": "functions",
+    "identity": "guard_data_rights_request_insert|",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "c4998c05c4c780c0bb0b92b76e084591a442d64fd955b3a113c2fc4f658137c4",
+    "reason": "M7 pending-only rights requests, immutable resolution and fail-closed purge; preserve"
+  },
+  {
+    "section": "functions",
+    "identity": "protect_data_rights_requests|",
+    "productionHash": "3db01383206d51376a59a7b3da0eda3df9bbbaa960739a8c8282fad035291386",
+    "stagingHash": "ef0f92eee27a337ed422090a0d266b9ed6caf2d0f6810630923ec1eeb902715e",
+    "reason": "M7 pending-only rights requests, immutable resolution and fail-closed purge; preserve"
+  },
+  {
+    "section": "functions",
+    "identity": "purge_clinic_data|target_clinic_id uuid",
+    "productionHash": "69da958cf38695e57669eef18b33d05aa4e4e71f070fa06abdde2cf05d1799b9",
+    "stagingHash": "7a45bb57eb583b74482a97c861ff45c2e1eea9a91c78131f99cd84ba220c7d21",
+    "reason": "M7 pending-only rights requests, immutable resolution and fail-closed purge; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "appointments|appointments_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "e3f978e30e975f40cdfedf45055e26238a735f7569a5b63fae68684494a0188f",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "appointments|appointments_patient_id_fkey",
+    "productionHash": "59c9b8e4cc5e6ce214e841c53b6086082677e5699c82bce2d713e03a776e5358",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "billings|billings_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "83c7c68215d126f2df6a28c6bc6162754c1ecb843d24da3e6dcf39276e08958a",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "billings|billings_patient_id_fkey",
+    "productionHash": "4e5f768272cd420107729823b97b9749a183470049a90e4f764637616c93289d",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "clinical_records|clinical_records_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "4c28f45d5c09bec8ee1bbd3fd3deff669da06fdbc59cfa1397fb6f7c94c86ee0",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "clinical_records|clinical_records_patient_id_fkey",
+    "productionHash": "dd55fd5cfdd14911a7fe32c396e8512538425f429320feae80a5c09bbadac0a6",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "data_rights_requests|data_rights_requests_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "0f97515ea59b8e4a6c3aacf6317657137b4ef1b44bd04eeeab59c09a3b2e8736",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "data_rights_requests|data_rights_requests_patient_id_fkey",
+    "productionHash": "41bf0f5aa9b3e8d66339630f815ed504095682e392e46f961d57a564ff207437",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "hcu033_forms|hcu033_forms_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "a7b35b9f357418b707c6036c7b6076abf19e6032b3c8001a456ea239d5cc8425",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "hcu033_forms|hcu033_forms_patient_id_fkey",
+    "productionHash": "fbe4f6fa8a7e424516f26e105bf100623f98745a16f157e64b78eefe8276f30d",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "invoices|invoices_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "5924a63e6fb2e5435c7acb6b59b96d5e97704c73ca4ffa79dcc38a9f38497193",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "invoices|invoices_patient_id_fkey",
+    "productionHash": "332ba71a8b28e7590200b216c994499dcc5af8dc3e370b769eba5119294a9b65",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patient_files|patient_files_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "c75e8fe59161f85fa35bb49f5afb5dc53fc3534a150bf4c6487dca6b11b8e194",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patient_files|patient_files_patient_id_fkey",
+    "productionHash": "fb9c6ef3c26ea374efaf9a2e48e7a189236a350d18d512e5b51996755b007ef5",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patient_notes|patient_notes_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "216b4c0b1f9d75ad4040c017dd64080b2490818fd4cf0e6e43d545ed97815f7c",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patient_notes|patient_notes_patient_id_fkey",
+    "productionHash": "ba19dd9c381f21a90f9c2cf0845e9a039179f11d28877b7cbdbba1fc76bd151d",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patients|patients_family_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "2ca3671ea4a0e20f66908ca1f2c980497a344a7bdc73e21cb5bb2e8008175fc3",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "patients|patients_id_clinic_id_key",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "082aa58d454d67401a87ad3a456c6304032cbcb7ac0bbca7d64c467ef4dd870b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "prescriptions|prescriptions_patient_clinic_fkey",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "d926ab519c342fe3f437068eb0de5aa7e9f9b7f61499c4023ef7118b374599a3",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "constraints",
+    "identity": "prescriptions|prescriptions_patient_id_fkey",
+    "productionHash": "b2227269a9f2e9f029870a9a558f9479803d59c790c98bc0c4876a8819878eb2",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 composite patient and clinic integrity replaces simple patient foreign keys; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|appointments|trg_enforce_clinician_assignment",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "da8d0c976e7a59c92ee6e363b0d4a858047ce8156cf342ecef5cfe8f2fa466a2",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|clinical_records|trg_enforce_clinician_assignment",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "f97be8a61a21709cf2df72dbf234fb557d8e9b10b23e0d1046d47a37416fb1ff",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|data_rights_requests|trg_audit_data_rights_status",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "9d5794f0e9deab6b00bdd717b325c4c7b874fd4933dca58e91e563a80346298e",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|data_rights_requests|trg_guard_data_rights_request_insert",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "45afd41029c966054d148f99236962bb66e9f3376c79e3ab57506ba3e9003a02",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|hcu033_forms|trg_enforce_clinician_assignment",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "12fe2e7309fe8e33e3b8761dddf07acdb10a5c3241530a0a2f85cf536d5fd3d2",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "triggers",
+    "identity": "public|prescriptions|trg_enforce_clinician_assignment",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "60cf975457b73effac9bef4adfd9b4dff9d5b82af05a7aa6961f64a9a38a4ffc",
+    "reason": "M7 clinician assignment and single rights audit trigger; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "appointments|idx_appointments_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "5b7d72e9d96201983e3dc6b026e67533693bf2626c80c91ba389d0b4adcc5936",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "appointments|idx_appointments_clinic_start",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "10df5b46e7a92b81f598acb786e42ae7342663b44bc2da6a4c7f719cad0d749d",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "appointments|idx_appointments_conflict",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "2556cb3dbf78d4c9142c96a41e5342d325e8121915522600527d43c209ca89e9",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "appointments|idx_appointments_patient_doctor",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "5a81ad9f8dc4f5e3613232c636cea0335e188ed5f6f21f1ce1c9dcf2f6186c3d",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "billings|idx_billings_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "3780137f218017d6618e65b5712d335b0beabef23861e4c19d2fca4b8020e09c",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "clinical_records|idx_clinical_records_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "99669121661f2fc0949ccd87b7ef89c6a52eaf9b11b41db4c9f00b2e8c4e0a6b",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "data_rights_requests|idx_data_rights_requests_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "9943ee770bfa94b72de525fd0816c6c0f94df6419496400ca49defb600618731",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "hcu033_forms|idx_hcu033_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "a49c6606addbbfbde49cba00179356f0dd9df7a5ca3a8eb964b6170228415e08",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "invoices|idx_invoices_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "a2bffb987b3f1626113d7c8d277fd89b3e57b7281bd8e2b2858ce5b52498b38f",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "patient_files|idx_patient_files_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "b33d9707f09293d4a20f31eb93c2ef3cbd6b593b7beab03f0a68f25a6351df8a",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "patient_notes|idx_patient_notes_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "baab1339c710100754a144f055895b07a2d5537636f4a44ca6adfacc2ec7bfcc",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "patients|idx_patients_clinic_cedula",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "6fd45ceb462155324c7690e4afcb8d9af900b2c36b5e6991100e16163127a91e",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "patients|patients_id_clinic_id_key",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "212b6dc925b05ce01c2579544d0e53cf765ed5d4b701c7eb7c54cf41af5343e7",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "prescriptions|idx_prescriptions_clinic_created",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "5b0bf0690037871d122f93565bae34af99c1376a90484eddf04e60082bf612c1",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "indexes",
+    "identity": "prescriptions|idx_prescriptions_clinic_patient",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "b03ee5f79d1fc0a94cb2cba0246f0a9eb4c627c287eeba580c844f531ef82a31",
+    "reason": "M7 and compound tenant index migration; preserve"
+  },
+  {
+    "section": "privateFunctions",
+    "identity": "logs|log_access_trigger|",
+    "productionHash": "13548f1fec177577c12c5e921210dc9661185a72bd873c4bc5391225b42f787c",
+    "stagingHash": "1469007d8e5f9cf9ade3f295a65778b45d5f0fedeaf19689466ffcd25a5e161e",
+    "reason": "M7 private clinician/rights audit and restricted audit function; preserve"
+  },
+  {
+    "section": "privateFunctions",
+    "identity": "security_internal|audit_data_rights_status|",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "b83eb3b1e055acb09a5f4d21f4ea1bff208fb57e6d1e36e05af9981025826049",
+    "reason": "M7 private clinician/rights audit and restricted audit function; preserve"
+  },
+  {
+    "section": "privateFunctions",
+    "identity": "security_internal|enforce_clinician_assignment|",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "77752d2fa1aee9ee302e42c4d30484c65160b005fe48a752d0ecb21d7fdbcb3b",
+    "reason": "M7 private clinician/rights audit and restricted audit function; preserve"
+  },
+  {
+    "section": "schemas",
+    "identity": "security_internal",
+    "productionHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "stagingHash": "9450c08b47b5728f0a191877b2cada34f16687fec98b292e7b8a513dd1393155",
+    "reason": "M7 internal schema boundary; preserve"
+  },
+  {
+    "section": "customSchema.grants",
+    "identity": "logs|access_audit|authenticated|INSERT",
+    "productionHash": "6078757483aec9ce342d8a4e092161e135bd95229cf2c5cb833a1cdd6b2df231",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 forbids direct client audit access; preserve"
+  },
+  {
+    "section": "customSchema.grants",
+    "identity": "logs|access_audit|authenticated|SELECT",
+    "productionHash": "07a21c595141c79ed5a247d2fe29d83d3b178487b1a17fb58750206c7ba29c44",
+    "stagingHash": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b",
+    "reason": "M7 forbids direct client audit access; preserve"
+  }
+]

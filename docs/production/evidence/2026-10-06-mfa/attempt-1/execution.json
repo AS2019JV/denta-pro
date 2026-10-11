@@ -1,0 +1,43 @@
+{
+  "status": "NOT VERIFIED",
+  "command": "node scripts/verify-clinia-mfa-sql.cjs 1",
+  "project": "clinia-clean-20261002-1",
+  "startedAt": "2026-10-07T04:54:53.846Z",
+  "driverSha256": "a466e4112b250420282b213a05a7ddc745c4038a45a0611040ecf0f311818344",
+  "migrations": [
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+      "bodySha256": "b5a9197a0ded15865c4aa3c7d97bb445b8d9975587ef27b8e3e578d2aee9551c"
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f",
+      "bodySha256": "27465de0ac907786cd007a6a92a56cdfd3145d4da8ea97c55e60cb8f5ff478e4"
+    },
+    {
+      "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728",
+      "bodySha256": "e0d16fb398b0d322cb37ca158cd9295ded54bbafe8393e6f4fb1452f4303becd"
+    },
+    {
+      "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d",
+      "bodySha256": "b54cd562da7cda8d57d258c03c07c0ae64e9ba71f5fc89f48fec46a5bafb66cc"
+    },
+    {
+      "file": "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+      "sha256": "ae40e099aa921a58611cb333e096fd75c90d61452d3e6be88441fe50a8cddce4",
+      "bodySha256": "32265e208fa5dd747c386ebf84496d2746afc9fc251e00160158ab35a2bf67ee"
+    }
+  ],
+  "checks": [],
+  "limits": [
+    "Synthetic SQL claims only; cryptographic ordinary Auth JWT/TOTP HTTP flow and deployed browser remain unverified",
+    "Entire prospective chain, factors, identities and clinical changes roll back",
+    "No occupied production or hosted database connection"
+  ],
+  "failure": "Expected values to be strictly equal:\n+ actual - expected\n\n+ 'starting'\n- 'healthy'\n",
+  "finalState": "exited",
+  "completedAt": "2026-10-07T04:55:40.674Z"
+}

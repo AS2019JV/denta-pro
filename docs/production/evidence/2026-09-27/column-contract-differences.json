@@ -1,0 +1,718 @@
+{
+  "evidenceKind": "metadata comparison; covers exact types and attributes absent from older catalog; NOT a dump",
+  "productionCapturedAt": "2026-09-27T03:12:04.196217+00:00",
+  "stagingCapturedAt": "2026-09-27T03:11:44.553099+00:00",
+  "differences": [
+    {
+      "identity": "public.appointments.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.billings.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.clinics.size",
+      "changed": [
+        "type"
+      ],
+      "production": {
+        "type": "character varying(50)"
+      },
+      "staging": {
+        "type": "character varying"
+      }
+    },
+    {
+      "identity": "public.dashboard_stats_view.clinic_id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "dashboard_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 1,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.dashboard_stats_view.month",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "month",
+        "type": "timestamp with time zone",
+        "table": "dashboard_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 2,
+        "typeName": "timestamptz",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.dashboard_stats_view.total_billings",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "total_billings",
+        "type": "bigint",
+        "table": "dashboard_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 3,
+        "typeName": "int8",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.dashboard_stats_view.total_revenue",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "total_revenue",
+        "type": "numeric",
+        "table": "dashboard_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "m",
+        "identity": "",
+        "position": 4,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.dashboard_stats_view.unique_patients_billed",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "unique_patients_billed",
+        "type": "bigint",
+        "table": "dashboard_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 5,
+        "typeName": "int8",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.hcu033_forms.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.invoices.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.patient_stats_view.patient_id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "patient_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 1,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.patient_stats_view.clinic_id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "patient_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 2,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.patient_stats_view.appointment_count",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "appointment_count",
+        "type": "bigint",
+        "table": "patient_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 3,
+        "typeName": "int8",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.patient_stats_view.total_billed",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "total_billed",
+        "type": "numeric",
+        "table": "patient_stats_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "m",
+        "identity": "",
+        "position": 4,
+        "typeName": "numeric",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.patients.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.payments.amount",
+      "changed": [
+        "type"
+      ],
+      "production": {
+        "type": "numeric(10,2)"
+      },
+      "staging": {
+        "type": "numeric"
+      }
+    },
+    {
+      "identity": "public.prescriptions.clinic_id",
+      "changed": [
+        "notNull"
+      ],
+      "production": {
+        "notNull": false
+      },
+      "staging": {
+        "notNull": true
+      }
+    },
+    {
+      "identity": "public.profiles.full_name",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.avatar_url",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.phone",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.address",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.specialization",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.license_number",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.bio",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.profiles.updated_at",
+      "changed": [
+        "acl"
+      ],
+      "production": {
+        "acl": "{authenticated=w/postgres}"
+      },
+      "staging": {
+        "acl": null
+      }
+    },
+    {
+      "identity": "public.recall_queue.id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 1,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.clinic_id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 2,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.first_name",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "first_name",
+        "type": "text",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 3,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.last_name",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "last_name",
+        "type": "text",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 4,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.phone",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "phone",
+        "type": "text",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 5,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.email",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 6,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.medical_alerts",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "medical_alerts",
+        "type": "text",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 7,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.recall_queue.created_at",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "recall_queue",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 8,
+        "typeName": "timestamptz",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.receptionist_patient_view.patient_id",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "receptionist_patient_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 1,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.receptionist_patient_view.last_visit_date",
+      "kind": "missing-stage",
+      "production": {
+        "acl": null,
+        "name": "last_visit_date",
+        "type": "timestamp with time zone",
+        "table": "receptionist_patient_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 7,
+        "typeName": "timestamptz",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      },
+      "staging": null
+    },
+    {
+      "identity": "public.services.price",
+      "changed": [
+        "type"
+      ],
+      "production": {
+        "type": "numeric(10,2)"
+      },
+      "staging": {
+        "type": "numeric"
+      }
+    },
+    {
+      "identity": "public.data_rights_requests.resolution_notes",
+      "kind": "only-stage",
+      "production": null,
+      "staging": {
+        "acl": null,
+        "name": "resolution_notes",
+        "type": "text",
+        "table": "data_rights_requests",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 16,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    },
+    {
+      "identity": "public.receptionist_patient_view.id",
+      "kind": "only-stage",
+      "production": null,
+      "staging": {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "receptionist_patient_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 1,
+        "typeName": "uuid",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    },
+    {
+      "identity": "public.receptionist_patient_view.cedula",
+      "kind": "only-stage",
+      "production": null,
+      "staging": {
+        "acl": null,
+        "name": "cedula",
+        "type": "text",
+        "table": "receptionist_patient_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "x",
+        "identity": "",
+        "position": 5,
+        "typeName": "text",
+        "collation": "\"default\"",
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    },
+    {
+      "identity": "public.receptionist_patient_view.created_at",
+      "kind": "only-stage",
+      "production": null,
+      "staging": {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "receptionist_patient_view",
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "storage": "p",
+        "identity": "",
+        "position": 8,
+        "typeName": "timestamptz",
+        "collation": null,
+        "generated": "",
+        "typeSchema": "pg_catalog",
+        "compression": ""
+      }
+    }
+  ]
+}
+

@@ -1,0 +1,8 @@
+{
+  "environment": "isolated candidate-20261002-final; synthetic offline provider endpoints; network guard",
+  "log": "verification.log",
+  "finishedAt": "2026-10-02T17:53:22.0777711Z",
+  "startedAt": "2026-10-02T17:49:11.4704573Z",
+  "command": "node scripts/clinia-verify.cjs all",
+  "exitCode": 0
+}

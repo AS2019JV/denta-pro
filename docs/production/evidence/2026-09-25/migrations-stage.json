@@ -1,0 +1,48 @@
+{
+  "migrations": [
+    {
+      "version": "20260925174020",
+      "name": "test_connection"
+    },
+    {
+      "version": "20260925174502",
+      "name": "01_extensions_and_enums"
+    },
+    {
+      "version": "20260925174617",
+      "name": "02_group_a_tables"
+    },
+    {
+      "version": "20260925174634",
+      "name": "03_group_b_tables"
+    },
+    {
+      "version": "20260925174650",
+      "name": "04_group_c_tables"
+    },
+    {
+      "version": "20260925174728",
+      "name": "05_group_d_tables"
+    },
+    {
+      "version": "20260925174804",
+      "name": "06_baseline_foreign_keys"
+    },
+    {
+      "version": "20260925174830",
+      "name": "07_baseline_functions_and_views"
+    },
+    {
+      "version": "20260925174957",
+      "name": "08_check_subscription_active"
+    },
+    {
+      "version": "20260925175333",
+      "name": "20260922194927_enforce_clinical_tenant_links_and_rights_audit"
+    },
+    {
+      "version": "20260925175401",
+      "name": "20260925000000_compound_multi_tenant_indexes"
+    }
+  ]
+}

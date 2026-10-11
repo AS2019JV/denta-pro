@@ -1,0 +1,219 @@
+{
+  "startedAt": "2026-10-02T18:07:25.721Z",
+  "status": "VERIFIED",
+  "mode": "after",
+  "database": "clinia_upgrade_linked_20261002_2",
+  "environment": "Isolated existing synthetic captured-linked-v2 candidate; direct Auth and PostgREST HTTP",
+  "checks": [
+    {
+      "name": "Active real Auth session control",
+      "expected": "own clinic success",
+      "observed": {
+        "role": "clinic_owner",
+        "clinicalRows": 1,
+        "ownProfileRows": 1
+      }
+    },
+    {
+      "name": "Original JWT after real Auth ban",
+      "expected": "role null, zero clinical/profile rows",
+      "observed": {
+        "role": null,
+        "clinicalRows": 0,
+        "ownProfileRows": 0
+      }
+    },
+    {
+      "name": "Unbanned new real Auth session control",
+      "expected": "own clinic success",
+      "observed": {
+        "role": "clinic_owner",
+        "clinicalRows": 1,
+        "ownProfileRows": 1
+      }
+    },
+    {
+      "name": "Original JWT after real Auth global logout",
+      "expected": "role null, zero clinical/profile rows",
+      "observed": {
+        "role": null,
+        "clinicalRows": 0,
+        "ownProfileRows": 0
+      }
+    }
+  ],
+  "requests": [
+    {
+      "service": "auth",
+      "path": "/token",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/profiles",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "path": "/admin/users/c2c41dd8-46f8-4142-9f54-1df8408c7910",
+      "method": "PUT",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/profiles",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "path": "/admin/users/c2c41dd8-46f8-4142-9f54-1df8408c7910",
+      "method": "PUT",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "path": "/token",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/profiles",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "path": "/logout",
+      "method": "POST",
+      "status": 204
+    },
+    {
+      "service": "rest",
+      "path": "/rpc/get_clinic_member_role",
+      "method": "POST",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/patients",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "rest",
+      "path": "/profiles",
+      "method": "GET",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "path": "/admin/users/c2c41dd8-46f8-4142-9f54-1df8408c7910",
+      "method": "PUT",
+      "status": 200
+    }
+  ],
+  "limits": [
+    "Not cloud or deployed browser evidence",
+    "Synthetic owner_B, no real patient data or email"
+  ],
+  "actor": {
+    "label": "owner_B",
+    "id": "c2c41dd8-46f8-4142-9f54-1df8408c7910",
+    "clinicId": "36a3e2c1-86b3-4d1c-adc1-5bb137c55ff9"
+  },
+  "runtime": [
+    {
+      "name": "/clinia-captured-linked-20261002-2-auth",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "9999/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56371"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-2-rest",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56372"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-2-storage",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56373"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "clinia-captured-linked-20261002-2-bytes",
+          "target": "/mnt"
+        }
+      ]
+    }
+  ],
+  "services": "STOPPED_VOLUMES_PRESERVED",
+  "completedAt": "2026-10-02T18:07:39.539Z"
+}

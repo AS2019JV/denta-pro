@@ -1,0 +1,159 @@
+TAP version 13
+# Subtest: origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+ok 1 - origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+  ---
+  duration_ms: 12.3444
+  type: 'test'
+  ...
+# Subtest: origin config rejects missing region, publishable/secret/service keys and wrong project
+ok 2 - origin config rejects missing region, publishable/secret/service keys and wrong project
+  ---
+  duration_ms: 2.1467
+  type: 'test'
+  ...
+# Subtest: actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+ok 3 - actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+  ---
+  duration_ms: 115.8658
+  type: 'test'
+  ...
+# Subtest: adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+ok 4 - adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+  ---
+  duration_ms: 44.7598
+  type: 'test'
+  ...
+# Subtest: invalid status, body and declared length fail closed and release the client
+ok 5 - invalid status, body and declared length fail closed and release the client
+  ---
+  duration_ms: 64.7383
+  type: 'test'
+  ...
+# Subtest: actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+not ok 6 - actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+  ---
+  duration_ms: 7.753
+  type: 'test'
+  location: 'C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\test\\production\\storage-origin.test.cjs:118:1'
+  failureType: 'testCodeFailure'
+  error: 'Missing expected rejection (safeError).'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  stack: |-
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:122:5)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: exact maximum bytes succeed and cleanup does not depend on a close event
+not ok 7 - exact maximum bytes succeed and cleanup does not depend on a close event
+  ---
+  duration_ms: 23.7659
+  type: 'test'
+  location: 'C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\test\\production\\storage-origin.test.cjs:127:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:132:24)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: SDK and stream errors are generic and release transport resources
+not ok 8 - SDK and stream errors are generic and release transport resources
+  ---
+  duration_ms: 18.5131
+  type: 'test'
+  location: 'C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\test\\production\\storage-origin.test.cjs:136:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    The input did not match the regular expression /^Storage (transport|bytes|request) (denied|canceled)$/. Input:
+    
+    'raw-provider-detail https://abcdefghijklmnopqrst.supabase.co header.eyJyb2xlIjoiY2xpbmlhX2RvY3VtZW50X2RlbGl2ZXJ5Iiwic3ViIjoic3ludGhldGljLXByaW5jaXBhbCJ9.signature 11111111-1111-4111-8111-111111111111/22222222-2222-4222-8222-222222222222/synthetic.pdf'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+  actual: 'raw-provider-detail https://abcdefghijklmnopqrst.supabase.co header.eyJyb2xlIjoiY2xpbmlhX2RvY3VtZW50X2RlbGl2ZXJ5Iiwic3ViIjoic3ludGhldGljLXByaW5jaXBhbCJ9.signature 11111111-1111-4111-8111-111111111111/22222222-2222-4222-8222-222222222222/synthetic.pdf'
+  operator: 'match'
+  stack: |-
+    Object.safeError (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:59:10)
+    expectedException (node:assert:576:17)
+    expectsError (node:assert:701:21)
+    Function.rejects (node:assert:767:3)
+    process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    async TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:142:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: caller cancellation destroys source even without close, and detaches its abort listener
+not ok 9 - caller cancellation destroys source even without close, and detaches its abort listener
+  ---
+  duration_ms: 11.5391
+  type: 'test'
+  location: 'C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\test\\production\\storage-origin.test.cjs:146:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    
+    0 !== 1
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 1
+  actual: 0
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:151:46)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: request abort before SDK, during send and during reading cannot leak bytes or retain resources
+not ok 10 - request abort before SDK, during send and during reading cannot leak bytes or retain resources
+  ---
+  duration_ms: 19.7196
+  type: 'test'
+  location: 'C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\test\\production\\storage-origin.test.cjs:155:1'
+  failureType: 'uncaughtException'
+  error: |-
+    Unhandled error. (Error: Storage request canceled
+        at cancel (evalmachine.<anonymous>:28:43)
+        at Object.downloadStorageOrigin (evalmachine.<anonymous>:33:13)
+        at async C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:160:55
+        at async waitForActual (node:assert:644:5)
+        at async Function.rejects (node:assert:767:25)
+        at async TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:160:3)
+        at async Test.run (node:internal/test_runner/test:1054:7)
+        at async Test.processPendingSubtests (node:internal/test_runner/test:744:7))
+  code: 'ERR_UNHANDLED_ERROR'
+  stack: |-
+    cancel (evalmachine.<anonymous>:28:43)
+    Object.downloadStorageOrigin (evalmachine.<anonymous>:33:13)
+    async C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:160:55
+    async waitForActual (node:assert:644:5)
+    async Function.rejects (node:assert:767:25)
+    async TestContext.<anonymous> (C:\Users\aleja\Documents\0-dev\denta-pro\test\production\storage-origin.test.cjs:160:3)
+    async Test.run (node:internal/test_runner/test:1054:7)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7))
+    Readable.emit (node:events:508:17)
+    emitErrorNT (node:internal/streams/destroy:170:8)
+    emitErrorCloseNT (node:internal/streams/destroy:129:3)
+    process.processTicksAndRejections (node:internal/process/task_queues:90:21)
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 5
+# fail 5
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1007.124

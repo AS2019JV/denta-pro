@@ -1,0 +1,30 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T13:52:59.409Z",
+  "mode": "inspect",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    }
+  ],
+  "checks": [
+    {
+      "name": "Exact staging server credential accepted by privileged official Storage API",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Server key authority verified against exact staging provider; no deployed environment/configuration claim",
+    "Bucket API configuration alone does not prove ordinary JWT Storage authorization"
+  ],
+  "buckets": [],
+  "completedAt": "2026-10-03T13:53:02.014Z"
+}

@@ -1,0 +1,18 @@
+{
+  "project": "phihonofwyerpfgqfekt",
+  "fixtures": {
+    "clinicA": "d9a47157-1d36-43df-af1d-436d561ee551",
+    "clinicB": "e9369b5f-8a98-4bc7-a48a-5683930361af",
+    "patientA": "b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14",
+    "patientA2": "0b524dc4-9edd-484e-821a-635f0a9f3d69",
+    "patientB": "421114c9-80e5-4533-9cfa-55966d90b162"
+  },
+  "actorIds": {
+    "owner_A": "baef66ba-f8d8-4943-af16-26bb429f9fe0",
+    "doctor_A": "272d63b1-38e3-4a60-89a2-dd07f031b2d2",
+    "receptionist_A": "1dcb64e5-1c7d-4991-8b17-68ddbdfd5306",
+    "owner_B": "ee0cb878-2aaa-4265-a9b0-6d03d3659b1c",
+    "removed_A": "2f0b0f71-b3e0-456d-ab03-d580dbd9d335",
+    "auth_revoked_A": "e7ffc2ba-6c50-41ab-9508-f4bb19126bbc"
+  }
+}

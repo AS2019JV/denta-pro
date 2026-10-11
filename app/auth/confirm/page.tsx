@@ -1,15 +1,18 @@
 'use client'
 
-import { useEffect, useState, Suspense } from 'react'
+import { useEffect, useState, useRef, Suspense } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { createBrowserClient } from '@supabase/ssr'
 import { Loader2, CheckCircle2, XCircle, ArrowRight } from 'lucide-react'
+import { safeAuthRedirect } from '@/lib/auth-redirect'
+import { completeVerifiedEnrollment } from '@/app/actions/complete-verified-enrollment'
 
 function ConfirmContent() {
   const router = useRouter()
   const searchParams = useSearchParams()
   const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading')
   const [message, setMessage] = useState('Verificando tu identidad...')
+  const verificationStarted = useRef(false)
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -17,10 +20,12 @@ function ConfirmContent() {
   )
 
   useEffect(() => {
+    if (verificationStarted.current) return
+    verificationStarted.current = true
     const verify = async () => {
       const token_hash = searchParams.get('token_hash')
       const type = searchParams.get('type')
-      const next = searchParams.get('next') ?? '/dashboard'
+      const next = safeAuthRedirect(searchParams.get('next'))
 
       // Clear URL parameters immediately for security and aesthetics
       if (typeof window !== 'undefined' && (token_hash || type)) {
@@ -32,7 +37,7 @@ function ConfirmContent() {
       if (!token_hash || !type) {
         // If no token but we are already logged in, just redirect
         const { data: { user } } = await supabase.auth.getUser()
-        if (user) {
+        if (user?.email_confirmed_at && (await completeVerifiedEnrollment()).success) {
           setStatus('success')
           router.push(next)
           return
@@ -53,7 +58,7 @@ function ConfirmContent() {
           
           // Check if user is already confirmed (common if scanner clicked first)
           const { data: { user } } = await supabase.auth.getUser()
-          if (user?.email_confirmed_at) {
+          if (user?.email_confirmed_at && (await completeVerifiedEnrollment(type, token_hash)).success) {
             setStatus('success')
             setMessage('Tu cuenta ya está activa. Entrando...')
             setTimeout(() => router.push(next), 1500)
@@ -65,6 +70,11 @@ function ConfirmContent() {
             ? 'El enlace ha caducado. Por favor, solicita uno nuevo desde el inicio de sesión.' 
             : 'No pudimos verificar tu cuenta: ' + error.message)
         } else {
+          if (!(await completeVerifiedEnrollment(type, token_hash)).success) {
+            setStatus('error')
+            setMessage('Tu correo fue confirmado, pero no se pudo completar el acceso a la clínica. Reabre el enlace para revisar la solicitud; si persiste, contacta al soporte.')
+            return
+          }
           setStatus('success')
           setMessage('¡Confirmación exitosa! Configurando tu espacio de trabajo...')
           setTimeout(() => {
@@ -173,4 +183,3 @@ export default function AuthConfirmPage() {
     </Suspense>
   )
 }
-

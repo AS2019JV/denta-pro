@@ -1,0 +1,2581 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "executed": true,
+  "project": "phihonofwyerpfgqfekt",
+  "mode": "replay",
+  "startedAt": "2026-10-06T21:54:06.953Z",
+  "driverSha256": "2c1f2bd111cdec5cde97444321e9cc30b0cb56607bd0d820931f773191f1eb89",
+  "captures": [
+    {
+      "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+      "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+    },
+    {
+      "filename": "tools/local-supabase/supabase/.temp/step1-document-3.principal.private.json",
+      "sha256": "d5f1b9371902417bc1df7ab3c7d9987c8179f813fd77d8893ccd21e793bf6f40"
+    },
+    {
+      "filename": "tools/local-supabase/supabase/.temp/step1-document-1.principal.private.json",
+      "sha256": "9d6aa499da606211442e3decdb6c97f47f872cab8cf3e432faec1c99809326e5"
+    },
+    {
+      "filename": "tools/local-supabase/supabase/.temp/step1-document-2.principal.private.json",
+      "sha256": "2100604bf6c7f8f4a8a47e7fbe37381a695dc04835d1ca4b7fce38993feb392b"
+    },
+    {
+      "filename": "tools/local-supabase/supabase/.temp/clinia-nostore-1.private.json",
+      "sha256": "248577463971482fe33d3bc8d9625930f74fd2f788e9d6adb8f9b3ef1609c45c"
+    }
+  ],
+  "requests": [
+    {
+      "requestSha256": "e8b1a1167af0a9ae110a2869f606596b9de5ee4aae4248d7d172717d1b6ec707",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "expired",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071852387.json",
+          "sha256": "deb4f140d393634a5e1393ac080b9fba00b3a60f6de4b93f798828cfbc34628a",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071918505.json",
+          "sha256": "cb781fdd7be241fdb7225d5655840abcfc0d3db8463dcf9b740d09383b159f21",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791072036189.json",
+          "sha256": "4760dc2648cede5d1caf73c200de54fd224647664db95d0fd813a78828ad2c76",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791151806582.json",
+          "sha256": "978f342c8ee5168228ea4e8db27426d5c9e949d1269982abfe2fe582db036aba",
+          "requestIndex": 1,
+          "historicalStatus": 400,
+          "historicalBodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca"
+        }
+      ]
+    },
+    {
+      "requestSha256": "e9a93344aa501442da2fc802d06dfe88cdb0fe2dd66977b8f8494e65af9d7998",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "expired",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071852387.json",
+          "sha256": "deb4f140d393634a5e1393ac080b9fba00b3a60f6de4b93f798828cfbc34628a",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071918505.json",
+          "sha256": "cb781fdd7be241fdb7225d5655840abcfc0d3db8463dcf9b740d09383b159f21",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791072036189.json",
+          "sha256": "4760dc2648cede5d1caf73c200de54fd224647664db95d0fd813a78828ad2c76",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791151806582.json",
+          "sha256": "978f342c8ee5168228ea4e8db27426d5c9e949d1269982abfe2fe582db036aba",
+          "requestIndex": 2,
+          "historicalStatus": 400,
+          "historicalBodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4"
+        }
+      ]
+    },
+    {
+      "requestSha256": "f05411466ee210c9315e21b9de6945d42608e058a6162424cb084d44566e3760",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "actor": "owner_A",
+      "expiresAt": "2026-10-03T23:35:03.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-2.json",
+          "sha256": "0098fd7774dee1f0cf93b7b2eb30dadb70c7f4222f85d938046de7e3104936f1",
+          "requestIndex": 31,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "5105eb0ee01dc47d5e703387cdf63aab374225c4a17496accc827245bee0ab8e",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-2.json",
+          "sha256": "0098fd7774dee1f0cf93b7b2eb30dadb70c7f4222f85d938046de7e3104936f1",
+          "requestIndex": 34,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "d2065765dc0ea2a44ba213dafc1acdad1e2e902f5a9ecee7f48c204643136d52",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "actor": "owner_B",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-2.json",
+          "sha256": "0098fd7774dee1f0cf93b7b2eb30dadb70c7f4222f85d938046de7e3104936f1",
+          "requestIndex": 37,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "6d74f596df671e13d17e5c621d77fcb7a4ef8b687cbfbc83884607505556f3c0",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "actor": "owner_A",
+      "expiresAt": "2026-10-03T23:35:03.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 31,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "bf63a516cc5433f0ef085748f2bcad866325e9cc8ad0d0c157be85a0de2d49a2",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 34,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 140,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/prove-demoted.json",
+          "sha256": "9d265762d751dc94d9b51aa66b3494ef8be789d8d61d13b2e87500feb56db7f9",
+          "requestIndex": 6,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/prove-revoked.json",
+          "sha256": "0bf0d8b2f054585677f0205f2e9c8fa44601d5a0819665a4027312038caae37f",
+          "requestIndex": 8,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "33ad54ee454d56026512c6edf7a50023e5d8ca11ef18fb717743526c7fef26e5",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "actor": "owner_B",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 37,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "686f0112a9c0ad98a20ca485a10e98b828939e7e47f9916c57899cf539a25cbc",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "actor": "removed_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 41,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "ed6bc4cc2deea5d82a7c9569700baedb5496118355b8556a73c57525c76b85bc",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "actor": "receptionist_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 49,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "0f2abde940d3503a15f4abf4d68f4fddf23599dd0d984bde9b0b4827374f6ffa",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "actor": "owner_A",
+      "expiresAt": "2026-10-03T23:35:03.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 57,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "18cc95d09b5491f04bb1cb8d231af3079c03b0663993db2d62c9e65de14dd142",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 60,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "8b1ddf06c935ce4b35736cc1ad0425a5f43f5ef959441193ed344b2d5fef4029",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "actor": "receptionist_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 63,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "f965717dd56f8edc3d59a496437832980842d3b803a770979ea27e9f887551cf",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "actor": "owner_B",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 66,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "2c81fdcfdba18c4d8f5e634a637cc8332c8c10545d0fa2a33d50603d81c528af",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "actor": "removed_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 70,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "8463ce05c2604a9eaba43e4a9e17f1eb5c244744f2e42ab099216ad440908906",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "actor": "owner_A",
+      "expiresAt": "2026-10-03T23:35:03.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 82,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "71a2d5c1a753194381fc6cbb30aa223228b06fb9963c3b79ee79d9112791a237",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 85,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "a5c3c2d95060cc749c3be0573532d87c122a24ababde30f7016a47c84e6af85b",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "actor": "receptionist_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 88,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "749a0eea795d2f6334f747964d2dc0edfe37cae45bbe8409ef8b7d7a95e5fef0",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "actor": "owner_B",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 91,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "8a3327878f342526b1ccaf5744b148212458e250e3110e0fb6804e363f40ca5f",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "actor": "removed_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 95,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "70210eefe1a4398b2f96a8885b9ab2b32fbf5308010363f0662b5b571fc0091c",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "actor": "owner_A",
+      "expiresAt": "2026-10-03T23:35:03.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 107,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "652bfeb5c8dd469065dcf1ecf0440f0eb38efb2ffcb32a1036bd33ef070ff7c8",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 110,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "0a5d73d0e26d6f5b8a7f6222067cbecc011b7646bc7daba2a671301b215d10db",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "actor": "receptionist_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 113,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "2f1726f0d966d3e700212cef1c19b3c6574ae8a6f417721466cdf9263bc7f5bb",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "actor": "owner_B",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 116,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "9948e5ee0702adda27f2b89d4d73d88f3796e17729b4e3c252303a86fe2224a1",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "actor": "removed_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+          "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+          "requestIndex": 120,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "167507a6e2772408deebd6ae7df425bfd06d9b2a02262f5c48baab46f0ae787e",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "nostore",
+      "headerNames": [
+        "Authorization",
+        "Cache-Control",
+        "Content-Type",
+        "apikey",
+        "x-upsert"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-prepare-1791069160252.json",
+          "sha256": "175dacf956ac4536d2d3bd400e10a9b71d700ac464cb0f523adaf15acec632b5",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-prepare-1791069160252.json",
+          "sha256": "175dacf956ac4536d2d3bd400e10a9b71d700ac464cb0f523adaf15acec632b5",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-prepare-1791069160252.json",
+          "sha256": "175dacf956ac4536d2d3bd400e10a9b71d700ac464cb0f523adaf15acec632b5",
+          "requestIndex": 3,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-revoked-1791069187350.json",
+          "sha256": "648461a99e4bbf32e75f3e47f185b242629f70c479d1754594a4ae92858bbd3f",
+          "requestIndex": 0,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-revoked-1791069187350.json",
+          "sha256": "648461a99e4bbf32e75f3e47f185b242629f70c479d1754594a4ae92858bbd3f",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        }
+      ]
+    },
+    {
+      "requestSha256": "af035d1ee5b4c022aedee0e46dca9f4890582a9d4313101cffe1eacc9c555261",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "nostore",
+      "headerNames": [
+        "Authorization",
+        "Cache-Control",
+        "Content-Type",
+        "apikey",
+        "x-upsert"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-prepare-1791069160252.json",
+          "sha256": "175dacf956ac4536d2d3bd400e10a9b71d700ac464cb0f523adaf15acec632b5",
+          "requestIndex": 4,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/nostore-revoked-1791069187350.json",
+          "sha256": "648461a99e4bbf32e75f3e47f185b242629f70c479d1754594a4ae92858bbd3f",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": "8d3969f893e84b278b2e6d7f1a9f4f44f1d587a7d93aefa0e990dd7de28b21e4"
+        }
+      ]
+    },
+    {
+      "requestSha256": "2746aa799ca32e3cc3008d8b22444d3b9a2914f278633c00557cca5a1dac49f3",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "482873daa342d8889e7412162e06aa443ba7f663b355b83e3348723774f663a7",
+      "actor": "auth_revoked_A",
+      "expiresAt": "2026-10-03T23:35:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/prove-auth-revoked.json",
+          "sha256": "5a07d7c6cb2582271fca9f3b19bd26c5d6d33eec39b6db1b8b6f813096f2ea7e",
+          "requestIndex": 2,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "e3eced6089e39de79e9df5677ec830e576c6172d9b31ea5e2dc5a5aaf48b051b",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "482873daa342d8889e7412162e06aa443ba7f663b355b83e3348723774f663a7",
+      "actor": "auth_revoked_A",
+      "expiresAt": "2026-10-03T23:35:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/prove-auth-revoked.json",
+          "sha256": "5a07d7c6cb2582271fca9f3b19bd26c5d6d33eec39b6db1b8b6f813096f2ea7e",
+          "requestIndex": 4,
+          "historicalStatus": 200,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "799f8f147196005499713718cf96adc88cdc7aca53fb44403a8b34102fc18541",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "482873daa342d8889e7412162e06aa443ba7f663b355b83e3348723774f663a7",
+      "actor": "auth_revoked_A",
+      "expiresAt": "2026-10-03T23:35:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "sdk-reconstructed",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original actor token bound by fixture digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/prove-auth-revoked.json",
+          "sha256": "5a07d7c6cb2582271fca9f3b19bd26c5d6d33eec39b6db1b8b6f813096f2ea7e",
+          "requestIndex": 6,
+          "historicalStatus": 400,
+          "historicalBodySha256": null
+        }
+      ]
+    },
+    {
+      "requestSha256": "41e68dcf8c4121f9861ad5dbd8ca3c34930ac7aa6deec33ef9a22a2d14b74241",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "revocation",
+      "headerNames": [
+        "Authorization",
+        "Cache-Control",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067243964.json",
+          "sha256": "07183445b11b69315e163e39711cffe106cd6fb4b0f8244f2a56c8a858d2b7ff",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067645715.json",
+          "sha256": "3354a1392679397cfea8675a8ebf3aadc7539806c02f3f35a49d7941756c9b1a",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067679417.json",
+          "sha256": "cdcb61aa48521b527a8e20b9344131e182e88781abe9a6674cd0025809f18afe",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "503ca8d47b9e17eefb40d1fcb6da462900effbd2f848b420baeb44a4118fd733",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "revocation",
+      "headerNames": [
+        "Authorization",
+        "Cache-Control",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Actor association reconstructed; original token equality unproven"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067243964.json",
+          "sha256": "07183445b11b69315e163e39711cffe106cd6fb4b0f8244f2a56c8a858d2b7ff",
+          "requestIndex": 3,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067645715.json",
+          "sha256": "3354a1392679397cfea8675a8ebf3aadc7539806c02f3f35a49d7941756c9b1a",
+          "requestIndex": 3,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067679417.json",
+          "sha256": "cdcb61aa48521b527a8e20b9344131e182e88781abe9a6674cd0025809f18afe",
+          "requestIndex": 3,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "9e44b506383550f5a74ffce4fc0588142b2903952201a313f7f55f0617e07d71",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+      "actor": "delivery_principal",
+      "expiresAt": "2026-10-05T21:57:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-3.principal.private.json",
+        "sha256": "d5f1b9371902417bc1df7ab3c7d9987c8179f813fd77d8893ccd21e793bf6f40"
+      },
+      "headerProfile": "broker",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by warm receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-05-document-requalification/principal-warm-disable-replay-1791235075640.json",
+          "sha256": "dced5fce318262c3805ec86a58987bf1112b27e84d800e8f50123c6bbf187030",
+          "requestIndex": 0,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "03c0fa185f78654e224ef852395fdfa96c12dfd9a623edd458e60538008bce3d",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+      "actor": "delivery_principal",
+      "expiresAt": "2026-10-05T21:57:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-3.principal.private.json",
+        "sha256": "d5f1b9371902417bc1df7ab3c7d9987c8179f813fd77d8893ccd21e793bf6f40"
+      },
+      "headerProfile": "broker",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by warm receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-05-document-requalification/principal-warm-disable-replay-1791235075640.json",
+          "sha256": "dced5fce318262c3805ec86a58987bf1112b27e84d800e8f50123c6bbf187030",
+          "requestIndex": 1,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "3665fd7e8ca07be58f508f6e910b9a9c9fc2c7af2ce8ec213741e5b5c49942c4",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "c9e79f0017524ff96d074f707ff914f966fdd4cf1d0e054676390905caaa7e71",
+      "actor": "delivery_principal_1",
+      "expiresAt": "2026-10-04T22:57:33.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-1.principal.private.json",
+        "sha256": "9d6aa499da606211442e3decdb6c97f47f872cab8cf3e432faec1c99809326e5"
+      },
+      "headerProfile": "broker-runtime",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by principal receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-disabled-1791151052839-7843f7fa.json",
+          "sha256": "68669075f60d127ebcce90ea68e199efac924b75b187cc83f3faf126c634d94c",
+          "requestIndex": 8,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-enabled-1791151127463-733616f5.json",
+          "sha256": "12fc0a3d11ed33831d01530b48b15abe027a3269572e7cb6f6bcf28fb3a3ba71",
+          "requestIndex": 7,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        }
+      ]
+    },
+    {
+      "requestSha256": "a922b971a4a9c7a94e4b2d0ae63cd0f8df6921397a232c6dfeadde12d47c0712",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "b21a1a80eb85ca358d49e57e9d53e3229bec1712ed77202956e472ad6ec0f04e",
+      "actor": "delivery_principal_2",
+      "expiresAt": "2026-10-04T23:19:54.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-2.principal.private.json",
+        "sha256": "2100604bf6c7f8f4a8a47e7fbe37381a695dc04835d1ca4b7fce38993feb392b"
+      },
+      "headerProfile": "broker-runtime",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by principal receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-disabled-1791152394392-f361484a.json",
+          "sha256": "ca56e0990c63d13f3f585bda415a69194960529ae8c40cb1725af46df6024a2f",
+          "requestIndex": 11,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-enabled-1791152423668-7ababec7.json",
+          "sha256": "a7477d634c8852427977a3b39a90b4f5dd97c1ffdb26607e32cbefc8983b5e95",
+          "requestIndex": 9,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "a164e3b0b625b1b2add01ee9f85159570fee672dd2ddee5db4f1b5abefcf2d53",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "b21a1a80eb85ca358d49e57e9d53e3229bec1712ed77202956e472ad6ec0f04e",
+      "actor": "delivery_principal_2",
+      "expiresAt": "2026-10-04T23:19:54.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-2.principal.private.json",
+        "sha256": "2100604bf6c7f8f4a8a47e7fbe37381a695dc04835d1ca4b7fce38993feb392b"
+      },
+      "headerProfile": "broker-runtime",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by principal receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-disabled-1791152394392-f361484a.json",
+          "sha256": "ca56e0990c63d13f3f585bda415a69194960529ae8c40cb1725af46df6024a2f",
+          "requestIndex": 12,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-enabled-1791152423668-7ababec7.json",
+          "sha256": "a7477d634c8852427977a3b39a90b4f5dd97c1ffdb26607e32cbefc8983b5e95",
+          "requestIndex": 10,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "4650b6515c527087ca22bccd10c580efe7bf63209529c1d5f556d573beb752d3",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+      "actor": "delivery_principal",
+      "expiresAt": "2026-10-05T21:57:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-3.principal.private.json",
+        "sha256": "d5f1b9371902417bc1df7ab3c7d9987c8179f813fd77d8893ccd21e793bf6f40"
+      },
+      "headerProfile": "broker-runtime",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by principal receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-disabled-1791233821092-6fc57e04.json",
+          "sha256": "3cb1add6bbf0f8aca6f7b29a20dd20e4c0df6d0420ec0c72d59d5afd1578d4c7",
+          "requestIndex": 11,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-enabled-1791234123091-99d8f8be.json",
+          "sha256": "504bdd8139813f240898fddaae5a2d06790f3718a5e963e8b2832389057b5249",
+          "requestIndex": 9,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "fbcd4e84dbc049663670aa161c459d80c9186c118a33a83d3632592d64c6a083",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "credentialSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+      "actor": "delivery_principal",
+      "expiresAt": "2026-10-05T21:57:05.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/step1-document-3.principal.private.json",
+        "sha256": "d5f1b9371902417bc1df7ab3c7d9987c8179f813fd77d8893ccd21e793bf6f40"
+      },
+      "headerProfile": "broker-runtime",
+      "headerNames": [
+        "Authorization",
+        "Content-Type",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Original broker token bound by principal receipt digest"
+      ],
+      "sources": [
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-disabled-1791233821092-6fc57e04.json",
+          "sha256": "3cb1add6bbf0f8aca6f7b29a20dd20e4c0df6d0420ec0c72d59d5afd1578d4c7",
+          "requestIndex": 12,
+          "historicalStatus": 400,
+          "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+        },
+        {
+          "filename": "docs/production/evidence/2026-10-04-document-delivery/principal-enabled-1791234123091-99d8f8be.json",
+          "sha256": "504bdd8139813f240898fddaae5a2d06790f3718a5e963e8b2832389057b5249",
+          "requestIndex": 10,
+          "historicalStatus": 200,
+          "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+        }
+      ]
+    },
+    {
+      "requestSha256": "1105f52a793defca254e498e9f68087b7cbd768f454520d2a7bd079ab3f9e374",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "supplementary",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Supplementary current-path check with retained JWT; no original request equality established"
+      ],
+      "sources": []
+    },
+    {
+      "requestSha256": "684aa5c62ad7624196fd2e905aa4ac5d36ed77ef9cca8f46664dd6ef1f9f4e94",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "supplementary",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Supplementary current-path check with retained JWT; no original request equality established"
+      ],
+      "sources": []
+    },
+    {
+      "requestSha256": "d3974517ee671e751df335e71c273e4f04f2d834959a3eac1e4fd9ec7f4727b9",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "supplementary",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Supplementary current-path check with retained JWT; no original request equality established"
+      ],
+      "sources": []
+    },
+    {
+      "requestSha256": "9f89694933d34cf414165c54e70b2dfc955267335354681257d8a27a68c717ee",
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "actor": "doctor_A",
+      "expiresAt": "2026-10-03T23:35:04.000Z",
+      "credentialCapture": {
+        "filename": "tools/local-supabase/supabase/.temp/phihonofwyerpfgqfekt-hosted-actors-1.private.json",
+        "sha256": "1fd638cafea633e6a53e58ef13ede73791c0e4a1c3b4c66757e323dbee7927d3"
+      },
+      "headerProfile": "supplementary",
+      "headerNames": [
+        "Authorization",
+        "apikey"
+      ],
+      "originalHeadersCaptured": false,
+      "fullWireProof": false,
+      "apiKeyProvenance": "Current publishable key; historical value was not captured",
+      "provenance": [
+        "Supplementary current-path check with retained JWT; no original request equality established"
+      ],
+      "sources": []
+    }
+  ],
+  "credentialGroups": [
+    {
+      "credentialSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "requests": [
+        "e8b1a1167af0a9ae110a2869f606596b9de5ee4aae4248d7d172717d1b6ec707",
+        "e9a93344aa501442da2fc802d06dfe88cdb0fe2dd66977b8f8494e65af9d7998",
+        "5105eb0ee01dc47d5e703387cdf63aab374225c4a17496accc827245bee0ab8e",
+        "bf63a516cc5433f0ef085748f2bcad866325e9cc8ad0d0c157be85a0de2d49a2",
+        "18cc95d09b5491f04bb1cb8d231af3079c03b0663993db2d62c9e65de14dd142",
+        "71a2d5c1a753194381fc6cbb30aa223228b06fb9963c3b79ee79d9112791a237",
+        "652bfeb5c8dd469065dcf1ecf0440f0eb38efb2ffcb32a1036bd33ef070ff7c8",
+        "167507a6e2772408deebd6ae7df425bfd06d9b2a02262f5c48baab46f0ae787e",
+        "af035d1ee5b4c022aedee0e46dca9f4890582a9d4313101cffe1eacc9c555261",
+        "41e68dcf8c4121f9861ad5dbd8ca3c34930ac7aa6deec33ef9a22a2d14b74241",
+        "503ca8d47b9e17eefb40d1fcb6da462900effbd2f848b420baeb44a4118fd733",
+        "1105f52a793defca254e498e9f68087b7cbd768f454520d2a7bd079ab3f9e374",
+        "684aa5c62ad7624196fd2e905aa4ac5d36ed77ef9cca8f46664dd6ef1f9f4e94",
+        "d3974517ee671e751df335e71c273e4f04f2d834959a3eac1e4fd9ec7f4727b9",
+        "9f89694933d34cf414165c54e70b2dfc955267335354681257d8a27a68c717ee"
+      ]
+    },
+    {
+      "credentialSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "requests": [
+        "f05411466ee210c9315e21b9de6945d42608e058a6162424cb084d44566e3760",
+        "6d74f596df671e13d17e5c621d77fcb7a4ef8b687cbfbc83884607505556f3c0",
+        "0f2abde940d3503a15f4abf4d68f4fddf23599dd0d984bde9b0b4827374f6ffa",
+        "8463ce05c2604a9eaba43e4a9e17f1eb5c244744f2e42ab099216ad440908906",
+        "70210eefe1a4398b2f96a8885b9ab2b32fbf5308010363f0662b5b571fc0091c"
+      ]
+    },
+    {
+      "credentialSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "requests": [
+        "d2065765dc0ea2a44ba213dafc1acdad1e2e902f5a9ecee7f48c204643136d52",
+        "33ad54ee454d56026512c6edf7a50023e5d8ca11ef18fb717743526c7fef26e5",
+        "f965717dd56f8edc3d59a496437832980842d3b803a770979ea27e9f887551cf",
+        "749a0eea795d2f6334f747964d2dc0edfe37cae45bbe8409ef8b7d7a95e5fef0",
+        "2f1726f0d966d3e700212cef1c19b3c6574ae8a6f417721466cdf9263bc7f5bb"
+      ]
+    },
+    {
+      "credentialSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "requests": [
+        "686f0112a9c0ad98a20ca485a10e98b828939e7e47f9916c57899cf539a25cbc",
+        "2c81fdcfdba18c4d8f5e634a637cc8332c8c10545d0fa2a33d50603d81c528af",
+        "8a3327878f342526b1ccaf5744b148212458e250e3110e0fb6804e363f40ca5f",
+        "9948e5ee0702adda27f2b89d4d73d88f3796e17729b4e3c252303a86fe2224a1"
+      ]
+    },
+    {
+      "credentialSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "requests": [
+        "ed6bc4cc2deea5d82a7c9569700baedb5496118355b8556a73c57525c76b85bc",
+        "8b1ddf06c935ce4b35736cc1ad0425a5f43f5ef959441193ed344b2d5fef4029",
+        "a5c3c2d95060cc749c3be0573532d87c122a24ababde30f7016a47c84e6af85b",
+        "0a5d73d0e26d6f5b8a7f6222067cbecc011b7646bc7daba2a671301b215d10db"
+      ]
+    },
+    {
+      "credentialSha256": "482873daa342d8889e7412162e06aa443ba7f663b355b83e3348723774f663a7",
+      "requests": [
+        "2746aa799ca32e3cc3008d8b22444d3b9a2914f278633c00557cca5a1dac49f3",
+        "e3eced6089e39de79e9df5677ec830e576c6172d9b31ea5e2dc5a5aaf48b051b",
+        "799f8f147196005499713718cf96adc88cdc7aca53fb44403a8b34102fc18541"
+      ]
+    },
+    {
+      "credentialSha256": "2430ee3827d44c69422afd30bbeec37e5d65bf3cb7335933cd5672948276f77d",
+      "requests": [
+        "9e44b506383550f5a74ffce4fc0588142b2903952201a313f7f55f0617e07d71",
+        "03c0fa185f78654e224ef852395fdfa96c12dfd9a623edd458e60538008bce3d",
+        "4650b6515c527087ca22bccd10c580efe7bf63209529c1d5f556d573beb752d3",
+        "fbcd4e84dbc049663670aa161c459d80c9186c118a33a83d3632592d64c6a083"
+      ]
+    },
+    {
+      "credentialSha256": "c9e79f0017524ff96d074f707ff914f966fdd4cf1d0e054676390905caaa7e71",
+      "requests": [
+        "3665fd7e8ca07be58f508f6e910b9a9c9fc2c7af2ce8ec213741e5b5c49942c4"
+      ]
+    },
+    {
+      "credentialSha256": "b21a1a80eb85ca358d49e57e9d53e3229bec1712ed77202956e472ad6ec0f04e",
+      "requests": [
+        "a922b971a4a9c7a94e4b2d0ae63cd0f8df6921397a232c6dfeadde12d47c0712",
+        "a164e3b0b625b1b2add01ee9f85159570fee672dd2ddee5db4f1b5abefcf2d53"
+      ]
+    }
+  ],
+  "gaps": [
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 45,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous_public",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 53,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/public/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 55,
+      "historicalStatus": 200,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 74,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous_public",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 78,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/public/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 80,
+      "historicalStatus": 200,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 99,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous_public",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 103,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/public/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 105,
+      "historicalStatus": 200,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 124,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png"
+    },
+    {
+      "reason": "No captured original credential for actor",
+      "actor": "anonymous_public",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 128,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/public/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 130,
+      "historicalStatus": 200,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 131,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 132,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 133,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original signed URL query token was not persisted",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/matrix-run-3.json",
+      "sha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0",
+      "requestIndex": 134,
+      "historicalStatus": 400,
+      "historicalBodySha256": null,
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png"
+    },
+    {
+      "reason": "Original cache-busting query was not persisted; no replacement generated",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067243964.json",
+      "sha256": "07183445b11b69315e163e39711cffe106cd6fb4b0f8244f2a56c8a858d2b7ff",
+      "requestIndex": 2,
+      "historicalStatus": 400,
+      "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Historical anonymous key was not captured",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067243964.json",
+      "sha256": "07183445b11b69315e163e39711cffe106cd6fb4b0f8244f2a56c8a858d2b7ff",
+      "requestIndex": 6,
+      "historicalStatus": 400,
+      "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Original cache-busting query was not persisted; no replacement generated",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067645715.json",
+      "sha256": "3354a1392679397cfea8675a8ebf3aadc7539806c02f3f35a49d7941756c9b1a",
+      "requestIndex": 2,
+      "historicalStatus": 200,
+      "historicalBodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Historical anonymous key was not captured",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067645715.json",
+      "sha256": "3354a1392679397cfea8675a8ebf3aadc7539806c02f3f35a49d7941756c9b1a",
+      "requestIndex": 6,
+      "historicalStatus": 400,
+      "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Original cache-busting query was not persisted; no replacement generated",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067679417.json",
+      "sha256": "cdcb61aa48521b527a8e20b9344131e182e88781abe9a6674cd0025809f18afe",
+      "requestIndex": 2,
+      "historicalStatus": 400,
+      "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    },
+    {
+      "reason": "Historical anonymous key was not captured",
+      "filename": "docs/production/evidence/2026-10-03-hosted-api/attempt-1/storage-revocation-1791067679417.json",
+      "sha256": "cdcb61aa48521b527a8e20b9344131e182e88781abe9a6674cd0025809f18afe",
+      "requestIndex": 6,
+      "historicalStatus": 400,
+      "historicalBodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf"
+    }
+  ],
+  "objectCoverage": [
+    {
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "plannedRequests": 4
+    },
+    {
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "plannedRequests": 17
+    },
+    {
+      "object": "patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "plannedRequests": 2
+    },
+    {
+      "object": "clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "plannedRequests": 7
+    },
+    {
+      "object": "doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "plannedRequests": 7
+    },
+    {
+      "object": "patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "plannedRequests": 6
+    }
+  ],
+  "limits": [
+    "Six exact synthetic legacy keys on the named project only",
+    "No historical provider request stored a complete HTTP header set; no full wire proof is available",
+    "Retained JWTs are never refreshed; expired JWT denial does not establish deletion causality",
+    "SDK and auxiliary request headers are reconstructed from historical harness source; current API key is explicitly identified",
+    "Missing signed URL tokens, nonces and overwritten run-2 credentials are not recreated",
+    "The initial document-delivery provisioning JWT has no identified original-token-bound Storage warm receipt and is not treated as a captured successful capability",
+    "Application gateway POST captures and other provider objects are outside this verifier",
+    "Observed denial is local to this execution and does not establish universal CDN eviction"
+  ],
+  "responses": [
+    {
+      "requestSha256": "e8b1a1167af0a9ae110a2869f606596b9de5ee4aae4248d7d172717d1b6ec707",
+      "startedAt": "2026-10-06T21:54:06.958Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:09 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:08.213Z"
+    },
+    {
+      "requestSha256": "e9a93344aa501442da2fc802d06dfe88cdb0fe2dd66977b8f8494e65af9d7998",
+      "startedAt": "2026-10-06T21:54:08.215Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:10 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:09.002Z"
+    },
+    {
+      "requestSha256": "f05411466ee210c9315e21b9de6945d42608e058a6162424cb084d44566e3760",
+      "startedAt": "2026-10-06T21:54:09.003Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:10 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:09.330Z"
+    },
+    {
+      "requestSha256": "5105eb0ee01dc47d5e703387cdf63aab374225c4a17496accc827245bee0ab8e",
+      "startedAt": "2026-10-06T21:54:09.331Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:10 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:09.637Z"
+    },
+    {
+      "requestSha256": "d2065765dc0ea2a44ba213dafc1acdad1e2e902f5a9ecee7f48c204643136d52",
+      "startedAt": "2026-10-06T21:54:09.640Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:11 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:10.187Z"
+    },
+    {
+      "requestSha256": "6d74f596df671e13d17e5c621d77fcb7a4ef8b687cbfbc83884607505556f3c0",
+      "startedAt": "2026-10-06T21:54:10.188Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:11 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:10.747Z"
+    },
+    {
+      "requestSha256": "bf63a516cc5433f0ef085748f2bcad866325e9cc8ad0d0c157be85a0de2d49a2",
+      "startedAt": "2026-10-06T21:54:10.750Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:12 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:11.145Z"
+    },
+    {
+      "requestSha256": "33ad54ee454d56026512c6edf7a50023e5d8ca11ef18fb717743526c7fef26e5",
+      "startedAt": "2026-10-06T21:54:11.147Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:12 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:11.657Z"
+    },
+    {
+      "requestSha256": "686f0112a9c0ad98a20ca485a10e98b828939e7e47f9916c57899cf539a25cbc",
+      "startedAt": "2026-10-06T21:54:11.659Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:13 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:12.327Z"
+    },
+    {
+      "requestSha256": "ed6bc4cc2deea5d82a7c9569700baedb5496118355b8556a73c57525c76b85bc",
+      "startedAt": "2026-10-06T21:54:12.329Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:13 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:12.936Z"
+    },
+    {
+      "requestSha256": "0f2abde940d3503a15f4abf4d68f4fddf23599dd0d984bde9b0b4827374f6ffa",
+      "startedAt": "2026-10-06T21:54:12.938Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:14 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:13.580Z"
+    },
+    {
+      "requestSha256": "18cc95d09b5491f04bb1cb8d231af3079c03b0663993db2d62c9e65de14dd142",
+      "startedAt": "2026-10-06T21:54:13.582Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:15 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:14.092Z"
+    },
+    {
+      "requestSha256": "8b1ddf06c935ce4b35736cc1ad0425a5f43f5ef959441193ed344b2d5fef4029",
+      "startedAt": "2026-10-06T21:54:14.095Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:15 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:14.680Z"
+    },
+    {
+      "requestSha256": "f965717dd56f8edc3d59a496437832980842d3b803a770979ea27e9f887551cf",
+      "startedAt": "2026-10-06T21:54:14.682Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:16 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:15.248Z"
+    },
+    {
+      "requestSha256": "2c81fdcfdba18c4d8f5e634a637cc8332c8c10545d0fa2a33d50603d81c528af",
+      "startedAt": "2026-10-06T21:54:15.250Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:16 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:15.554Z"
+    },
+    {
+      "requestSha256": "8463ce05c2604a9eaba43e4a9e17f1eb5c244744f2e42ab099216ad440908906",
+      "startedAt": "2026-10-06T21:54:15.556Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:17 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:16.684Z"
+    },
+    {
+      "requestSha256": "71a2d5c1a753194381fc6cbb30aa223228b06fb9963c3b79ee79d9112791a237",
+      "startedAt": "2026-10-06T21:54:16.687Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:18 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:17.332Z"
+    },
+    {
+      "requestSha256": "a5c3c2d95060cc749c3be0573532d87c122a24ababde30f7016a47c84e6af85b",
+      "startedAt": "2026-10-06T21:54:17.335Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:18 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:17.860Z"
+    },
+    {
+      "requestSha256": "749a0eea795d2f6334f747964d2dc0edfe37cae45bbe8409ef8b7d7a95e5fef0",
+      "startedAt": "2026-10-06T21:54:17.862Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:19 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:18.633Z"
+    },
+    {
+      "requestSha256": "8a3327878f342526b1ccaf5744b148212458e250e3110e0fb6804e363f40ca5f",
+      "startedAt": "2026-10-06T21:54:18.635Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:20 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:19.246Z"
+    },
+    {
+      "requestSha256": "70210eefe1a4398b2f96a8885b9ab2b32fbf5308010363f0662b5b571fc0091c",
+      "startedAt": "2026-10-06T21:54:19.248Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:20 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:19.780Z"
+    },
+    {
+      "requestSha256": "652bfeb5c8dd469065dcf1ecf0440f0eb38efb2ffcb32a1036bd33ef070ff7c8",
+      "startedAt": "2026-10-06T21:54:19.839Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:21 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:20.381Z"
+    },
+    {
+      "requestSha256": "0a5d73d0e26d6f5b8a7f6222067cbecc011b7646bc7daba2a671301b215d10db",
+      "startedAt": "2026-10-06T21:54:20.383Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:22 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:21.029Z"
+    },
+    {
+      "requestSha256": "2f1726f0d966d3e700212cef1c19b3c6574ae8a6f417721466cdf9263bc7f5bb",
+      "startedAt": "2026-10-06T21:54:21.031Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:22 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:21.383Z"
+    },
+    {
+      "requestSha256": "9948e5ee0702adda27f2b89d4d73d88f3796e17729b4e3c252303a86fe2224a1",
+      "startedAt": "2026-10-06T21:54:21.385Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:22 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:21.863Z"
+    },
+    {
+      "requestSha256": "167507a6e2772408deebd6ae7df425bfd06d9b2a02262f5c48baab46f0ae787e",
+      "startedAt": "2026-10-06T21:54:21.865Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:23 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:22.556Z"
+    },
+    {
+      "requestSha256": "af035d1ee5b4c022aedee0e46dca9f4890582a9d4313101cffe1eacc9c555261",
+      "startedAt": "2026-10-06T21:54:22.557Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:24 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:23.115Z"
+    },
+    {
+      "requestSha256": "2746aa799ca32e3cc3008d8b22444d3b9a2914f278633c00557cca5a1dac49f3",
+      "startedAt": "2026-10-06T21:54:23.117Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:24 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:23.981Z"
+    },
+    {
+      "requestSha256": "e3eced6089e39de79e9df5677ec830e576c6172d9b31ea5e2dc5a5aaf48b051b",
+      "startedAt": "2026-10-06T21:54:23.983Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:25 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:24.552Z"
+    },
+    {
+      "requestSha256": "799f8f147196005499713718cf96adc88cdc7aca53fb44403a8b34102fc18541",
+      "startedAt": "2026-10-06T21:54:24.554Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:26 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:25.021Z"
+    },
+    {
+      "requestSha256": "41e68dcf8c4121f9861ad5dbd8ca3c34930ac7aa6deec33ef9a22a2d14b74241",
+      "startedAt": "2026-10-06T21:54:25.023Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:26 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:25.321Z"
+    },
+    {
+      "requestSha256": "503ca8d47b9e17eefb40d1fcb6da462900effbd2f848b420baeb44a4118fd733",
+      "startedAt": "2026-10-06T21:54:25.323Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:26 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:25.583Z"
+    },
+    {
+      "requestSha256": "9e44b506383550f5a74ffce4fc0588142b2903952201a313f7f55f0617e07d71",
+      "startedAt": "2026-10-06T21:54:25.586Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:26 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:25.857Z"
+    },
+    {
+      "requestSha256": "03c0fa185f78654e224ef852395fdfa96c12dfd9a623edd458e60538008bce3d",
+      "startedAt": "2026-10-06T21:54:25.859Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:27 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:26.184Z"
+    },
+    {
+      "requestSha256": "3665fd7e8ca07be58f508f6e910b9a9c9fc2c7af2ce8ec213741e5b5c49942c4",
+      "startedAt": "2026-10-06T21:54:26.186Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:27 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:26.705Z"
+    },
+    {
+      "requestSha256": "a922b971a4a9c7a94e4b2d0ae63cd0f8df6921397a232c6dfeadde12d47c0712",
+      "startedAt": "2026-10-06T21:54:26.706Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:28 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:28.441Z"
+    },
+    {
+      "requestSha256": "a164e3b0b625b1b2add01ee9f85159570fee672dd2ddee5db4f1b5abefcf2d53",
+      "startedAt": "2026-10-06T21:54:28.444Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:29 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:28.873Z"
+    },
+    {
+      "requestSha256": "4650b6515c527087ca22bccd10c580efe7bf63209529c1d5f556d573beb752d3",
+      "startedAt": "2026-10-06T21:54:28.875Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:30 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:29.386Z"
+    },
+    {
+      "requestSha256": "fbcd4e84dbc049663670aa161c459d80c9186c118a33a83d3632592d64c6a083",
+      "startedAt": "2026-10-06T21:54:29.387Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 98,
+      "bodySha256": "cdaff975adcfebff6d6ee1f4d0116d6e86ce03d9718d0d90a3c364f229316aca",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:31 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:30.660Z"
+    },
+    {
+      "requestSha256": "1105f52a793defca254e498e9f68087b7cbd768f454520d2a7bd079ab3f9e374",
+      "startedAt": "2026-10-06T21:54:30.674Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:32 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:30.980Z"
+    },
+    {
+      "requestSha256": "684aa5c62ad7624196fd2e905aa4ac5d36ed77ef9cca8f46664dd6ef1f9f4e94",
+      "startedAt": "2026-10-06T21:54:30.982Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:32 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:31.520Z"
+    },
+    {
+      "requestSha256": "d3974517ee671e751df335e71c273e4f04f2d834959a3eac1e4fd9ec7f4727b9",
+      "startedAt": "2026-10-06T21:54:31.521Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:33 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:32.379Z"
+    },
+    {
+      "requestSha256": "9f89694933d34cf414165c54e70b2dfc955267335354681257d8a27a68c717ee",
+      "startedAt": "2026-10-06T21:54:32.381Z",
+      "status": 400,
+      "bodyComplete": true,
+      "denied": true,
+      "bytes": 114,
+      "bodySha256": "f84a3b4556105260af1b3ab09ba67bfeaa88fc411b26e3b4c67ccc665598bed4",
+      "headers": {
+        "date": "Tue, 06 Oct 2026 21:54:34 GMT",
+        "cf-cache-status": "BYPASS",
+        "content-type": "application/json; charset=utf-8"
+      },
+      "completedAt": "2026-10-06T21:54:32.962Z"
+    }
+  ],
+  "observedDenialsPassed": true,
+  "disposition": "All planned exact-path reads denied; historical capture gaps remain",
+  "completedAt": "2026-10-06T21:54:32.965Z"
+}

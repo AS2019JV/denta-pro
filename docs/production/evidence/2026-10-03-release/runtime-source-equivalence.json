@@ -1,0 +1,25 @@
+{
+  "status": "VERIFIED",
+  "deployedCommit": "a281fce8768b449c2274cafa8b506cc677b2a7d0",
+  "productionSourceDelta": [],
+  "changedFiles": [
+    "docs/production/CANDIDATE_READINESS_2026-10-03.md",
+    "docs/production/IMPLEMENTATION_PROGRESS.md",
+    "docs/production/RELEASE_ACCEPTANCE_MATRIX.md",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071852387.json",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071918505.json",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791072036189.json",
+    "docs/production/evidence/2026-10-03-release/adversarial-closeout.json",
+    "docs/production/evidence/2026-10-03-release/github-ci-37163120300.json",
+    "docs/production/evidence/2026-10-03-release/publication-validation-ci-2.json",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-anonymous-login.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-dashboard.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-foreign-denied.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-own-clinical.png",
+    "docs/production/evidence/2026-10-03-staging/browser/runtime-ci-2.json",
+    "docs/production/evidence/2026-10-03-staging/browser/vercel-preview-ci-2-ready.png",
+    "scripts/verify-clinia-hosted-expired-replay.cjs"
+  ],
+  "scope": "Only documentation, public synthetic evidence and standalone read-only expiry probe changed; app/config/dependencies/migrations remain byte-identical to deployed a281fce",
+  "recordedAt": "2026-10-04T00:05:21.883Z"
+}

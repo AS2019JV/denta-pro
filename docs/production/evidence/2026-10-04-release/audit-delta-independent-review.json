@@ -1,0 +1,19 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "reviewer": "Independent audit_delta_review",
+  "scope": "Private authorization-audit table/RPC, human-client caller, byte publication order and matching rollback-only evidence",
+  "result": "No observed correctness or regression defect in scoped code",
+  "executedTests": 25,
+  "passed": 25,
+  "sourceHashAndDriverMatchAttempt4": true,
+  "observations": [
+    "RPC requires live doctor/clinic-owner/session/profile/subscription authority and exact clinic/patient/file/path, rejecting deleted rows",
+    "Actor derived from auth.uid; direct ordinary/audit table and broker/service/anon RPC access revoked",
+    "Recorded UUIDs and authorization time do not prove client byte receipt; ordinary actors may invoke the RPC directly",
+    "Route withholds bytes for audit failure and checks cancellation before response"
+  ],
+  "limits": [
+    "No hosted hook, Auth, Storage, network, browser, retention or release readiness claim",
+    "Rollback-only proof uses synthetic SQL claims; ordinary HTTP JWT proof remains required"
+  ]
+}

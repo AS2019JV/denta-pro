@@ -1,0 +1,19 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "phase": "after",
+  "actorId": "ae54f779-8e99-414a-87ee-b554107e7f8a",
+  "clinicId": "d9a47157-1d36-43df-af1d-436d561ee551",
+  "sessionId": "41069974-b77e-4d29-9fd0-383db5b3fdea",
+  "observedAt": "2026-10-05T21:59:35.943Z",
+  "sqlFile": "expiry-authority-after.sql",
+  "providerReceiptFile": "expiry-authority-after.provider.json",
+  "sqlSha256": "77186b1596c656b2ea467bc8e4df84ef47646a17662cdb8a5033a2fa037eb641",
+  "providerReceiptSha256": "1de19be40e067fb6a5599719a468581bdd157518bad70ceb4cb5c27605c69e66",
+  "profileActive": true,
+  "profileNotDeleted": true,
+  "doctorMembershipActive": true,
+  "authUserActive": true,
+  "sessionPresent": true
+}

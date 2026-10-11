@@ -1,0 +1,7 @@
+{
+  "evidenceKind": "scoped metadata comparison only; not JWT/RLS behavioral or restore evidence",
+  "matches": true,
+  "differences": [],
+  "columnPositionSemantics": "logical-live-column-order; raw physical attribute slots retained as evidence",
+  "physicalColumnPositionDifferences": []
+}

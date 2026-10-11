@@ -1,0 +1,57 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T22:35:01.677Z",
+  "checks": [
+    {
+      "actor": "owner_A",
+      "userId": "baef66ba-f8d8-4943-af16-26bb429f9fe0",
+      "status": "VERIFIED",
+      "oldTokenSha256": "d47bf226d6f295b5cd106c3ea23bcf3f585ec8c497e2d4b0863a7796e515edb8",
+      "newTokenSha256": "500a1608b3bcf0933b93c94a1327c97e1124d92d80ef0b12fd2ab0652f70421b",
+      "expiresAt": 1791070503
+    },
+    {
+      "actor": "doctor_A",
+      "userId": "272d63b1-38e3-4a60-89a2-dd07f031b2d2",
+      "status": "VERIFIED",
+      "oldTokenSha256": "6ff52cc98e6bd36932ed75bf617fc647833dcac45d62acb3b8fb885edf01c818",
+      "newTokenSha256": "c956288b3eac3492e8a891fd45cceb0126bff0966a0cbfc51b7c8aa7b86e51db",
+      "expiresAt": 1791070504
+    },
+    {
+      "actor": "receptionist_A",
+      "userId": "1dcb64e5-1c7d-4991-8b17-68ddbdfd5306",
+      "status": "VERIFIED",
+      "oldTokenSha256": "7b42ef2d39ad7e5a00f6050271ae6545ae540df150e77c62904c9edde69c6002",
+      "newTokenSha256": "a1eee8f30cd6f4e8f26972a62428b080208176694fec79c108587e3f236d653f",
+      "expiresAt": 1791070504
+    },
+    {
+      "actor": "owner_B",
+      "userId": "ee0cb878-2aaa-4265-a9b0-6d03d3659b1c",
+      "status": "VERIFIED",
+      "oldTokenSha256": "4deafc56e4dd2d025f37faa1fa381a00d17c34666a69dac8532fb654ede41419",
+      "newTokenSha256": "120c3c6b1b32ed6ee1403de4b823823ee0005c89af505cd1f88efcacab3867c0",
+      "expiresAt": 1791070504
+    },
+    {
+      "actor": "removed_A",
+      "userId": "2f0b0f71-b3e0-456d-ab03-d580dbd9d335",
+      "status": "VERIFIED",
+      "oldTokenSha256": "32be0de422ae8072651cfa6c3cd525768d91af128103a92f282657a8d47c6ad2",
+      "newTokenSha256": "cd2be0b21906cb2b696553d86d75177d642c1a318053c1c35d61176d3bee37db",
+      "expiresAt": 1791070504
+    },
+    {
+      "actor": "auth_revoked_A",
+      "userId": "e7ffc2ba-6c50-41ab-9508-f4bb19126bbc",
+      "status": "VERIFIED",
+      "oldTokenSha256": "3c13d41193bbde0e4ac8571c06ccb77420bf6b3d37e5b5780784ddc1cb8e4874",
+      "newTokenSha256": "482873daa342d8889e7412162e06aa443ba7f663b355b83e3348723774f663a7",
+      "expiresAt": 1791070505
+    }
+  ],
+  "scope": "Same synthetic actors, new real logins after previous JWT expiry; expired tokens are not revocation evidence",
+  "completedAt": "2026-10-03T22:35:04.356Z"
+}

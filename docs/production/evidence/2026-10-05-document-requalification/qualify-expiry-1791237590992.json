@@ -1,0 +1,44 @@
+{
+  "status": "VERIFIED",
+  "phase": "qualify-expiry",
+  "attempt": "2",
+  "candidate": {
+    "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+    "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+    "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+    "project": "phihonofwyerpfgqfekt"
+  },
+  "startedAt": "2026-10-05T21:59:50.993Z",
+  "manifestSha256": "0d54a50b94f4f0f7ec59c82580e1e385f642814bd03e30370b4e485602211d8b",
+  "transportSha256": "3e266a321cacb8e2b8f1854574f7321482bed4d0427212a5d7fe53abdde2b496",
+  "driverSha256": "d229fd51d5973739afb374e2d168c27f13eff88eafa6e6989b6bf5b7d558197a",
+  "helperSha256": "b9071500dcee8f28d8d220643c064ecab855dacae3d73d138267dcb864eb8655",
+  "runtimeHelperSha256": "7692cc30f9d0d753f48a8aa23e67456493248b7ab26210e1fa4aec870a527c85",
+  "command": "node scripts/verify-clinia-document-requalification.cjs qualify-expiry 2 phihonofwyerpfgqfekt",
+  "checks": [
+    {
+      "requirement": "Natural expiry has exact404 replays, positive controls and unchanged live target authority",
+      "status": "VERIFIED"
+    }
+  ],
+  "requests": [],
+  "limits": [
+    "Pinned deployment hostname; observed source binding is not cryptographic runtime attestation",
+    "Synthetic 70-byte PDF only; operator authority changes are recorded separately",
+    "No clinical data, tokens, passwords or protection cookies emitted"
+  ],
+  "preparedSha256": "f4aaed5c33e13bccb1686a64b505eff3efab8c67ffc93b733d9e5487299af0dc",
+  "warmEvidence": {
+    "filename": "warm-1791234257559.json",
+    "sha256": "fb7e6e59565d1e13c9ffd472aa13fee2462c0a435f2fa02eac145b7060867b5c"
+  },
+  "expiredResponseEvidence": {
+    "filename": "expired-1791237544119.json",
+    "sha256": "833ca440f4ab0ca2bcedf0b0f9a84c677cd6b72e8c0b3f0890c6f18f496622f8"
+  },
+  "authorityEvidence": {
+    "beforeSha256": "ceb66407886f6761cc5a8063f7205ea345519e5b0e6be4819b5b6d5d01ec325f",
+    "afterSha256": "4119202d98be0d1a9de5b5ce21b9c913bca8b908e9ac8cdf1c0362115f9e2995"
+  },
+  "completedAt": "2026-10-05T21:59:51.248Z"
+}
