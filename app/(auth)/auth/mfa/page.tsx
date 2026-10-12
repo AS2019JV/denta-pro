@@ -13,6 +13,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cancelPendingTotpEnrollment, getEnrollmentRecoveryState } from '@/lib/mfa-enrollment'
+import { mfaReturnPath } from '@/lib/password-update'
 
 type Factor = { id: string; friendly_name?: string | null }
 
@@ -54,7 +55,7 @@ export default function MfaPage() {
           && assurance.data?.nextLevel === 'aal2' && verified.length > 0
         if (hasCurrentMfa) {
           await refreshProfile()
-          if (active) router.replace('/dashboard')
+          if (active) router.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
           return
         }
         if (verified.length) {
@@ -164,7 +165,7 @@ export default function MfaPage() {
       setQrCode('')
       setSecret('')
       await refreshProfile()
-      router.replace('/dashboard')
+      router.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
     } catch {
       setError('El código no se pudo verificar. Comprueba que sea el código actual y vuelve a intentarlo.')
       setCode('')

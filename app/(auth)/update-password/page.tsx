@@ -10,6 +10,7 @@ import { Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { motion } from "framer-motion"
+import { passwordUpdateAccess } from "@/lib/password-update"
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("")
@@ -18,19 +19,22 @@ export default function UpdatePasswordPage() {
   const [isLoading, setIsLoading] = useState(false)
   const [isSuccess, setIsSuccess] = useState(false)
   const [error, setError] = useState("")
+  const [accessReady, setAccessReady] = useState(false)
   const router = useRouter()
 
   useEffect(() => {
-    // Check if user has a session (granted by recovery link)
+    let active = true
     const checkSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession()
-      if (!session) {
-        // If no session, they shouldn't be here unless they just clicked the link
-        // Supabase /api/auth/confirm handles the session set via cookies
-      }
+      const access = await passwordUpdateAccess(supabase)
+      if (!active) return
+      if (access === 'mfa') router.replace('/auth/mfa?next=/update-password')
+      else if (access === 'login') router.replace('/login')
+      else if (access === 'ready') setAccessReady(true)
+      else setError('No pudimos validar tu sesión. Vuelve a abrir la recuperación e inténtalo de nuevo.')
     }
-    checkSession()
-  }, [])
+    void checkSession()
+    return () => { active = false }
+  }, [router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -50,11 +54,28 @@ export default function UpdatePasswordPage() {
     }
 
     try {
+      // Recheck immediately before mutation: factors/session may have changed
+      // since page load. Never submit a password from an AAL1 MFA session.
+      const access = await passwordUpdateAccess(supabase)
+      if (access !== 'ready') {
+        setPassword('')
+        setConfirmPassword('')
+        setAccessReady(false)
+        if (access === 'mfa') router.replace('/auth/mfa?next=/update-password')
+        else if (access === 'login') router.replace('/login')
+        else setError('No pudimos validar tu sesión. Vuelve a abrir la recuperación e inténtalo de nuevo.')
+        return
+      }
       const { error } = await supabase.auth.updateUser({
         password: password
       })
 
-      if (error) {
+      if (error?.code === 'insufficient_aal') {
+        setPassword('')
+        setConfirmPassword('')
+        setAccessReady(false)
+        router.replace('/auth/mfa?next=/update-password')
+      } else if (error) {
         setError(error.message)
       } else {
         setIsSuccess(true)
@@ -156,7 +177,7 @@ export default function UpdatePasswordPage() {
               </Alert>
             )}
 
-            <Button type="submit" className="w-full h-12 bg-teal-600 hover:bg-teal-700 rounded-xl font-bold" disabled={isLoading}>
+            <Button type="submit" className="w-full h-12 bg-teal-600 hover:bg-teal-700 rounded-xl font-bold" disabled={isLoading || !accessReady}>
               {isLoading ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
