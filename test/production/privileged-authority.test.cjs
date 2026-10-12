@@ -198,6 +198,17 @@ test('active owner invite escapes HTML and does not write profile authority or e
   assert.match(h.state.sent[0].html,/&lt;img src=x onerror=probe\(\)&gt;/)
   assert.ok(!h.state.sent[0].html.includes('<img src=x'))
 })
+test('ordinary invitation email starts password setup instead of skipping to the dashboard',async()=>{
+  const h=harness();assert.equal((await h.inviteTeamMember(form({role:'receptionist'}))).success,true)
+  assert.equal(h.state.sent.length,1)
+  const link=[...h.state.sent[0].html.matchAll(/href="([^"]+)"/g)].map(match=>match[1]).find(value=>value.includes('token_hash='))
+  const url=new URL(link)
+  assert.equal(url.pathname,'/auth/confirm');assert.equal(url.searchParams.get('type'),'invite')
+  assert.equal(url.searchParams.get('next'),'/update-password')
+  assert.equal(h.state.rows.clinic_invitations[0].role,'receptionist')
+  assert.ok(h.state.writes.every(write=>write.table==='clinic_invitations'))
+})
+
 test('invitation lookup/record/delivery failures are reported honestly; no send after failed record',async()=>{
   const lookup=harness({queryError:{table:'clinic_invitations'}})
   await assert.rejects(lookup.inviteTeamMember(form()),/verificar/);assert.equal(lookup.state.generated.length,0)

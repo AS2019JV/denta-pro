@@ -1,7 +1,8 @@
 /** Resend renders signup/invite; Supabase SMTP renders the recovery template. */
 export const AUTH_EMAIL_CONTRACT = Object.freeze({
   signup: { provider: 'resend', template: 'emails/signup-confirmation.html', type: 'signup', next: '/dashboard' },
-  invite: { provider: 'resend', template: 'server-action', type: 'invite', next: '/dashboard' },
+  // Invited users have not chosen a password during signup. Set it before normal login/MFA.
+  invite: { provider: 'resend', template: 'server-action', type: 'invite', next: '/update-password' },
   recovery: { provider: 'supabase-smtp', template: 'emails/reset-password.html', type: 'recovery', next: '/update-password' },
 })
 

@@ -17,7 +17,8 @@ test('auth email links have a configured HTTPS origin and never fall back to loc
     const url = new URL(contract.authEmailLink('https://app.example.invalid', 'token+with/equals=', type));
     assert.equal(url.origin, 'https://app.example.invalid'); assert.equal(url.pathname, '/auth/confirm');
     assert.equal(url.searchParams.get('token_hash'), 'token+with/equals=');
-    assert.equal(url.searchParams.get('type'), type); assert.equal(url.searchParams.get('next'), '/dashboard');
+    assert.equal(url.searchParams.get('type'), type);
+    assert.equal(url.searchParams.get('next'), type === 'invite' ? '/update-password' : '/dashboard');
   }
   for (const token of [null, '', ' ', 'token\r\nheader', '<injection>', 'a'.repeat(2049)])
     assert.throws(() => contract.authEmailLink('https://app.example.invalid', token, 'signup'));
