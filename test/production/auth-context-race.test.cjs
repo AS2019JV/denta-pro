@@ -14,7 +14,7 @@ async function harness(withCache, aal='aal2') {
   const profiles = {A:deferred(), B:deferred()}
   let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, liveRole='doctor', identityDelay
   const windowListeners=new Map(), signOutPending=deferred()
-  const published = [], timers = new Map(), contexts = {}, state = []
+  const published = [], navigations = [], errors = [], timers = new Map(), contexts = {}, state = []
   const react = {
     createContext: () => ({Provider:'provider'}),
     useContext: () => withCache ? {cancelQueries:async()=>{}, clear:()=>cacheClears++} : undefined,
@@ -40,12 +40,12 @@ async function harness(withCache, aal='aal2') {
   const source=fs.readFileSync(path.join(root,'components/auth-context.tsx'),'utf8')
   const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}}).outputText
   vm.runInNewContext(js,{module,exports:module.exports,document:{cookie:'',visibilityState:'visible',addEventListener(){},removeEventListener(){}},location:{protocol:'http:'},
-    window:{addEventListener:(event,fn)=>windowListeners.set(event,fn),removeEventListener:event=>windowListeners.delete(event)},setTimeout:fn=>{const key={};timers.set(key,fn);return key},clearTimeout:key=>timers.delete(key),
-    require(id){if(id==='react')return react;if(id==='react/jsx-runtime')return{jsx:(_type,props)=>{api=props.value;return{}}};if(id==='@tanstack/react-query')return{QueryClientContext:contexts};if(id==='@/lib/supabase')return{supabase};if(id==='sonner')return{toast:{error(){}}};if(id==='@/lib/clinic-authority.mjs')return policy;throw Error(id)}})
+    window:{location:{replace:route=>navigations.push(route)},addEventListener:(event,fn)=>windowListeners.set(event,fn),removeEventListener:event=>windowListeners.delete(event)},setTimeout:fn=>{const key={};timers.set(key,fn);return key},clearTimeout:key=>timers.delete(key),
+    require(id){if(id==='react')return react;if(id==='react/jsx-runtime')return{jsx:(_type,props)=>{api=props.value;return{}}};if(id==='@tanstack/react-query')return{QueryClientContext:contexts};if(id==='@/lib/supabase')return{supabase};if(id==='sonner')return{toast:{error:message=>errors.push(message)}};if(id==='@/lib/clinic-authority.mjs')return policy;throw Error(id)}})
   module.exports.AuthProvider({children:null})
   const drain = async () => {for(const [key,fn] of [...timers]) {timers.delete(key);fn()} await flush()}
   const profile = id => ({data:{id,status:'active',deleted_at:null,clinic_id:clinic,full_name:id},error:null})
-  return {published, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, logout:()=>api.logout(), resolveSignOut:()=>signOutPending.resolve(), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
+  return {published, navigations, errors, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, logout:()=>api.logout(), resolveSignOut:(error=null)=>signOutPending.resolve({error}), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
 }
 for (const withCache of [false,true]) test(`previous response cannot publish between new Auth event and timer; cache=${withCache}`, async()=>{
   const h=await harness(withCache)
@@ -64,6 +64,18 @@ test('routine focus coalesces in-flight identity checks and retains unchanged sc
 })
 test('queued refresh cannot republish identity during asynchronous logout',async()=>{
   const h=await harness(true);const logout=h.logout();await h.drain();h.resolve('A');await flush();assert.equal(h.published.length,0);assert.equal(h.identityCalls(),0);h.resolveSignOut();await logout;h.cleanup()
+})
+test('logout clears authority immediately and replaces the document only after provider success',async()=>{
+  const h=await harness(true);await h.drain();h.resolve('A');await flush()
+  assert.equal(h.state[0].id,'A');const cleared=h.cacheClears();const pending=h.logout()
+  assert.equal(h.state[0],null);assert.ok(h.cacheClears()>cleared);assert.deepEqual(h.navigations,[])
+  h.resolveSignOut();await pending;assert.deepEqual(h.navigations,['/login']);h.cleanup()
+})
+test('failed logout stays fail closed, displays a retry error and never reports navigation success',async()=>{
+  const h=await harness(true);await h.drain();h.resolve('A');await flush();const pending=h.logout()
+  h.resolveSignOut({message:'synthetic transport failure'});await pending;h.focus();await h.drain()
+  assert.equal(h.state[0],null);assert.deepEqual(h.navigations,[]);assert.equal(h.errors.length,1)
+  assert.match(h.state[4],/No pudimos cerrar tu sesión/);h.cleanup()
 })
 test('revoked live role clears mounted scope and cache after background verification',async()=>{
   const h=await harness(true);await h.drain();h.resolve('A');await flush();const cleared=h.cacheClears();h.deny();h.focus();await h.drain();await flush();assert.equal(h.state[0],null);assert.equal(h.state[3],false);assert.ok(h.cacheClears()>cleared);h.cleanup()

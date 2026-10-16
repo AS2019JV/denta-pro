@@ -2,13 +2,13 @@ const { test } = require('node:test')
 const assert = require('node:assert/strict')
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript')
 const root = path.resolve(__dirname, '../..')
-function load(file, requireModule) {
+function load(file, requireModule, hardNavigate = () => {}) {
   const module = { exports: {} }
   const output = ts.transpileModule(fs.readFileSync(path.join(root, file), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
   }).outputText
   vm.runInNewContext(output, { module, exports: module.exports, require: requireModule, URLSearchParams,
-    window: { location: { search: testSearch } }, setTimeout() {} })
+    window: { location: { search: testSearch, replace: hardNavigate } }, setTimeout() {} })
   return module.exports
 }
 let testSearch = ''
@@ -34,7 +34,7 @@ function fixture(aal = 'aal1', verified = true) {
 function page(file, h, search = '') {
   testSearch = search
   let cursor = 0, effects = [], tree
-  const state = [], routes = []
+  const state = [], routes = [], documentRoutes = []
   const router = { replace: route => routes.push(route), push: route => routes.push(route) }
   const react = {
     useState: initial => { const index = cursor++; if (!(index in state)) state[index] = initial; return [state[index], value => { state[index] = value }] },
@@ -47,11 +47,11 @@ function page(file, h, search = '') {
     if (id === 'next/navigation') return { useRouter: () => router }
     if (id === '@/lib/supabase') return { supabase: h.client }
     if (id === '@/lib/password-update') return policy
-    if (id === '@/components/auth-context') return { useAuth: () => ({ refreshProfile: async () => {} }) }
+    if (id === '@/components/auth-context') throw Error('MFA navigation must not depend on profile preload')
     if (id === '@/lib/mfa-enrollment') return {}
     if (id === 'framer-motion') return { motion: { div: 'motion-div' } }
     return new Proxy({}, { get: (_, name) => name })
-  }).default
+  }, route => { documentRoutes.push(route); routes.push(route) }).default
   const render = () => { cursor = 0; effects = []; tree = component(); return tree }
   const find = (predicate, node) => {
     if (!node || typeof node !== 'object') return
@@ -59,7 +59,7 @@ function page(file, h, search = '') {
     else { if (predicate(node)) return node; return find(predicate, node.props?.children) }
   }
   render()
-  return { state, routes, render, find: predicate => find(predicate, tree), mount: async () => { effects.forEach(effect => effect()); for (let n = 0; n < 25; n++) await Promise.resolve(); render() },
+  return { state, routes, documentRoutes, render, find: predicate => find(predicate, tree), mount: async () => { effects.forEach(effect => effect()); for (let n = 0; n < 25; n++) await Promise.resolve(); render() },
     submit: () => find(node => node.type === 'form', tree).props.onSubmit({ preventDefault() {} }) }
 }
 const passwordPage = 'app/(auth)/update-password/page.tsx', mfaPage = 'app/(auth)/auth/mfa/page.tsx'
@@ -106,7 +106,7 @@ test('already verified MFA returns only to fixed password route or default dashb
     ['?next=https://attacker.invalid', '/dashboard'], ['?next=//attacker.invalid', '/dashboard'],
     ['?next=/update-password%3Fnext=https://attacker.invalid', '/dashboard']]) {
     const h = fixture('aal2'), p = page(mfaPage, h, query); await p.mount()
-    assert.deepEqual(p.routes, [expected]); assert.equal(h.state.enrollments, 0)
+    assert.deepEqual(p.routes, [expected]); assert.deepEqual(p.documentRoutes, [expected]); assert.equal(h.state.enrollments, 0)
   }
 })
 
@@ -116,6 +116,19 @@ test('existing TOTP challenge returns to password after verified AAL2 without ne
     p.find(node => node.props?.id === 'totp-code').props.onChange({ target: { value: '999999' } }); p.render() // Synthetic mock only, never a live TOTP.
     if (fail) h.state.verificationError = { message: 'rejected' }
     await p.submit(); assert.equal(h.state.enrollments, 0)
-    assert.deepEqual(p.routes, fail ? [] : ['/update-password']); assert.equal(h.state.refreshes, fail ? 0 : 1)
+    assert.deepEqual(p.routes, fail ? [] : ['/update-password']); assert.deepEqual(p.documentRoutes, fail ? [] : ['/update-password']); assert.equal(h.state.refreshes, fail ? 0 : 1)
+  }
+})
+
+test('MFA document navigation stays blocked when refreshed assurance or factors do not corroborate AAL2', async () => {
+  for (const mutate of [s => s.aal = 'aal1', s => s.current = 'aal1', s => s.next = 'aal1',
+    s => s.verified = false, s => s.assuranceError = {}, s => s.listError = {}]) {
+    const h = fixture(), p = page(mfaPage, h)
+    await p.mount()
+    p.find(node => node.props?.id === 'totp-code').props.onChange({ target: { value: '999999' } }); p.render()
+    h.client.auth.refreshSession = async () => { mutate(h.state); return { data: { session: {} }, error: null } }
+    await p.submit()
+    assert.deepEqual(p.routes, []); assert.deepEqual(p.documentRoutes, [])
+    assert.match(p.state[8], /no se pudo verificar/)
   }
 })

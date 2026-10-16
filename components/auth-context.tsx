@@ -326,7 +326,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     ++generation.current
     clearAuthority()
     setIsLoading(false)
-    await supabase.auth.signOut()
+    try {
+      const { error } = await supabase.auth.signOut()
+      if (error) throw error
+      // Cross the authentication boundary with a fresh document, discarding
+      // mounted clinic state and prefetched protected routes.
+      window.location.replace('/login')
+    } catch {
+      const message = 'No pudimos cerrar tu sesión. Revisa la conexión e inténtalo de nuevo.'
+      setAuthError(message)
+      toast.error(message)
+    }
   }
 
   const hasRole = (role: "doctor" | "receptionist" | "clinic_owner"): boolean => {

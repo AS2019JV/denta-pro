@@ -5,7 +5,6 @@ import type { FormEvent } from 'react'
 import { useRouter } from 'next/navigation'
 import { Loader2, ShieldCheck } from 'lucide-react'
 import { supabase } from '@/lib/supabase'
-import { useAuth } from '@/components/auth-context'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -19,7 +18,6 @@ type Factor = { id: string; friendly_name?: string | null }
 
 export default function MfaPage() {
   const router = useRouter()
-  const { refreshProfile } = useAuth()
   const [busy, setBusy] = useState(true)
   const [working, setWorking] = useState(false)
   const [mode, setMode] = useState<'enroll' | 'challenge' | 'pending' | 'blocked'>('enroll')
@@ -54,8 +52,7 @@ export default function MfaPage() {
         const hasCurrentMfa = claims.claims.aal === 'aal2' && assurance.data?.currentLevel === 'aal2'
           && assurance.data?.nextLevel === 'aal2' && verified.length > 0
         if (hasCurrentMfa) {
-          await refreshProfile()
-          if (active) router.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
+          window.location.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
           return
         }
         if (verified.length) {
@@ -76,7 +73,7 @@ export default function MfaPage() {
     }
     void load()
     return () => { active = false }
-  }, [refreshProfile, router])
+  }, [router])
 
   const startEnrollment = async (restart = false) => {
     if (enrollmentInProgress.current) return
@@ -164,8 +161,9 @@ export default function MfaPage() {
 
       setQrCode('')
       setSecret('')
-      await refreshProfile()
-      router.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
+      // Let the protected destination verify live clinic authority on a fresh
+      // document. A redundant profile preload must not strand a verified MFA.
+      window.location.replace(mfaReturnPath(new URLSearchParams(window.location.search).get('next')))
     } catch {
       setError('El código no se pudo verificar. Comprueba que sea el código actual y vuelve a intentarlo.')
       setCode('')
