@@ -8,6 +8,13 @@ const root = path.resolve(__dirname, '../..')
 const clinicA = '33333333-3333-4333-8333-333333333333'
 const clinicB = '44444444-4444-4444-8444-444444444444'
 const origin = 'https://app.example.invalid'
+function pendingDenied(result) {
+  assert.equal(result.success,false)
+  assert.equal(result.code,'INVITATION_PENDING')
+  assert.match(result.error,/invitación pendiente activa/)
+  assert.deepEqual(Object.keys(result).sort(),['code','error','success'])
+  assert.equal(JSON.stringify(JSON.parse(JSON.stringify(result))),JSON.stringify(result))
+}
 
 // Execute the actual action/route; replace providers only. These are not JWT/RLS tests.
 function sourceModule(file, requireMock, env = {}) {
@@ -198,6 +205,16 @@ test('active owner invite escapes HTML and does not write profile authority or e
   assert.match(h.state.sent[0].html,/&lt;img src=x onerror=probe\(\)&gt;/)
   assert.ok(!h.state.sent[0].html.includes('<img src=x'))
 })
+test('duplicate invitation returns a serializable denial without rotating capability or resending',async()=>{
+  const h=harness()
+  assert.equal((await h.inviteTeamMember(form())).success,true)
+  const before=JSON.stringify(h.state.rows.clinic_invitations)
+  pendingDenied(await h.inviteTeamMember(form()))
+  assert.equal(JSON.stringify(h.state.rows.clinic_invitations),before)
+  assert.equal(h.state.generated.length,1);assert.equal(h.state.sent.length,1)
+  assert.equal(h.state.inserted.length,1);assert.equal(h.state.writes.length,1)
+})
+
 test('ordinary invitation email starts password setup instead of skipping to the dashboard',async()=>{
   const h=harness();assert.equal((await h.inviteTeamMember(form({role:'receptionist'}))).success,true)
   assert.equal(h.state.sent.length,1)
@@ -231,7 +248,7 @@ test('definite provider rejection expires only the new pending record and permit
   assert.equal((await h.inviteTeamMember(form())).success,true)
   assert.equal(h.state.rows.clinic_invitations[3].status,'pending')
   assert.equal(h.state.generated.length,2);assert.equal(h.state.sent.length,2)
-  await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+  pendingDenied(await h.inviteTeamMember(form()))
   assert.equal(h.state.generated.length,2);assert.equal(h.state.sent.length,2)
 })
 test('ambiguous transport outcome preserves pending invitation and blocks blind second call',async()=>{
@@ -239,7 +256,7 @@ test('ambiguous transport outcome preserves pending invitation and blocks blind 
   await assert.rejects(h.inviteTeamMember(form()),/No se pudo confirmar el envío; revisa la invitación antes de repetir/)
   assert.equal(h.state.rows.clinic_invitations[0].status,'pending');assert.equal(h.state.writes.length,1)
   h.state.sendThrows=false
-  await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+  pendingDenied(await h.inviteTeamMember(form()))
   assert.equal(h.state.generated.length,1);assert.equal(h.state.sent.length,1)
 })
 test('failed or unconfirmed rejection recovery preserves pending state and requires review',async()=>{
@@ -248,16 +265,17 @@ test('failed or unconfirmed rejection recovery preserves pending state and requi
     await assert.rejects(h.inviteTeamMember(form()),/no se pudo liberar.*Revísala antes de repetir/)
     assert.equal(h.state.rows.clinic_invitations[0].status,'pending')
     h.state.sendError=null
-    await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+    pendingDenied(await h.inviteTeamMember(form()))
     assert.equal(h.state.generated.length,1);assert.equal(h.state.sent.length,1)
   }
 })
 test('concurrent requests reserve one pending invitation before generating one Auth link',async()=>{
   const h=harness()
   const results=await Promise.allSettled([h.inviteTeamMember(form()),h.inviteTeamMember(form())])
-  assert.equal(results.filter(r=>r.status==='fulfilled').length,1)
-  assert.equal(results.filter(r=>r.status==='rejected').length,1)
-  assert.match(results.find(r=>r.status==='rejected').reason.message,/invitación pendiente activa/)
+  assert.equal(results.filter(r=>r.status==='fulfilled').length,2)
+  assert.equal(results.filter(r=>r.status==='rejected').length,0)
+  assert.equal(results.filter(r=>r.value.success).length,1)
+  pendingDenied(results.find(r=>!r.value.success).value)
   assert.equal(h.state.generated.length,1);assert.equal(h.state.sent.length,1)
   assert.equal(h.state.rows.clinic_invitations.length,1)
   assert.equal(h.state.rows.clinic_invitations[0].token,'synthetic-hash-1')
@@ -265,7 +283,7 @@ test('concurrent requests reserve one pending invitation before generating one A
 test('pending recipient normalized index conflict prevents Auth even when exact lookup misses legacy casing',async()=>{
   const h=harness({rows:{clinic_invitations:[{id:'legacy',clinic_id:clinicA,
     email:'INVITEE@example.invalid',token:'legacy-token',status:'pending'}]}})
-  await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+  pendingDenied(await h.inviteTeamMember(form()))
   assert.equal(h.state.generated.length,0);assert.equal(h.state.sent.length,0)
   assert.equal(h.state.rows.clinic_invitations.length,1)
 })
@@ -297,7 +315,7 @@ test('unconfirmed Auth generation preserves reservation and prevents a second pr
     await assert.rejects(h.inviteTeamMember(form()),/No se pudo confirmar la generación.*revisa/)
     assert.equal(h.state.rows.clinic_invitations[0].status,'pending')
     assert.equal(h.state.sent.length,0)
-    await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+    pendingDenied(await h.inviteTeamMember(form()))
     assert.equal(h.state.generated.length,1)
   }
 })
@@ -308,7 +326,7 @@ test('failed token commit retains reservation for review and never delivers mail
     assert.equal(h.state.rows.clinic_invitations[0].status,'pending')
     assert.equal(h.state.rows.clinic_invitations[0].token,h.state.inserted[0].token)
     assert.equal(h.state.sent.length,0)
-    await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+    pendingDenied(await h.inviteTeamMember(form()))
     assert.equal(h.state.generated.length,1)
   }
 })
@@ -316,7 +334,7 @@ test('unconfirmed explicit generation recovery requires review and leaves reserv
   const h=harness({linkError:{message:'synthetic rejection'},releaseMatchesNone:true})
   await assert.rejects(h.inviteTeamMember(form()),/rechazó la generación.*no se pudo liberar/)
   assert.equal(h.state.rows.clinic_invitations[0].status,'pending');assert.equal(h.state.sent.length,0)
-  await assert.rejects(h.inviteTeamMember(form()),/invitación pendiente activa/)
+  pendingDenied(await h.inviteTeamMember(form()))
   assert.equal(h.state.generated.length,1)
 })
 test('malformed FormData, invalid UUID and oversized fields never reach privileged operations',async()=>{

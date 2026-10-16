@@ -156,6 +156,10 @@ export default function DentistsPage() {
       formData.append("specialization", inviteSpecialty || (inviteRole === 'doctor' ? 'Odontólogo General' : 'Administrativo'))
       
       const result = await inviteTeamMember(formData)
+      if (!result.success) {
+        toast.error(result.error)
+        return
+      }
       
       if (result?.success && (result as any)?.inviteLink) {
         setGeneratedLink((result as any).inviteLink)

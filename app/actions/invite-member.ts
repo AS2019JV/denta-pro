@@ -12,8 +12,14 @@ import { randomUUID } from "node:crypto"
 // SEC-06 INVARIANT: Allowed staff invitation roles (strictly excludes clinic_owner)
 const ALLOWED_STAFF_ROLES = ["doctor", "receptionist"] as const
 type AllowedRole = (typeof ALLOWED_STAFF_ROLES)[number]
+type InviteResult = { success: true } | { success: false; code: "INVITATION_PENDING"; error: string }
+const pendingInvitationResult = (): InviteResult => ({
+  success: false,
+  code: "INVITATION_PENDING",
+  error: "Ya existe una invitación pendiente activa para este correo en tu clínica.",
+})
 
-export async function inviteTeamMember(formData: FormData): Promise<{ success: boolean }> {
+export async function inviteTeamMember(formData: FormData): Promise<InviteResult> {
   const cookieStore = await cookies()
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
@@ -125,7 +131,7 @@ export async function inviteTeamMember(formData: FormData): Promise<{ success: b
 
   if (existingInvite) {
     if (new Date(existingInvite.expires_at).getTime() > Date.now()) {
-      throw new Error("Ya existe una invitación pendiente activa para este correo en tu clínica.")
+      return pendingInvitationResult()
     } else {
       // Mark expired invitation
       const { error: expireError } = await supabaseAdmin
@@ -156,7 +162,7 @@ export async function inviteTeamMember(formData: FormData): Promise<{ success: b
     })
   if (insertInviteError) {
     if (insertInviteError.code === "23505") {
-      throw new Error("Ya existe una invitación pendiente activa para este correo en tu clínica.")
+      return pendingInvitationResult()
     }
     throw new Error("No se pudo registrar la invitación. No se envió el correo.")
   }
