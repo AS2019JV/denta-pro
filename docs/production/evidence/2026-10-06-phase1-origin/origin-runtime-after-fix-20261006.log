@@ -1,0 +1,154 @@
+TAP version 13
+# Subtest: actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+ok 1 - actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+  ---
+  duration_ms: 118.5934
+  type: 'test'
+  ...
+# Subtest: explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+ok 2 - explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+  ---
+  duration_ms: 46.4258
+  type: 'test'
+  ...
+# Subtest: invalid or rejected explicit Bearer never falls back to a valid browser cookie
+ok 3 - invalid or rejected explicit Bearer never falls back to a valid browser cookie
+  ---
+  duration_ms: 98.4477
+  type: 'test'
+  ...
+# Subtest: ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+ok 4 - ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+  ---
+  duration_ms: 228.2041
+  type: 'test'
+  ...
+# Subtest: plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+ok 5 - plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+  ---
+  duration_ms: 80.1365
+  type: 'test'
+  ...
+# Subtest: foreign clinic, patient and file scopes cannot access the legitimate object
+ok 6 - foreign clinic, patient and file scopes cannot access the legitimate object
+  ---
+  duration_ms: 24.353
+  type: 'test'
+  ...
+# Subtest: the same original Bearer succeeds once then denies after live logout or removal
+ok 7 - the same original Bearer succeeds once then denies after live logout or removal
+  ---
+  duration_ms: 18.3714
+  type: 'test'
+  ...
+# Subtest: revocation committed during upstream fetch discards buffered clinical bytes
+ok 8 - revocation committed during upstream fetch discards buffered clinical bytes
+  ---
+  duration_ms: 91.134
+  type: 'test'
+  ...
+# Subtest: user and session identity remain pinned across buffering even when both new identities are otherwise valid
+ok 9 - user and session identity remain pinned across buffering even when both new identities are otherwise valid
+  ---
+  duration_ms: 20.605
+  type: 'test'
+  ...
+# Subtest: missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+ok 10 - missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+  ---
+  duration_ms: 74.2449
+  type: 'test'
+  ...
+# Subtest: broker revocation during fetch denies publication and query/RPC errors expose no provider details
+ok 11 - broker revocation during fetch denies publication and query/RPC errors expose no provider details
+  ---
+  duration_ms: 30.6908
+  type: 'test'
+  ...
+# Subtest: actual route cannot publish if its ordinary-actor audit fails
+ok 12 - actual route cannot publish if its ordinary-actor audit fails
+  ---
+  duration_ms: 24.0952
+  type: 'test'
+  ...
+# Subtest: missing protected delivery path never falls back to the legacy path
+ok 13 - missing protected delivery path never falls back to the legacy path
+  ---
+  duration_ms: 6.936
+  type: 'test'
+  ...
+# Subtest: origin transport failure withholds provider details and never audits publication
+ok 14 - origin transport failure withholds provider details and never audits publication
+  ---
+  duration_ms: 6.9893
+  type: 'test'
+  ...
+# Subtest: origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+ok 15 - origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+  ---
+  duration_ms: 4.8107
+  type: 'test'
+  ...
+# Subtest: origin config rejects missing region, publishable/secret/service keys and wrong project
+ok 16 - origin config rejects missing region, publishable/secret/service keys and wrong project
+  ---
+  duration_ms: 1.3214
+  type: 'test'
+  ...
+# Subtest: actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+ok 17 - actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+  ---
+  duration_ms: 95.1044
+  type: 'test'
+  ...
+# Subtest: adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+ok 18 - adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+  ---
+  duration_ms: 84.9548
+  type: 'test'
+  ...
+# Subtest: invalid status, body and declared length fail closed and release the client
+ok 19 - invalid status, body and declared length fail closed and release the client
+  ---
+  duration_ms: 124.4076
+  type: 'test'
+  ...
+# Subtest: actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+ok 20 - actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+  ---
+  duration_ms: 77.7172
+  type: 'test'
+  ...
+# Subtest: exact maximum bytes succeed and cleanup does not depend on a close event
+ok 21 - exact maximum bytes succeed and cleanup does not depend on a close event
+  ---
+  duration_ms: 21.1712
+  type: 'test'
+  ...
+# Subtest: SDK and stream errors are generic and release transport resources
+ok 22 - SDK and stream errors are generic and release transport resources
+  ---
+  duration_ms: 23.2979
+  type: 'test'
+  ...
+# Subtest: caller cancellation destroys source even without close, and detaches its abort listener
+ok 23 - caller cancellation destroys source even without close, and detaches its abort listener
+  ---
+  duration_ms: 13.4984
+  type: 'test'
+  ...
+# Subtest: request abort before SDK, during send and during reading cannot leak bytes or retain resources
+ok 24 - request abort before SDK, during send and during reading cannot leak bytes or retain resources
+  ---
+  duration_ms: 31.0684
+  type: 'test'
+  ...
+1..24
+# tests 24
+# suites 0
+# pass 24
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1160.9235

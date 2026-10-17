@@ -1,0 +1,13 @@
+probe|demographics|id|integer|YES|
+probe|demographics|tenant|text|YES|
+probe|records|id|integer|NO|
+probe|records|tenant|text|NO|
+probe|records|value|text|NO|
+probe|records|revision|integer|NO|2
+probe|records|tenant_a|{probe_a}|(tenant = 'A'::text)
+probe|records|tenant_b|{probe_b}|(tenant = 'B'::text)
+demographics|f|{security_invoker=true}
+records|t|
+records_pkey|f|
+1|A|synthetic-A|2
+2|B|synthetic-B|2

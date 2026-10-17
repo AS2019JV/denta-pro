@@ -1,0 +1,9 @@
+{
+  "status": "VERIFIED",
+  "project": "clinia-clean-20261002-1",
+  "migration": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+  "migrationSha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+  "startedAt": "2026-10-03T14:48:13.290Z",
+  "sqlResult": "",
+  "completedAt": "2026-10-03T14:48:14.045Z"
+}

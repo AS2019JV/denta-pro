@@ -1,0 +1,345 @@
+{
+  "startedAt": "2026-09-27T04:25:21.826Z",
+  "kind": "local-synthetic-sql-runtime",
+  "project": "clinia-acceptance",
+  "databases": [
+    "clinia_stage_clean",
+    "clinia_prod_upgrade"
+  ],
+  "noRemoteMutation": true,
+  "checks": [
+    {
+      "name": "Desktop context",
+      "actual": "desktop-linux",
+      "expected": "desktop-linux",
+      "passed": true
+    },
+    {
+      "name": "Local named pipe",
+      "actual": "npipe:////./pipe/dockerDesktopLinuxEngine",
+      "expected": "npipe:////./pipe/dockerDesktopLinuxEngine",
+      "passed": true
+    },
+    {
+      "name": "No remote link",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_db_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_db_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_db_clinia-acceptance port 56322",
+      "actual": "127.0.0.1",
+      "expected": "127.0.0.1",
+      "passed": true
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance port 56321",
+      "actual": "127.0.0.1",
+      "expected": "127.0.0.1",
+      "passed": true
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance port 56324",
+      "actual": "127.0.0.1",
+      "expected": "127.0.0.1",
+      "passed": true
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance running",
+      "actual": "running",
+      "expected": "running",
+      "passed": true
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance unprivileged",
+      "actual": false,
+      "expected": false,
+      "passed": true
+    },
+    {
+      "name": "Genuine Auth empty",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "Genuine Storage empty",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "Buckets empty",
+      "actual": 0,
+      "expected": 0,
+      "passed": true
+    },
+    {
+      "name": "Application empty",
+      "actual": null,
+      "expected": null,
+      "passed": true
+    },
+    {
+      "name": "PostgreSQL 17",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "name": "Local official admin",
+      "actual": true,
+      "expected": true,
+      "passed": true
+    },
+    {
+      "name": "Clone targets absent",
+      "actual": "0",
+      "expected": "0",
+      "passed": true
+    },
+    {
+      "name": "Template quiescent",
+      "actual": "0",
+      "expected": "0",
+      "passed": true
+    },
+    {
+      "name": "stage reviewed SQL hash",
+      "actual": "0ede1a15c5c98437a40fe26f6060f4b769ee97113333d9451053f1d45b05d3b4",
+      "expected": "0ede1a15c5c98437a40fe26f6060f4b769ee97113333d9451053f1d45b05d3b4",
+      "passed": true
+    },
+    {
+      "name": "stage scoped metadata",
+      "exit": 2,
+      "passed": false
+    }
+  ],
+  "limitations": [
+    "Metadata-derived fixtures are not pg_dump or a complete remote clone.",
+    "Secondary databases have no independent Auth/PostgREST/Storage endpoints.",
+    "This checks SQL structure and integrity, not ordinary role/JWT/browser access.",
+    "No clinical production, backup restoration or legal approval is claimed."
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      },
+      "privileged": false,
+      "restart": "no",
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "target": "/etc/postgresql-custom/pgsodium_root.key",
+          "readOnly": true
+        },
+        {
+          "type": "volume",
+          "name": "supabase_db_clinia-acceptance",
+          "target": "/var/lib/postgresql/data",
+          "readOnly": false
+        }
+      ]
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      },
+      "privileged": false,
+      "restart": "no",
+      "mounts": [
+        {
+          "type": "bind",
+          "name": null,
+          "target": "/home/kong/kong.yml",
+          "readOnly": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "target": "/home/kong/localhost.crt",
+          "readOnly": true
+        },
+        {
+          "type": "bind",
+          "name": null,
+          "target": "/home/kong/localhost.key",
+          "readOnly": true
+        }
+      ]
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {},
+      "privileged": false,
+      "restart": "no",
+      "mounts": []
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      },
+      "privileged": false,
+      "restart": "no",
+      "mounts": []
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {},
+      "privileged": false,
+      "restart": "no",
+      "mounts": []
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      },
+      "privileged": false,
+      "restart": "no",
+      "mounts": []
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      },
+      "privileged": false,
+      "restart": "no",
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "supabase_storage_clinia-acceptance",
+          "target": "/mnt",
+          "readOnly": false
+        }
+      ]
+    }
+  ],
+  "managedTemplate": {
+    "version": "17.6",
+    "superuser": true,
+    "auth": 0,
+    "objects": 0,
+    "buckets": 0,
+    "patients": null
+  },
+  "completedAt": "2026-09-27T04:25:50.568Z",
+  "state": "PARTIAL",
+  "failure": "stage scoped verification differs; review saved report",
+  "servicesResumeRequested": true
+}

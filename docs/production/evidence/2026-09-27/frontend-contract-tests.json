@@ -1,0 +1,26 @@
+{
+  "capturedAt": "2026-09-27T20:48:55.649Z",
+  "kind": "local-code-tests-not-live-provider",
+  "results": [
+    {
+      "file": "financial-retirement.test.cjs",
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "file": "dashboard-authorized-contracts.test.cjs",
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "file": "patient-detail-contracts.test.cjs",
+      "exitCode": 0,
+      "error": null
+    },
+    {
+      "file": "patient-demographics-contracts.test.cjs",
+      "exitCode": 0,
+      "error": null
+    }
+  ]
+}

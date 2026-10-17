@@ -1,0 +1,212 @@
+{
+  "recordedAt": "2026-10-01T18:43:59.611Z",
+  "clientDate": "2026-10-01",
+  "timezone": "America/Guayaquil",
+  "verdict": "NO_GO_CLINICAL",
+  "scope": "Multi-agent engineering review and local remediation; not exhaustive plugin scan or deployed certification",
+  "snapshot": {
+    "id": "security-20261001-final",
+    "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+    "treeSha256": "96513738ed5e8d8e5a02f5cdd7972af07e76868b6c55d77e707679f219e4ba18",
+    "files": 611,
+    "snapshotDrift": [],
+    "workspaceRuntimeDrift": [],
+    "documentationUpdatedAfterVerification": [
+      "docs/production/IMPLEMENTATION_PROGRESS.md",
+      "docs/production/SECURITY_CLOSURE_2026-10-01.md"
+    ]
+  },
+  "validation": [
+    {
+      "command": "npm.cmd ci --ignore-scripts --no-audit --no-fund --prefer-offline",
+      "cwd": "isolated snapshot",
+      "exitCode": 0,
+      "packagesAdded": 646,
+      "evidence": "installation.log"
+    },
+    {
+      "command": "node scripts/clinia-verify.cjs all",
+      "cwd": "isolated snapshot",
+      "exitCode": 0,
+      "types": "PASS",
+      "lint": "PASS_WITH_WARNINGS",
+      "tests": {
+        "total": 119,
+        "passed": 119,
+        "failed": 0
+      },
+      "build": "PASS",
+      "buildId": "P7VqGnLZLs7dNYMp9gsfk",
+      "evidence": "verification.log"
+    },
+    {
+      "command": "node --test test/security/sec06-invite-ownership.test.cjs test/security/m6-gap-03-email.test.cjs test/security/sec01-sec06-implementation.test.cjs",
+      "cwd": "workspace",
+      "exitCode": 0,
+      "tests": {
+        "total": 63,
+        "passed": 63,
+        "failed": 0
+      },
+      "evidence": "security-tests.log"
+    },
+    {
+      "command": "npm.cmd audit --omit=dev --json",
+      "exitCode": 0,
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 284,
+          "dev": 358,
+          "optional": 87,
+          "peer": 21,
+          "peerOptional": 0,
+          "total": 707
+        }
+      }
+    },
+    {
+      "command": "npm.cmd audit --json",
+      "exitCode": 0,
+      "metadata": {
+        "vulnerabilities": {
+          "info": 0,
+          "low": 0,
+          "moderate": 0,
+          "high": 0,
+          "critical": 0,
+          "total": 0
+        },
+        "dependencies": {
+          "prod": 284,
+          "dev": 358,
+          "optional": 87,
+          "peer": 21,
+          "peerOptional": 0,
+          "total": 707
+        }
+      }
+    },
+    {
+      "command": "node scripts/clinia-secret-scan.cjs",
+      "exitCode": 0,
+      "state": "PASS",
+      "scanned": 1099,
+      "scope": "Current Git-visible text files or release snapshot; no history, ignored files or deployed-secret claim",
+      "findings": []
+    },
+    {
+      "command": "node --check scripts/clinia-secret-scan.cjs; node --check scripts/verify-clinia-contract-api.cjs",
+      "exitCode": 0,
+      "scope": "Syntax only, no integration assertion"
+    },
+    {
+      "command": "git -c core.whitespace=blank-at-eol diff --check -- scoped auth endpoints",
+      "exitCode": 0,
+      "scope": "Selected touched auth files; prior global whitespace not repaired"
+    }
+  ],
+  "adversarial": {
+    "state": "SCOPED_REVIEW_PASSED",
+    "lastDirectedTests": 34,
+    "passed": 34,
+    "failed": 0,
+    "overlap": "Included in above suites; not added as independent coverage",
+    "closed": [
+      "invite rejection retry",
+      "unknown transport preserves pending",
+      "auth mail provider false success",
+      "expired PDF logo"
+    ],
+    "deferred": [
+      "unreferenced family-center media",
+      "disabled messages media",
+      "trusted onboarding and invitation acceptance"
+    ]
+  },
+  "docker": {
+    "engine": "29.8.0",
+    "desktop": "4.92.0",
+    "context": "desktop-linux",
+    "target": "local named pipe",
+    "inspection": "PASS",
+    "allAcceptanceServicesStopped": true,
+    "mutationsThisTurn": false
+  },
+  "resources": {
+    "totalKiB": 8072628,
+    "freeKiBReadings": [
+      435572,
+      1423596,
+      482804
+    ],
+    "diskFreeBytesObserved": 15841206272,
+    "integration": "BLOCKED_RESOURCES_USER_MEMORY_RELEASE_PENDING"
+  },
+  "publicConfiguration": {
+    "checkedFiles": [
+      ".env.local"
+    ],
+    "privilegedKeyInPublicVariables": false,
+    "valuesNotEmitted": true,
+    "notUsedForAcceptance": true
+  },
+  "fixes": [
+    "safe constant auth redirect destinations",
+    "canonical live role for mail and invite",
+    "bearer database token binding",
+    "cookie origin and JSON gate",
+    "recipient lookup fail closed",
+    "no invitation profile authority rewrite",
+    "escaped and bounded auth emails",
+    "12-128 signup password",
+    "honest provider failure and conditional invite retry",
+    "private media scoped paths/origin/refresh/stale guards",
+    "fresh private PDF logo",
+    "CI credential/dependency gates"
+  ],
+  "states": {
+    "localRuntimeFixes": "VERIFIED_WITH_SYNTHETIC_PROVIDER_TESTS",
+    "productionReadiness": "PARTIALLY_VERIFIED_NO_GO",
+    "expandedJwtStorageMatrix": "BLOCKED_NOT_RUN",
+    "cleanFullUpgradeRemoteParity": "NOT_VERIFIED",
+    "remoteCiDeployment": "NOT_VERIFIED",
+    "durableAbuseLimitOnboarding": "NOT_VERIFIED",
+    "dbStorageConfigurationRestoreMonitoring": "NOT_VERIFIED",
+    "clinicalPrivacyUatSignoff": "NOT_VERIFIED"
+  },
+  "warnings": [
+    "Existing hooks/images lint warnings",
+    "Next lint deprecation before future Next16 migration",
+    "Supabase Node API warnings in Edge Runtime; deployed Edge not tested",
+    "Webpack large-string serialization warning",
+    "Old DR PASS artifact validates supplied manifests; no real restore proof"
+  ],
+  "actionsNotTaken": [
+    "production or staging mutation",
+    "deployment",
+    "real email/WhatsApp dispatch",
+    "Docker starts/reset/prune/volume deletion",
+    "PostgreSQL upgrade"
+  ],
+  "next": [
+    "Release at least2GB RAM and inspect resources before isolated integration",
+    "Run existing reviewed canonical API candidate with expanded matrix; preserve failed attempts",
+    "Restore scoped dumps in new isolated runtime and reconcile final clean/upgrade contract",
+    "Implement shared abuse limits and trusted onboarding acceptance",
+    "Prove restore of DB+bytes+configuration, operational alerts and remote CI",
+    "Obtain clinical/privacy/UAT approval before release"
+  ],
+  "logSha256": {
+    "installation": "e1b70fa535c5806d932421797de05c4d79aca373db5b8cda5ccb892c4a0d170f",
+    "verification": "4eb932014002c2588a03010a98a1dd6723e550968d5df379d7b68d8e5b85f8d4",
+    "securityTests": "ef3242027a5a8010f73b20035acddca68e47fa2fb3213b5227ef08c8dd4f4015"
+  }
+}

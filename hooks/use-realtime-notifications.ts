@@ -28,20 +28,6 @@ export function useRealtimeNotifications() {
           })
         }
       )
-      .on(
-        'postgres_changes',
-        {
-          event: 'INSERT',
-          schema: 'public',
-          table: 'messages',
-          // Assuming messages also have clinic_id or profile_id filter
-        },
-        (payload) => {
-          toast.message("Nuevo mensaje recibido", {
-            description: "Tienes un nuevo mensaje en tu bandeja de entrada.",
-          })
-        }
-      )
       .subscribe()
 
     return () => {

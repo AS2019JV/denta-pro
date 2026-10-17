@@ -1,0 +1,17 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "queryFile": "profile-restoration.sql",
+  "actual": [
+    {
+      "observed_at": "2026-10-05 21:10:05.53856+00",
+      "id": "ae54f779-8e99-414a-87ee-b554107e7f8a",
+      "role": "doctor",
+      "status": "active",
+      "deleted_at": null,
+      "member_role": "doctor",
+      "member_status": "active",
+      "original_session_present": true
+    }
+  ]
+}

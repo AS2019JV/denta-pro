@@ -1,0 +1,18 @@
+{
+  "status": "PARTIAL",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-07T05:04:52.760Z",
+  "scope": "three existing synthetic .invalid accounts; password authentication followed by owned TOTP challenge; no SQL or membership changes",
+  "actors": [],
+  "limits": [
+    "No JWT, password, email, TOTP secret, QR, or provider response body recorded",
+    "Signed JWT claims verified locally through Supabase SDK; no JWT emitted"
+  ],
+  "failure": {
+    "actor": "owner_A",
+    "stage": "factor-ready-assurance",
+    "providerCode": null,
+    "httpStatus": null
+  },
+  "completedAt": "2026-10-07T05:04:55.582Z"
+}

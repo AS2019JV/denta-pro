@@ -60,8 +60,8 @@ export function SignupForm() {
       return
     }
 
-    if (formData.password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres para tu seguridad")
+    if (formData.password.length < 12 || formData.password.length > 128) {
+      setError("La contraseña debe tener entre 12 y 128 caracteres")
       setIsLoading(false)
       return
     }
@@ -287,11 +287,13 @@ export function SignupForm() {
                   <div className="relative">
                     <Input
                       id="password"
+                      minLength={12}
+                      maxLength={128}
                       type={showPassword ? "text" : "password"}
-                      placeholder="Mínimo 6 caracteres"
+                      placeholder="Entre 12 y 128 caracteres"
                       value={formData.password}
                       onChange={handleInputChange}
-                      className={`h-12 bg-card border-border focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-12 shadow-sm ${error && (!formData.password || formData.password.length < 6) ? 'border-red-300 bg-red-50/20' : ''}`}
+                      className={`h-12 bg-card border-border focus:border-teal-500 focus:ring-teal-500/20 rounded-xl transition-all pr-12 shadow-sm ${error && (formData.password.length < 12 || formData.password.length > 128) ? 'border-red-300 bg-red-50/20' : ''}`}
                     />
                     <Button
                       type="button"

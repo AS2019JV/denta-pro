@@ -1,0 +1,7 @@
+{
+  "exitCode": 1,
+  "command": "node --test test/security/*.test.cjs",
+  "environment": "working-tree current security baseline",
+  "log": "docs/production/evidence/2026-10-02-release/security-regressions.log",
+  "finishedAt": "2026-10-02T23:37:26.0252748Z"
+}

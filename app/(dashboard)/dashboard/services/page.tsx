@@ -5,8 +5,8 @@ export default function ServicesPage() {
   return (
     <div className="space-y-6">
       <PageHeader 
-        title="Tratamientos y Precios" 
-        description="Gestiona el catálogo de servicios, precios y duraciones para tu agenda." 
+        title="Tratamientos" 
+        description="Consulta los tratamientos y sus duraciones de referencia para la agenda." 
       />
       <ServicesManager />
     </div>

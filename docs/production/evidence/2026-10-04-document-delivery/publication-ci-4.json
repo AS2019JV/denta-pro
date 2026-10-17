@@ -1,0 +1,42 @@
+{
+  "status": "VERIFIED",
+  "scope": "Actual final published source / offline CI binding, not deployed runtime or complete dependency acceptance",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "testedMerge": "820bb10564be9cd063ff73455e75fcb29f0da234",
+  "candidateTree": "6753cd1a8463ed0ae721a48ab357d2a347d5b340",
+  "testedMergeTree": "6753cd1a8463ed0ae721a48ab357d2a347d5b340",
+  "ciRun": 37243741552,
+  "ciUrl": "https://github.com/AS2019JV/denta-pro/actions/runs/37243741552",
+  "environment": "GitHub ubuntu-24.04, frozen npm ci --ignore-scripts, synthetic offline application configuration; no staging secrets",
+  "expected": "All required checks pass, tested/candidate trees identical, no privileged source findings or sentinel in compiled client artifacts",
+  "actual": {
+    "conclusion": "success",
+    "tests": 275,
+    "passed": 275,
+    "failed": 0,
+    "secretScanTextFiles": 834,
+    "secretFindings": 0,
+    "clientArtifacts": 93,
+    "syntheticServerCredentialExposed": false,
+    "productionDependencyVulnerabilities": 0
+  },
+  "commands": [
+    "gh run view 37243741552 --json status,conclusion,headSha,url,jobs",
+    "gh run view 37243741552 --log",
+    "git fetch origin refs/pull/1/merge",
+    "git rev-parse HEAD FETCH_HEAD HEAD^{tree} FETCH_HEAD^{tree}"
+  ],
+  "rawEvidence": {
+    "log": "../../../../tmp/step1-ci-37243741552.log",
+    "logSha256": "c9d600cb44b9a62cf800a462877484f7b113cb246b07e118dfcc61a0a58aeeed",
+    "metadata": "../../../../tmp/step1-ci-37243741552.json",
+    "metadataSha256": "5eaf5d2319538e925a3c3a9293d0e3c1f586d3f9f3c8538e97227e17ca61522e",
+    "browser": "ci-final-success.jpg"
+  },
+  "limits": [
+    "cfdb remains the deployed candidate; JSON/claims classification fixes have not been deployed or runtime reverified",
+    "Eight HIGH development/build-tool advisories remain undisposed",
+    "Initial gh metadata lookup TLS timeout retained; authenticated GitHub browser independently showed success before later log retrieval succeeded",
+    "Operational closure documents postdate the tested source; no application-source change is implied"
+  ]
+}

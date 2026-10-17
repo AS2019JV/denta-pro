@@ -1,0 +1,154 @@
+{
+  "state": "VERIFIED_LOCAL_HCU_ATOMICITY",
+  "startedAt": "2026-10-04T02:46:10.789Z",
+  "project": "clinia-clean-20261002-1",
+  "sourceHashes": {
+    "components/hcu033-form.tsx": "6eb34106cdc1c023ff412d17ba1a76b8328e32fe1942bdc128f907815d3e57df",
+    "test/production/hcu-context-loading.test.cjs": "b01fb3b0af1a46e0940663feb9af8c020c4576f8b8e6498acb90a5f7538f329b",
+    "docs/production/reconciliation/encargo02/forward.sql": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+    "supabase/migrations/20261002180423_live_session_revocation.sql": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d"
+  },
+  "driverSha256": "fb0f15f5fc32268df52a7f83201e7f57497a2cf33ff91755c63cb1b95a4b27dd",
+  "initialState": "exited",
+  "checks": [
+    {
+      "name": "Exact canonical active synchronization and live authority prerequisite",
+      "passed": true
+    },
+    {
+      "name": "Successful authenticated-role HCU synchronizes patient within INSERT",
+      "passed": true
+    },
+    {
+      "name": "Forced summary UPDATE rejection rolls back HCU, patient and audit effects",
+      "passed": true
+    },
+    {
+      "name": "Outer ROLLBACK preserves original rows and removes temporary failure trigger",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Existing owned clean-managed-1 synthetic database only; no remote connection",
+    "All probe rows, temporary failure trigger and audit effects are rolled back",
+    "Authenticated SQL role with synthetic live-session claims, not cryptographic HTTP JWT or browser proof",
+    "No clinical, consent, retention, prescription or privacy acceptance"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    }
+  ],
+  "catalog": {
+    "functions": [
+      {
+        "name": "security_internal.lock_clinia_session()",
+        "owner": "postgres",
+        "definer": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "md5": "69a325cf0b73743dc5a50b2c6f4a7170"
+      },
+      {
+        "name": "security_internal.protect_clinical_identity()",
+        "owner": "postgres",
+        "definer": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "md5": "289457d532605e80868a41ecff9ad78a"
+      },
+      {
+        "name": "security_internal.require_clinic(uuid,text[],boolean)",
+        "owner": "postgres",
+        "definer": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "md5": "e7c822cbffb3195f70088e7e4617a043"
+      },
+      {
+        "name": "update_patient_odontogram_summary()",
+        "owner": "postgres",
+        "definer": true,
+        "config": [
+          "search_path=\"\""
+        ],
+        "md5": "7fbcc17db9bd5ba1465503ad4e447754"
+      }
+    ],
+    "triggers": [
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "enabled": "O",
+        "type": 23,
+        "function": "security_internal.enforce_clinician_assignment()"
+      },
+      {
+        "name": "encargo02_00_prepare_author",
+        "enabled": "O",
+        "type": 7,
+        "function": "security_internal.prepare_hcu033_author()"
+      },
+      {
+        "name": "trg_sync_hcu033_form_clinic_id",
+        "enabled": "O",
+        "type": 23,
+        "function": "sync_hcu033_form_clinic_id()"
+      },
+      {
+        "name": "tr_update_patient_odontogram",
+        "enabled": "O",
+        "type": 21,
+        "function": "update_patient_odontogram_summary()"
+      },
+      {
+        "name": "audit_hcu033_forms",
+        "enabled": "O",
+        "type": 29,
+        "function": "logs.log_access_trigger()"
+      },
+      {
+        "name": "encargo02_protect_identity",
+        "enabled": "O",
+        "type": 23,
+        "function": "security_internal.protect_clinical_identity()"
+      }
+    ],
+    "hcuRls": true,
+    "patientRls": true
+  },
+  "before": {
+    "hcuCount": 0,
+    "auditCount": 4,
+    "patientMd5": "e93d5752a28d86776220fcc2f66d777b",
+    "probeTriggerCount": 0
+  },
+  "probe": {
+    "summaryFailureSqlstate": "23514",
+    "rejectedPatientUnchanged": true,
+    "rejectedHcuCountUnchanged": true,
+    "rejectedAuditCountUnchanged": true,
+    "ordinaryRoleInsertSynchronized": true
+  },
+  "after": {
+    "hcuCount": 0,
+    "auditCount": 4,
+    "patientMd5": "e93d5752a28d86776220fcc2f66d777b",
+    "probeTriggerCount": 0
+  },
+  "finalState": "exited",
+  "completedAt": "2026-10-04T02:46:33.954Z"
+}

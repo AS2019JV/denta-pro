@@ -6,7 +6,8 @@ import {
   Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogTrigger 
 } from "@/components/ui/dialog"
 import { Button } from "@/components/ui/button"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { Avatar, AvatarFallback } from "@/components/ui/avatar"
+import { PrivateMediaAvatar } from '@/components/private-media-avatar'
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Users, CreditCard, Heart, ArrowRight, Loader2, Star, Plus } from "lucide-react"
@@ -155,7 +156,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
 
                       <div className="flex items-center gap-4">
                         <Avatar className="h-14 w-14 border-2 border-white ring-2 ring-slate-100">
-                          <AvatarImage src={biller.avatar_url || ""} />
+                          <PrivateMediaAvatar kind="patient-avatar" entityId={biller.id} reference={biller.avatar_url} />
                           <AvatarFallback className="bg-slate-100 text-slate-700 font-black">
                             {biller.first_name[0]}{biller.last_name[0]}
                           </AvatarFallback>
@@ -213,7 +214,7 @@ export function FamilyCenter({ patientId, patientName, trigger }: FamilyCenterPr
                       >
                         <div className="flex items-center gap-3">
                           <Avatar className="h-10 w-10">
-                            <AvatarImage src={member.avatar_url || ""} />
+                            <PrivateMediaAvatar kind="patient-avatar" entityId={member.id} reference={member.avatar_url} />
                             <AvatarFallback className="bg-muted/50 text-slate-400 font-bold text-xs">
                               {member.first_name[0]}{member.last_name[0]}
                             </AvatarFallback>

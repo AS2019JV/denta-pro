@@ -1,0 +1,31 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "command": "node scripts/verify-clinia-s3-transport.cjs warm phihonofwyerpfgqfekt",
+  "driverSha256": "6fa235e6e73734f1377b90370017fc0e7d0c1fb0a8c7dd01d3441b58148ba4fb",
+  "phase": "warm",
+  "startedAt": "2026-10-06T05:03:41.877Z",
+  "checks": [
+    {
+      "requirement": "Independent live flag witness",
+      "httpStatus": 200,
+      "active": true
+    },
+    {
+      "requirement": "GET S3 JWT/RLS",
+      "expected": "200 and original synthetic hash",
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wireSha256": null,
+      "completedAt": "2026-10-06T05:03:42.893Z"
+    }
+  ],
+  "limits": [
+    "Synthetic registered 70-byte file, one staging region only",
+    "No deployed application, legacy capability retirement or production claim"
+  ],
+  "tokenSha256": "6caf425d74aef0126e158600d0d021b7a40e97ecd0ace64623ab3623f04f7aec",
+  "expiresAt": "2026-10-06T06:03:22.000Z",
+  "failure": "Authorization, transport or capture expectation not satisfied; see receipts",
+  "completedAt": "2026-10-06T05:03:42.895Z"
+}

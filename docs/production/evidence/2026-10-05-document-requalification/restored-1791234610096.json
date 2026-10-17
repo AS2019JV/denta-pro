@@ -1,0 +1,141 @@
+{
+  "status": "VERIFIED",
+  "phase": "restored",
+  "attempt": "2",
+  "candidate": {
+    "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+    "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+    "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+    "project": "phihonofwyerpfgqfekt"
+  },
+  "startedAt": "2026-10-05T21:10:10.096Z",
+  "manifestSha256": "0d54a50b94f4f0f7ec59c82580e1e385f642814bd03e30370b4e485602211d8b",
+  "transportSha256": "3e266a321cacb8e2b8f1854574f7321482bed4d0427212a5d7fe53abdde2b496",
+  "driverSha256": "d229fd51d5973739afb374e2d168c27f13eff88eafa6e6989b6bf5b7d558197a",
+  "helperSha256": "b9071500dcee8f28d8d220643c064ecab855dacae3d73d138267dcb864eb8655",
+  "runtimeHelperSha256": "7692cc30f9d0d753f48a8aa23e67456493248b7ab26210e1fa4aec870a527c85",
+  "command": "node scripts/verify-clinia-document-requalification.cjs restored 2 phihonofwyerpfgqfekt",
+  "checks": [
+    {
+      "requirement": "fresh independent owner before restored",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "restored exact original 1",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "restored exact original 2",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "fresh independent owner after restored",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    }
+  ],
+  "requests": [
+    {
+      "actor": "fresh independent owner before restored",
+      "startedAt": "2026-10-05T21:10:11.245Z",
+      "requestSha256": "941addfb083e9ac5f5c80aec0068fb4307f6401b266880cfd46ffc9544e7a70c",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:10:15.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:10:13.510Z"
+    },
+    {
+      "actor": "restored exact original 1",
+      "startedAt": "2026-10-05T21:10:13.511Z",
+      "requestSha256": "e721d61127e03d8dc04cbb2470fd5a15a20edc3b96dc262156ded4ee7d46ee3e",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:10:17.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:10:15.424Z"
+    },
+    {
+      "actor": "restored exact original 2",
+      "startedAt": "2026-10-05T21:10:15.425Z",
+      "requestSha256": "e721d61127e03d8dc04cbb2470fd5a15a20edc3b96dc262156ded4ee7d46ee3e",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:10:19.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:10:17.126Z"
+    },
+    {
+      "actor": "fresh independent owner after restored",
+      "startedAt": "2026-10-05T21:10:17.128Z",
+      "requestSha256": "941addfb083e9ac5f5c80aec0068fb4307f6401b266880cfd46ffc9544e7a70c",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:10:21.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:10:19.058Z"
+    }
+  ],
+  "limits": [
+    "Pinned deployment hostname; observed source binding is not cryptographic runtime attestation",
+    "Synthetic 70-byte PDF only; operator authority changes are recorded separately",
+    "No clinical data, tokens, passwords or protection cookies emitted"
+  ],
+  "preparedSha256": "f4aaed5c33e13bccb1686a64b505eff3efab8c67ffc93b733d9e5487299af0dc",
+  "warmEvidence": {
+    "filename": "warm-1791234257559.json",
+    "sha256": "fb7e6e59565d1e13c9ffd472aa13fee2462c0a435f2fa02eac145b7060867b5c"
+  },
+  "originalExpiresAt": "2026-10-05T21:58:10.000Z",
+  "originalRequestSha256": "e721d61127e03d8dc04cbb2470fd5a15a20edc3b96dc262156ded4ee7d46ee3e",
+  "originalTokenSha256": "1ee1bddc32547f2731a8bdbf7c33f2f2e1bd36d0d813fca7c408253a376b12ee",
+  "positiveControlCaptureSha256": "e7994fb0b6bef7c79f149a9b0041835b8574f6bd79967f96447de2578b66a8db",
+  "completedAt": "2026-10-05T21:10:19.060Z"
+}

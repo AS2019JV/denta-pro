@@ -1,0 +1,532 @@
+{
+  "date": "2026-09-22",
+  "phase": "Post-M5 follow-up",
+  "project": "leqsrfyjvuxxdsubjjin",
+  "catalog": {
+    "buckets": [
+      {
+        "id": "patient-avatars",
+        "public": false
+      },
+      {
+        "id": "receipts",
+        "public": false
+      },
+      {
+        "id": "patient-files",
+        "public": false
+      }
+    ],
+    "functions": [
+      {
+        "name": "prevent_profile_privilege_escalation",
+        "owner": "postgres",
+        "source": "\nBEGIN\n  -- 1. Allow trusted service_role via PostgREST\n  IF (\n    COALESCE(current_setting('request.jwt.claim.role', true), '') = 'service_role'\n    OR auth.role() = 'service_role'\n  ) THEN\n    RETURN NEW;\n  END IF;\n\n  -- 2. Allow internal DB administrative executions (migrations / psql where no auth JWT exists)\n  IF (session_user = 'postgres' AND current_setting('request.jwt.claim.role', true) IS NULL) THEN\n    RETURN NEW;\n  END IF;\n\n  -- 3. Allow authorized internal procedure context (e.g. remove_clinic_member, accept_clinic_invitation)\n  IF (current_setting('app.authorized_internal_action', true) = 'true') THEN\n    RETURN NEW;\n  END IF;\n\n  -- Invariant: Non-service-role callers cannot mutate role\n  IF (NEW.role IS DISTINCT FROM OLD.role) THEN\n    RAISE EXCEPTION 'Unauthorized profile mutation: role cannot be modified by non-service-role callers.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- Invariant: Non-service-role callers cannot mutate clinic_id\n  IF (NEW.clinic_id IS DISTINCT FROM OLD.clinic_id) THEN\n    RAISE EXCEPTION 'Unauthorized profile mutation: clinic_id cannot be modified by non-service-role callers.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- Invariant: Non-service-role callers cannot mutate status\n  IF (NEW.status IS DISTINCT FROM OLD.status) THEN\n    RAISE EXCEPTION 'Unauthorized profile mutation: status cannot be modified by non-service-role callers.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  RETURN NEW;\nEND;\n",
+        "definer": false,
+        "anon_exec": false,
+        "auth_exec": true
+      },
+      {
+        "name": "is_clinic_member",
+        "owner": "postgres",
+        "source": "\nBEGIN\n  IF auth.uid() IS NULL OR check_clinic_id IS NULL THEN\n    RETURN false;\n  END IF;\n\n  RETURN EXISTS (\n    SELECT 1 FROM public.clinic_members \n    WHERE clinic_id = check_clinic_id \n      AND user_id = auth.uid()\n      AND status = 'active'\n    UNION\n    SELECT 1 FROM public.clinics\n    WHERE id = check_clinic_id\n      AND owner_id = auth.uid()\n  );\nEND;\n",
+        "definer": true,
+        "anon_exec": false,
+        "auth_exec": true
+      },
+      {
+        "name": "guard_patient_clinical_insert",
+        "owner": "postgres",
+        "source": "\nDECLARE\n  v_caller_role text;\nBEGIN\n  IF (\n    COALESCE(current_setting('request.jwt.claim.role', true), '') = 'service_role'\n    OR auth.role() = 'service_role'\n    OR (session_user = 'postgres' AND current_setting('request.jwt.claim.role', true) IS NULL)\n  ) THEN\n    RETURN NEW;\n  END IF;\n\n  SELECT cm.role INTO v_caller_role\n  FROM public.clinic_members cm\n  WHERE cm.user_id = auth.uid()\n    AND cm.clinic_id = NEW.clinic_id\n    AND cm.status = 'active';\n\n  IF v_caller_role IS NULL THEN\n    IF EXISTS (SELECT 1 FROM public.clinics WHERE id = NEW.clinic_id AND owner_id = auth.uid()) THEN\n      v_caller_role := 'clinic_owner';\n    END IF;\n  END IF;\n\n  IF v_caller_role IS NULL THEN\n    RAISE EXCEPTION 'Access denied: Caller is not an active member of this clinic.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  IF v_caller_role IN ('doctor', 'clinic_owner') THEN\n    RETURN NEW;\n  END IF;\n\n  -- Non-clinical staff cannot inject non-empty clinical chart data\n  IF (\n    (NEW.odontogram_state IS NOT NULL AND NEW.odontogram_state::text NOT IN ('{}', 'null', '\"\"'))\n    OR (NEW.medical_history IS NOT NULL AND NEW.medical_history::text NOT IN ('{}', '[]', 'null', '\"\"'))\n    OR (NEW.clinical_notes IS NOT NULL AND NEW.clinical_notes != '')\n    OR (NEW.allergies IS NOT NULL AND NEW.allergies::text NOT IN ('{}', '[]', 'null', '\"\"'))\n    OR (NEW.medications IS NOT NULL AND NEW.medications::text NOT IN ('{}', '[]', 'null', '\"\"'))\n    OR (NEW.medical_conditions IS NOT NULL AND NEW.medical_conditions::text NOT IN ('{}', '[]', 'null', '\"\"'))\n    OR NEW.blood_type IS NOT NULL\n    OR COALESCE(NEW.has_diabetes, false) != false\n    OR COALESCE(NEW.has_hypertension, false) != false\n    OR COALESCE(NEW.has_heart_disease, false) != false\n    OR COALESCE(NEW.is_smoker, false) != false\n    OR COALESCE(NEW.is_pregnant, false) != false\n  ) THEN\n    RAISE EXCEPTION 'Unauthorized clinical mutation: Non-clinical staff cannot initialize clinical diagnoses or charting on patient intake.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  RETURN NEW;\nEND;\n",
+        "definer": false,
+        "anon_exec": false,
+        "auth_exec": true
+      },
+      {
+        "name": "get_family_unit_with_stats",
+        "owner": "postgres",
+        "source": "\nDECLARE\n  v_patient_clinic_id uuid;\n  v_rep_id uuid;\nBEGIN\n  -- 1. Authentication enforcement\n  IF auth.uid() IS NULL AND COALESCE(current_setting('request.jwt.claim.role', true), '') <> 'service_role' THEN\n    RAISE EXCEPTION 'Authentication required.' USING ERRCODE = '42501';\n  END IF;\n\n  IF p_patient_id IS NULL THEN\n    RETURN;\n  END IF;\n\n  -- 2. Resolve target patient's clinic and family representative\n  SELECT clinic_id, COALESCE(family_representative_id, id)\n  INTO v_patient_clinic_id, v_rep_id\n  FROM public.patients\n  WHERE id = p_patient_id AND deleted_at IS NULL;\n\n  IF v_patient_clinic_id IS NULL THEN\n    RETURN;\n  END IF;\n\n  -- 3. Authorization: Caller must be an active member of the patient's clinic\n  IF NOT public.is_clinic_member(v_patient_clinic_id)\n     AND COALESCE(current_setting('request.jwt.claim.role', true), '') <> 'service_role'\n  THEN\n    RAISE EXCEPTION 'Access denied: Caller does not belong to the requested patient clinic.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- 4. Return family members strictly scoped to the same clinic and not deleted\n  RETURN QUERY\n  SELECT \n    p.id,\n    p.first_name,\n    p.last_name,\n    p.phone,\n    p.avatar_url, \n    p.family_relationship,\n    p.is_family_head,\n    p.family_representative_id,\n    (\n      SELECT COUNT(*)\n      FROM public.appointments a\n      WHERE a.patient_id = p.id\n        AND a.deleted_at IS NULL\n        AND a.status = 'completed'\n    )::bigint AS appointments_count,\n    (\n      SELECT COALESCE(SUM(b.amount), 0)\n      FROM public.billings b\n      WHERE b.patient_id = p.id\n        AND b.deleted_at IS NULL\n        AND b.status = 'paid'\n    )::numeric AS total_billed,\n    p.status\n  FROM public.patients p\n  WHERE p.clinic_id = v_patient_clinic_id\n    AND p.deleted_at IS NULL\n    AND (\n      p.id = v_rep_id \n      OR p.family_representative_id = v_rep_id\n      OR p.family_representative_id IN (\n        SELECT sub.id FROM public.patients sub\n        WHERE sub.clinic_id = v_patient_clinic_id\n          AND sub.deleted_at IS NULL\n          AND sub.family_representative_id = v_rep_id\n      )\n    )\n  ORDER BY p.is_family_head DESC, p.first_name ASC;\nEND;\n",
+        "definer": true,
+        "anon_exec": false,
+        "auth_exec": true
+      },
+      {
+        "name": "enforce_patient_clinical_privileges",
+        "owner": "postgres",
+        "source": "\nDECLARE\n  v_caller_role text;\nBEGIN\n  -- A. Administrative bypass (service_role via PostgREST or internal postgres session)\n  IF (\n    COALESCE(current_setting('request.jwt.claim.role', true), '') = 'service_role'\n    OR auth.role() = 'service_role'\n    OR (session_user = 'postgres' AND current_setting('request.jwt.claim.role', true) IS NULL)\n  ) THEN\n    RETURN NEW;\n  END IF;\n\n  -- B. Prevent mutation of tenant partition key\n  IF (NEW.clinic_id IS DISTINCT FROM OLD.clinic_id) THEN\n    RAISE EXCEPTION 'Unauthorized patient mutation: clinic_id cannot be modified.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- C. Resolve caller role from active clinic membership or ownership\n  SELECT cm.role INTO v_caller_role\n  FROM public.clinic_members cm\n  WHERE cm.user_id = auth.uid()\n    AND cm.clinic_id = OLD.clinic_id\n    AND cm.status = 'active';\n\n  IF v_caller_role IS NULL THEN\n    IF EXISTS (SELECT 1 FROM public.clinics WHERE id = OLD.clinic_id AND owner_id = auth.uid()) THEN\n      v_caller_role := 'clinic_owner';\n    END IF;\n  END IF;\n\n  IF v_caller_role IS NULL THEN\n    RAISE EXCEPTION 'Access denied: Caller is not an active member of this clinic.'\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- D. If caller is clinical staff (doctor or clinic_owner), permit all mutations\n  IF v_caller_role IN ('doctor', 'clinic_owner') THEN\n    RETURN NEW;\n  END IF;\n\n  -- E. If caller is non-clinical (e.g. receptionist):\n  -- Block alterations to clinical diagnoses, dental charting, and medical history\n  IF (\n    NEW.odontogram_state IS DISTINCT FROM OLD.odontogram_state\n    OR NEW.medical_history IS DISTINCT FROM OLD.medical_history\n    OR NEW.clinical_notes IS DISTINCT FROM OLD.clinical_notes\n    OR NEW.allergies IS DISTINCT FROM OLD.allergies\n    OR NEW.medications IS DISTINCT FROM OLD.medications\n    OR NEW.medical_conditions IS DISTINCT FROM OLD.medical_conditions\n    OR NEW.blood_type IS DISTINCT FROM OLD.blood_type\n    OR NEW.has_diabetes IS DISTINCT FROM OLD.has_diabetes\n    OR NEW.has_hypertension IS DISTINCT FROM OLD.has_hypertension\n    OR NEW.has_heart_disease IS DISTINCT FROM OLD.has_heart_disease\n    OR NEW.is_smoker IS DISTINCT FROM OLD.is_smoker\n    OR NEW.is_pregnant IS DISTINCT FROM OLD.is_pregnant\n  ) THEN\n    RAISE EXCEPTION 'Unauthorized clinical mutation: Non-clinical staff (%) cannot modify clinical diagnoses, dental charting, or medical history.', v_caller_role\n      USING ERRCODE = '42501';\n  END IF;\n\n  -- Allow administrative and demographic modifications\n  RETURN NEW;\nEND;\n",
+        "definer": false,
+        "anon_exec": false,
+        "auth_exec": true
+      }
+    ],
+    "migrations": [
+      {
+        "name": "test_migration",
+        "version": "20260922062827"
+      },
+      {
+        "name": "m1_tenant_and_access_control",
+        "version": "20260922063147"
+      },
+      {
+        "name": "m2_clinical_services_payment_methods",
+        "version": "20260922063312"
+      },
+      {
+        "name": "m3_analytics_maintenance_rpcs",
+        "version": "20260922063323"
+      },
+      {
+        "name": "m4_data_rights_requests_lopdp",
+        "version": "20260922063502"
+      },
+      {
+        "name": "m5_security_and_production_readiness",
+        "version": "20260922174110"
+      }
+    ]
+  },
+  "controls": {
+    "policies": [
+      {
+        "name": "Anyone can update an avatar",
+        "qual": null,
+        "check": "(bucket_id = 'avatars'::text)",
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Anyone can upload an avatar",
+        "qual": null,
+        "check": "(bucket_id = 'avatars'::text)",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Authenticated users update doctor avatars",
+        "qual": null,
+        "check": "((bucket_id = 'doctor-avatars'::text) AND (auth.role() = 'authenticated'::text))",
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Authenticated users update patient avatars",
+        "qual": null,
+        "check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))",
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Authenticated users upload doctor avatars",
+        "qual": null,
+        "check": "((bucket_id = 'doctor-avatars'::text) AND (auth.role() = 'authenticated'::text))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Authenticated users upload patient avatars",
+        "qual": null,
+        "check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Avatar images are publicly accessible",
+        "qual": "(bucket_id = 'avatars'::text)",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Owners can delete their logos",
+        "qual": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))",
+        "check": null,
+        "table": "objects",
+        "command": "DELETE"
+      },
+      {
+        "name": "Owners can update their logos",
+        "qual": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))",
+        "check": null,
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Owners can upload logos",
+        "qual": null,
+        "check": "((bucket_id = 'clinic-branding'::text) AND ((storage.foldername(name))[1] = ( SELECT (profiles.clinic_id)::text AS clinic_id\n   FROM profiles\n  WHERE (profiles.id = auth.uid()))))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Public Access to Clinic Logos",
+        "qual": "(bucket_id = 'clinic-branding'::text)",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Public Access to Doctor Avatars",
+        "qual": "(bucket_id = 'doctor-avatars'::text)",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Public Access to Patient Avatars",
+        "qual": "(bucket_id = 'patient-avatars'::text)",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Public Access to Receipts",
+        "qual": "(bucket_id = 'receipts'::text)",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Public Upload to Receipts",
+        "qual": null,
+        "check": "(bucket_id = 'receipts'::text)",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Tenant isolated delete for patient-avatars",
+        "qual": "((bucket_id = 'patient-avatars'::text) AND ((((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid)) OR (EXISTS ( SELECT 1\n   FROM patients p\n  WHERE ((((storage.foldername(objects.name))[1] = (p.id)::text) OR (objects.name ~~ ((p.id)::text || '-%'::text))) AND (p.deleted_at IS NULL) AND is_clinic_member(p.clinic_id))))))",
+        "check": null,
+        "table": "objects",
+        "command": "DELETE"
+      },
+      {
+        "name": "Tenant isolated delete for patient-files",
+        "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])))",
+        "check": null,
+        "table": "objects",
+        "command": "DELETE"
+      },
+      {
+        "name": "Tenant isolated delete for receipts",
+        "qual": "((bucket_id = 'receipts'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid))",
+        "check": null,
+        "table": "objects",
+        "command": "DELETE"
+      },
+      {
+        "name": "Tenant isolated insert for patient-avatars",
+        "qual": null,
+        "check": "((bucket_id = 'patient-avatars'::text) AND ((((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid)) OR (EXISTS ( SELECT 1\n   FROM patients p\n  WHERE ((((storage.foldername(objects.name))[1] = (p.id)::text) OR (objects.name ~~ ((p.id)::text || '-%'::text))) AND (p.deleted_at IS NULL) AND is_clinic_member(p.clinic_id))))))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Tenant isolated insert for receipts",
+        "qual": null,
+        "check": "((bucket_id = 'receipts'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Tenant isolated read for patient-files",
+        "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Tenant isolated select for patient-avatars",
+        "qual": "((bucket_id = 'patient-avatars'::text) AND ((((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid)) OR (EXISTS ( SELECT 1\n   FROM patients p\n  WHERE ((((storage.foldername(objects.name))[1] = (p.id)::text) OR (objects.name ~~ ((p.id)::text || '-%'::text))) AND (p.deleted_at IS NULL) AND is_clinic_member(p.clinic_id))))))",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Tenant isolated select for receipts",
+        "qual": "((bucket_id = 'receipts'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid))",
+        "check": null,
+        "table": "objects",
+        "command": "SELECT"
+      },
+      {
+        "name": "Tenant isolated update for patient-avatars",
+        "qual": "((bucket_id = 'patient-avatars'::text) AND ((((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid)) OR (EXISTS ( SELECT 1\n   FROM patients p\n  WHERE ((((storage.foldername(objects.name))[1] = (p.id)::text) OR (objects.name ~~ ((p.id)::text || '-%'::text))) AND (p.deleted_at IS NULL) AND is_clinic_member(p.clinic_id))))))",
+        "check": null,
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Tenant isolated update for patient-files",
+        "qual": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+        "check": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Tenant isolated update for receipts",
+        "qual": "((bucket_id = 'receipts'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND is_clinic_member(((storage.foldername(name))[1])::uuid))",
+        "check": null,
+        "table": "objects",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Tenant isolated upload for patient-files",
+        "qual": null,
+        "check": "((bucket_id = 'patient-files'::text) AND (((storage.foldername(name))[1])::uuid = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+        "table": "objects",
+        "command": "INSERT"
+      },
+      {
+        "name": "Clinic members can view hcu033_forms",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))))",
+        "check": null,
+        "table": "hcu033_forms",
+        "command": "SELECT"
+      },
+      {
+        "name": "Clinic owners can delete hcu033_forms",
+        "qual": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))",
+        "check": null,
+        "table": "hcu033_forms",
+        "command": "DELETE"
+      },
+      {
+        "name": "Clinical staff can insert hcu033_forms",
+        "qual": null,
+        "check": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR ((clinic_id IS NULL) AND (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))",
+        "table": "hcu033_forms",
+        "command": "INSERT"
+      },
+      {
+        "name": "Clinical staff can update hcu033_forms",
+        "qual": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(COALESCE(clinic_id, ( SELECT p.clinic_id\n   FROM patients p\n  WHERE (p.id = hcu033_forms.patient_id)))))",
+        "check": "(((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) OR (patient_id IN ( SELECT patients.id\n   FROM patients\n  WHERE (patients.clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])))",
+        "table": "hcu033_forms",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Active clinic members can insert patients",
+        "qual": null,
+        "check": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND is_clinic_member(clinic_id) AND check_subscription_active(clinic_id))",
+        "table": "patients",
+        "command": "INSERT"
+      },
+      {
+        "name": "Active clinic members can update patients",
+        "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND is_clinic_member(clinic_id) AND check_subscription_active(clinic_id))",
+        "check": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND is_clinic_member(clinic_id) AND check_subscription_active(clinic_id))",
+        "table": "patients",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Active clinic members can view patients",
+        "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND is_clinic_member(clinic_id) AND check_subscription_active(clinic_id))",
+        "check": null,
+        "table": "patients",
+        "command": "SELECT"
+      },
+      {
+        "name": "Clinic owners can delete patients in their clinic",
+        "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND is_clinic_member(clinic_id) AND check_subscription_active(clinic_id))",
+        "check": null,
+        "table": "patients",
+        "command": "DELETE"
+      },
+      {
+        "name": "Doctors and owners can insert prescriptions",
+        "qual": null,
+        "check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND (doctor_id = auth.uid()) AND check_subscription_active(clinic_id))",
+        "table": "prescriptions",
+        "command": "INSERT"
+      },
+      {
+        "name": "Doctors and owners can update their prescriptions",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND ((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text)) AND check_subscription_active(clinic_id))",
+        "check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND ((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text)))",
+        "table": "prescriptions",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Prescriptions are deletable by clinic owners",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND check_subscription_active(clinic_id))",
+        "check": null,
+        "table": "prescriptions",
+        "command": "DELETE"
+      },
+      {
+        "name": "Prescriptions are viewable by clinic members",
+        "qual": "(clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)",
+        "check": null,
+        "table": "prescriptions",
+        "command": "SELECT"
+      },
+      {
+        "name": "Clinic owners can delete members in their clinic",
+        "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text) AND (id <> auth.uid()))",
+        "check": null,
+        "table": "profiles",
+        "command": "DELETE"
+      },
+      {
+        "name": "Clinic owners can update members in their clinic",
+        "qual": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'clinic_owner'::text))",
+        "check": "((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid))",
+        "table": "profiles",
+        "command": "UPDATE"
+      },
+      {
+        "name": "Profiles are viewable by same clinic members",
+        "qual": "((id = auth.uid()) OR ((clinic_id IS NOT NULL) AND (clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid)))",
+        "check": null,
+        "table": "profiles",
+        "command": "SELECT"
+      },
+      {
+        "name": "Users can update own profile",
+        "qual": "(auth.uid() = id)",
+        "check": "(auth.uid() = id)",
+        "table": "profiles",
+        "command": "UPDATE"
+      }
+    ],
+    "stats_source": "\nDECLARE\n  v_total bigint;\n  v_search_pattern text;\n  v_caller_role text;\n  v_is_service_role boolean := false;\n  v_effective_limit integer;\n  v_effective_offset integer;\nBEGIN\n  -- -------------------------------------------------------------\n  -- Step A: Determine if caller is trusted service_role or DB admin\n  -- -------------------------------------------------------------\n  IF (\n    COALESCE(current_setting('request.jwt.claim.role', true), '') = 'service_role'\n    OR auth.role() = 'service_role'\n    OR (session_user = 'postgres' AND current_setting('request.jwt.claim.role', true) IS NULL)\n  ) THEN\n    v_is_service_role := true;\n  END IF;\n\n  -- -------------------------------------------------------------\n  -- Step B: Authentication & Tenant Membership Authorization\n  -- -------------------------------------------------------------\n  IF NOT v_is_service_role THEN\n    IF auth.uid() IS NULL THEN\n      RAISE EXCEPTION 'Authentication required.' USING ERRCODE = '42501';\n    END IF;\n\n    IF p_clinic_id IS NULL THEN\n      RAISE EXCEPTION 'Clinic ID is required.' USING ERRCODE = '22023';\n    END IF;\n\n    -- Strict caller tenant membership check on public.clinic_members\n    SELECT cm.role INTO v_caller_role\n    FROM public.clinic_members cm\n    WHERE cm.user_id = auth.uid()\n      AND cm.clinic_id = p_clinic_id\n      AND cm.status = 'active';\n\n    -- Fallback: verify direct ownership in public.clinics\n    IF v_caller_role IS NULL THEN\n      IF EXISTS (SELECT 1 FROM public.clinics WHERE id = p_clinic_id AND owner_id = auth.uid()) THEN\n        v_caller_role := 'clinic_owner';\n      END IF;\n    END IF;\n\n    -- Raise exception if caller does not belong to the target clinic\n    IF v_caller_role IS NULL THEN\n      RAISE EXCEPTION 'Access denied: Caller does not belong to the requested clinic.'\n        USING ERRCODE = '42501';\n    END IF;\n\n    -- Role authorization: Only authorized clinic roles may view clinical patient data\n    IF v_caller_role NOT IN ('clinic_owner', 'admin', 'doctor', 'receptionist') THEN\n      RAISE EXCEPTION 'Access denied: Caller role % is not authorized to access clinical statistics.', v_caller_role\n        USING ERRCODE = '42501';\n    END IF;\n\n    -- Subscription check: clinic must have active subscription or active trial\n    IF NOT public.check_subscription_active(p_clinic_id) THEN\n      RAISE EXCEPTION 'Subscription inactive or expired for this clinic.'\n        USING ERRCODE = '42501';\n    END IF;\n  END IF;\n\n  -- -------------------------------------------------------------\n  -- Step C: Bounded Pagination Limits & Search Pattern\n  -- -------------------------------------------------------------\n  v_effective_limit := LEAST(GREATEST(COALESCE(p_limit, 12), 1), 100);\n  v_effective_offset := GREATEST(COALESCE(p_offset, 0), 0);\n  v_search_pattern := '%' || LOWER(COALESCE(p_search, '')) || '%';\n\n  -- -------------------------------------------------------------\n  -- Step D: Calculate Total Record Count for Filtered Set\n  -- (PR-04 FIX: Excludes sorting and pagination clauses in scalar count query)\n  -- -------------------------------------------------------------\n  SELECT COUNT(*) INTO v_total\n  FROM public.patients pat\n  WHERE pat.clinic_id = p_clinic_id\n    AND pat.deleted_at IS NULL\n    AND (p_patient_id IS NULL OR pat.id = p_patient_id)\n    AND (\n      p_search IS NULL OR p_search = '' OR\n      LOWER(pat.first_name) LIKE v_search_pattern OR\n      LOWER(pat.last_name) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.email, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.phone, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.cedula, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.medical_record_number, '')) LIKE v_search_pattern\n    )\n    AND (\n      p_time_filter = 'all'\n      OR (p_time_filter = 'recent' AND pat.created_at >= NOW() - INTERVAL '7 days')\n      OR (p_time_filter = 'week' AND pat.created_at >= date_trunc('week', NOW()))\n      OR (p_time_filter = 'this_month' AND pat.created_at >= date_trunc('month', NOW()))\n      OR (p_time_filter = 'last_month' AND pat.created_at >= date_trunc('month', NOW()) - INTERVAL '1 month' AND pat.created_at < date_trunc('month', NOW()))\n    )\n    AND (\n      p_badge_filter = 'all'\n      OR (p_badge_filter = 'vip' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) >= COALESCE((\n        SELECT (c.settings->>'vip_threshold_appointments')::int \n        FROM public.clinics c WHERE c.id = p_clinic_id\n      ), 10))\n      OR (p_badge_filter = 'regular' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) BETWEEN 2 AND COALESCE((\n        SELECT (c.settings->>'vip_threshold_appointments')::int \n        FROM public.clinics c WHERE c.id = p_clinic_id\n      ), 10) - 1)\n      OR (p_badge_filter = 'new' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) <= 1)\n    );\n\n  -- -------------------------------------------------------------\n  -- Step E: Return Patient Rows with Aggregates\n  -- -------------------------------------------------------------\n  RETURN QUERY\n  SELECT\n    pat.id,\n    pat.clinic_id,\n    pat.first_name,\n    pat.last_name,\n    pat.email,\n    pat.phone,\n    pat.cedula,\n    pat.medical_record_number,\n    pat.date_of_birth,\n    pat.gender,\n    pat.address,\n    pat.city,\n    pat.status,\n    pat.created_at,\n    pat.updated_at,\n    pat.allergies,\n    pat.medications,\n    pat.medical_conditions,\n    pat.medical_history,\n    pat.clinical_notes,\n    pat.blood_type,\n    pat.has_diabetes,\n    pat.has_hypertension,\n    pat.has_heart_disease,\n    pat.is_smoker,\n    pat.is_pregnant,\n    pat.preferred_contact_method,\n    pat.recall_months,\n    pat.internal_notes,\n    pat.account_balance,\n    pat.avatar_url,\n    pat.family_representative_id,\n    pat.family_relationship,\n    pat.is_family_head,\n    (\n      COALESCE((\n        SELECT COUNT(*) FROM public.patients fam \n        WHERE fam.family_representative_id = pat.id \n          AND fam.clinic_id = p_clinic_id\n          AND fam.deleted_at IS NULL\n      ), 0) + CASE WHEN pat.is_family_head THEN 1 ELSE 0 END\n    )::bigint AS family_member_count,\n    COALESCE((\n      SELECT COUNT(*) FROM public.appointments apt \n      WHERE apt.patient_id = pat.id\n        AND apt.deleted_at IS NULL\n    ), 0)::bigint AS appointments_count,\n    COALESCE((\n      SELECT SUM(b.amount) FROM public.billings b \n      WHERE b.patient_id = pat.id\n        AND b.deleted_at IS NULL\n    ), 0)::numeric AS total_billed,\n    (\n      SELECT MAX(apt.start_time) FROM public.appointments apt \n      WHERE apt.patient_id = pat.id \n        AND apt.status = 'completed'\n        AND apt.deleted_at IS NULL\n    )::timestamptz AS last_visit,\n    (\n      SELECT MIN(apt.start_time) FROM public.appointments apt \n      WHERE apt.patient_id = pat.id \n        AND apt.start_time > NOW()\n        AND apt.status IN ('scheduled', 'confirmed')\n        AND apt.deleted_at IS NULL\n    )::timestamptz AS next_appointment,\n    COALESCE(\n      (\n        SELECT pn.content FROM public.patient_notes pn\n        WHERE pn.patient_id = pat.id\n          AND pn.deleted_at IS NULL\n        ORDER BY pn.created_at DESC\n        LIMIT 1\n      ),\n      (\n        SELECT apt.notes FROM public.appointments apt\n        WHERE apt.patient_id = pat.id\n          AND apt.status = 'completed'\n          AND apt.deleted_at IS NULL\n        ORDER BY apt.start_time DESC\n        LIMIT 1\n      )\n    )::text AS last_treatment_note,\n    pat.odontogram_state,\n    v_total::bigint AS total_count\n  FROM public.patients pat\n  WHERE pat.clinic_id = p_clinic_id\n    AND pat.deleted_at IS NULL\n    AND (p_patient_id IS NULL OR pat.id = p_patient_id)\n    AND (\n      p_search IS NULL OR p_search = '' OR\n      LOWER(pat.first_name) LIKE v_search_pattern OR\n      LOWER(pat.last_name) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.email, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.phone, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.cedula, '')) LIKE v_search_pattern OR\n      LOWER(COALESCE(pat.medical_record_number, '')) LIKE v_search_pattern\n    )\n    AND (\n      p_time_filter = 'all'\n      OR (p_time_filter = 'recent' AND pat.created_at >= NOW() - INTERVAL '7 days')\n      OR (p_time_filter = 'week' AND pat.created_at >= date_trunc('week', NOW()))\n      OR (p_time_filter = 'this_month' AND pat.created_at >= date_trunc('month', NOW()))\n      OR (p_time_filter = 'last_month' AND pat.created_at >= date_trunc('month', NOW()) - INTERVAL '1 month' AND pat.created_at < date_trunc('month', NOW()))\n    )\n    AND (\n      p_badge_filter = 'all'\n      OR (p_badge_filter = 'vip' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) >= COALESCE((\n        SELECT (c.settings->>'vip_threshold_appointments')::int \n        FROM public.clinics c WHERE c.id = p_clinic_id\n      ), 10))\n      OR (p_badge_filter = 'regular' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) BETWEEN 2 AND COALESCE((\n        SELECT (c.settings->>'vip_threshold_appointments')::int \n        FROM public.clinics c WHERE c.id = p_clinic_id\n      ), 10) - 1)\n      OR (p_badge_filter = 'new' AND (\n        SELECT COUNT(*) FROM public.appointments a WHERE a.patient_id = pat.id AND a.deleted_at IS NULL\n      ) <= 1)\n    )\n  ORDER BY\n    CASE WHEN p_group_by_family THEN pat.family_representative_id END NULLS LAST,\n    pat.created_at DESC\n  LIMIT v_effective_limit\n  OFFSET v_effective_offset;\nEND;\n",
+    "claims_source": "\nDECLARE\n  claims jsonb;\n  user_role text;\n  user_clinic_id uuid;\n  user_status text;\n  \n  -- Clinic Data\n  c_subscription_status text;\n  c_trial_ends_at timestamptz;\n  c_bypass boolean;\n  \n  -- Computed\n  is_active boolean;\nBEGIN\n  -- Fetch Profile & Clinic Data in one efficient query\n  SELECT \n    p.role, \n    p.clinic_id,\n    p.status,\n    c.subscription_status::text,\n    c.trial_ends_at,\n    c.bypass_subscription\n  INTO \n    user_role, user_clinic_id, user_status, c_subscription_status, c_trial_ends_at, c_bypass\n  FROM public.profiles p\n  LEFT JOIN public.clinics c ON p.clinic_id = c.id\n  WHERE p.id = (event->>'user_id')::uuid;\n\n  claims := event->'claims';\n\n  -- Only inject tenant claims if user has an assigned clinic AND profile is active\n  IF user_clinic_id IS NOT NULL AND user_status = 'active' THEN\n     claims := jsonb_set(claims, '{app_metadata, clinic_id}', to_jsonb(user_clinic_id));\n     claims := jsonb_set(claims, '{app_metadata, role}', to_jsonb(user_role));\n     \n     is_active := (\n        COALESCE(c_bypass, false) = true\n        OR c_subscription_status = 'active'\n        OR (\n             (c_subscription_status IS NULL OR c_subscription_status = 'trial') \n             AND \n             (c_trial_ends_at IS NULL OR c_trial_ends_at > NOW())\n           )\n     );\n     \n     claims := jsonb_set(claims, '{app_metadata, subscription_status}', to_jsonb(COALESCE(c_subscription_status, 'trial')));\n     claims := jsonb_set(claims, '{app_metadata, subscription_active}', to_jsonb(is_active));\n  ELSE\n     -- Explicitly clear obsolete claims if user is offboarded or suspended\n     claims := jsonb_set(claims, '{app_metadata, clinic_id}', 'null'::jsonb);\n     claims := jsonb_set(claims, '{app_metadata, role}', 'null'::jsonb);\n     claims := jsonb_set(claims, '{app_metadata, subscription_status}', 'null'::jsonb);\n     claims := jsonb_set(claims, '{app_metadata, subscription_active}', 'false'::jsonb);\n  END IF;\n\n  event := jsonb_set(event, '{claims}', claims);\n  return event;\nEND;\n",
+    "profile_privileges": {
+      "insert": false,
+      "name_update": true,
+      "role_update": false,
+      "table_update": false
+    }
+  },
+  "legacy_policies": [
+    {
+      "policyname": "Public Access to Receipts",
+      "roles": "{public}",
+      "permissive": "PERMISSIVE",
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'receipts'::text)",
+      "with_check": null
+    },
+    {
+      "policyname": "Public Upload to Receipts",
+      "roles": "{public}",
+      "permissive": "PERMISSIVE",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "(bucket_id = 'receipts'::text)"
+    },
+    {
+      "policyname": "Public Access to Patient Avatars",
+      "roles": "{public}",
+      "permissive": "PERMISSIVE",
+      "cmd": "SELECT",
+      "qual": "(bucket_id = 'patient-avatars'::text)",
+      "with_check": null
+    },
+    {
+      "policyname": "Authenticated users upload patient avatars",
+      "roles": "{public}",
+      "permissive": "PERMISSIVE",
+      "cmd": "INSERT",
+      "qual": null,
+      "with_check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    },
+    {
+      "policyname": "Authenticated users update patient avatars",
+      "roles": "{public}",
+      "permissive": "PERMISSIVE",
+      "cmd": "UPDATE",
+      "qual": null,
+      "with_check": "((bucket_id = 'patient-avatars'::text) AND (auth.role() = 'authenticated'::text))"
+    }
+  ],
+  "schema": [
+    {
+      "table_name": "patients",
+      "column_name": "birth_date",
+      "data_type": "date"
+    },
+    {
+      "table_name": "patients",
+      "column_name": "medical_history",
+      "data_type": "jsonb"
+    },
+    {
+      "table_name": "patient_notes",
+      "column_name": "patient_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "patient_notes",
+      "column_name": "clinic_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "patient_files",
+      "column_name": "patient_id",
+      "data_type": "uuid"
+    },
+    {
+      "table_name": "patient_files",
+      "column_name": "clinic_id",
+      "data_type": "uuid"
+    },
+    {
+      "column_name": "odontogram_state",
+      "data_type": "jsonb"
+    },
+    {
+      "column_name": "gender",
+      "data_type": "text"
+    },
+    {
+      "column_name": "allergies",
+      "data_type": "text"
+    },
+    {
+      "column_name": "medications",
+      "data_type": "text"
+    },
+    {
+      "column_name": "medical_conditions",
+      "data_type": "text"
+    },
+    {
+      "column_name": "status",
+      "data_type": "text"
+    }
+  ],
+  "advisors": [
+    {
+      "name": "function_search_path_mutable",
+      "count": 7,
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0011_function_search_path_mutable"
+    },
+    {
+      "name": "anon_security_definer_function_executable",
+      "count": 9,
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0028_anon_security_definer_function_executable"
+    },
+    {
+      "name": "authenticated_security_definer_function_executable",
+      "count": 15,
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/database/database-linter?lint=0029_authenticated_security_definer_function_executable"
+    },
+    {
+      "name": "auth_leaked_password_protection",
+      "count": 1,
+      "level": "WARN",
+      "remediation": "https://supabase.com/docs/guides/auth/password-security#password-strength-and-leaked-password-protection"
+    }
+  ],
+  "runtime_probe": {
+    "query": "BEGIN READ ONLY; SET LOCAL statement_timeout = '3s'; SELECT count(*) AS rows_returned FROM public.get_patients_with_stats(NULL::uuid); ROLLBACK;",
+    "sqlstate": "42703",
+    "message": "column pat.date_of_birth does not exist",
+    "context": "Administrative connector context, no patient rows returned; not an end-user JWT test."
+  }
+}

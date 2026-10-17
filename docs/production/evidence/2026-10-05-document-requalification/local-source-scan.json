@@ -1,0 +1,6 @@
+{
+  "state": "PASS",
+  "scanned": 1455,
+  "scope": "Current Git-visible text files or release snapshot; no history, ignored files or deployed-secret claim",
+  "findings": []
+}

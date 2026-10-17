@@ -1,0 +1,96 @@
+{
+  "status": "VERIFIED",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "observedAt": "2026-10-05T21:40:56.347Z",
+  "scope": "Selected local clinical runtime/migration/dependency inputs exactly equal published source; no whole-tree or cryptographic deployed-runtime attestation",
+  "files": [
+    {
+      "file": "app/api/clinical-documents/route.ts",
+      "sha256": "74614b4006b8afb9d1bba335442ef08c134204c2578760a428fe712dada0df8c",
+      "identical": true
+    },
+    {
+      "file": "lib/clinical-document-delivery.mjs",
+      "sha256": "902143b53b3c34a21908453001f0634495588e200fb3ff6936eaa4e7526b8470",
+      "identical": true
+    },
+    {
+      "file": "lib/clinical-document-principal.mjs",
+      "sha256": "78211b2f8b0b1529c403429481fe72aaf3228f077ca70f959b2d63fda1512e0a",
+      "identical": true
+    },
+    {
+      "file": "components/patient-files.tsx",
+      "sha256": "cbc76d32bf60536c6eff29d2b326b7d4488d254cbfa78d5cdcfb56c7a75c6246",
+      "identical": true
+    },
+    {
+      "file": "lib/private-media.mjs",
+      "sha256": "9f7c437455ac3a7e399a1e28aab88e374e4435c38efb5bfad1b88ba5b7b63e3e",
+      "identical": true
+    },
+    {
+      "file": "lib/env.ts",
+      "sha256": "c768af5912f034bdc57a4c58355f425acac2cef448838074f8e164ce82dfef0e",
+      "identical": true
+    },
+    {
+      "file": "package.json",
+      "sha256": "f1535734023bbe685eb4eb325b3b31b4893f224ac43c743da7b950072b081b56",
+      "identical": true
+    },
+    {
+      "file": "package-lock.json",
+      "sha256": "40d78f48aa6ee21e3bf0dab85aa230166243ac1072afa30ce78780a1055e1131",
+      "identical": true
+    },
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+      "identical": true
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f",
+      "identical": true
+    }
+  ],
+  "localValidation": {
+    "tests": 284,
+    "failures": 0,
+    "skipped": 0,
+    "typecheckExit": 0,
+    "lintExit": 0,
+    "lintWarningsRetained": true,
+    "logs": [
+      {
+        "file": "local-tests-final.log",
+        "sha256": "f9168131309b75e1beedde194dbc68847719f1c4e139d4729cab5abe025a4696",
+        "command": "node scripts/clinia-verify.cjs test"
+      },
+      {
+        "file": "local-types.log",
+        "sha256": "0455c7775f49fe3a724dbb83ce60794e4356469b96c8683eced7917120b84fb4",
+        "command": "node scripts/clinia-verify.cjs typecheck"
+      },
+      {
+        "file": "local-lint.log",
+        "sha256": "6e3594f74c883e43e1e050254124c906c99863884f3cd0075b3c8ad5d457459b",
+        "command": "node scripts/clinia-verify.cjs lint"
+      }
+    ],
+    "secretScan": {
+      "file": "local-source-scan.json",
+      "sha256": "5a1ecf48691b599a2b5e3a9c1c8292fd52d5a1a8a12eed86cf9212e440fe0985",
+      "scope": "Recorded 1455 Git-visible text files; excludes history, ignored private captures and hosted secrets"
+    }
+  },
+  "actualCandidateCI": {
+    "runId": 37243741552,
+    "tests": 275,
+    "evidence": "../2026-10-04-document-delivery/publication-ci-4.json",
+    "limitation": "Nine additional evidence-driver tests are local, not attributed to this CI run"
+  },
+  "build": "Existing exact-source CI and new Vercel Preview build; no repeat local build",
+  "productionChanged": false
+}

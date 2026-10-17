@@ -1,0 +1,26 @@
+{
+  "status": "VERIFIED",
+  "scope": "Custody of actual previously executed source6a CI logs, not new CI or runtime execution",
+  "runId": 37243741552,
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "artifacts": [
+    {
+      "original": "docs/production/evidence/2026-10-04-document-delivery/publication-ci-4.json",
+      "published": "docs/production/evidence/2026-10-04-document-delivery/publication-ci-4.json",
+      "sha256": "0e2488046f17df5ee4b0eff09611547e80faab281a1073e16790bf7a0d7e5003"
+    },
+    {
+      "original": "tmp/step1-ci-37243741552.log",
+      "published": "docs/production/evidence/2026-10-05-document-requalification/source-ci-37243741552.log",
+      "sha256": "c9d600cb44b9a62cf800a462877484f7b113cb246b07e118dfcc61a0a58aeeed"
+    },
+    {
+      "original": "tmp/step1-ci-37243741552.json",
+      "published": "docs/production/evidence/2026-10-05-document-requalification/source-ci-37243741552.json",
+      "sha256": "5eaf5d2319538e925a3c3a9293d0e3c1f586d3f9f3c8538e97227e17ca61522e"
+    }
+  ],
+  "limits": [
+    "Original publication artifact retained unchanged, including historical deployment limitations and original ignored raw paths; relocated bytes bound here"
+  ]
+}

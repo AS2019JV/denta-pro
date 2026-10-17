@@ -1,0 +1,42 @@
+{
+  "status": "VERIFIED",
+  "headCommit": "e010e1b0892689741b7b781f39f66d89b83a15ec",
+  "testedMergeCommit": "b450b28f833eb0799e3244dfabd2d72cef570666",
+  "gitTree": "583adcc2a7d7d1997bcb19928a45da84f64039d1",
+  "ciRun": 37163853870,
+  "tests": 225,
+  "pass": 225,
+  "fail": 0,
+  "sourceScanTextFiles": 798,
+  "productionAuditVulnerabilities": 0,
+  "clientArtifactsCheckedForServerSentinel": 92,
+  "deployedRuntimeCommit": "a281fce8768b449c2274cafa8b506cc677b2a7d0",
+  "deployedRuntimeSourceDelta": 0,
+  "followupChangedFiles": [
+    "docs/production/CANDIDATE_READINESS_2026-10-03.md",
+    "docs/production/IMPLEMENTATION_PROGRESS.md",
+    "docs/production/RELEASE_ACCEPTANCE_MATRIX.md",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071852387.json",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791071918505.json",
+    "docs/production/evidence/2026-10-03-hosted-api/attempt-1/expired-replay-1791072036189.json",
+    "docs/production/evidence/2026-10-03-release/adversarial-closeout.json",
+    "docs/production/evidence/2026-10-03-release/github-ci-37163120300.json",
+    "docs/production/evidence/2026-10-03-release/publication-validation-ci-2.json",
+    "docs/production/evidence/2026-10-03-release/runtime-source-equivalence.json",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-anonymous-login.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-dashboard.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-foreign-denied.png",
+    "docs/production/evidence/2026-10-03-staging/browser/ci-2-doctor-own-clinical.png",
+    "docs/production/evidence/2026-10-03-staging/browser/runtime-ci-2.json",
+    "docs/production/evidence/2026-10-03-staging/browser/vercel-preview-ci-2-ready.png",
+    "scripts/verify-clinia-hosted-expired-replay.cjs"
+  ],
+  "publicationCheckoutClean": true,
+  "draftPr": true,
+  "ciLogSha256": "3eb674f7fd666d12ca2ac84c108b86a1ab6fd56efe24111cf0ecab4ab9f8b0f6",
+  "recordedAt": "2026-10-04T00:10:58.992Z",
+  "releaseDecision": "NO-GO",
+  "limits": [
+    "Offline CI proof and unchanged deployed app source; not closure of hosted cache-revocation or operational/clinical gates"
+  ]
+}

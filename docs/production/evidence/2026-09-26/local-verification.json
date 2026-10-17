@@ -1,0 +1,58 @@
+{
+  "recorded_at_utc": "2026-09-26T17:16:52.9259265Z",
+  "base_head": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "status": "PARTIAL_NO_GO",
+  "local_checks": [
+    {
+      "command": "node test/production/catalog-comparison.test.cjs",
+      "passed": 8,
+      "exit_code": 0
+    },
+    {
+      "command": "node test/production/prescription-policy.test.cjs",
+      "passed": 11,
+      "exit_code": 0
+    },
+    {
+      "command": "node test/production/financial-retirement.test.cjs",
+      "passed": 13,
+      "exit_code": 0
+    }
+  ],
+  "typecheck": {
+    "command": ".\\node_modules\\.bin\\tsc.cmd --noEmit --incremental false",
+    "exit_code": 0
+  },
+  "builds": [
+    {
+      "reason": "spawn EPERM",
+      "log": "build-sandbox.log",
+      "exit_code": 1
+    },
+    {
+      "log": "build-approved.log",
+      "exit_code": 0,
+      "note": "Before final editor changes"
+    },
+    {
+      "reason": "Syntax error subsequently repaired",
+      "log": "build-final.log",
+      "exit_code": 1
+    },
+    {
+      "warnings": 39,
+      "log": "build-final-repaired.log",
+      "next_version": "15.5.26",
+      "exit_code": 0
+    }
+  ],
+  "source_manifest": "source-manifest.json",
+  "source_hashes_unchanged": true,
+  "validation_limits": [
+    "No browser validation",
+    "No real JWT/PostgREST/Storage role tests",
+    "Staging not representative",
+    "No clinical approval or privacy approval",
+    "No performance or recovery measurements"
+  ]
+}

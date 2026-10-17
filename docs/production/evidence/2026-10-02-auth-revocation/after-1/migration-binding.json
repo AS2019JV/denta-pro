@@ -1,0 +1,61 @@
+{
+  "observedAt": "2026-10-02T18:39:04.662Z",
+  "database": "clinia_upgrade_linked_20261002_2",
+  "command": "api.sql(captured-linked-v2, readFileSync(migration), postgres); node scripts/verify-clinia-auth-revocation.cjs after",
+  "migration": "supabase/migrations/20261002180423_live_session_revocation.sql",
+  "sha256": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d",
+  "definitions": [
+    {
+      "schema": "public",
+      "name": "clinia_session_active",
+      "bodyMd5": "bd4312480311fa40dc37425aa3d1eeb9",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "acl": [
+        "postgres=X/postgres",
+        "authenticated=X/postgres"
+      ]
+    },
+    {
+      "schema": "security_internal",
+      "name": "lock_clinia_session",
+      "bodyMd5": "69a325cf0b73743dc5a50b2c6f4a7170",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema": "security_internal",
+      "name": "require_clinic",
+      "bodyMd5": "e7c822cbffb3195f70088e7e4617a043",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    },
+    {
+      "schema": "security_internal",
+      "name": "role_for",
+      "bodyMd5": "feef8739b4cf30e59de0777ad1b608be",
+      "owner": "postgres",
+      "config": [
+        "search_path=\"\""
+      ],
+      "acl": [
+        "postgres=X/postgres"
+      ]
+    }
+  ],
+  "limits": [
+    "Post-fix local catalog and actual Auth HTTP evidence, no remote/deployed claim"
+  ]
+}

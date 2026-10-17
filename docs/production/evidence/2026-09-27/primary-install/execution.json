@@ -1,0 +1,172 @@
+{
+  "startedAt": "2026-09-27T15:30:26.706Z",
+  "environment": "local-synthetic-primary",
+  "steps": [
+    {
+      "name": "baseline",
+      "file": "docs/production/reconciliation/scoped-baseline/prod-deny-v2.sql",
+      "sha256": "d4986b8ea32454aa4428795ec1b4730c8633e5e0f61eee695744ceffb672cf7c",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "m7",
+      "file": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "owners",
+      "file": "docs/production/reconciliation/encargo01_local_m7_owners.sql",
+      "sha256": "843aa4f398a3a8aadaa7b9a73309f787638ab6b8f5bece2d73f23bf224a39106",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "encargo02",
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+      "state": "COMMITTED"
+    },
+    {
+      "name": "verify",
+      "file": "docs/production/reconciliation/encargo02/verify.sql",
+      "sha256": "e01c8c1c841c285824002564d6404c3d556e8b7441a6072c0c9e9199a79a07ba",
+      "state": "COMMITTED"
+    }
+  ],
+  "state": "LOCAL_SQL_INSTALLED_JWT_PENDING",
+  "limits": [
+    "Not remote parity or a backup restore",
+    "No browser or external email acceptance",
+    "Clinical release NOT READY"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "before": {
+    "patients": null,
+    "users": 0,
+    "objects": 0,
+    "buckets": 0,
+    "authTriggers": []
+  },
+  "buckets": [
+    {
+      "id": "patient-files",
+      "operation": "update",
+      "public": false,
+      "fileSizeLimit": 10485760,
+      "allowedMimeTypes": [
+        "application/pdf",
+        "image/png",
+        "image/jpeg"
+      ]
+    },
+    {
+      "id": "patient-avatars",
+      "operation": "update",
+      "public": false,
+      "fileSizeLimit": 2097152,
+      "allowedMimeTypes": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "clinic-branding",
+      "operation": "update",
+      "public": false,
+      "fileSizeLimit": 2097152,
+      "allowedMimeTypes": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "doctor-avatars",
+      "operation": "update",
+      "public": false,
+      "fileSizeLimit": 2097152,
+      "allowedMimeTypes": [
+        "image/png",
+        "image/jpeg",
+        "image/webp"
+      ]
+    }
+  ],
+  "completedAt": "2026-09-27T15:30:31.803Z"
+}

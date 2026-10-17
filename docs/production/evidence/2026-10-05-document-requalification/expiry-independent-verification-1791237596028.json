@@ -1,0 +1,34 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "verifiedAt": "2026-10-05T21:59:56.028Z",
+  "command": "node scripts/verify-clinia-expiry-evidence.cjs phihonofwyerpfgqfekt",
+  "verifierSha256": "447d6549e9f87d75a3c2428b25e5bc3d0e6f8174fde492973a0b3b0b3375771d",
+  "actorId": "ae54f779-8e99-414a-87ee-b554107e7f8a",
+  "clinicId": "d9a47157-1d36-43df-af1d-436d561ee551",
+  "sessionId": "41069974-b77e-4d29-9fd0-383db5b3fdea",
+  "qualification": {
+    "filename": "qualify-expiry-1791237590992.json",
+    "sha256": "8e578b7a5b216b65d0d8d75fd4b23d28b41e1f6991154ca3d1b3a1e509793559"
+  },
+  "before": {
+    "filename": "expiry-authority-before.json",
+    "sha256": "ceb66407886f6761cc5a8063f7205ea345519e5b0e6be4819b5b6d5d01ec325f",
+    "sqlFile": "expiry-authority-before.sql",
+    "sqlSha256": "2c1cc6c0fe79d1c4024b46a622481f8e16a135cb400b1b11ca5dbf9f3bb6227f",
+    "providerReceiptFile": "expiry-authority-before.provider.json",
+    "providerReceiptSha256": "9af0d4ac11c7aa1a27d3b5430cdcc1dc30be1dfb30165e1cdffa917e37635595"
+  },
+  "after": {
+    "filename": "expiry-authority-after.json",
+    "sha256": "4119202d98be0d1a9de5b5ce21b9c913bca8b908e9ac8cdf1c0362115f9e2995",
+    "sqlFile": "expiry-authority-after.sql",
+    "sqlSha256": "77186b1596c656b2ea467bc8e4df84ef47646a17662cdb8a5033a2fa037eb641",
+    "providerReceiptFile": "expiry-authority-after.provider.json",
+    "providerReceiptSha256": "1de19be40e067fb6a5599719a468581bdd157518bad70ceb4cb5c27605c69e66"
+  },
+  "limits": [
+    "Observed connector execution and immutable local artifact binding; not a cryptographic provider signature"
+  ]
+}

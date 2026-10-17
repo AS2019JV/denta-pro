@@ -1,0 +1,5040 @@
+{
+  "capturedAt": "2026-10-03T14:13:58.543Z",
+  "projectId": "phihonofwyerpfgqfekt",
+  "scope": "Read-only application catalogue; function definitions hashed, no row values or credentials",
+  "fingerprint": "9d8904994ae7c61150d9b4d3b5ca9ec3",
+  "catalog": {
+    "types": [
+      {
+        "acl": null,
+        "kind": "e",
+        "name": "app_role",
+        "owner": "postgres",
+        "labels": [
+          "clinic_owner",
+          "doctor",
+          "receptionist"
+        ],
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "baseType": null
+      },
+      {
+        "acl": null,
+        "kind": "e",
+        "name": "subscription_status",
+        "owner": "postgres",
+        "labels": [
+          "active",
+          "past_due",
+          "canceled",
+          "trial",
+          "archived"
+        ],
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "baseType": null
+      },
+      {
+        "acl": null,
+        "kind": "e",
+        "name": "user_status",
+        "owner": "postgres",
+        "labels": [
+          "invited",
+          "active",
+          "suspended"
+        ],
+        "schema": "public",
+        "default": null,
+        "notNull": false,
+        "baseType": null
+      }
+    ],
+    "tables": [
+      {
+        "acl": "{postgres=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "access_audit",
+        "owner": "postgres",
+        "schema": "logs",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": null,
+        "rls": false,
+        "kind": "S",
+        "name": "access_audit_id_seq",
+        "owner": "postgres",
+        "schema": "logs",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "appointments",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "automation_settings",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "billings",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "clinic_invitations",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "clinic_members",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "clinical_records",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "clinics",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "data_rights_requests",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "hcu033_forms",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "invoices",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "messages",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "notifications",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "patient_files",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "patient_notes",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "patients",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "payment_methods",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "payments",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "prescription_templates",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "prescriptions",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "profile_audit_log",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=rwU/postgres,anon=rwU/postgres,authenticated=rwU/postgres,service_role=rwU/postgres}",
+        "rls": false,
+        "kind": "S",
+        "name": "profile_audit_log_id_seq",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "profiles",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,authenticated=r/postgres,service_role=arwdDxtm/postgres}",
+        "rls": false,
+        "kind": "v",
+        "name": "receptionist_patient_view",
+        "owner": "postgres",
+        "schema": "public",
+        "options": [
+          "security_invoker=true"
+        ],
+        "forceRls": false,
+        "definition": " SELECT id,\n    clinic_id,\n    first_name,\n    last_name,\n    cedula,\n    phone,\n    email,\n    created_at\n   FROM public.patients;"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "service_categories",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "services",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "rls": true,
+        "kind": "r",
+        "name": "treatments",
+        "owner": "postgres",
+        "schema": "public",
+        "options": null,
+        "forceRls": false,
+        "definition": null
+      }
+    ],
+    "columns": [
+      {
+        "acl": null,
+        "name": "id",
+        "type": "bigint",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": true,
+        "identity": "d",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "timestamp",
+        "type": "timestamp with time zone",
+        "table": "logs.access_audit",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "actor_id",
+        "type": "uuid",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "actor_role",
+        "type": "text",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "action",
+        "type": "text",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "table_name",
+        "type": "text",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "record_id",
+        "type": "uuid",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "metadata",
+        "type": "jsonb",
+        "table": "logs.access_audit",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.appointments",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.appointments",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "start_time",
+        "type": "timestamp with time zone",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "end_time",
+        "type": "timestamp with time zone",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.appointments",
+        "default": "'scheduled'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "type",
+        "type": "text",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "notes",
+        "type": "text",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.appointments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.automation_settings",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.automation_settings",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_id",
+        "type": "uuid",
+        "table": "public.automation_settings",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "enabled",
+        "type": "boolean",
+        "table": "public.automation_settings",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "reminder_template",
+        "type": "text",
+        "table": "public.automation_settings",
+        "default": "'Hola {patient_name}, te recordamos tu cita el {date} a las {time} con el Dr. {doctor_name}.'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "days_before",
+        "type": "integer",
+        "table": "public.automation_settings",
+        "default": "1",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "whatsapp_enabled",
+        "type": "boolean",
+        "table": "public.automation_settings",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email_enabled",
+        "type": "boolean",
+        "table": "public.automation_settings",
+        "default": "true",
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.billings",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.billings",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.billings",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "amount",
+        "type": "numeric",
+        "table": "public.billings",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.billings",
+        "default": "'pending'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "description",
+        "type": "text",
+        "table": "public.billings",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "due_date",
+        "type": "date",
+        "table": "public.billings",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "invoice_number",
+        "type": "text",
+        "table": "public.billings",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "appointment_id",
+        "type": "uuid",
+        "table": "public.billings",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.billings",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.billings",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.clinic_invitations",
+        "default": "gen_random_uuid()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.clinic_invitations",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "public.clinic_invitations",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "role",
+        "type": "text",
+        "table": "public.clinic_invitations",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "invited_by",
+        "type": "uuid",
+        "table": "public.clinic_invitations",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.clinic_invitations",
+        "default": "'pending'::text",
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "token",
+        "type": "text",
+        "table": "public.clinic_invitations",
+        "default": "encode(extensions.gen_random_bytes(32), 'hex'::text)",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinic_invitations",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "expires_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinic_invitations",
+        "default": "(now() + '7 days'::interval)",
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.clinic_members",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_id",
+        "type": "uuid",
+        "table": "public.clinic_members",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.clinic_members",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "role",
+        "type": "text",
+        "table": "public.clinic_members",
+        "default": "'doctor'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinic_members",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.clinic_members",
+        "default": "'active'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.clinical_records",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinical_records",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinical_records",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "diagnosis",
+        "type": "bytea",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "treatment_plan",
+        "type": "text",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "xray_urls",
+        "type": "text[]",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "notes",
+        "type": "text",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinical_records",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "odontogram_state",
+        "type": "jsonb",
+        "table": "public.clinical_records",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "periodontogram_state",
+        "type": "jsonb",
+        "table": "public.clinical_records",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.clinics",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinics",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "owner_id",
+        "type": "uuid",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "logo_url",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "address",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "phone",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "settings",
+        "type": "jsonb",
+        "table": "public.clinics",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "disclaimer_text",
+        "type": "text",
+        "table": "public.clinics",
+        "default": "'This estimate is valid for 30 days. Please contact the front desk for questions.'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "working_hours",
+        "type": "jsonb",
+        "table": "public.clinics",
+        "default": "'{\"fri\": [\"09:00\", \"17:00\"], \"mon\": [\"09:00\", \"17:00\"], \"sat\": null, \"sun\": null, \"thu\": [\"09:00\", \"17:00\"], \"tue\": [\"09:00\", \"17:00\"], \"wed\": [\"09:00\", \"17:00\"]}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "subscription_tier",
+        "type": "text",
+        "table": "public.clinics",
+        "default": "'trial'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "trial_ends_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "bypass_subscription",
+        "type": "boolean",
+        "table": "public.clinics",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 14,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "subscription_status",
+        "type": "public.subscription_status",
+        "table": "public.clinics",
+        "default": "'trial'::public.subscription_status",
+        "notNull": false,
+        "identity": "",
+        "position": 15,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "kushki_subscription_id",
+        "type": "text",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 16,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "next_billing_date",
+        "type": "timestamp with time zone",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 17,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "archived_at",
+        "type": "timestamp with time zone",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 18,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "size",
+        "type": "character varying",
+        "table": "public.clinics",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 19,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.data_rights_requests",
+        "default": "gen_random_uuid()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_id",
+        "type": "uuid",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "request_type",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": "'pending'::text",
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "details",
+        "type": "jsonb",
+        "table": "public.data_rights_requests",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "legal_basis",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "retention_note",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "requested_by_email",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "resolved_by",
+        "type": "uuid",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "resolved_at",
+        "type": "timestamp with time zone",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.data_rights_requests",
+        "default": "now()",
+        "notNull": true,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.data_rights_requests",
+        "default": "now()",
+        "notNull": true,
+        "identity": "",
+        "position": 14,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "resolution_notes",
+        "type": "text",
+        "table": "public.data_rights_requests",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 16,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.hcu033_forms",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.hcu033_forms",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.hcu033_forms",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.hcu033_forms",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.hcu033_forms",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "form_data",
+        "type": "jsonb",
+        "table": "public.hcu033_forms",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.hcu033_forms",
+        "default": "(((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid",
+        "notNull": true,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.hcu033_forms",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.invoices",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.invoices",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "billing_id",
+        "type": "uuid",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "invoice_number",
+        "type": "text",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "sri_authorization",
+        "type": "text",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "sri_access_key",
+        "type": "text",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "xml_content",
+        "type": "text",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "pdf_url",
+        "type": "text",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.invoices",
+        "default": "'draft'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "total_amount",
+        "type": "numeric",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "items",
+        "type": "jsonb",
+        "table": "public.invoices",
+        "default": "'[]'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "sri_authorization_date",
+        "type": "timestamp with time zone",
+        "table": "public.invoices",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 14,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "environment",
+        "type": "text",
+        "table": "public.invoices",
+        "default": "'TEST'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 15,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.messages",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.messages",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "sender_id",
+        "type": "uuid",
+        "table": "public.messages",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "receiver_id",
+        "type": "uuid",
+        "table": "public.messages",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "content",
+        "type": "text",
+        "table": "public.messages",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_read",
+        "type": "boolean",
+        "table": "public.messages",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.messages",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.notifications",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.notifications",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_id",
+        "type": "uuid",
+        "table": "public.notifications",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "title",
+        "type": "text",
+        "table": "public.notifications",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "message",
+        "type": "text",
+        "table": "public.notifications",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "type",
+        "type": "text",
+        "table": "public.notifications",
+        "default": "'info'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_read",
+        "type": "boolean",
+        "table": "public.notifications",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "link",
+        "type": "text",
+        "table": "public.notifications",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.patient_files",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.patient_files",
+        "default": "now()",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "file_path",
+        "type": "text",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "size",
+        "type": "text",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "type",
+        "type": "text",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "uploaded_by",
+        "type": "uuid",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.patient_files",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.patient_notes",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.patient_notes",
+        "default": "now()",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.patient_notes",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.patient_notes",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "content",
+        "type": "text",
+        "table": "public.patient_notes",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "author_id",
+        "type": "uuid",
+        "table": "public.patient_notes",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.patient_notes",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.patients",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.patients",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "first_name",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "last_name",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "cedula",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "phone",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "birth_date",
+        "type": "date",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "gender",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "address",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "medical_history",
+        "type": "jsonb",
+        "table": "public.patients",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.patients",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "emergency_contact",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "emergency_phone",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 14,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "allergies",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 15,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "medications",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 16,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "medical_conditions",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 17,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "insurance_provider",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 18,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "policy_number",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 19,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 20,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "medical_alerts",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 21,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "occupation",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 22,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "guardian_name",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 23,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "referral_source",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 24,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "referred_by",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 25,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinical_notes",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 26,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "medical_record_number",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 27,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "tags",
+        "type": "text[]",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 28,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.patients",
+        "default": "'active'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 29,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "blood_type",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 30,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "marital_status",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 31,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "city",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 32,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "state",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 33,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "has_diabetes",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 34,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "has_hypertension",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 35,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "has_heart_disease",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 36,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_smoker",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 37,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_pregnant",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 38,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "preferred_contact_method",
+        "type": "text",
+        "table": "public.patients",
+        "default": "'phone'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 39,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "recall_months",
+        "type": "integer",
+        "table": "public.patients",
+        "default": "6",
+        "notNull": false,
+        "identity": "",
+        "position": 40,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "family_representative_id",
+        "type": "uuid",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 41,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "internal_notes",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 42,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "account_balance",
+        "type": "numeric",
+        "table": "public.patients",
+        "default": "0",
+        "notNull": false,
+        "identity": "",
+        "position": 43,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "family_relationship",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 44,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_family_head",
+        "type": "boolean",
+        "table": "public.patients",
+        "default": "false",
+        "notNull": false,
+        "identity": "",
+        "position": 45,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "last_treatment_note",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 46,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "odontogram_state",
+        "type": "jsonb",
+        "table": "public.patients",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 47,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "avatar_url",
+        "type": "text",
+        "table": "public.patients",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 48,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "periodontogram_state",
+        "type": "jsonb",
+        "table": "public.patients",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 49,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.patients",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 50,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.payment_methods",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.payment_methods",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "type",
+        "type": "text",
+        "table": "public.payment_methods",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "title",
+        "type": "text",
+        "table": "public.payment_methods",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "config",
+        "type": "jsonb",
+        "table": "public.payment_methods",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_active",
+        "type": "boolean",
+        "table": "public.payment_methods",
+        "default": "true",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.payment_methods",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.payment_methods",
+        "default": "(((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid",
+        "notNull": true,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.payments",
+        "default": "gen_random_uuid()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.payments",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.payments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "amount",
+        "type": "numeric",
+        "table": "public.payments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "currency",
+        "type": "text",
+        "table": "public.payments",
+        "default": "'USD'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "text",
+        "table": "public.payments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "provider",
+        "type": "text",
+        "table": "public.payments",
+        "default": "'kushki'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "provider_transaction_id",
+        "type": "text",
+        "table": "public.payments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "metadata",
+        "type": "jsonb",
+        "table": "public.payments",
+        "default": "'{}'::jsonb",
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.prescription_templates",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.prescription_templates",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.prescription_templates",
+        "default": "(((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid",
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.prescription_templates",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.prescription_templates",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "data",
+        "type": "jsonb",
+        "table": "public.prescription_templates",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.prescriptions",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.prescriptions",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "patient_id",
+        "type": "uuid",
+        "table": "public.prescriptions",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "doctor_id",
+        "type": "uuid",
+        "table": "public.prescriptions",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.prescriptions",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "data",
+        "type": "jsonb",
+        "table": "public.prescriptions",
+        "default": "'{}'::jsonb",
+        "notNull": true,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "bigint",
+        "table": "public.profile_audit_log",
+        "default": "nextval('public.profile_audit_log_id_seq'::regclass)",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "target_user_id",
+        "type": "uuid",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "actor_user_id",
+        "type": "uuid",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "actor_role",
+        "type": "text",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "action",
+        "type": "text",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "old_data",
+        "type": "jsonb",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "new_data",
+        "type": "jsonb",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "changed_fields",
+        "type": "text[]",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "ip_address",
+        "type": "text",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_agent",
+        "type": "text",
+        "table": "public.profile_audit_log",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.profile_audit_log",
+        "default": "now()",
+        "notNull": true,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "full_name",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "role",
+        "type": "public.app_role",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "avatar_url",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "phone",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "address",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "specialization",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "license_number",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "bio",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "deleted_at",
+        "type": "timestamp with time zone",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 13,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "status",
+        "type": "public.user_status",
+        "table": "public.profiles",
+        "default": "'active'::public.user_status",
+        "notNull": false,
+        "identity": "",
+        "position": 14,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "title",
+        "type": "text",
+        "table": "public.profiles",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 15,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "first_name",
+        "type": "text",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "last_name",
+        "type": "text",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "cedula",
+        "type": "text",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "phone",
+        "type": "text",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "email",
+        "type": "text",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.receptionist_patient_view",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.service_categories",
+        "default": "gen_random_uuid()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.service_categories",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.service_categories",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "color",
+        "type": "text",
+        "table": "public.service_categories",
+        "default": "'#145247'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.service_categories",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.services",
+        "default": "extensions.uuid_generate_v4()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.services",
+        "default": "(((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid",
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.services",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "description",
+        "type": "text",
+        "table": "public.services",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "price",
+        "type": "numeric",
+        "table": "public.services",
+        "default": "0.00",
+        "notNull": true,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "duration_minutes",
+        "type": "integer",
+        "table": "public.services",
+        "default": "30",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "category",
+        "type": "text",
+        "table": "public.services",
+        "default": "'General'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "is_active",
+        "type": "boolean",
+        "table": "public.services",
+        "default": "true",
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.services",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 9,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "public.services",
+        "default": "timezone('utc'::text, now())",
+        "notNull": true,
+        "identity": "",
+        "position": 10,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "color",
+        "type": "text",
+        "table": "public.services",
+        "default": "'#145247'::text",
+        "notNull": false,
+        "identity": "",
+        "position": 11,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "category_id",
+        "type": "uuid",
+        "table": "public.services",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 12,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "id",
+        "type": "uuid",
+        "table": "public.treatments",
+        "default": "gen_random_uuid()",
+        "notNull": true,
+        "identity": "",
+        "position": 1,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "name",
+        "type": "text",
+        "table": "public.treatments",
+        "default": null,
+        "notNull": true,
+        "identity": "",
+        "position": 2,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "price",
+        "type": "numeric",
+        "table": "public.treatments",
+        "default": "0",
+        "notNull": true,
+        "identity": "",
+        "position": 3,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "duration",
+        "type": "integer",
+        "table": "public.treatments",
+        "default": "30",
+        "notNull": true,
+        "identity": "",
+        "position": 4,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "description",
+        "type": "text",
+        "table": "public.treatments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 5,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "public.treatments",
+        "default": "now()",
+        "notNull": false,
+        "identity": "",
+        "position": 6,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "user_id",
+        "type": "uuid",
+        "table": "public.treatments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 7,
+        "generated": ""
+      },
+      {
+        "acl": null,
+        "name": "clinic_id",
+        "type": "uuid",
+        "table": "public.treatments",
+        "default": null,
+        "notNull": false,
+        "identity": "",
+        "position": 8,
+        "generated": ""
+      }
+    ],
+    "indexes": [
+      {
+        "name": "access_audit_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "logs",
+        "definition": "CREATE UNIQUE INDEX access_audit_pkey ON logs.access_audit USING btree (id)"
+      },
+      {
+        "name": "appointments_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX appointments_pkey ON public.appointments USING btree (id)"
+      },
+      {
+        "name": "automation_settings_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX automation_settings_pkey ON public.automation_settings USING btree (id)"
+      },
+      {
+        "name": "billings_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX billings_pkey ON public.billings USING btree (id)"
+      },
+      {
+        "name": "clinic_invitations_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX clinic_invitations_pkey ON public.clinic_invitations USING btree (id)"
+      },
+      {
+        "name": "clinic_members_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX clinic_members_pkey ON public.clinic_members USING btree (id)"
+      },
+      {
+        "name": "clinical_records_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX clinical_records_pkey ON public.clinical_records USING btree (id)"
+      },
+      {
+        "name": "clinics_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX clinics_pkey ON public.clinics USING btree (id)"
+      },
+      {
+        "name": "data_rights_requests_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX data_rights_requests_pkey ON public.data_rights_requests USING btree (id)"
+      },
+      {
+        "name": "hcu033_forms_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX hcu033_forms_pkey ON public.hcu033_forms USING btree (id)"
+      },
+      {
+        "name": "idx_appointments_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_appointments_clinic_patient ON public.appointments USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_appointments_clinic_start",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_appointments_clinic_start ON public.appointments USING btree (clinic_id, start_time)"
+      },
+      {
+        "name": "idx_appointments_conflict",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_appointments_conflict ON public.appointments USING btree (clinic_id, doctor_id, start_time, end_time) WHERE (status <> 'cancelled'::text)"
+      },
+      {
+        "name": "idx_appointments_patient_doctor",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_appointments_patient_doctor ON public.appointments USING btree (clinic_id, patient_id, doctor_id)"
+      },
+      {
+        "name": "idx_billings_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_billings_clinic_patient ON public.billings USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_clinical_records_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_clinical_records_clinic_patient ON public.clinical_records USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_data_rights_requests_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_data_rights_requests_clinic_patient ON public.data_rights_requests USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_hcu033_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_hcu033_clinic_patient ON public.hcu033_forms USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_invoices_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_invoices_clinic_patient ON public.invoices USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_patient_files_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_patient_files_clinic_patient ON public.patient_files USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_patient_notes_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_patient_notes_clinic_patient ON public.patient_notes USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "idx_patients_clinic_cedula",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_patients_clinic_cedula ON public.patients USING btree (clinic_id, cedula)"
+      },
+      {
+        "name": "idx_prescriptions_clinic_created",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_prescriptions_clinic_created ON public.prescriptions USING btree (clinic_id, created_at DESC)"
+      },
+      {
+        "name": "idx_prescriptions_clinic_patient",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE INDEX idx_prescriptions_clinic_patient ON public.prescriptions USING btree (clinic_id, patient_id)"
+      },
+      {
+        "name": "invoices_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX invoices_pkey ON public.invoices USING btree (id)"
+      },
+      {
+        "name": "messages_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX messages_pkey ON public.messages USING btree (id)"
+      },
+      {
+        "name": "notifications_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX notifications_pkey ON public.notifications USING btree (id)"
+      },
+      {
+        "name": "patient_files_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX patient_files_pkey ON public.patient_files USING btree (id)"
+      },
+      {
+        "name": "patient_notes_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX patient_notes_pkey ON public.patient_notes USING btree (id)"
+      },
+      {
+        "name": "patients_id_clinic_id_key",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX patients_id_clinic_id_key ON public.patients USING btree (id, clinic_id)"
+      },
+      {
+        "name": "patients_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX patients_pkey ON public.patients USING btree (id)"
+      },
+      {
+        "name": "payment_methods_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX payment_methods_pkey ON public.payment_methods USING btree (id)"
+      },
+      {
+        "name": "payments_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX payments_pkey ON public.payments USING btree (id)"
+      },
+      {
+        "name": "prescription_templates_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX prescription_templates_pkey ON public.prescription_templates USING btree (id)"
+      },
+      {
+        "name": "prescriptions_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX prescriptions_pkey ON public.prescriptions USING btree (id)"
+      },
+      {
+        "name": "profile_audit_log_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX profile_audit_log_pkey ON public.profile_audit_log USING btree (id)"
+      },
+      {
+        "name": "profiles_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX profiles_pkey ON public.profiles USING btree (id)"
+      },
+      {
+        "name": "service_categories_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX service_categories_pkey ON public.service_categories USING btree (id)"
+      },
+      {
+        "name": "services_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX services_pkey ON public.services USING btree (id)"
+      },
+      {
+        "name": "treatments_pkey",
+        "ready": true,
+        "valid": true,
+        "schema": "public",
+        "definition": "CREATE UNIQUE INDEX treatments_pkey ON public.treatments USING btree (id)"
+      }
+    ],
+    "schemas": [
+      {
+        "acl": null,
+        "name": "logs",
+        "owner": "postgres"
+      },
+      {
+        "acl": "{pg_database_owner=UC/pg_database_owner,=U/pg_database_owner,postgres=U/pg_database_owner,anon=U/pg_database_owner,authenticated=U/pg_database_owner,service_role=U/pg_database_owner}",
+        "name": "public",
+        "owner": "pg_database_owner"
+      },
+      {
+        "acl": "{postgres=UC/postgres}",
+        "name": "security_internal",
+        "owner": "postgres"
+      }
+    ],
+    "database": "postgres",
+    "defaults": [
+      {
+        "acl": "{postgres=rwU/postgres,anon=rwU/postgres,authenticated=rwU/postgres,service_role=rwU/postgres}",
+        "type": "S",
+        "owner": "postgres",
+        "schema": "public"
+      },
+      {
+        "acl": "{postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "type": "f",
+        "owner": "postgres",
+        "schema": "public"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/postgres,anon=arwdDxtm/postgres,authenticated=arwdDxtm/postgres,service_role=arwdDxtm/postgres}",
+        "type": "r",
+        "owner": "postgres",
+        "schema": "public"
+      },
+      {
+        "acl": "{postgres=rwU/supabase_admin,anon=rwU/supabase_admin,authenticated=rwU/supabase_admin,service_role=rwU/supabase_admin}",
+        "type": "S",
+        "owner": "supabase_admin",
+        "schema": "public"
+      },
+      {
+        "acl": "{postgres=X/supabase_admin,anon=X/supabase_admin,authenticated=X/supabase_admin,service_role=X/supabase_admin}",
+        "type": "f",
+        "owner": "supabase_admin",
+        "schema": "public"
+      },
+      {
+        "acl": "{postgres=arwdDxtm/supabase_admin,anon=arwdDxtm/supabase_admin,authenticated=arwdDxtm/supabase_admin,service_role=arwdDxtm/supabase_admin}",
+        "type": "r",
+        "owner": "supabase_admin",
+        "schema": "public"
+      }
+    ],
+    "policies": [
+      {
+        "cmd": "SELECT",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "clinical_records",
+        "permissive": "PERMISSIVE",
+        "policyname": "Medical staff can view clinical records",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "INSERT",
+        "qual": null,
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "data_rights_requests",
+        "permissive": "PERMISSIVE",
+        "policyname": "Authenticated users can submit data rights requests",
+        "schemaname": "public",
+        "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND public.is_clinic_member(clinic_id) AND (user_id = auth.uid()) AND (status = 'pending'::text) AND (resolved_by IS NULL) AND (resolved_at IS NULL) AND (resolution_notes IS NULL))"
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND public.is_clinic_member(clinic_id) AND ((user_id = auth.uid()) OR (public.get_clinic_member_role(clinic_id) = 'clinic_owner'::text)))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "data_rights_requests",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinic members can view data rights requests",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "UPDATE",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = 'clinic_owner'::text))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "data_rights_requests",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinic owners can update data rights requests",
+        "schemaname": "public",
+        "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = 'clinic_owner'::text))"
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "hcu033_forms",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can view hcu033_forms",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "INSERT",
+        "qual": null,
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_files",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can insert patient files",
+        "schemaname": "public",
+        "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id))"
+      },
+      {
+        "cmd": "UPDATE",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND ((public.get_clinic_member_role(clinic_id) = 'clinic_owner'::text) OR ((public.get_clinic_member_role(clinic_id) = 'doctor'::text) AND (uploaded_by = auth.uid()))) AND public.check_subscription_active(clinic_id))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_files",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can update patient files",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id) AND (deleted_at IS NULL))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_files",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can view patient files",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "INSERT",
+        "qual": null,
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_notes",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can insert patient notes",
+        "schemaname": "public",
+        "with_check": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id))"
+      },
+      {
+        "cmd": "UPDATE",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND ((public.get_clinic_member_role(clinic_id) = 'clinic_owner'::text) OR ((public.get_clinic_member_role(clinic_id) = 'doctor'::text) AND (author_id = auth.uid()))) AND public.check_subscription_active(clinic_id))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_notes",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can update patient notes",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((clinic_id = (((auth.jwt() -> 'app_metadata'::text) ->> 'clinic_id'::text))::uuid) AND (public.get_clinic_member_role(clinic_id) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND public.check_subscription_active(clinic_id) AND (deleted_at IS NULL))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "patient_notes",
+        "permissive": "PERMISSIVE",
+        "policyname": "Clinical staff can view patient notes",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((bucket_id = 'patient-files'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND (public.get_clinic_member_role(((storage.foldername(name))[1])::uuid) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND (((storage.foldername(name))[2] IS NULL) OR (EXISTS ( SELECT 1\n   FROM public.patients p\n  WHERE ((p.id = ((storage.foldername(objects.name))[2])::uuid) AND (p.clinic_id = ((storage.foldername(objects.name))[1])::uuid) AND (p.deleted_at IS NULL))))) AND public.check_subscription_active(((storage.foldername(name))[1])::uuid))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "objects",
+        "permissive": "PERMISSIVE",
+        "policyname": "Tenant isolated read for patient-files",
+        "schemaname": "storage",
+        "with_check": null
+      },
+      {
+        "cmd": "INSERT",
+        "qual": null,
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "objects",
+        "permissive": "PERMISSIVE",
+        "policyname": "Tenant isolated upload for patient-files",
+        "schemaname": "storage",
+        "with_check": "((bucket_id = 'patient-files'::text) AND ((storage.foldername(name))[1] ~ '^[0-9a-fA-F-]{36}$'::text) AND (public.get_clinic_member_role(((storage.foldername(name))[1])::uuid) = ANY (ARRAY['clinic_owner'::text, 'doctor'::text])) AND (((storage.foldername(name))[2] IS NULL) OR (EXISTS ( SELECT 1\n   FROM public.patients p\n  WHERE ((p.id = ((storage.foldername(objects.name))[2])::uuid) AND (p.clinic_id = ((storage.foldername(objects.name))[1])::uuid) AND (p.deleted_at IS NULL))))) AND public.check_subscription_active(((storage.foldername(name))[1])::uuid))"
+      }
+    ],
+    "triggers": [
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "table": "public.appointments",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_enforce_clinician_assignment BEFORE INSERT OR UPDATE OF doctor_id, clinic_id ON public.appointments FOR EACH ROW EXECUTE FUNCTION security_internal.enforce_clinician_assignment()"
+      },
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "table": "public.clinical_records",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_enforce_clinician_assignment BEFORE INSERT OR UPDATE OF doctor_id, clinic_id ON public.clinical_records FOR EACH ROW EXECUTE FUNCTION security_internal.enforce_clinician_assignment()"
+      },
+      {
+        "name": "trg_audit_data_rights_status",
+        "table": "public.data_rights_requests",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_audit_data_rights_status AFTER UPDATE OF status ON public.data_rights_requests FOR EACH ROW WHEN (old.status IS DISTINCT FROM new.status) EXECUTE FUNCTION security_internal.audit_data_rights_status()"
+      },
+      {
+        "name": "trg_guard_data_rights_request_insert",
+        "table": "public.data_rights_requests",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_guard_data_rights_request_insert BEFORE INSERT ON public.data_rights_requests FOR EACH ROW EXECUTE FUNCTION public.guard_data_rights_request_insert()"
+      },
+      {
+        "name": "trg_protect_data_rights_requests",
+        "table": "public.data_rights_requests",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_protect_data_rights_requests BEFORE UPDATE ON public.data_rights_requests FOR EACH ROW EXECUTE FUNCTION public.protect_data_rights_requests()"
+      },
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "table": "public.hcu033_forms",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_enforce_clinician_assignment BEFORE INSERT OR UPDATE OF doctor_id, clinic_id ON public.hcu033_forms FOR EACH ROW EXECUTE FUNCTION security_internal.enforce_clinician_assignment()"
+      },
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "table": "public.prescriptions",
+        "enabled": "O",
+        "definition": "CREATE TRIGGER trg_enforce_clinician_assignment BEFORE INSERT OR UPDATE OF doctor_id, clinic_id ON public.prescriptions FOR EACH ROW EXECUTE FUNCTION security_internal.enforce_clinician_assignment()"
+      }
+    ],
+    "btreeGist": {
+      "available": "1.7",
+      "installed": null
+    },
+    "functions": [
+      {
+        "acl": "{postgres=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "a28f2f2bbb746e80661dc2f7a5275c9f",
+        "definer": true,
+        "identity": "logs.log_access_trigger()",
+        "anonExecute": false,
+        "definitionMd5": "b003cc90d68a7cf0308c20dc70229a62",
+        "serviceExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "bodyMd5": "7eb88a4ce098ba38d6e53a78b12905b1",
+        "definer": true,
+        "identity": "public.check_subscription_active(uuid)",
+        "anonExecute": true,
+        "definitionMd5": "ccac1c273b27d40acc1bd4a9260a02e1",
+        "serviceExecute": true,
+        "authenticatedExecute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "bodyMd5": "6d5dc4337cc650f4870db6c93ba6211b",
+        "definer": true,
+        "identity": "public.get_clinic_member_role(uuid)",
+        "anonExecute": true,
+        "definitionMd5": "6a640e61b581e7f5c7a9dd5309c5bec0",
+        "serviceExecute": true,
+        "authenticatedExecute": true
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "bodyMd5": "f885c79bc889e34e5fd9095495fbe681",
+        "definer": true,
+        "identity": "public.get_user_clinic_id()",
+        "anonExecute": true,
+        "definitionMd5": "efc4cd71f796f3f2befcf37a048b485b",
+        "serviceExecute": true,
+        "authenticatedExecute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "88e654c014bc9969fe94c3580d558503",
+        "definer": false,
+        "identity": "public.guard_data_rights_request_insert()",
+        "anonExecute": false,
+        "definitionMd5": "b578598a6335222539e0decff3b0b563",
+        "serviceExecute": true,
+        "authenticatedExecute": false
+      },
+      {
+        "acl": "{=X/postgres,postgres=X/postgres,anon=X/postgres,authenticated=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=public"
+        ],
+        "bodyMd5": "d65795c7daad0bfd9bfa3e8b64c4373d",
+        "definer": true,
+        "identity": "public.is_clinic_member(uuid)",
+        "anonExecute": true,
+        "definitionMd5": "137801d07883f674474d7f0481e0ceb7",
+        "serviceExecute": true,
+        "authenticatedExecute": true
+      },
+      {
+        "acl": "{postgres=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "fe0ff58b269ecb6cc3462e5ab73ffe59",
+        "definer": false,
+        "identity": "public.protect_data_rights_requests()",
+        "anonExecute": false,
+        "definitionMd5": "5c7ce6279b5a69e9ca3762aaaafc8d1e",
+        "serviceExecute": true,
+        "authenticatedExecute": false
+      },
+      {
+        "acl": "{postgres=X/postgres,service_role=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "49eab5876aeb4502a69adc3804c35945",
+        "definer": true,
+        "identity": "public.purge_clinic_data(uuid)",
+        "anonExecute": false,
+        "definitionMd5": "a68773dad2e02f0e941af764d2fa8dca",
+        "serviceExecute": true,
+        "authenticatedExecute": false
+      },
+      {
+        "acl": "{postgres=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "043465d08eb08c1752562f09cafe048c",
+        "definer": true,
+        "identity": "security_internal.audit_data_rights_status()",
+        "anonExecute": false,
+        "definitionMd5": "5b53078cfa6f4fbe526ee9cfdf13d35c",
+        "serviceExecute": false,
+        "authenticatedExecute": false
+      },
+      {
+        "acl": "{postgres=X/postgres}",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "bodyMd5": "87184b33612e86bfcc8c153db1449307",
+        "definer": true,
+        "identity": "security_internal.enforce_clinician_assignment()",
+        "anonExecute": false,
+        "definitionMd5": "c0654d0fcf979925a38c5e3cd5f63f08",
+        "serviceExecute": false,
+        "authenticatedExecute": false
+      }
+    ],
+    "sequences": [
+      {
+        "max": 9223372036854776000,
+        "min": 1,
+        "name": "access_audit_id_seq",
+        "type": "bigint",
+        "cache": 1,
+        "cycle": false,
+        "start": 1,
+        "schema": "logs",
+        "increment": 1
+      },
+      {
+        "max": 9223372036854776000,
+        "min": 1,
+        "name": "profile_audit_log_id_seq",
+        "type": "bigint",
+        "cache": 1,
+        "cycle": false,
+        "start": 1,
+        "schema": "public",
+        "increment": 1
+      }
+    ],
+    "constraints": [
+      {
+        "name": "access_audit_pkey",
+        "type": "p",
+        "table": "logs.access_audit",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "appointments_clinic_id_fkey",
+        "type": "f",
+        "table": "public.appointments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "appointments_doctor_id_fkey",
+        "type": "f",
+        "table": "public.appointments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "appointments_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.appointments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE CASCADE"
+      },
+      {
+        "name": "appointments_pkey",
+        "type": "p",
+        "table": "public.appointments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "automation_settings_pkey",
+        "type": "p",
+        "table": "public.automation_settings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "automation_settings_user_id_fkey",
+        "type": "f",
+        "table": "public.automation_settings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (user_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "billings_appointment_id_fkey",
+        "type": "f",
+        "table": "public.billings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (appointment_id) REFERENCES public.appointments(id)"
+      },
+      {
+        "name": "billings_clinic_id_fkey",
+        "type": "f",
+        "table": "public.billings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "billings_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.billings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id)"
+      },
+      {
+        "name": "billings_pkey",
+        "type": "p",
+        "table": "public.billings",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "clinic_invitations_clinic_id_fkey",
+        "type": "f",
+        "table": "public.clinic_invitations",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "clinic_invitations_invited_by_fkey",
+        "type": "f",
+        "table": "public.clinic_invitations",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (invited_by) REFERENCES auth.users(id)"
+      },
+      {
+        "name": "clinic_invitations_pkey",
+        "type": "p",
+        "table": "public.clinic_invitations",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "clinic_members_clinic_id_fkey",
+        "type": "f",
+        "table": "public.clinic_members",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "clinic_members_pkey",
+        "type": "p",
+        "table": "public.clinic_members",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "clinic_members_user_id_fkey",
+        "type": "f",
+        "table": "public.clinic_members",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (user_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "clinical_records_clinic_id_fkey",
+        "type": "f",
+        "table": "public.clinical_records",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "clinical_records_doctor_id_fkey",
+        "type": "f",
+        "table": "public.clinical_records",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "clinical_records_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.clinical_records",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id)"
+      },
+      {
+        "name": "clinical_records_pkey",
+        "type": "p",
+        "table": "public.clinical_records",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "clinics_owner_id_fkey",
+        "type": "f",
+        "table": "public.clinics",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (owner_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "clinics_pkey",
+        "type": "p",
+        "table": "public.clinics",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "data_rights_requests_clinic_id_fkey",
+        "type": "f",
+        "table": "public.data_rights_requests",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "data_rights_requests_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.data_rights_requests",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE SET NULL (patient_id)"
+      },
+      {
+        "name": "data_rights_requests_pkey",
+        "type": "p",
+        "table": "public.data_rights_requests",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "data_rights_requests_resolved_by_fkey",
+        "type": "f",
+        "table": "public.data_rights_requests",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (resolved_by) REFERENCES auth.users(id)"
+      },
+      {
+        "name": "data_rights_requests_user_id_fkey",
+        "type": "f",
+        "table": "public.data_rights_requests",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+      },
+      {
+        "name": "hcu033_forms_clinic_id_fkey",
+        "type": "f",
+        "table": "public.hcu033_forms",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "hcu033_forms_doctor_id_fkey",
+        "type": "f",
+        "table": "public.hcu033_forms",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "hcu033_forms_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.hcu033_forms",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE CASCADE"
+      },
+      {
+        "name": "hcu033_forms_pkey",
+        "type": "p",
+        "table": "public.hcu033_forms",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "invoices_billing_id_fkey",
+        "type": "f",
+        "table": "public.invoices",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (billing_id) REFERENCES public.billings(id)"
+      },
+      {
+        "name": "invoices_clinic_id_fkey",
+        "type": "f",
+        "table": "public.invoices",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "invoices_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.invoices",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id)"
+      },
+      {
+        "name": "invoices_pkey",
+        "type": "p",
+        "table": "public.invoices",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "messages_clinic_id_fkey",
+        "type": "f",
+        "table": "public.messages",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "messages_pkey",
+        "type": "p",
+        "table": "public.messages",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "messages_receiver_id_fkey",
+        "type": "f",
+        "table": "public.messages",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (receiver_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "messages_sender_id_fkey",
+        "type": "f",
+        "table": "public.messages",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (sender_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "notifications_pkey",
+        "type": "p",
+        "table": "public.notifications",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "notifications_user_id_fkey",
+        "type": "f",
+        "table": "public.notifications",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (user_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "patient_files_clinic_id_fkey",
+        "type": "f",
+        "table": "public.patient_files",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "patient_files_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.patient_files",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE CASCADE"
+      },
+      {
+        "name": "patient_files_pkey",
+        "type": "p",
+        "table": "public.patient_files",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "patient_files_uploaded_by_fkey",
+        "type": "f",
+        "table": "public.patient_files",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (uploaded_by) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "patient_notes_author_id_fkey",
+        "type": "f",
+        "table": "public.patient_notes",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (author_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "patient_notes_clinic_id_fkey",
+        "type": "f",
+        "table": "public.patient_notes",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "patient_notes_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.patient_notes",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE CASCADE"
+      },
+      {
+        "name": "patient_notes_pkey",
+        "type": "p",
+        "table": "public.patient_notes",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "patients_clinic_id_fkey",
+        "type": "f",
+        "table": "public.patients",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "patients_family_clinic_fkey",
+        "type": "f",
+        "table": "public.patients",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (family_representative_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE SET NULL (family_representative_id)"
+      },
+      {
+        "name": "patients_family_representative_id_fkey",
+        "type": "f",
+        "table": "public.patients",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (family_representative_id) REFERENCES public.patients(id)"
+      },
+      {
+        "name": "patients_id_clinic_id_key",
+        "type": "u",
+        "table": "public.patients",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "UNIQUE (id, clinic_id)"
+      },
+      {
+        "name": "patients_pkey",
+        "type": "p",
+        "table": "public.patients",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "payment_methods_clinic_id_fkey",
+        "type": "f",
+        "table": "public.payment_methods",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "payment_methods_doctor_id_fkey",
+        "type": "f",
+        "table": "public.payment_methods",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "payment_methods_pkey",
+        "type": "p",
+        "table": "public.payment_methods",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "payments_clinic_id_fkey",
+        "type": "f",
+        "table": "public.payments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "payments_pkey",
+        "type": "p",
+        "table": "public.payments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "prescription_templates_doctor_id_fkey",
+        "type": "f",
+        "table": "public.prescription_templates",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES auth.users(id)"
+      },
+      {
+        "name": "prescription_templates_pkey",
+        "type": "p",
+        "table": "public.prescription_templates",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "prescriptions_clinic_id_fkey",
+        "type": "f",
+        "table": "public.prescriptions",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "prescriptions_doctor_id_fkey",
+        "type": "f",
+        "table": "public.prescriptions",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (doctor_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "prescriptions_patient_clinic_fkey",
+        "type": "f",
+        "table": "public.prescriptions",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (patient_id, clinic_id) REFERENCES public.patients(id, clinic_id) ON DELETE CASCADE"
+      },
+      {
+        "name": "prescriptions_pkey",
+        "type": "p",
+        "table": "public.prescriptions",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "profile_audit_log_actor_user_id_fkey",
+        "type": "f",
+        "table": "public.profile_audit_log",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (actor_user_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "profile_audit_log_pkey",
+        "type": "p",
+        "table": "public.profile_audit_log",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "profile_audit_log_target_user_id_fkey",
+        "type": "f",
+        "table": "public.profile_audit_log",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (target_user_id) REFERENCES public.profiles(id)"
+      },
+      {
+        "name": "profiles_clinic_id_fkey",
+        "type": "f",
+        "table": "public.profiles",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "profiles_id_fkey",
+        "type": "f",
+        "table": "public.profiles",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (id) REFERENCES auth.users(id) ON DELETE CASCADE"
+      },
+      {
+        "name": "profiles_pkey",
+        "type": "p",
+        "table": "public.profiles",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "service_categories_clinic_id_fkey",
+        "type": "f",
+        "table": "public.service_categories",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "service_categories_pkey",
+        "type": "p",
+        "table": "public.service_categories",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "services_category_id_fkey",
+        "type": "f",
+        "table": "public.services",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (category_id) REFERENCES public.service_categories(id)"
+      },
+      {
+        "name": "services_clinic_id_fkey",
+        "type": "f",
+        "table": "public.services",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "services_pkey",
+        "type": "p",
+        "table": "public.services",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "treatments_clinic_id_fkey",
+        "type": "f",
+        "table": "public.treatments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (clinic_id) REFERENCES public.clinics(id)"
+      },
+      {
+        "name": "treatments_pkey",
+        "type": "p",
+        "table": "public.treatments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "PRIMARY KEY (id)"
+      },
+      {
+        "name": "treatments_user_id_fkey",
+        "type": "f",
+        "table": "public.treatments",
+        "deferred": false,
+        "validated": true,
+        "deferrable": false,
+        "definition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+      }
+    ],
+    "currentUser": "postgres",
+    "sessionUser": "postgres",
+    "serverVersion": "170006"
+  }
+}

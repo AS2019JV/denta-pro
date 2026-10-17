@@ -1,0 +1,195 @@
+{
+  "state": "PARTIAL_BLOCKED",
+  "startedAt": "2026-10-06T21:49:39.004Z",
+  "driverSha256": "fa94b3a85ac33047eea6248401db55f2de23c2e333aad336fe47de125289a3eb",
+  "codecSha256": "ddf87adccd4410bdf1e7bf7de227ee284dd094273408e0ce7e48ca89dc1ab103",
+  "project": "clinia-recovery-20261002-1",
+  "database": "clinia_recovery",
+  "immutableEvidenceSha256": [
+    "b0cbf6dbf7a0f2dda5ad3e15d8ffe9ef71beac133ee7006c77bae369f4ec6b3c",
+    "279c61d0584cef6fec59f7286a790e4423f380a900912a8d799ca28c8daea44a",
+    "4b2b4f256f229bf297e0bee3a6d1b3282304e1dc735d95035489f0e0515bff9e",
+    "27dcd00a2ddefbf66bfe75dd8ecafa946be094b70a741ebb652c01ae67a934ee"
+  ],
+  "sourceProofSha256": "627ec2079058d1ab3d54f018e4f25dcdc5baf417597c9be6318b92099f39e9d0",
+  "migrations": [
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+      "bodySha256": "b5a9197a0ded15865c4aa3c7d97bb445b8d9975587ef27b8e3e578d2aee9551c"
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f",
+      "bodySha256": "27465de0ac907786cd007a6a92a56cdfd3145d4da8ea97c55e60cb8f5ff478e4"
+    },
+    {
+      "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728",
+      "bodySha256": "e0d16fb398b0d322cb37ca158cd9295ded54bbafe8393e6f4fb1452f4303becd"
+    },
+    {
+      "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d",
+      "bodySha256": "b54cd562da7cda8d57d258c03c07c0ae64e9ba71f5fc89f48fec46a5bafb66cc"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Encrypted DB, physical Storage bytes, Auth/configuration, forward migrations and recovery evidence round-trip with exact hashes",
+      "passed": true,
+      "detail": {
+        "files": 24,
+        "wrongKeyDenied": true,
+        "tamperDenied": true,
+        "truncationDenied": true
+      }
+    }
+  ],
+  "limits": [
+    "Existing synthetic baseline archive and restored target; no fresh production backup or new RTO claim",
+    "Encryption key remains in a separate private directory on the same machine; independent key custody and offsite recovery unverified",
+    "Rollback-only SQL role proof; no new managed Auth JWT or HTTP S3 delivery proof in recovered stack",
+    "Encrypted original Auth/configuration plus six forward SQL migrations; applying migrations does not configure the managed Auth hook"
+  ],
+  "package": {
+    "algorithm": "AES-256-GCM",
+    "nonceBytes": 12,
+    "authenticationTagBytes": 16,
+    "ciphertextSha256": "29e5c006d8f415d21319859f5ab819f7b0ed76fc6af0bcc9b9a48c6dd0af00df",
+    "ciphertextBytes": 1054230,
+    "entries": [
+      {
+        "name": "database.dump",
+        "bytes": 578273,
+        "sha256": "5cb01e8a8055349e8b6e4c0f8cc23be4a314dac8ce39d8ccad4807ec13596f9f"
+      },
+      {
+        "name": "storage.tar",
+        "bytes": 13824,
+        "sha256": "66dfeb10b16c639d82e77e85045ec0c53897b6b2c59f3ac992a7be057d9970ef"
+      },
+      {
+        "name": "roles.private.json",
+        "bytes": 4141,
+        "sha256": "f17ab324d8b31a89ae9139167bcb014ec817cdde81a3e96f7acb23cf6498626e"
+      },
+      {
+        "name": "global-settings.private.json",
+        "bytes": 1824,
+        "sha256": "d88b504c0e4ede2a374015b7c8a0262604e768867269a175a843d9f4c57c3e65"
+      },
+      {
+        "name": "credentials.private.json",
+        "bytes": 1434,
+        "sha256": "36c7d2086102dbe0b7cc2a18a6c31d6c4ba1f7b3a8c06c3c1fac2d21866e41f5"
+      },
+      {
+        "name": "source.keys.private.json",
+        "bytes": 12062,
+        "sha256": "1de2fe1e27b3f19f2e8cf96133e098b8a5b54bae76ce5db80d24678c29b6fbb2"
+      },
+      {
+        "name": "source.compose.private.json",
+        "bytes": 31343,
+        "sha256": "309083b6fa49d63a9b66e2d48b95707963a60afca702ac65d144648c98d1ca1c"
+      },
+      {
+        "name": "runtime.compose.json",
+        "bytes": 31446,
+        "sha256": "e859579f8a14f0da29c555892930d8c5e693800765904289a3a191a6916cb294"
+      },
+      {
+        "name": "kong-kong.yml",
+        "bytes": 15470,
+        "sha256": "90e6f097402337ba6c677ca83bcab91620946d150ad3552b983410e27b426910"
+      },
+      {
+        "name": "kong-localhost.crt",
+        "bytes": 1846,
+        "sha256": "c3510ad93016830fdcffd117d88b59243b600d2ba2483c1d7b911753c3d47aa2"
+      },
+      {
+        "name": "kong-localhost.key",
+        "bytes": 3272,
+        "sha256": "5bd8e6514f9f33f87842113ae7be6e3bea1a487da78b23183a54d45049743bbd"
+      },
+      {
+        "name": "db-pgsodium_root.key",
+        "bytes": 64,
+        "sha256": "3f9f2138ba26d97ff325ecc98c30fb6f92a6d28ccae510c4db5dba96eab2c4b0"
+      },
+      {
+        "name": "objects.private.json",
+        "bytes": 412,
+        "sha256": "727fb72809412dc1ae669fdb455a8ee9eff92754cb133cab2a79471b4e9822cb"
+      },
+      {
+        "name": "source-tables.private.json",
+        "bytes": 9290,
+        "sha256": "9e73ae824ac7a6c00fbbad3c437eb664c043562fa0ba78c72fefff35d1285e4f"
+      },
+      {
+        "name": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+        "bytes": 1816,
+        "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf"
+      },
+      {
+        "name": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+        "bytes": 12265,
+        "sha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9"
+      },
+      {
+        "name": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+        "bytes": 9354,
+        "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39"
+      },
+      {
+        "name": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+        "bytes": 2882,
+        "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f"
+      },
+      {
+        "name": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+        "bytes": 2859,
+        "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728"
+      },
+      {
+        "name": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+        "bytes": 12526,
+        "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d"
+      },
+      {
+        "name": "evidence/execution.json",
+        "bytes": 10549,
+        "sha256": "b0cbf6dbf7a0f2dda5ad3e15d8ffe9ef71beac133ee7006c77bae369f4ec6b3c"
+      },
+      {
+        "name": "evidence/continuation-execution.json",
+        "bytes": 6931,
+        "sha256": "279c61d0584cef6fec59f7286a790e4423f380a900912a8d799ca28c8daea44a"
+      },
+      {
+        "name": "evidence/request-id-overlay-execution.json",
+        "bytes": 4523,
+        "sha256": "4b2b4f256f229bf297e0bee3a6d1b3282304e1dc735d95035489f0e0515bff9e"
+      },
+      {
+        "name": "evidence/agenda-overlay-1-execution.json",
+        "bytes": 17958,
+        "sha256": "27dcd00a2ddefbf66bfe75dd8ecafa946be094b70a741ebb652c01ae67a934ee"
+      }
+    ],
+    "privatePackage": "tools\\local-supabase\\supabase\\.temp\\recovery-encrypted-20261006-1",
+    "keyStoredSeparately": true,
+    "baselineTables": 64,
+    "baselineRows": 268,
+    "baselineStorageObjects": 4,
+    "baselineStorageBytes": 255
+  },
+  "initialState": "exited",
+  "containerId": "74488a19201c02f016943244fc060f67fb1c95d6772cc4690296c48c05b48dda",
+  "error": "Owned recovery verification failed; private diagnostics preserved",
+  "finalState": "exited",
+  "completedAt": "2026-10-06T21:51:14.635Z"
+}

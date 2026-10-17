@@ -1,0 +1,103 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "startedAt": "2026-10-04T03:43:52.369Z",
+  "environment": "isolated frozen source; synthetic offline provider configuration for verification",
+  "snapshotTreeSha256": "49d09a4bac3f7b67b084a4bcce55969ebc2741e87bb0a2ae9509936beb7521b9",
+  "checks": [
+    {
+      "mode": "typecheck",
+      "command": "C:\\Program Files\\nodejs\\node.exe scripts/clinia-verify.cjs,typecheck",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "9a38b56106ae724dade51b49484dab6b92825ba65e8c3f33e2862c3552b217fa",
+      "rawBytes": 63,
+      "status": "VERIFIED"
+    },
+    {
+      "mode": "lint",
+      "command": "C:\\Program Files\\nodejs\\node.exe scripts/clinia-verify.cjs,lint",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "e82cbf35fb0d5d3667aea8abe441173f9fe3a1b6e7feff3c55265401e26f3502",
+      "rawBytes": 9667,
+      "status": "VERIFIED"
+    },
+    {
+      "mode": "test",
+      "command": "C:\\Program Files\\nodejs\\node.exe scripts/clinia-verify.cjs,test",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "8bb252ccb21113932bced490c9036a7746b15ce370d10d3997f898c77a9f38e2",
+      "rawBytes": 62543,
+      "status": "VERIFIED",
+      "tests": 256,
+      "pass": 256,
+      "fail": 0,
+      "skipped": 0
+    },
+    {
+      "mode": "build",
+      "command": "C:\\Program Files\\nodejs\\node.exe scripts/clinia-verify.cjs,build",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "0fae2d6f1078b6ff79a391a218a706aa36bfc2eed969ca745e6dda3207667032",
+      "rawBytes": 14025,
+      "status": "VERIFIED"
+    },
+    {
+      "mode": "secret-scan",
+      "command": "C:\\Program Files\\nodejs\\node.exe scripts/clinia-secret-scan.cjs",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "3d27ba683bd9e0ab00a4e34353caf863737c00f5268b6ec2ad95abd25d8124a8",
+      "rawBytes": 175,
+      "status": "VERIFIED",
+      "state": "PASS",
+      "scanned": 795,
+      "scope": "Current Git-visible text files or release snapshot; no history, ignored files or deployed-secret claim",
+      "findings": []
+    },
+    {
+      "mode": "audit-production",
+      "command": "cmd.exe /d,/s,/c,npm audit --omit=dev --json",
+      "exitCode": 0,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "abefcbea1791bc2e5aeb95bdb17f8f053d3517a7ceea13957ecaac4ad4bbf1c6",
+      "rawBytes": 366,
+      "status": "VERIFIED",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 0,
+        "critical": 0,
+        "total": 0
+      }
+    },
+    {
+      "mode": "audit-full",
+      "command": "cmd.exe /d,/s,/c,npm audit --json",
+      "exitCode": 1,
+      "signal": null,
+      "errorCode": null,
+      "rawSha256": "76fdb9dc69482d2c238e5799a0704ab3719ab8679665df5303a29df6782ef6f0",
+      "rawBytes": 4409,
+      "status": "PARTIALLY VERIFIED",
+      "vulnerabilities": {
+        "info": 0,
+        "low": 0,
+        "moderate": 0,
+        "high": 8,
+        "critical": 0,
+        "total": 8
+      }
+    }
+  ],
+  "completedAt": "2026-10-04T03:45:21.020Z"
+}

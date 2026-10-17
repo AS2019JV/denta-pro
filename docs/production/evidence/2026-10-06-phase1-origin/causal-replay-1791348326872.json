@@ -1,0 +1,28 @@
+{
+  "status": "VERIFIED",
+  "command": "node scripts/verify-clinia-retirement-causal.cjs replay phihonofwyerpfgqfekt",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "replay",
+  "startedAt": "2026-10-07T04:45:26.856Z",
+  "driverSha256": "22815a9f3cb60669f637264ed221528308ad19210d421f582f6c626f49a0ccce",
+  "checks": [
+    {
+      "name": "Exact previously successful, still-unexpired signed request denied after removal",
+      "status": 400,
+      "bytes": 88,
+      "bodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c",
+      "requestSha256": "baf455060d193cad16c50d538cfa613b947b6bc2dfbbffe10637c4901de05311",
+      "cache": "BYPASS",
+      "tokenExpiresAt": "2026-10-07T05:43:39.000Z",
+      "passed": true
+    },
+    {
+      "name": "Provider origin independently confirms object absent",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Maintenance-only synthetic disposable object; no ordinary-user authorization or production historical-retirement proof"
+  ],
+  "completedAt": "2026-10-07T04:45:30.300Z"
+}

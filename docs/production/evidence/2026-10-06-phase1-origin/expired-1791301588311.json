@@ -1,0 +1,42 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "command": "node scripts/verify-clinia-s3-transport.cjs expired phihonofwyerpfgqfekt",
+  "driverSha256": "8c71961cbf24e85041322d24ae009bacfb0d9731b3055f153eaaa6f3b7bbb374",
+  "phase": "expired",
+  "startedAt": "2026-10-06T15:46:28.311Z",
+  "checks": [
+    {
+      "requirement": "Independent live flag witness",
+      "httpStatus": 401,
+      "active": false
+    },
+    {
+      "requirement": "GET S3 JWT/RLS",
+      "expected": "401/403/404 without bytes",
+      "status": 403,
+      "errorCode": "AccessDenied",
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wireSha256": "3aa610a4356dd2be7c9e41a93e781a8db6e25c89857b0a1ad4bd0b8c513f575e",
+      "completedAt": "2026-10-06T15:46:29.954Z"
+    },
+    {
+      "requirement": "HEAD S3 JWT/RLS",
+      "expected": "401/403/404 without bytes",
+      "status": 403,
+      "errorCode": "Unknown",
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "wireSha256": "023030637998fc411dc9843855ad8e97053b8abe58fbf2aa428f2822d711e662",
+      "completedAt": "2026-10-06T15:46:30.173Z"
+    }
+  ],
+  "limits": [
+    "Synthetic registered 70-byte file, one staging region only",
+    "No deployed application, legacy capability retirement or production claim"
+  ],
+  "tokenSha256": "6caf425d74aef0126e158600d0d021b7a40e97ecd0ace64623ab3623f04f7aec",
+  "expiresAt": "2026-10-06T06:03:22.000Z",
+  "completedAt": "2026-10-06T15:46:30.173Z"
+}

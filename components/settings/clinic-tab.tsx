@@ -39,7 +39,7 @@ export function ClinicTab() {
     try {
       const { data, error } = await supabase
         .from('clinics')
-        .select('*')
+        .select('id,name,email,phone,address,logo_url,settings')
         .eq('id', currentClinicId)
         .single()
 

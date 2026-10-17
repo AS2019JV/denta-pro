@@ -1,0 +1,114 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T22:47:22.939Z",
+  "actor": "doctor_A",
+  "mode": "warm",
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "queryPresent": false,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cf-cache-status": "DYNAMIC",
+        "date": "Sat, 03 Oct 2026 22:47:24 GMT"
+      },
+      "bytes": 8,
+      "bodySha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "queryPresent": false,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cache-control": "public, max-age=0",
+        "cf-cache-status": "HIT",
+        "etag": "\"986387ca986e8b28ba1e9812a36acfa0\"",
+        "date": "Sat, 03 Oct 2026 22:47:25 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "queryPresent": true,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cache-control": "public, max-age=0",
+        "cf-cache-status": "HIT",
+        "etag": "\"986387ca986e8b28ba1e9812a36acfa0\"",
+        "date": "Sat, 03 Oct 2026 22:47:25 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "queryPresent": false,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cache-control": "public, max-age=0",
+        "cf-cache-status": "HIT",
+        "etag": "\"986387ca986e8b28ba1e9812a36acfa0\"",
+        "date": "Sat, 03 Oct 2026 22:47:25 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "queryPresent": false,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cf-cache-status": "DYNAMIC",
+        "date": "Sat, 03 Oct 2026 22:47:26 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 536,
+      "bodySha256": "2940d467e50654dd3262aa08042d012b22a0087b26dc44d820cf6e5fc02ea1b4"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "queryPresent": false,
+      "status": 200,
+      "code": null,
+      "headers": {
+        "cf-cache-status": "DYNAMIC",
+        "date": "Sat, 03 Oct 2026 22:47:26 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 1043,
+      "bodySha256": "0a7ebdffae9909aee4c564fbded5101c5472573ce997e24ebe59a297be793429"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "queryPresent": false,
+      "status": 400,
+      "code": "NoSuchKey",
+      "headers": {
+        "cf-cache-status": "BYPASS",
+        "date": "Sat, 03 Oct 2026 22:47:26 GMT",
+        "sb-gateway-mode": "direct"
+      },
+      "bytes": 88,
+      "bodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+    }
+  ],
+  "scope": "Read-only synthetic cached versus fresh resource probes; same authenticated URL across committed membership removal",
+  "completedAt": "2026-10-03T22:47:25.715Z"
+}

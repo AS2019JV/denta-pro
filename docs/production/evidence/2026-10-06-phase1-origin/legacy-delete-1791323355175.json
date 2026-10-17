@@ -1,0 +1,59 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "delete",
+  "command": "node scripts/verify-clinia-legacy-retirement.cjs delete phihonofwyerpfgqfekt",
+  "driverSha256": "bd9a97e15ea479c6603bfa3d63ddfb6d5408c7536014758f0661062172a57559",
+  "startedAt": "2026-10-06T21:49:15.025Z",
+  "objects": [
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "newPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/origin-f00b1cf6-3074-46a9-8f74-4782a176d500.pdf",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    },
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "newPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/origin-3063964d-88ff-44b8-842d-02d2a419d7fe.pdf",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    },
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "newPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/origin-5ec0d2e1-9ab3-4057-87f2-5c7bbaa46ef6.pdf",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    },
+    {
+      "bucket": "clinic-branding",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "newPath": "d9a47157-1d36-43df-af1d-436d561ee551/origin-0e6c6cd5-1902-4650-a927-668c9e9d34bd.png",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    },
+    {
+      "bucket": "doctor-avatars",
+      "oldPath": "272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "newPath": "272d63b1-38e3-4a60-89a2-dd07f031b2d2/origin-ca996a67-d977-43f6-9bdf-29a80e8d52ad.png",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    },
+    {
+      "bucket": "patient-avatars",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "newPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/origin-8e294953-6c4f-4fa0-aad5-5501916eed5e.png",
+      "copyHashMatched": true,
+      "deleteApiAccepted": true
+    }
+  ],
+  "limits": [
+    "Maintenance credential only for six known synthetic objects; not ordinary-user authorization proof",
+    "Newly captured signed URLs supplement missing historical captures; they do not reconstruct those missing requests",
+    "No occupied production data or production historical-capability claim"
+  ],
+  "cutoverEvidenceSha256": "0aafaf955d8fd58670d574fc3a13be9b9a43cd8021012e90b251a7d2d60a008a",
+  "completedAt": "2026-10-06T21:49:33.560Z"
+}

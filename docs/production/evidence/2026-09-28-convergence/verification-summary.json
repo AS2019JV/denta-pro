@@ -1,0 +1,471 @@
+{
+  "createdAt": "2026-09-28T21:01:11.364Z",
+  "state": "PARCIAL_NO_GO_CLINICO",
+  "environment": "clinia-acceptance / 127.0.0.1:3400",
+  "buildId": "IIjK1yA3ZmwSjwU1od9us",
+  "build": {
+    "command": "node scripts/clinia-local-app.cjs build",
+    "exitCode": 0,
+    "evidence": "build-release-final.log",
+    "typesAndLint": true,
+    "existingWarningsRemain": true
+  },
+  "unit": {
+    "exitCode": 0,
+    "tests": 33,
+    "failures": 0,
+    "evidence": "unit-release-final.log"
+  },
+  "sql": {
+    "state": "SCOPED_SQL_CONVERGENCE_VERIFIED_API_PENDING",
+    "checks": 7,
+    "contractSha256": "0fce062cc82d4e3af8b5941d443112eac38fdbe011791eccf3356859b6b95f8f",
+    "databases": {
+      "stage": "clinia_contract_stage_20260928_2",
+      "prod": "clinia_contract_prod_20260928_2"
+    },
+    "apiParity": false
+  },
+  "reports": {
+    "state": "LOCAL_REPORT_JWT_VERIFIED",
+    "checks": 6,
+    "evidence": "reports-1/execution.json"
+  },
+  "browser": {
+    "operational": {
+      "state": "VERIFIED_LOCAL_BOUNDED",
+      "checks": [
+        {
+          "name": "Real operational report loads",
+          "passed": true,
+          "count": "0"
+        },
+        {
+          "name": "Period selector changes exact request interval",
+          "passed": true,
+          "periods": [
+            {
+              "days": 30,
+              "duration": 30,
+              "status": 200
+            },
+            {
+              "days": 365,
+              "duration": 365,
+              "status": 200
+            }
+          ]
+        },
+        {
+          "name": "Operational PDF downloaded",
+          "passed": true,
+          "filename": "Informe_Clinia.pdf"
+        },
+        {
+          "name": "Reports dark theme",
+          "passed": true
+        },
+        {
+          "name": "Treatment edits persist after reload",
+          "passed": true,
+          "mutationPerformed": false
+        },
+        {
+          "name": "Settings excluded tab normalized; actual access verified",
+          "passed": true
+        },
+        {
+          "name": "Marketing direct route renders not-found",
+          "passed": true,
+          "status": 200,
+          "streamed": true
+        }
+      ],
+      "layouts": [
+        {
+          "screen": "reports",
+          "width": 320,
+          "overflow": false
+        },
+        {
+          "screen": "reports",
+          "width": 360,
+          "overflow": false
+        },
+        {
+          "screen": "reports",
+          "width": 768,
+          "overflow": false
+        },
+        {
+          "screen": "reports",
+          "width": 1280,
+          "overflow": false
+        },
+        {
+          "screen": "treatments",
+          "width": 320,
+          "overflow": false
+        },
+        {
+          "screen": "treatments",
+          "width": 360,
+          "overflow": false
+        },
+        {
+          "screen": "treatments",
+          "width": 768,
+          "overflow": false
+        },
+        {
+          "screen": "treatments",
+          "width": 1280,
+          "overflow": false
+        }
+      ],
+      "requests": [
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_operational_report",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_operational_report",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_operational_report",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_operational_report",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/services",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/services",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        },
+        {
+          "path": "/auth/v1/user",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/profiles",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/clinic_members",
+          "method": "GET"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_member_role",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/get_clinic_operational_report",
+          "method": "POST"
+        },
+        {
+          "path": "/rest/v1/rpc/check_subscription_active",
+          "method": "POST"
+        }
+      ],
+      "errors": []
+    },
+    "draft": {
+      "state": "LOCAL_AUTH_DRAFT_VERIFIED",
+      "checks": [
+        {
+          "name": "Delayed real Auth revalidation blocks interaction and retains draft",
+          "passed": true
+        },
+        {
+          "name": "Network verification failure discards mounted draft and fails closed",
+          "passed": true,
+          "kind": "browser network fault, not role revocation proof"
+        },
+        {
+          "name": "Recovery rebuilds verified scope without abandoned draft",
+          "passed": true
+        },
+        {
+          "name": "Same-scope draft retained",
+          "path": "/calendar",
+          "passed": true
+        },
+        {
+          "name": "Same-scope draft retained",
+          "path": "/patients/cccccccc-cccc-4ccc-8ccc-cccccccccccc?tab=recipes",
+          "passed": true
+        }
+      ],
+      "mutations": 0
+    },
+    "doctor": {
+      "state": "LOCAL_DOCTOR_ROUTE_VERIFIED",
+      "checks": [
+        "Operational reports accessible",
+        "Administrative settings redirected"
+      ],
+      "mutations": 0
+    },
+    "visual": {
+      "state": "STABLE_VISUAL_CAPTURED",
+      "checks": [
+        {
+          "theme": "light",
+          "width": 360,
+          "sidebarHidden": true,
+          "overflow": false
+        },
+        {
+          "theme": "dark",
+          "width": 360,
+          "sidebarHidden": true,
+          "overflow": false
+        }
+      ]
+    },
+    "verifiedBuildNote": "operational/PDF first build; authority drafts and doctor routes final build"
+  },
+  "catalog": {
+    "at": "2026-09-28T20:35:56.585Z",
+    "kind": "local-synthetic-only",
+    "action": "verify",
+    "state": {
+      "id": "12121212-1212-4212-8212-121212121212",
+      "name": "Control operativo sintético verificado",
+      "duration": 45,
+      "active": true,
+      "historicalValueHash": "7049dbf10e714c4dfe7165797fab1b6b"
+    },
+    "passed": true
+  },
+  "timings": {
+    "state": "LOCAL_SMALL_SAMPLE_ONLY",
+    "cache": "reused browser; no field/LCP claim",
+    "concurrentUsers": 1,
+    "samples": [
+      {
+        "path": "/reports",
+        "sample": 1,
+        "readyMs": 4397
+      },
+      {
+        "path": "/reports",
+        "sample": 2,
+        "readyMs": 1419
+      },
+      {
+        "path": "/reports",
+        "sample": 3,
+        "readyMs": 2896
+      },
+      {
+        "path": "/dashboard/services",
+        "sample": 1,
+        "readyMs": 3076
+      },
+      {
+        "path": "/dashboard/services",
+        "sample": 2,
+        "readyMs": 1267
+      },
+      {
+        "path": "/dashboard/services",
+        "sample": 3,
+        "readyMs": 1300
+      }
+    ]
+  },
+  "inspectedArtifacts": [
+    {
+      "path": "informe-operativo.pdf",
+      "sha256": "caeab24578a29c2701e3bf90ed308352259dec72e553e839ab825fa2ce30bec8"
+    },
+    {
+      "path": "informe-render-1.png",
+      "sha256": "39b8d1d8b81bb6d87d42b1d596dde9ee82113fdbb30db15a8832bf1369889508"
+    },
+    {
+      "path": "reports-360-light-stable.png",
+      "sha256": "bd3f5aac4c074d5c1619b49c33eae296a378833b6b1013abb44d3746d4a6e222"
+    },
+    {
+      "path": "reports-360-dark-stable.png",
+      "sha256": "28bc9a63377623b33dd09653f0f5267cb2fdc60b62f026d986564478a707a027"
+    },
+    {
+      "path": "reports-360-light-bottom.png",
+      "sha256": "f651a445630a17487caf32f26e873ca00a11837ce299a013669fd541ae0e6c8a"
+    },
+    {
+      "path": "reports-360-dark-bottom.png",
+      "sha256": "b79e857305e498e5ca2bd6dd7aeabd65f08cc58fa4c2c02b6b3a786f6aedd739"
+    },
+    {
+      "path": "treatments-360-light.png",
+      "sha256": "0e7cbeea0c42b9b3af9c2630d952c96c2f593d3d8ef377ea674e659b593f5f86"
+    }
+  ],
+  "scopeLimits": [
+    "No production mutations or deployment",
+    "Captured schema only; full remote schema/Auth/Storage parity pending",
+    "Final chain/allowlist lacks integrated report overlay replay",
+    "SQL clones lack independent API/Auth/Storage",
+    "No 5000/10 load or field metrics",
+    "No clinical approval, legal approval or DB+Storage byte recovery"
+  ],
+  "sourceManifest": "source-manifest.json"
+}

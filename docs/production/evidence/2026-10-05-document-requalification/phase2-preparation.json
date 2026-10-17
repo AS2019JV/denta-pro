@@ -1,0 +1,30 @@
+{
+  "status": "NOT VERIFIED",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "scope": "Read-only preparation; no Phase2 execution or email delivery",
+  "messagesSent": 0,
+  "controlledMailbox": "Authorized alias recorded only in ignored local custody",
+  "sequence": [
+    "Finish and delimit Phase1, preserve failures and revoke temporary access",
+    "Read initial controlled-account confirmation, membership, invitation and MFA state; never delete to reset",
+    "Verify deployed Resend sender/gate/quotas and independent Supabase recovery SMTP/template",
+    "Use separate approved identities for fresh signup and fresh invitation; do not claim a reused account proves new-user enrollment",
+    "Test signup, one unconfirmed resend, confirmation and exact-token replay without renewing links",
+    "Test authoritative invitation acceptance, denied role/tenant escalation and duplicate/redemption behavior",
+    "Test recovery receipt/redirect, password change and old-session behavior with credential entry handed to the user",
+    "Implement and test MFA enrollment/challenge plus server/database enforcement; provider toggle alone is insufficient",
+    "Test actor/IP/destination abuse quotas and safe redirect failures on the exact deployed candidate"
+  ],
+  "sourceObservations": {
+    "signupAndInvitations": "Resend API server actions",
+    "recovery": "Supabase Auth configured SMTP; deployed provider not inferred from source",
+    "inboundRouting": "Cloudflare alias receipt/forwarding does not configure outbound SMTP",
+    "mfa": "No application auth.mfa enrollment/challenge or AAL2 enforcement found in candidate source; implementation and runtime proof required",
+    "passwordChange": "updateUser password flow exists; secure reauthentication and session-revocation behavior require direct qualification"
+  },
+  "limits": [
+    "No email was sent; no deliverability, account change or MFA acceptance claim",
+    "No secrets/environment values were read by the preparation reviewer",
+    "Clinical/privacy acceptance requires qualified accountable people"
+  ]
+}

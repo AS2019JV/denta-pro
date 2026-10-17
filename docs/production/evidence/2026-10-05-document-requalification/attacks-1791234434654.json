@@ -1,0 +1,335 @@
+{
+  "status": "VERIFIED",
+  "phase": "attacks",
+  "attempt": "2",
+  "candidate": {
+    "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+    "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+    "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+    "project": "phihonofwyerpfgqfekt"
+  },
+  "startedAt": "2026-10-05T21:07:14.654Z",
+  "manifestSha256": "0d54a50b94f4f0f7ec59c82580e1e385f642814bd03e30370b4e485602211d8b",
+  "transportSha256": "3e266a321cacb8e2b8f1854574f7321482bed4d0427212a5d7fe53abdde2b496",
+  "driverSha256": "d229fd51d5973739afb374e2d168c27f13eff88eafa6e6989b6bf5b7d558197a",
+  "helperSha256": "b9071500dcee8f28d8d220643c064ecab855dacae3d73d138267dcb864eb8655",
+  "runtimeHelperSha256": "7692cc30f9d0d753f48a8aa23e67456493248b7ab26210e1fa4aec870a527c85",
+  "command": "node scripts/verify-clinia-document-requalification.cjs attacks 2 phihonofwyerpfgqfekt",
+  "checks": [
+    {
+      "requirement": "original owner before attacks",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "foreign Origin",
+      "expected": 403,
+      "actual": 403,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "malformed bearer",
+      "expected": 401,
+      "actual": 401,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "invalid UUID",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "caller supplied path",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "foreign patient",
+      "expected": 404,
+      "actual": 404,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "unregistered file",
+      "expected": 404,
+      "actual": 404,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "Range replay",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "conditional replay",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "wrong content type",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "malformed JSON",
+      "expected": 400,
+      "actual": 400,
+      "status": "VERIFIED"
+    },
+    {
+      "requirement": "original owner after attacks",
+      "expected": 200,
+      "actual": 200,
+      "status": "VERIFIED"
+    }
+  ],
+  "requests": [
+    {
+      "actor": "original owner before attacks",
+      "startedAt": "2026-10-05T21:07:14.842Z",
+      "requestSha256": "1430a3988fde14fd1b872106489cce6047f76ae58b5e2d21aa424d26a24b5f49",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:19.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:18.339Z"
+    },
+    {
+      "actor": "foreign Origin",
+      "startedAt": "2026-10-05T21:07:18.341Z",
+      "requestSha256": "6cf8a6df186b037b6f277967131979c810e17f8a11db09a6d87082c1995ab79e",
+      "expected": 403,
+      "status": 403,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:20.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:19.068Z"
+    },
+    {
+      "actor": "malformed bearer",
+      "startedAt": "2026-10-05T21:07:19.069Z",
+      "requestSha256": "34006aaee74c91a16456ec96d66b2dbc91cc5c280249850195ed95c2987c5ae6",
+      "expected": 401,
+      "status": 401,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:21.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:19.232Z"
+    },
+    {
+      "actor": "invalid UUID",
+      "startedAt": "2026-10-05T21:07:19.233Z",
+      "requestSha256": "b138e7c08a13416f09f339d9c74b3e151ac7f1b104a03595ea8e064a8e48bee3",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:21.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:19.415Z"
+    },
+    {
+      "actor": "caller supplied path",
+      "startedAt": "2026-10-05T21:07:19.416Z",
+      "requestSha256": "a33d8bd50aef55e966b2a256933e568594cc5d1a312f7e0bf7820ffd032c453b",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:21.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:19.548Z"
+    },
+    {
+      "actor": "foreign patient",
+      "startedAt": "2026-10-05T21:07:19.549Z",
+      "requestSha256": "d5ba0ff088a0684197b5a0bde5d629ef5102b5f1206f5f59d8cf9775f7d3d59e",
+      "expected": 404,
+      "status": 404,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:22.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:20.280Z"
+    },
+    {
+      "actor": "unregistered file",
+      "startedAt": "2026-10-05T21:07:20.283Z",
+      "requestSha256": "e17a974d304e2e74d636a02e4d38767d00cee3ebb85312a34b9b389e8f25e838",
+      "expected": 404,
+      "status": 404,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:23.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:21.077Z"
+    },
+    {
+      "actor": "Range replay",
+      "startedAt": "2026-10-05T21:07:21.078Z",
+      "requestSha256": "76d308544c81bd803cedd70090740435f7bfeb312121b6330094b6d103a8f41c",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:23.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:21.235Z"
+    },
+    {
+      "actor": "conditional replay",
+      "startedAt": "2026-10-05T21:07:21.237Z",
+      "requestSha256": "9461a12425188beac38c8dd4865ee8f3fe57374c46e2136484b1dda8090be5f1",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:23.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:21.447Z"
+    },
+    {
+      "actor": "wrong content type",
+      "startedAt": "2026-10-05T21:07:21.448Z",
+      "requestSha256": "e533c9d0213b356d27083b67e71c343b2b99ecab32f2a4c4acd1ae2cefdb2dcc",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:23.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:21.586Z"
+    },
+    {
+      "actor": "malformed JSON",
+      "startedAt": "2026-10-05T21:07:21.587Z",
+      "requestSha256": "fd7f08aa5b90d8c9e8ebc6f63ac3e18e87e5fa2ecdfd6913f5fcae31b274c9e8",
+      "expected": 400,
+      "status": 400,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:23.000Z",
+      "bytes": 33,
+      "bodySha256": "7cf1e91924adeb4ca8b0e0acbe92323fe8eb917edd47b790d3743d195a53ec44",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "text/plain;charset=UTF-8",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:21.720Z"
+    },
+    {
+      "actor": "original owner after attacks",
+      "startedAt": "2026-10-05T21:07:21.722Z",
+      "requestSha256": "1430a3988fde14fd1b872106489cce6047f76ae58b5e2d21aa424d26a24b5f49",
+      "expected": 200,
+      "status": 200,
+      "bodyComplete": true,
+      "serverDate": "2026-10-05T21:07:25.000Z",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+      "headers": {
+        "cache-control": "private, no-store, max-age=0, must-revalidate",
+        "cdn-cache-control": "no-store",
+        "vary": "rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch, Authorization, Cookie",
+        "content-type": "application/octet-stream",
+        "content-length": "70",
+        "x-vercel-cache": "MISS"
+      },
+      "completedAt": "2026-10-05T21:07:23.568Z"
+    }
+  ],
+  "limits": [
+    "Pinned deployment hostname; observed source binding is not cryptographic runtime attestation",
+    "Synthetic 70-byte PDF only; operator authority changes are recorded separately",
+    "No clinical data, tokens, passwords or protection cookies emitted"
+  ],
+  "preparedSha256": "f4aaed5c33e13bccb1686a64b505eff3efab8c67ffc93b733d9e5487299af0dc",
+  "warmEvidence": {
+    "filename": "warm-1791234257559.json",
+    "sha256": "fb7e6e59565d1e13c9ffd472aa13fee2462c0a435f2fa02eac145b7060867b5c"
+  },
+  "completedAt": "2026-10-05T21:07:23.570Z"
+}

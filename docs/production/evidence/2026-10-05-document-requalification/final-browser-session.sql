@@ -1,0 +1,1 @@
+SELECT now() observed_at, (SELECT count(*) FROM auth.sessions WHERE user_id='baef66ba-f8d8-4943-af16-26bb429f9fe0') owner_a_sessions, (SELECT enabled FROM security_internal.document_delivery_principals WHERE user_id='378b431f-f043-489c-820b-347901a78d11') principal_enabled;

@@ -2,6 +2,9 @@ import { type EmailOtpType } from '@supabase/supabase-js'
 import { type NextRequest, NextResponse } from 'next/server'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
+import { logger } from '@/lib/logger'
+import { safeAuthRedirect } from '@/lib/auth-redirect'
+import { finishVerifiedEnrollment } from '@/lib/verified-enrollment'
 
 /**
  * Modern Supabase Auth Confirmation Route
@@ -9,18 +12,21 @@ import { cookies } from 'next/headers'
  */
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url)
-  console.log('[Auth Confirm] Full Search Params:', Object.fromEntries(searchParams.entries()))
-  
   const token_hash = searchParams.get('token_hash')
   const code = searchParams.get('code')
   const type = searchParams.get('type') as EmailOtpType | null
-  const next = searchParams.get('next') ?? '/dashboard'
+  const next = safeAuthRedirect(searchParams.get('next'))
+
+  logger.info('[Auth Confirm] Confirmation request received', {
+    type,
+    hasTokenHash: Boolean(token_hash),
+    hasCode: Boolean(code),
+    next,
+  })
 
   const redirectTo = request.nextUrl.clone()
   redirectTo.pathname = next
-  redirectTo.searchParams.delete('token_hash')
-  redirectTo.searchParams.delete('type')
-  redirectTo.searchParams.delete('code')
+  redirectTo.search = ''
 
   const cookieStore = await cookies()
   const supabase = createServerClient(
@@ -48,28 +54,28 @@ export async function GET(request: NextRequest) {
 
   // 1. Handle Token Hash (Email OTP flow)
   if (token_hash && type) {
-    console.log('[Auth Confirm] Attempting to verify OTP with type:', type, 'and token_hash:', token_hash)
+    logger.info('[Auth Confirm] Attempting OTP verification', { type })
     const { error } = await supabase.auth.verifyOtp({
       type,
       token_hash,
     })
 
-    if (!error) {
-      console.log('[Auth Confirm] OTP verification successful! Redirecting to:', redirectTo.href)
-      // Re-verify if we need to do anything else (e.g. clinic creation trigger should handle it)
+    if ((!error || type === 'invite' || type === 'signup') && (await finishVerifiedEnrollment(supabase, type, token_hash)).success) {
+      logger.info('[Auth Confirm] OTP verification successful', { redirectPath: next })
       return NextResponse.redirect(redirectTo)
     } else {
-      console.error('[Auth Confirm] Auth verification error (OTP):', JSON.stringify(error, null, 2))
+      logger.error('[Auth Confirm] Auth verification error (OTP)', { error: error?.message || 'Verification failed' })
     }
   }
 
   // 2. Handle PKCE Code (Code Exchange flow)
   if (code) {
     const { error } = await supabase.auth.exchangeCodeForSession(code)
-    if (!error) {
+    if (!error && (await finishVerifiedEnrollment(supabase, type, token_hash)).success) {
+      logger.info('[Auth Confirm] Code exchange successful', { redirectPath: next })
       return NextResponse.redirect(redirectTo)
     } else {
-      console.error('Auth verification error (Code):', error)
+      logger.error('[Auth Confirm] Auth verification error (Code)', { error: error?.message || 'Code exchange failed' })
     }
   }
 

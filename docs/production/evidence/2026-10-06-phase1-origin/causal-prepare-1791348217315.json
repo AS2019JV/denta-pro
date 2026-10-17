@@ -1,0 +1,25 @@
+{
+  "status": "VERIFIED",
+  "command": "node scripts/verify-clinia-retirement-causal.cjs prepare phihonofwyerpfgqfekt",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "prepare",
+  "startedAt": "2026-10-07T04:43:37.276Z",
+  "driverSha256": "22815a9f3cb60669f637264ed221528308ad19210d421f582f6c626f49a0ccce",
+  "checks": [
+    {
+      "name": "Original signed request returns exact synthetic bytes",
+      "status": 200,
+      "hashMatched": true,
+      "requestSha256": "baf455060d193cad16c50d538cfa613b947b6bc2dfbbffe10637c4901de05311",
+      "cache": "MISS"
+    },
+    {
+      "name": "Only the newly allocated disposable object deleted through Storage API",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "Maintenance-only synthetic disposable object; no ordinary-user authorization or production historical-retirement proof"
+  ],
+  "completedAt": "2026-10-07T04:43:41.496Z"
+}

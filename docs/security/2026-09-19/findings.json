@@ -1,0 +1,1164 @@
+{
+  "documentType": "codex-security.findings",
+  "findings": [
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Caller signup metadata -> email verification trigger -> ignored clinic ID conflict -> profile and app_metadata ownership."
+        },
+        "limitations": [
+          "The existing-profile guard blocks already assigned users, not fresh signups. clinics.owner_id is not overwritten; JWT-based authorization nevertheless grants owner capabilities."
+        ],
+        "reachability": {
+          "summary": "Fresh account with verified attacker-controlled email, known victim UUID, installed verification trigger. No custom token hook is needed for this path."
+        },
+        "summary": "Caller signup metadata -> email verification trigger -> ignored clinic ID conflict -> profile and app_metadata ownership."
+      },
+      "codeEvidence": [
+        {
+          "code": "      -- Use provided ID or generate new one\n      IF (pending_data->>'id') IS NOT NULL AND (pending_data->>'id') != '' THEN\n         new_clinic_id := (pending_data->>'id')::uuid;\n      ELSE\n         new_clinic_id := gen_random_uuid();\n      END IF;\n\n      -- 1. Create Clinic\n      INSERT INTO public.clinics (id, name, address, phone, subscription_tier, owner_id)\n      VALUES (\n        new_clinic_id,\n        pending_data->>'name',\n        pending_data->>'address',\n        pending_data->>'phone',\n        COALESCE(pending_data->>'subscription_tier', 'trial'),\n        NEW.id\n      )\n      ON CONFLICT (id) DO NOTHING;\n      \n      -- 2. Update Profile (created by handle_new_user)\n      UPDATE public.profiles\n      SET \n        clinic_id = new_clinic_id,\n        role = 'clinic_owner'::public.app_role\n      WHERE id = NEW.id;",
+          "endLine": 44,
+          "explanation": "A new signup can put an existing clinic UUID in pending_clinic metadata. Verification ignores the insert conflict and assigns the caller that clinic and clinic_owner in both profile and trusted app metadata.",
+          "id": "control",
+          "label": "Email verification grants ownership of an existing clinic",
+          "path": "supabase/migrations/20260423_fix_clinic_trigger.sql",
+          "role": "root_control",
+          "startLine": 20
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_cf5503682da6457bcf8a3191",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:71c26ac0af895f4392d662375d3538f7b56757a16768badec05d1c9c3c992eba"
+      },
+      "identity": {
+        "anchor": "email-verification-grants-ownership-of-an-existing-clinic"
+      },
+      "locations": [
+        {
+          "endLine": 44,
+          "path": "supabase/migrations/20260423_fix_clinic_trigger.sql",
+          "role": "root_control",
+          "startLine": 20
+        }
+      ],
+      "occurrenceId": "occ_77fa8db45de07b1eb41c8d0a",
+      "provenance": {
+        "candidateId": "validated-onboarding-tenant-claim",
+        "source": "local_plugin"
+      },
+      "remediation": "Generate clinic identifiers in trusted code; never grant ownership after an ignored insert. Existing-clinic joins must consume an authorized invitation.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "A new signup can put an existing clinic UUID in pending_clinic metadata. Verification ignores the insert conflict and assigns the caller that clinic and clinic_owner in both profile and trusted app metadata."
+      },
+      "ruleId": "onboarding-tenant-claim",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "A new signup can put an existing clinic UUID in pending_clinic metadata. Verification ignores the insert conflict and assigns the caller that clinic and clinic_owner in both profile and trusted app metadata.",
+      "taxonomy": {
+        "category": "onboarding-tenant-claim",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Email verification grants ownership of an existing clinic",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Fresh account with verified attacker-controlled email, known victim UUID, installed verification trigger. No custom token hook is needed for this path.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Caller signup metadata -> email verification trigger -> ignored clinic ID conflict -> profile and app_metadata ownership. Counterevidence: The existing-profile guard blocks already assigned users, not fresh signups. clinics.owner_id is not overwritten; JWT-based authorization nevertheless grants owner capabilities."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Own profile PATCH -> privileged fields -> get_user_clinic_id / Edge owner check / custom hook -> elevated access."
+        },
+        "limitations": [
+          "Enums validate values, not authority. No protecting column revoke or trigger was found. The direct profile consumers remain relevant without the hook."
+        ],
+        "reachability": {
+          "summary": "Authenticated user; current policies and grants applied. JWT-based escalation additionally requires the documented Auth hook."
+        },
+        "summary": "Own profile PATCH -> privileged fields -> get_user_clinic_id / Edge owner check / custom hook -> elevated access."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE POLICY \"Users can insert their own profile.\"\nON public.profiles FOR INSERT\nWITH CHECK ( auth.uid() = id );\n\nCREATE POLICY \"Users can update own profile.\"\nON public.profiles FOR UPDATE\nUSING ( auth.uid() = id );",
+          "endLine": 65,
+          "explanation": "Table-wide profile UPDATE and a self-row policy leave role, clinic_id and status writable. Role checks and the custom access-token hook trust those values.",
+          "id": "control",
+          "label": "Staff can change their own role and clinic",
+          "path": "supabase/migrations/20251222_enforce_enums.sql",
+          "role": "root_control",
+          "startLine": 59
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_9eae8070586848250320490c",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:08dfe6acced79634f94d62816664052ab3301dfb94cb8a30a06f9cd455dff051"
+      },
+      "identity": {
+        "anchor": "staff-can-change-their-own-role-and-clinic"
+      },
+      "locations": [
+        {
+          "endLine": 65,
+          "path": "supabase/migrations/20251222_enforce_enums.sql",
+          "role": "root_control",
+          "startLine": 59
+        }
+      ],
+      "occurrenceId": "occ_bf2ecb70257c49b74b997591",
+      "provenance": {
+        "candidateId": "validated-profile-authority-mutation",
+        "source": "local_plugin"
+      },
+      "remediation": "Allow updates only to safe profile columns. Route role, tenant, membership and status changes through tenant-authorized server operations and revoke stale sessions.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "Table-wide profile UPDATE and a self-row policy leave role, clinic_id and status writable. Role checks and the custom access-token hook trust those values."
+      },
+      "ruleId": "profile-authority-mutation",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "Table-wide profile UPDATE and a self-row policy leave role, clinic_id and status writable. Role checks and the custom access-token hook trust those values.",
+      "taxonomy": {
+        "category": "profile-authority-mutation",
+        "cwe": [
+          "CWE-269"
+        ]
+      },
+      "title": "Staff can change their own role and clinic",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Authenticated user; current policies and grants applied. JWT-based escalation additionally requires the documented Auth hook.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Own profile PATCH -> privileged fields -> get_user_clinic_id / Edge owner check / custom hook -> elevated access. Counterevidence: Enums validate values, not authority. No protecting column revoke or trigger was found. The direct profile consumers remain relevant without the hook."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Self INSERT clinic_members -> is_clinic_member -> permissive patient policies -> cross-clinic health records."
+        },
+        "limitations": [
+          "Later JWT patient policies have different names; permissive policies combine with OR. Foreign keys prove existence only."
+        ],
+        "reachability": {
+          "summary": "Authenticated profile, victim UUID and effective INSERT table privilege; Supabase default grants must be confirmed live."
+        },
+        "summary": "Self INSERT clinic_members -> is_clinic_member -> permissive patient policies -> cross-clinic health records."
+      },
+      "codeEvidence": [
+        {
+          "code": "DO $$\nBEGIN\n  IF NOT EXISTS (\n    SELECT 1 FROM pg_policies \n    WHERE tablename = 'clinic_members' \n      AND policyname = 'Users can insert their own membership'\n  ) THEN\n    CREATE POLICY \"Users can insert their own membership\"\n      ON public.clinic_members FOR INSERT\n      WITH CHECK (auth.uid() = user_id);",
+          "endLine": 300,
+          "explanation": "Self-membership INSERT checks user_id but accepts any clinic_id and role. Surviving membership-based patient policies authorize read, insert and update for that clinic.",
+          "id": "control",
+          "label": "Users can join another clinic without an invitation",
+          "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+          "role": "root_control",
+          "startLine": 291
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_b922640c655008ecf7ed3475",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:c0b04b4c87f7bc9f77f24d9b9bd5430670a1f838c9a85415484d6a79a8826837"
+      },
+      "identity": {
+        "anchor": "users-can-join-another-clinic-without-an-invitation"
+      },
+      "locations": [
+        {
+          "endLine": 300,
+          "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+          "role": "root_control",
+          "startLine": 291
+        }
+      ],
+      "occurrenceId": "occ_53f9cd12273f8d1d7a50b9be",
+      "provenance": {
+        "candidateId": "validated-membership-self-enrollment",
+        "source": "local_plugin"
+      },
+      "remediation": "Remove self-enrollment and consolidate patient policies. Create memberships through verified owner invitation acceptance with server-selected role/clinic.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "Self-membership INSERT checks user_id but accepts any clinic_id and role. Surviving membership-based patient policies authorize read, insert and update for that clinic."
+      },
+      "ruleId": "membership-self-enrollment",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "Self-membership INSERT checks user_id but accepts any clinic_id and role. Surviving membership-based patient policies authorize read, insert and update for that clinic.",
+      "taxonomy": {
+        "category": "membership-self-enrollment",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Users can join another clinic without an invitation",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Authenticated profile, victim UUID and effective INSERT table privilege; Supabase default grants must be confirmed live.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Self INSERT clinic_members -> is_clinic_member -> permissive patient policies -> cross-clinic health records. Counterevidence: Later JWT patient policies have different names; permissive policies combine with OR. Foreign keys prove existence only."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Direct RPC p_clinic_id -> owner-privileged SELECT -> patient health fields, contacts, notes, odontogram and financial aggregates."
+        },
+        "limitations": [
+          "Search, pagination and soft-delete filtering are not tenant authorization. Earlier overloads are dropped; the secure profile RPC is a separate unused guard."
+        ],
+        "reachability": {
+          "summary": "Authenticated caller, known tenant UUID, applied function and usual privileged migration owner."
+        },
+        "summary": "Direct RPC p_clinic_id -> owner-privileged SELECT -> patient health fields, contacts, notes, odontogram and financial aggregates."
+      },
+      "codeEvidence": [
+        {
+          "code": "LANGUAGE plpgsql\nSECURITY DEFINER\nSET search_path = public\nSTABLE\nAS $$\nDECLARE\n  v_total bigint;\n  v_search_pattern text;\nBEGIN\n  -- Build search pattern\n  v_search_pattern := '%' || LOWER(COALESCE(p_search, '')) || '%';\n\n  -- Count total matching records (respecting soft deletes)\n  SELECT COUNT(*) INTO v_total\n  FROM public.patients pat\n  WHERE pat.clinic_id = p_clinic_id\n    AND pat.deleted_at IS NULL",
+          "endLine": 128,
+          "explanation": "The canonical SECURITY DEFINER RPC accepts p_clinic_id and returns extensive patient and billing data without checking caller membership or role. Authenticated execution is explicitly granted at line 305.",
+          "id": "control",
+          "label": "Patient statistics RPC discloses other clinics' health records",
+          "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+          "role": "root_control",
+          "startLine": 112
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_946b1dc2e1acb79814986b5c",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:c03444d218a83678bb2638fc074bb904adc9b37e167039ea3798fb4347eb64ee"
+      },
+      "identity": {
+        "anchor": "patient-statistics-rpc-discloses-other-clinics-health-records"
+      },
+      "locations": [
+        {
+          "endLine": 128,
+          "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+          "role": "root_control",
+          "startLine": 112
+        }
+      ],
+      "occurrenceId": "occ_fd296f30b816cea7c34b4a49",
+      "provenance": {
+        "candidateId": "validated-patient-rpc-tenant-bypass",
+        "source": "local_plugin"
+      },
+      "remediation": "Use SECURITY INVOKER with corrected RLS or enforce trusted membership and clinical role inside the function; restrict EXECUTE and bound pagination.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "The canonical SECURITY DEFINER RPC accepts p_clinic_id and returns extensive patient and billing data without checking caller membership or role. Authenticated execution is explicitly granted at line 305."
+      },
+      "ruleId": "patient-rpc-tenant-bypass",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "The canonical SECURITY DEFINER RPC accepts p_clinic_id and returns extensive patient and billing data without checking caller membership or role. Authenticated execution is explicitly granted at line 305.",
+      "taxonomy": {
+        "category": "patient-rpc-tenant-bypass",
+        "cwe": [
+          "CWE-862"
+        ]
+      },
+      "title": "Patient statistics RPC discloses other clinics' health records",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Authenticated caller, known tenant UUID, applied function and usual privileged migration owner.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Direct RPC p_clinic_id -> owner-privileged SELECT -> patient health fields, contacts, notes, odontogram and financial aggregates. Counterevidence: Search, pagination and soft-delete filtering are not tenant authorization. Earlier overloads are dropped; the secure profile RPC is a separate unused guard."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Authenticated Storage request -> bucket-only storage.objects policy -> cross-tenant file access."
+        },
+        "limitations": [
+          "Private bucket status requires authentication but does not establish tenant isolation; patient_files metadata RLS is a separate control."
+        ],
+        "reachability": {
+          "summary": "Applied policies and patient attachments in the bucket."
+        },
+        "summary": "Authenticated Storage request -> bucket-only storage.objects policy -> cross-tenant file access."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE POLICY \"Users can upload patient files\" \n  ON storage.objects FOR INSERT \n  TO authenticated \n  WITH CHECK (bucket_id = 'patient-files');\n\nCREATE POLICY \"Users can read patient files\" \n  ON storage.objects FOR SELECT \n  TO authenticated \n  USING (bucket_id = 'patient-files');\n\nCREATE POLICY \"Users can delete patient files\" \n  ON storage.objects FOR DELETE \n  TO authenticated \n  USING (bucket_id = 'patient-files');",
+          "endLine": 112,
+          "explanation": "Storage INSERT, SELECT and DELETE policies check only the shared patient-files bucket. Any authenticated account can enumerate, download and delete other clinics' attachments.",
+          "id": "control",
+          "label": "Every authenticated user can read or delete all patient files",
+          "path": "supabase/migrations/20260526_create_patient_files_and_notes.sql",
+          "role": "root_control",
+          "startLine": 99
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_d904284ac0f0def496c353a9",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:04bc2ab06acaf91a7b33d8e0e0cc81d0e9aa593a2d9d88ab25f9c4b010bd1eb5"
+      },
+      "identity": {
+        "anchor": "every-authenticated-user-can-read-or-delete-all-patient-files"
+      },
+      "locations": [
+        {
+          "endLine": 112,
+          "path": "supabase/migrations/20260526_create_patient_files_and_notes.sql",
+          "role": "root_control",
+          "startLine": 99
+        }
+      ],
+      "occurrenceId": "occ_29ff88c984b481ebf32d55b0",
+      "provenance": {
+        "candidateId": "validated-patient-storage-tenant-bypass",
+        "source": "local_plugin"
+      },
+      "remediation": "Bind objects to an authorized clinic and patient on every operation; use private signed downloads and retention-aware deletion with direct two-tenant Storage tests.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "Storage INSERT, SELECT and DELETE policies check only the shared patient-files bucket. Any authenticated account can enumerate, download and delete other clinics' attachments."
+      },
+      "ruleId": "patient-storage-tenant-bypass",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "Storage INSERT, SELECT and DELETE policies check only the shared patient-files bucket. Any authenticated account can enumerate, download and delete other clinics' attachments.",
+      "taxonomy": {
+        "category": "patient-storage-tenant-bypass",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Every authenticated user can read or delete all patient files",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Applied policies and patient attachments in the bucket.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Authenticated Storage request -> bucket-only storage.objects policy -> cross-tenant file access. Counterevidence: Private bucket status requires authentication but does not establish tenant isolation; patient_files metadata RLS is a separate control."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Caller FormData -> service-role Auth generateLink -> returned confirmation URL and attempted privileged profile update."
+        },
+        "limitations": [
+          "The separate Edge invite handler has checks but is not this action. Existing-user behavior and invalid profile status pending limit takeover claims; unauthorized account invitation and token disclosure are supported."
+        ],
+        "reachability": {
+          "summary": "Reachable Next server action with configured Supabase service key. An ordinary signed-in caller suffices to pass navigation guards."
+        },
+        "summary": "Caller FormData -> service-role Auth generateLink -> returned confirmation URL and attempted privileged profile update."
+      },
+      "codeEvidence": [
+        {
+          "code": "export async function inviteTeamMember(formData: FormData) {\n  const email = formData.get(\"email\") as string\n  const name = formData.get(\"name\") as string || \"Doctor\"\n  const clinicId = formData.get(\"clinicId\") as string\n  const role = formData.get(\"role\") as string || \"receptionist\"\n  const specialization = formData.get(\"specialization\") as string || (role === 'doctor' ? 'Odont\u00f3logo General' : 'Administrativo')\n\n  if (!email || !clinicId) {\n    throw new Error(\"El correo electr\u00f3nico y el ID de la cl\u00ednica son obligatorios.\")\n  }\n\n  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!\n  const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!\n  const resendApiKey = process.env.RESEND_API_KEY!\n\n  const supabase = createClient(supabaseUrl, supabaseServiceKey, {\n    auth: {\n      autoRefreshToken: false,\n      persistSession: false\n    }\n  })\n\n  // 1. Generate Invite Link\n  const { data: linkData, error: linkError } = await supabase.auth.admin.generateLink({\n    type: 'invite',\n    email: email,\n    options: {\n      data: {\n        clinic_id: clinicId,\n        role: role,\n        full_name: name,\n        specialization: specialization,\n        pending_invite: true\n      },\n      redirectTo: `${process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'}/dashboard`",
+          "endLine": 40,
+          "explanation": "The deployed team UI imports a server action that accepts email, clinicId and role, uses service-role generateLink without caller authentication, and returns the invite capability at line 111.",
+          "id": "control",
+          "label": "Invitation action issues account capabilities without checking the caller",
+          "path": "app/actions/invite-member.ts",
+          "role": "root_control",
+          "startLine": 6
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_2c93072afcb3b0ac7e644983",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:4f44590754c5107794e4a29ec48469da8bfa6b2c5a76a5497b923a8c0c468ba0"
+      },
+      "identity": {
+        "anchor": "invitation-action-issues-account-capabilities-without-checking-the-caller"
+      },
+      "locations": [
+        {
+          "endLine": 40,
+          "path": "app/actions/invite-member.ts",
+          "role": "root_control",
+          "startLine": 6
+        }
+      ],
+      "occurrenceId": "occ_98787d364e562640c9a72c5a",
+      "provenance": {
+        "candidateId": "validated-invite-action-missing-authorization",
+        "source": "local_plugin"
+      },
+      "remediation": "Authenticate the action, authorize immutable owner membership for the target clinic, allow only staff roles, deliver the capability to its intended recipient only, and check every persistence result.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "The deployed team UI imports a server action that accepts email, clinicId and role, uses service-role generateLink without caller authentication, and returns the invite capability at line 111."
+      },
+      "ruleId": "invite-action-missing-authorization",
+      "severity": {
+        "level": "high",
+        "rationale": "A realistic low-privilege caller can cross an authority or patient-confidentiality boundary under the stated source-defined deployment."
+      },
+      "summary": "The deployed team UI imports a server action that accepts email, clinicId and role, uses service-role generateLink without caller authentication, and returns the invite capability at line 111.",
+      "taxonomy": {
+        "category": "invite-action-missing-authorization",
+        "cwe": [
+          "CWE-862"
+        ]
+      },
+      "title": "Invitation action issues account capabilities without checking the caller",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Reachable Next server action with configured Supabase service key. An ordinary signed-in caller suffices to pass navigation guards.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Caller FormData -> service-role Auth generateLink -> returned confirmation URL and attempted privileged profile update. Counterevidence: The separate Edge invite handler has checks but is not this action. Existing-user behavior and invalid profile status pending limit takeover claims; unauthorized account invitation and token disclosure are supported."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Same-clinic receptionist -> direct table writes -> altered prescriptions/HCU/patient clinical data."
+        },
+        "limitations": [
+          "Owner-only prescription DELETE and clinical_records role checks do not protect these sibling tables. Impact is limited to the caller clinic absent separate escalation."
+        ],
+        "reachability": {
+          "summary": "Valid same-clinic JWT and effective table grants. Clinical-role separation is an explicit product requirement."
+        },
+        "summary": "Same-clinic receptionist -> direct table writes -> altered prescriptions/HCU/patient clinical data."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE POLICY \"Prescriptions are insertable by clinic members\"\n    ON public.prescriptions FOR INSERT\n    WITH CHECK (clinic_id = (auth.jwt() -> 'app_metadata' ->> 'clinic_id')::uuid);\n\nCREATE POLICY \"Prescriptions are updatable by clinic members\"\n    ON public.prescriptions FOR UPDATE\n    USING (clinic_id = (auth.jwt() -> 'app_metadata' ->> 'clinic_id')::uuid)\n    WITH CHECK (clinic_id = (auth.jwt() -> 'app_metadata' ->> 'clinic_id')::uuid);",
+          "endLine": 22,
+          "explanation": "Prescription INSERT and UPDATE require only a matching clinic, permitting nonclinical members to create or alter prescriptions and supplied doctor_id. HCU forms and patient clinical columns also retain role-neutral controls.",
+          "id": "control",
+          "label": "Receptionists can write clinical records through direct APIs",
+          "path": "supabase/migrations/20260508220424_enable_rls_prescriptions.sql",
+          "role": "root_control",
+          "startLine": 15
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_91eaa17223065b3d963e7339",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:66a8c02f705346903b4acbc7b9a2e7490d2126875d79f60b4e8bd9cd70150f61"
+      },
+      "identity": {
+        "anchor": "receptionists-can-write-clinical-records-through-direct-apis"
+      },
+      "locations": [
+        {
+          "endLine": 22,
+          "path": "supabase/migrations/20260508220424_enable_rls_prescriptions.sql",
+          "role": "root_control",
+          "startLine": 15
+        }
+      ],
+      "occurrenceId": "occ_5fa63f99c2e5ef76badcecee",
+      "provenance": {
+        "candidateId": "validated-clinical-role-bypass",
+        "source": "local_plugin"
+      },
+      "remediation": "Apply doctor/owner authorization at database write boundaries, validate prescriber identity and same-tenant patient/doctor relationships, and provide receptionist-safe read projections.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "Prescription INSERT and UPDATE require only a matching clinic, permitting nonclinical members to create or alter prescriptions and supplied doctor_id. HCU forms and patient clinical columns also retain role-neutral controls."
+      },
+      "ruleId": "clinical-role-bypass",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "Prescription INSERT and UPDATE require only a matching clinic, permitting nonclinical members to create or alter prescriptions and supplied doctor_id. HCU forms and patient clinical columns also retain role-neutral controls.",
+      "taxonomy": {
+        "category": "clinical-role-bypass",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Receptionists can write clinical records through direct APIs",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Valid same-clinic JWT and effective table grants. Clinical-role separation is an explicit product requirement.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Same-clinic receptionist -> direct table writes -> altered prescriptions/HCU/patient clinical data. Counterevidence: Owner-only prescription DELETE and clinical_records role checks do not protect these sibling tables. Impact is limited to the caller clinic absent separate escalation."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Direct dashboard_stats_view SELECT -> owner execution -> clinic UUIDs, revenues and patient volumes."
+        },
+        "limitations": [
+          "January security_invoker migration changes only receptionist_patient_view and recall_queue, before this view is created."
+        ],
+        "reachability": {
+          "summary": "Usual privileged migration owner; applied view and expected billing columns."
+        },
+        "summary": "Direct dashboard_stats_view SELECT -> owner execution -> clinic UUIDs, revenues and patient volumes."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE OR REPLACE VIEW public.dashboard_stats_view AS\nSELECT \n    clinic_id,\n    DATE_TRUNC('month', created_at) as month,\n    COUNT(id) as total_billings,\n    SUM(amount) as total_revenue,\n    COUNT(DISTINCT patient_id) as unique_patients_billed\nFROM public.billings\nGROUP BY clinic_id, DATE_TRUNC('month', created_at);\n\n-- Grant access to the view\nGRANT SELECT ON public.dashboard_stats_view TO authenticated;",
+          "endLine": 16,
+          "explanation": "An ordinary owner-rights view aggregates all billings and grants authenticated SELECT without tenant filtering or security_invoker.",
+          "id": "control",
+          "label": "Analytics view reveals other clinics' revenue and identifiers",
+          "path": "supabase/migrations/20260220_analytics_view.sql",
+          "role": "root_control",
+          "startLine": 5
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_7e9a371c654350294efbcbfa",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:8966556558fca2292250ddf16b7fde7c8659f893efe2a329c33e08eeb753211d"
+      },
+      "identity": {
+        "anchor": "analytics-view-reveals-other-clinics-revenue-and-identifiers"
+      },
+      "locations": [
+        {
+          "endLine": 16,
+          "path": "supabase/migrations/20260220_analytics_view.sql",
+          "role": "root_control",
+          "startLine": 5
+        }
+      ],
+      "occurrenceId": "occ_7b43a042782664e912091a3e",
+      "provenance": {
+        "candidateId": "validated-analytics-owner-view",
+        "source": "local_plugin"
+      },
+      "remediation": "Use security_invoker and corrected underlying tenant/role policies, or an explicitly authorized aggregate RPC.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "An ordinary owner-rights view aggregates all billings and grants authenticated SELECT without tenant filtering or security_invoker."
+      },
+      "ruleId": "analytics-owner-view",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "An ordinary owner-rights view aggregates all billings and grants authenticated SELECT without tenant filtering or security_invoker.",
+      "taxonomy": {
+        "category": "analytics-owner-view",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Analytics view reveals other clinics' revenue and identifiers",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Usual privileged migration owner; applied view and expected billing columns.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Direct dashboard_stats_view SELECT -> owner execution -> clinic UUIDs, revenues and patient volumes. Counterevidence: January security_invoker migration changes only receptionist_patient_view and recall_queue, before this view is created."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Public-schema RPC -> elevated clinic lifecycle / service mutation."
+        },
+        "limitations": [
+          "Purge does not reliably delete populated clinics because non-CASCADE FKs block it. JWT caching can delay archival effects. Explicit external grant hardening could remove reachability."
+        ],
+        "reachability": {
+          "summary": "Effective attacker EXECUTE under default PostgreSQL PUBLIC function privileges; confirm actual ACLs and function owners."
+        },
+        "summary": "Public-schema RPC -> elevated clinic lifecycle / service mutation."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE OR REPLACE FUNCTION public.archive_clinic(target_clinic_id uuid)\nRETURNS void\nLANGUAGE plpgsql\nSECURITY DEFINER\nAS $$\nBEGIN\n  UPDATE public.clinics\n  SET \n    subscription_status = 'archived',\n    archived_at = NOW()\n  WHERE id = target_clinic_id;\nEND;",
+          "endLine": 20,
+          "explanation": "archive_clinic and purge_clinic_data are SECURITY DEFINER with caller-selected clinic IDs and no caller guard. seed_default_services repeats this missing authorization for service inserts. No EXECUTE revocation was found.",
+          "id": "control",
+          "label": "Maintenance RPCs permit unauthorized clinic changes under default grants",
+          "path": "supabase/migrations/20251227_data_retention_lifecycle.sql",
+          "role": "root_control",
+          "startLine": 9
+        }
+      ],
+      "confidence": {
+        "level": "medium",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_974d148b451bca572977de80",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:074661b2db2c80107b9c8d0c5839a0418489d8b74d32a42a5ecabb7400e9ca6a"
+      },
+      "identity": {
+        "anchor": "maintenance-rpcs-permit-unauthorized-clinic-changes-under-default-grants"
+      },
+      "locations": [
+        {
+          "endLine": 20,
+          "path": "supabase/migrations/20251227_data_retention_lifecycle.sql",
+          "role": "root_control",
+          "startLine": 9
+        }
+      ],
+      "occurrenceId": "occ_605883f19bee261bf1aba4eb",
+      "provenance": {
+        "candidateId": "validated-maintenance-rpc-authorization",
+        "source": "local_plugin"
+      },
+      "remediation": "Revoke maintenance EXECUTE from PUBLIC/anon/authenticated, allow authorized service execution only, and enforce retention/legal hold inside purge. Separately authenticate scheduled Edge callers.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "archive_clinic and purge_clinic_data are SECURITY DEFINER with caller-selected clinic IDs and no caller guard. seed_default_services repeats this missing authorization for service inserts. No EXECUTE revocation was found."
+      },
+      "ruleId": "maintenance-rpc-authorization",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "archive_clinic and purge_clinic_data are SECURITY DEFINER with caller-selected clinic IDs and no caller guard. seed_default_services repeats this missing authorization for service inserts. No EXECUTE revocation was found.",
+      "taxonomy": {
+        "category": "maintenance-rpc-authorization",
+        "cwe": [
+          "CWE-862"
+        ]
+      },
+      "title": "Maintenance RPCs permit unauthorized clinic changes under default grants",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Effective attacker EXECUTE under default PostgreSQL PUBLIC function privileges; confirm actual ACLs and function owners.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Public-schema RPC -> elevated clinic lifecycle / service mutation. Counterevidence: Purge does not reliably delete populated clinics because non-CASCADE FKs block it. JWT caching can delay archival effects. Explicit external grant hardening could remove reachability."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Anonymous POST recipient/content -> Resend API credential -> external email delivery."
+        },
+        "limitations": [
+          "Missing key returns 503; no handler authentication, recipient ownership, template restriction or quota is present."
+        ],
+        "reachability": {
+          "summary": "Deployed route with configured Resend API key and sender."
+        },
+        "summary": "Anonymous POST recipient/content -> Resend API credential -> external email delivery."
+      },
+      "codeEvidence": [
+        {
+          "code": "export async function POST(request: Request) {\n  try {\n    const body = await request.json()\n    const { to, subject, message } = body\n\n    if (!to || !subject || !message) {\n      return NextResponse.json(\n        { error: 'Missing required fields' },\n        { status: 400 }\n      )\n    }\n\n    if (!resend) {\n      console.error('[Email Service] RESEND_API_KEY is not configured')\n      return NextResponse.json(\n        { error: 'Email service not configured' },\n        { status: 503 }\n      )\n    }\n\n    const { data, error } = await resend.emails.send({\n      from: env.RESEND_FROM_EMAIL || 'Clinia + <soporte@cliniaplus.com>',\n      to: [to],\n      subject: subject,\n      html: message,\n    })",
+          "endLine": 34,
+          "explanation": "The API validates only presence of to, subject and message, then sends caller HTML through the application's Resend account. The active middleware does not protect API routes.",
+          "id": "control",
+          "label": "Public email endpoint sends arbitrary HTML to arbitrary recipients",
+          "path": "app/api/send-email/route.ts",
+          "role": "root_control",
+          "startLine": 9
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_26ba0567afd9fe61f24651ab",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:375c9969e4122466050e5c90b4b41e69b52d207b2c8d3692e3832302231112f1"
+      },
+      "identity": {
+        "anchor": "public-email-endpoint-sends-arbitrary-html-to-arbitrary-recipients"
+      },
+      "locations": [
+        {
+          "endLine": 34,
+          "path": "app/api/send-email/route.ts",
+          "role": "root_control",
+          "startLine": 9
+        }
+      ],
+      "occurrenceId": "occ_f9f9307ea5216f89f57b889a",
+      "provenance": {
+        "candidateId": "validated-email-relay-authorization",
+        "source": "local_plugin"
+      },
+      "remediation": "Require verified tenant/role, resolve recipients from authorized records, render bounded server templates and enforce tenant/user quotas; use a separately constrained public contact endpoint if needed.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "The API validates only presence of to, subject and message, then sends caller HTML through the application's Resend account. The active middleware does not protect API routes."
+      },
+      "ruleId": "email-relay-authorization",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "The API validates only presence of to, subject and message, then sends caller HTML through the application's Resend account. The active middleware does not protect API routes.",
+      "taxonomy": {
+        "category": "email-relay-authorization",
+        "cwe": [
+          "CWE-862"
+        ]
+      },
+      "title": "Public email endpoint sends arbitrary HTML to arbitrary recipients",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Deployed route with configured Resend API key and sender.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Anonymous POST recipient/content -> Resend API credential -> external email delivery. Counterevidence: Missing key returns 503; no handler authentication, recipient ownership, template restriction or quota is present."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Missing merchant config + payment attempt -> failed request -> fake subscriptionId -> privileged clinic activation."
+        },
+        "limitations": [
+          "Configured real merchant credentials rethrow failures. This is configuration-dependent financial integrity impact; no payment fraud was executed."
+        ],
+        "reachability": {
+          "summary": "Authenticated caller with RLS-visible clinic; missing merchant credential while Supabase admin configuration is available."
+        },
+        "summary": "Missing merchant config + payment attempt -> failed request -> fake subscriptionId -> privileged clinic activation."
+      },
+      "codeEvidence": [
+        {
+          "code": "    } catch (error) {\n       console.error('[Kushki] Error:', error);\n       // Mock success for development if credentials missing\n       if (KUSHKI_PRIVATE_ID === 'mock_private_key') {\n           return {\n               subscriptionId: `sub_${Math.random().toString(36).substring(7)}`,\n               status: 'active'\n           }\n       }\n       throw error;\n    }",
+          "endLine": 83,
+          "explanation": "Gateway errors return synthetic active subscriptions whenever the merchant key is absent. The subscribe route persists that result as active and logs a successful payment.",
+          "id": "control",
+          "label": "Missing payment credentials can activate an unpaid subscription",
+          "path": "lib/kushki.ts",
+          "role": "root_control",
+          "startLine": 73
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_75875905198f6daba7e19621",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:b828b009c7cb4366e8793ce810bae8ffeaf78e5019deb1e5ef2dafc21b669227"
+      },
+      "identity": {
+        "anchor": "missing-payment-credentials-can-activate-an-unpaid-subscription"
+      },
+      "locations": [
+        {
+          "endLine": 83,
+          "path": "lib/kushki.ts",
+          "role": "root_control",
+          "startLine": 73
+        }
+      ],
+      "occurrenceId": "occ_20cace5a4e78d7e3659e6ac1",
+      "provenance": {
+        "candidateId": "validated-subscription-mock-fail-open",
+        "source": "local_plugin"
+      },
+      "remediation": "Reject missing or placeholder merchant credentials before a request; never translate provider errors into successful subscriptions. Test invalid credentials, provider rejection and a valid response offline.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "Gateway errors return synthetic active subscriptions whenever the merchant key is absent. The subscribe route persists that result as active and logs a successful payment."
+      },
+      "ruleId": "subscription-mock-fail-open",
+      "severity": {
+        "level": "low",
+        "rationale": "Financial integrity is configuration-dependent; missing merchant credentials are a required prerequisite."
+      },
+      "summary": "Gateway errors return synthetic active subscriptions whenever the merchant key is absent. The subscribe route persists that result as active and logs a successful payment.",
+      "taxonomy": {
+        "category": "subscription-mock-fail-open",
+        "cwe": [
+          "CWE-636"
+        ]
+      },
+      "title": "Missing payment credentials can activate an unpaid subscription",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Authenticated caller with RLS-visible clinic; missing merchant credential while Supabase admin configuration is available.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Missing merchant config + payment attempt -> failed request -> fake subscriptionId -> privileged clinic activation. Counterevidence: Configured real merchant credentials rethrow failures. This is configuration-dependent financial integrity impact; no payment fraud was executed."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Authenticated owner -> services INSERT victim clinic_id -> global owner policy -> victim catalog injection."
+        },
+        "limitations": [
+          "The tenant-bound FOR ALL policy does not restrict another permissive INSERT policy. Do not infer all cross-tenant UPDATE/DELETE operations without SELECT visibility."
+        ],
+        "reachability": {
+          "summary": "Owner profile, victim UUID and deployed services INSERT privilege."
+        },
+        "summary": "Authenticated owner -> services INSERT victim clinic_id -> global owner policy -> victim catalog injection."
+      },
+      "codeEvidence": [
+        {
+          "code": "CREATE POLICY \"Admins can delete profiles.\" ON public.profiles FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'clinic_owner'::public.app_role));\nCREATE POLICY \"Admins can update all profiles.\" ON public.profiles FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'clinic_owner'::public.app_role));\nCREATE POLICY \"Admins can insert services.\" ON public.services FOR INSERT TO authenticated WITH CHECK (EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'clinic_owner'::public.app_role));\nCREATE POLICY \"Admins can update services.\" ON public.services FOR UPDATE TO authenticated USING (EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'clinic_owner'::public.app_role));\nCREATE POLICY \"Admins can delete services.\" ON public.services FOR DELETE TO authenticated USING (EXISTS (SELECT 1 FROM public.profiles p WHERE p.id = auth.uid() AND p.role = 'clinic_owner'::public.app_role));",
+          "endLine": 41,
+          "explanation": "The additional owner service INSERT policy checks caller role globally and omits equality with the target service clinic. Its permissive result bypasses the narrower owner policy.",
+          "id": "control",
+          "label": "A clinic owner can insert services into another clinic",
+          "path": "supabase/migrations/20260401_fix_admin_roles.sql",
+          "role": "root_control",
+          "startLine": 37
+        }
+      ],
+      "confidence": {
+        "level": "high",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_8b35c373ac7568534903dc6e",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:6d7a52de7652f76328bb4980527abfc93ff8cded72f4ecf3d5707794288512ef"
+      },
+      "identity": {
+        "anchor": "a-clinic-owner-can-insert-services-into-another-clinic"
+      },
+      "locations": [
+        {
+          "endLine": 41,
+          "path": "supabase/migrations/20260401_fix_admin_roles.sql",
+          "role": "root_control",
+          "startLine": 37
+        }
+      ],
+      "occurrenceId": "occ_f6542f3bda5d68132699871a",
+      "provenance": {
+        "candidateId": "validated-service-policy-tenant-bypass",
+        "source": "local_plugin"
+      },
+      "remediation": "Replace global role-only policies with trusted target-clinic ownership checks and consolidate the policy set.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "The additional owner service INSERT policy checks caller role globally and omits equality with the target service clinic. Its permissive result bypasses the narrower owner policy."
+      },
+      "ruleId": "service-policy-tenant-bypass",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "The additional owner service INSERT policy checks caller role globally and omits equality with the target service clinic. Its permissive result bypasses the narrower owner policy.",
+      "taxonomy": {
+        "category": "service-policy-tenant-bypass",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "A clinic owner can insert services into another clinic",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Owner profile, victim UUID and deployed services INSERT privilege.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Authenticated owner -> services INSERT victim clinic_id -> global owner policy -> victim catalog injection. Counterevidence: The tenant-bound FOR ALL policy does not restrict another permissive INSERT policy. Do not infer all cross-tenant UPDATE/DELETE operations without SELECT visibility."
+      }
+    },
+    {
+      "attackPath": {
+        "dataflow": {
+          "evidenceRefs": [
+            "control"
+          ],
+          "summary": "Authenticated table request -> global FOR ALL policy -> read/change payment destination configuration."
+        },
+        "limitations": [
+          "The later payments table replacement fixes a different table, not payment_methods. No proof of actual misdirected payments is claimed."
+        ],
+        "reachability": {
+          "summary": "Effective table grants and use of the payment_methods feature; live deployment is unverified."
+        },
+        "summary": "Authenticated table request -> global FOR ALL policy -> read/change payment destination configuration."
+      },
+      "codeEvidence": [
+        {
+          "code": "ALTER TABLE payments ENABLE ROW LEVEL SECURITY;\nALTER TABLE payment_methods ENABLE ROW LEVEL SECURITY;\n\n-- Allow read/write for authenticated users (Adjust as needed for roles)\nCREATE POLICY \"Authenticated users can manage payments\" ON payments FOR ALL USING (auth.role() = 'authenticated');\nCREATE POLICY \"Authenticated users can manage payment methods\" ON payment_methods FOR ALL USING (auth.role() = 'authenticated');",
+          "endLine": 61,
+          "explanation": "payment_methods has no tenant identifier and its FOR ALL policy accepts any authenticated user. The UI reads all methods and updates/deletes by ID, including bank account configuration.",
+          "id": "control",
+          "label": "Authenticated users can change shared bank-payment configuration",
+          "path": "supabase/migrations/20251214_billing_enhancements.sql",
+          "role": "root_control",
+          "startLine": 56
+        }
+      ],
+      "confidence": {
+        "level": "medium",
+        "rationale": "Parent source trace corroborates the control and relevant consumers; live deployment and runtime exploitation were not tested."
+      },
+      "findingId": "csf_c35331caf580d2cf1c5e472a",
+      "fingerprints": {
+        "algorithm": "codex-security/v1",
+        "primary": "codex-security/v1:sha256:ae241c5d73b1611a3a013f2ae522d53cb23d99cbff5bddd6ad2a479c3825ecea"
+      },
+      "identity": {
+        "anchor": "authenticated-users-can-change-shared-bank-payment-configuration"
+      },
+      "locations": [
+        {
+          "endLine": 61,
+          "path": "supabase/migrations/20251214_billing_enhancements.sql",
+          "role": "root_control",
+          "startLine": 56
+        }
+      ],
+      "occurrenceId": "occ_9abcb67ffe447b91890fbcf6",
+      "provenance": {
+        "candidateId": "validated-payment-method-tenant-bypass",
+        "source": "local_plugin"
+      },
+      "remediation": "Add tenant ownership with a reviewed backfill; restrict configuration writes to that clinic's owner, hide secrets server-side and verify patient payment rendering uses only authorized clinic methods.",
+      "remediationTests": [
+        "Exercise the described attack with two isolated synthetic clinics and assert denial before side effects.",
+        "Assert an authorized owner/clinician retains the intended operation and correct clinical data."
+      ],
+      "rootCause": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "summary": "payment_methods has no tenant identifier and its FOR ALL policy accepts any authenticated user. The UI reads all methods and updates/deletes by ID, including bank account configuration."
+      },
+      "ruleId": "payment-method-tenant-bypass",
+      "severity": {
+        "level": "medium",
+        "rationale": "Impact is limited or deployment-dependent as described; not classified as confirmed production compromise."
+      },
+      "summary": "payment_methods has no tenant identifier and its FOR ALL policy accepts any authenticated user. The UI reads all methods and updates/deletes by ID, including bank account configuration.",
+      "taxonomy": {
+        "category": "payment-method-tenant-bypass",
+        "cwe": [
+          "CWE-863"
+        ]
+      },
+      "title": "Authenticated users can change shared bank-payment configuration",
+      "validation": {
+        "evidenceRefs": [
+          "control"
+        ],
+        "limitations": [
+          "Effective table grants and use of the payment_methods feature; live deployment is unverified.",
+          "No live database, Storage, account, payment or email operation was performed."
+        ],
+        "method": "static source and effective migration review",
+        "summary": "Authenticated table request -> global FOR ALL policy -> read/change payment destination configuration. Counterevidence: The later payments table replacement fixes a different table, not payment_methods. No proof of actual misdirected payments is claimed."
+      }
+    }
+  ],
+  "scanId": "05a297c3-241f-4cbe-a863-45671a0b68f1",
+  "schemaVersion": "1.0"
+}

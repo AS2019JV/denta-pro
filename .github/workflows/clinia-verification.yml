@@ -1,0 +1,37 @@
+name: Clinia verification
+
+on:
+  pull_request:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: clinia-verification-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  offline-contracts:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6, official tag verified
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6, official tag verified
+        with:
+          node-version-file: .node-version
+          cache: npm
+      - name: Install frozen dependencies without lifecycle scripts
+        run: npm ci --ignore-scripts --no-audit --no-fund
+      - name: Scan source for privileged credentials without printing values
+        run: node scripts/clinia-secret-scan.cjs
+      - name: Reject high and critical production dependency advisories
+        run: npm audit --omit=dev --audit-level=high
+      - name: Verify types, lint, contracts and production compilation
+        run: npm run verify
+
+      # No deployment, application secrets, clinical providers or integration/JWT claim.

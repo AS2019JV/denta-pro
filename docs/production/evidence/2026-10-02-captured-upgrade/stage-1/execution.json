@@ -1,0 +1,46 @@
+{
+  "startedAt": "2026-10-02T16:54:50.369Z",
+  "status": "NOT VERIFIED",
+  "variant": "stage",
+  "database": "clinia_upgrade_stage_20261002_1",
+  "source": "clinia_restore_stage_20261001_1",
+  "evidence": "C:\\Users\\aleja\\Documents\\0-dev\\denta-pro\\docs\\production\\evidence\\2026-10-02-captured-upgrade\\stage-1",
+  "steps": [
+    {
+      "name": "clone-restored-capture",
+      "role": "supabase_admin",
+      "database": "template1",
+      "sha256": "528963b7c214144bbaa2c2a1d5b9fec6a226f7c046061469db65ffd82a07d42a",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "m7",
+      "role": "supabase_admin",
+      "database": "clinia_upgrade_stage_20261002_1",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d",
+      "status": "NOT VERIFIED"
+    }
+  ],
+  "limits": [
+    "Captured application schema on local managed template; not clean managed install",
+    "Private bucket metadata fixtures; no restoration of bytes/configuration or independent API",
+    "No remote migration, repair, data copy or cleanup; all targets preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "diagnostic": "captured-upgrade-stage-1-2.private.log",
+  "error": "Reviewed forward failed; target and private diagnostic preserved",
+  "completedAt": "2026-10-02T16:54:52.545Z"
+}

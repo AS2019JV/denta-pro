@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useCallback } from "react"
-import { Check, ChevronsUpDown, Search, UserPlus } from "lucide-react"
+import { useState, useCallback, useEffect, useRef } from "react"
+import { Check, ChevronsUpDown, Search } from "lucide-react"
 import { Command } from "cmdk"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -28,36 +28,74 @@ interface AsyncPatientSelectProps {
 }
 
 export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar paciente..." }: AsyncPatientSelectProps) {
-  const { currentClinicId } = useAuth()
+  const { currentClinicId, user, isLoading: authLoading, authError } = useAuth()
+  const scope = `${currentClinicId || ''}:${user?.id || ''}:${user?.role || ''}`
   const [open, setOpen] = useState(false)
   const [search, setSearch] = useState("")
   const [patients, setPatients] = useState<Patient[]>([])
   const [loading, setLoading] = useState(false)
   const [selectedName, setSelectedName] = useState("")
+  const [searchError, setSearchError] = useState(false)
+  const searchController = useRef<AbortController | null>(null)
+  const requestId = useRef(0)
+  const previousScope = useRef(scope)
+  const selectionCallback = useRef(onValueChange)
+  selectionCallback.current = onValueChange
+
+  useEffect(() => {
+    if (previousScope.current !== scope) {
+      previousScope.current = scope
+      selectionCallback.current("")
+    }
+    requestId.current += 1
+    searchController.current?.abort()
+    setPatients([])
+    setSearch("")
+    setSelectedName("")
+    setLoading(false)
+    setSearchError(false)
+    setOpen(false)
+    return () => { requestId.current += 1; searchController.current?.abort() }
+  }, [scope])
+
+  useEffect(() => {
+    if (!value) setSelectedName("")
+  }, [value])
 
   const fetchPatients = useCallback(async (searchTerm: string) => {
+    const request = ++requestId.current
+    searchController.current?.abort()
+    setSearchError(false)
     if (!searchTerm || searchTerm.length < 2) {
       setPatients([])
+      setLoading(false)
+      return
+    }
+
+    if (!currentClinicId || !user?.id || authLoading || authError) {
+      setPatients([])
+      setLoading(false)
       return
     }
 
     setLoading(true)
+    setPatients([])
+    const controller = new AbortController()
+    searchController.current = controller
     try {
-      const { data, error } = await supabase
-        .from('patients')
-        .select('id, first_name, last_name, phone')
-        .or(`first_name.ilike.%${searchTerm}%,last_name.ilike.%${searchTerm}%,phone.ilike.%${searchTerm}%`)
-        .eq('clinic_id', currentClinicId)
-        .limit(5)
+      const { data, error } = await supabase.rpc('get_patient_demographics', {
+        p_clinic_id: currentClinicId, p_search: searchTerm.trim(), p_limit: 5, p_offset: 0, p_patient_id: null,
+      }).abortSignal(controller.signal)
 
       if (error) throw error
-      setPatients(data || [])
-    } catch (err) {
-      console.error("Error searching patients:", err)
+      if (!data || !Array.isArray(data.items) || data.items.some((item: Patient) => !item || typeof item.id !== 'string' || typeof item.first_name !== 'string' || typeof item.last_name !== 'string') || !Number.isSafeInteger(data.total_count) || data.total_count < data.items.length) throw new Error('Respuesta inválida')
+      if (request === requestId.current) setPatients(data.items)
+    } catch {
+      if (request === requestId.current) { setPatients([]); setSearchError(true) }
     } finally {
-      setLoading(false)
+      if (request === requestId.current) setLoading(false)
     }
-  }, [currentClinicId])
+  }, [currentClinicId, user?.id, user?.role, authLoading, authError])
 
   const handleSearchChange = (val: string) => {
     setSearch(val)
@@ -71,6 +109,7 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
           variant="outline"
           role="combobox"
           aria-expanded={open}
+          disabled={authLoading || !!authError || !currentClinicId || !user?.id}
           className="w-full justify-between"
         >
           {selectedName || placeholder}
@@ -82,6 +121,7 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
           <div className="flex items-center border-b px-3" cmdk-input-wrapper="">
             <Search className="mr-2 h-4 w-4 shrink-0 opacity-50" />
             <input
+              aria-label="Buscar pacientes por nombre o teléfono"
               className="flex h-11 w-full rounded-md bg-transparent py-3 text-sm outline-none placeholder:text-muted-foreground disabled:cursor-not-allowed disabled:opacity-50"
               placeholder="Escribe nombre o teléfono..."
               value={search}
@@ -89,19 +129,23 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
             />
           </div>
           <ScrollArea className="max-h-[300px] overflow-y-auto">
-            <div className="p-1">
+            <div className="p-1" role="listbox" aria-label="Pacientes encontrados">
               {loading && <div className="p-4 text-center text-sm text-muted-foreground">Buscando...</div>}
-              {!loading && patients.length === 0 && search.length >= 2 && (
+              {!loading && searchError && <div role="alert" className="p-4 text-center text-sm">No se pudo buscar pacientes. Reintenta la búsqueda.</div>}
+              {!loading && !searchError && patients.length === 0 && search.length >= 2 && (
                 <div className="p-4 text-center text-sm text-muted-foreground">No se encontraron pacientes.</div>
               )}
               {!loading && search.length < 2 && (
                 <div className="p-4 text-center text-sm text-muted-foreground">Escribe al menos 2 caracteres...</div>
               )}
               {patients.map((patient) => (
-                <div
+                <button
+                  type="button"
+                  role="option"
+                  aria-selected={value === patient.id}
                   key={patient.id}
                   className={cn(
-                    "relative flex cursor-default select-none items-center rounded-sm px-2 py-1.5 text-sm outline-none hover:bg-accent hover:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50",
+                    "relative flex w-full cursor-pointer select-none items-center rounded-sm px-2 py-1.5 text-left text-sm outline-none hover:bg-accent hover:text-accent-foreground focus-visible:bg-accent focus-visible:text-accent-foreground",
                     value === patient.id && "bg-accent text-accent-foreground"
                   )}
                   onClick={() => {
@@ -120,7 +164,7 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
                     <span>{patient.first_name} {patient.last_name}</span>
                     {patient.phone && <span className="text-xs text-muted-foreground">{patient.phone}</span>}
                   </div>
-                </div>
+                </button>
               ))}
             </div>
           </ScrollArea>

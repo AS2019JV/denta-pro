@@ -1,10 +1,9 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from "react"
+import React, { useState, useEffect, useCallback, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Badge } from "@/components/ui/badge"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { 
@@ -13,15 +12,57 @@ import {
   File, 
   Image as ImageIcon, 
   Paperclip, 
-  Calendar,
-  Send,
-  Trash2,
-  Download,
-  Loader2
+  Calendar, 
+  Send, 
+  Trash2, 
+  Download, 
+  Loader2 
 } from "lucide-react"
 import { supabase } from "@/lib/supabase"
 import { useAuth } from "@/components/auth-context"
 import { toast } from "sonner"
+import { fetchClinicalDocument } from "@/lib/clinical-document-client.mjs"
+import { CLINICAL_MEDIA_LIMIT, CLINICAL_MEDIA_LIMIT_LABEL } from "@/lib/clinical-media-limits.mjs"
+
+function PrivateFileDownload({ fileId, patientId, name }: { fileId: string; patientId: string; name: string }) {
+  const { user, currentClinicId, isLoading, isRevalidating, authError } = useAuth()
+  const scope = !isLoading && !isRevalidating && !authError && user?.id && currentClinicId && ['doctor', 'clinic_owner'].includes(user.role)
+    ? `${user.id}:${currentClinicId}:${user.role}:${patientId}:${fileId}` : ''
+  const publication = useRef({ scope, valid: true })
+  if (publication.current.scope !== scope) { publication.current.valid = false; publication.current = { scope, valid: true } }
+  const controller = useRef<AbortController | null>(null)
+  const [busy, setBusy] = useState(false)
+  useEffect(() => {
+    const token = publication.current; token.valid = true; setBusy(false)
+    return () => { token.valid = false; controller.current?.abort() }
+  }, [scope])
+  async function download() {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current() || !currentClinicId || busy) return
+    const abort = new AbortController(); controller.current = abort; setBusy(true)
+    let url: string | null = null
+    try {
+      const blob = await fetchClinicalDocument({ clinicId: currentClinicId, patientId, fileId }, abort.signal, current)
+      if (!blob || !current()) return
+      url = URL.createObjectURL(blob)
+      const link = document.createElement('a'); link.href = url
+      link.download = name.replace(/[\x00-\x1f\x7f\\/]/g, '_').slice(0, 180) || 'documento'
+      link.rel = 'noopener noreferrer'; document.body.appendChild(link)
+      try { if (current()) link.click() } finally { link.remove() }
+    } catch { if (current() && !abort.signal.aborted) toast.error('No se pudo descargar el documento. Verifica tu acceso e intenta nuevamente.') }
+    finally {
+      // Retain no provider URL or reusable client object URL.
+      if (url) URL.revokeObjectURL(url)
+      if (controller.current === abort) controller.current = null
+      if (current()) setBusy(false)
+    }
+  }
+  return <Button variant="ghost" size="icon" className="h-7 w-7 text-slate-400 hover:text-primary hover:bg-slate-50"
+    disabled={!scope || busy} onClick={download} title="Descargar archivo">
+    {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Download className="h-4 w-4" />}
+  </Button>
+}
 
 interface FileItem {
   id: string
@@ -30,6 +71,7 @@ interface FileItem {
   type: string
   date: string
   url?: string
+  filePath: string
 }
 
 interface NoteItem {
@@ -49,7 +91,14 @@ interface PatientFilesProps {
 }
 
 export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
-  const { user, currentClinicId } = useAuth()
+  const { user, currentClinicId, isLoading: authLoading, isRevalidating, authError } = useAuth()
+  const scope = !authLoading && !isRevalidating && !authError && user?.id && currentClinicId && ['doctor', 'clinic_owner'].includes(user.role)
+    ? `${user.id}:${currentClinicId}:${user.role}:${patientId}` : ''
+  const publication = useRef({ scope, valid: true })
+  if (publication.current.scope !== scope) {
+    publication.current.valid = false
+    publication.current = { scope, valid: true }
+  }
   const [files, setFiles] = useState<FileItem[]>([])
   const [notes, setNotes] = useState<NoteItem[]>([])
   const [isLoadingFiles, setIsLoadingFiles] = useState(true)
@@ -58,52 +107,53 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
   const [newNote, setNewNote] = useState("")
   const [isDragging, setIsDragging] = useState(false)
 
-  // 1. Fetch Files from Supabase
+  // Downloads use the authenticated application route; object paths stay in DB.
   const fetchFiles = useCallback(async () => {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current()) return
     try {
       setIsLoadingFiles(true)
       const { data, error } = await supabase
         .from('patient_files')
-        .select('*')
+        .select('id,name,size,type,created_at,file_path')
         .eq('patient_id', patientId)
+        .eq('clinic_id', currentClinicId)
         .is('deleted_at', null)
         .order('created_at', { ascending: false })
 
       if (error) throw error
 
-      const mappedFiles: FileItem[] = (data || []).map(f => {
-        // Get public URL from storage
-        const { data: urlData } = supabase.storage
-          .from('patient-files')
-          .getPublicUrl(f.file_path)
+      const mappedFiles: FileItem[] = (data || []).map((f) => ({
+            id: f.id,
+            name: f.name,
+            size: f.size,
+            type: f.type,
+            date: f.created_at,
+            filePath: f.file_path
+          }))
 
-        return {
-          id: f.id,
-          name: f.name,
-          size: f.size,
-          type: f.type,
-          date: f.created_at,
-          url: urlData?.publicUrl
-        }
-      })
-
-      setFiles(mappedFiles)
+      if (current()) setFiles(mappedFiles)
     } catch (e: any) {
       console.error("Error fetching patient files:", e)
-      toast.error(`Error al cargar archivos: ${e.message}`)
+      if (current()) toast.error(`Error al cargar archivos: ${e.message}`)
     } finally {
-      setIsLoadingFiles(false)
+      if (current()) setIsLoadingFiles(false)
     }
-  }, [patientId])
+  }, [patientId, currentClinicId, scope])
 
   // 2. Fetch Notes from Supabase
   const fetchNotes = useCallback(async () => {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current()) return
     try {
       setIsLoadingNotes(true)
       const { data, error } = await supabase
         .from('patient_notes')
-        .select('*, author:profiles(full_name)')
+        .select('id,content,created_at,author:profiles(full_name)')
         .eq('patient_id', patientId)
+        .eq('clinic_id', currentClinicId)
         .is('deleted_at', null)
         .order('created_at', { ascending: false })
 
@@ -113,25 +163,32 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
         id: n.id,
         content: n.content,
         date: n.created_at,
-        author: n.author?.full_name || 'Personal Médico'
+        author: (Array.isArray(n.author) ? n.author[0]?.full_name : (n.author as { full_name?: string } | null)?.full_name) || 'Personal Médico'
       }))
 
-      setNotes(mappedNotes)
+      if (current()) setNotes(mappedNotes)
     } catch (e: any) {
       console.error("Error fetching patient notes:", e)
     } finally {
-      setIsLoadingNotes(false)
+      if (current()) setIsLoadingNotes(false)
     }
-  }, [patientId])
+  }, [patientId, currentClinicId, scope])
 
   useEffect(() => {
-    if (patientId) {
+    const token = publication.current
+    token.valid = true
+    setFiles([])
+    setNotes([])
+    setNewNote('')
+    setUploading(false)
+    if (scope) {
       fetchFiles()
       fetchNotes()
     }
-  }, [patientId, fetchFiles, fetchNotes])
+    return () => { token.valid = false }
+  }, [scope, fetchFiles, fetchNotes])
 
-  // 3. File Upload handler
+  // 3. File Upload handler with Tenant-Isolated Path Convention (SEC-05)
   const handleFileUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = event.target.files
     if (!selectedFiles || selectedFiles.length === 0) return
@@ -140,6 +197,9 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
   }
 
   const uploadFilesBatch = async (filesToUpload: File[]) => {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current()) return
     if (!currentClinicId || !user?.id) {
       toast.error("Datos de sesión no válidos para subir archivos.")
       return
@@ -150,21 +210,26 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
       toast.info(`Iniciando subida de ${filesToUpload.length} archivos...`)
 
       for (const file of filesToUpload) {
+        if (!current()) return
+        if (file.size > CLINICAL_MEDIA_LIMIT) throw new Error(`Cada documento puede tener un máximo de ${CLINICAL_MEDIA_LIMIT_LABEL}.`)
         const fileExt = file.name.split('.').pop() || 'bin'
         const fileExtClean = fileExt.toLowerCase().replace(/[^a-z0-9]/g, '')
-        const filePath = `${patientId}/${Date.now()}-${Math.random().toString(36).substring(2, 9)}.${fileExtClean}`
+        
+        // SEC-05 FIX: Storage path MUST be partitioned by <clinic_id>/<patient_id>/<filename>
+        const filePath = `${currentClinicId}/${patientId}/${crypto.randomUUID()}.${fileExtClean || 'bin'}`
 
-        // A. Upload to storage bucket
+        // A. Upload to storage bucket with tenant path prefix
         const { error: uploadError } = await supabase.storage
           .from('patient-files')
           .upload(filePath, file, {
-            upsert: true,
+            upsert: false,
             contentType: file.type
           })
 
         if (uploadError) throw uploadError
+        if (!current()) return
 
-        // B. Log record in DB
+        // B. Log record in database
         const { error: dbError } = await supabase
           .from('patient_files')
           .insert({
@@ -180,19 +245,23 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
         if (dbError) throw dbError
       }
 
+      if (!current()) return
       toast.success("Archivos subidos y registrados con éxito")
       fetchFiles()
       if (onFilesChange) onFilesChange()
     } catch (e: any) {
       console.error("Error uploading patient files:", e)
-      toast.error(`Error al subir: ${e.message || 'Error desconocido'}`)
+      if (current()) toast.error(`Error al subir: ${e.message || 'Error desconocido'}`)
     } finally {
-      setUploading(false)
+      if (current()) setUploading(false)
     }
   }
 
-  // 4. File Deletion (Soft Delete)
+  // 4. File Deletion (Soft Delete in DB to maintain audit trail)
   const handleDeleteFile = async (fileId: string) => {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current()) return
     try {
       const { error } = await supabase
         .from('patient_files')
@@ -200,18 +269,22 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
         .eq('id', fileId)
 
       if (error) throw error
+      if (!current()) return
 
       toast.success("Archivo eliminado correctamente")
       setFiles(prev => prev.filter(f => f.id !== fileId))
       if (onFilesChange) onFilesChange()
     } catch (e: any) {
       console.error("Error deleting file:", e)
-      toast.error(`Error al eliminar: ${e.message}`)
+      if (current()) toast.error(`Error al eliminar: ${e.message}`)
     }
   }
 
   // 5. Add Note handler
   const handleAddNote = async () => {
+    const token = publication.current
+    const current = () => token.valid && !!scope && token.scope === scope
+    if (!current()) return
     if (!newNote.trim() || !currentClinicId || !user?.id) return
 
     try {
@@ -225,13 +298,14 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
         })
 
       if (error) throw error
+      if (!current()) return
 
       toast.success("Nota agregada correctamente")
       setNewNote("")
       fetchNotes()
     } catch (e: any) {
       console.error("Error adding patient note:", e)
-      toast.error(`Error al guardar nota: ${e.message}`)
+      if (current()) toast.error(`Error al guardar nota: ${e.message}`)
     }
   }
 
@@ -255,15 +329,15 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
     }
   }
 
-  // Combine files and notes for the timeline feed
   const timelineItems: TimelineItem[] = [
     ...files.map(f => ({ type: 'file' as const, data: f })),
     ...notes.map(n => ({ type: 'note' as const, data: n }))
   ].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
 
+  if (!scope) return null
+
   return (
     <div className="space-y-6 animate-in fade-in duration-500">
-      
       {/* File Upload Area */}
       <Card className={`border-2 border-dashed transition-all duration-300 ${isDragging ? 'border-primary bg-primary/5 scale-[1.01]' : 'border-muted-foreground/25'}`}>
         <CardContent 
@@ -283,7 +357,7 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
             <Upload className="h-8 w-8 text-primary" />
           </div>
           <h3 className="text-lg font-semibold mb-1">Arrastra archivos aquí</h3>
-          <p className="text-sm text-muted-foreground mb-4">o haz clic para buscar en tu ordenador</p>
+          <p className="text-sm text-muted-foreground mb-4">o haz clic para buscar en tu ordenador · máximo {CLINICAL_MEDIA_LIMIT_LABEL} por archivo</p>
           
           <label className="cursor-pointer">
             <div className="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2 shadow-sm">
@@ -341,21 +415,13 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
                          </div>
                        </div>
                        <div className="flex items-center gap-1.5 flex-none">
-                         {file.url && (
-                           <Button 
-                             variant="ghost" 
-                             size="icon" 
-                             className="h-7 w-7 text-slate-400 hover:text-primary hover:bg-slate-50"
-                             onClick={() => window.open(file.url, '_blank')}
-                           >
-                             <Download className="h-4 w-4" />
-                           </Button>
-                         )}
+                         <PrivateFileDownload fileId={file.id} patientId={patientId} name={file.name} />
                          <Button 
                            variant="ghost" 
                            size="icon" 
                            className="h-7 w-7 text-slate-400 hover:text-rose-600 hover:bg-rose-50"
                            onClick={() => handleDeleteFile(file.id)}
+                           title="Eliminar archivo"
                          >
                            <Trash2 className="h-4 w-4" />
                          </Button>

@@ -1,0 +1,131 @@
+{
+  "scope": "Read-only staging HCU catalog; no patient data or provider mutations",
+  "project": "phihonofwyerpfgqfekt",
+  "recordedAtUtc": "2026-10-04T02:47:31.257Z",
+  "contract": {
+    "hcuRls": true,
+    "policies": [
+      {
+        "cmd": "INSERT",
+        "qual": null,
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "hcu033_forms",
+        "permissive": "PERMISSIVE",
+        "policyname": "encargo02_clinical_insert",
+        "schemaname": "public",
+        "with_check": "((get_clinic_member_role(clinic_id) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(clinic_id) AND (doctor_id = auth.uid()))"
+      },
+      {
+        "cmd": "SELECT",
+        "qual": "((get_clinic_member_role(clinic_id) = ANY (ARRAY['doctor'::text, 'clinic_owner'::text])) AND check_subscription_active(clinic_id))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "hcu033_forms",
+        "permissive": "PERMISSIVE",
+        "policyname": "encargo02_clinical_read",
+        "schemaname": "public",
+        "with_check": null
+      },
+      {
+        "cmd": "UPDATE",
+        "qual": "(check_subscription_active(clinic_id) AND ((get_clinic_member_role(clinic_id) = 'clinic_owner'::text) OR ((get_clinic_member_role(clinic_id) = 'doctor'::text) AND (doctor_id = auth.uid()))))",
+        "roles": [
+          "authenticated"
+        ],
+        "tablename": "hcu033_forms",
+        "permissive": "PERMISSIVE",
+        "policyname": "encargo02_clinical_update",
+        "schemaname": "public",
+        "with_check": "(check_subscription_active(clinic_id) AND ((get_clinic_member_role(clinic_id) = 'clinic_owner'::text) OR ((get_clinic_member_role(clinic_id) = 'doctor'::text) AND (doctor_id = auth.uid()))))"
+      }
+    ],
+    "triggers": [
+      {
+        "name": "audit_hcu033_forms",
+        "type": 29,
+        "enabled": "O",
+        "function": "logs.log_access_trigger()"
+      },
+      {
+        "name": "encargo02_00_prepare_author",
+        "type": 7,
+        "enabled": "O",
+        "function": "security_internal.prepare_hcu033_author()"
+      },
+      {
+        "name": "encargo02_protect_identity",
+        "type": 23,
+        "enabled": "O",
+        "function": "security_internal.protect_clinical_identity()"
+      },
+      {
+        "name": "tr_update_patient_odontogram",
+        "type": 21,
+        "enabled": "O",
+        "function": "update_patient_odontogram_summary()"
+      },
+      {
+        "name": "trg_enforce_clinician_assignment",
+        "type": 23,
+        "enabled": "O",
+        "function": "security_internal.enforce_clinician_assignment()"
+      },
+      {
+        "name": "trg_sync_hcu033_form_clinic_id",
+        "type": 23,
+        "enabled": "O",
+        "function": "sync_hcu033_form_clinic_id()"
+      }
+    ],
+    "functions": [
+      {
+        "name": "security_internal.lock_clinia_session()",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "md5": "69a325cf0b73743dc5a50b2c6f4a7170"
+      },
+      {
+        "name": "security_internal.protect_clinical_identity()",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "md5": "289457d532605e80868a41ecff9ad78a"
+      },
+      {
+        "name": "security_internal.require_clinic(uuid,text[],boolean)",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "md5": "e7c822cbffb3195f70088e7e4617a043"
+      },
+      {
+        "name": "update_patient_odontogram_summary()",
+        "owner": "postgres",
+        "config": [
+          "search_path=\"\""
+        ],
+        "definer": true,
+        "md5": "7fbcc17db9bd5ba1465503ad4e447754"
+      }
+    ],
+    "patientRls": true
+  },
+  "limits": [
+    "Catalog parity does not substitute actual hosted/browser transaction acceptance",
+    "No clinical/privacy acceptance"
+  ],
+  "verification": {
+    "exactLocalCanonicalFunctionsMatch": true,
+    "functionsChecked": 4
+  }
+}

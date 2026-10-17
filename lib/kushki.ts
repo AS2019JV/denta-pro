@@ -8,7 +8,7 @@
  * - KUSHKI_ENVIRONMENT ('uat' or 'prod')
  */
 
-const KUSHKI_PRIVATE_ID = process.env.KUSHKI_PRIVATE_MERCHANT_ID || 'mock_private_key';
+const KUSHKI_PRIVATE_ID = process.env.KUSHKI_PRIVATE_MERCHANT_ID?.trim();
 // const KUSHKI_PUBLIC_ID = process.env.KUSHKI_PUBLIC_MERCHANT_ID || 'mock_public_key';
 const IS_PROD = process.env.KUSHKI_ENVIRONMENT === 'prod';
 
@@ -31,10 +31,10 @@ export class KushkiGateway {
    * @param payload 
    */
   async createSubscription(payload: SubscriptionPayload) {
-    // In a real implementation, this would POST to Kushki's /appointments/v1/card or /subscriptions/v1
-    // For now, we simulate the API call structure.
-    
-    console.log('[Kushki] Creating Subscription...', payload);
+    // A configuration failure must never produce an active subscription.
+    if (!KUSHKI_PRIVATE_ID || KUSHKI_PRIVATE_ID === 'mock_private_key') {
+      throw new Error('Payment service is not configured');
+    }
 
     try {
       const response = await fetch(`${BASE_URL}/subscriptions/v1/create`, {
@@ -71,14 +71,6 @@ export class KushkiGateway {
       return await response.json();
 
     } catch (error) {
-       console.error('[Kushki] Error:', error);
-       // Mock success for development if credentials missing
-       if (KUSHKI_PRIVATE_ID === 'mock_private_key') {
-           return {
-               subscriptionId: `sub_${Math.random().toString(36).substring(7)}`,
-               status: 'active'
-           }
-       }
        throw error;
     }
   }

@@ -1,0 +1,58 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "queryFile": "activate-synthetic-window.sql",
+  "result": [
+    {
+      "observed_at": "2026-10-05 21:01:15.514808+00",
+      "actors": [
+        {
+          "id": "9ca4975a-c71d-48d6-b1c9-bcea424a217f",
+          "deleted_at": null,
+          "member_role": "doctor",
+          "profile_role": "doctor",
+          "member_status": "active",
+          "profile_status": "active"
+        },
+        {
+          "id": "a5fe4c2a-1d92-4a58-a9c0-5af322dad07e",
+          "deleted_at": null,
+          "member_role": "doctor",
+          "profile_role": "doctor",
+          "member_status": "active",
+          "profile_status": "active"
+        },
+        {
+          "id": "ab8235dd-784e-451e-a679-dc6450cc5fb9",
+          "deleted_at": null,
+          "member_role": "doctor",
+          "profile_role": "doctor",
+          "member_status": "active",
+          "profile_status": "active"
+        },
+        {
+          "id": "20cfdd4b-c8b5-4f66-b96e-e1cfcc2d2a96",
+          "deleted_at": null,
+          "member_role": "doctor",
+          "profile_role": "doctor",
+          "member_status": "active",
+          "profile_status": "active"
+        },
+        {
+          "id": "ae54f779-8e99-414a-87ee-b554107e7f8a",
+          "deleted_at": null,
+          "member_role": "doctor",
+          "profile_role": "doctor",
+          "member_status": "active",
+          "profile_status": "active"
+        }
+      ],
+      "principal": {
+        "enabled": true,
+        "user_id": "378b431f-f043-489c-820b-347901a78d11",
+        "expires_at": "2026-10-05T22:31:15.514808+00:00"
+      }
+    }
+  ]
+}

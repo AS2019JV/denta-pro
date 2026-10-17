@@ -1,0 +1,34 @@
+{
+  "scope": "actual synthetic PDF byte extraction and page bounds; separate rendered-page QA required",
+  "results": [
+    {
+      "name": "receta-sintetica.pdf",
+      "pages": 1,
+      "missing_markers": [],
+      "characters_outside_page": 0,
+      "persisted_document_id_on_every_page": true,
+      "pass": true
+    },
+    {
+      "name": "receta-limite-sintetica.pdf",
+      "pages": 3,
+      "missing_markers": [],
+      "characters_outside_page": 0,
+      "persisted_document_id_on_every_page": true,
+      "pass": true
+    },
+    {
+      "name": "hcu-sintetica.pdf",
+      "pages": 4,
+      "missing_markers": [],
+      "characters_outside_page": 0,
+      "persisted_document_id_on_every_page": true,
+      "lower_arch_order_matches_screen": true,
+      "invented_definitive_diagnosis": false,
+      "cpo_6_ceo_4_recorded": true,
+      "completed_extraction_blue": true,
+      "pass": true
+    }
+  ],
+  "pass": true
+}

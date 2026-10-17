@@ -1,0 +1,46 @@
+{
+  "state": "PASS_SQL_INVARIANTS_ONLY",
+  "startedAt": "2026-10-02T16:43:19.732Z",
+  "database": "clinia_invitation_sql_20261002_1",
+  "migrationSha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4",
+  "cases": [
+    {
+      "name": "normalized-pending-and-history",
+      "state": "PASS",
+      "sqlSha256": "45335a86ed16f30bf253a200c17c514e8636f924d73d7237e7c9b8f8af132d4d",
+      "diagnostic": null
+    },
+    {
+      "name": "duplicate-preflight-rollback",
+      "state": "PASS",
+      "sqlSha256": "1a2018f69fb1abc1fc4cfb2deed4549d33d7159dc6ed9cde50e35ae5f209d876",
+      "diagnostic": "invitation-sql-1-1790959402997.private.log"
+    },
+    {
+      "name": "constraint-drift-rollback",
+      "state": "PASS",
+      "sqlSha256": "bf63413e45375797b4bad7de057c27d5de455f209342f698b7467f7748ac86f9",
+      "diagnostic": "invitation-sql-1-1790959403602.private.log"
+    }
+  ],
+  "limits": [
+    "Disposable SQL constraint/transaction evidence only; not ordinary JWT, application invitation or provider evidence",
+    "Minimal invitation table; not full schema migration convergence",
+    "No cleanup; disposable database and diagnostics preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "completedAt": "2026-10-02T16:43:23.906Z"
+}

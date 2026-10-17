@@ -1,0 +1,14 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "queryFile": "profile-deletion.sql",
+  "actual": [
+    {
+      "observed_at": "2026-10-05 21:09:38.635238+00",
+      "id": "ae54f779-8e99-414a-87ee-b554107e7f8a",
+      "role": "doctor",
+      "status": "active",
+      "deleted_at": "2026-10-05 21:09:38.635238+00"
+    }
+  ]
+}

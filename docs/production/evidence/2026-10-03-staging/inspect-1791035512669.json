@@ -1,0 +1,14 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T13:51:52.660Z",
+  "mode": "inspect",
+  "requests": [],
+  "checks": [],
+  "limits": [
+    "Server key authority verified against exact staging provider; no deployed environment/configuration claim",
+    "Bucket API configuration alone does not prove ordinary JWT Storage authorization"
+  ],
+  "error": "Provider/configuration verification failed",
+  "completedAt": "2026-10-03T13:51:52.820Z"
+}

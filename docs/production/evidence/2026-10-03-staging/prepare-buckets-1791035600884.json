@@ -1,0 +1,96 @@
+{
+  "status": "VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "startedAt": "2026-10-03T13:53:20.884Z",
+  "mode": "prepare-buckets",
+  "requests": [
+    {
+      "method": "GET",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/bucket",
+      "status": 200
+    }
+  ],
+  "checks": [
+    {
+      "name": "Exact staging server credential accepted by privileged official Storage API",
+      "status": "VERIFIED"
+    },
+    {
+      "name": "Four buckets created/rechecked private with MIME/size limits",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Server key authority verified against exact staging provider; no deployed environment/configuration claim",
+    "Bucket API configuration alone does not prove ordinary JWT Storage authorization"
+  ],
+  "buckets": [
+    {
+      "id": "clinic-branding",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "doctor-avatars",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-avatars",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-files",
+      "public": false,
+      "fileSizeLimit": 10485760,
+      "allowedMimeTypes": [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    }
+  ],
+  "completedAt": "2026-10-03T13:53:23.032Z"
+}

@@ -1,0 +1,147 @@
+{
+  "createdAt": "2026-09-28T21:01:11.364Z",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "kind": "selected working-tree sources; not a complete immutable release",
+  "files": [
+    {
+      "path": "app/(dashboard)/reports/page.tsx",
+      "sha256": "519a802c55f21456bd0328451e52e82d4c8a5b58684376e9350bebe7013e3083"
+    },
+    {
+      "path": "app/(dashboard)/dashboard/services/page.tsx",
+      "sha256": "6bcffd839ba6f25897350104725bdc0262aa02c9c3cbfdc4c9903077ac970921"
+    },
+    {
+      "path": "components/dashboard/services/services-manager.tsx",
+      "sha256": "fbd5ae3c19e229e09b892f55d84e8222b22395f2b300e058de6d4512ef7a59e6"
+    },
+    {
+      "path": "lib/operational-reports.mjs",
+      "sha256": "9f413fd578245bc77af7488d595e7a207ede735b354e065b32806cf61da61c56"
+    },
+    {
+      "path": "lib/operational-reports.d.mts",
+      "sha256": "09cf948e72788db7d54f3414b022c328bec98b40bd3bde4c7f64c2a6ee004aaf"
+    },
+    {
+      "path": "lib/reports-pdf.ts",
+      "sha256": "a0ab6d43dbf501a8f71b9792aa1d92d0ae9a5b4978a6241473ccde693fe9ee0c"
+    },
+    {
+      "path": "app/(dashboard)/marketing/page.tsx",
+      "sha256": "8e0dd92d5d78065527a730eef078c70d58b2be2b320ce9f0dbc69b19bc9e173e"
+    },
+    {
+      "path": "app/(dashboard)/settings/page.tsx",
+      "sha256": "761c5f85bd01b2e07d49e5565ec2f3b470739b2769a9237b21df545b70061b4c"
+    },
+    {
+      "path": "components/settings/subscription-tab.tsx",
+      "sha256": "63b9b385c890af758e86968657862fc8a2ca028de66a3876e34e033a483f2e6e"
+    },
+    {
+      "path": "components/sidebar.tsx",
+      "sha256": "99c0e1c7c32d3517dd14073f9dae06dec85e2c0d97f9c0465a237a7aa131e35e"
+    },
+    {
+      "path": "app/api/send-email/route.ts",
+      "sha256": "f28a43ec92566d5f8ba7c281679f9f63e869a67ff5a42d9f628d25892d3fca63"
+    },
+    {
+      "path": "components/landing/layout/site-footer.tsx",
+      "sha256": "0c35c7faa18862a04554a80b899232a2b4c4b1d77ed3ceceb71d9067ca82b190"
+    },
+    {
+      "path": "components/auth-context.tsx",
+      "sha256": "dfacbf070a940323603b156658d679bb2a14809e182d2b76c260eb889b9b3cdc"
+    },
+    {
+      "path": "components/dashboard-wrapper.tsx",
+      "sha256": "ab1b3e99c1ab9ffdb419f2c4f4d15840829cd1939a3a4e39a5ce900b928f9503"
+    },
+    {
+      "path": "middleware.ts",
+      "sha256": "20c4bed05e3b4bb2561e1ed565f81d3bbd4b3ca949b686fa0f4ace0101f41780"
+    },
+    {
+      "path": "components/patient-prescriptions.tsx",
+      "sha256": "d24650e01747402cfe309810f3309216eccc46b5d1eb5cfa28c948c9a7141293"
+    },
+    {
+      "path": "lib/pdf-client.ts",
+      "sha256": "6f0ca39932b2832c70f8af5fa59c59634b00526c35cac341f5f0fd7fcd9ea9e3"
+    },
+    {
+      "path": "scripts/generate-clinia-operational-convergence.cjs",
+      "sha256": "7ed71ae3e46e6d005a9e8d43ad4dd55b239f92d3363a05c4fc446611e81a59bc"
+    },
+    {
+      "path": "scripts/verify-clinia-operational-convergence.cjs",
+      "sha256": "65e98cd3b2ad68bfdf8a2b451f2d0927694f7bec3ea582b00e8289789b2de946"
+    },
+    {
+      "path": "scripts/verify-clinia-operational-report.cjs",
+      "sha256": "bb5a213f24338c1fe40e2b80b4133037aec7da60c2030160c28579765ec526db"
+    },
+    {
+      "path": "scripts/clinia-catalog-fixture.cjs",
+      "sha256": "5366c190dc4c8ae902a21ac80c181f8aefcfd59df2f74c9a02ca6aeb37fd6aee"
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9"
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5"
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/verify-boundaries.sql",
+      "sha256": "79a5f2b8aada22b4a5fca7cb1fcb92d1e2205e0de6f4dee5d37f66fe6b8e0b97"
+    },
+    {
+      "path": "docs/production/reconciliation/operational-convergence/invariants.sql",
+      "sha256": "235d60b91fea04c462cf7fb7064de057e9b4f6cc89ba7d19864a01396f315d6f"
+    },
+    {
+      "path": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f"
+    },
+    {
+      "path": "test/production/operational-reports.test.cjs",
+      "sha256": "0ffe3417a582e68c708ffcc3e61315b8702dac50ce5d8e2eb35485b73c1b48a0"
+    },
+    {
+      "path": "test/production/auth-context-race.test.cjs",
+      "sha256": "198f90d7e74797e620890f5de2a58d5d771614520a2cafea8d3625492fe274d0"
+    },
+    {
+      "path": "test/production/middleware-authority.test.cjs",
+      "sha256": "1cad7885e4567e97694b6eab9bd6a33e487414258f708bbbd9e7c2882704c521"
+    },
+    {
+      "path": "test/production/pdf-publication.test.cjs",
+      "sha256": "e386c32db93fd73bdf839790b093c3df30c1ab44649bf5b78a5cbbd9ed065c42"
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-review.js",
+      "sha256": "fc6c95e8e6d7dd6590e9520466a26ccfbcf5803d3ec72512afbb710705c9b0b5"
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-visual.js",
+      "sha256": "bf75a6c99a2e386a116a8595ce6526ad40aeab622588ae376008788ecf0a2c47"
+    },
+    {
+      "path": "tools/local-supabase/browser-operational-timings.js",
+      "sha256": "3b47abf4cec004300a85939984222bc2c14b82398266e0ffa5e931d3611def31"
+    },
+    {
+      "path": "tools/local-supabase/browser-authority-draft.js",
+      "sha256": "01c3c64d317338609284667f1dd8a2d8344137652774e08d474f593360710d0c"
+    },
+    {
+      "path": "tools/local-supabase/browser-doctor-reports.js",
+      "sha256": "252af2b595ab790d5710b1cadfc0b3ce3248687177342fbf3b485fb0643c64cb"
+    }
+  ]
+}

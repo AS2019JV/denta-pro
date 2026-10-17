@@ -8,10 +8,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Switch } from "@/components/ui/switch"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useTranslation } from "@/components/translations"
-import { Settings, Bell, Shield, Save, Sun, Moon, Monitor, CreditCard, Zap, Mail, Phone, History } from "lucide-react"
+import { Settings, Bell, Shield, Save, Sun, Moon, Monitor, CreditCard, Mail, Phone, History } from "lucide-react"
 import { SubscriptionTab } from "@/components/settings/subscription-tab"
 import { PrivacyTab } from "@/components/settings/privacy-tab"
-import { AutomationTab } from "@/components/settings/automation-tab"
 
 import { toast } from "sonner"
 
@@ -29,7 +28,7 @@ export default function SettingsPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
     const tab = params.get('tab')
-    if (tab) setActiveTab(tab)
+    if (tab && ["general", "notifications", "security", "subscription"].includes(tab)) setActiveTab(tab)
   }, [])
 
   const isAdmin = user?.role === "clinic_owner"
@@ -73,10 +72,6 @@ export default function SettingsPage() {
             <TabsTrigger value="security" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
               <Shield className="h-4 w-4" />
               Seguridad
-            </TabsTrigger>
-            <TabsTrigger value="automation" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
-              <Zap className="h-4 w-4 text-amber-500" />
-              Automatización
             </TabsTrigger>
             <TabsTrigger value="subscription" className="flex items-center gap-2 px-4 py-2.5 data-[state=active]:bg-card data-[state=active]:shadow-sm">
               <CreditCard className="h-4 w-4" />
@@ -215,10 +210,6 @@ export default function SettingsPage() {
 
         <TabsContent value="security" className="animate-in slide-in-from-bottom-4 duration-300">
           <PrivacyTab />
-        </TabsContent>
-
-        <TabsContent value="automation" className="animate-in slide-in-from-bottom-4 duration-300">
-           <AutomationTab />
         </TabsContent>
 
         <TabsContent value="subscription" className="animate-in slide-in-from-bottom-4 duration-300">

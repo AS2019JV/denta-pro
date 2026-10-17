@@ -1,0 +1,20 @@
+{
+  "project": "phihonofwyerpfgqfekt",
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "gitTree": "6753cd1a8463ed0ae721a48ab357d2a347d5b340",
+  "deploymentId": "dpl_ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+  "deploymentOrigin": "https://v0-denta-mo81t1eay-alesuav2001-gmailcoms-projects.vercel.app",
+  "previewOrigin": "https://v0-denta-pro-git-codex-cl-3f4a77-alesuav2001-gmailcoms-projects.vercel.app",
+  "environment": "preview",
+  "status": "READY",
+  "sourceVerified": true,
+  "observedAt": "2026-10-05T20:48:57.801Z",
+  "observedCreatedAt": "2026-10-05T20:48:23.000Z",
+  "buildDurationSeconds": 58,
+  "dashboardUrl": "https://vercel.com/alesuav2001-gmailcoms-projects/v0-denta-pro/ESiZ2MV86Qd6RUJhE3x7t2sSA8DS",
+  "sourceUrl": "https://github.com/AS2019JV/denta-pro/commit/6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "sourceEvidence": "deployment-ready.jpg",
+  "ciEvidence": "../2026-10-04-document-delivery/publication-ci-4.json",
+  "bindingLimit": "Operator-observed Vercel Ready/Preview/source links and git ls-remote; not cryptographic runtime source attestation. The deployment hostname is pinned; the branch alias is mutable.",
+  "sourceEvidenceSha256": "91cdbc2e8795839f96bd02e70621675c02534de91fc9b019ffd0b05093a60287"
+}

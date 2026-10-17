@@ -1,0 +1,592 @@
+{
+  "status": "FRESH_MANAGED_INITIALIZED_APP_EMPTY",
+  "project": "clinia-clean-20261002-1",
+  "ports": {
+    "api": 56411,
+    "db": 56412,
+    "mail": 56414
+  },
+  "volumes": {
+    "db": "supabase_db_clinia-clean-20261002-1",
+    "storage": "supabase_storage_clinia-clean-20261002-1"
+  },
+  "imageIds": {
+    "db": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "kong": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+    "auth": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+    "inbucket": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+    "realtime": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+    "rest": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+    "storage": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120"
+  },
+  "startedAt": "2026-10-02T18:05:05.839Z",
+  "limits": [
+    "Fresh managed initialization only; no application install, provider deployment parity or backup-byte recovery",
+    "Only new db/auth/storage services started; API7 and ordinary JWT verification pending"
+  ],
+  "updatedAt": "2026-10-02T18:08:10.893Z",
+  "preCreationFailures": [
+    {
+      "error": "Local managed initialization failed; private diagnostics and all volumes preserved",
+      "updatedAt": "2026-10-02T18:05:05.856Z"
+    }
+  ],
+  "runtimeMutationStarted": true,
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "status": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": []
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-clean-20261002-1",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "status": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_storage_clinia-clean-20261002-1",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "status": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "imageDatabase": {
+    "patients": null,
+    "authUsers": 0,
+    "extensions": [
+      {
+        "name": "pg_stat_statements",
+        "version": "1.11"
+      },
+      {
+        "name": "pgcrypto",
+        "version": "1.3"
+      },
+      {
+        "name": "plpgsql",
+        "version": "1.0"
+      },
+      {
+        "name": "supabase_vault",
+        "version": "0.3.1"
+      },
+      {
+        "name": "uuid-ossp",
+        "version": "1.1"
+      }
+    ],
+    "authSessions": null,
+    "authTriggers": 0,
+    "authMigrations": 7,
+    "storageBuckets": null,
+    "storageObjects": null,
+    "postgresVersion": "17.6",
+    "managedFunctions": [
+      {
+        "identity": "auth.email()",
+        "definitionMd5": "c13af75ba603e3ea16101a6fc486aea9"
+      },
+      {
+        "identity": "auth.role()",
+        "definitionMd5": "35279cb7a52bffe4988ec519469e7191"
+      },
+      {
+        "identity": "auth.uid()",
+        "definitionMd5": "9ba6b9be23d52d91287a6769348d693e"
+      }
+    ],
+    "applicationTables": 0,
+    "storageMigrations": null,
+    "authMigrationVersions": [
+      "20171026211738",
+      "20171026211808",
+      "20171026211834",
+      "20180103212743",
+      "20180108183307",
+      "20180119214651",
+      "20180125194653"
+    ]
+  },
+  "managedInitialized": {
+    "patients": null,
+    "authUsers": 0,
+    "extensions": [
+      {
+        "name": "pg_stat_statements",
+        "version": "1.11"
+      },
+      {
+        "name": "pgcrypto",
+        "version": "1.3"
+      },
+      {
+        "name": "plpgsql",
+        "version": "1.0"
+      },
+      {
+        "name": "supabase_vault",
+        "version": "0.3.1"
+      },
+      {
+        "name": "uuid-ossp",
+        "version": "1.1"
+      }
+    ],
+    "authSessions": 0,
+    "authTriggers": 0,
+    "authMigrations": 77,
+    "storageBuckets": 0,
+    "storageObjects": 0,
+    "postgresVersion": "17.6",
+    "managedFunctions": [
+      {
+        "identity": "auth.email()",
+        "definitionMd5": "bf3569f4ae1c7e250e74daf51d0311c7"
+      },
+      {
+        "identity": "auth.jwt()",
+        "definitionMd5": "20054548ba2003f61a6bcb472175700b"
+      },
+      {
+        "identity": "auth.role()",
+        "definitionMd5": "8a3e05459e07e0633d43c6fba2a2cdf4"
+      },
+      {
+        "identity": "auth.uid()",
+        "definitionMd5": "ea3b41bf29e2ad573067939329aa088e"
+      },
+      {
+        "identity": "storage.allow_any_operation(expected_operations text[])",
+        "definitionMd5": "ccefb34283c346cc88e224d075bd5312"
+      },
+      {
+        "identity": "storage.allow_only_operation(expected_operation text)",
+        "definitionMd5": "e2f7d55adc027df69ec4b42c6c08f50f"
+      },
+      {
+        "identity": "storage.can_insert_object(bucketid text, name text, owner uuid, metadata jsonb)",
+        "definitionMd5": "73733c9319875273d5937b05d68a7930"
+      },
+      {
+        "identity": "storage.enforce_bucket_name_length()",
+        "definitionMd5": "11b3bd509f6b254ec1cd859e712e8c78"
+      },
+      {
+        "identity": "storage.extension(name text)",
+        "definitionMd5": "75d83971130753081a84c3270878d8e7"
+      },
+      {
+        "identity": "storage.filename(name text)",
+        "definitionMd5": "0e8171709dc2934861de959d743ff809"
+      },
+      {
+        "identity": "storage.foldername(name text)",
+        "definitionMd5": "93671af66e1fe108a56068ad4137d001"
+      },
+      {
+        "identity": "storage.get_common_prefix(p_key text, p_prefix text, p_delimiter text)",
+        "definitionMd5": "de647f41cb9523334a267398c7931d13"
+      },
+      {
+        "identity": "storage.get_size_by_bucket()",
+        "definitionMd5": "2bf037f49ba97c16fd83061cdd755d49"
+      },
+      {
+        "identity": "storage.list_multipart_uploads_with_delimiter(bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text)",
+        "definitionMd5": "402151a14dc2fd87de1f3b9b47f54b47"
+      },
+      {
+        "identity": "storage.list_objects_with_delimiter(_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text)",
+        "definitionMd5": "efd342a9adbc5378142eba234aee4761"
+      },
+      {
+        "identity": "storage.operation()",
+        "definitionMd5": "0720a7c3d1b49f9a8eee19e90d73bb97"
+      },
+      {
+        "identity": "storage.protect_delete()",
+        "definitionMd5": "4371ae544fb1ef704f9c5d42265ac324"
+      },
+      {
+        "identity": "storage.search(prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text)",
+        "definitionMd5": "9811cdc3ae5bc7f8aaadd7594ac1f47f"
+      },
+      {
+        "identity": "storage.search_by_timestamp(p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text)",
+        "definitionMd5": "838510683b083eba3e9c461ace02767e"
+      },
+      {
+        "identity": "storage.search_v2(prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text)",
+        "definitionMd5": "d0c48dddd63a3b916428196283a90323"
+      },
+      {
+        "identity": "storage.update_updated_at_column()",
+        "definitionMd5": "bfecc08a6034296258f0c3e10193076c"
+      }
+    ],
+    "applicationTables": 0,
+    "storageMigrations": 68,
+    "authMigrationVersions": [
+      "00",
+      "20171026211738",
+      "20171026211808",
+      "20171026211834",
+      "20180103212743",
+      "20180108183307",
+      "20180119214651",
+      "20180125194653",
+      "20210710035447",
+      "20210722035447",
+      "20210730183235",
+      "20210909172000",
+      "20210927181326",
+      "20211122151130",
+      "20211124214934",
+      "20211202183645",
+      "20220114185221",
+      "20220114185340",
+      "20220224000811",
+      "20220323170000",
+      "20220429102000",
+      "20220531120530",
+      "20220614074223",
+      "20220811173540",
+      "20221003041349",
+      "20221003041400",
+      "20221011041400",
+      "20221020193600",
+      "20221021073300",
+      "20221021082433",
+      "20221027105023",
+      "20221114143122",
+      "20221114143410",
+      "20221125140132",
+      "20221208132122",
+      "20221215195500",
+      "20221215195800",
+      "20221215195900",
+      "20230116124310",
+      "20230116124412",
+      "20230131181311",
+      "20230322519590",
+      "20230402418590",
+      "20230411005111",
+      "20230508135423",
+      "20230523124323",
+      "20230818113222",
+      "20230914180801",
+      "20231027141322",
+      "20231114161723",
+      "20231117164230",
+      "20240115144230",
+      "20240214120130",
+      "20240306115329",
+      "20240314092811",
+      "20240427152123",
+      "20240612123726",
+      "20240729123726",
+      "20240802193726",
+      "20240806073726",
+      "20241009103726",
+      "20250717082212",
+      "20250731150234",
+      "20250804100000",
+      "20250901200500",
+      "20250903112500",
+      "20250904133000",
+      "20250925093508",
+      "20251007112900",
+      "20251104100000",
+      "20251111201300",
+      "20251201000000",
+      "20260115000000",
+      "20260121000000",
+      "20260219120000",
+      "20260302000000",
+      "20260625000000"
+    ],
+    "storageMigrationVersions": [
+      {
+        "id": 0,
+        "name": "create-migrations-table"
+      },
+      {
+        "id": 1,
+        "name": "initialmigration"
+      },
+      {
+        "id": 2,
+        "name": "storage-schema"
+      },
+      {
+        "id": 3,
+        "name": "pathtoken-column"
+      },
+      {
+        "id": 4,
+        "name": "add-migrations-rls"
+      },
+      {
+        "id": 5,
+        "name": "add-size-functions"
+      },
+      {
+        "id": 6,
+        "name": "change-column-name-in-get-size"
+      },
+      {
+        "id": 7,
+        "name": "add-rls-to-buckets"
+      },
+      {
+        "id": 8,
+        "name": "add-public-to-buckets"
+      },
+      {
+        "id": 9,
+        "name": "fix-search-function"
+      },
+      {
+        "id": 10,
+        "name": "search-files-search-function"
+      },
+      {
+        "id": 11,
+        "name": "add-trigger-to-auto-update-updated_at-column"
+      },
+      {
+        "id": 12,
+        "name": "add-automatic-avif-detection-flag"
+      },
+      {
+        "id": 13,
+        "name": "add-bucket-custom-limits"
+      },
+      {
+        "id": 14,
+        "name": "use-bytes-for-max-size"
+      },
+      {
+        "id": 15,
+        "name": "add-can-insert-object-function"
+      },
+      {
+        "id": 16,
+        "name": "add-version"
+      },
+      {
+        "id": 17,
+        "name": "drop-owner-foreign-key"
+      },
+      {
+        "id": 18,
+        "name": "add_owner_id_column_deprecate_owner"
+      },
+      {
+        "id": 19,
+        "name": "alter-default-value-objects-id"
+      },
+      {
+        "id": 20,
+        "name": "list-objects-with-delimiter"
+      },
+      {
+        "id": 21,
+        "name": "s3-multipart-uploads"
+      },
+      {
+        "id": 22,
+        "name": "s3-multipart-uploads-big-ints"
+      },
+      {
+        "id": 23,
+        "name": "optimize-search-function"
+      },
+      {
+        "id": 24,
+        "name": "operation-function"
+      },
+      {
+        "id": 25,
+        "name": "custom-metadata"
+      },
+      {
+        "id": 26,
+        "name": "objects-prefixes"
+      },
+      {
+        "id": 27,
+        "name": "search-v2"
+      },
+      {
+        "id": 28,
+        "name": "object-bucket-name-sorting"
+      },
+      {
+        "id": 29,
+        "name": "create-prefixes"
+      },
+      {
+        "id": 30,
+        "name": "update-object-levels"
+      },
+      {
+        "id": 31,
+        "name": "objects-level-index"
+      },
+      {
+        "id": 32,
+        "name": "backward-compatible-index-on-objects"
+      },
+      {
+        "id": 33,
+        "name": "backward-compatible-index-on-prefixes"
+      },
+      {
+        "id": 34,
+        "name": "optimize-search-function-v1"
+      },
+      {
+        "id": 35,
+        "name": "add-insert-trigger-prefixes"
+      },
+      {
+        "id": 36,
+        "name": "optimise-existing-functions"
+      },
+      {
+        "id": 37,
+        "name": "add-bucket-name-length-trigger"
+      },
+      {
+        "id": 38,
+        "name": "iceberg-catalog-flag-on-buckets"
+      },
+      {
+        "id": 39,
+        "name": "add-search-v2-sort-support"
+      },
+      {
+        "id": 40,
+        "name": "fix-prefix-race-conditions-optimized"
+      },
+      {
+        "id": 41,
+        "name": "add-object-level-update-trigger"
+      },
+      {
+        "id": 42,
+        "name": "rollback-prefix-triggers"
+      },
+      {
+        "id": 43,
+        "name": "fix-object-level"
+      },
+      {
+        "id": 44,
+        "name": "vector-bucket-type"
+      },
+      {
+        "id": 45,
+        "name": "vector-buckets"
+      },
+      {
+        "id": 46,
+        "name": "buckets-objects-grants"
+      },
+      {
+        "id": 47,
+        "name": "iceberg-table-metadata"
+      },
+      {
+        "id": 48,
+        "name": "iceberg-catalog-ids"
+      },
+      {
+        "id": 49,
+        "name": "buckets-objects-grants-postgres"
+      },
+      {
+        "id": 50,
+        "name": "search-v2-optimised"
+      },
+      {
+        "id": 51,
+        "name": "index-backward-compatible-search"
+      },
+      {
+        "id": 52,
+        "name": "drop-not-used-indexes-and-functions"
+      },
+      {
+        "id": 53,
+        "name": "drop-index-lower-name"
+      },
+      {
+        "id": 54,
+        "name": "drop-index-object-level"
+      },
+      {
+        "id": 55,
+        "name": "prevent-direct-deletes"
+      },
+      {
+        "id": 56,
+        "name": "fix-optimized-search-function"
+      },
+      {
+        "id": 57,
+        "name": "s3-multipart-uploads-metadata"
+      },
+      {
+        "id": 58,
+        "name": "operation-ergonomics"
+      },
+      {
+        "id": 59,
+        "name": "drop-unused-functions"
+      },
+      {
+        "id": 60,
+        "name": "optimize-existing-functions-again"
+      },
+      {
+        "id": 61,
+        "name": "mark-filename-immutable"
+      },
+      {
+        "id": 62,
+        "name": "object-versioning-core"
+      },
+      {
+        "id": 63,
+        "name": "fix-search-name-relative-to-prefix"
+      },
+      {
+        "id": 64,
+        "name": "fix-search-by-timestamp-sqli"
+      },
+      {
+        "id": 65,
+        "name": "objects-key-version-index"
+      },
+      {
+        "id": 66,
+        "name": "objects-current-version-index"
+      },
+      {
+        "id": 67,
+        "name": "objects-null-version-index"
+      }
+    ]
+  }
+}

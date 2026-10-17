@@ -1,0 +1,36 @@
+{
+  "startedAt": "2026-10-02T16:47:59.457Z",
+  "status": "NOT VERIFIED",
+  "database": "clinia_email_budget_20261002_2",
+  "source": "clinia_contract_stage_20260928_3",
+  "checks": [
+    {
+      "name": "Anonymous/authenticated execution denied; service cannot read private counters",
+      "status": "VERIFIED"
+    }
+  ],
+  "limits": [
+    "Actual local PostgreSQL17 SQL grants/concurrency with synthetic SQL role claims",
+    "Not ordinary Auth JWTs or deployed email/provider acceptance",
+    "No remote mutation or cleanup; clone preserved"
+  ],
+  "runtime": {
+    "name": "/supabase_db_clinia-acceptance",
+    "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "state": "running",
+    "health": "healthy",
+    "ports": {
+      "5432/tcp": [
+        {
+          "HostIp": "127.0.0.1",
+          "HostPort": "56322"
+        }
+      ]
+    }
+  },
+  "created": true,
+  "migrationSha256": "447fea1b6eb073edd3ac42404c59d1f911a3e3f88e8a87a9ea8ee93854cd08b1",
+  "diagnostic": "email-budget-2-validation.private.log",
+  "error": "ERR_ASSERTION Expected 22023; got 42501",
+  "completedAt": "2026-10-02T16:48:02.250Z"
+}

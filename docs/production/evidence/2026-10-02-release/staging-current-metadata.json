@@ -1,0 +1,39 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "checkedAt": "2026-10-02T23:23:25.568Z",
+  "project": "phihonofwyerpfgqfekt",
+  "projectName": "cliniaplus-staging",
+  "command": "supabase_get_project; supabase_list_branches; supabase_execute_sql (counts and selected pg_proc metadata only)",
+  "result": [
+    {
+      "metadata": {
+        "clinics": 0,
+        "patients": 0,
+        "auth_users": 0,
+        "app_migrations": 12,
+        "clinic_members": 0,
+        "session_helper": false,
+        "storage_buckets": 0,
+        "storage_objects": 0,
+        "enrollment_helper": false,
+        "ordinary_rls_helpers": [
+          {
+            "name": "get_clinic_member_role",
+            "owner": "postgres",
+            "config": [
+              "search_path=public"
+            ],
+            "body_md5": "6d5dc4337cc650f4870db6c93ba6211b",
+            "security_definer": true
+          }
+        ]
+      }
+    }
+  ],
+  "limits": [
+    "Read-only metadata, no patient values or credentials",
+    "No migration, Auth actors, storage objects, deployment or configuration changed",
+    "Observed zero counts do not prove all application tables empty",
+    "Remote candidate/Auth/RLS/Storage and production settings still unverified"
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "executedAt": "2026-10-02T17:50:58.3749001Z",
+  "fullExitCode": 0,
+  "productionExitCode": 0,
+  "environment": "frozen candidate-20261002-final dependencies, actual npm advisory registry",
+  "commands": [
+    "npm audit --json",
+    "npm audit --omit=dev --json"
+  ]
+}

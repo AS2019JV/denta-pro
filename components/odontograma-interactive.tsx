@@ -1,7 +1,8 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save, RotateCcw, Trash2, AlertCircle } from 'lucide-react';
+import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save, RotateCcw, Trash2, AlertCircle, ZoomIn, ZoomOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { useOptionalSidebar } from "@/components/sidebar-context";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip";
@@ -138,6 +139,7 @@ const Tooth = ({
           value={data?.recesion || ''}
           onChange={(e) => onApply(id, 'recesion', { id: 'meta' }, e.target.value as any)}
           title="Recesión gingival"
+          aria-label={`Recesión gingival pieza ${id}`}
        />
        <input 
           className="w-8 h-4 text-[9px] font-bold text-center border border-border outline-none focus:border-blue-500 bg-card rounded"
@@ -145,6 +147,7 @@ const Tooth = ({
           value={data?.movilidad || ''}
           onChange={(e) => onApply(id, 'movilidad', { id: 'meta' }, e.target.value as any)}
           title="Movilidad dental"
+          aria-label={`Movilidad dental pieza ${id}`}
        />
     </div>
   );
@@ -161,13 +164,17 @@ const Tooth = ({
           <div className="absolute inset-x-0 h-1.5 border-y border-dashed border-purple-500 top-1/2 -translate-y-1/2 z-0" />
         )}
 
-        <svg viewBox="0 0 100 100" className="w-full h-full z-10 drop-shadow-sm">
+        <svg viewBox="0 0 100 100" className="w-full h-full z-10 drop-shadow-sm" role="group" aria-label={`Pieza dental ${id}`}>
           <polygon 
             points="10,10 90,10 70,30 30,30" 
             fill={getSurfaceFill('top')}
             stroke={getSurfaceStroke('top')}
             strokeWidth="2"
-            className="cursor-pointer hover:opacity-80 transition-colors"
+            className="cursor-pointer hover:opacity-80 focus:outline-none focus:stroke-blue-500 focus:stroke-[3] transition-colors"
+            role="button"
+            tabIndex={0}
+            aria-label={`Pieza ${id}, superficie superior`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleApply('top'); } }}
             onClick={() => handleApply('top')}
           />
           <polygon 
@@ -175,7 +182,11 @@ const Tooth = ({
             fill={getSurfaceFill('right')}
             stroke={getSurfaceStroke('right')}
             strokeWidth="2"
-            className="cursor-pointer hover:opacity-80 transition-colors"
+            className="cursor-pointer hover:opacity-80 focus:outline-none focus:stroke-blue-500 focus:stroke-[3] transition-colors"
+            role="button"
+            tabIndex={0}
+            aria-label={`Pieza ${id}, superficie derecha`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleApply('right'); } }}
             onClick={() => handleApply('right')}
           />
           <polygon 
@@ -183,7 +194,11 @@ const Tooth = ({
             fill={getSurfaceFill('bottom')}
             stroke={getSurfaceStroke('bottom')}
             strokeWidth="2"
-            className="cursor-pointer hover:opacity-80 transition-colors"
+            className="cursor-pointer hover:opacity-80 focus:outline-none focus:stroke-blue-500 focus:stroke-[3] transition-colors"
+            role="button"
+            tabIndex={0}
+            aria-label={`Pieza ${id}, superficie inferior`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleApply('bottom'); } }}
             onClick={() => handleApply('bottom')}
           />
           <polygon 
@@ -191,7 +206,11 @@ const Tooth = ({
             fill={getSurfaceFill('left')}
             stroke={getSurfaceStroke('left')}
             strokeWidth="2"
-            className="cursor-pointer hover:opacity-80 transition-colors"
+            className="cursor-pointer hover:opacity-80 focus:outline-none focus:stroke-blue-500 focus:stroke-[3] transition-colors"
+            role="button"
+            tabIndex={0}
+            aria-label={`Pieza ${id}, superficie izquierda`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleApply('left'); } }}
             onClick={() => handleApply('left')}
           />
           <rect 
@@ -199,7 +218,11 @@ const Tooth = ({
             fill={getSurfaceFill('center')}
             stroke={getSurfaceStroke('center')}
             strokeWidth="2"
-            className="cursor-pointer hover:opacity-80 transition-colors"
+            className="cursor-pointer hover:opacity-80 focus:outline-none focus:stroke-blue-500 focus:stroke-[3] transition-colors"
+            role="button"
+            tabIndex={0}
+            aria-label={`Pieza ${id}, superficie oclusal o centro`}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); handleApply('center'); } }}
             onClick={() => handleApply('center')}
           />
 
@@ -273,6 +296,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   const [activeTool, setActiveTool] = useState<any>(TOOLS.SELECT);
   const [activeMode, setActiveMode] = useState<'red' | 'blue'>('red');
   const [rangeStart, setRangeStart] = useState<number | null>(null);
+  const [zoomLevel, setZoomLevel] = useState<number>(1.0);
+  const sidebar = useOptionalSidebar();
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -457,18 +482,24 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
          <div className="flex items-center gap-4 flex-wrap">
             <div className="space-y-1">
                <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block">Diagnóstico / Estado</span>
-               <div className="flex bg-muted rounded-lg p-0.5 border shadow-inner">
+               <div className="flex bg-muted rounded-lg p-0.5 border shadow-inner" role="radiogroup" aria-label="Modo de diagnóstico o tratamiento">
                   <button 
+                    type="button"
+                    role="radio"
+                    aria-checked={activeMode === 'red'}
                     onClick={() => setActiveMode('red')}
                     className={cn(
                       "px-3 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1.5", 
-                      activeMode === 'red' ? "bg-red-500 text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
+                      activeMode === 'red' ? "bg-red-600 text-white shadow-sm" : "text-muted-foreground hover:text-foreground"
                     )}
                   >
-                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-white" : "bg-red-500")} />
+                    <div className={cn("w-2 h-2 rounded-full", activeMode === 'red' ? "bg-white" : "bg-red-600")} />
                     PATOLOGÍA (Rojo)
                   </button>
                   <button 
+                    type="button"
+                    role="radio"
+                    aria-checked={activeMode === 'blue'}
                     onClick={() => setActiveMode('blue')}
                     className={cn(
                       "px-3 py-1 rounded-md text-xs font-bold transition-all flex items-center gap-1.5", 
@@ -483,8 +514,12 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
  
             <div className="space-y-1">
                <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block">Herramientas Normadas MSP</span>
-               <div className="flex gap-1 flex-wrap items-center">
+               <div className="flex gap-1 flex-wrap items-center" role="radiogroup" aria-label="Herramientas normadas MSP">
                   <button
+                     type="button"
+                     role="radio"
+                     aria-checked={activeTool.id === TOOLS.SELECT.id}
+                     aria-label="Cursor de Selección (V)"
                      onClick={() => { setActiveTool(TOOLS.SELECT); setRangeStart(null); }}
                      className={cn(
                          "px-2.5 py-1 rounded-lg border text-[11px] font-bold uppercase transition-all whitespace-nowrap flex items-center gap-1",
@@ -499,6 +534,10 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                   {[TOOLS.CARIES, TOOLS.SEALANT, TOOLS.EXTRACTION, TOOLS.CROWN, TOOLS.ENDODONTICS, TOOLS.LOSS_OTHER, TOOLS.PROSTHESIS_FIXED, TOOLS.PROSTHESIS_REMOVABLE].map(tool => (
                      <button
                         key={tool.id}
+                        type="button"
+                        role="radio"
+                        aria-checked={activeTool.id === tool.id}
+                        aria-label={`${tool.label} (${tool.hotkey})`}
                         onClick={() => { setActiveTool(tool); setRangeStart(null); }}
                         className={cn(
                             "px-2.5 py-1 rounded-lg border text-[11px] font-bold uppercase transition-all whitespace-nowrap flex items-center gap-1",
@@ -511,10 +550,14 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                   ))}
                   
                   <button 
+                     type="button"
+                     role="radio"
+                     aria-checked={activeTool.id === 'eraser'}
+                     aria-label="Borrador dental (0)"
                      onClick={() => { setActiveTool(TOOLS.ERASER); setRangeStart(null); }} 
                      className={cn(
                        "p-1 px-2 rounded-lg border flex items-center gap-1 text-[11px] font-bold transition-all", 
-                       activeTool.id === 'eraser' ? "bg-red-500 text-white border-red-500 shadow-sm" : "bg-card text-red-600 border-red-200 hover:bg-red-50"
+                       activeTool.id === 'eraser' ? "bg-red-600 text-white border-red-600 shadow-sm" : "bg-card text-red-600 border-red-200 hover:bg-red-50"
                      )}
                      title="Borrador dental [0 / Del]"
                   >
@@ -526,6 +569,49 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
          </div>
 
          <div className="flex items-center gap-2 flex-shrink-0">
+            {/* Zoom / Scaling Controls for 13-inch displays and tablet/mobile ergonomics */}
+            <div className="flex items-center bg-muted/60 border rounded-lg p-0.5 text-xs">
+               <button
+                  type="button"
+                  onClick={() => setZoomLevel(prev => Math.max(0.75, Number((prev - 0.1).toFixed(2))))}
+                  disabled={zoomLevel <= 0.75}
+                  className="p-1 px-1.5 rounded hover:bg-card text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  title="Alejar odontograma (-10%)"
+               >
+                  <ZoomOut className="h-3.5 w-3.5" />
+               </button>
+               <button
+                  type="button"
+                  onClick={() => setZoomLevel(1.0)}
+                  className="px-2 py-0.5 font-mono text-[11px] font-bold text-muted-foreground hover:text-foreground hover:bg-card rounded transition-all"
+                  title="Restablecer tamaño original (100%)"
+               >
+                  {Math.round(zoomLevel * 100)}%
+               </button>
+               <button
+                  type="button"
+                  onClick={() => setZoomLevel(prev => Math.min(1.25, Number((prev + 0.1).toFixed(2))))}
+                  disabled={zoomLevel >= 1.25}
+                  className="p-1 px-1.5 rounded hover:bg-card text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all"
+                  title="Acercar odontograma (+10%)"
+               >
+                  <ZoomIn className="h-3.5 w-3.5" />
+               </button>
+            </div>
+
+            {/* Quick full-screen charting shortcut when sidebar is available */}
+            {sidebar && (
+               <button
+                  type="button"
+                  onClick={sidebar.toggleSidebar}
+                  className="p-1.5 px-2 rounded-lg border hidden lg:flex items-center gap-1 text-xs font-bold text-muted-foreground hover:text-foreground hover:bg-muted transition-all"
+                  title={sidebar.isExpanded ? "Ocultar barra de navegación para ampliar odontograma" : "Mostrar barra de navegación"}
+               >
+                  {sidebar.isExpanded ? <PanelLeftClose className="h-3.5 w-3.5" /> : <PanelLeftOpen className="h-3.5 w-3.5" />}
+                  <span className="hidden xl:inline">{sidebar.isExpanded ? "Ampliar Vista" : "Restaurar Menú"}</span>
+               </button>
+            )}
+
             <button
                onClick={handleUndo}
                disabled={history.length === 0}
@@ -616,7 +702,15 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             </div>
 
             <div className="flex-1 min-w-0 w-full bg-card p-4 rounded-xl border shadow-inner overflow-x-auto custom-scrollbar">
-                <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[90px_1fr] gap-2 sm:gap-4 items-center">
+                <div 
+                   className="transition-transform duration-200 ease-out origin-top min-w-[680px]"
+                   style={{
+                      transform: `scale(${zoomLevel})`,
+                      transformOrigin: 'top center',
+                      marginBottom: zoomLevel < 1.0 ? `${(zoomLevel - 1.0) * 320}px` : `${(zoomLevel - 1.0) * 160}px`
+                   }}
+                >
+                    <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[90px_1fr] gap-2 sm:gap-4 items-center">
                     <div className="flex flex-col justify-around py-8 text-[9px] font-bold text-muted-foreground uppercase tracking-tight text-center">
                         <div className="h-10 flex flex-col justify-center">Recesión<br/>Movilidad</div>
                         <div className="h-10 flex items-center justify-center">Vestibular</div>
@@ -652,6 +746,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                             {renderQuadrant(ADULT_QUADRANTS.Q4)}
                         </div>
                     </div>
+                </div>
                 </div>
             </div>
 

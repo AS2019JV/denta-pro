@@ -76,10 +76,9 @@ export function SiteFooter({ simplified = false }) {
             <h3 className="font-medium mb-4 font-subtitle">Producto</h3>
             <ul className="space-y-2">
               {[
-                { href: "#features", label: "Características" },
-                { href: "#pricing", label: "Precios" },
-                { href: "#", label: "Integraciones" },
-                { href: "#", label: "Actualizaciones" },
+                { href: "/#features", label: "Características" },
+                { href: "/#workflow", label: "Cómo funciona" },
+                { href: "/login", label: "Iniciar sesión" },
               ].map((link, index) => (
                 <li key={index}>
                   <Link href={link.href} className="text-gray-500 hover:text-secondary transition-colors font-subtitle">

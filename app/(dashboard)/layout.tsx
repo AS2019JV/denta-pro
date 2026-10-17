@@ -37,10 +37,16 @@ export default function RootLayout({
                 <DashboardWrapper>
                   <SubscriptionBlocker />
                   <SidebarProvider>
+                    <a 
+                      href="#main-content" 
+                      className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-md focus:shadow-lg focus:outline-none"
+                    >
+                      Saltar al contenido principal
+                    </a>
                     <div className="flex h-screen bg-background">
                       <Sidebar />
-                      <main className="flex-1 overflow-auto">
-                        <div className="container mx-auto p-6 lg:p-8">{children}</div>
+                      <main id="main-content" className="flex-1 overflow-auto focus:outline-none" tabIndex={-1}>
+                        <div className="container mx-auto p-6 pt-20 lg:p-8">{children}</div>
                       </main>
                     </div>
                     <Toaster />

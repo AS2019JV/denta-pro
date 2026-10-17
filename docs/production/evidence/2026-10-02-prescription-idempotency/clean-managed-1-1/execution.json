@@ -1,0 +1,581 @@
+{
+  "state": "PARTIALLY VERIFIED",
+  "startedAt": "2026-10-03T03:16:08.222Z",
+  "project": "clinia-clean-20261002-1",
+  "migration": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+  "migrationSha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf",
+  "actionSha256": "2811d60ceccd179ce9d511387b78e260157d4ed95e513b75b57863512b7e09f0",
+  "checks": [
+    {
+      "name": "Reproduce ordinary UUID issuance privilege failure before fix",
+      "expected": "42501 and zero persisted rows",
+      "result": {
+        "code": "42501",
+        "rows": 0
+      },
+      "passed": true
+    },
+    {
+      "name": "Narrow insert permission retains anonymous and snapshot-column denial",
+      "expected": "authenticated id only; no broad INSERT/anonymous/snapshot",
+      "result": {
+        "id": true,
+        "table": false,
+        "anon": false,
+        "snapshot": false
+      },
+      "passed": true
+    },
+    {
+      "name": "Concurrent actual-action retries persist one immutable receipt",
+      "expected": "2 successes; same receipt; count 1",
+      "result": {
+        "successes": 2,
+        "rows": 1
+      },
+      "passed": true
+    },
+    {
+      "name": "Same UUID cannot alter issued content",
+      "expected": "false and unchanged receipt",
+      "result": {
+        "denials": 4,
+        "unchanged": true
+      },
+      "passed": true
+    },
+    {
+      "name": "Foreign clinic cannot read or recover colliding UUID",
+      "expected": "read [] and foreign-own-intent retry false",
+      "result": {
+        "rows": 0,
+        "retry": false
+      },
+      "passed": true
+    },
+    {
+      "name": "Receptionist cannot issue even with valid UUID",
+      "expected": "false; no row",
+      "result": {
+        "issued": false
+      },
+      "passed": true
+    },
+    {
+      "name": "Committed-response loss retries same UUID without duplicate issuance",
+      "expected": "first false; retry true; count 1",
+      "result": {
+        "first": false,
+        "retry": true,
+        "rows": 1
+      },
+      "passed": true
+    },
+    {
+      "name": "Caller cannot choose author or insert a snapshot",
+      "expected": "author bound to Auth UID; direct snapshot 42501",
+      "result": {
+        "authorBound": true,
+        "snapshotCode": "42501"
+      },
+      "passed": true
+    },
+    {
+      "name": "Actual action with locally revoked Auth session cannot issue or recover",
+      "expected": "logout 204; both false",
+      "result": {
+        "logout": 204,
+        "new": false,
+        "retry": false
+      },
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 201,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 201,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/profiles",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 201,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout",
+      "status": 204,
+      "code": null
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 403,
+      "code": "session_not_found"
+    },
+    {
+      "method": "GET",
+      "path": "/auth/v1/user",
+      "status": 403,
+      "code": "session_not_found"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 500,
+      "code": "40P01"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    }
+  ],
+  "limits": [
+    "Actual action transpiled with cookie/client factory adapted to real ordinary SDK and Auth JWT; not Next HTTP/browser execution",
+    "Synthetic loopback candidate; not remote release, professional qualification or clinical acceptance"
+  ],
+  "migrationApplied": true,
+  "receiptSha256": "be945741b5fb4dc78c5185e709836835cf6c26306c7eeda9899e8886d015a6e4",
+  "error": "Expected values to be strictly equal:\n\n'40P01' !== '23P01'\n",
+  "stopped": {
+    "state": "CLEAN_GATEWAY_STOPPED_DB_AUTH_STORAGE_PRESERVED"
+  },
+  "completedAt": "2026-10-03T03:16:37.723Z"
+}

@@ -1,0 +1,20 @@
+{
+  "candidateHead": "6a467b992d8dec8b36ca8a10a37cd37b4333a796",
+  "requirements": [
+    "real synthetic browser login and clinic context",
+    "same-origin authenticated clinical download",
+    "independent saved-file hash"
+  ],
+  "status": "VERIFIED",
+  "clickedAt": "2026-10-05T21:13:53.804Z",
+  "savedFile": "C:/Users/aleja/Downloads/Documento staging sintético (1)",
+  "savedAt": "2026-10-05T21:14:00.505Z",
+  "bytes": 70,
+  "sha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+  "screenshot": "browser-files-synthetic.jpg",
+  "limits": [
+    "Synthetic fixture only",
+    "Saved file is independently inspected; authorization audit alone is not proof of byte receipt",
+    "Branch alias deployment/source independently recorded"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "startedAt": "2026-10-03T22:53:35.173Z",
+  "project": "phihonofwyerpfgqfekt",
+  "actor": "auth_revoked_A",
+  "verifiedMatrix": {
+    "filename": "matrix-run-3.json",
+    "fileSha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null,
+      "bytes": 8,
+      "bodySha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null,
+      "bytes": 1150,
+      "bodySha256": "f7b610643396d2b3dddc2595dec62d5b2f4e9e759bdad3419e118d9000827d1c"
+    }
+  ],
+  "checks": [],
+  "limits": [
+    "Synthetic owned staging actor only; no browser/deployment proof",
+    "Cached downloads are checked separately from fresh RLS/sign authorization"
+  ],
+  "failure": "Guarded proof failed; inspect safe statuses and named checks",
+  "completedAt": "2026-10-03T22:53:35.990Z"
+}

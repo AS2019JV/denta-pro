@@ -1,0 +1,9 @@
+{
+  "status": "NOT VERIFIED",
+  "project": "clinia-clean-20261002-1",
+  "migration": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+  "migrationSha256": "34c424bc90bef61e0844a7a92f2c86f5e8f676f7c0b64f6e167243c1a61ba5f2",
+  "startedAt": "2026-10-03T14:31:57.566Z",
+  "error": "Clean local API operation failed; private diagnostic preserved",
+  "completedAt": "2026-10-03T14:31:58.372Z"
+}

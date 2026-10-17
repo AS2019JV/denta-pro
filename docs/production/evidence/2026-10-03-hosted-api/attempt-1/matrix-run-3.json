@@ -1,0 +1,1437 @@
+{
+  "status": "VERIFIED",
+  "phase": "matrix",
+  "project": "phihonofwyerpfgqfekt",
+  "attempt": "1",
+  "runNumber": "3",
+  "startedAt": "2026-10-03T22:35:18.598Z",
+  "driverSha256": "0949ca833fa03c97a6e7996afccbff39b5c28bcbfe10c7d701f66e7d8b94dbfb",
+  "requests": [
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "auth_revoked_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 401,
+      "code": "42501"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/rest/v1/patients",
+      "status": 401,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "code": "22023"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_patient_demographics",
+      "status": 400,
+      "code": "22023"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "PATCH",
+      "path": "/rest/v1/clinic_members",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "PATCH",
+      "path": "/rest/v1/profiles",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "synthetic_auth_admin",
+      "method": "GET",
+      "path": "/storage/v1/bucket",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-owner_b.pdf",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-removed_a.pdf",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-anonymous.pdf",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-files",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-receptionist_a.pdf",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous_public",
+      "method": "GET",
+      "path": "/storage/v1/object/public/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchBucket"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3-matrix-owner_b.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3-matrix-removed_a.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/list/clinic-branding",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3-matrix-anonymous.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous_public",
+      "method": "GET",
+      "path": "/storage/v1/object/public/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchBucket"
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3-matrix-owner_b.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3-matrix-removed_a.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/list/doctor-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3-matrix-anonymous.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous_public",
+      "method": "GET",
+      "path": "/storage/v1/object/public/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchBucket"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-owner_b.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "removed_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-removed_a.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchKey"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/list/patient-avatars",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3-matrix-anonymous.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "anonymous_public",
+      "method": "GET",
+      "path": "/storage/v1/object/public/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "NoSuchBucket"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "expired_signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "InvalidJWT"
+    },
+    {
+      "actor": "expired_signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "status": 400,
+      "code": "InvalidJWT"
+    },
+    {
+      "actor": "expired_signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "status": 400,
+      "code": "InvalidJWT"
+    },
+    {
+      "actor": "expired_signed_capability",
+      "method": "GET",
+      "path": "/storage/v1/object/sign/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "status": 400,
+      "code": "InvalidJWT"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/clinic-branding/d9a47157-1d36-43df-af1d-436d561ee551/doctor-forbidden.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "owner_A",
+      "method": "POST",
+      "path": "/storage/v1/object/doctor-avatars/272d63b1-38e3-4a60-89a2-dd07f031b2d2/owner-forbidden.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-avatars/d9a47157-1d36-43df-af1d-436d561ee551/421114c9-80e5-4533-9cfa-55966d90b162/foreign-patient.png",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/patient_files",
+      "status": 201,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "AccessDenied"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 201,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 409,
+      "code": "23505"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "PATCH",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/prescriptions",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "owner_B",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/prescriptions",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 400,
+      "code": "23P01"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "GET",
+      "path": "/rest/v1/appointments",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/appointments",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "doctor_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_schedule",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "receptionist_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "code": null
+    },
+    {
+      "actor": "owner_B",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "removed_A",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 403,
+      "code": "42501"
+    },
+    {
+      "actor": "anonymous",
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 401,
+      "code": "42501"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Fixture actors have exact live roles via ordinary original JWTs",
+      "expected": "owner/doctor/reception/removed/foreign/auth-test roles",
+      "status": "VERIFIED",
+      "detail": {
+        "liveRoleChecks": 7
+      }
+    },
+    {
+      "name": "Demographics, clinical and financial boundaries use real RLS",
+      "expected": "operational roles allowed; clinical reception/foreign/anonymous denied",
+      "status": "VERIFIED",
+      "detail": {
+        "operationalReads": 3,
+        "clinicalDoctorAllowed": true,
+        "forbiddenClinicalReaders": 4,
+        "forbiddenInputCode": "22023",
+        "forbiddenInputKeys": [
+          "clinical_notes",
+          "account_balance"
+        ]
+      }
+    },
+    {
+      "name": "Ordinary actor cannot elevate profile or membership authority",
+      "expected": "42501/no changed live role",
+      "status": "VERIFIED",
+      "detail": {
+        "roleEscalationDenied": true
+      }
+    },
+    {
+      "name": "Four Storage buckets remain private with reviewed limits",
+      "expected": "private known buckets only; no configuration mutation",
+      "status": "VERIFIED",
+      "detail": {
+        "privateBuckets": 4
+      }
+    },
+    {
+      "name": "patient-files hosted bytes/list/sign and role isolation",
+      "expected": "allowed writer/readers succeed; removed/foreign/anonymous denied",
+      "status": "VERIFIED",
+      "detail": {
+        "bucket": "patient-files",
+        "writer": "doctor_A",
+        "allowedReaders": 2,
+        "bytesSha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552",
+        "signedExpirySeconds": 2
+      }
+    },
+    {
+      "name": "clinic-branding hosted bytes/list/sign and role isolation",
+      "expected": "allowed writer/readers succeed; removed/foreign/anonymous denied",
+      "status": "VERIFIED",
+      "detail": {
+        "bucket": "clinic-branding",
+        "writer": "owner_A",
+        "allowedReaders": 3,
+        "bytesSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+        "signedExpirySeconds": 2
+      }
+    },
+    {
+      "name": "doctor-avatars hosted bytes/list/sign and role isolation",
+      "expected": "allowed writer/readers succeed; removed/foreign/anonymous denied",
+      "status": "VERIFIED",
+      "detail": {
+        "bucket": "doctor-avatars",
+        "writer": "doctor_A",
+        "allowedReaders": 3,
+        "bytesSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+        "signedExpirySeconds": 2
+      }
+    },
+    {
+      "name": "patient-avatars hosted bytes/list/sign and role isolation",
+      "expected": "allowed writer/readers succeed; removed/foreign/anonymous denied",
+      "status": "VERIFIED",
+      "detail": {
+        "bucket": "patient-avatars",
+        "writer": "receptionist_A",
+        "allowedReaders": 3,
+        "bytesSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+        "signedExpirySeconds": 2
+      }
+    },
+    {
+      "name": "All four signed capabilities expire",
+      "expected": "previously successful URLs rejected after requested TTL",
+      "status": "VERIFIED",
+      "detail": {
+        "expiredCapabilities": 4
+      }
+    },
+    {
+      "name": "Storage cannot forge clinical foreign patient or media writer ownership",
+      "expected": "valid bytes rejected by role/path checks",
+      "status": "VERIFIED",
+      "detail": {
+        "forbiddenPaths": 3,
+        "registeredClinicalBytesImmutable": true
+      }
+    },
+    {
+      "name": "Prescription REST UUID retries preserve one immutable issuance receipt",
+      "expected": "one insert, duplicate 23505, own recovery count one; edits/forgeries denied",
+      "status": "VERIFIED",
+      "detail": {
+        "requestId": "caa35d27-be07-47d4-9d06-c3a8e8289241",
+        "receipts": 1,
+        "duplicateCode": "23505",
+        "receiptSha256": "00324f4a2b0921dd4bdac256a3c84449aa99c7e1b093504f4f97de38198c0f75"
+      }
+    },
+    {
+      "name": "Eight hosted appointment races preserve one row and sanitized 23P01",
+      "expected": "ordinary doctor/reception; no 40P01 or HTTP500",
+      "status": "VERIFIED",
+      "detail": {
+        "races": 8,
+        "savedRows": 8,
+        "safeConflicts": 8,
+        "directBypassDenied": true
+      }
+    },
+    {
+      "name": "Hosted schedule joins and operational report remain scoped after the race",
+      "expected": "eight scheduled appointments; reception omits clinical notes; no financial report",
+      "status": "VERIFIED",
+      "detail": {
+        "scheduleRows": 8,
+        "operationalReaders": 2,
+        "financialFields": 0
+      }
+    }
+  ],
+  "limits": [
+    "Real hosted Auth/PostgREST/Storage API proof; not browser or Next server-action execution",
+    "Only owned synthetic fixtures; no production deployment or clinical approval",
+    "Signed URLs remain bearer capabilities until expiry; revocation proof concerns new authorized requests"
+  ],
+  "fixtureBindingSha256": "010fdacee5902cc09a833c5ea02910abcbd69dd67d501a7a6f52952da83f21ff",
+  "completedAt": "2026-10-03T22:36:04.144Z"
+}

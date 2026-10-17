@@ -1,0 +1,171 @@
+{
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "snapshotTreeSha256": "96513738ed5e8d8e5a02f5cdd7972af07e76868b6c55d77e707679f219e4ba18",
+  "files": [
+    {
+      "path": ".github/workflows/clinia-verification.yml",
+      "sha256": "ab4f6b9831e9f21f5d970b71068a37af09756b91af34d8023aefa198bdb6b8b8",
+      "bytes": 1210
+    },
+    {
+      "path": "app/actions/invite-member.ts",
+      "sha256": "b67dd7b4cc3fde4552c82b782b756bf723d7ade655a511456ec1fbff28459494",
+      "bytes": 10738
+    },
+    {
+      "path": "app/actions/register-clinic.ts",
+      "sha256": "8cc8d925a882b9826a5e83549716f213cdeeda8fc9e28ec89ba89f856d17b55b",
+      "bytes": 8042
+    },
+    {
+      "path": "app/actions/resend-confirmation.ts",
+      "sha256": "d4b91cc63b40300da9575a0f9370b3220d0c1db3926bd37210660cf770028be5",
+      "bytes": 4797
+    },
+    {
+      "path": "app/api/send-email/route.ts",
+      "sha256": "c6f4a15b8c3c16d10f0462fb3b4e5cadb92a55bb7e5a5c392875a722568506d3",
+      "bytes": 23214
+    },
+    {
+      "path": "app/api/auth/confirm/route.ts",
+      "sha256": "98819639416d96bf98bc196d724284811904da4aeea75b6b178f73bcad16a5e7",
+      "bytes": 3035
+    },
+    {
+      "path": "app/auth/confirm/page.tsx",
+      "sha256": "9b68d0e73ff017159dd6c81877df1d8b6db9b8965006edaa5e80cef5efe44c46",
+      "bytes": 7451
+    },
+    {
+      "path": "app/auth/callback/route.ts",
+      "sha256": "37d5fb6e8ca59eb2de5fb2527a617bb58646c276872a7f2c5c3a1609f4a97b14",
+      "bytes": 1780
+    },
+    {
+      "path": "app/(dashboard)/dashboard/page.tsx",
+      "sha256": "9e636f8174cb5f8742d0acb15ed7a82f298f4091f18ffeda40daa342cd2fab55",
+      "bytes": 46892
+    },
+    {
+      "path": "app/(dashboard)/dentists/page.tsx",
+      "sha256": "526c56623bb420be54210a450c13f372c518d489480d03cf84316f0a11043d4b",
+      "bytes": 44229
+    },
+    {
+      "path": "app/(dashboard)/patients/[id]/page.tsx",
+      "sha256": "c82c5125a16c6770fb1b1df6849df19dc4cc4ae1bd1a8f83c8520c55bd55cb62",
+      "bytes": 48606
+    },
+    {
+      "path": "components/avatar-upload.tsx",
+      "sha256": "b2522197828038ebdd13ac80c95a45cc3c1855d72b1c3abbe4e0b82205aeee0a",
+      "bytes": 4769
+    },
+    {
+      "path": "components/dashboard.tsx",
+      "sha256": "a960cff14bc52e78d4b9f089c2ac45a2466bb0cf39fb14646c3a5bed5ca2ad66",
+      "bytes": 9542
+    },
+    {
+      "path": "components/sidebar.tsx",
+      "sha256": "d8e2e4ec5916ac643d9f1773cb0182805d8719e5876dca7161eb8af4b888312c",
+      "bytes": 12649
+    },
+    {
+      "path": "components/patient-files.tsx",
+      "sha256": "d6f76143a9433eb3568659a6dbe367a2a4c4eea0165f459bcae3c33d7189c933",
+      "bytes": 18475
+    },
+    {
+      "path": "components/patient-prescriptions.tsx",
+      "sha256": "07b74e7283eed2b62d7726fe42d08fbdb26dd11f079f61d07c6bde7d90bfcd98",
+      "bytes": 20409
+    },
+    {
+      "path": "components/issued-prescriptions-list.tsx",
+      "sha256": "f0dfa116259d84590050a287e7f1780f4351ac1b5e6d86eec0bfb0e3edca73f6",
+      "bytes": 14293
+    },
+    {
+      "path": "components/signup-form.tsx",
+      "sha256": "0d03f4d4f100fe40a37d7857e9024c32790aec916d8535e5f9f2a934df7f5449",
+      "bytes": 21198
+    },
+    {
+      "path": "hooks/use-private-media.ts",
+      "sha256": "9ab9931e836f117822faaf83b49583adcc8fe5e4d08d5526945b123a5a4e5a70",
+      "bytes": 1696
+    },
+    {
+      "path": "lib/private-media.mjs",
+      "sha256": "9f7c437455ac3a7e399a1e28aab88e374e4435c38efb5bfad1b88ba5b7b63e3e",
+      "bytes": 2527
+    },
+    {
+      "path": "lib/private-media.d.mts",
+      "sha256": "3a95e82e69717c7d530923c80d57f5dcd3359f6805cd138349593cc45a4c0105",
+      "bytes": 727
+    },
+    {
+      "path": "lib/auth-redirect.ts",
+      "sha256": "fe7352ed89f8cfe65c9c5c2565ae85e2dc84dbaccc7c3bd3aba9fa956faefec3",
+      "bytes": 391
+    },
+    {
+      "path": "lib/html-escape.ts",
+      "sha256": "b5256d77454629c7c13f4a721ae55a361599798e9325c5ce35227d71d1dc8285",
+      "bytes": 292
+    },
+    {
+      "path": "lib/signup-validation.ts",
+      "sha256": "094f359124d0a5d6d75bb8a34771c123880ba64c5f18b1c37a787aec04d95c2b",
+      "bytes": 647
+    },
+    {
+      "path": "scripts/clinia-secret-scan.cjs",
+      "sha256": "9dccfb635a8cd70fc5eb4e1880d7968c8a85e63d32f8695178e9b372ce727e86",
+      "bytes": 2849
+    },
+    {
+      "path": "scripts/verify-clinia-contract-api.cjs",
+      "sha256": "395ef35a13a18f123c095e7acd79441d63eec2e4e9eb2bb9903d59c66a6ab50a",
+      "bytes": 17283
+    },
+    {
+      "path": "test/production/auth-content-security.test.cjs",
+      "sha256": "36a4c3fb804ea90bb4e302f913fc4b07b9e742f5099416f42615be9d8b17002c",
+      "bytes": 10651
+    },
+    {
+      "path": "test/production/privileged-authority.test.cjs",
+      "sha256": "da9bf6fe617dd1e82b3bf2a4aeecbd1b35ef156a1b6de836879bc9d4cda07c7e",
+      "bytes": 15394
+    },
+    {
+      "path": "test/production/private-media.test.cjs",
+      "sha256": "412259988a89d1a304dcd62392276b19a1198ad789208c23029c893daf4fcd04",
+      "bytes": 7472
+    },
+    {
+      "path": "test/production/secret-scan.test.cjs",
+      "sha256": "de87cdc4ded59752cc72afc7e38beea9e3e7d70584fb13add4f279d5d952bfc3",
+      "bytes": 1341
+    },
+    {
+      "path": "test/security/sec06-invite-ownership.test.cjs",
+      "sha256": "92a8b4ab374e3b78caadeeb85c9ea69c528abec82439b3c48ffe04dd5c3c2929",
+      "bytes": 28759
+    },
+    {
+      "path": "test/security/m6-gap-03-email.test.cjs",
+      "sha256": "41914f6ffd6ccb225f2a0f825f910ae518c413b0b3a3703c0b2b912dc3832678",
+      "bytes": 37344
+    },
+    {
+      "path": "test/security/sec01-sec06-implementation.test.cjs",
+      "sha256": "c21cdffea3be19dcacef442bbf9018a725a2b61332fb538c096e842562a6b3c1",
+      "bytes": 6704
+    }
+  ]
+}

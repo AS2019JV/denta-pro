@@ -1,0 +1,32 @@
+{
+  "syntheticOnly": true,
+  "engine": "installed real jsPDF + jspdf-autotable",
+  "sourceSha256": "3205a7021887aaf5215284822819d357cba08bd495ebbe6dbf16c41695a8d2d2",
+  "sources": {
+    "lib/pdf-generator.ts": "3205a7021887aaf5215284822819d357cba08bd495ebbe6dbf16c41695a8d2d2",
+    "lib/pdf-client.ts": "a10bd6606796be26233ed181e92529de62bae3d377d433d3499011d7b0045d15",
+    "lib/prescription-receipt.mjs": "06341bac79c40bf6da5e62d10665926bd17df0515cdfff2a34f80355d476a7d3",
+    "components/hcu033-form.tsx": "6fb551a1d20e19939cf4aed3002869c4e5dca34ff88bff7eefe3993b49fc9378",
+    "scripts/verify-clinia-clinical-pdfs.cjs": "267bef6ad390f1e6c67cf33677cc98aa11433ddaf86ac8b630bb4479b1f06add"
+  },
+  "documents": [
+    {
+      "name": "receta-sintetica.pdf",
+      "bytes": 6475,
+      "pages": 1,
+      "sha256": "ae0e41728853b747deeba051460b2ac05a81b7cad17a841e2abbf3dbefcadcdd"
+    },
+    {
+      "name": "receta-limite-sintetica.pdf",
+      "bytes": 26270,
+      "pages": 3,
+      "sha256": "b435c29ea0837154c934923fc599cb31f6fcc1e360183acfa6db83fd17e8ec2b"
+    },
+    {
+      "name": "hcu-sintetica.pdf",
+      "bytes": 136461,
+      "pages": 4,
+      "sha256": "6694512f9ed3e15fb34bcf1acc46cff280c295082a9ecaa48073851ff1f5cec9"
+    }
+  ]
+}

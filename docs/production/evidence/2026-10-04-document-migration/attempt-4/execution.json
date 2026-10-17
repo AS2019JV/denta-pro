@@ -1,0 +1,96 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "startedAt": "2026-10-04T03:41:13.694Z",
+  "command": "node scripts/verify-clinia-document-migration.cjs 4",
+  "project": "clinia-clean-20261002-1",
+  "driverSha256": "cf817be149d1f329cef2cda3738324ac61fa4968a9d92c8439a6bd0b9c38e798",
+  "migration": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+  "migrationSha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+  "initialState": "exited",
+  "checks": [
+    {
+      "requirement": "Prospective canonical upgrade installs with guarded prerequisites",
+      "expected": "No error",
+      "actual": "Installed within rollback-only transaction",
+      "passed": true
+    },
+    {
+      "requirement": "Registered principal download with preserved identity",
+      "expected": "1 object",
+      "actual": 1,
+      "passed": true
+    },
+    {
+      "requirement": "Human read/list/sign, unrelated operations, disabled principal and clinical table privilege denial",
+      "expected": "Denied",
+      "actual": {
+        "humanReadDenied": true,
+        "foreignAuditDenied": true,
+        "auditActorScopeBound": true,
+        "registeredObjectRead": 1,
+        "disabledPrincipalDenied": true,
+        "clinicalTablePrivilegesAbsent": true,
+        "listSignOtherOperationsDenied": true,
+        "disabledHookPreservesIsolation": true,
+        "ordinaryAuditTablePrivilegesAbsent": true
+      },
+      "passed": true
+    },
+    {
+      "requirement": "Rollback leaves original schema/role and rows intact",
+      "expected": "Before equals after",
+      "actual": "Equal",
+      "passed": true
+    }
+  ],
+  "limits": [
+    "SQL roles with synthetic claims; no cryptographic HTTP JWT, managed hook or Storage/CDN proof",
+    "All prospective DDL, role/grants and probe rows rolled back",
+    "No remote or occupied production connection"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    }
+  ],
+  "before": {
+    "roleExists": false,
+    "registryExists": false,
+    "auditExists": false,
+    "objects": 4,
+    "files": 1,
+    "policies": 4
+  },
+  "probe": {
+    "humanReadDenied": true,
+    "foreignAuditDenied": true,
+    "auditActorScopeBound": true,
+    "registeredObjectRead": 1,
+    "disabledPrincipalDenied": true,
+    "clinicalTablePrivilegesAbsent": true,
+    "listSignOtherOperationsDenied": true,
+    "disabledHookPreservesIsolation": true,
+    "ordinaryAuditTablePrivilegesAbsent": true
+  },
+  "after": {
+    "roleExists": false,
+    "registryExists": false,
+    "auditExists": false,
+    "objects": 4,
+    "files": 1,
+    "policies": 4
+  },
+  "finalState": "exited",
+  "completedAt": "2026-10-04T03:41:33.914Z"
+}

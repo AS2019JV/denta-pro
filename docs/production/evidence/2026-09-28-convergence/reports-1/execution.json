@@ -1,0 +1,309 @@
+{
+  "startedAt": "2026-09-28T19:20:19.934Z",
+  "state": "LOCAL_REPORT_JWT_VERIFIED",
+  "checks": [
+    {
+      "name": "owner_A exact counts, closed attendance and exclusive Ecuador midnight",
+      "passed": true
+    },
+    {
+      "name": "doctor_A exact counts, closed attendance and exclusive Ecuador midnight",
+      "passed": true
+    },
+    {
+      "name": "receptionist_A exact counts, closed attendance and exclusive Ecuador midnight",
+      "passed": true
+    },
+    {
+      "name": "foreign clinic, retired member and anonymous denied",
+      "passed": true
+    },
+    {
+      "name": "empty period and invalid ranges have honest results",
+      "passed": true
+    },
+    {
+      "name": "historical financial values unchanged",
+      "passed": true
+    }
+  ],
+  "requests": [
+    {
+      "actor": "owner_A",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "ms": 455.1
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "ms": 146.2
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "ms": 139.3
+    },
+    {
+      "actor": "removed_A",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "ms": 127.1
+    },
+    {
+      "actor": "owner_B",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "ms": 114
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 363
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 24.1
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 27.8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 24.5
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 30.1
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 14
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 19.9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 9
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 10.1
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 15.8
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 20
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 19.1
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 9.6
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/save_clinic_appointment",
+      "status": 200,
+      "ms": 16.6
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "ms": 47.6
+    },
+    {
+      "actor": "doctor_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "ms": 26.2
+    },
+    {
+      "actor": "receptionist_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "ms": 8.7
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 403,
+      "ms": 11.8
+    },
+    {
+      "actor": "removed_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 403,
+      "ms": 181
+    },
+    {
+      "actor": "anonymous",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 401,
+      "ms": 8.1
+    },
+    {
+      "actor": "owner_B",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 200,
+      "ms": 133.1
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 400,
+      "ms": 6.9
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 400,
+      "ms": 9.2
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 400,
+      "ms": 4.6
+    },
+    {
+      "actor": "owner_A",
+      "path": "/rest/v1/rpc/get_clinic_operational_report",
+      "status": 400,
+      "ms": 6.5
+    }
+  ],
+  "created": [
+    "4a58e260-4290-4239-8a79-11b9923723ce",
+    "20f79cd0-00f4-4363-93d5-591ba27e21d0",
+    "dafc0697-9253-45f8-ac7c-2b2b27658022",
+    "26e24898-e6ad-498d-ad55-a3da434253a2",
+    "1a17009e-b018-4e90-9d21-5c85fe833439",
+    "5099ad74-64aa-4cf7-9c5d-27bdb61bc86f",
+    "ca7459e6-6e0e-406b-8fec-bc07e68e0b6b",
+    "41971f5b-a134-499a-a3ce-309778093ab9"
+  ],
+  "limits": [
+    "Local synthetic JWT/API evidence, not remote deployment",
+    "Future synthetic states only test report calculations, not clinical/temporal approval",
+    "No large-volume load or recovery claim"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "migration": {
+    "path": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+    "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f",
+    "state": "COMMITTED"
+  },
+  "completedAt": "2026-09-28T19:20:26.028Z"
+}

@@ -1,0 +1,69 @@
+{
+  "status": "BLOCKED",
+  "startedAt": "2026-10-06T15:44:41.759Z",
+  "command": "node scripts/verify-clinia-private-media-origin.cjs 1",
+  "project": "clinia-clean-20261002-1",
+  "driverSha256": "01dea1753ba2085005e109417703fd61abe647c4a615f66a634ce629974b3ecc",
+  "migration": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+  "migrationSha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+  "migrations": [
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+      "bodySha256": "b5a9197a0ded15865c4aa3c7d97bb445b8d9975587ef27b8e3e578d2aee9551c"
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f",
+      "bodySha256": "27465de0ac907786cd007a6a92a56cdfd3145d4da8ea97c55e60cb8f5ff478e4"
+    },
+    {
+      "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728",
+      "bodySha256": "e0d16fb398b0d322cb37ca158cd9295ded54bbafe8393e6f4fb1452f4303becd"
+    },
+    {
+      "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d",
+      "bodySha256": "b54cd562da7cda8d57d258c03c07c0ae64e9ba71f5fc89f48fec46a5bafb66cc"
+    }
+  ],
+  "compiledMigrationSqlSha256": "0b00f8c818e94ff5adea77389fe3762d9d32d837d5eb3750a8fa2263df3ab330",
+  "initialState": "exited",
+  "checks": [],
+  "limits": [
+    "SQL roles with synthetic claims; no cryptographic HTTP JWT, managed hook or Storage/CDN proof",
+    "All prospective DDL, role/grants and probe rows rolled back",
+    "No remote or occupied production connection"
+  ],
+  "runtime": [
+    {
+      "name": "/supabase_db_clinia-clean-20261002-1",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56412"
+          }
+        ]
+      }
+    }
+  ],
+  "before": {
+    "roleExists": false,
+    "registryExists": false,
+    "auditExists": false,
+    "retiredExists": false,
+    "deliveryColumnExists": false,
+    "objects": 4,
+    "files": 1,
+    "policies": 4
+  },
+  "rollbackSqlSha256": "c3b1b147a980aa5aac7ba63e10aaffe58b036dec56a97ae29775de6a56de9913",
+  "error": "Clean local API operation failed; private diagnostic preserved",
+  "finalState": "exited",
+  "completedAt": "2026-10-06T15:44:56.017Z"
+}

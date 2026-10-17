@@ -1,0 +1,13 @@
+{
+  "capturedAt": "2026-09-27T02:38:17.6765094Z",
+  "syntheticCleanUpgrade": "PASS",
+  "roleAndSchemaProbe": "PASS",
+  "restartPersistence": "PASS",
+  "readonlyRoot": "PASS",
+  "legacyClean": "BLOCKED",
+  "applicationUpgrade": "BLOCKED",
+  "jwtApiStorageBrowser": "BLOCKED",
+  "note": "Probe schema is infrastructure evidence only, not the application baseline or Supabase authorization.",
+  "tcpScramPasswordPositiveNegative": "PASS",
+  "isolationConfiguration": "PASS"
+}

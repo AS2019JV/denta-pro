@@ -1,0 +1,28 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "replay",
+  "command": "node scripts/verify-clinia-legacy-retirement.cjs replay phihonofwyerpfgqfekt",
+  "driverSha256": "bd9a97e15ea479c6603bfa3d63ddfb6d5408c7536014758f0661062172a57559",
+  "startedAt": "2026-10-06T21:53:58.013Z",
+  "objects": [
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "requestSha256": "4858751b57a0baa633b76a06731680cffe91d65daa7db0d8288b1dc7f99140d8",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": false
+    }
+  ],
+  "limits": [
+    "Maintenance credential only for six known synthetic objects; not ordinary-user authorization proof",
+    "Newly captured signed URLs supplement missing historical captures; they do not reconstruct those missing requests",
+    "No occupied production data or production historical-capability claim"
+  ],
+  "failure": "Guard, transfer, cutover or replay assertion failed; no provider body/secrets emitted",
+  "completedAt": "2026-10-06T21:53:59.935Z"
+}

@@ -1,0 +1,902 @@
+{
+  "startedAt": "2026-10-02T17:01:28.589Z",
+  "state": "PARTIAL",
+  "database": "clinia_upgrade_linked_20261002_1",
+  "variant": "captured-linked",
+  "checks": [
+    {
+      "name": "Editable Auth metadata grants no membership or clinic authority",
+      "passed": true,
+      "detail": null
+    }
+  ],
+  "requests": [
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/admin/users",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/token",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/admin/users",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/token",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/admin/users",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/token",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/admin/users",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/token",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/admin/users",
+      "status": 200
+    },
+    {
+      "service": "auth",
+      "method": "POST",
+      "path": "/token",
+      "status": 200
+    }
+  ],
+  "actors": [
+    {
+      "label": "owner_A",
+      "userId": "a8a3b633-9b92-4542-8271-a9a20b4eb50d",
+      "authentication": "real password login",
+      "tokenSha256": "4b9e452440feb0d83a186dd38bd3cd03920f178689c25eb0208173aacc95f1ee"
+    },
+    {
+      "label": "doctor_A",
+      "userId": "7087e7bc-ddb8-491e-8137-d1a1e81252ea",
+      "authentication": "real password login",
+      "tokenSha256": "542459a5354e2c3591782d471ecd9ee095cff0a7bcc4bef775223024924f942e"
+    },
+    {
+      "label": "receptionist_A",
+      "userId": "ff9ed126-412b-47c1-9b50-bcf2440fae71",
+      "authentication": "real password login",
+      "tokenSha256": "9f7c3a5472e4bf4fb4455473bae68281a7c7700a74fe460ada878310243e2341"
+    },
+    {
+      "label": "removed_A",
+      "userId": "ec9eef08-537c-4185-8682-2635ce960512",
+      "authentication": "real password login",
+      "tokenSha256": "723bfd846873caed231403bcfabb7de52d806c7017298536367127ea6e619ca1"
+    },
+    {
+      "label": "owner_B",
+      "userId": "4be3184a-d713-41ab-bc67-d2376fe82a27",
+      "authentication": "real password login",
+      "tokenSha256": "4e335d09b884dfd64160ffa7cb99193f12b744418845227e7b24799b9b77ccb5"
+    }
+  ],
+  "limits": [
+    "Scoped secondary fixture, not full clean install or complete remote upgrade",
+    "Direct Auth/PostgREST/Storage HTTP; not gateway/browser acceptance",
+    "Shared local cluster/roles/network; not physical compromise containment",
+    "No email delivery, qualified signature, clinical or legal approval"
+  ],
+  "runtime": [
+    {
+      "name": "/clinia-captured-linked-20261002-1-auth",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "9999/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56351"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-1-rest",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56352"
+          }
+        ]
+      },
+      "mounts": []
+    },
+    {
+      "name": "/clinia-captured-linked-20261002-1-storage",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56353"
+          }
+        ]
+      },
+      "mounts": [
+        {
+          "type": "volume",
+          "name": "clinia-captured-linked-20261002-1-bytes",
+          "target": "/mnt"
+        }
+      ]
+    }
+  ],
+  "managedBefore": {
+    "authMigrations": [
+      {
+        "version": "00"
+      },
+      {
+        "version": "20171026211738"
+      },
+      {
+        "version": "20171026211808"
+      },
+      {
+        "version": "20171026211834"
+      },
+      {
+        "version": "20180103212743"
+      },
+      {
+        "version": "20180108183307"
+      },
+      {
+        "version": "20180119214651"
+      },
+      {
+        "version": "20180125194653"
+      },
+      {
+        "version": "20210710035447"
+      },
+      {
+        "version": "20210722035447"
+      },
+      {
+        "version": "20210730183235"
+      },
+      {
+        "version": "20210909172000"
+      },
+      {
+        "version": "20210927181326"
+      },
+      {
+        "version": "20211122151130"
+      },
+      {
+        "version": "20211124214934"
+      },
+      {
+        "version": "20211202183645"
+      },
+      {
+        "version": "20220114185221"
+      },
+      {
+        "version": "20220114185340"
+      },
+      {
+        "version": "20220224000811"
+      },
+      {
+        "version": "20220323170000"
+      },
+      {
+        "version": "20220429102000"
+      },
+      {
+        "version": "20220531120530"
+      },
+      {
+        "version": "20220614074223"
+      },
+      {
+        "version": "20220811173540"
+      },
+      {
+        "version": "20221003041349"
+      },
+      {
+        "version": "20221003041400"
+      },
+      {
+        "version": "20221011041400"
+      },
+      {
+        "version": "20221020193600"
+      },
+      {
+        "version": "20221021073300"
+      },
+      {
+        "version": "20221021082433"
+      },
+      {
+        "version": "20221027105023"
+      },
+      {
+        "version": "20221114143122"
+      },
+      {
+        "version": "20221114143410"
+      },
+      {
+        "version": "20221125140132"
+      },
+      {
+        "version": "20221208132122"
+      },
+      {
+        "version": "20221215195500"
+      },
+      {
+        "version": "20221215195800"
+      },
+      {
+        "version": "20221215195900"
+      },
+      {
+        "version": "20230116124310"
+      },
+      {
+        "version": "20230116124412"
+      },
+      {
+        "version": "20230131181311"
+      },
+      {
+        "version": "20230322519590"
+      },
+      {
+        "version": "20230402418590"
+      },
+      {
+        "version": "20230411005111"
+      },
+      {
+        "version": "20230508135423"
+      },
+      {
+        "version": "20230523124323"
+      },
+      {
+        "version": "20230818113222"
+      },
+      {
+        "version": "20230914180801"
+      },
+      {
+        "version": "20231027141322"
+      },
+      {
+        "version": "20231114161723"
+      },
+      {
+        "version": "20231117164230"
+      },
+      {
+        "version": "20240115144230"
+      },
+      {
+        "version": "20240214120130"
+      },
+      {
+        "version": "20240306115329"
+      },
+      {
+        "version": "20240314092811"
+      },
+      {
+        "version": "20240427152123"
+      },
+      {
+        "version": "20240612123726"
+      },
+      {
+        "version": "20240729123726"
+      },
+      {
+        "version": "20240802193726"
+      },
+      {
+        "version": "20240806073726"
+      },
+      {
+        "version": "20241009103726"
+      },
+      {
+        "version": "20250717082212"
+      },
+      {
+        "version": "20250731150234"
+      },
+      {
+        "version": "20250804100000"
+      },
+      {
+        "version": "20250901200500"
+      },
+      {
+        "version": "20250903112500"
+      },
+      {
+        "version": "20250904133000"
+      },
+      {
+        "version": "20250925093508"
+      },
+      {
+        "version": "20251007112900"
+      },
+      {
+        "version": "20251104100000"
+      },
+      {
+        "version": "20251111201300"
+      },
+      {
+        "version": "20251201000000"
+      },
+      {
+        "version": "20260115000000"
+      },
+      {
+        "version": "20260121000000"
+      },
+      {
+        "version": "20260219120000"
+      },
+      {
+        "version": "20260302000000"
+      },
+      {
+        "version": "20260625000000"
+      }
+    ],
+    "storageMigrations": [
+      {
+        "id": 0,
+        "hash": "e18db593bcde2aca2a408c4d1100f6abba2195df",
+        "name": "create-migrations-table",
+        "executed_at": "2026-09-27T04:10:56.220411"
+      },
+      {
+        "id": 1,
+        "hash": "6ab16121fbaa08bbd11b712d05f358f9b555d777",
+        "name": "initialmigration",
+        "executed_at": "2026-09-27T04:10:56.364034"
+      },
+      {
+        "id": 2,
+        "hash": "f6a1fa2c93cbcd16d4e487b362e45fca157a8dbd",
+        "name": "storage-schema",
+        "executed_at": "2026-09-27T04:10:56.375196"
+      },
+      {
+        "id": 3,
+        "hash": "2cb1b0004b817b29d5b0a971af16bafeede4b70d",
+        "name": "pathtoken-column",
+        "executed_at": "2026-09-27T04:10:56.47076"
+      },
+      {
+        "id": 4,
+        "hash": "427c5b63fe1c5937495d9c635c263ee7a5905058",
+        "name": "add-migrations-rls",
+        "executed_at": "2026-09-27T04:10:56.527572"
+      },
+      {
+        "id": 5,
+        "hash": "79e081a1455b63666c1294a440f8ad4b1e6a7f84",
+        "name": "add-size-functions",
+        "executed_at": "2026-09-27T04:10:56.532717"
+      },
+      {
+        "id": 6,
+        "hash": "ded78e2f1b5d7e616117897e6443a925965b30d2",
+        "name": "change-column-name-in-get-size",
+        "executed_at": "2026-09-27T04:10:56.544652"
+      },
+      {
+        "id": 7,
+        "hash": "e7e7f86adbc51049f341dfe8d30256c1abca17aa",
+        "name": "add-rls-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.550734"
+      },
+      {
+        "id": 8,
+        "hash": "fd670db39ed65f9d08b01db09d6202503ca2bab3",
+        "name": "add-public-to-buckets",
+        "executed_at": "2026-09-27T04:10:56.5553"
+      },
+      {
+        "id": 9,
+        "hash": "af597a1b590c70519b464a4ab3be54490712796b",
+        "name": "fix-search-function",
+        "executed_at": "2026-09-27T04:10:56.561529"
+      },
+      {
+        "id": 10,
+        "hash": "b595f05e92f7e91211af1bbfe9c6a13bb3391e16",
+        "name": "search-files-search-function",
+        "executed_at": "2026-09-27T04:10:56.567959"
+      },
+      {
+        "id": 11,
+        "hash": "7425bdb14366d1739fa8a18c83100636d74dcaa2",
+        "name": "add-trigger-to-auto-update-updated_at-column",
+        "executed_at": "2026-09-27T04:10:56.575183"
+      },
+      {
+        "id": 12,
+        "hash": "8e92e1266eb29518b6a4c5313ab8f29dd0d08df9",
+        "name": "add-automatic-avif-detection-flag",
+        "executed_at": "2026-09-27T04:10:56.585714"
+      },
+      {
+        "id": 13,
+        "hash": "cce962054138135cd9a8c4bcd531598684b25e7d",
+        "name": "add-bucket-custom-limits",
+        "executed_at": "2026-09-27T04:10:56.59158"
+      },
+      {
+        "id": 14,
+        "hash": "941c41b346f9802b411f06f30e972ad4744dad27",
+        "name": "use-bytes-for-max-size",
+        "executed_at": "2026-09-27T04:10:56.600479"
+      },
+      {
+        "id": 15,
+        "hash": "934146bc38ead475f4ef4b555c524ee5d66799e5",
+        "name": "add-can-insert-object-function",
+        "executed_at": "2026-09-27T04:10:56.670605"
+      },
+      {
+        "id": 16,
+        "hash": "76debf38d3fd07dcfc747ca49096457d95b1221b",
+        "name": "add-version",
+        "executed_at": "2026-09-27T04:10:56.675698"
+      },
+      {
+        "id": 17,
+        "hash": "f1cbb288f1b7a4c1eb8c38504b80ae2a0153d101",
+        "name": "drop-owner-foreign-key",
+        "executed_at": "2026-09-27T04:10:56.682989"
+      },
+      {
+        "id": 18,
+        "hash": "e7a511b379110b08e2f214be852c35414749fe66",
+        "name": "add_owner_id_column_deprecate_owner",
+        "executed_at": "2026-09-27T04:10:56.688764"
+      },
+      {
+        "id": 19,
+        "hash": "02e5e22a78626187e00d173dc45f58fa66a4f043",
+        "name": "alter-default-value-objects-id",
+        "executed_at": "2026-09-27T04:10:56.698491"
+      },
+      {
+        "id": 20,
+        "hash": "cd694ae708e51ba82bf012bba00caf4f3b6393b7",
+        "name": "list-objects-with-delimiter",
+        "executed_at": "2026-09-27T04:10:56.703517"
+      },
+      {
+        "id": 21,
+        "hash": "8c804d4a566c40cd1e4cc5b3725a664a9303657f",
+        "name": "s3-multipart-uploads",
+        "executed_at": "2026-09-27T04:10:56.710366"
+      },
+      {
+        "id": 22,
+        "hash": "9737dc258d2397953c9953d9b86920b8be0cdb73",
+        "name": "s3-multipart-uploads-big-ints",
+        "executed_at": "2026-09-27T04:10:56.758182"
+      },
+      {
+        "id": 23,
+        "hash": "9d7e604cddc4b56a5422dc68c9313f4a1b6f132c",
+        "name": "optimize-search-function",
+        "executed_at": "2026-09-27T04:10:56.791074"
+      },
+      {
+        "id": 24,
+        "hash": "8312e37c2bf9e76bbe841aa5fda889206d2bf8aa",
+        "name": "operation-function",
+        "executed_at": "2026-09-27T04:10:56.797875"
+      },
+      {
+        "id": 25,
+        "hash": "d974c6057c3db1c1f847afa0e291e6165693b990",
+        "name": "custom-metadata",
+        "executed_at": "2026-09-27T04:10:56.806877"
+      },
+      {
+        "id": 26,
+        "hash": "215cabcb7f78121892a5a2037a09fedf9a1ae322",
+        "name": "objects-prefixes",
+        "executed_at": "2026-09-27T04:10:56.813084"
+      },
+      {
+        "id": 27,
+        "hash": "859ba38092ac96eb3964d83bf53ccc0b141663a6",
+        "name": "search-v2",
+        "executed_at": "2026-09-27T04:10:56.821769"
+      },
+      {
+        "id": 28,
+        "hash": "c73a2b5b5d4041e39705814fd3a1b95502d38ce4",
+        "name": "object-bucket-name-sorting",
+        "executed_at": "2026-09-27T04:10:56.825867"
+      },
+      {
+        "id": 29,
+        "hash": "ad2c1207f76703d11a9f9007f821620017a66c21",
+        "name": "create-prefixes",
+        "executed_at": "2026-09-27T04:10:56.829639"
+      },
+      {
+        "id": 30,
+        "hash": "2be814ff05c8252fdfdc7cfb4b7f5c7e17f0bed6",
+        "name": "update-object-levels",
+        "executed_at": "2026-09-27T04:10:56.83624"
+      },
+      {
+        "id": 31,
+        "hash": "b40367c14c3440ec75f19bbce2d71e914ddd3da0",
+        "name": "objects-level-index",
+        "executed_at": "2026-09-27T04:10:56.840298"
+      },
+      {
+        "id": 32,
+        "hash": "e0c37182b0f7aee3efd823298fb3c76f1042c0f7",
+        "name": "backward-compatible-index-on-objects",
+        "executed_at": "2026-09-27T04:10:56.844469"
+      },
+      {
+        "id": 33,
+        "hash": "b480e99ed951e0900f033ec4eb34b5bdcb4e3d49",
+        "name": "backward-compatible-index-on-prefixes",
+        "executed_at": "2026-09-27T04:10:56.847947"
+      },
+      {
+        "id": 34,
+        "hash": "ca80a3dc7bfef894df17108785ce29a7fc8ee456",
+        "name": "optimize-search-function-v1",
+        "executed_at": "2026-09-27T04:10:56.853524"
+      },
+      {
+        "id": 35,
+        "hash": "458fe0ffd07ec53f5e3ce9df51bfdf4861929ccc",
+        "name": "add-insert-trigger-prefixes",
+        "executed_at": "2026-09-27T04:10:56.857062"
+      },
+      {
+        "id": 36,
+        "hash": "6ae5fca6af5c55abe95369cd4f93985d1814ca8f",
+        "name": "optimise-existing-functions",
+        "executed_at": "2026-09-27T04:10:56.860075"
+      },
+      {
+        "id": 37,
+        "hash": "3944135b4e3e8b22d6d4cbb568fe3b0b51df15c1",
+        "name": "add-bucket-name-length-trigger",
+        "executed_at": "2026-09-27T04:10:56.863275"
+      },
+      {
+        "id": 38,
+        "hash": "02716b81ceec9705aed84aa1501657095b32e5c5",
+        "name": "iceberg-catalog-flag-on-buckets",
+        "executed_at": "2026-09-27T04:10:56.870807"
+      },
+      {
+        "id": 39,
+        "hash": "6706c5f2928846abee18461279799ad12b279b78",
+        "name": "add-search-v2-sort-support",
+        "executed_at": "2026-09-27T04:10:56.942067"
+      },
+      {
+        "id": 40,
+        "hash": "7ad69982ae2d372b21f48fc4829ae9752c518f6b",
+        "name": "fix-prefix-race-conditions-optimized",
+        "executed_at": "2026-09-27T04:10:56.94791"
+      },
+      {
+        "id": 41,
+        "hash": "07fcf1a22165849b7a029deed059ffcde08d1ae0",
+        "name": "add-object-level-update-trigger",
+        "executed_at": "2026-09-27T04:10:56.952797"
+      },
+      {
+        "id": 42,
+        "hash": "771479077764adc09e2ea2043eb627503c034cd4",
+        "name": "rollback-prefix-triggers",
+        "executed_at": "2026-09-27T04:10:56.959291"
+      },
+      {
+        "id": 43,
+        "hash": "84b35d6caca9d937478ad8a797491f38b8c2979f",
+        "name": "fix-object-level",
+        "executed_at": "2026-09-27T04:10:56.975174"
+      },
+      {
+        "id": 44,
+        "hash": "99c20c0ffd52bb1ff1f32fb992f3b351e3ef8fb3",
+        "name": "vector-bucket-type",
+        "executed_at": "2026-09-27T04:10:56.980568"
+      },
+      {
+        "id": 45,
+        "hash": "049e27196d77a7cb76497a85afae669d8b230953",
+        "name": "vector-buckets",
+        "executed_at": "2026-09-27T04:10:56.991168"
+      },
+      {
+        "id": 46,
+        "hash": "fedeb96d60fefd8e02ab3ded9fbde05632f84aed",
+        "name": "buckets-objects-grants",
+        "executed_at": "2026-09-27T04:10:57.097775"
+      },
+      {
+        "id": 47,
+        "hash": "649df56855c24d8b36dd4cc1aeb8251aa9ad42c2",
+        "name": "iceberg-table-metadata",
+        "executed_at": "2026-09-27T04:10:57.118624"
+      },
+      {
+        "id": 48,
+        "hash": "e0e8b460c609b9999ccd0df9ad14294613eed939",
+        "name": "iceberg-catalog-ids",
+        "executed_at": "2026-09-27T04:10:57.130089"
+      },
+      {
+        "id": 49,
+        "hash": "072b1195d0d5a2f888af6b2302a1938dd94b8b3d",
+        "name": "buckets-objects-grants-postgres",
+        "executed_at": "2026-09-27T04:10:57.24876"
+      },
+      {
+        "id": 50,
+        "hash": "6323ac4f850aa14e7387eb32102869578b5bd478",
+        "name": "search-v2-optimised",
+        "executed_at": "2026-09-27T04:10:57.259491"
+      },
+      {
+        "id": 51,
+        "hash": "2ee395d433f76e38bcd3856debaf6e0e5b674011",
+        "name": "index-backward-compatible-search",
+        "executed_at": "2026-09-27T04:10:57.310609"
+      },
+      {
+        "id": 52,
+        "hash": "5cc44c8696749ac11dd0dc37f2a3802075f3a171",
+        "name": "drop-not-used-indexes-and-functions",
+        "executed_at": "2026-09-27T04:10:57.313951"
+      },
+      {
+        "id": 53,
+        "hash": "d0cb18777d9e2a98ebe0bc5cc7a42e57ebe41854",
+        "name": "drop-index-lower-name",
+        "executed_at": "2026-09-27T04:10:57.400179"
+      },
+      {
+        "id": 54,
+        "hash": "6289e048b1472da17c31a7eba1ded625a6457e67",
+        "name": "drop-index-object-level",
+        "executed_at": "2026-09-27T04:10:57.406865"
+      },
+      {
+        "id": 55,
+        "hash": "262a4798d5e0f2e7c8970232e03ce8be695d5819",
+        "name": "prevent-direct-deletes",
+        "executed_at": "2026-09-27T04:10:57.410041"
+      },
+      {
+        "id": 56,
+        "hash": "b823ed1e418101032fa01374edc9a436e54e3ed4",
+        "name": "fix-optimized-search-function",
+        "executed_at": "2026-09-27T04:10:57.433317"
+      },
+      {
+        "id": 57,
+        "hash": "f127886e00d1b374fadbc7c6b31e09336aad5287",
+        "name": "s3-multipart-uploads-metadata",
+        "executed_at": "2026-09-27T04:10:57.481929"
+      },
+      {
+        "id": 58,
+        "hash": "00ca5d483b3fe0d522133d9002ccc5df98365120",
+        "name": "operation-ergonomics",
+        "executed_at": "2026-09-27T04:10:57.494793"
+      },
+      {
+        "id": 59,
+        "hash": "38456f13e39691c2bbb4b5151d0d1cdbabd4a8c4",
+        "name": "drop-unused-functions",
+        "executed_at": "2026-09-27T04:10:57.518021"
+      },
+      {
+        "id": 60,
+        "hash": "db35e1c91a9201e59f4fef8d972c2f277d68b157",
+        "name": "optimize-existing-functions-again",
+        "executed_at": "2026-09-27T04:10:57.531034"
+      },
+      {
+        "id": 61,
+        "hash": "fe0096517ae9d60aaec1d110172ba9036dc66bb7",
+        "name": "mark-filename-immutable",
+        "executed_at": "2026-09-27T04:10:57.540049"
+      },
+      {
+        "id": 62,
+        "hash": "0b855f00ff3be0bfca91efee02a9858912491a9a",
+        "name": "object-versioning-core",
+        "executed_at": "2026-09-27T04:10:57.546707"
+      },
+      {
+        "id": 63,
+        "hash": "c7485e417624f795ce8bb2da21927f48e088904d",
+        "name": "fix-search-name-relative-to-prefix",
+        "executed_at": "2026-09-27T04:10:57.76936"
+      },
+      {
+        "id": 64,
+        "hash": "0af424ecd388a39bb1645184b222185a12149675",
+        "name": "fix-search-by-timestamp-sqli",
+        "executed_at": "2026-09-27T04:10:57.786303"
+      },
+      {
+        "id": 65,
+        "hash": "e63aa8274a637c696cfdac70eeb0988245fe87bd",
+        "name": "objects-key-version-index",
+        "executed_at": "2026-09-27T04:10:58.164174"
+      },
+      {
+        "id": 66,
+        "hash": "ef7a33ec298fefe19351e9ff542b52b7511c3f02",
+        "name": "objects-current-version-index",
+        "executed_at": "2026-09-27T04:10:58.227267"
+      },
+      {
+        "id": 67,
+        "hash": "351b645504ec2ad54c5ef2b42989db04b617579f",
+        "name": "objects-null-version-index",
+        "executed_at": "2026-09-27T04:10:58.259423"
+      }
+    ],
+    "authUsers": 0,
+    "storageObjects": 0
+  },
+  "fixtureIds": {
+    "clinicA": "ee76fe70-6009-412f-b117-24ee9e3f4055",
+    "clinicB": "59faf828-f97d-4700-bb2d-da0b5da2f020",
+    "patientA": "e5702cdc-7e58-4509-8ea9-06c9e8561584",
+    "patientB": "756429af-8323-4fde-918d-15a8c49c23e9"
+  },
+  "historicalBefore": [],
+  "error": "Local Docker operation failed; private diagnostic preserved",
+  "stop": {
+    "state": "STOPPED_VOLUMES_PRESERVED",
+    "database": "clinia_upgrade_linked_20261002_1"
+  },
+  "primaryAfter": [
+    {
+      "name": "/supabase_db_clinia-acceptance",
+      "imageId": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5432/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56322"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_kong_clinia-acceptance",
+      "imageId": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8000/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56321"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_auth_clinia-acceptance",
+      "imageId": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_inbucket_clinia-acceptance",
+      "imageId": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "8025/tcp": [
+          {
+            "HostIp": "127.0.0.1",
+            "HostPort": "56324"
+          }
+        ]
+      }
+    },
+    {
+      "name": "/supabase_realtime_clinia-acceptance",
+      "imageId": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+      "state": "running",
+      "health": "healthy",
+      "ports": {}
+    },
+    {
+      "name": "/supabase_rest_clinia-acceptance",
+      "imageId": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "state": "running",
+      "health": null,
+      "ports": {
+        "3000/tcp": null
+      }
+    },
+    {
+      "name": "/supabase_storage_clinia-acceptance",
+      "imageId": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120",
+      "state": "running",
+      "health": "healthy",
+      "ports": {
+        "5000/tcp": null
+      }
+    }
+  ],
+  "completedAt": "2026-10-02T17:01:38.028Z"
+}

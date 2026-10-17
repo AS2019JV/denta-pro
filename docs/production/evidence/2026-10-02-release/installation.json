@@ -1,0 +1,8 @@
+{
+  "startedAt": "2026-10-02T17:44:18.0986608Z",
+  "environment": "isolated source snapshot candidate-20261002-final",
+  "command": "npm ci --ignore-scripts --no-audit --no-fund",
+  "finishedAt": "2026-10-02T17:44:32.1683765Z",
+  "log": "installation.log",
+  "exitCode": -4048
+}

@@ -1,0 +1,171 @@
+{
+  "state": "PARTIAL_FAILED_TARGET_PRESERVED",
+  "sourceProject": "clinia-clean-20261002-1",
+  "targetProject": "clinia-recovery-20261002-1",
+  "ports": {
+    "api": 56511,
+    "db": 56512,
+    "mail": 56514
+  },
+  "steps": [
+    {
+      "name": "source-positive-controls-and-byte-capture",
+      "state": "COMPLETED",
+      "startedAt": "2026-10-02T23:33:05.154Z",
+      "completedAt": "2026-10-02T23:33:24.229Z"
+    },
+    {
+      "name": "full-quiescent-database-and-storage-backup",
+      "state": "COMPLETED",
+      "startedAt": "2026-10-02T23:37:42.302Z",
+      "completedAt": "2026-10-02T23:37:44.599Z"
+    },
+    {
+      "name": "one-new-target-configuration",
+      "state": "COMPLETED",
+      "startedAt": "2026-10-02T23:37:44.599Z",
+      "completedAt": "2026-10-02T23:37:45.096Z"
+    },
+    {
+      "name": "restore-full-database-into-new-empty-target",
+      "state": "STARTED",
+      "startedAt": "2026-10-02T23:43:32.350Z"
+    }
+  ],
+  "checks": [],
+  "requests": [
+    {
+      "side": "source",
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "3d7f9edb44f65cc8084084c50480239fab7c8ae6ed1c820c7dfa6a0c1dee75c5"
+    },
+    {
+      "side": "source",
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "c4154ac1e1d1da3fffad389f091c13deeda7d713f24d2b8c8f046b48f095c2f3"
+    },
+    {
+      "side": "source",
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "responseSha256": "53f00ae600c8d3ee033447fe1b776629feadfd43bc61e9f9f781395bb54d258d"
+    },
+    {
+      "side": "source",
+      "method": "POST",
+      "pathSha256": "5e352743a87a81f69668c9aa7af574e164b35b41792ef4361529e5025a63df54",
+      "status": 200,
+      "responseSha256": "bc78e990cd31601223208b703702a3b9fcb939f2a344beacc08f28a00c718d37"
+    },
+    {
+      "side": "source",
+      "method": "GET",
+      "pathSha256": "7eccb329a26d37217da9f11de899252b6a63c37d1e9c3a75a6705723ed619533",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "side": "source",
+      "method": "GET",
+      "pathSha256": "93d7145103f6d577a293ba69a64841842f55fc1dbadbfe075e7bc14197ee64b8",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "side": "source",
+      "method": "GET",
+      "pathSha256": "8637528b7e74523f25b9c047ad8bd4c848ede58cfd011d7b577e21c964e90e36",
+      "status": 200,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "side": "source",
+      "method": "GET",
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 200,
+      "responseSha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    }
+  ],
+  "limits": [
+    "Synthetic local logical recovery; not production RTO/RPO or provider SLA",
+    "Same pinned local image family; not cross-version or geographically independent recovery",
+    "Realtime was not active in source and is not exercised; no external email, browser, clinical or legal certification"
+  ],
+  "resources": {
+    "availableMemoryBytes": 2844803072,
+    "availableDiskBytes": 1019520372736
+  },
+  "sourceComposeSha256": "309083b6fa49d63a9b66e2d48b95707963a60afca702ac65d144648c98d1ca1c",
+  "imageIds": {
+    "db": "sha256:6942962433a569e87f228b4d4ab7e11db5deca64e43babb3a038443ad6c4f1bb",
+    "kong": "sha256:1b53405d8680a09d6f44494b7990bf7da2ea43f84a258c59717d4539abf09f6d",
+    "auth": "sha256:c0c25187a6b835e65a6f6e6c6b39d090e832d40e6de5186f2c038e0411944232",
+    "inbucket": "sha256:37a38e48e9338cd7e89dfeb487f37b02ebfcd9cb23111bed2d345e79d37d6dd6",
+    "realtime": "sha256:002193c9ff840a4946918641901bb6aa9e2036dc9ff7590e2b11e91d1e06bf86",
+    "rest": "sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+    "storage": "sha256:105a2584129c9600aebed6f5ac49ca4371c92b996ecd1af7179750333e9e2120"
+  },
+  "preCreationFailure": {
+    "file": "pretarget-backup-failure-1.json",
+    "sha256": "e7780f591dc16d328036153e25f5d968f3986da079964254b6413a0aad876269"
+  },
+  "storageObjects": [
+    {
+      "bucket": "clinic-branding",
+      "pathSha256": "acdc6cb6ae875de66cb892ac6059197a9518bf47db49503e363270caf8e2d21d",
+      "bytes": 68,
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "bucket": "doctor-avatars",
+      "pathSha256": "5ccaee7db620aaf7edf42ed6d727ffe6383f53ccdf234abb67f9c179617f2e4c",
+      "bytes": 68,
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "bucket": "patient-avatars",
+      "pathSha256": "485b7f4f8a968be61b4e8f01abd9f4bafe0eff8d31e454a2a3969490057c4747",
+      "bytes": 68,
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "bucket": "patient-files",
+      "pathSha256": "ad9a8f2ee0436b510cc68014152d2503f977185a66118ce0cbcc39c01ed02fe6",
+      "bytes": 51,
+      "sha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    }
+  ],
+  "quiescedAt": "2026-10-02T23:37:42.301Z",
+  "startedAt": "2026-10-02T23:43:32.131Z",
+  "globalSettingsSha256": "5a6cd8c4030908a0a5fc347aeb139309c0743bd368854bce2e27660a4d32ff4d",
+  "backup": {
+    "databaseSha256": "5cb01e8a8055349e8b6e4c0f8cc23be4a314dac8ce39d8ccad4807ec13596f9f",
+    "databaseBytes": 578273,
+    "storageTarSha256": "66dfeb10b16c639d82e77e85045ec0c53897b6b2c59f3ac992a7be057d9970ef",
+    "storageTarBytes": 13824,
+    "tableSnapshotSha256": "9e73ae824ac7a6c00fbbad3c437eb664c043562fa0ba78c72fefff35d1285e4f",
+    "tables": 64,
+    "rows": 268,
+    "capturedAt": "2026-10-02T23:37:44.599Z"
+  },
+  "targetComposeSha256": "e859579f8a14f0da29c555892930d8c5e693800765904289a3a191a6916cb294",
+  "configuration": {
+    "signingMaterialSha256": "36c7d2086102dbe0b7cc2a18a6c31d6c4ba1f7b3a8c06c3c1fac2d21866e41f5",
+    "sourceCredentialSha256": "1de2fe1e27b3f19f2e8cf96133e098b8a5b54bae76ce5db80d24678c29b6fbb2",
+    "logicalStorageTenantRetained": true
+  },
+  "incidentAt": "2026-10-02T23:37:45.097Z",
+  "recoveryStartedAt": "2026-10-02T23:37:45.097Z",
+  "error": "Local recovery operation failed; target and private diagnostics preserved",
+  "targetStop": "STOPPED_VOLUMES_PRESERVED",
+  "completedAt": "2026-10-02T23:43:47.072Z",
+  "resumeFailure": {
+    "file": "target-reserved-role-failure-1.json",
+    "sha256": "7cde356ed66e2d4c0ed7a89ad5d62530a8383cb0caa74a580e8fd0cd28747dcb"
+  }
+}

@@ -1,0 +1,534 @@
+{
+  "state": "RESTORED_BASELINE_PLUS_REQUEST_ID_AND_PINNED_AGENDA_OVERLAYS_VERIFIED",
+  "project": "clinia-recovery-20261002-1",
+  "database": "clinia_recovery",
+  "startedAt": "2026-10-03T22:38:02.972Z",
+  "migration": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+  "migrationSha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+  "driverSha256": "3ade0191567513a0441aaede113743b08fe5addfd81bab46cbd8d43f948b1d88",
+  "sourceProofSha256": "76b1ff4f2ae9f4c719c42e38b3f1d906608bbc6dee05bdb7006b34c49328c6d5",
+  "immutableEvidenceSha256": [
+    "b0cbf6dbf7a0f2dda5ad3e15d8ffe9ef71beac133ee7006c77bae369f4ec6b3c",
+    "279c61d0584cef6fec59f7286a790e4423f380a900912a8d799ca28c8daea44a",
+    "4b2b4f256f229bf297e0bee3a6d1b3282304e1dc735d95035489f0e0515bff9e"
+  ],
+  "checks": [
+    {
+      "name": "Pinned agenda overlay preserves prior application/Storage rows, configuration and trusted service ACL",
+      "passed": true,
+      "detail": {
+        "tables": 38,
+        "serviceAclPreserved": true
+      }
+    },
+    {
+      "name": "Ordinary restored RPC race 1 has one save and sanitized 23P01",
+      "passed": true,
+      "detail": {
+        "saved": 1,
+        "denied": "23P01",
+        "id": "4a4296c6-2370-4189-8c21-bff66b1c37e5"
+      }
+    },
+    {
+      "name": "Ordinary restored RPC race 2 has one save and sanitized 23P01",
+      "passed": true,
+      "detail": {
+        "saved": 1,
+        "denied": "23P01",
+        "id": "307611b6-5d0c-4d35-b24f-696124104881"
+      }
+    },
+    {
+      "name": "Foreign clinic and direct ordinary INSERT/UPDATE cannot bypass the RPC",
+      "passed": true,
+      "detail": {
+        "directDenials": 4,
+        "foreignDenied": true
+      }
+    },
+    {
+      "name": "Real restored Auth local logout denies the unchanged ordinary JWT",
+      "passed": true,
+      "detail": {
+        "logout": 204,
+        "denied": "42501"
+      }
+    },
+    {
+      "name": "Preexisting appointments, other tables, all Storage bytes/config and immutable old evidence remain intact",
+      "passed": true,
+      "detail": {
+        "preexistingRowsPreserved": true,
+        "storageObjects": 4,
+        "newAppointments": 2,
+        "newDeadlocks": 0,
+        "containerIdsPreserved": true
+      }
+    }
+  ],
+  "requests": [
+    {
+      "method": "GET",
+      "pathSha256": "7eccb329a26d37217da9f11de899252b6a63c37d1e9c3a75a6705723ed619533",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "93d7145103f6d577a293ba69a64841842f55fc1dbadbfe075e7bc14197ee64b8",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "8637528b7e74523f25b9c047ad8bd4c848ede58cfd011d7b577e21c964e90e36",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 200,
+      "code": null,
+      "responseSha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "code": null,
+      "responseSha256": "fda74015eb66acaacb62e970844f4831123d606a92fde6c09348029ad12017be"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "code": null,
+      "responseSha256": "a83f45374aeed6e3036a77927b1b0a95595a68069270cf689df45b23dc0bed34"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "code": null,
+      "responseSha256": "172e97764893db76eb64b9c2fde5c6ba1837d69265446bed9d53361b99e2f9dc"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "a0e2656467885887ffaebfbc9885cdc7f9c989682ecd8df7999e9cd63e307429",
+      "status": 200,
+      "code": null,
+      "responseSha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d049e395e338c1bef635ab0521bc0ac5519f6302852809ac10aeff5725b00fb9"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 400,
+      "code": "23P01",
+      "responseSha256": "d3918592dedfc82039ac06e82d3a022d9c475cb7c3ee0c3e112d86d0fbb47284"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 200,
+      "code": null,
+      "responseSha256": "ef11a9f7f0df50e1c5c6c8694ba75dfa708f90ad89e50f2a767a11383ea902b1"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 400,
+      "code": "23P01",
+      "responseSha256": "d3918592dedfc82039ac06e82d3a022d9c475cb7c3ee0c3e112d86d0fbb47284"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "36adb765fef469e4e9d322017e9509c074dbd1369056e082cf45d3c5fe6e1460",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "a6f2817a29c548142eaa889acb8fc21c5f964e138b53f80bd52582e85008c85b"
+    },
+    {
+      "method": "PATCH",
+      "pathSha256": "36adb765fef469e4e9d322017e9509c074dbd1369056e082cf45d3c5fe6e1460",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "8dc86fb0e73ac45f7b6ec781fd42f4afbd891d924e49deb0d0d48af83d6e45af"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "36adb765fef469e4e9d322017e9509c074dbd1369056e082cf45d3c5fe6e1460",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "a6f2817a29c548142eaa889acb8fc21c5f964e138b53f80bd52582e85008c85b"
+    },
+    {
+      "method": "PATCH",
+      "pathSha256": "36adb765fef469e4e9d322017e9509c074dbd1369056e082cf45d3c5fe6e1460",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "8dc86fb0e73ac45f7b6ec781fd42f4afbd891d924e49deb0d0d48af83d6e45af"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "fb42fdc56c3979ae21196a1840bd26aaa8f512614bc193b5a0031eb1ef18afd1",
+      "status": 200,
+      "code": null,
+      "responseSha256": "bcde0db51551463a87c292f88b621c8eee0336d7029322e3c492de14270310ae"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "9aab59e99abcf9339039e59d675120964a6da520ef09a1d99e1973b1cb01bf4f",
+      "status": 204,
+      "code": null,
+      "responseSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "0237adf3e69c52a90e5f0bb7864fd591f4b2d09d4faaaa025be2be538a73cf8e",
+      "status": 403,
+      "code": "42501",
+      "responseSha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574"
+    },
+    {
+      "method": "POST",
+      "pathSha256": "7054a424de18b144f9a9ad04703acf5df91125384fbde6046c3fc2e0727934cf",
+      "status": 200,
+      "code": null,
+      "responseSha256": "fcbcf165908dd18a9e49f7ff27810176db8e9f63b4352213741664245224f8aa"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "7eccb329a26d37217da9f11de899252b6a63c37d1e9c3a75a6705723ed619533",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "93d7145103f6d577a293ba69a64841842f55fc1dbadbfe075e7bc14197ee64b8",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "8637528b7e74523f25b9c047ad8bd4c848ede58cfd011d7b577e21c964e90e36",
+      "status": 200,
+      "code": null,
+      "responseSha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06"
+    },
+    {
+      "method": "GET",
+      "pathSha256": "2b306d5cb005bd6dd303443133651f8bba56d79656745ecba0586b18477ca7cc",
+      "status": 200,
+      "code": null,
+      "responseSha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9"
+    }
+  ],
+  "createdIds": [
+    "4a4296c6-2370-4189-8c21-bff66b1c37e5",
+    "307611b6-5d0c-4d35-b24f-696124104881"
+  ],
+  "limits": [
+    "One existing restored target, no source writes/replay/new containers or volumes",
+    "Real Auth activity changes managed users/sessions; no Auth row preservation claim",
+    "Two restored ordinary RPC races; no production RTO/RPO or SLA claim"
+  ],
+  "containerIds": [
+    "74488a19201c02f016943244fc060f67fb1c95d6772cc4690296c48c05b48dda",
+    "9331f19ea35b62983ef96c80b9701a70001ba9119bb3eb7ec77047c6a5c6cd3f",
+    "4f0072619c64498fa802059465f254e9ce6197403bd8777109aa8125a6ad1858",
+    "8f61474cb5e955ce72bb47ac0b8faed42c6e80e7935061ca6b72370cf2535998",
+    "970ce54d76730729c126cc38dc14fd65c3cb1d0ac6f6bc56096442e154c3f739",
+    "f751d0278ad35ed1dc54efd26b8c44cdbccfce53b8122c9070ea3681e311c347"
+  ],
+  "beforeRows": [
+    {
+      "sha256": "bf4a42345b7dc6952f7e777f1afc8231dfb9dbd32c0bad79edbac745ffd7d07d",
+      "row_count": 4,
+      "table_name": "access_audit",
+      "schema_name": "logs"
+    },
+    {
+      "sha256": "23653d7cd4898d0099902486b37875fc4b5f86877541087922a1936c373544eb",
+      "row_count": 6,
+      "table_name": "appointments",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "automation_settings",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "billings",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "clinic_invitations",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "14b9bd50fb06340f9497faf6dcc67ad0dabff43caee118cf770adf07f0c0603f",
+      "row_count": 5,
+      "table_name": "clinic_members",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "clinical_records",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "bb61ae0981d522429a9f8c0959e4af6a1d104aa7b5965d25ac3f989e0cfd9d7b",
+      "row_count": 2,
+      "table_name": "clinics",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "data_rights_requests",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "hcu033_forms",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "invoices",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "messages",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "notifications",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "7aaa07555a5a9ad23f6a99ed3cb50a9726b6eb8635f1807ccbdd14514ab33424",
+      "row_count": 1,
+      "table_name": "patient_files",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "patient_notes",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "3400963a0bb87ca30126bf4e1a24a970af5ad8e413d46c4feefb795e1564bc80",
+      "row_count": 3,
+      "table_name": "patients",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "payment_methods",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "payments",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "prescription_templates",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "69b14cbbe4a2710fd3e9152ae5d4fc9cbe2d1abc53a71221c7f5ea03eb8c9990",
+      "row_count": 3,
+      "table_name": "prescriptions",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "b07cb91fe84a14816f11423e99480aa4fddaa71c003d2310739c3acd583b14e0",
+      "row_count": 9,
+      "table_name": "profile_audit_log",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "808ab5a5dae2063832a61c669d9ad9ee61fac76c9f8d1d2c41523a0f802fac92",
+      "row_count": 5,
+      "table_name": "profiles",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "service_categories",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "services",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "treatments",
+      "schema_name": "public"
+    },
+    {
+      "sha256": "1f837d2d0f5c4623edbef3e696e3474293d10d4e778e608caf83a2dded0e7bf2",
+      "row_count": 11,
+      "table_name": "appointment_events",
+      "schema_name": "security_internal"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "clinic_registration_intents",
+      "schema_name": "security_internal"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "email_abuse_budgets",
+      "schema_name": "security_internal"
+    },
+    {
+      "sha256": "abf2f5a23f4a66e80d4457debf02ba68110d2253ff3207d315b1cf445e3fb374",
+      "row_count": 4,
+      "table_name": "buckets",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "buckets_analytics",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "buckets_vectors",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "iceberg_namespaces",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "iceberg_tables",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "4abfaefbbf9ed03cc2257460ac12158f1e694bf94a0d8e01c5abe4484fda9e32",
+      "row_count": 68,
+      "table_name": "migrations",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "5d7ac9d15441345dbbc521f992f6919038213cea416145289d13fb24eb506646",
+      "row_count": 4,
+      "table_name": "objects",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "s3_multipart_uploads",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "s3_multipart_uploads_parts",
+      "schema_name": "storage"
+    },
+    {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "row_count": 0,
+      "table_name": "vector_indexes",
+      "schema_name": "storage"
+    }
+  ],
+  "configurationSha256": "13ca7221cbad23606846bca4bc21d99de1d328ec696d2eac65ae8236b3847539",
+  "storageBytesBefore": [
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9",
+      "bytes": 51
+    }
+  ],
+  "migrationApplied": true,
+  "storageBytesAfter": [
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "d8e791f9cab8d87b566e7f49acea5149afb7f692dc79621a8555b0e954de3d06",
+      "bytes": 68
+    },
+    {
+      "sha256": "7c6b524246833728e6836b76fb9eb2de113db64634003ca44e18f894945f69d9",
+      "bytes": 51
+    }
+  ],
+  "targetStop": "STOPPED_VOLUMES_PRESERVED",
+  "completedAt": "2026-10-03T22:38:45.843Z"
+}

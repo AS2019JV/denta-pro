@@ -1,0 +1,84 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "project": "phihonofwyerpfgqfekt",
+  "phase": "replay",
+  "command": "node scripts/verify-clinia-legacy-retirement.cjs replay phihonofwyerpfgqfekt",
+  "driverSha256": "ca790fbdce2efbd57662d3d75512e9a46f746a3b5e517d4b73ffa892d62cfdf2",
+  "startedAt": "2026-10-06T21:56:43.076Z",
+  "objects": [
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-2.pdf",
+      "requestSha256": "4858751b57a0baa633b76a06731680cffe91d65daa7db0d8288b1dc7f99140d8",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    },
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "requestSha256": "52362648f8bd1eb3a62fd56ce8529f66bce0e55f79e6229946a5a73ee23a6210",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    },
+    {
+      "bucket": "patient-files",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/nostore-e3e326f1-f046-4703-b3eb-0cad025f159e.pdf",
+      "requestSha256": "8bfe579776fbf6c3476c15604d8d1b4555cdc1d11081d02d32e58fcdf46da8e3",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    },
+    {
+      "bucket": "clinic-branding",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/hosted-1-run-3.png",
+      "requestSha256": "00f4670ab5577177d78e8eb90fd6a695f1ad36e300a84d7920b21a9586ec2bfa",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    },
+    {
+      "bucket": "doctor-avatars",
+      "oldPath": "272d63b1-38e3-4a60-89a2-dd07f031b2d2/hosted-1-run-3.png",
+      "requestSha256": "686f69910a647a9b3ea2a48134b55fa3de0160a3374ba4749e641ba02357f191",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    },
+    {
+      "bucket": "patient-avatars",
+      "oldPath": "d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.png",
+      "requestSha256": "0813d181f4c99b837a4db424c3dd280a16f95ed276732a433c14980decb097a0",
+      "expected": "No original bytes; object removed",
+      "status": 400,
+      "bytes": 110,
+      "bodySha256": "9544a0840325a26cb1010271a2b8771f5aa7c3c4a7db50b94b50cca9267e0f60",
+      "cache": "BYPASS",
+      "denied": true
+    }
+  ],
+  "limits": [
+    "Maintenance credential only for six known synthetic objects; not ordinary-user authorization proof",
+    "Newly captured signed URLs supplement missing historical captures; they do not reconstruct those missing requests",
+    "No occupied production data or production historical-capability claim",
+    "The captured signed capabilities expired before deletion: denial plus origin absence and copied hashes are proven, but deletion alone is not proven as the cause of signed-request denial"
+  ],
+  "originAbsenceAndCopyHashesVerified": true,
+  "completedAt": "2026-10-06T21:56:51.268Z"
+}

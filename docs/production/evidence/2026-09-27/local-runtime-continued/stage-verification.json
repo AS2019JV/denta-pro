@@ -1,0 +1,13 @@
+{
+  "evidenceKind": "scoped metadata comparison only; not JWT/RLS behavioral or restore evidence",
+  "matches": true,
+  "differences": [],
+  "columnPositionSemantics": "logical-live-column-order; raw physical attribute slots retained as evidence",
+  "physicalColumnPositionDifferences": [
+    {
+      "identity": "public.data_rights_requests.resolution_notes",
+      "expectedPhysical": 16,
+      "actualPhysical": 15
+    }
+  ]
+}

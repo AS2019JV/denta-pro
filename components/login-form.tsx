@@ -24,7 +24,7 @@ export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
-  const { login, signInWithGoogle, user } = useAuth()
+  const { login, signInWithGoogle, user, authError } = useAuth()
   const { t } = useTranslation()
   const router = useRouter()
 
@@ -43,7 +43,7 @@ export function LoginForm() {
     setResendSuccess(false)
 
     try {
-      const { error } = await login(email, password)
+      const { error, requiresMfa } = await login(email, password)
       if (error) {
         if (error.message.includes("Email not confirmed")) {
             setError("EmailNotConfirmed") 
@@ -54,7 +54,7 @@ export function LoginForm() {
             console.error(error)
         }
       } else {
-        router.push("/dashboard")
+        router.push(requiresMfa ? "/auth/mfa" : "/dashboard")
       }
     } catch (err) {
       setError("Ocurrió un error inesperado.")
@@ -108,11 +108,13 @@ export function LoginForm() {
           </CardHeader>
           <CardContent className="px-8 pb-8">
             <form onSubmit={handleSubmit} className="space-y-5">
+              {authError && <Alert variant="destructive"><AlertDescription>{authError}</AlertDescription></Alert>}
               <div className="space-y-2">
                 <Label htmlFor="email" className="text-slate-700 font-medium ml-1">Email</Label>
                 <Input
                   id="email"
                   type="email"
+                  autoComplete="email"
                   placeholder="doctor@clinia.com"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
@@ -137,6 +139,7 @@ export function LoginForm() {
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
+                    autoComplete="current-password"
                     placeholder="••••••••"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}

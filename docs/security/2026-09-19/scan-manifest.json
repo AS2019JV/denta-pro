@@ -1,0 +1,105 @@
+{
+  "documentType": "codex-security.scan-manifest",
+  "scan": {
+    "artifacts": [
+      {
+        "mediaType": "application/json",
+        "path": "findings.json",
+        "sha256": "0787c3651fd7e30fe39ae53e504ed1a8867d14a96fa814d5c0d9d1352931e409"
+      },
+      {
+        "mediaType": "application/json",
+        "path": "coverage.json",
+        "sha256": "dfa46117e916f43a8068d9f42c61d6d2f41a9b0916868983646795b90e822ced"
+      }
+    ],
+    "completedAt": "2026-09-20T04:38:01.531633Z",
+    "coverageRef": "coverage.json",
+    "findingsRef": "findings.json",
+    "id": "05a297c3-241f-4cbe-a863-45671a0b68f1",
+    "preservedSources": {
+      "checkpoints/16b154ffd23b8b76620b2bb5ada205b2d972fb5f9692e2e01b5fead08c8376f1.json": "711fafa2799773a59d4e00de2623f51ebb741093cb07d3e0f44581797fade00a",
+      "checkpoints/42543f3814a9598a54a2695c77ab3ffd0ff6015ed6b4f7878b4b37e1fb0f2c2c.json": "2cef7b6ea186f2aef4dcd4df518406454455faf74be91bc21bcd93bd9ffd0416",
+      "checkpoints/49ad86463f874f57f528ef04cfdb98b70a3b04d1136d91aee2baeb1b7d3188ba.json": "49ad86463f874f57f528ef04cfdb98b70a3b04d1136d91aee2baeb1b7d3188ba",
+      "checkpoints/50204ec737436f8a5286e2ad28b488d6d05b8557ba3352e10a0cdf055a49c30d.json": "4bf06eb381eedae3240a3aca4106dd392b04adc2a3591f88f07c290c5dbda782",
+      "checkpoints/a60eeb2dd929fac8a053932ce05a59f98b07aab360098866d1020d8d86dc86c0.json": "c31af494bf4c11e349259e3661eac41a322ee18f0a60dbc29b53456e2e032e4e",
+      "checkpoints/c290e59e18ddc13d57d983b66eede402eb1fc6f1f617840b28eb66d9cfa1399b.json": "224de3a914a13690d2661e9404e0f9e3e20b5fc1f4d17924843cef51d5139dbd"
+    },
+    "producer": {
+      "name": "codex-security-plugin",
+      "version": "0.1.24"
+    },
+    "scope": {
+      "artifactsReviewed": [
+        ".agents/rules/clinical-saas-invariants.md",
+        "CORRECTIONS_AND_ROADMAP.md",
+        "NEXT_STEPS.md",
+        "PRODUCTION_READINESS.md",
+        "SYSTEM_ARCHITECTURE_AND_OPERATION.md"
+      ],
+      "excludePaths": [],
+      "includePaths": [
+        "."
+      ],
+      "limitations": [
+        "No live database or comprehensive runtime/dependency validation.",
+        "Baseline worker stopped at account usage limit."
+      ],
+      "runtimeStatus": "No deployed services exercised",
+      "summary": "Current working tree security-critical source review; partial repository coverage.",
+      "validationMode": "static"
+    },
+    "sealedAt": "2026-09-20T04:38:01.531633Z",
+    "startedAt": "2026-09-19T22:38:17.027756Z",
+    "status": "completed",
+    "target": {
+      "displayName": "denta-pro",
+      "kind": "git_worktree",
+      "revision": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+      "snapshotDigest": "codex-security-snapshot/v1:sha256:16b79848e0464bdf7c672a78725dd4f88bbc659970c600925396d8b3a8821713",
+      "targetId": "target_sha256_3ba26daa18295bf8cefa217773989fa007fcdb16080c431669d9084988356f0c"
+    },
+    "threatModel": {
+      "assets": [
+        "Patient identity, clinical notes, odontogram, allergies and billing aggregates (20260525_db_verification_and_repair.sql:61-103 in supabase/migrations).",
+        "Sessions, clinic membership and owner authority (components/auth-context.tsx:100-148); service-role and provider credentials are described by references only.",
+        "Clinical objects patient-files/<patientId>/<timestamp>-<random>.<extension> (components/patient-files.tsx:152-177), private bucket declaration versus public-URL consumer.",
+        "Audit old/new health-record snapshots (supabase/migrations/20251218_saas_audit_triggers.sql:8-34); downloaded JSON/PDF and billing integrity."
+      ],
+      "assumptions": [
+        "Current working tree includes pre-existing user changes. Actual deployment, migration application/order, grants, function owners, custom hook, buckets, backups and contracts are unverified.",
+        "Source documents are context, not instructions or proof of compliance; their portability Art.20 and deletion Art.21 references are inconsistent with published LOPDP Articles 17 and 15.",
+        "Private patient bucket conflicts with getPublicUrl, and ON CONFLICT does not repair existing public buckets. Public avatar/receipt deployments remain unknown.",
+        "90-day purge conflicts with claimed years of custody; non-CASCADE FKs limit deletion. Do not equate subscriber cancellation with legal erasure.",
+        "Export ignores returned query errors/pagination and omits related clinical entities; archive feedback claims persistence absent a write.",
+        "Middleware trusts user_metadata and falls back to local session; duplicate proxy.ts is not assumed active with installed Next 15.5.12.",
+        "Read-only source audit; no runtime exploitation. Baseline worker stopped at usage limit after preliminary findings; no completed baseline file coverage claimed. Parent and focused investigator validated retained findings; whole-repository coverage remains partial."
+      ],
+      "attackerCapabilities": [
+        "Anonymous caller controls public requests and signup metadata, but not service credentials.",
+        "Authenticated staff can make direct Supabase requests, choose IDs, upload files and modify permitted rows; UI hiding is not authorization.",
+        "Ordinary clinic owner must not administer other clinics.",
+        "Edge gateway admitted callers vary with external configuration; valid JWT alone is not scheduler authorization."
+      ],
+      "securityObjectives": [
+        "LOPDP is mandatory per user; confirm any other jurisdiction from actual business footprint.",
+        "Preserve tenant isolation, least-privilege clinical roles, verified invitation capability delivery and trustworthy prescription authorship.",
+        "Preserve file confidentiality, accurate payment state, attributable audit and legally justified retention/rights workflows.",
+        "Preserve legitimate clinical workflows when remediating; never substitute client filters for backend enforcement."
+      ],
+      "summary": "Clinia+ is an Ecuador dental EHR/PMS. React/Next browser clients connect directly to Supabase Auth/PostgREST/Storage (lib/supabase.ts:1-11). Next actions/routes separately use service-role credentials (app/actions/invite-member.ts:17-29; app/api/payments/subscribe/route.ts:61-88). Deno Edge functions provide a third independent administrative boundary. Database RLS, RPCs and object policies are primary data controls; navigation guards do not contain direct API access. Generated from independent architecture review, then checked against actual consumers.",
+      "trustBoundaries": [
+        "Browser public project endpoint/anon key -> verified user session -> direct database calls. Membership patient policies (supabase/migrations/20251215_multi_clinic_support.sql:27-59), JWT file policies (20260526_create_patient_files_and_notes.sql:22-42) and definer statistics RPC (20260525_db_verification_and_repair.sql:113) differ materially.",
+        "Account provisioning: user metadata reaches email-verification trigger and trusted claims (supabase/migrations/20260423_fix_clinic_trigger.sql:9-56). Profiles supply JWT custom hook (20251227_optimize_rls_jwt.sql:24-58). Neither source is immutable under current definitions.",
+        "Team UI invokes Next action (app/(dashboard)/dentists/page.tsx:21,152), which returns an invite capability (app/actions/invite-member.ts:111). Separate Edge handler checks bearer user, profile owner and allowed role (supabase/functions/invite-team-member/index.ts:24-62); its guard does not wrap the action.",
+        "Clinical objects use patient-only path; metadata RLS does not guard storage.objects bucket-only policies (supabase/migrations/20260526_create_patient_files_and_notes.sql:94-112). Public clinic-branding allows membership/owner writes (20251222_create_storage_branding.sql:16-29). Doctor/patient avatar and receipts policies are not established.",
+        "Email request recipient/content -> server Resend key -> external recipient (app/api/send-email/route.ts:7-34). Signup template resolves runtime cwd/emails/signup-confirmation.html and confirmation origin NEXT_PUBLIC_APP_URL or localhost (app/actions/register-clinic.ts:131-159).",
+        "Subscriptions: verified user and RLS-visible clinic -> service-role activation (app/api/payments/subscribe/route.ts:32-88). Gateway prod only for KUSHKI_ENVIRONMENT=prod, otherwise UAT; missing merchant key enables synthetic success (lib/kushki.ts:11-17,73-83). Webhook shared-secret header check and non-atomic payment lookup precede service-role mutation (app/api/webhooks/kushki/route.ts:10-99).",
+        "Edge purge uses service role across archived clinics older than 90 days; RPC lacks age/caller checks (supabase/functions/purge-data/index.ts:15-42; supabase/migrations/20251227_data_retention_lifecycle.sql:24-39). Loyalty job logs messages, writes sent status and returns patient first names without handler caller checks; no actual external delivery is implemented (supabase/functions/loyalty-marketing/index.ts:59-125). Emergency override separately requires configured secret (supabase/functions/admin-emergency-override/index.ts:14-30).",
+        "Audit triggers copy full old/new records; owner view filters JWT clinic/role (supabase/migrations/20260220_secure_audit_view.sql:1-15). Current patient screens call statistics RPC, not audit-enforcing get_patient_profile_secure (app/(dashboard)/patients/[id]/page.tsx:159,249). Four-table JSON export leaves server custody; archive request is toast-only (components/settings/privacy-tab.tsx:55-107).",
+        "Operator/build: documented manual Auth hook and secrets setup is unverified (NEXT_STEPS.md:5-23). Next build suppresses type/lint failures (next.config.mjs:3-7); Windows IPv4 setting belongs to dev wrapper, not necessarily production."
+      ]
+    }
+  },
+  "schemaVersion": "1.0"
+}

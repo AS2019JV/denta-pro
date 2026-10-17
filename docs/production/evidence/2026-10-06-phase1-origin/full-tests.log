@@ -1,0 +1,1928 @@
+Clinia verification: test; synthetic offline environment.
+TAP version 13
+# Subtest: Guayaquil date/time persists independently of browser timezone and rejects normalized dates
+ok 1 - Guayaquil date/time persists independently of browser timezone and rejects normalized dates
+  ---
+  duration_ms: 140.4794
+  type: 'test'
+  ...
+# Subtest: month/week range follows displayed date and includes neighboring grid days
+ok 2 - month/week range follows displayed date and includes neighboring grid days
+  ---
+  duration_ms: 7.5651
+  type: 'test'
+  ...
+# Subtest: schedule validates clinic and total, drops financial fields and rejects unknown statuses/timestamps
+ok 3 - schedule validates clinic and total, drops financial fields and rejects unknown statuses/timestamps
+  ---
+  duration_ms: 0.9307
+  type: 'test'
+  ...
+# Subtest: shared save sends only authorized operational fields and reception never sends notes
+ok 4 - shared save sends only authorized operational fields and reception never sends notes
+  ---
+  duration_ms: 3.3715
+  type: 'test'
+  ...
+# Subtest: server conflict and zero-result saves cannot produce success
+ok 5 - server conflict and zero-result saves cannot produce success
+  ---
+  duration_ms: 1.5569
+  type: 'test'
+  ...
+# Subtest: schedule requests require clinic, propagate server errors and pass AbortSignal
+ok 6 - schedule requests require clinic, propagate server errors and pass AbortSignal
+  ---
+  duration_ms: 0.6584
+  type: 'test'
+  ...
+# Subtest: overnight appointments remain visible after midnight, with exclusive end boundary
+ok 7 - overnight appointments remain visible after midnight, with exclusive end boundary
+  ---
+  duration_ms: 2.7481
+  type: 'test'
+  ...
+# Subtest: editor offers the current state and permitted active transitions only
+ok 8 - editor offers the current state and permitted active transitions only
+  ---
+  duration_ms: 7.0874
+  type: 'test'
+  ...
+# Subtest: auth redirect permits only the existing internal flows
+ok 9 - auth redirect permits only the existing internal flows
+  ---
+  duration_ms: 170.9525
+  type: 'test'
+  ...
+# Subtest: real confirmation component keeps malicious next out of router in all success branches
+ok 10 - real confirmation component keeps malicious next out of router in all success branches
+  ---
+  duration_ms: 478.3443
+  type: 'test'
+  ...
+# Subtest: both confirmation handlers discard auth parameters and allow recovery destination
+ok 11 - both confirmation handlers discard auth parameters and allow recovery destination
+  ---
+  duration_ms: 332.2821
+  type: 'test'
+  ...
+# Subtest: confirmed OTP or existing session never redirects to clinic when trusted enrollment fails
+ok 12 - confirmed OTP or existing session never redirects to clinic when trusted enrollment fails
+  ---
+  duration_ms: 352.0347
+  type: 'test'
+  ...
+# Subtest: real signup email escapes attacker markup and preserves legitimate verification link
+ok 13 - real signup email escapes attacker markup and preserves legitimate verification link
+  ---
+  duration_ms: 548.5167
+  type: 'test'
+  ...
+# Subtest: signup rejects missing, oversized, file-valued fields and unsafe logos before privileged effects
+ok 14 - signup rejects missing, oversized, file-valued fields and unsafe logos before privileged effects
+  ---
+  duration_ms: 1022.8451
+  type: 'test'
+  ...
+# Subtest: signup provider rejection and transport failure preserve account and return accurate retry guidance
+ok 15 - signup provider rejection and transport failure preserve account and return accurate retry guidance
+  ---
+  duration_ms: 232.7433
+  type: 'test'
+  ...
+# Subtest: resend provider rejection and transport failure never claim success or reveal provider errors
+ok 16 - resend provider rejection and transport failure never claim success or reveal provider errors
+  ---
+  duration_ms: 202.4937
+  type: 'test'
+  ...
+# Subtest: signup server accepts password boundaries 12 and 128 and rejects 11 and 129
+ok 17 - signup server accepts password boundaries 12 and 128 and rejects 11 and 129
+  ---
+  duration_ms: 78.8496
+  type: 'test'
+  ...
+# Subtest: real resend email escapes editable metadata and rejects invalid addresses
+ok 18 - real resend email escapes editable metadata and rejects invalid addresses
+  ---
+  duration_ms: 67.9986
+  type: 'test'
+  ...
+# Subtest: previous response cannot publish between new Auth event and timer; cache=false
+ok 19 - previous response cannot publish between new Auth event and timer; cache=false
+  ---
+  duration_ms: 357.2905
+  type: 'test'
+  ...
+# Subtest: previous response cannot publish between new Auth event and timer; cache=true
+ok 20 - previous response cannot publish between new Auth event and timer; cache=true
+  ---
+  duration_ms: 164.5057
+  type: 'test'
+  ...
+# Subtest: routine focus coalesces in-flight identity checks and retains unchanged scoped cache
+ok 21 - routine focus coalesces in-flight identity checks and retains unchanged scoped cache
+  ---
+  duration_ms: 119.2969
+  type: 'test'
+  ...
+# Subtest: queued refresh cannot republish identity during asynchronous logout
+ok 22 - queued refresh cannot republish identity during asynchronous logout
+  ---
+  duration_ms: 90.7855
+  type: 'test'
+  ...
+# Subtest: revoked live role clears mounted scope and cache after background verification
+ok 23 - revoked live role clears mounted scope and cache after background verification
+  ---
+  duration_ms: 122.3747
+  type: 'test'
+  ...
+# Subtest: signout during delayed background verification never republishes old scope
+ok 24 - signout during delayed background verification never republishes old scope
+  ---
+  duration_ms: 76.9229
+  type: 'test'
+  ...
+# Subtest: signout and unmount suppress pending authority responses
+ok 25 - signout and unmount suppress pending authority responses
+  ---
+  duration_ms: 133.5868
+  type: 'test'
+  ...
+# Subtest: restore planner assigns exact new local targets without reusing contract or primary databases
+ok 26 - restore planner assigns exact new local targets without reusing contract or primary databases
+  ---
+  duration_ms: 6.0554
+  type: 'test'
+  ...
+# Subtest: app stripping is bound to newly named targets; occupied primary/contract/source names are rejected
+ok 27 - app stripping is bound to newly named targets; occupied primary/contract/source names are rejected
+  ---
+  duration_ms: 5.5371
+  type: 'test'
+  ...
+# Subtest: stage bridge is exact-source/exact-target bound and never adds/drops foreign keys
+ok 28 - stage bridge is exact-source/exact-target bound and never adds/drops foreign keys
+  ---
+  duration_ms: 8.7848
+  type: 'test'
+  ...
+# Subtest: bridge reuses complete reviewed callback and policy tail atomically
+ok 29 - bridge reuses complete reviewed callback and policy tail atomically
+  ---
+  duration_ms: 0.6937
+  type: 'test'
+  ...
+# Subtest: row order, ACL role order and object property order do not imply drift
+ok 30 - row order, ACL role order and object property order do not imply drift
+  ---
+  duration_ms: 57.3689
+  type: 'test'
+  ...
+# Subtest: overloaded function removal cannot hide behind another overload
+ok 31 - overloaded function removal cannot hide behind another overload
+  ---
+  duration_ms: 0.901
+  type: 'test'
+  ...
+# Subtest: base columns and view columns are reported separately
+ok 32 - base columns and view columns are reported separately
+  ---
+  duration_ms: 1.1109
+  type: 'test'
+  ...
+# Subtest: an exact reasoned expectation accepts intentional drift
+ok 33 - an exact reasoned expectation accepts intentional drift
+  ---
+  duration_ms: 0.7582
+  type: 'test'
+  ...
+# Subtest: SQL string literal whitespace is significant
+ok 34 - SQL string literal whitespace is significant
+  ---
+  duration_ms: 0.6028
+  type: 'test'
+  ...
+# Subtest: enum order remains significant
+ok 35 - enum order remains significant
+  ---
+  duration_ms: 0.5418
+  type: 'test'
+  ...
+# Subtest: duplicate identities and missing sections fail instead of masking evidence
+ok 36 - duplicate identities and missing sections fail instead of masking evidence
+  ---
+  duration_ms: 2.8144
+  type: 'test'
+  ...
+# Subtest: security invoker and WITH CHECK changes are observable
+ok 37 - security invoker and WITH CHECK changes are observable
+  ---
+  duration_ms: 0.6159
+  type: 'test'
+  ...
+# Subtest: clean API adapter selects exact fresh project primary and one loopback gateway
+ok 38 - clean API adapter selects exact fresh project primary and one loopback gateway
+  ---
+  duration_ms: 10.4785
+  type: 'test'
+  ...
+# Subtest: provider routes stay under configured gateway without duplicating signed storage prefix
+ok 39 - provider routes stay under configured gateway without duplicating signed storage prefix
+  ---
+  duration_ms: 10.1818
+  type: 'test'
+  ...
+# Subtest: new clean project/volume/port planner rejects arbitrary or repeated primary names
+ok 40 - new clean project/volume/port planner rejects arbitrary or repeated primary names
+  ---
+  duration_ms: 5.6904
+  type: 'test'
+  ...
+# Subtest: fresh material signs/verifies ES256 and independent HS256 credentials
+ok 41 - fresh material signs/verifies ES256 and independent HS256 credentials
+  ---
+  duration_ms: 13.3591
+  type: 'test'
+  ...
+# Subtest: compose transformation creates new volumes/private binds/loopback aliases and removes old credentials
+ok 42 - compose transformation creates new volumes/private binds/loopback aliases and removes old credentials
+  ---
+  duration_ms: 8.5427
+  type: 'test'
+  ...
+# Subtest: release proof rejects a different source, deployment or environment
+ok 43 - release proof rejects a different source, deployment or environment
+  ---
+  duration_ms: 6.7177
+  type: 'test'
+  ...
+# Subtest: clinical probe and protection cookie are restricted to the pinned Preview
+ok 44 - clinical probe and protection cookie are restricted to the pinned Preview
+  ---
+  duration_ms: 46.0702
+  type: 'test'
+  ...
+# Subtest: request binding rejects added cookies, caller scope and serialization changes
+ok 45 - request binding rejects added cookies, caller scope and serialization changes
+  ---
+  duration_ms: 4.6159
+  type: 'test'
+  ...
+# Subtest: warmed proof refuses changed token, request, helper or manifest dependencies
+ok 46 - warmed proof refuses changed token, request, helper or manifest dependencies
+  ---
+  duration_ms: 9.94
+  type: 'test'
+  ...
+# Subtest: a successful receipt for other requests cannot substitute the actual warm proof
+ok 47 - a successful receipt for other requests cannot substitute the actual warm proof
+  ---
+  duration_ms: 9.8156
+  type: 'test'
+  ...
+# Subtest: causal expiry qualification refuses missing, stale or revoked live-authority witnesses
+ok 48 - causal expiry qualification refuses missing, stale or revoked live-authority witnesses
+  ---
+  duration_ms: 6.508
+  type: 'test'
+  ...
+# Subtest: restoration must prove the exact warmed request twice before its original expiry
+ok 49 - restoration must prove the exact warmed request twice before its original expiry
+  ---
+  duration_ms: 8.6503
+  type: 'test'
+  ...
+# Subtest: CLI pins staging, explicit phases, attempts, and rejects overrides
+ok 50 - CLI pins staging, explicit phases, attempts, and rejects overrides
+  ---
+  duration_ms: 7.4968
+  type: 'test'
+  ...
+# Subtest: URL authority pins exact origin, document path and privileged Auth creation
+ok 51 - URL authority pins exact origin, document path and privileged Auth creation
+  ---
+  duration_ms: 4.2061
+  type: 'test'
+  ...
+# Subtest: manifest requires reviewed source and observed Preview readiness
+ok 52 - manifest requires reviewed source and observed Preview readiness
+  ---
+  duration_ms: 5.2018
+  type: 'test'
+  ...
+# Subtest: JWT parser requires staging issuer, exact role/subject/session and real time expiry
+ok 53 - JWT parser requires staging issuer, exact role/subject/session and real time expiry
+  ---
+  duration_ms: 3.827
+  type: 'test'
+  ...
+# Subtest: request replay fixes original body bytes and bearer without Origin/cookies
+ok 54 - request replay fixes original body bytes and bearer without Origin/cookies
+  ---
+  duration_ms: 5.7767
+  type: 'test'
+  ...
+# Subtest: frozen replay rejects manifest/capture/driver drift and warmed token replacements
+ok 55 - frozen replay rejects manifest/capture/driver drift and warmed token replacements
+  ---
+  duration_ms: 4.687
+  type: 'test'
+  ...
+# Subtest: authorized document evidence requires exact synthetic bytes and no-store
+ok 56 - authorized document evidence requires exact synthetic bytes and no-store
+  ---
+  duration_ms: 3.8022
+  type: 'test'
+  ...
+# Subtest: application denial must come from the handler, not Vercel protection or outage
+ok 57 - application denial must come from the handler, not Vercel protection or outage
+  ---
+  duration_ms: 1.1785
+  type: 'test'
+  ...
+# Subtest: provider denial excludes outages/generic 400 and rejects leaked rows or bytes
+ok 58 - provider denial excludes outages/generic 400 and rejects leaked rows or bytes
+  ---
+  duration_ms: 1.7508
+  type: 'test'
+  ...
+# Subtest: response evidence excludes credentials, provider body, cookies, signed URLs and query values
+ok 59 - response evidence excludes credentials, provider body, cookies, signed URLs and query values
+  ---
+  duration_ms: 42.1546
+  type: 'test'
+  ...
+# Subtest: Vercel protection is explicitly classified before any app authorization proof
+ok 60 - Vercel protection is explicitly classified before any app authorization proof
+  ---
+  duration_ms: 0.8573
+  type: 'test'
+  ...
+# Subtest: temporary Preview bypass is transport-only and refuses providers, production or other cookies
+ok 61 - temporary Preview bypass is transport-only and refuses providers, production or other cookies
+  ---
+  duration_ms: 2.4356
+  type: 'test'
+  ...
+# Subtest: clinical probe routes keep writes on one immutable fresh nonexistent key
+ok 62 - clinical probe routes keep writes on one immutable fresh nonexistent key
+  ---
+  duration_ms: 3.5655
+  type: 'test'
+  ...
+# Subtest: enabled principal matrix requires both aliases to return exact bytes and permits info separately
+ok 63 - enabled principal matrix requires both aliases to return exact bytes and permits info separately
+  ---
+  duration_ms: 6.0333
+  type: 'test'
+  ...
+# Subtest: disabled principal matrix denies both byte aliases and exact-key metadata
+ok 64 - disabled principal matrix denies both byte aliases and exact-key metadata
+  ---
+  duration_ms: 1.4312
+  type: 'test'
+  ...
+# Subtest: metadata/HEAD assertions reject error bodies, successful HEAD and provider outages
+ok 65 - metadata/HEAD assertions reject error bodies, successful HEAD and provider outages
+  ---
+  duration_ms: 1.2418
+  type: 'test'
+  ...
+# Subtest: exact-key metadata content stays out of persisted response evidence
+ok 66 - exact-key metadata content stays out of persisted response evidence
+  ---
+  duration_ms: 0.483
+  type: 'test'
+  ...
+# Subtest: expiry witness binds the real SQL and exact clinic, actor, session and returned authority
+ok 67 - expiry witness binds the real SQL and exact clinic, actor, session and returned authority
+  ---
+  duration_ms: 23.0473
+  type: 'test'
+  ...
+# Subtest: observed vendor assets receive no Preview access cookie; arbitrary foreign URLs stay refused
+ok 68 - observed vendor assets receive no Preview access cookie; arbitrary foreign URLs stay refused
+  ---
+  duration_ms: 28.3878
+  type: 'test'
+  ...
+# Subtest: clinic switch selects the matching role and ignores profile role
+ok 69 - clinic switch selects the matching role and ignores profile role
+  ---
+  duration_ms: 2.5255
+  type: 'test'
+  ...
+# Subtest: inactive/deleted profiles and inactive or unrecognized memberships have no authority
+ok 70 - inactive/deleted profiles and inactive or unrecognized memberships have no authority
+  ---
+  duration_ms: 0.5522
+  type: 'test'
+  ...
+# Subtest: forged preference or primary clinic never grants membership
+ok 71 - forged preference or primary clinic never grants membership
+  ---
+  duration_ms: 0.4091
+  type: 'test'
+  ...
+# Subtest: default selection is deterministic without a valid preference
+ok 72 - default selection is deterministic without a valid preference
+  ---
+  duration_ms: 35.6209
+  type: 'test'
+  ...
+# Subtest: legitimate delivery publishes exact bytes after two authority checks with no reusable provider URL or cache validator
+ok 73 - legitimate delivery publishes exact bytes after two authority checks with no reusable provider URL or cache validator
+  ---
+  duration_ms: 140.5785
+  type: 'test'
+  ...
+# Subtest: warm delivery then replay the exact client request denies each revoked authority state before Storage access
+ok 74 - warm delivery then replay the exact client request denies each revoked authority state before Storage access
+  ---
+  duration_ms: 65.5904
+  type: 'test'
+  ...
+# Subtest: revocation or changed user/session/object while upstream bytes are loading cannot publish
+ok 75 - revocation or changed user/session/object while upstream bytes are loading cannot publish
+  ---
+  duration_ms: 7.9582
+  type: 'test'
+  ...
+# Subtest: invalid Authorization cannot fall back to cookies; cross-origin cookie and bearer requests deny
+ok 76 - invalid Authorization cannot fall back to cookies; cross-origin cookie and bearer requests deny
+  ---
+  duration_ms: 19.2378
+  type: 'test'
+  ...
+# Subtest: raw paths, unknown fields, malformed IDs, oversized JSON and conditional/range requests are rejected
+ok 77 - raw paths, unknown fields, malformed IDs, oversized JSON and conditional/range requests are rejected
+  ---
+  duration_ms: 9.119
+  type: 'test'
+  ...
+# Subtest: authority cannot substitute foreign paths or external provider URLs
+ok 78 - authority cannot substitute foreign paths or external provider URLs
+  ---
+  duration_ms: 7.8863
+  type: 'test'
+  ...
+# Subtest: malformed JSON and invalid UTF-8 are client errors before any clinical authority or Storage work
+ok 79 - malformed JSON and invalid UTF-8 are client errors before any clinical authority or Storage work
+  ---
+  duration_ms: 49.1294
+  type: 'test'
+  ...
+# Subtest: provider errors and oversized/malformed lengths or streams cannot escape as clinical content
+ok 80 - provider errors and oversized/malformed lengths or streams cannot escape as clinical content
+  ---
+  duration_ms: 31.8224
+  type: 'test'
+  ...
+# Subtest: bounded stream abort cancels its reader instead of leaving a hung upstream read
+ok 81 - bounded stream abort cancels its reader instead of leaving a hung upstream read
+  ---
+  duration_ms: 2.7195
+  type: 'test'
+  ...
+# Subtest: four held deliveries bound per-process resource use and the slot is released after denial
+ok 82 - four held deliveries bound per-process resource use and the slot is released after denial
+  ---
+  duration_ms: 58.6381
+  type: 'test'
+  ...
+# Subtest: slow request bodies consume concurrency slots before buffering
+ok 83 - slow request bodies consume concurrency slots before buffering
+  ---
+  duration_ms: 13.6506
+  type: 'test'
+  ...
+# Subtest: a supported trailing slash in APP_URL compares the canonical browser origin
+ok 84 - a supported trailing slash in APP_URL compares the canonical browser origin
+  ---
+  duration_ms: 1.378
+  type: 'test'
+  ...
+# Subtest: client POST discards late bytes when scope changes and sends no object URL or local storage capability
+ok 85 - client POST discards late bytes when scope changes and sends no object URL or local storage capability
+  ---
+  duration_ms: 15.464
+  type: 'test'
+  ...
+# Subtest: client bounds the actual stream even if Content-Length lies and discards a late completed body
+ok 86 - client bounds the actual stream even if Content-Length lies and discards a late completed body
+  ---
+  duration_ms: 48.317
+  type: 'test'
+  ...
+# Subtest: audit outage denies publication rather than silently delivering unrecorded clinical bytes
+ok 87 - audit outage denies publication rather than silently delivering unrecorded clinical bytes
+  ---
+  duration_ms: 9.4401
+  type: 'test'
+  ...
+# Subtest: server transport cache coalesces logins, expires before JWT and bounds reuse to five minutes
+ok 88 - server transport cache coalesces logins, expires before JWT and bounds reuse to five minutes
+  ---
+  duration_ms: 22.4258
+  type: 'test'
+  ...
+# Subtest: bad roles/subjects/expiry deny and failed login has bounded backoff
+ok 89 - bad roles/subjects/expiry deny and failed login has bounded backoff
+  ---
+  duration_ms: 19.6776
+  type: 'test'
+  ...
+# Subtest: canceling the first waiter does not reject another waiter or discard completed transport login
+ok 90 - canceling the first waiter does not reject another waiter or discard completed transport login
+  ---
+  duration_ms: 1.5675
+  type: 'test'
+  ...
+# Subtest: actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+ok 91 - actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+  ---
+  duration_ms: 434.0912
+  type: 'test'
+  ...
+# Subtest: explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+ok 92 - explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+  ---
+  duration_ms: 102.7701
+  type: 'test'
+  ...
+# Subtest: invalid or rejected explicit Bearer never falls back to a valid browser cookie
+ok 93 - invalid or rejected explicit Bearer never falls back to a valid browser cookie
+  ---
+  duration_ms: 381.5894
+  type: 'test'
+  ...
+# Subtest: ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+ok 94 - ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+  ---
+  duration_ms: 767.5425
+  type: 'test'
+  ...
+# Subtest: plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+ok 95 - plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+  ---
+  duration_ms: 402.9596
+  type: 'test'
+  ...
+# Subtest: foreign clinic, patient and file scopes cannot access the legitimate object
+ok 96 - foreign clinic, patient and file scopes cannot access the legitimate object
+  ---
+  duration_ms: 171.3851
+  type: 'test'
+  ...
+# Subtest: the same original Bearer succeeds once then denies after live logout or removal
+ok 97 - the same original Bearer succeeds once then denies after live logout or removal
+  ---
+  duration_ms: 126.059
+  type: 'test'
+  ...
+# Subtest: revocation committed during upstream fetch discards buffered clinical bytes
+ok 98 - revocation committed during upstream fetch discards buffered clinical bytes
+  ---
+  duration_ms: 559.1238
+  type: 'test'
+  ...
+# Subtest: user and session identity remain pinned across buffering even when both new identities are otherwise valid
+ok 99 - user and session identity remain pinned across buffering even when both new identities are otherwise valid
+  ---
+  duration_ms: 85.4819
+  type: 'test'
+  ...
+# Subtest: missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+ok 100 - missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+  ---
+  duration_ms: 376.6553
+  type: 'test'
+  ...
+# Subtest: broker revocation during fetch denies publication and query/RPC errors expose no provider details
+ok 101 - broker revocation during fetch denies publication and query/RPC errors expose no provider details
+  ---
+  duration_ms: 107.8349
+  type: 'test'
+  ...
+# Subtest: actual route cannot publish if its ordinary-actor audit fails
+ok 102 - actual route cannot publish if its ordinary-actor audit fails
+  ---
+  duration_ms: 140.0238
+  type: 'test'
+  ...
+# Subtest: missing protected delivery path never falls back to the legacy path
+ok 103 - missing protected delivery path never falls back to the legacy path
+  ---
+  duration_ms: 30.6884
+  type: 'test'
+  ...
+# Subtest: origin transport failure withholds provider details and never audits publication
+ok 104 - origin transport failure withholds provider details and never audits publication
+  ---
+  duration_ms: 33.5381
+  type: 'test'
+  ...
+# Subtest: clinical bulk export requires current verified owner and live subscription
+ok 105 - clinical bulk export requires current verified owner and live subscription
+  ---
+  duration_ms: 445.3493
+  type: 'test'
+  ...
+# Subtest: clinic/user switch while final authorization is in flight discards publication
+ok 106 - clinic/user switch while final authorization is in flight discards publication
+  ---
+  duration_ms: 63.9489
+  type: 'test'
+  ...
+# Subtest: missing or stale scope denies before any provider call
+ok 107 - missing or stale scope denies before any provider call
+  ---
+  duration_ms: 209.3438
+  type: 'test'
+  ...
+# Subtest: delivery publishes a four-million-byte document but withholds one additional byte
+ok 108 - delivery publishes a four-million-byte document but withholds one additional byte
+  ---
+  duration_ms: 168.1945
+  type: 'test'
+  ...
+# Subtest: document client accepts the exact bound and rejects oversized headers or a lying stream
+ok 109 - document client accepts the exact bound and rejects oversized headers or a lying stream
+  ---
+  duration_ms: 24.9203
+  type: 'test'
+  ...
+# Subtest: actual avatar input offers PNG/JPEG/WebP and rejects disallowed types or one extra byte before upload
+ok 110 - actual avatar input offers PNG/JPEG/WebP and rejects disallowed types or one extra byte before upload
+  ---
+  duration_ms: 398.8763
+  type: 'test'
+  ...
+# Subtest: actual patient file selection and drag/drop share the same bound and explain rejection
+ok 111 - actual patient file selection and drag/drop share the same bound and explain rejection
+  ---
+  duration_ms: 402.0425
+  type: 'test'
+  ...
+# Subtest: registration rejects every supplied logo before budget, Auth, database or Storage effects
+ok 112 - registration rejects every supplied logo before budget, Auth, database or Storage effects
+  ---
+  duration_ms: 441.2148
+  type: 'test'
+  ...
+# Subtest: real PDF bytes keep all 20 medications and the end of maximum-length indications on paginated pages
+ok 113 - real PDF bytes keep all 20 medications and the end of maximum-length indications on paginated pages
+  ---
+  duration_ms: 3663.0713
+  type: 'test'
+  ...
+# Subtest: real HCU PDF preserves full identity, actual sessions and long notes without inventing definitive diagnosis
+ok 114 - real HCU PDF preserves full identity, actual sessions and long notes without inventing definitive diagnosis
+  ---
+  duration_ms: 649.9373
+  type: 'test'
+  ...
+# PASS dashboard uses two scoped authorized loaders with cancellation signals and Guayaquil boundaries
+# PASS JSON total_count remains separate from a limited sample and invalid pages reject
+# PASS no live authority disables every loader and hides previous data
+# PASS patient selector late response cannot repopulate the switched scope
+# PASS patient selector reports RPC failure instead of an empty success
+# PASS technical access uses boolean RPC; denied and verification failure differ
+# 6 dashboard contract checks passed. Local code with simulated dependencies; browser and provider/RLS evidence separate.
+# Subtest: test\\production\\dashboard-authorized-contracts.test.cjs
+ok 20 - test\\production\\dashboard-authorized-contracts.test.cjs
+  ---
+  duration_ms: 2369.9685
+  type: 'test'
+  ...
+# Subtest: gate requires explicit enablement, complete server configuration and trusted ingress
+ok 116 - gate requires explicit enablement, complete server configuration and trusted ingress
+  ---
+  duration_ms: 1244.2806
+  type: 'test'
+  ...
+# Subtest: cookie/public origins are pinned to server configuration and authenticated actions require UUIDs
+ok 117 - cookie/public origins are pinned to server configuration and authenticated actions require UUIDs
+  ---
+  duration_ms: 190.1947
+  type: 'test'
+  ...
+# Subtest: server dispatch rejects credentials, paths, queries and fragments in configured HTTPS origins
+ok 118 - server dispatch rejects credentials, paths, queries and fragments in configured HTTPS origins
+  ---
+  duration_ms: 469.0779
+  type: 'test'
+  ...
+# Subtest: gate hashes normalized identity with stable HMAC and only permits exact durable response
+ok 119 - gate hashes normalized identity with stable HMAC and only permits exact durable response
+  ---
+  duration_ms: 409.459
+  type: 'test'
+  ...
+# Subtest: real durable gate blocks all four entrypoints before provider writes/admin calls or mail
+ok 120 - real durable gate blocks all four entrypoints before provider writes/admin calls or mail
+  ---
+  duration_ms: 4080.1551
+  type: 'test'
+  ...
+# Subtest: Every explicit grant column exists with its real type in both captures
+ok 121 - Every explicit grant column exists with its real type in both captures
+  ---
+  duration_ms: 12.2796
+  type: 'test'
+  ...
+# Subtest: No new column INSERT privilege can spoof creation timestamps or IDs
+ok 122 - No new column INSERT privilege can spoof creation timestamps or IDs
+  ---
+  duration_ms: 3.0061
+  type: 'test'
+  ...
+# Subtest: Financial columns never appear in client grants or projected patient RPCs
+ok 123 - Financial columns never appear in client grants or projected patient RPCs
+  ---
+  duration_ms: 10.0105
+  type: 'test'
+  ...
+# Subtest: Authority is live, profile active, membership active, with no primary clinic fallback
+ok 124 - Authority is live, profile active, membership active, with no primary clinic fallback
+  ---
+  duration_ms: 0.7249
+  type: 'test'
+  ...
+# Subtest: M7 prerequisite hashes agree with actual captured and source function bodies
+ok 125 - M7 prerequisite hashes agree with actual captured and source function bodies
+  ---
+  duration_ms: 22.4194
+  type: 'test'
+  ...
+# Subtest: Signup callback cannot provision authority and verification callback preserves Auth row only
+ok 126 - Signup callback cannot provision authority and verification callback preserves Auth row only
+  ---
+  duration_ms: 4.8606
+  type: 'test'
+  ...
+# Subtest: HCU has deterministic safe preparation before identity guard and qualified synthesis
+ok 127 - HCU has deterministic safe preparation before identity guard and qualified synthesis
+  ---
+  duration_ms: 51.949
+  type: 'test'
+  ...
+# Subtest: Service references and storage replacement use private controlled checks
+ok 128 - Service references and storage replacement use private controlled checks
+  ---
+  duration_ms: 0.7685
+  type: 'test'
+  ...
+# Subtest: Demographic pagination and schedule keep count and page in one statement
+ok 129 - Demographic pagination and schedule keep count and page in one statement
+  ---
+  duration_ms: 0.9751
+  type: 'test'
+  ...
+# Subtest: Containment closes column and function grants without mutating history or bytes
+ok 130 - Containment closes column and function grants without mutating history or bytes
+  ---
+  duration_ms: 1.7227
+  type: 'test'
+  ...
+# Subtest: Real acceptance plan covers all actors and providers and remains unexecuted
+ok 131 - Real acceptance plan covers all actors and providers and remains unexecuted
+  ---
+  duration_ms: 0.8873
+  type: 'test'
+  ...
+# PASS app/api/payments/subscribe/route.ts: rejects without body, signature, provider or database access
+# PASS app/api/webhooks/kushki/route.ts: rejects without body, signature, provider or database access
+# PASS app/(dashboard)/billing/page.tsx: server component rejects before data access
+# PASS app/(dashboard)/pay/[id]/page.tsx: server component rejects before data access
+# 4 behavioral checks passed. Local mocks; no remote DB, provider or browser validation.
+# Subtest: test\\production\\financial-retirement.test.cjs
+ok 23 - test\\production\\financial-retirement.test.cjs
+  ---
+  duration_ms: 5600.229
+  type: 'test'
+  ...
+# Subtest: late HCU A response cannot populate or save patient B, and reads are clinic scoped
+ok 133 - late HCU A response cannot populate or save patient B, and reads are clinic scoped
+  ---
+  duration_ms: 1052.7097
+  type: 'test'
+  ...
+# Subtest: clinic/user change, completed revalidation and unmount discard late HCU responses
+ok 134 - clinic/user change, completed revalidation and unmount discard late HCU responses
+  ---
+  duration_ms: 1717.3962
+  type: 'test'
+  ...
+# Error loading form data: { message: 'synthetic unavailable' }
+# Subtest: smoking does not prefill asthma, and a failed HCU load cannot be saved as a new blank record
+ok 135 - smoking does not prefill asthma, and a failed HCU load cannot be saved as a new blank record
+  ---
+  duration_ms: 500.2623
+  type: 'test'
+  ...
+# Subtest: successful HCU save uses one insert and never repeats the atomic database summary update
+ok 136 - successful HCU save uses one insert and never repeats the atomic database summary update
+  ---
+  duration_ms: 200.8523
+  type: 'test'
+  ...
+# Error saving form: { code: '23514', message: 'Synthetic summary rejection' }
+# Subtest: database summary-trigger failure never reports HCU success or invokes onSave
+ok 137 - database summary-trigger failure never reports HCU success or invokes onSave
+  ---
+  duration_ms: 211.7355
+  type: 'test'
+  ...
+# Subtest: a save acknowledged after changing patient cannot publish success into the next HCU context
+ok 138 - a save acknowledged after changing patient cannot publish success into the next HCU context
+  ---
+  duration_ms: 229.1926
+  type: 'test'
+  ...
+# Subtest: HCU export reloads persisted data after deferred import; never accepts editable form data
+ok 139 - HCU export reloads persisted data after deferred import; never accepts editable form data
+  ---
+  duration_ms: 382.6919
+  type: 'test'
+  ...
+# Subtest: missing, foreign, deleted or malformed persisted HCU and missing patient never publish
+ok 140 - missing, foreign, deleted or malformed persisted HCU and missing patient never publish
+  ---
+  duration_ms: 760.2051
+  type: 'test'
+  ...
+# Subtest: HCU publication fails closed for lost identity, non-clinical live role, expired subscription or RPC failure
+ok 141 - HCU publication fails closed for lost identity, non-clinical live role, expired subscription or RPC failure
+  ---
+  duration_ms: 607.3219
+  type: 'test'
+  ...
+# Subtest: context invalidation during engine load cancels before any record read
+ok 142 - context invalidation during engine load cancels before any record read
+  ---
+  duration_ms: 38.5033
+  type: 'test'
+  ...
+# Subtest: context invalidation during record or authority reads cancels publication
+ok 143 - context invalidation during record or authority reads cancels publication
+  ---
+  duration_ms: 113.3813
+  type: 'test'
+  ...
+# Subtest: live clinician removal committed during import is checked after it and blocks the export
+ok 144 - live clinician removal committed during import is checked after it and blocks the export
+  ---
+  duration_ms: 59.1705
+  type: 'test'
+  ...
+# Subtest: actual HCU export handler cancels on patient, clinic, identity, role, revalidation or unmount during import
+ok 145 - actual HCU export handler cancels on patient, clinic, identity, role, revalidation or unmount during import
+  ---
+  duration_ms: 2294.3356
+  type: 'test'
+  ...
+# Subtest: actual HCU button exports saved content even when the editor contains unsaved changes
+ok 146 - actual HCU button exports saved content even when the editor contains unsaved changes
+  ---
+  duration_ms: 191.0873
+  type: 'test'
+  ...
+# Subtest: completed same-scope revalidation never revives an already pending HCU export
+ok 147 - completed same-scope revalidation never revives an already pending HCU export
+  ---
+  duration_ms: 226.7093
+  type: 'test'
+  ...
+# Subtest: HCU export provenance overrides forged JSON metadata without inventing historical author or dates
+ok 148 - HCU export provenance overrides forged JSON metadata without inventing historical author or dates
+  ---
+  duration_ms: 15.018
+  type: 'test'
+  ...
+# Subtest: phase planning refuses production, ambiguous target and attempts before credentials/network
+ok 149 - phase planning refuses production, ambiguous target and attempts before credentials/network
+  ---
+  duration_ms: 10.9754
+  type: 'test'
+  ...
+# Subtest: provider transport refuses origin escape and privileged REST/Storage object probes
+ok 150 - provider transport refuses origin escape and privileged REST/Storage object probes
+  ---
+  duration_ms: 4.4364
+  type: 'test'
+  ...
+# Subtest: authorization proof distinguishes actual denials from transport failure, deadlock and duplicate collision
+ok 151 - authorization proof distinguishes actual denials from transport failure, deadlock and duplicate collision
+  ---
+  duration_ms: 2.0624
+  type: 'test'
+  ...
+# Subtest: forbidden demographics keys require SQLSTATE22023 separately from authorization evidence
+ok 152 - forbidden demographics keys require SQLSTATE22023 separately from authorization evidence
+  ---
+  duration_ms: 8.6266
+  type: 'test'
+  ...
+# Subtest: matrix retries isolate object paths and appointment ranges while preserving owned actors
+ok 153 - matrix retries isolate object paths and appointment ranges while preserving owned actors
+  ---
+  duration_ms: 7.4689
+  type: 'test'
+  ...
+# Subtest: proof phases accept only fixed owned complete matrix evidence bound to source, actors and original JWTs
+ok 154 - proof phases accept only fixed owned complete matrix evidence bound to source, actors and original JWTs
+  ---
+  duration_ms: 47.9168
+  type: 'test'
+  ...
+# Subtest: empty RLS/list results prove no disclosure while returned records and provider failures fail
+ok 155 - empty RLS/list results prove no disclosure while returned records and provider failures fail
+  ---
+  duration_ms: 2.2835
+  type: 'test'
+  ...
+# Subtest: hosted Storage opaque NoSuchKey denial requires its actual provider response and no bytes
+ok 156 - hosted Storage opaque NoSuchKey denial requires its actual provider response and no bytes
+  ---
+  duration_ms: 6.8948
+  type: 'test'
+  ...
+# Subtest: original-token guard rejects expiry and wrong actor/role rather than confusing them with revocation
+ok 157 - original-token guard rejects expiry and wrong actor/role rather than confusing them with revocation
+  ---
+  duration_ms: 2.1017
+  type: 'test'
+  ...
+# Subtest: fixture generation binds only synthetic UUIDs and contains no credentials or managed-schema mutations
+ok 158 - fixture generation binds only synthetic UUIDs and contains no credentials or managed-schema mutations
+  ---
+  duration_ms: 4.0579
+  type: 'test'
+  ...
+# Subtest: membership phases stay scoped and Auth revocation has a dedicated actor
+ok 159 - membership phases stay scoped and Auth revocation has a dedicated actor
+  ---
+  duration_ms: 17.5431
+  type: 'test'
+  ...
+# Subtest: hosted adapter independently denies production and accepts only the exact authorized project argument
+ok 160 - hosted adapter independently denies production and accepts only the exact authorized project argument
+  ---
+  duration_ms: 280.0696
+  type: 'test'
+  ...
+# Subtest: every canonical source and fresh catalog evidence is pinned before compilation
+ok 161 - every canonical source and fresh catalog evidence is pinned before compilation
+  ---
+  duration_ms: 2402.3906
+  type: 'test'
+  ...
+# Subtest: reviewed outer boundaries are removed byte-for-byte while PL/pgSQL bodies and comments survive
+ok 162 - reviewed outer boundaries are removed byte-for-byte while PL/pgSQL bodies and comments survive
+  ---
+  duration_ms: 0.9549
+  type: 'test'
+  ...
+# Subtest: unexpected or embedded top-level transaction boundaries fail closed
+ok 163 - unexpected or embedded top-level transaction boundaries fail closed
+  ---
+  duration_ms: 1.7772
+  type: 'test'
+  ...
+# Subtest: a DO/procedure body cannot commit, roll back or start another transaction
+ok 164 - a DO/procedure body cannot commit, roll back or start another transaction
+  ---
+  duration_ms: 25.1445
+  type: 'test'
+  ...
+# Subtest: unterminated SQL tokens and direct managed Storage data writes are rejected
+ok 165 - unterminated SQL tokens and direct managed Storage data writes are rejected
+  ---
+  duration_ms: 2.1292
+  type: 'test'
+  ...
+# Subtest: compiled candidate has exactly one explicit transaction boundary and locks every reviewed application/Auth/Storage relation before rechecking
+ok 166 - compiled candidate has exactly one explicit transaction boundary and locks every reviewed application/Auth/Storage relation before rechecking
+  ---
+  duration_ms: 882.4729
+  type: 'test'
+  ...
+# Subtest: agenda SQL preserves the known trusted service table ACL while denying ordinary direct appointment writes
+ok 167 - agenda SQL preserves the known trusted service table ACL while denying ordinary direct appointment writes
+  ---
+  duration_ms: 309.8797
+  type: 'test'
+  ...
+# Subtest: DDL execution uses the fixed named migration and never fabricates transaction/history or local SQL proof
+ok 168 - DDL execution uses the fixed named migration and never fabricates transaction/history or local SQL proof
+  ---
+  duration_ms: 431.4276
+  type: 'test'
+  ...
+# Subtest: invitation SQL planner binds exact new targets and rejects arbitrary/occupied database names
+ok 169 - invitation SQL planner binds exact new targets and rejects arbitrary/occupied database names
+  ---
+  duration_ms: 11.6206
+  type: 'test'
+  ...
+# Subtest: negative preflights run actual migration inside disposable transaction and distinguish expected errors
+ok 170 - negative preflights run actual migration inside disposable transaction and distinguish expected errors
+  ---
+  duration_ms: 82.3917
+  type: 'test'
+  ...
+# Subtest: Compose interpolation preserves literal credentials and commands
+ok 171 - Compose interpolation preserves literal credentials and commands
+  ---
+  duration_ms: 7.0175
+  type: 'test'
+  ...
+# Subtest: all imported published ports are explicitly loopback
+ok 172 - all imported published ports are explicitly loopback
+  ---
+  duration_ms: 1.253
+  type: 'test'
+  ...
+# Subtest: foreign identity is refused
+ok 173 - foreign identity is refused
+  ---
+  duration_ms: 4.1369
+  type: 'test'
+  ...
+# Subtest: privileged runtime is refused
+ok 174 - privileged runtime is refused
+  ---
+  duration_ms: 1.813
+  type: 'test'
+  ...
+# Subtest: host bind or Docker socket import is refused
+ok 175 - host bind or Docker socket import is refused
+  ---
+  duration_ms: 0.7503
+  type: 'test'
+  ...
+# Subtest: unknown published port is refused
+ok 176 - unknown published port is refused
+  ---
+  duration_ms: 0.6393
+  type: 'test'
+  ...
+# Subtest: local API sources require both explicit acceptance mode and exact configured origin
+ok 177 - local API sources require both explicit acceptance mode and exact configured origin
+  ---
+  duration_ms: 58.5857
+  type: 'test'
+  ...
+# Subtest: reception clinical redirect preserves canonical host and refreshed cookies
+ok 178 - reception clinical redirect preserves canonical host and refreshed cookies
+  ---
+  duration_ms: 381.3093
+  type: 'test'
+  ...
+# Subtest: live membership/profile override forged JWT roles and suspended access
+ok 179 - live membership/profile override forged JWT roles and suspended access
+  ---
+  duration_ms: 730.0889
+  type: 'test'
+  ...
+# Subtest: missing identity or env fails closed for every previously omitted app entry
+ok 180 - missing identity or env fails closed for every previously omitted app entry
+  ---
+  duration_ms: 328.0011
+  type: 'test'
+  ...
+# Subtest: period uses Ecuador day even when UTC is next date
+ok 181 - period uses Ecuador day even when UTC is next date
+  ---
+  duration_ms: 95.2602
+  type: 'test'
+  ...
+# Subtest: inconsistent counts, wrong clinic and unknown sensitive fields rejected/projected
+ok 182 - inconsistent counts, wrong clinic and unknown sensitive fields rejected/projected
+  ---
+  duration_ms: 3.9105
+  type: 'test'
+  ...
+# PASS payload allows exact edited demographic fields, no extra clinical/financial/family keys
+# PASS name, field length, enum and date validation agree with server constraints
+# PASS page uses exact count even outside range, projects whitelist and rejects clinic mismatch
+# PASS real list loader passes server search/pagination and cancellation
+# PASS create/update use demographic RPC, safe projection and preserve server rejection
+# PASS save handler server failure leaves form/dialog intact and displays failure
+# PASS save handler discards switched scope success; missing authority cannot submit
+# PASS successful save invalidates only the current dashboard patient scope and refetches list
+# PASS load effect binds exact server totals and clamps vanished page
+# PASS load effect rejects late responses after search or scope change/unmount
+# PASS load effect errors stay separate from empty and no authority performs no reads
+# 11/11 demographic contract checks passed
+# Subtest: test\\production\\patient-demographics-contracts.test.cjs
+ok 33 - test\\production\\patient-demographics-contracts.test.cjs
+  ---
+  duration_ms: 2031.9634
+  type: 'test'
+  ...
+# PASS authorized JSON projects clinical fields and ignores financial getters
+# PASS empty is distinct from malformed or cross-clinic response
+# PASS patient loader binds the authorized RPC and propagates failure
+# PASS patient loader ignores an aborted response
+# PASS detail effect populates clinical patient and counts files within clinic
+# PASS detail RPC error is explicit and successful empty remains not-found
+# PASS scope switch and unmount reject late patient data
+# PASS missing authority performs no patient or file reads
+# PASS history reads only explicit operational fields scoped to clinic and aborts on unmount
+# PASS history failure does not become a successful empty list
+# 10/10 patient detail contract checks passed
+# Subtest: test\\production\\patient-detail-contracts.test.cjs
+ok 34 - test\\production\\patient-detail-contracts.test.cjs
+  ---
+  duration_ms: 1805.5656
+  type: 'test'
+  ...
+# Subtest: deferred PDF import rechecks publication before generating a clinical download
+ok 185 - deferred PDF import rechecks publication before generating a clinical download
+  ---
+  duration_ms: 354.7927
+  type: 'test'
+  ...
+# Subtest: actual Rx component keeps one UUID across unchanged retries and PDF; edits allocate a new request
+ok 186 - actual Rx component keeps one UUID across unchanged retries and PDF; edits allocate a new request
+  ---
+  duration_ms: 505.9176
+  type: 'test'
+  ...
+# Subtest: actual Rx component refuses issuance when secure UUID generation is unavailable
+ok 187 - actual Rx component refuses issuance when secure UUID generation is unavailable
+  ---
+  duration_ms: 178.038
+  type: 'test'
+  ...
+# Subtest: recipe navigation accepts only a UUID and uses a fixed destination
+ok 188 - recipe navigation accepts only a UUID and uses a fixed destination
+  ---
+  duration_ms: 2.8956
+  type: 'test'
+  ...
+# Subtest: prescription role policy rejects receptionist and unknown roles
+ok 189 - prescription role policy rejects receptionist and unknown roles
+  ---
+  duration_ms: 0.4787
+  type: 'test'
+  ...
+# Subtest: prescription save authorization fails closed before insert for every denied identity or scope
+    # Subtest: no session
+    ok 1 - no session
+      ---
+      duration_ms: 1.2672
+      type: 'test'
+      ...
+    # Subtest: receptionist
+    ok 2 - receptionist
+      ---
+      duration_ms: 4.0098
+      type: 'test'
+      ...
+    # Subtest: role RPC failure
+    ok 3 - role RPC failure
+      ---
+      duration_ms: 0.4657
+      type: 'test'
+      ...
+    # Subtest: inactive profile
+    ok 4 - inactive profile
+      ---
+      duration_ms: 0.5724
+      type: 'test'
+      ...
+    # Subtest: missing profile
+    ok 5 - missing profile
+      ---
+      duration_ms: 0.352
+      type: 'test'
+      ...
+    # Subtest: patient outside clinic or deleted
+    ok 6 - patient outside clinic or deleted
+      ---
+      duration_ms: 0.7145
+      type: 'test'
+      ...
+    1..6
+ok 190 - prescription save authorization fails closed before insert for every denied identity or scope
+  ---
+  duration_ms: 10.9617
+  type: 'test'
+  ...
+# Subtest: prescription save inserts only after a live doctor role, active profile, and clinic patient check
+ok 191 - prescription save inserts only after a live doctor role, active profile, and clinic patient check
+  ---
+  duration_ms: 4.6947
+  type: 'test'
+  ...
+# Subtest: prescription input trims values and rejects missing, oversized, or malformed data
+ok 192 - prescription input trims values and rejects missing, oversized, or malformed data
+  ---
+  duration_ms: 15.7094
+  type: 'test'
+  ...
+# Subtest: persisted Rx export reloads exact document and patient after deferred import, then publishes original receipt
+ok 193 - persisted Rx export reloads exact document and patient after deferred import, then publishes original receipt
+  ---
+  duration_ms: 293.9056
+  type: 'test'
+  ...
+# Subtest: revoked membership or identity during deferred Rx import cannot publish cached data
+ok 194 - revoked membership or identity during deferred Rx import cannot publish cached data
+  ---
+  duration_ms: 361.5514
+  type: 'test'
+  ...
+# Subtest: scope invalidation during deferred Rx import discards publication and does not query clinical rows
+ok 195 - scope invalidation during deferred Rx import discards publication and does not query clinical rows
+  ---
+  duration_ms: 52.4369
+  type: 'test'
+  ...
+# Subtest: denied, deleted, foreign-scope or historical persisted Rx cannot fall back to cache
+ok 196 - denied, deleted, foreign-scope or historical persisted Rx cannot fall back to cache
+  ---
+  duration_ms: 245.2702
+  type: 'test'
+  ...
+# Subtest: PDF uses the database receipt and original issuance date exclusively
+ok 197 - PDF uses the database receipt and original issuance date exclusively
+  ---
+  duration_ms: 9.2474
+  type: 'test'
+  ...
+# Subtest: historical and incomplete receipts fail closed without backfill
+ok 198 - historical and incomplete receipts fail closed without backfill
+  ---
+  duration_ms: 0.7678
+  type: 'test'
+  ...
+# Subtest: receipt must bind the persisted document, issuer, patient and clinic
+ok 199 - receipt must bind the persisted document, issuer, patient and clinic
+  ---
+  duration_ms: 0.6193
+  type: 'test'
+  ...
+# Subtest: invalid date, identity or clinical values cannot reach PDF
+ok 200 - invalid date, identity or clinical values cannot reach PDF
+  ---
+  duration_ms: 0.9736
+  type: 'test'
+  ...
+# Subtest: receipt does not manufacture professional qualification, logos or signatures
+ok 201 - receipt does not manufacture professional qualification, logos or signatures
+  ---
+  duration_ms: 0.6097
+  type: 'test'
+  ...
+# Subtest: actual save action returns only persisted receipt and ignores arbitrary client issuer/snapshot
+ok 202 - actual save action returns only persisted receipt and ignores arbitrary client issuer/snapshot
+  ---
+  duration_ms: 271.6474
+  type: 'test'
+  ...
+# Subtest: concurrent actual-action retries with one UUID return the same receipt with one persisted insert
+ok 203 - concurrent actual-action retries with one UUID return the same receipt with one persisted insert
+  ---
+  duration_ms: 102.1015
+  type: 'test'
+  ...
+# Subtest: lost INSERT response followed by identical retry returns the immutable receipt
+ok 204 - lost INSERT response followed by identical retry returns the immutable receipt
+  ---
+  duration_ms: 47.1068
+  type: 'test'
+  ...
+# Subtest: same UUID cannot change the issued intent or expose a different patient/clinic/issuer
+ok 205 - same UUID cannot change the issued intent or expose a different patient/clinic/issuer
+  ---
+  duration_ms: 104.1289
+  type: 'test'
+  ...
+# Subtest: missing or invalid request UUID denies before any insert
+ok 206 - missing or invalid request UUID denies before any insert
+  ---
+  duration_ms: 60.2061
+  type: 'test'
+  ...
+# Subtest: actual save action rejects missing/corrupt receipt and ambiguous provider outcomes
+ok 207 - actual save action rejects missing/corrupt receipt and ambiguous provider outcomes
+  ---
+  duration_ms: 192.6506
+  type: 'test'
+  ...
+# Subtest: actual PDF engine prints the persisted date and does not fabricate registration/contact values
+ok 208 - actual PDF engine prints the persisted date and does not fabricate registration/contact values
+  ---
+  duration_ms: 680.0726
+  type: 'test'
+  ...
+# Subtest: server delivers exact raster bytes after two live checks, with no cache capability
+ok 209 - server delivers exact raster bytes after two live checks, with no cache capability
+  ---
+  duration_ms: 141.1523
+  type: 'test'
+  ...
+# Subtest: warm request is denied on replay after live revocation before transport
+ok 210 - warm request is denied on replay after live revocation before transport
+  ---
+  duration_ms: 7.2071
+  type: 'test'
+  ...
+# Subtest: revocation, changed object or changed identity while buffering cannot publish bytes
+ok 211 - revocation, changed object or changed identity while buffering cannot publish bytes
+  ---
+  duration_ms: 23.1646
+  type: 'test'
+  ...
+# Subtest: body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+ok 212 - body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+  ---
+  duration_ms: 21.8395
+  type: 'test'
+  ...
+# Subtest: malformed Bearer never falls back to cookies and foreign origins never authorize
+ok 213 - malformed Bearer never falls back to cookies and foreign origins never authorize
+  ---
+  duration_ms: 7.7294
+  type: 'test'
+  ...
+# Subtest: conditional/range requests and foreign registered paths cannot reach image transport
+ok 214 - conditional/range requests and foreign registered paths cannot reach image transport
+  ---
+  duration_ms: 5.7868
+  type: 'test'
+  ...
+# Subtest: SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+ok 215 - SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+  ---
+  duration_ms: 41.5674
+  type: 'test'
+  ...
+# Subtest: aborting an in-flight stream cancels the reader and releases its concurrency slot
+ok 216 - aborting an in-flight stream cancels the reader and releases its concurrency slot
+  ---
+  duration_ms: 9.4807
+  type: 'test'
+  ...
+# Subtest: ordinary authority resolves each registered entity with receptionist-safe projections
+ok 217 - ordinary authority resolves each registered entity with receptionist-safe projections
+  ---
+  duration_ms: 5.2211
+  type: 'test'
+  ...
+# Subtest: every live authority denial prevents access and an otherwise valid new session stays pinned out
+ok 218 - every live authority denial prevents access and an otherwise valid new session stays pinned out
+  ---
+  duration_ms: 3.8613
+  type: 'test'
+  ...
+# Subtest: doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+ok 219 - doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+  ---
+  duration_ms: 1.5679
+  type: 'test'
+  ...
+# Subtest: client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+ok 220 - client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+  ---
+  duration_ms: 33.6719
+  type: 'test'
+  ...
+# Subtest: private media preserves canonical bucket upload paths and same-origin historical references
+ok 221 - private media preserves canonical bucket upload paths and same-origin historical references
+  ---
+  duration_ms: 29.2997
+  type: 'test'
+  ...
+# Subtest: origin, bucket, traversal, malformed and old flat avatar paths fail closed
+ok 222 - origin, bucket, traversal, malformed and old flat avatar paths fail closed
+  ---
+  duration_ms: 3.0064
+  type: 'test'
+  ...
+# Subtest: hook discards same-scope late responses, revokes replaced URLs and denies publication after authority changes
+ok 223 - hook discards same-scope late responses, revokes replaced URLs and denies publication after authority changes
+  ---
+  duration_ms: 966.8363
+  type: 'test'
+  ...
+# Subtest: Strict Mode cleanup and unmount abort old fetches even when the publication token is reused
+ok 224 - Strict Mode cleanup and unmount abort old fetches even when the publication token is reused
+  ---
+  duration_ms: 64.3049
+  type: 'test'
+  ...
+# Subtest: reference replacement invalidates immediately and rejected refresh removes the previous Blob URL
+ok 225 - reference replacement invalidates immediately and rejected refresh removes the previous Blob URL
+  ---
+  duration_ms: 67.0499
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: suspended profile
+ok 226 - live denial blocks email and invitation before service role: suspended profile
+  ---
+  duration_ms: 698.7507
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: deleted profile
+ok 227 - live denial blocks email and invitation before service role: deleted profile
+  ---
+  duration_ms: 269.0766
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: missing profile
+ok 228 - live denial blocks email and invitation before service role: missing profile
+  ---
+  duration_ms: 222.381
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: removed membership
+ok 229 - live denial blocks email and invitation before service role: removed membership
+  ---
+  duration_ms: 153.5338
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: null membership status
+ok 230 - live denial blocks email and invitation before service role: null membership status
+  ---
+  duration_ms: 140.2982
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: unknown role
+ok 231 - live denial blocks email and invitation before service role: unknown role
+  ---
+  duration_ms: 167.2472
+  type: 'test'
+  ...
+# Subtest: live denial blocks email and invitation before service role: RPC error
+ok 232 - live denial blocks email and invitation before service role: RPC error
+  ---
+  duration_ms: 157.435
+  type: 'test'
+  ...
+# Subtest: doctor/receptionist cannot invite despite historical owner metadata; operational email is allowed
+ok 233 - doctor/receptionist cannot invite despite historical owner metadata; operational email is allowed
+  ---
+  duration_ms: 324.8575
+  type: 'test'
+  ...
+# Subtest: foreign clinic and forged preference never grant authority
+ok 234 - foreign clinic and forged preference never grant authority
+  ---
+  duration_ms: 136.0768
+  type: 'test'
+  ...
+# Subtest: Bearer identity and DB RPC share the exact token without cookie client
+ok 235 - Bearer identity and DB RPC share the exact token without cookie client
+  ---
+  duration_ms: 141.3245
+  type: 'test'
+  ...
+# Subtest: same previously valid token loses authority after committed live membership change
+ok 236 - same previously valid token loses authority after committed live membership change
+  ---
+  duration_ms: 105.2852
+  type: 'test'
+  ...
+# Subtest: invalid explicit bearer never falls back to an otherwise valid cookie identity
+ok 237 - invalid explicit bearer never falls back to an otherwise valid cookie identity
+  ---
+  duration_ms: 490.5629
+  type: 'test'
+  ...
+# Subtest: cookie email requires exact incoming origin and JSON before identity/provider effects
+ok 238 - cookie email requires exact incoming origin and JSON before identity/provider effects
+  ---
+  duration_ms: 454.4856
+  type: 'test'
+  ...
+# Subtest: recipient checks reject foreign/deleted patients, removed staff and lookup errors
+ok 239 - recipient checks reject foreign/deleted patients, removed staff and lookup errors
+  ---
+  duration_ms: 363.6316
+  type: 'test'
+  ...
+# Subtest: active owner invite escapes HTML and does not write profile authority or expose token
+ok 240 - active owner invite escapes HTML and does not write profile authority or expose token
+  ---
+  duration_ms: 45.0493
+  type: 'test'
+  ...
+# Subtest: invitation lookup/record/delivery failures are reported honestly; no send after failed record
+ok 241 - invitation lookup/record/delivery failures are reported honestly; no send after failed record
+  ---
+  duration_ms: 135.9954
+  type: 'test'
+  ...
+# Subtest: definite provider rejection expires only the new pending record and permits the next call
+ok 242 - definite provider rejection expires only the new pending record and permits the next call
+  ---
+  duration_ms: 37.9949
+  type: 'test'
+  ...
+# Subtest: ambiguous transport outcome preserves pending invitation and blocks blind second call
+ok 243 - ambiguous transport outcome preserves pending invitation and blocks blind second call
+  ---
+  duration_ms: 32.2801
+  type: 'test'
+  ...
+# Subtest: failed or unconfirmed rejection recovery preserves pending state and requires review
+ok 244 - failed or unconfirmed rejection recovery preserves pending state and requires review
+  ---
+  duration_ms: 70.072
+  type: 'test'
+  ...
+# Subtest: concurrent requests reserve one pending invitation before generating one Auth link
+ok 245 - concurrent requests reserve one pending invitation before generating one Auth link
+  ---
+  duration_ms: 42.6353
+  type: 'test'
+  ...
+# Subtest: pending recipient normalized index conflict prevents Auth even when exact lookup misses legacy casing
+ok 246 - pending recipient normalized index conflict prevents Auth even when exact lookup misses legacy casing
+  ---
+  duration_ms: 39.2077
+  type: 'test'
+  ...
+# Subtest: two explicit Auth generation rejections release reservations and permit a subsequent successful retry
+ok 247 - two explicit Auth generation rejections release reservations and permit a subsequent successful retry
+  ---
+  duration_ms: 42.6091
+  type: 'test'
+  ...
+# Subtest: two explicit delivery rejections retain independent history and permit a third call
+ok 248 - two explicit delivery rejections retain independent history and permit a third call
+  ---
+  duration_ms: 38.8411
+  type: 'test'
+  ...
+# Subtest: unconfirmed Auth generation preserves reservation and prevents a second provider call
+ok 249 - unconfirmed Auth generation preserves reservation and prevents a second provider call
+  ---
+  duration_ms: 81.6503
+  type: 'test'
+  ...
+# Subtest: failed token commit retains reservation for review and never delivers mail
+ok 250 - failed token commit retains reservation for review and never delivers mail
+  ---
+  duration_ms: 80.7809
+  type: 'test'
+  ...
+# Subtest: unconfirmed explicit generation recovery requires review and leaves reservation pending
+ok 251 - unconfirmed explicit generation recovery requires review and leaves reservation pending
+  ---
+  duration_ms: 46.351
+  type: 'test'
+  ...
+# Subtest: malformed FormData, invalid UUID and oversized fields never reach privileged operations
+ok 252 - malformed FormData, invalid UUID and oversized fields never reach privileged operations
+  ---
+  duration_ms: 171.9502
+  type: 'test'
+  ...
+# Subtest: public configuration never reads or returns server secrets in either runtime
+ok 253 - public configuration never reads or returns server secrets in either runtime
+  ---
+  duration_ms: 335.952
+  type: 'test'
+  ...
+# Subtest: public keys reject privileged/malformed values; publishable and legacy anon work
+ok 254 - public keys reject privileged/malformed values; publishable and legacy anon work
+  ---
+  duration_ms: 456.743
+  type: 'test'
+  ...
+# Subtest: deployment public URLs are explicit HTTPS origins, without credentials or injected paths
+ok 255 - deployment public URLs are explicit HTTPS origins, without credentials or injected paths
+  ---
+  duration_ms: 614.2443
+  type: 'test'
+  ...
+# Subtest: offline verification accepts only exact declared tuple and refuses Vercel
+ok 256 - offline verification accepts only exact declared tuple and refuses Vercel
+  ---
+  duration_ms: 309.1692
+  type: 'test'
+  ...
+# Subtest: acceptance loopback is exact, explicit for browser/server, and forbidden on Vercel
+ok 257 - acceptance loopback is exact, explicit for browser/server, and forbidden on Vercel
+  ---
+  duration_ms: 268.7099
+  type: 'test'
+  ...
+# Subtest: Receipt acceptance planner refuses occupied/remote variants and replacement attempts
+ok 258 - Receipt acceptance planner refuses occupied/remote variants and replacement attempts
+  ---
+  duration_ms: 12.5085
+  type: 'test'
+  ...
+# Subtest: Captured overlay planner has only two reviewed synthetic destinations
+ok 259 - Captured overlay planner has only two reviewed synthetic destinations
+  ---
+  duration_ms: 3.5835
+  type: 'test'
+  ...
+# Subtest: Recovery overlay targets only one existing owned project/database and fresh evidence
+ok 260 - Recovery overlay targets only one existing owned project/database and fresh evidence
+  ---
+  duration_ms: 6.8012
+  type: 'test'
+  ...
+# Subtest: Recovery overlay requires the exact migration and rejects source drift
+ok 261 - Recovery overlay requires the exact migration and rejects source drift
+  ---
+  duration_ms: 17.9764
+  type: 'test'
+  ...
+# Subtest: Snapshots exclude only exact new appointment/event IDs and hash Storage metadata
+ok 262 - Snapshots exclude only exact new appointment/event IDs and hash Storage metadata
+  ---
+  duration_ms: 4.315
+  type: 'test'
+  ...
+# Subtest: Runner requires the resource gate and starts/stops only existing containers as postgres
+ok 263 - Runner requires the resource gate and starts/stops only existing containers as postgres
+  ---
+  duration_ms: 5.8633
+  type: 'test'
+  ...
+# Subtest: PostgreSQL list-valued role settings restore separate library and schema identifiers
+ok 264 - PostgreSQL list-valued role settings restore separate library and schema identifiers
+  ---
+  duration_ms: 8.103
+  type: 'test'
+  ...
+# Subtest: Scalar custom settings preserve comma strings and quote literals safely
+ok 265 - Scalar custom settings preserve comma strings and quote literals safely
+  ---
+  duration_ms: 2.0388
+  type: 'test'
+  ...
+# Subtest: SQL verification never accepts occupied or remote database identifiers
+ok 266 - SQL verification never accepts occupied or remote database identifiers
+  ---
+  duration_ms: 48.9187
+  type: 'test'
+  ...
+# Subtest: Generation requires local target and explicit acknowledgement for historical ACL replay
+ok 267 - Generation requires local target and explicit acknowledgement for historical ACL replay
+  ---
+  duration_ms: 178.3167
+  type: 'test'
+  ...
+# Subtest: Both real captures produce deterministic complete scoped fixtures with all dependencies accounted
+ok 268 - Both real captures produce deterministic complete scoped fixtures with all dependencies accounted
+  ---
+  duration_ms: 478.8479
+  type: 'test'
+  ...
+# Subtest: Default privileges are neutralized before application types/tables/functions; source remote defaults never replayed
+ok 269 - Default privileges are neutralized before application types/tables/functions; source remote defaults never replayed
+  ---
+  duration_ms: 111.6465
+  type: 'test'
+  ...
+# Subtest: Exact typmods, int64 sequence bounds, identity and serial ownership preserve captured differences
+ok 270 - Exact typmods, int64 sequence bounds, identity and serial ownership preserve captured differences
+  ---
+  duration_ms: 174.0769
+  type: 'test'
+  ...
+# Subtest: Tables precede foreign keys; unique parent constraints precede composite M7 references
+ok 271 - Tables precede foreign keys; unique parent constraints precede composite M7 references
+  ---
+  duration_ms: 48.9137
+  type: 'test'
+  ...
+# Subtest: Original function definitions are copied without fixing source defects or remote history
+ok 272 - Original function definitions are copied without fixing source defects or remote history
+  ---
+  duration_ms: 186.2691
+  type: 'test'
+  ...
+# Subtest: Deny-client strips effective function/table/schema/column grants and omits historical Storage policies
+ok 273 - Deny-client strips effective function/table/schema/column grants and omits historical Storage policies
+  ---
+  duration_ms: 115.1427
+  type: 'test'
+  ...
+# Subtest: Null ACL semantics and grant options are modeled; malformed or unreviewed grants fail closed
+ok 274 - Null ACL semantics and grant options are modeled; malformed or unreviewed grants fail closed
+  ---
+  duration_ms: 2.3981
+  type: 'test'
+  ...
+# Subtest: Unsupported/missing structural and dependency categories fail closed before output
+ok 275 - Unsupported/missing structural and dependency categories fail closed before output
+  ---
+  duration_ms: 138.6314
+  type: 'test'
+  ...
+# Subtest: Unexpected filesystem/network/credential operations in copied metadata fail closed
+ok 276 - Unexpected filesystem/network/credential operations in copied metadata fail closed
+  ---
+  duration_ms: 141.6337
+  type: 'test'
+  ...
+# Subtest: Scoped verifier catches missing constraints, enum order, ACL escalation and shape changes
+ok 277 - Scoped verifier catches missing constraints, enum order, ACL escalation and shape changes
+  ---
+  duration_ms: 1248.7184
+  type: 'test'
+  ...
+# Subtest: Observed fixture restores column-level profile permissions and SQL MAINTAIN rights; defaults remain deliberately different
+ok 278 - Observed fixture restores column-level profile permissions and SQL MAINTAIN rights; defaults remain deliberately different
+  ---
+  duration_ms: 85.0017
+  type: 'test'
+  ...
+# Subtest: Dropped physical slots compact explicitly; logical reordering and invalid positions still fail
+ok 279 - Dropped physical slots compact explicitly; logical reordering and invalid positions still fail
+  ---
+  duration_ms: 171.4832
+  type: 'test'
+  ...
+# Subtest: Privileged credentials are detected without disclosing values
+ok 280 - Privileged credentials are detected without disclosing values
+  ---
+  duration_ms: 21.5653
+  type: 'test'
+  ...
+# Subtest: Public anon JWT and symbolic environment references are not privileged credentials
+ok 281 - Public anon JWT and symbolic environment references are not privileged credentials
+  ---
+  duration_ms: 2.2487
+  type: 'test'
+  ...
+# Subtest: origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+ok 282 - origin config uses exact project anon JWT and session token with one attempt and no URL credentials
+  ---
+  duration_ms: 17.5493
+  type: 'test'
+  ...
+# Subtest: origin config rejects missing region, publishable/secret/service keys and wrong project
+ok 283 - origin config rejects missing region, publishable/secret/service keys and wrong project
+  ---
+  duration_ms: 25.7691
+  type: 'test'
+  ...
+# Subtest: actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+ok 284 - actual origin adapter preserves bucket/path/session and publishes only safe response metadata
+  ---
+  duration_ms: 410.0944
+  type: 'test'
+  ...
+# Subtest: adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+ok 285 - adapter rejects URL/encoded/traversal/wrong bucket paths before creating the SDK
+  ---
+  duration_ms: 429.2587
+  type: 'test'
+  ...
+# Subtest: invalid status, body and declared length fail closed and release the client
+ok 286 - invalid status, body and declared length fail closed and release the client
+  ---
+  duration_ms: 291.8381
+  type: 'test'
+  ...
+# Subtest: actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+ok 287 - actual bytes must match ContentLength, including empty/truncated/extra/oversized bodies
+  ---
+  duration_ms: 169.2236
+  type: 'test'
+  ...
+# Subtest: exact maximum bytes succeed and cleanup does not depend on a close event
+ok 288 - exact maximum bytes succeed and cleanup does not depend on a close event
+  ---
+  duration_ms: 46.7793
+  type: 'test'
+  ...
+# Subtest: SDK and stream errors are generic and release transport resources
+ok 289 - SDK and stream errors are generic and release transport resources
+  ---
+  duration_ms: 59.7454
+  type: 'test'
+  ...
+# Subtest: caller cancellation destroys source even without close, and detaches its abort listener
+ok 290 - caller cancellation destroys source even without close, and detaches its abort listener
+  ---
+  duration_ms: 46.3739
+  type: 'test'
+  ...
+# Subtest: request abort before SDK, during send and during reading cannot leak bytes or retain resources
+ok 291 - request abort before SDK, during send and during reading cannot leak bytes or retain resources
+  ---
+  duration_ms: 62.4559
+  type: 'test'
+  ...
+# Subtest: revocation evidence requires every replay, list and anonymous negative control
+ok 292 - revocation evidence requires every replay, list and anonymous negative control
+  ---
+  duration_ms: 8.1847
+  type: 'test'
+  ...
+# Subtest: transport errors and expired JWT errors cannot masquerade as authority denial
+ok 293 - transport errors and expired JWT errors cannot masquerade as authority denial
+  ---
+  duration_ms: 0.8496
+  type: 'test'
+  ...
+# Subtest: authorized warm controls must still deny anonymous access
+ok 294 - authorized warm controls must still deny anonymous access
+  ---
+  duration_ms: 0.4251
+  type: 'test'
+  ...
+# Subtest: real enrollment helper uses confirmed Auth identity and delegates only narrow ordinary-client RPCs
+ok 295 - real enrollment helper uses confirmed Auth identity and delegates only narrow ordinary-client RPCs
+  ---
+  duration_ms: 239.4232
+  type: 'test'
+  ...
+# Subtest: unconfirmed/missing/failed identities and unusable invite capabilities cause no membership RPC
+ok 296 - unconfirmed/missing/failed identities and unusable invite capabilities cause no membership RPC
+  ---
+  duration_ms: 30.0492
+  type: 'test'
+  ...
+# Subtest: completion RPC errors or transport failures never report enrolled access
+ok 297 - completion RPC errors or transport failures never report enrolled access
+  ---
+  duration_ms: 32.3457
+  type: 'test'
+  ...
+# Subtest: signup binds returned Auth ID to server-generated clinic intent before link generation; metadata contains no authority
+ok 298 - signup binds returned Auth ID to server-generated clinic intent before link generation; metadata contains no authority
+  ---
+  duration_ms: 537.8609
+  type: 'test'
+  ...
+# Subtest: signup intent failure stops email generation and leaves an honest support outcome
+ok 299 - signup intent failure stops email generation and leaves an honest support outcome
+  ---
+  duration_ms: 205.1868
+  type: 'test'
+  ...
+# Subtest: signup definite mail rejection keeps the already recorded server intent for confirmed retry
+ok 300 - signup definite mail rejection keeps the already recorded server intent for confirmed retry
+  ---
+  duration_ms: 81.354
+  type: 'test'
+  ...
+# Subtest: signup link-generation failure retains stored intent and offers resend; identity drift requires review with no email
+ok 301 - signup link-generation failure retains stored intent and offers resend; identity drift requires review with no email
+  ---
+  duration_ms: 124.515
+  type: 'test'
+  ...
+# Subtest: real completion server action constructs only an ordinary cookie client
+ok 302 - real completion server action constructs only an ordinary cookie client
+  ---
+  duration_ms: 48.6021
+  type: 'test'
+  ...
+# Subtest: Verification removes dotenv/inherited provider configuration and replaces NODE_OPTIONS
+ok 303 - Verification removes dotenv/inherited provider configuration and replaces NODE_OPTIONS
+  ---
+  duration_ms: 61.2874
+  type: 'test'
+  ...
+# Subtest: Compiled client bundle refuses a server credential leak and cannot pass empty output
+ok 304 - Compiled client bundle refuses a server credential leak and cannot pass empty output
+  ---
+  duration_ms: 273.5674
+  type: 'test'
+  ...
+# Clinia verification: typecheck; synthetic offline environment.
+# Subtest: Actual fetch and TCP refuse external destinations; a loopback HTTP control works
+ok 305 - Actual fetch and TCP refuse external destinations; a loopback HTTP control works
+  ---
+  duration_ms: 248.9248
+  type: 'test'
+  ...
+# Subtest: Snapshot classification excludes private paths and local output
+ok 306 - Snapshot classification excludes private paths and local output
+  ---
+  duration_ms: 3.7241
+  type: 'test'
+  ...
+# Subtest: All-mode refuses active checkout and propagates a failing typecheck before later steps
+ok 307 - All-mode refuses active checkout and propagates a failing typecheck before later steps
+  ---
+  duration_ms: 372.3368
+  type: 'test'
+  ...
+1..307
+# tests 313
+# suites 0
+# pass 313
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 16894.4788

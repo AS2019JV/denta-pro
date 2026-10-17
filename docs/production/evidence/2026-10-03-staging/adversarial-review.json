@@ -1,0 +1,24 @@
+{
+  "status": "VERIFIED",
+  "scope": "Independent changed-code review; no runtime GO.",
+  "reviewer": "/root/adversarial_candidate",
+  "reviewedSources": {
+    "agendaMigration": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+    "hostedCompiler": "ccf316aa3cfe5d0cb12a44bbc604908ad14e8ce48d7199adb96f0a02157436a4",
+    "hostedCandidate": "0e19d25395bdebd1d5782f4424147f09500673bf9bda777502c5dec52fb41d49",
+    "hcuComponent": "6fb551a1d20e19939cf4aed3002869c4e5dca34ff88bff7eefe3993b49fc9378",
+    "pdfGenerator": "3205a7021887aaf5215284822819d357cba08bd495ebbe6dbf16c41695a8d2d2"
+  },
+  "supportedNewP0P1P2Findings": [],
+  "validation": [
+    "38 targeted actual handler/component/PDF-byte tests passed",
+    "9 updated hosted compiler tests passed; counts overlap earlier review and are not additive",
+    "SQL and manifest exactly equal compiler output"
+  ],
+  "limits": [
+    "Ordinary appointment serialization only; trusted service maintenance ACL preserved, privileged DELETE remains an existing capability",
+    "No service-client application agenda write route found; ordinary API INSERT/UPDATE guard still requires authenticated live session",
+    "Local race and hosted provider results independently recorded; not inferred from this review",
+    "No professional clinical/privacy acceptance or endpoint SQL/history rollback claim"
+  ]
+}

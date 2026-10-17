@@ -1,0 +1,252 @@
+{
+  "status": "PREPARED_FOR_INDEPENDENT_REVIEW_HOSTED_EXECUTION_UNVERIFIED",
+  "projectId": "phihonofwyerpfgqfekt",
+  "projectName": "cliniaplus-staging",
+  "explicitlyDeniedProjectId": "leqsrfyjvuxxdsubjjin",
+  "executionTool": "supabase_apply_migration",
+  "migrationName": "clinia_candidate_20261003",
+  "executorIdentity": "fixed tool argument project_id",
+  "sourceBaseline": {
+    "file": "docs/production/reconciliation/hosted-staging/reviewed-baseline.json",
+    "sha256": "e964ffcb4c85d3e2be881bf35733e4eb1e87c1d1be1a88482b3e1572e7af197d",
+    "catalogFingerprint": "9d8904994ae7c61150d9b4d3b5ca9ec3",
+    "capturedAt": "2026-10-03T14:13:58.543Z"
+  },
+  "catalogQuery": {
+    "file": "docs/production/reconciliation/hosted-staging/catalog-query.sql",
+    "sha256": "d3ba91cecb5971818b5f7061b4a6d831893f209116e24eadb1172cc8f6c7abdc"
+  },
+  "transaction": {
+    "beginCount": 1,
+    "commitCount": 1,
+    "embeddedBoundaries": 0,
+    "lockMode": "ACCESS EXCLUSIVE",
+    "lockedRelations": [
+      "auth.sessions",
+      "auth.users",
+      "logs.access_audit",
+      "public.appointments",
+      "public.automation_settings",
+      "public.billings",
+      "public.clinic_invitations",
+      "public.clinic_members",
+      "public.clinical_records",
+      "public.clinics",
+      "public.data_rights_requests",
+      "public.hcu033_forms",
+      "public.invoices",
+      "public.messages",
+      "public.notifications",
+      "public.patient_files",
+      "public.patient_notes",
+      "public.patients",
+      "public.payment_methods",
+      "public.payments",
+      "public.prescription_templates",
+      "public.prescriptions",
+      "public.profile_audit_log",
+      "public.profiles",
+      "public.service_categories",
+      "public.services",
+      "public.treatments",
+      "storage.buckets",
+      "storage.objects"
+    ],
+    "explicitOuterBoundariesPreserved": true,
+    "toolBoundaryCompatibility": "UNVERIFIED",
+    "applicationRollbackProof": "NOT_RUN",
+    "assessment": "The reviewed SQL has one explicit BEGIN/COMMIT. Official MCP client forwards this query unchanged to the hosted migrations endpoint. Backend transaction wrapping and migration-history insertion are not visible in that client; terminal COMMIT might end a tool-owned transaction. No hosted rollback or joint SQL/history atomicity is claimed."
+  },
+  "migrationHistory": {
+    "owner": "supabase_apply_migration",
+    "name": "clinia_candidate_20261003",
+    "version": "TOOL_ASSIGNED",
+    "expectedNewNamedEntries": 1,
+    "readback": "REQUIRED_AFTER_EXECUTION",
+    "jointAtomicityWithApplicationSql": "UNVERIFIED"
+  },
+  "validation": {
+    "compilerTests": "SEPARATE_TEST_OUTPUT",
+    "localSql": "NOT_RUN",
+    "hostedSql": "NOT_RUN",
+    "hostedMigrationHistory": "NOT_READ_AFTER_EXECUTION"
+  },
+  "requiredBuckets": [
+    {
+      "id": "clinic-branding",
+      "name": "clinic-branding",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "doctor-avatars",
+      "name": "doctor-avatars",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-avatars",
+      "name": "patient-avatars",
+      "public": false,
+      "fileSizeLimit": 5242880,
+      "allowedMimeTypes": [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    },
+    {
+      "id": "patient-files",
+      "name": "patient-files",
+      "public": false,
+      "fileSizeLimit": 10485760,
+      "allowedMimeTypes": [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "name": "operational-prerequisites",
+      "file": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "b3e51c7ef1069e00b09715d8641b84e88e79113a13493d478dbd34ad7b55cf42"
+    },
+    {
+      "name": "authority",
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "f0e19dc88ea2c502e1495b5afa395260c7af406e3e199a1c9df990714b793288"
+    },
+    {
+      "name": "operational-callbacks",
+      "file": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "dd9a54f9f9d73ea81a25cacb7327d369048fdbfd15718fcb1a9bea40d610ea42"
+    },
+    {
+      "name": "agenda",
+      "file": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "76f678de518f4b5f9dea676d40b8ca96ec0173ceb443abcc111c7d22c01eed3e"
+    },
+    {
+      "name": "reports",
+      "file": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "5503fefe2b5290ca359b56552918b720e81b65121e496f71ce133c98d25f9996"
+    },
+    {
+      "name": "canonical-catalog",
+      "file": "docs/production/reconciliation/final-contract/verify.sql",
+      "sha256": "47df20b80c0661493d7d8e19ed5d77e144877b607c4e7672b85dde51b97ec3fe",
+      "begin": "BEGIN READ ONLY;",
+      "end": "ROLLBACK;",
+      "strippedBodySha256": "0ba94cfdc1dca085e2e75f858d12f081ba85655948bf49a25d534a992d15f1df"
+    },
+    {
+      "name": "canonical-boundaries",
+      "file": "docs/production/reconciliation/operational-convergence/verify-boundaries.sql",
+      "sha256": "79a5f2b8aada22b4a5fca7cb1fcb92d1e2205e0de6f4dee5d37f66fe6b8e0b97",
+      "begin": "BEGIN READ ONLY;",
+      "end": "ROLLBACK;",
+      "strippedBodySha256": "77e5f0b44490ea44c1a48eeafa56ea64c285d0a0204a8fbd13ce423ef7711fd6"
+    },
+    {
+      "name": "pending-invitations",
+      "file": "supabase/migrations/20261001120000_invitation_pending_reservation.sql",
+      "sha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "309491ae918232262b3788eb3121e0ccf23458ee95fe2fa23e37dcaa13067d1d"
+    },
+    {
+      "name": "durable-email",
+      "file": "supabase/migrations/20261001130000_durable_email_abuse_budget.sql",
+      "sha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "484004d5ebca598812743b6a1c180cc874b220a5715d3564e9815a95bc0f7b39"
+    },
+    {
+      "name": "profile-guard",
+      "file": "supabase/migrations/20261002120000_profile_guard_schema_compatibility.sql",
+      "sha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "8e84aa5da02b2b9d679e1e457cfc8dc87c40c69bfa8bb0f56798d6639ce0334f"
+    },
+    {
+      "name": "live-session-revocation",
+      "file": "supabase/migrations/20261002180423_live_session_revocation.sql",
+      "sha256": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "9246718bc5911d187d534f2af21b5ad9c74fb60f8857185c0e30cf7bed1334b9"
+    },
+    {
+      "name": "serialize-agenda-rpc-writes",
+      "file": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+      "sha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "349028d2b327838187a77a80f85a46d001cffae6c41416d5a6eb27c855f130c7"
+    },
+    {
+      "name": "trusted-enrollment",
+      "file": "supabase/migrations/20261002180800_trusted_enrollment.sql",
+      "sha256": "bcc0c79413c07f78be13de15c6d11f324e0a538084e8e7ee1e60c39c482c67f3",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "8d6aea18517dadba0c35a494b1de44111d170841a7d2b0290026d11125678171"
+    },
+    {
+      "name": "immutable-prescription",
+      "file": "supabase/migrations/20261002231730_immutable_prescription_receipts.sql",
+      "sha256": "da6c2212eb85989ef891a9251e3f4ad0519b9de97f683ae3e5b73b4a0ba268d8",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "1fee5746efbebd9b07286859fd54a781f8a4a58367c703895906718afa76cbdd"
+    },
+    {
+      "name": "prescription-request-ids",
+      "file": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+      "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf",
+      "begin": "BEGIN;",
+      "end": "COMMIT;",
+      "strippedBodySha256": "8ea29e7d119b68af828008c4aa59ae3038433a6c145679fe2d1298d20c300c64"
+    }
+  ],
+  "candidateSha256": "0e19d25395bdebd1d5782f4424147f09500673bf9bda777502c5dec52fb41d49",
+  "limits": [
+    "Compiler never reads credentials, calls remote tools, resets public, imports captures, repairs M7 owners, or writes Storage metadata",
+    "Bucket creation is a separately reviewed official Storage API operation",
+    "Candidate includes the reviewed prospective agenda delta; compiler validation is not actual SQL execution proof",
+    "Local SQL validation is pending and is not an additional authorization requirement; execute only against the already authorized fixed staging project",
+    "Explicit BEGIN/COMMIT and the apply_migration client contract do not prove rollback behavior or atomicity with migration-history writes; inspect catalog and named history entry after the first tool result, including errors",
+    "SQL catalogue success does not prove ordinary JWT/API authorization or production readiness"
+  ]
+}

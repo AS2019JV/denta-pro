@@ -1,0 +1,13 @@
+{
+  "at": "2026-09-28T20:11:00.540Z",
+  "kind": "local-synthetic-only",
+  "action": "prepare",
+  "state": {
+    "id": "12121212-1212-4212-8212-121212121212",
+    "name": "Control operativo sintético",
+    "duration": 30,
+    "active": true,
+    "historicalValueHash": "7049dbf10e714c4dfe7165797fab1b6b"
+  },
+  "passed": true
+}

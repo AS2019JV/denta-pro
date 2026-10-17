@@ -1,0 +1,97 @@
+{
+  "createdAt": "2026-09-29T02:00:14.679Z",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "scope": "PREP tooling and scoped SQL integration; not complete release",
+  "files": [
+    {
+      "path": ".eslintrc.json",
+      "sha256": "ee0192e8e608c17e27326c965ee56d52d482bfafff2f0d53751248602d75b5d8",
+      "bytes": 432,
+      "testedCopySha256": "ee0192e8e608c17e27326c965ee56d52d482bfafff2f0d53751248602d75b5d8"
+    },
+    {
+      "path": ".gitignore",
+      "sha256": "823413c3d489e0f89c519fc9e60936018fa57b8d089a7d12ba49de2387ef60f7",
+      "bytes": 487,
+      "testedCopySha256": "823413c3d489e0f89c519fc9e60936018fa57b8d089a7d12ba49de2387ef60f7"
+    },
+    {
+      "path": ".node-version",
+      "sha256": "a0e27aeeac42d6102f4ff2bce40d8fb011c07e5cb28eff3c9d77e68df29e5dd6",
+      "bytes": 8,
+      "testedCopySha256": "a0e27aeeac42d6102f4ff2bce40d8fb011c07e5cb28eff3c9d77e68df29e5dd6"
+    },
+    {
+      "path": ".github/workflows/clinia-verification.yml",
+      "sha256": "20aad67bc71ed174f649e6ee5bfa26cba58691e218880fadd2acc13696b626ee",
+      "bytes": 947,
+      "testedCopySha256": "20aad67bc71ed174f649e6ee5bfa26cba58691e218880fadd2acc13696b626ee"
+    },
+    {
+      "path": "package.json",
+      "sha256": "597905038dce107ba40abafa9f25ab42091aae1041529cb1dd7470c2d43334bd",
+      "bytes": 2767,
+      "testedCopySha256": "597905038dce107ba40abafa9f25ab42091aae1041529cb1dd7470c2d43334bd"
+    },
+    {
+      "path": "package-lock.json",
+      "sha256": "9f6f4ca5c2e007c6946e94315d927be3a1e2dab0b1323aabcf1721b51c338a14",
+      "bytes": 386407,
+      "testedCopySha256": "9f6f4ca5c2e007c6946e94315d927be3a1e2dab0b1323aabcf1721b51c338a14"
+    },
+    {
+      "path": "tsconfig.json",
+      "sha256": "534ddc4a20a6115621b213e090758ee558b7d5906ebcbe7f9a2229ee643407a9",
+      "bytes": 866,
+      "testedCopySha256": "534ddc4a20a6115621b213e090758ee558b7d5906ebcbe7f9a2229ee643407a9"
+    },
+    {
+      "path": "next.config.mjs",
+      "sha256": "e821f4c8df32d17aee745e545b47aef6944257e6c63b224e03e2d59ccb4bfc9d",
+      "bytes": 2955,
+      "testedCopySha256": "e821f4c8df32d17aee745e545b47aef6944257e6c63b224e03e2d59ccb4bfc9d"
+    },
+    {
+      "path": "types/next.d.ts",
+      "sha256": "c648357b1af39995527c441ae28ee94167ea19d5c11ec32c7c752f8a8e6ac2d5",
+      "bytes": 159,
+      "testedCopySha256": "c648357b1af39995527c441ae28ee94167ea19d5c11ec32c7c752f8a8e6ac2d5"
+    },
+    {
+      "path": "scripts/clinia-release-snapshot.cjs",
+      "sha256": "567277f1be02da2968677e4772a8f800ed8c718cc6dc79c14b398de310e6eb69",
+      "bytes": 4300,
+      "testedCopySha256": "567277f1be02da2968677e4772a8f800ed8c718cc6dc79c14b398de310e6eb69"
+    },
+    {
+      "path": "scripts/clinia-verify.cjs",
+      "sha256": "3f0ef99a7c002c0ab8e3265955581072ef5cf2e5f8a45d18319438e700d86cfb",
+      "bytes": 3588,
+      "testedCopySha256": "3f0ef99a7c002c0ab8e3265955581072ef5cf2e5f8a45d18319438e700d86cfb"
+    },
+    {
+      "path": "scripts/clinia-ci-network-guard.cjs",
+      "sha256": "a554cb48c8083c49b7d38877a6852e7a5d07c71ae313c87e324823035dcd6782",
+      "bytes": 1472,
+      "testedCopySha256": "a554cb48c8083c49b7d38877a6852e7a5d07c71ae313c87e324823035dcd6782"
+    },
+    {
+      "path": "test/production/verification-runner.test.cjs",
+      "sha256": "39ee93550d2a55a3920ac9ade5516fa33f3d486e7832d1056db8c1d99dea1b78",
+      "bytes": 4087,
+      "testedCopySha256": "39ee93550d2a55a3920ac9ade5516fa33f3d486e7832d1056db8c1d99dea1b78"
+    },
+    {
+      "path": "scripts/verify-clinia-operational-convergence.cjs",
+      "sha256": "e76c5c125f8f8b488a34fde685aee127c005f16c34d11eb1965df18024b4b411",
+      "bytes": 15098,
+      "testedCopySha256": "e76c5c125f8f8b488a34fde685aee127c005f16c34d11eb1965df18024b4b411"
+    },
+    {
+      "path": "docs/production/reconciliation/final-contract/verify.sql",
+      "sha256": "47df20b80c0661493d7d8e19ed5d77e144877b607c4e7672b85dde51b97ec3fe",
+      "bytes": 7558,
+      "testedCopySha256": "47df20b80c0661493d7d8e19ed5d77e144877b607c4e7672b85dde51b97ec3fe"
+    }
+  ]
+}

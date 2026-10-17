@@ -1,0 +1,6 @@
+{
+  "file": "supabase/migrations/20231123_auto_create_profile.sql",
+  "sha256": "37A3FB483A43AC96B4CAB481821CAE3F49E6216A4CF3733E74E0EFFCCB7413F7",
+  "exit": 3,
+  "output": "CREATE FUNCTION\r\nDROP TRIGGER\r\nNOTICE:  schema \"auth\" does not exist, skipping\r\nERROR:  schema \"auth\" does not exist"
+}

@@ -1,0 +1,9 @@
+{
+  "environment": "existing local app",
+  "url": "http://127.0.0.1:3400/login",
+  "after": "isolated candidate stopped",
+  "httpStatus": 200,
+  "elapsedMs": 969,
+  "commandExitCode": 0,
+  "scope": "single unauthenticated availability request; not browser, percentile or performance acceptance"
+}

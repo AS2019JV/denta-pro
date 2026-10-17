@@ -1,0 +1,3173 @@
+{
+  "capturedAt": "2026-09-27 03:13:31.119387+00",
+  "dependencies": [
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for logs.access_audit.\"\"timestamp\"\"\")",
+      "referenced": "(\"table column\",logs,access_audit,\"logs.access_audit.\"\"timestamp\"\"\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.appointments.created_at\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.appointments.id\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.appointments.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.appointments.status\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.created_at\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.days_before\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.days_before)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.email_enabled\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.email_enabled)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.enabled\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.enabled)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.id\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.reminder_template\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.reminder_template)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.automation_settings.whatsapp_enabled\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.whatsapp_enabled)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.billings.created_at\")",
+      "referenced": "(\"table column\",public,billings,public.billings.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.billings.id\")",
+      "referenced": "(\"table column\",public,billings,public.billings.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.billings.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.billings.status\")",
+      "referenced": "(\"table column\",public,billings,public.billings.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.created_at\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.expires_at\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.expires_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.id\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.status\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.token\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.token)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.clinic_invitations.token\")",
+      "referenced": "(function,extensions,,\"extensions.gen_random_bytes(integer)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_members.created_at\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_members.id\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.clinic_members.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_members.role\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.role)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinic_members.status\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.created_at\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.id\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.odontogram_state\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.odontogram_state)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.periodontogram_state\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.periodontogram_state)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinical_records.updated_at\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.updated_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.bypass_subscription\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.bypass_subscription)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.created_at\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.disclaimer_text\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.disclaimer_text)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.id\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.clinics.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.settings\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.settings)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.subscription_status\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.subscription_status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.clinics.subscription_status\")",
+      "referenced": "(type,public,subscription_status,public.subscription_status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.subscription_tier\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.subscription_tier)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.clinics.working_hours\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.working_hours)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.data_rights_requests.created_at\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.data_rights_requests.details\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.details)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.data_rights_requests.id\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.data_rights_requests.status\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.data_rights_requests.updated_at\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.updated_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.clinic_id\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.clinic_id\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.created_at\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.id\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.hcu033_forms.updated_at\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.updated_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.invoices.created_at\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.invoices.environment\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.environment)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.invoices.id\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.invoices.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.invoices.items\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.items)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.invoices.status\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.messages.created_at\")",
+      "referenced": "(\"table column\",public,messages,public.messages.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.messages.id\")",
+      "referenced": "(\"table column\",public,messages,public.messages.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.messages.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.messages.is_read\")",
+      "referenced": "(\"table column\",public,messages,public.messages.is_read)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.notifications.created_at\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.notifications.id\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.notifications.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.notifications.is_read\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.is_read)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.notifications.type\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.type)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patient_files.created_at\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patient_files.id\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.patient_files.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patient_notes.created_at\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patient_notes.id\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.patient_notes.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.account_balance\")",
+      "referenced": "(\"table column\",public,patients,public.patients.account_balance)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.created_at\")",
+      "referenced": "(\"table column\",public,patients,public.patients.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.has_diabetes\")",
+      "referenced": "(\"table column\",public,patients,public.patients.has_diabetes)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.has_heart_disease\")",
+      "referenced": "(\"table column\",public,patients,public.patients.has_heart_disease)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.has_hypertension\")",
+      "referenced": "(\"table column\",public,patients,public.patients.has_hypertension)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.id\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.patients.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.is_family_head\")",
+      "referenced": "(\"table column\",public,patients,public.patients.is_family_head)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.is_pregnant\")",
+      "referenced": "(\"table column\",public,patients,public.patients.is_pregnant)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.is_smoker\")",
+      "referenced": "(\"table column\",public,patients,public.patients.is_smoker)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.medical_history\")",
+      "referenced": "(\"table column\",public,patients,public.patients.medical_history)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.odontogram_state\")",
+      "referenced": "(\"table column\",public,patients,public.patients.odontogram_state)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.periodontogram_state\")",
+      "referenced": "(\"table column\",public,patients,public.patients.periodontogram_state)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.preferred_contact_method\")",
+      "referenced": "(\"table column\",public,patients,public.patients.preferred_contact_method)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.recall_months\")",
+      "referenced": "(\"table column\",public,patients,public.patients.recall_months)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.status\")",
+      "referenced": "(\"table column\",public,patients,public.patients.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.patients.updated_at\")",
+      "referenced": "(\"table column\",public,patients,public.patients.updated_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.clinic_id\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.clinic_id\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.created_at\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.id\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payment_methods.is_active\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.is_active)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payments.created_at\")",
+      "referenced": "(\"table column\",public,payments,public.payments.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payments.currency\")",
+      "referenced": "(\"table column\",public,payments,public.payments.currency)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payments.id\")",
+      "referenced": "(\"table column\",public,payments,public.payments.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payments.metadata\")",
+      "referenced": "(\"table column\",public,payments,public.payments.metadata)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.payments.provider\")",
+      "referenced": "(\"table column\",public,payments,public.payments.provider)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescription_templates.clinic_id\")",
+      "referenced": "(\"table column\",public,prescription_templates,public.prescription_templates.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.prescription_templates.clinic_id\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescription_templates.created_at\")",
+      "referenced": "(\"table column\",public,prescription_templates,public.prescription_templates.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescription_templates.id\")",
+      "referenced": "(\"table column\",public,prescription_templates,public.prescription_templates.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.prescription_templates.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescriptions.created_at\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescriptions.data\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.data)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.prescriptions.id\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.prescriptions.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.profile_audit_log.created_at\")",
+      "referenced": "(\"table column\",public,profile_audit_log,public.profile_audit_log.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.profile_audit_log.id\")",
+      "referenced": "(\"table column\",public,profile_audit_log,public.profile_audit_log.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.profile_audit_log.id\")",
+      "referenced": "(sequence,public,profile_audit_log_id_seq,public.profile_audit_log_id_seq)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.profiles.status\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.profiles.status\")",
+      "referenced": "(type,public,user_status,public.user_status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.service_categories.color\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.color)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.service_categories.created_at\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.service_categories.id\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.category\")",
+      "referenced": "(\"table column\",public,services,public.services.category)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.clinic_id\")",
+      "referenced": "(\"table column\",public,services,public.services.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.services.clinic_id\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.color\")",
+      "referenced": "(\"table column\",public,services,public.services.color)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.created_at\")",
+      "referenced": "(\"table column\",public,services,public.services.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.duration_minutes\")",
+      "referenced": "(\"table column\",public,services,public.services.duration_minutes)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.id\")",
+      "referenced": "(\"table column\",public,services,public.services.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"default value\",,,\"for public.services.id\")",
+      "referenced": "(function,extensions,,\"extensions.uuid_generate_v4()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.is_active\")",
+      "referenced": "(\"table column\",public,services,public.services.is_active)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.price\")",
+      "referenced": "(\"table column\",public,services,public.services.price)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.services.updated_at\")",
+      "referenced": "(\"table column\",public,services,public.services.updated_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.treatments.created_at\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.treatments.duration\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.duration)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.treatments.id\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"default value\",,,\"for public.treatments.price\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.price)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table column\",public,clinics,public.clinics.subscription_status)",
+      "referenced": "(type,public,subscription_status,public.subscription_status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table column\",public,profiles,public.profiles.role)",
+      "referenced": "(type,public,app_role,public.app_role)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table column\",public,profiles,public.profiles.status)",
+      "referenced": "(type,public,user_status,public.user_status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",logs,,\"access_audit_pkey on logs.access_audit\")",
+      "referenced": "(\"table column\",logs,access_audit,logs.access_audit.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"appointments_clinic_id_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_clinic_id_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_clinic_id_fkey on public.appointments\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"appointments_doctor_id_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_doctor_id_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_doctor_id_fkey on public.appointments\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"appointments_patient_clinic_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"appointments_patient_clinic_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_patient_clinic_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_patient_clinic_fkey on public.appointments\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"appointments_patient_clinic_fkey on public.appointments\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"appointments_pkey on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"automation_settings_pkey on public.automation_settings\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"automation_settings_user_id_fkey on public.automation_settings\")",
+      "referenced": "(\"table column\",public,automation_settings,public.automation_settings.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"automation_settings_user_id_fkey on public.automation_settings\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"automation_settings_user_id_fkey on public.automation_settings\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_appointment_id_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"billings_appointment_id_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,billings,public.billings.appointment_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_appointment_id_fkey on public.billings\")",
+      "referenced": "(index,public,appointments_pkey,public.appointments_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"billings_clinic_id_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,billings,public.billings.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_clinic_id_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_clinic_id_fkey on public.billings\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"billings_patient_clinic_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,billings,public.billings.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"billings_patient_clinic_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,billings,public.billings.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_patient_clinic_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_patient_clinic_fkey on public.billings\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"billings_patient_clinic_fkey on public.billings\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"billings_pkey on public.billings\")",
+      "referenced": "(\"table column\",public,billings,public.billings.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_clinic_id_fkey on public.clinic_invitations\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_clinic_id_fkey on public.clinic_invitations\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_clinic_id_fkey on public.clinic_invitations\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_invited_by_fkey on public.clinic_invitations\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_invited_by_fkey on public.clinic_invitations\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.invited_by)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_invited_by_fkey on public.clinic_invitations\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_invitations_pkey on public.clinic_invitations\")",
+      "referenced": "(\"table column\",public,clinic_invitations,public.clinic_invitations.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_clinic_id_fkey on public.clinic_members\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_clinic_id_fkey on public.clinic_members\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_clinic_id_fkey on public.clinic_members\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_pkey on public.clinic_members\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_user_id_fkey on public.clinic_members\")",
+      "referenced": "(\"table column\",public,clinic_members,public.clinic_members.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_user_id_fkey on public.clinic_members\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinic_members_user_id_fkey on public.clinic_members\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_clinic_id_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_clinic_id_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_clinic_id_fkey on public.clinical_records\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_doctor_id_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_doctor_id_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_doctor_id_fkey on public.clinical_records\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_patient_clinic_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_patient_clinic_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_patient_clinic_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_patient_clinic_fkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_patient_clinic_fkey on public.clinical_records\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinical_records_pkey on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinics_owner_id_fkey on public.clinics\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.owner_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinics_owner_id_fkey on public.clinics\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"clinics_owner_id_fkey on public.clinics\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"clinics_pkey on public.clinics\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_clinic_id_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_clinic_id_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_clinic_id_fkey on public.data_rights_requests\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_patient_clinic_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_patient_clinic_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_patient_clinic_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_patient_clinic_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_patient_clinic_fkey on public.data_rights_requests\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_pkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_resolved_by_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_resolved_by_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.resolved_by)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_resolved_by_fkey on public.data_rights_requests\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_user_id_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_user_id_fkey on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"data_rights_requests_user_id_fkey on public.data_rights_requests\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_clinic_id_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_clinic_id_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_clinic_id_fkey on public.hcu033_forms\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_doctor_id_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_doctor_id_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_doctor_id_fkey on public.hcu033_forms\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_patient_clinic_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_patient_clinic_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_patient_clinic_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_patient_clinic_fkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_patient_clinic_fkey on public.hcu033_forms\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"hcu033_forms_pkey on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_billing_id_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,billings,public.billings.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"invoices_billing_id_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.billing_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_billing_id_fkey on public.invoices\")",
+      "referenced": "(index,public,billings_pkey,public.billings_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_clinic_id_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"invoices_clinic_id_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_clinic_id_fkey on public.invoices\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"invoices_patient_clinic_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"invoices_patient_clinic_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_patient_clinic_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_patient_clinic_fkey on public.invoices\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"invoices_patient_clinic_fkey on public.invoices\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"invoices_pkey on public.invoices\")",
+      "referenced": "(\"table column\",public,invoices,public.invoices.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_clinic_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"messages_clinic_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,messages,public.messages.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_clinic_id_fkey on public.messages\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"messages_pkey on public.messages\")",
+      "referenced": "(\"table column\",public,messages,public.messages.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"messages_receiver_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,messages,public.messages.receiver_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_receiver_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_receiver_id_fkey on public.messages\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"messages_sender_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,messages,public.messages.sender_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_sender_id_fkey on public.messages\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"messages_sender_id_fkey on public.messages\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"notifications_pkey on public.notifications\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"notifications_user_id_fkey on public.notifications\")",
+      "referenced": "(\"table column\",public,notifications,public.notifications.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"notifications_user_id_fkey on public.notifications\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"notifications_user_id_fkey on public.notifications\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_clinic_id_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_files_clinic_id_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_clinic_id_fkey on public.patient_files\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_files_patient_clinic_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_files_patient_clinic_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_patient_clinic_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_patient_clinic_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_patient_clinic_fkey on public.patient_files\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_files_pkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_files_uploaded_by_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.uploaded_by)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_uploaded_by_fkey on public.patient_files\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_files_uploaded_by_fkey on public.patient_files\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_author_id_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.author_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_author_id_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_author_id_fkey on public.patient_notes\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_clinic_id_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_clinic_id_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_clinic_id_fkey on public.patient_notes\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_patient_clinic_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_patient_clinic_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_patient_clinic_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_patient_clinic_fkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_patient_clinic_fkey on public.patient_notes\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patient_notes_pkey on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_clinic_id_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_clinic_id_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_clinic_id_fkey on public.patients\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_family_clinic_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_family_clinic_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_family_clinic_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.family_representative_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_family_clinic_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_family_clinic_fkey on public.patients\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_family_representative_id_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.family_representative_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_family_representative_id_fkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"patients_family_representative_id_fkey on public.patients\")",
+      "referenced": "(index,public,patients_pkey,public.patients_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_id_clinic_id_key on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_id_clinic_id_key on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"patients_pkey on public.patients\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_clinic_id_fkey on public.payment_methods\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_clinic_id_fkey on public.payment_methods\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_clinic_id_fkey on public.payment_methods\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_doctor_id_fkey on public.payment_methods\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_doctor_id_fkey on public.payment_methods\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_doctor_id_fkey on public.payment_methods\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"payment_methods_pkey on public.payment_methods\")",
+      "referenced": "(\"table column\",public,payment_methods,public.payment_methods.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payments_clinic_id_fkey on public.payments\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"payments_clinic_id_fkey on public.payments\")",
+      "referenced": "(\"table column\",public,payments,public.payments.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"payments_clinic_id_fkey on public.payments\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"payments_pkey on public.payments\")",
+      "referenced": "(\"table column\",public,payments,public.payments.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescription_templates_doctor_id_fkey on public.prescription_templates\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescription_templates_doctor_id_fkey on public.prescription_templates\")",
+      "referenced": "(\"table column\",public,prescription_templates,public.prescription_templates.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescription_templates_doctor_id_fkey on public.prescription_templates\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescription_templates_pkey on public.prescription_templates\")",
+      "referenced": "(\"table column\",public,prescription_templates,public.prescription_templates.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_clinic_id_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_clinic_id_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_clinic_id_fkey on public.prescriptions\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_doctor_id_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_doctor_id_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_doctor_id_fkey on public.prescriptions\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_patient_clinic_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_patient_clinic_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_patient_clinic_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_patient_clinic_fkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.patient_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_patient_clinic_fkey on public.prescriptions\")",
+      "referenced": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"prescriptions_pkey on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_actor_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(\"table column\",public,profile_audit_log,public.profile_audit_log.actor_user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_actor_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_actor_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_pkey on public.profile_audit_log\")",
+      "referenced": "(\"table column\",public,profile_audit_log,public.profile_audit_log.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_target_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(\"table column\",public,profile_audit_log,public.profile_audit_log.target_user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_target_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profile_audit_log_target_user_id_fkey on public.profile_audit_log\")",
+      "referenced": "(index,public,profiles_pkey,public.profiles_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profiles_clinic_id_fkey on public.profiles\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profiles_clinic_id_fkey on public.profiles\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profiles_clinic_id_fkey on public.profiles\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profiles_id_fkey on public.profiles\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profiles_id_fkey on public.profiles\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"profiles_id_fkey on public.profiles\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"profiles_pkey on public.profiles\")",
+      "referenced": "(\"table column\",public,profiles,public.profiles.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"service_categories_clinic_id_fkey on public.service_categories\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"service_categories_clinic_id_fkey on public.service_categories\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"service_categories_clinic_id_fkey on public.service_categories\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"service_categories_pkey on public.service_categories\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"services_category_id_fkey on public.services\")",
+      "referenced": "(\"table column\",public,service_categories,public.service_categories.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"services_category_id_fkey on public.services\")",
+      "referenced": "(\"table column\",public,services,public.services.category_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"services_category_id_fkey on public.services\")",
+      "referenced": "(index,public,service_categories_pkey,public.service_categories_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"services_clinic_id_fkey on public.services\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"services_clinic_id_fkey on public.services\")",
+      "referenced": "(\"table column\",public,services,public.services.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"services_clinic_id_fkey on public.services\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"services_pkey on public.services\")",
+      "referenced": "(\"table column\",public,services,public.services.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"treatments_clinic_id_fkey on public.treatments\")",
+      "referenced": "(\"table column\",public,clinics,public.clinics.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"treatments_clinic_id_fkey on public.treatments\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"treatments_clinic_id_fkey on public.treatments\")",
+      "referenced": "(index,public,clinics_pkey,public.clinics_pkey)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"treatments_pkey on public.treatments\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"treatments_user_id_fkey on public.treatments\")",
+      "referenced": "(\"table column\",auth,users,auth.users.id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(\"table constraint\",public,,\"treatments_user_id_fkey on public.treatments\")",
+      "referenced": "(\"table column\",public,treatments,public.treatments.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(\"table constraint\",public,,\"treatments_user_id_fkey on public.treatments\")",
+      "referenced": "(index,auth,users_pkey,auth.users_pkey)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,logs,,\"logs.log_access_trigger()\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,logs,,\"logs.log_access_trigger()\")",
+      "referenced": "(schema,,logs,logs)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.get_user_clinic_id()\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.guard_data_rights_request_insert()\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.guard_data_rights_request_insert()\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.is_clinic_member(pg_catalog.uuid)\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.is_clinic_member(pg_catalog.uuid)\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.protect_data_rights_requests()\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.protect_data_rights_requests()\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.purge_clinic_data(pg_catalog.uuid)\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,public,,\"public.purge_clinic_data(pg_catalog.uuid)\")",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,security_internal,,\"security_internal.audit_data_rights_status()\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,security_internal,,\"security_internal.audit_data_rights_status()\")",
+      "referenced": "(schema,,security_internal,security_internal)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")",
+      "referenced": "(language,,plpgsql,plpgsql)"
+    },
+    {
+      "type": "n",
+      "dependent": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")",
+      "referenced": "(schema,,security_internal,security_internal)"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,logs,access_audit_pkey,logs.access_audit_pkey)",
+      "referenced": "(\"table constraint\",logs,,\"access_audit_pkey on logs.access_audit\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,appointments_pkey,public.appointments_pkey)",
+      "referenced": "(\"table constraint\",public,,\"appointments_pkey on public.appointments\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,automation_settings_pkey,public.automation_settings_pkey)",
+      "referenced": "(\"table constraint\",public,,\"automation_settings_pkey on public.automation_settings\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,billings_pkey,public.billings_pkey)",
+      "referenced": "(\"table constraint\",public,,\"billings_pkey on public.billings\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,clinic_invitations_pkey,public.clinic_invitations_pkey)",
+      "referenced": "(\"table constraint\",public,,\"clinic_invitations_pkey on public.clinic_invitations\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,clinic_members_pkey,public.clinic_members_pkey)",
+      "referenced": "(\"table constraint\",public,,\"clinic_members_pkey on public.clinic_members\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,clinical_records_pkey,public.clinical_records_pkey)",
+      "referenced": "(\"table constraint\",public,,\"clinical_records_pkey on public.clinical_records\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,clinics_pkey,public.clinics_pkey)",
+      "referenced": "(\"table constraint\",public,,\"clinics_pkey on public.clinics\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,data_rights_requests_pkey,public.data_rights_requests_pkey)",
+      "referenced": "(\"table constraint\",public,,\"data_rights_requests_pkey on public.data_rights_requests\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,hcu033_forms_pkey,public.hcu033_forms_pkey)",
+      "referenced": "(\"table constraint\",public,,\"hcu033_forms_pkey on public.hcu033_forms\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_clinic_patient,public.idx_appointments_clinic_patient)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_clinic_patient,public.idx_appointments_clinic_patient)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_clinic_start,public.idx_appointments_clinic_start)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_clinic_start,public.idx_appointments_clinic_start)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.start_time)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_conflict,public.idx_appointments_conflict)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_conflict,public.idx_appointments_conflict)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.doctor_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_conflict,public.idx_appointments_conflict)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.end_time)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_conflict,public.idx_appointments_conflict)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.start_time)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_conflict,public.idx_appointments_conflict)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.status)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_patient_doctor,public.idx_appointments_patient_doctor)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_patient_doctor,public.idx_appointments_patient_doctor)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.doctor_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_appointments_patient_doctor,public.idx_appointments_patient_doctor)",
+      "referenced": "(\"table column\",public,appointments,public.appointments.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_billings_clinic_patient,public.idx_billings_clinic_patient)",
+      "referenced": "(\"table column\",public,billings,public.billings.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_billings_clinic_patient,public.idx_billings_clinic_patient)",
+      "referenced": "(\"table column\",public,billings,public.billings.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_clinical_records_clinic_patient,public.idx_clinical_records_clinic_patient)",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_clinical_records_clinic_patient,public.idx_clinical_records_clinic_patient)",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_data_rights_requests_clinic_patient,public.idx_data_rights_requests_clinic_patient)",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_data_rights_requests_clinic_patient,public.idx_data_rights_requests_clinic_patient)",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_hcu033_clinic_patient,public.idx_hcu033_clinic_patient)",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_hcu033_clinic_patient,public.idx_hcu033_clinic_patient)",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_invoices_clinic_patient,public.idx_invoices_clinic_patient)",
+      "referenced": "(\"table column\",public,invoices,public.invoices.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_invoices_clinic_patient,public.idx_invoices_clinic_patient)",
+      "referenced": "(\"table column\",public,invoices,public.invoices.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patient_files_clinic_patient,public.idx_patient_files_clinic_patient)",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patient_files_clinic_patient,public.idx_patient_files_clinic_patient)",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patient_notes_clinic_patient,public.idx_patient_notes_clinic_patient)",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patient_notes_clinic_patient,public.idx_patient_notes_clinic_patient)",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.patient_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patients_clinic_cedula,public.idx_patients_clinic_cedula)",
+      "referenced": "(\"table column\",public,patients,public.patients.cedula)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_patients_clinic_cedula,public.idx_patients_clinic_cedula)",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_prescriptions_clinic_created,public.idx_prescriptions_clinic_created)",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_prescriptions_clinic_created,public.idx_prescriptions_clinic_created)",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.created_at)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_prescriptions_clinic_patient,public.idx_prescriptions_clinic_patient)",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.clinic_id)"
+    },
+    {
+      "type": "a",
+      "dependent": "(index,public,idx_prescriptions_clinic_patient,public.idx_prescriptions_clinic_patient)",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.patient_id)"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,invoices_pkey,public.invoices_pkey)",
+      "referenced": "(\"table constraint\",public,,\"invoices_pkey on public.invoices\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,messages_pkey,public.messages_pkey)",
+      "referenced": "(\"table constraint\",public,,\"messages_pkey on public.messages\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,notifications_pkey,public.notifications_pkey)",
+      "referenced": "(\"table constraint\",public,,\"notifications_pkey on public.notifications\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,patient_files_pkey,public.patient_files_pkey)",
+      "referenced": "(\"table constraint\",public,,\"patient_files_pkey on public.patient_files\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,patient_notes_pkey,public.patient_notes_pkey)",
+      "referenced": "(\"table constraint\",public,,\"patient_notes_pkey on public.patient_notes\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,patients_id_clinic_id_key,public.patients_id_clinic_id_key)",
+      "referenced": "(\"table constraint\",public,,\"patients_id_clinic_id_key on public.patients\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,patients_pkey,public.patients_pkey)",
+      "referenced": "(\"table constraint\",public,,\"patients_pkey on public.patients\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,payment_methods_pkey,public.payment_methods_pkey)",
+      "referenced": "(\"table constraint\",public,,\"payment_methods_pkey on public.payment_methods\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,payments_pkey,public.payments_pkey)",
+      "referenced": "(\"table constraint\",public,,\"payments_pkey on public.payments\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,prescription_templates_pkey,public.prescription_templates_pkey)",
+      "referenced": "(\"table constraint\",public,,\"prescription_templates_pkey on public.prescription_templates\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,prescriptions_pkey,public.prescriptions_pkey)",
+      "referenced": "(\"table constraint\",public,,\"prescriptions_pkey on public.prescriptions\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,profile_audit_log_pkey,public.profile_audit_log_pkey)",
+      "referenced": "(\"table constraint\",public,,\"profile_audit_log_pkey on public.profile_audit_log\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,profiles_pkey,public.profiles_pkey)",
+      "referenced": "(\"table constraint\",public,,\"profiles_pkey on public.profiles\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,service_categories_pkey,public.service_categories_pkey)",
+      "referenced": "(\"table constraint\",public,,\"service_categories_pkey on public.service_categories\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,services_pkey,public.services_pkey)",
+      "referenced": "(\"table constraint\",public,,\"services_pkey on public.services\")"
+    },
+    {
+      "type": "i",
+      "dependent": "(index,public,treatments_pkey,public.treatments_pkey)",
+      "referenced": "(\"table constraint\",public,,\"treatments_pkey on public.treatments\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.resolution_notes)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.resolved_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.resolved_by)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.uid()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.is_clinic_member(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Authenticated users can submit data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.user_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.uid()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.is_clinic_member(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinic members can view data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinic owners can update data rights requests\"\" on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient files\"\" on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient files\"\" on public.patient_files\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient files\"\" on public.patient_files\")",
+      "referenced": "(table,public,patient_files,public.patient_files)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient notes\"\" on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can insert patient notes\"\" on public.patient_notes\")",
+      "referenced": "(table,public,patient_notes,public.patient_notes)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.uploaded_by)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(function,auth,,\"auth.uid()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient files\"\" on public.patient_files\")",
+      "referenced": "(table,public,patient_files,public.patient_files)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.author_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,auth,,\"auth.uid()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can update patient notes\"\" on public.patient_notes\")",
+      "referenced": "(table,public,patient_notes,public.patient_notes)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view hcu033_forms\"\" on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view hcu033_forms\"\" on public.hcu033_forms\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view hcu033_forms\"\" on public.hcu033_forms\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view hcu033_forms\"\" on public.hcu033_forms\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view hcu033_forms\"\" on public.hcu033_forms\")",
+      "referenced": "(table,public,hcu033_forms,public.hcu033_forms)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(\"table column\",public,patient_files,public.patient_files.deleted_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient files\"\" on public.patient_files\")",
+      "referenced": "(table,public,patient_files,public.patient_files)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(\"table column\",public,patient_notes,public.patient_notes.deleted_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Clinical staff can view patient notes\"\" on public.patient_notes\")",
+      "referenced": "(table,public,patient_notes,public.patient_notes)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Medical staff can view clinical records\"\" on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Medical staff can view clinical records\"\" on public.clinical_records\")",
+      "referenced": "(function,auth,,\"auth.jwt()\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Medical staff can view clinical records\"\" on public.clinical_records\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Medical staff can view clinical records\"\" on public.clinical_records\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Medical staff can view clinical records\"\" on public.clinical_records\")",
+      "referenced": "(table,public,clinical_records,public.clinical_records)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.deleted_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",storage,objects,storage.objects.bucket_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",storage,objects,storage.objects.name)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,storage,,\"storage.foldername(pg_catalog.text)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Tenant isolated read for patient-files\"\" on storage.objects\")",
+      "referenced": "(table,storage,objects,storage.objects)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.deleted_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",storage,objects,storage.objects.bucket_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(\"table column\",storage,objects,storage.objects.name)"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,public,,\"public.check_subscription_active(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,public,,\"public.get_clinic_member_role(pg_catalog.uuid)\")"
+    },
+    {
+      "type": "n",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(function,storage,,\"storage.foldername(pg_catalog.text)\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(policy,,,\"\"\"Tenant isolated upload for patient-files\"\" on storage.objects\")",
+      "referenced": "(table,storage,objects,storage.objects)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.cedula)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.created_at)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.email)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.first_name)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.last_name)"
+    },
+    {
+      "type": "n",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(\"table column\",public,patients,public.patients.phone)"
+    },
+    {
+      "type": "i",
+      "dependent": "(rule,,,\"\"\"_RETURN\"\" on public.receptionist_patient_view\")",
+      "referenced": "(view,public,receptionist_patient_view,public.receptionist_patient_view)"
+    },
+    {
+      "type": "i",
+      "dependent": "(sequence,logs,access_audit_id_seq,logs.access_audit_id_seq)",
+      "referenced": "(\"table column\",logs,access_audit,logs.access_audit.id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(sequence,logs,access_audit_id_seq,logs.access_audit_id_seq)",
+      "referenced": "(schema,,logs,logs)"
+    },
+    {
+      "type": "n",
+      "dependent": "(sequence,public,profile_audit_log_id_seq,public.profile_audit_log_id_seq)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,logs,access_audit,logs.access_audit)",
+      "referenced": "(schema,,logs,logs)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,appointments,public.appointments)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,automation_settings,public.automation_settings)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,billings,public.billings)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,clinic_invitations,public.clinic_invitations)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,clinic_members,public.clinic_members)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,clinical_records,public.clinical_records)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,clinics,public.clinics)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,data_rights_requests,public.data_rights_requests)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,hcu033_forms,public.hcu033_forms)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,invoices,public.invoices)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,messages,public.messages)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,notifications,public.notifications)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,patient_files,public.patient_files)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,patient_notes,public.patient_notes)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,patients,public.patients)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,payment_methods,public.payment_methods)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,payments,public.payments)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,prescription_templates,public.prescription_templates)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,prescriptions,public.prescriptions)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,profile_audit_log,public.profile_audit_log)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,profiles,public.profiles)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,service_categories,public.service_categories)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,services,public.services)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(table,public,treatments,public.treatments)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_audit_data_rights_status on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_audit_data_rights_status on public.data_rights_requests\")",
+      "referenced": "(\"table column\",public,data_rights_requests,public.data_rights_requests.status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_audit_data_rights_status on public.data_rights_requests\")",
+      "referenced": "(function,security_internal,,\"security_internal.audit_data_rights_status()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_audit_data_rights_status on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.appointments\")",
+      "referenced": "(\"table column\",public,appointments,public.appointments.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.appointments\")",
+      "referenced": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.appointments\")",
+      "referenced": "(table,public,appointments,public.appointments)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.clinical_records\")",
+      "referenced": "(\"table column\",public,clinical_records,public.clinical_records.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.clinical_records\")",
+      "referenced": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.clinical_records\")",
+      "referenced": "(table,public,clinical_records,public.clinical_records)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.hcu033_forms\")",
+      "referenced": "(\"table column\",public,hcu033_forms,public.hcu033_forms.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.hcu033_forms\")",
+      "referenced": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.hcu033_forms\")",
+      "referenced": "(table,public,hcu033_forms,public.hcu033_forms)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.clinic_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.prescriptions\")",
+      "referenced": "(\"table column\",public,prescriptions,public.prescriptions.doctor_id)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.prescriptions\")",
+      "referenced": "(function,security_internal,,\"security_internal.enforce_clinician_assignment()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_enforce_clinician_assignment on public.prescriptions\")",
+      "referenced": "(table,public,prescriptions,public.prescriptions)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_guard_data_rights_request_insert on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.guard_data_rights_request_insert()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_guard_data_rights_request_insert on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "n",
+      "dependent": "(trigger,,,\"trg_protect_data_rights_requests on public.data_rights_requests\")",
+      "referenced": "(function,public,,\"public.protect_data_rights_requests()\")"
+    },
+    {
+      "type": "a",
+      "dependent": "(trigger,,,\"trg_protect_data_rights_requests on public.data_rights_requests\")",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,logs,_access_audit,logs.access_audit[])",
+      "referenced": "(type,logs,access_audit,logs.access_audit)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,logs,access_audit,logs.access_audit)",
+      "referenced": "(table,logs,access_audit,logs.access_audit)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_app_role,public.app_role[])",
+      "referenced": "(type,public,app_role,public.app_role)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_appointments,public.appointments[])",
+      "referenced": "(type,public,appointments,public.appointments)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_automation_settings,public.automation_settings[])",
+      "referenced": "(type,public,automation_settings,public.automation_settings)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_billings,public.billings[])",
+      "referenced": "(type,public,billings,public.billings)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_clinic_invitations,public.clinic_invitations[])",
+      "referenced": "(type,public,clinic_invitations,public.clinic_invitations)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_clinic_members,public.clinic_members[])",
+      "referenced": "(type,public,clinic_members,public.clinic_members)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_clinical_records,public.clinical_records[])",
+      "referenced": "(type,public,clinical_records,public.clinical_records)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_clinics,public.clinics[])",
+      "referenced": "(type,public,clinics,public.clinics)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_data_rights_requests,public.data_rights_requests[])",
+      "referenced": "(type,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_hcu033_forms,public.hcu033_forms[])",
+      "referenced": "(type,public,hcu033_forms,public.hcu033_forms)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_invoices,public.invoices[])",
+      "referenced": "(type,public,invoices,public.invoices)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_messages,public.messages[])",
+      "referenced": "(type,public,messages,public.messages)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_notifications,public.notifications[])",
+      "referenced": "(type,public,notifications,public.notifications)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_patient_files,public.patient_files[])",
+      "referenced": "(type,public,patient_files,public.patient_files)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_patient_notes,public.patient_notes[])",
+      "referenced": "(type,public,patient_notes,public.patient_notes)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_patients,public.patients[])",
+      "referenced": "(type,public,patients,public.patients)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_payment_methods,public.payment_methods[])",
+      "referenced": "(type,public,payment_methods,public.payment_methods)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_payments,public.payments[])",
+      "referenced": "(type,public,payments,public.payments)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_prescription_templates,public.prescription_templates[])",
+      "referenced": "(type,public,prescription_templates,public.prescription_templates)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_prescriptions,public.prescriptions[])",
+      "referenced": "(type,public,prescriptions,public.prescriptions)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_profile_audit_log,public.profile_audit_log[])",
+      "referenced": "(type,public,profile_audit_log,public.profile_audit_log)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_profiles,public.profiles[])",
+      "referenced": "(type,public,profiles,public.profiles)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_receptionist_patient_view,public.receptionist_patient_view[])",
+      "referenced": "(type,public,receptionist_patient_view,public.receptionist_patient_view)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_service_categories,public.service_categories[])",
+      "referenced": "(type,public,service_categories,public.service_categories)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_services,public.services[])",
+      "referenced": "(type,public,services,public.services)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_subscription_status,public.subscription_status[])",
+      "referenced": "(type,public,subscription_status,public.subscription_status)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_treatments,public.treatments[])",
+      "referenced": "(type,public,treatments,public.treatments)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,_user_status,public.user_status[])",
+      "referenced": "(type,public,user_status,public.user_status)"
+    },
+    {
+      "type": "n",
+      "dependent": "(type,public,app_role,public.app_role)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,appointments,public.appointments)",
+      "referenced": "(table,public,appointments,public.appointments)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,automation_settings,public.automation_settings)",
+      "referenced": "(table,public,automation_settings,public.automation_settings)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,billings,public.billings)",
+      "referenced": "(table,public,billings,public.billings)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,clinic_invitations,public.clinic_invitations)",
+      "referenced": "(table,public,clinic_invitations,public.clinic_invitations)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,clinic_members,public.clinic_members)",
+      "referenced": "(table,public,clinic_members,public.clinic_members)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,clinical_records,public.clinical_records)",
+      "referenced": "(table,public,clinical_records,public.clinical_records)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,clinics,public.clinics)",
+      "referenced": "(table,public,clinics,public.clinics)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,data_rights_requests,public.data_rights_requests)",
+      "referenced": "(table,public,data_rights_requests,public.data_rights_requests)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,hcu033_forms,public.hcu033_forms)",
+      "referenced": "(table,public,hcu033_forms,public.hcu033_forms)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,invoices,public.invoices)",
+      "referenced": "(table,public,invoices,public.invoices)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,messages,public.messages)",
+      "referenced": "(table,public,messages,public.messages)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,notifications,public.notifications)",
+      "referenced": "(table,public,notifications,public.notifications)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,patient_files,public.patient_files)",
+      "referenced": "(table,public,patient_files,public.patient_files)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,patient_notes,public.patient_notes)",
+      "referenced": "(table,public,patient_notes,public.patient_notes)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,patients,public.patients)",
+      "referenced": "(table,public,patients,public.patients)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,payment_methods,public.payment_methods)",
+      "referenced": "(table,public,payment_methods,public.payment_methods)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,payments,public.payments)",
+      "referenced": "(table,public,payments,public.payments)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,prescription_templates,public.prescription_templates)",
+      "referenced": "(table,public,prescription_templates,public.prescription_templates)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,prescriptions,public.prescriptions)",
+      "referenced": "(table,public,prescriptions,public.prescriptions)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,profile_audit_log,public.profile_audit_log)",
+      "referenced": "(table,public,profile_audit_log,public.profile_audit_log)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,profiles,public.profiles)",
+      "referenced": "(table,public,profiles,public.profiles)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,receptionist_patient_view,public.receptionist_patient_view)",
+      "referenced": "(view,public,receptionist_patient_view,public.receptionist_patient_view)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,service_categories,public.service_categories)",
+      "referenced": "(table,public,service_categories,public.service_categories)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,services,public.services)",
+      "referenced": "(table,public,services,public.services)"
+    },
+    {
+      "type": "n",
+      "dependent": "(type,public,subscription_status,public.subscription_status)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "i",
+      "dependent": "(type,public,treatments,public.treatments)",
+      "referenced": "(table,public,treatments,public.treatments)"
+    },
+    {
+      "type": "n",
+      "dependent": "(type,public,user_status,public.user_status)",
+      "referenced": "(schema,,public,public)"
+    },
+    {
+      "type": "n",
+      "dependent": "(view,public,receptionist_patient_view,public.receptionist_patient_view)",
+      "referenced": "(schema,,public,public)"
+    }
+  ],
+  "projectRef": "phihonofwyerpfgqfekt",
+  "evidenceKind": "metadata-only dependencies; NOT pg_dump"
+}
+

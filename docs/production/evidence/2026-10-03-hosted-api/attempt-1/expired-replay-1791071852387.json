@@ -1,0 +1,37 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "scope": "Expired original doctor JWT: observed endpoint expiry denial only; no early live-revocation closure",
+  "project": "phihonofwyerpfgqfekt",
+  "actor": "doctor_A",
+  "jwtExpiredAt": "2026-10-03T23:35:04.000Z",
+  "executedAt": "2026-10-03T23:57:32.387Z",
+  "requests": [
+    {
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 401,
+      "code": "PGRST303",
+      "cfCacheStatus": "DYNAMIC",
+      "cacheControl": null,
+      "bytes": 70,
+      "bodySha256": "1daf454c3d3c34401b6f3a903680a914cf64fd4e1db9dba3a6ba87dd2358439d"
+    },
+    {
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "cfCacheStatus": "HIT",
+      "cacheControl": "public, max-age=0",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "path": "/storage/v1/object/authenticated/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "cfCacheStatus": "HIT",
+      "cacheControl": "public, max-age=0",
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    }
+  ]
+}

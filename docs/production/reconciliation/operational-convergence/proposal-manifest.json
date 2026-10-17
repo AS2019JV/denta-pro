@@ -1,0 +1,389 @@
+{
+  "kind": "metadata-derived-local-proposal",
+  "tables": [
+    "clinics",
+    "profiles",
+    "clinic_members",
+    "patients",
+    "appointments",
+    "clinical_records",
+    "hcu033_forms",
+    "prescriptions",
+    "prescription_templates",
+    "patient_notes",
+    "patient_files",
+    "data_rights_requests",
+    "profile_audit_log",
+    "services",
+    "service_categories",
+    "clinic_invitations",
+    "notifications"
+  ],
+  "sqlSha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9",
+  "changes": [
+    {
+      "identity": "public.appointments.appointments_status_check",
+      "sourceDefinitions": [
+        "CHECK (status = ANY (ARRAY['scheduled'::text, 'confirmed'::text, 'completed'::text, 'cancelled'::text, 'no_show'::text]))"
+      ],
+      "desiredDefinition": "CHECK (status = ANY (ARRAY['scheduled'::text, 'confirmed'::text, 'completed'::text, 'cancelled'::text, 'no_show'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.clinic_invitations.clinic_invitations_clinic_id_email_status_key",
+      "sourceDefinitions": [
+        "UNIQUE (clinic_id, email, status)"
+      ],
+      "desiredDefinition": "UNIQUE (clinic_id, email, status)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.clinic_invitations.clinic_invitations_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.clinic_invitations.clinic_invitations_role_check",
+      "sourceDefinitions": [
+        "CHECK (role = ANY (ARRAY['doctor'::text, 'receptionist'::text]))"
+      ],
+      "desiredDefinition": "CHECK (role = ANY (ARRAY['doctor'::text, 'receptionist'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.clinic_invitations.clinic_invitations_status_check",
+      "sourceDefinitions": [
+        "CHECK (status = ANY (ARRAY['pending'::text, 'accepted'::text, 'expired'::text]))"
+      ],
+      "desiredDefinition": "CHECK (status = ANY (ARRAY['pending'::text, 'accepted'::text, 'expired'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.clinic_invitations.clinic_invitations_token_key",
+      "sourceDefinitions": [
+        "UNIQUE (token)"
+      ],
+      "desiredDefinition": "UNIQUE (token)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.clinic_members.clinic_members_user_id_clinic_id_key",
+      "sourceDefinitions": [
+        "UNIQUE (user_id, clinic_id)"
+      ],
+      "desiredDefinition": "UNIQUE (user_id, clinic_id)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.data_rights_requests.data_rights_requests_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.data_rights_requests.data_rights_requests_request_type_check",
+      "sourceDefinitions": [
+        "CHECK (request_type = ANY (ARRAY['portability'::text, 'deletion'::text, 'rectification'::text, 'access'::text, 'opposition'::text, 'custody_lock'::text]))"
+      ],
+      "desiredDefinition": "CHECK (request_type = ANY (ARRAY['portability'::text, 'deletion'::text, 'rectification'::text, 'access'::text, 'opposition'::text, 'custody_lock'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.data_rights_requests.data_rights_requests_resolved_by_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (resolved_by) REFERENCES auth.users(id) ON DELETE SET NULL",
+        "FOREIGN KEY (resolved_by) REFERENCES auth.users(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (resolved_by) REFERENCES auth.users(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.data_rights_requests.data_rights_requests_status_check",
+      "sourceDefinitions": [
+        "CHECK (status = ANY (ARRAY['pending'::text, 'processing'::text, 'completed'::text, 'rejected'::text, 'archived_custody'::text]))"
+      ],
+      "desiredDefinition": "CHECK (status = ANY (ARRAY['pending'::text, 'processing'::text, 'completed'::text, 'rejected'::text, 'archived_custody'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.data_rights_requests.data_rights_requests_user_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (user_id) REFERENCES auth.users(id) ON DELETE SET NULL",
+        "FOREIGN KEY (user_id) REFERENCES auth.users(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (user_id) REFERENCES auth.users(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.notifications.notifications_type_check",
+      "sourceDefinitions": [
+        "CHECK (type = ANY (ARRAY['info'::text, 'warning'::text, 'success'::text, 'error'::text]))"
+      ],
+      "desiredDefinition": "CHECK (type = ANY (ARRAY['info'::text, 'warning'::text, 'success'::text, 'error'::text]))",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.patient_files.patient_files_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.patient_files.patient_files_uploaded_by_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (uploaded_by) REFERENCES profiles(id) ON DELETE SET NULL",
+        "FOREIGN KEY (uploaded_by) REFERENCES profiles(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (uploaded_by) REFERENCES profiles(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.patient_notes.patient_notes_author_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (author_id) REFERENCES profiles(id) ON DELETE SET NULL",
+        "FOREIGN KEY (author_id) REFERENCES profiles(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (author_id) REFERENCES profiles(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.patient_notes.patient_notes_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.patients.patients_cedula_clinic_unique",
+      "sourceDefinitions": [
+        "UNIQUE (cedula, clinic_id)"
+      ],
+      "desiredDefinition": "UNIQUE (cedula, clinic_id)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.prescription_templates.prescription_templates_clinic_id_check",
+      "sourceDefinitions": [
+        "CHECK (clinic_id IS NOT NULL)"
+      ],
+      "desiredDefinition": "CHECK (clinic_id IS NOT NULL)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.prescription_templates.prescription_templates_doctor_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (doctor_id) REFERENCES auth.users(id) ON DELETE CASCADE",
+        "FOREIGN KEY (doctor_id) REFERENCES auth.users(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (doctor_id) REFERENCES auth.users(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.prescriptions.prescriptions_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.prescriptions.prescriptions_doctor_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (doctor_id) REFERENCES profiles(id) ON DELETE SET NULL",
+        "FOREIGN KEY (doctor_id) REFERENCES profiles(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (doctor_id) REFERENCES profiles(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.profile_audit_log.profile_audit_log_target_user_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (target_user_id) REFERENCES profiles(id) ON DELETE CASCADE",
+        "FOREIGN KEY (target_user_id) REFERENCES profiles(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (target_user_id) REFERENCES profiles(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.service_categories.service_categories_clinic_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id) ON DELETE CASCADE",
+        "FOREIGN KEY (clinic_id) REFERENCES clinics(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (clinic_id) REFERENCES clinics(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    },
+    {
+      "identity": "public.service_categories.service_categories_clinic_id_name_key",
+      "sourceDefinitions": [
+        "UNIQUE (clinic_id, name)"
+      ],
+      "desiredDefinition": "UNIQUE (clinic_id, name)",
+      "decision": "validate before adding operational check/unique"
+    },
+    {
+      "identity": "public.services.services_category_id_fkey",
+      "sourceDefinitions": [
+        "FOREIGN KEY (category_id) REFERENCES service_categories(id) ON DELETE SET NULL",
+        "FOREIGN KEY (category_id) REFERENCES service_categories(id)"
+      ],
+      "desiredDefinition": "FOREIGN KEY (category_id) REFERENCES service_categories(id)",
+      "decision": "restrict historical deletion; preserve M7 composites"
+    }
+  ],
+  "indexes": [
+    {
+      "identity": "logs.access_audit.idx_access_audit_clinic_id",
+      "definition": "CREATE INDEX idx_access_audit_clinic_id ON logs.access_audit USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.appointments.idx_appointments_clinic_id",
+      "definition": "CREATE INDEX idx_appointments_clinic_id ON public.appointments USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.clinic_invitations.idx_clinic_invitations_email",
+      "definition": "CREATE INDEX idx_clinic_invitations_email ON public.clinic_invitations USING btree (email)"
+    },
+    {
+      "identity": "public.clinic_invitations.idx_clinic_invitations_status",
+      "definition": "CREATE INDEX idx_clinic_invitations_status ON public.clinic_invitations USING btree (status)"
+    },
+    {
+      "identity": "public.clinic_members.idx_clinic_members_auth_lookup",
+      "definition": "CREATE INDEX idx_clinic_members_auth_lookup ON public.clinic_members USING btree (user_id, clinic_id, status)"
+    },
+    {
+      "identity": "public.clinical_records.idx_clinical_records_clinic_id",
+      "definition": "CREATE INDEX idx_clinical_records_clinic_id ON public.clinical_records USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.data_rights_requests.idx_data_rights_requests_tenant",
+      "definition": "CREATE INDEX idx_data_rights_requests_tenant ON public.data_rights_requests USING btree (clinic_id, created_at DESC)"
+    },
+    {
+      "identity": "public.data_rights_requests.idx_data_rights_requests_type",
+      "definition": "CREATE INDEX idx_data_rights_requests_type ON public.data_rights_requests USING btree (clinic_id, request_type)"
+    },
+    {
+      "identity": "public.hcu033_forms.idx_hcu033_forms_clinic_id",
+      "definition": "CREATE INDEX idx_hcu033_forms_clinic_id ON public.hcu033_forms USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.hcu033_forms.idx_hcu033_forms_tenant_patient",
+      "definition": "CREATE INDEX idx_hcu033_forms_tenant_patient ON public.hcu033_forms USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.patient_files.idx_patient_files_patient",
+      "definition": "CREATE INDEX idx_patient_files_patient ON public.patient_files USING btree (patient_id) WHERE (deleted_at IS NULL)"
+    },
+    {
+      "identity": "public.patient_notes.idx_patient_notes_patient",
+      "definition": "CREATE INDEX idx_patient_notes_patient ON public.patient_notes USING btree (patient_id) WHERE (deleted_at IS NULL)"
+    },
+    {
+      "identity": "public.patients.idx_patients_clinic_deleted",
+      "definition": "CREATE INDEX idx_patients_clinic_deleted ON public.patients USING btree (clinic_id) WHERE (deleted_at IS NULL)"
+    },
+    {
+      "identity": "public.patients.idx_patients_clinic_id",
+      "definition": "CREATE INDEX idx_patients_clinic_id ON public.patients USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.patients.idx_patients_email",
+      "definition": "CREATE INDEX idx_patients_email ON public.patients USING btree (email)"
+    },
+    {
+      "identity": "public.patients.idx_patients_family_rep",
+      "definition": "CREATE INDEX idx_patients_family_rep ON public.patients USING btree (family_representative_id)"
+    },
+    {
+      "identity": "public.prescriptions.idx_prescriptions_tenant_doctor",
+      "definition": "CREATE INDEX idx_prescriptions_tenant_doctor ON public.prescriptions USING btree (clinic_id, doctor_id, patient_id)"
+    },
+    {
+      "identity": "public.profiles.idx_profiles_clinic_id",
+      "definition": "CREATE INDEX idx_profiles_clinic_id ON public.profiles USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.profiles.profiles_email_key",
+      "definition": "CREATE UNIQUE INDEX profiles_email_key ON public.profiles USING btree (email) WHERE (email IS NOT NULL)"
+    },
+    {
+      "identity": "public.profiles.profiles_license_key",
+      "definition": "CREATE UNIQUE INDEX profiles_license_key ON public.profiles USING btree (license_number) WHERE (license_number IS NOT NULL)"
+    },
+    {
+      "identity": "public.services.idx_services_clinic_id",
+      "definition": "CREATE INDEX idx_services_clinic_id ON public.services USING btree (clinic_id)"
+    },
+    {
+      "identity": "public.appointments.idx_appointments_clinic_patient",
+      "definition": "CREATE INDEX idx_appointments_clinic_patient ON public.appointments USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.appointments.idx_appointments_clinic_start",
+      "definition": "CREATE INDEX idx_appointments_clinic_start ON public.appointments USING btree (clinic_id, start_time)"
+    },
+    {
+      "identity": "public.appointments.idx_appointments_conflict",
+      "definition": "CREATE INDEX idx_appointments_conflict ON public.appointments USING btree (clinic_id, doctor_id, start_time, end_time) WHERE (status <> 'cancelled'::text)"
+    },
+    {
+      "identity": "public.appointments.idx_appointments_patient_doctor",
+      "definition": "CREATE INDEX idx_appointments_patient_doctor ON public.appointments USING btree (clinic_id, patient_id, doctor_id)"
+    },
+    {
+      "identity": "public.clinical_records.idx_clinical_records_clinic_patient",
+      "definition": "CREATE INDEX idx_clinical_records_clinic_patient ON public.clinical_records USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.data_rights_requests.idx_data_rights_requests_clinic_patient",
+      "definition": "CREATE INDEX idx_data_rights_requests_clinic_patient ON public.data_rights_requests USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.hcu033_forms.idx_hcu033_clinic_patient",
+      "definition": "CREATE INDEX idx_hcu033_clinic_patient ON public.hcu033_forms USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.patient_files.idx_patient_files_clinic_patient",
+      "definition": "CREATE INDEX idx_patient_files_clinic_patient ON public.patient_files USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.patient_notes.idx_patient_notes_clinic_patient",
+      "definition": "CREATE INDEX idx_patient_notes_clinic_patient ON public.patient_notes USING btree (clinic_id, patient_id)"
+    },
+    {
+      "identity": "public.patients.idx_patients_clinic_cedula",
+      "definition": "CREATE INDEX idx_patients_clinic_cedula ON public.patients USING btree (clinic_id, cedula)"
+    },
+    {
+      "identity": "public.prescriptions.idx_prescriptions_clinic_created",
+      "definition": "CREATE INDEX idx_prescriptions_clinic_created ON public.prescriptions USING btree (clinic_id, created_at DESC)"
+    },
+    {
+      "identity": "public.prescriptions.idx_prescriptions_clinic_patient",
+      "definition": "CREATE INDEX idx_prescriptions_clinic_patient ON public.prescriptions USING btree (clinic_id, patient_id)"
+    }
+  ],
+  "preservedDifferences": [
+    "Closed payments.amount and services.price typmods; historical values never rounded",
+    "Closed legacy views/functions retain individually captured definitions; not full remote parity"
+  ],
+  "sourceHashes": {
+    "prod": "1b397bcc4406826a3fcb04bce060e1e62658f2b450a1ab9ffe67364b32aa744b",
+    "stage": "a2716b554df9b2fe09d732123d089470f9aa32a56702441833e446ab1280e013"
+  }
+}

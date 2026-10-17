@@ -1,0 +1,202 @@
+{
+  "status": "PARTIALLY VERIFIED",
+  "startedAt": "2026-10-03T22:54:14.838Z",
+  "project": "phihonofwyerpfgqfekt",
+  "actor": "auth_revoked_A",
+  "verifiedMatrix": {
+    "filename": "matrix-run-3.json",
+    "fileSha256": "5c50229f29312838dc6ac802cb8803a2b5029632171104518cfd062f7c7090f0"
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null,
+      "bytes": 8,
+      "bodySha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null,
+      "bytes": 1150,
+      "bodySha256": "f7b610643396d2b3dddc2595dec62d5b2f4e9e759bdad3419e118d9000827d1c"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 536,
+      "bodySha256": "af639abe28e5ed21e258ea967b2b8e09189d77c37d600d2a131dfb4920917984"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/logout",
+      "status": 204,
+      "code": null,
+      "bytes": 0,
+      "bodySha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null,
+      "bytes": 4,
+      "bodySha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501",
+      "bytes": 69,
+      "bodySha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey",
+      "bytes": 88,
+      "bodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "POST",
+      "path": "/auth/v1/token",
+      "status": 200,
+      "code": null,
+      "bytes": 2424,
+      "bodySha256": "76299a2699a59f3af1934cf984d0cbdce4c421b98b8bdfa4392383b40c549f83"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null,
+      "bytes": 8,
+      "bodySha256": "5102dd18448d3288cd993f6a1c9630b639e05a59e75fd968a92061abdf9d4406"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 200,
+      "code": null,
+      "bytes": 1150,
+      "bodySha256": "f7b610643396d2b3dddc2595dec62d5b2f4e9e759bdad3419e118d9000827d1c"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 536,
+      "bodySha256": "352a3d79e9c3e088d9f0d0f2d9d7bca582ac7e41345f8527975b68fbfe25acf3"
+    },
+    {
+      "method": "PUT",
+      "path": "/auth/v1/admin/users/e7ffc2ba-6c50-41ab-9508-f4bb19126bbc",
+      "status": 200,
+      "code": null,
+      "bytes": 1268,
+      "bodySha256": "43978de525de10184084ee074657aff11e9a38b2fbda183c781ebaf14ceedf11"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_clinic_member_role",
+      "status": 200,
+      "code": null,
+      "bytes": 4,
+      "bodySha256": "74234e98afe7498fb5daf1f36ac2d78acc339464f950703b8c019892f982b90b"
+    },
+    {
+      "method": "POST",
+      "path": "/rest/v1/rpc/get_patients_with_stats",
+      "status": 403,
+      "code": "42501",
+      "bytes": 69,
+      "bodySha256": "ecb99e91f54cb3df3b34ed6f10595354611f22142daeced6ea609d59c4556574"
+    },
+    {
+      "method": "POST",
+      "path": "/storage/v1/object/sign/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 400,
+      "code": "NoSuchKey",
+      "bytes": 88,
+      "bodySha256": "9d2505709301f205e4135106c7c92c66a58d85a1009b5b823475c6a047de1a9c"
+    },
+    {
+      "method": "GET",
+      "path": "/storage/v1/object/patient-files/d9a47157-1d36-43df-af1d-436d561ee551/b1a0ba6f-9d9a-4057-b76f-5d31ec7f9b14/hosted-1-run-3.pdf",
+      "status": 200,
+      "code": null,
+      "bytes": 70,
+      "bodySha256": "1f3c816b91e3f7f6737d99f5be95be1b82a7e7cffc73a7a40c4c275dbcca1552"
+    },
+    {
+      "method": "PUT",
+      "path": "/auth/v1/admin/users/e7ffc2ba-6c50-41ab-9508-f4bb19126bbc",
+      "status": 200,
+      "code": null,
+      "bytes": 1220,
+      "bodySha256": "462dea26cdee149b0281b76ac390ac8e655fa0ee119bbd00f178d037b9d0e91f"
+    }
+  ],
+  "checks": [
+    {
+      "name": "Global logout with retained original JWT fresh database and sign authorization",
+      "status": "VERIFIED",
+      "expected": "role null, clinical RPC 42501, sign NoSuchKey"
+    },
+    {
+      "name": "Global logout with retained original JWT same previously warmed private object",
+      "status": "PARTIALLY VERIFIED",
+      "expected": "download denied without new JWT",
+      "actualHttpStatus": 200
+    },
+    {
+      "name": "Auth ban with retained fresh JWT fresh database and sign authorization",
+      "status": "VERIFIED",
+      "expected": "role null, clinical RPC 42501, sign NoSuchKey"
+    },
+    {
+      "name": "Auth ban with retained fresh JWT same previously warmed private object",
+      "status": "PARTIALLY VERIFIED",
+      "expected": "download denied without new JWT",
+      "actualHttpStatus": 200
+    }
+  ],
+  "limits": [
+    "Synthetic owned staging actor only; no browser/deployment proof",
+    "Cached downloads are checked separately from fresh RLS/sign authorization"
+  ],
+  "testBanLifted": true,
+  "completedAt": "2026-10-03T22:54:19.580Z"
+}

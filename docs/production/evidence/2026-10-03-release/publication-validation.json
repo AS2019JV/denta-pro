@@ -1,0 +1,19 @@
+{
+  "status": "VERIFIED",
+  "candidateCommit": "544a092d24b61f0c36c9b32490e9be0d34dc1438",
+  "baseCommit": "f96fbb898ec2a0615dec293ee3e5ce0a9b41b170",
+  "testedMergeCommit": "02946826d2975b7fb7df6a6631126a62b9a3d23a",
+  "gitTree": "5d69350a831baf40c6c1dc1043d734be0769cfe0",
+  "sourceTreeSha256": "e72ad711b1232ad6b51b6dc97c7ef257b0fd9fbf510e353c016660617996d6e2",
+  "sourceFiles": 798,
+  "ciRun": 37160546400,
+  "tests": 222,
+  "pass": 222,
+  "fail": 0,
+  "clientArtifacts": 92,
+  "gitVisibleTextFiles": 776,
+  "ciLogSha256": "da8014ed159f183f0f468cf1a5d972ff088b9792b7d47f51aff2b84d23562020",
+  "productionVulnerabilities": 0,
+  "automaticDeploymentsObservedBeforeManualPreview": 0,
+  "recordedAt": "2026-10-03T23:20:15.9769013Z"
+}
