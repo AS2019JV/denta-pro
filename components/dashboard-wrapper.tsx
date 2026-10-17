@@ -8,10 +8,15 @@ import * as DialogPrimitive from "@radix-ui/react-dialog"
 import { Dialog, DialogPortal, DialogOverlay, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 export function DashboardWrapper({ children }: { children: React.ReactNode }) {
-  const {user, currentClinicId, isLoading, isRevalidating, authError, refreshProfile, logout} = useAuth()
+  const {user, currentClinicId, isLoading, isRevalidating, logoutStatus, authError, refreshProfile, logout} = useAuth()
   useRealtimeNotifications()
   // Unmount consumers on scope invalidation; their forms must not survive a
   // session or clinic switch with data from the previous authority.
+  if (logoutStatus === "pending") return <main className="flex min-h-screen items-center justify-center" aria-busy="true"><p role="status">Cerrando sesión…</p></main>
+  if (logoutStatus === "failed") return <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6">
+    <p role="alert">{authError}</p>
+    <Button onClick={() => void logout()}>Reintentar cierre de sesión</Button>
+  </main>
   if (isLoading) return <main className="flex min-h-screen items-center justify-center" aria-busy="true"><p role="status">Verificando acceso…</p></main>
   if (!user) return <main className="flex min-h-screen flex-col items-center justify-center gap-4 p-6">
     <p role="alert">{authError || 'No tienes acceso activo a una clínica.'}</p>

@@ -42,6 +42,7 @@ interface AuthContextType {
   logout: () => Promise<void>
   isLoading: boolean
   isRevalidating: boolean
+  logoutStatus: "idle" | "pending" | "failed"
   hasRole: (role: "doctor" | "receptionist" | "clinic_owner") => boolean
   currentClinicId: string | undefined
   switchClinic: (clinicId: string) => void
@@ -57,6 +58,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLoading, setIsLoading] = useState(true)
   const [isRevalidating, setIsRevalidating] = useState(false)
   const [authError, setAuthError] = useState<string | null>(null)
+  const [logoutStatus, setLogoutStatus] = useState<"idle" | "pending" | "failed">("idle")
   const queryClient = useContext(QueryClientContext)
   const generation = useRef(0)
   const mounted = useRef(true)
@@ -66,6 +68,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const refreshing = useRef(false)
   const refreshJob = useRef(0)
   const loggingOut = useRef(false)
+  const logoutPending = useRef(false)
   const refreshTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
 
   const clearAuthority = useCallback(() => {
@@ -319,6 +322,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const logout = async () => {
+    if (logoutPending.current) return
+    logoutPending.current = true
+    setLogoutStatus("pending")
+    setAuthError(null)
     loggingOut.current = true
     clearTimeout(refreshTimer.current)
     ++refreshJob.current
@@ -333,6 +340,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // mounted clinic state and prefetched protected routes.
       window.location.replace('/login')
     } catch {
+      logoutPending.current = false
+      setLogoutStatus("failed")
       const message = 'No pudimos cerrar tu sesión. Revisa la conexión e inténtalo de nuevo.'
       setAuthError(message)
       toast.error(message)
@@ -343,7 +352,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return user?.role === role
   }
 
-  return <AuthContext.Provider value={{ user, login, signup, resetPassword, signInWithGoogle, logout, isLoading, isRevalidating, hasRole, currentClinicId, switchClinic, refreshProfile, authError }}>{children}</AuthContext.Provider>
+  return <AuthContext.Provider value={{ user, login, signup, resetPassword, signInWithGoogle, logout, isLoading, isRevalidating, logoutStatus, hasRole, currentClinicId, switchClinic, refreshProfile, authError }}>{children}</AuthContext.Provider>
 }
 
 export function useAuth() {

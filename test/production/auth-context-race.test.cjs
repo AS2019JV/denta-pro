@@ -12,7 +12,7 @@ const flush = async () => { for (let i=0;i<15;i++) await Promise.resolve() }
 async function harness(withCache, aal='aal2') {
   const policy = await import('../../lib/clinic-authority.mjs')
   const profiles = {A:deferred(), B:deferred()}
-  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, liveRole='doctor', identityDelay
+  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, signOutCalls=0, liveRole='doctor', identityDelay
   const windowListeners=new Map(), signOutPending=deferred()
   const published = [], navigations = [], errors = [], timers = new Map(), contexts = {}, state = []
   const react = {
@@ -25,7 +25,7 @@ async function harness(withCache, aal='aal2') {
   const supabase = {
     auth: {getClaims:async()=>({data:{claims:{sub:identity,role:'authenticated',aal}},error:null}),
       mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:aal,nextLevel:aal},error:null}),listFactors:async()=>({data:{totp:[{id:'factor-a',status:'verified'}]},error:null})},
-      getUser:async()=>{identityCalls++;if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>signOutPending.promise,
+      getUser:async()=>{identityCalls++;if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>{signOutCalls++;return signOutPending.promise},
       onAuthStateChange:fn=>{listener=fn;return{data:{subscription:{unsubscribe(){}}}}}},
     from(table) {
       profileReads++
@@ -45,7 +45,7 @@ async function harness(withCache, aal='aal2') {
   module.exports.AuthProvider({children:null})
   const drain = async () => {for(const [key,fn] of [...timers]) {timers.delete(key);fn()} await flush()}
   const profile = id => ({data:{id,status:'active',deleted_at:null,clinic_id:clinic,full_name:id},error:null})
-  return {published, navigations, errors, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, logout:()=>api.logout(), resolveSignOut:(error=null)=>signOutPending.resolve({error}), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
+  return {published, navigations, errors, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, signOutCalls:()=>signOutCalls, logout:()=>api.logout(), resolveSignOut:(error=null)=>signOutPending.resolve({error}), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
 }
 for (const withCache of [false,true]) test(`previous response cannot publish between new Auth event and timer; cache=${withCache}`, async()=>{
   const h=await harness(withCache)
@@ -75,7 +75,14 @@ test('failed logout stays fail closed, displays a retry error and never reports 
   const h=await harness(true);await h.drain();h.resolve('A');await flush();const pending=h.logout()
   h.resolveSignOut({message:'synthetic transport failure'});await pending;h.focus();await h.drain()
   assert.equal(h.state[0],null);assert.deepEqual(h.navigations,[]);assert.equal(h.errors.length,1)
-  assert.match(h.state[4],/No pudimos cerrar tu sesión/);h.cleanup()
+  assert.match(h.state[4],/No pudimos cerrar tu sesión/);assert.equal(h.state[5],"failed")
+  await h.logout();assert.equal(h.signOutCalls(),2);assert.equal(h.state[0],null);assert.deepEqual(h.navigations,[]);h.cleanup()
+})
+test('intentional logout stays pending through SIGNED_OUT and ignores repeat clicks until document navigation',async()=>{
+  const h=await harness(true);await h.drain();h.resolve('A');await flush();const pending=h.logout()
+  assert.equal(h.state[5],"pending");h.signOut();await flush()
+  assert.equal(h.state[0],null);assert.equal(h.state[5],"pending");await h.logout();assert.equal(h.signOutCalls(),1)
+  h.resolveSignOut();await pending;assert.equal(h.state[5],"pending");assert.deepEqual(h.navigations,['/login']);h.cleanup()
 })
 test('revoked live role clears mounted scope and cache after background verification',async()=>{
   const h=await harness(true);await h.drain();h.resolve('A');await flush();const cleared=h.cacheClears();h.deny();h.focus();await h.drain();await flush();assert.equal(h.state[0],null);assert.equal(h.state[3],false);assert.ok(h.cacheClears()>cleared);h.cleanup()
