@@ -1,0 +1,833 @@
+{
+  "status": "PARTIAL_PROVENANCE_EXPLICIT",
+  "histories": {
+    "staging": {
+      "capturedAt": "2026-10-19T17:27:11.373Z",
+      "sourceReceiptSha256": "51a7e9d83cb34d7e0c4e0aff211f547b43e363e7a986bf6dc9f8e169e7d5d6bb",
+      "rows": [
+        {
+          "version": "20260925174020",
+          "name": "test_connection",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174502",
+          "name": "01_extensions_and_enums",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174617",
+          "name": "02_group_a_tables",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174634",
+          "name": "03_group_b_tables",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174650",
+          "name": "04_group_c_tables",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174728",
+          "name": "05_group_d_tables",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174804",
+          "name": "06_baseline_foreign_keys",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174830",
+          "name": "07_baseline_functions_and_views",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925174957",
+          "name": "08_check_subscription_active",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925175333",
+          "name": "20260922194927_enforce_clinical_tenant_links_and_rights_audit",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260925175401",
+          "name": "20260925000000_compound_multi_tenant_indexes",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260926155227",
+          "name": "enforce_staging_demographic_view_boundary",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261003145528",
+          "name": "clinia_candidate_20261003",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261004153723",
+          "name": "clinia_clinical_document_delivery_20261004",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261004220429",
+          "name": "clinia_document_delivery_info_operation_20261004",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261006050214",
+          "name": "clinical_s3_origin_delivery",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+              "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261006154930",
+          "name": "private_media_origin_boundary",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+              "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20261007230644",
+          "name": "mandatory_clinical_mfa",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+              "sha256": "c713f1b31815c1727398f189f19e0e9304fba3376f2964d52dba944f188f08d7",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        }
+      ]
+    },
+    "production": {
+      "capturedAt": "2026-10-19T17:27:12.892Z",
+      "sourceReceiptSha256": "713984cf1ccfd387086a057bad157a9928ac3479055916e61ab51d61805ee3d7",
+      "rows": [
+        {
+          "version": "20251211161436",
+          "name": "add_automation_and_billing_link",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251211205744",
+          "name": "create_treatments_and_bucket",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251213174627",
+          "name": "setup_multitenancy_and_invoices",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251214180019",
+          "name": "billing_enhancements",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20251214_billing_enhancements.sql",
+              "sha256": "788bd650f340ee8afa648d41b08e4506e6564775ee09332742f528c9bb684602",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251214180042",
+          "name": "create_receipts_bucket",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251215233936",
+          "name": "20251215_add_patient_columns",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251216000048",
+          "name": "20251215_multi_clinic_support",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251216000620",
+          "name": "20251215_fix_patient_uniqueness",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251219002540",
+          "name": "20251218_saas_schema",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251219002656",
+          "name": "20251218_saas_functions",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251219002659",
+          "name": "20251218_saas_audit_triggers",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033007",
+          "name": "20251222_add_disclaimer_text",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033010",
+          "name": "20251222_add_working_hours",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033122",
+          "name": "20251222_create_storage_branding",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033128",
+          "name": "20251222_add_medical_alerts",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033153",
+          "name": "20251222_create_recall_queue_view",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033156",
+          "name": "20251222_add_odontogram_state",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033158",
+          "name": "20251222_add_periodontogram_state",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033228",
+          "name": "20251222_add_trial_support",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223033549",
+          "name": "20251222_enforce_enums",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251223034944",
+          "name": "20251222_fix_permissions",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227150334",
+          "name": "20251227_subscription_bypass",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227155132",
+          "name": "20251227_enforce_subscription_rls",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227161007",
+          "name": "20251227_payment_schema",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227164725",
+          "name": "20251227_optimize_rls_jwt",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227165206",
+          "name": "20251227_audit_read_beacon",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227165904",
+          "name": "20251227_data_retention_lifecycle",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227170445",
+          "name": "20251227_security_checklist",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227171212",
+          "name": "20251227_secure_rpc_access",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20251227215955",
+          "name": "20251227_fix_signup_error",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260114012556",
+          "name": "production_indexes",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260113_production_indexes.sql",
+              "sha256": "676b9a54306b3a1cd7ca536f5a411afa8412f6771a712e759cdce6d206e0d713",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260114012614",
+          "name": "enforce_strict_subscription",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260130204224",
+          "name": "security_hardening_views_and_policies",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260221195214",
+          "name": "add_medical_and_personal_fields_to_patients",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260221201538",
+          "name": "pro_clinical_and_financial_fields_to_patients",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222152622",
+          "name": "patient_aggregated_stats_view",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222152629",
+          "name": "default_loyalty_config",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222152737",
+          "name": "get_patients_with_stats_rpc",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222152839",
+          "name": "update_get_patients_with_stats_rpc",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222160327",
+          "name": "add_family_context_columns",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222160529",
+          "name": "augment_patient_list_rpc_with_family_data_v2",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222170444",
+          "name": "enhanced_patient_filters_rpc",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260222174454",
+          "name": "patient_last_treatment_and_odontogram_preview",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260401210942",
+          "name": "add_service_colors_and_fix_nulls",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260401214622",
+          "name": "add_service_categories_table",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260428214553",
+          "name": "update_clinic_creation_trigger_with_size",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260428234751",
+          "name": "add_size_to_clinics",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260502005610",
+          "name": "20260502_prescription_templates",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260502025126",
+          "name": "create_prescriptions_table",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260508225414",
+          "name": "enable_rls_prescriptions",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260508220424_enable_rls_prescriptions.sql",
+              "sha256": "719d7db3fa9e7534f1f601d851d3483ad1c8b6590bdd2a10bc85b1b391979aba",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922062827",
+          "name": "test_migration",
+          "candidateSources": [],
+          "provenance": "NO_EXACT_LOCAL_SOURCE_ASSOCIATION",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922063147",
+          "name": "m1_tenant_and_access_control",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260920_m1_tenant_and_access_control.sql",
+              "sha256": "52bcd9144d85171cf3d1c12763c17ad30f8e1e23c280786bcd0a3f823d0fa319",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922063312",
+          "name": "m2_clinical_services_payment_methods",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260920_m2_clinical_services_payment_methods.sql",
+              "sha256": "a87c70bd3c9ad9ef492181471139edc4c276770847d44d115f918ebb83e35f7e",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922063323",
+          "name": "m3_analytics_maintenance_rpcs",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260920_m3_analytics_maintenance_rpcs.sql",
+              "sha256": "c524482fc7fa6074e6f46aeb72a434b96a7aa906e9ac0fe43a0729a4ce3b5bc0",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922063502",
+          "name": "m4_data_rights_requests_lopdp",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260920_m4_data_rights_requests_lopdp.sql",
+              "sha256": "b58c73c02c8690ad7689537ebcc0ac048eb089dce9f54cd3990c85f15421b59a",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922174110",
+          "name": "m5_security_and_production_readiness",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260922_m5_security_and_production_readiness.sql",
+              "sha256": "5ab5dd78878dcac89341fafe98b3fb42a3dcb2be379c2b4f22aea5e807f82231",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        },
+        {
+          "version": "20260922184028",
+          "name": "m6_security_hardening_and_contract_fix",
+          "candidateSources": [
+            {
+              "file": "supabase/migrations/20260922_m6_security_hardening_and_contract_fix.sql",
+              "sha256": "3222346ffb2d14c894400ce96b401d549ae2c4a77ed96192997458fa2a2876a3",
+              "rollback": false
+            }
+          ],
+          "provenance": "NAME_OR_VERSION_ASSOCIATION_ONLY_NOT_EXECUTED_BYTES_PROOF",
+          "executedStatementHash": null
+        }
+      ]
+    }
+  },
+  "duplicateVersions": {
+    "20251215": [
+      {
+        "file": "supabase/migrations/20251215_add_patient_columns.sql",
+        "sha256": "899dee86935193eb6d5532be6054462ce513ea6ff424abf81ee0d9915954aa82"
+      },
+      {
+        "file": "supabase/migrations/20251215_fix_patient_uniqueness.sql",
+        "sha256": "ce2a083e8c8c5137f61450bafafc53b5acf28e5d21de5b5a1962284d954655e7"
+      },
+      {
+        "file": "supabase/migrations/20251215_multi_clinic_support.sql",
+        "sha256": "ebc110f6b96bd6c753eb443dba6a988c8d97210f6625697e822f44bbb5825974"
+      }
+    ],
+    "20251218": [
+      {
+        "file": "supabase/migrations/20251218_saas_audit_triggers.sql",
+        "sha256": "0742f63eed1d7e5739b771aeed188a380a1c1d81e674b958deca1d193aea879d"
+      },
+      {
+        "file": "supabase/migrations/20251218_saas_functions.sql",
+        "sha256": "25141b88a8c42dd54404bcf6386893659fd32c79112fa9780cc592cc3f693b1c"
+      },
+      {
+        "file": "supabase/migrations/20251218_saas_schema.sql",
+        "sha256": "5caf77b365399c019f3bc584c3f528b5c70543cd9f73a63303e28e62a0c9ae4f"
+      }
+    ],
+    "20251219": [
+      {
+        "file": "supabase/migrations/20251219_add_clinic_metadata.sql",
+        "sha256": "303068d6924f4bbf9ea93d8d156092186a6bedc0072f8083232e1278d4a6c21a"
+      },
+      {
+        "file": "supabase/migrations/20251219_allow_create_clinic.sql",
+        "sha256": "de34e0651e43d222a917340dd04a75a62db64eea4ed70ed6be69d9882e026040"
+      },
+      {
+        "file": "supabase/migrations/20251219_genesis_flow.sql",
+        "sha256": "8753d963e818e37c1128e8d2b52e7f48de569c6471483ce3684ac374bf5947f2"
+      }
+    ],
+    "20251222": [
+      {
+        "file": "supabase/migrations/20251222_add_disclaimer_text.sql",
+        "sha256": "b21718702085f5b098ca7cbfe79ae4eb6d4fcf16a475f9dd0bffadba0e4c052c"
+      },
+      {
+        "file": "supabase/migrations/20251222_add_medical_alerts.sql",
+        "sha256": "2df83cd7cffa7c67e6257b6c5b0b42d247ef1cbd2e03511eb4416c441a972143"
+      },
+      {
+        "file": "supabase/migrations/20251222_add_odontogram_state.sql",
+        "sha256": "cf156d9fc32da53f72f1c056353255b6bd2e59fa07ec656799d054799d2d0321"
+      },
+      {
+        "file": "supabase/migrations/20251222_add_periodontogram_state.sql",
+        "sha256": "abfaf2e9ab3f27645e1f07dcf2f92c8b923c012526d8d62e15680d2aeab5ab1f"
+      },
+      {
+        "file": "supabase/migrations/20251222_add_trial_support.sql",
+        "sha256": "7a4bdf0f56d30b51753e70382445c69ab3ffcb26e6d2ba2b70a23c1d63f8f051"
+      },
+      {
+        "file": "supabase/migrations/20251222_add_working_hours.sql",
+        "sha256": "442b263ce81290ec870dd4ce49ff0a798c48c990974375e545f2dd0deb371a2e"
+      },
+      {
+        "file": "supabase/migrations/20251222_create_recall_queue_view.sql",
+        "sha256": "1f972d743cff611d0b1ccb39e7aac0ea0abb0949eb048ba4118d4c7d2b318ced"
+      },
+      {
+        "file": "supabase/migrations/20251222_create_storage_branding.sql",
+        "sha256": "6e9e8692cc876f5662070f0bc1f604fd387dc2a4db9ec0fc06f458ffb5a22939"
+      },
+      {
+        "file": "supabase/migrations/20251222_enforce_enums.sql",
+        "sha256": "446c1a759a64075928edd0fce2c849cfc81de0ba648fac5d7ac77b5be4fec081"
+      },
+      {
+        "file": "supabase/migrations/20251222_fix_permissions.sql",
+        "sha256": "154884c22e407c58739bbcc6ebb4cfc03b3db7dc14e91e7850ba6c8ea8acade9"
+      }
+    ],
+    "20251227": [
+      {
+        "file": "supabase/migrations/20251227_audit_read_beacon.sql",
+        "sha256": "10d4b0c628045b725eba03b06cc92a8b8d96f3d0ec78e98317ea78f83478d809"
+      },
+      {
+        "file": "supabase/migrations/20251227_data_retention_lifecycle.sql",
+        "sha256": "ac8af942a2c10f5c1093183e275b1b8ff55d2b87c694a69068690b38209815ea"
+      },
+      {
+        "file": "supabase/migrations/20251227_enforce_subscription_rls.sql",
+        "sha256": "203124c54045a27ed5baa907a1db7ff9208021557aefbced9882fd902e1c3d29"
+      },
+      {
+        "file": "supabase/migrations/20251227_ensure_clinics_rls.sql",
+        "sha256": "13bd7fff6815761ac9467393e66aa60bb64a1273c0578a96a4f7c8a7edc157fa"
+      },
+      {
+        "file": "supabase/migrations/20251227_fix_signup_error.sql",
+        "sha256": "ad2bfdfe3b80a8720b2a0557e7f79f261983558ab53e7015420a55bc1c7326d6"
+      },
+      {
+        "file": "supabase/migrations/20251227_optimize_rls_jwt.sql",
+        "sha256": "a7e27be4a315c7a04c276abf5d908b5c7235fc092e61c97f66b39d119e5b03a0"
+      },
+      {
+        "file": "supabase/migrations/20251227_payment_schema.sql",
+        "sha256": "8794f6fdd64ba5560d47111b5da07ab61aae7636831edaeed5b1b51d26ea030d"
+      },
+      {
+        "file": "supabase/migrations/20251227_secure_rpc_access.sql",
+        "sha256": "f67e599b3cdc555b67cc2015f9ecd1b73cc4ff2e085c43267ee768409dd91f13"
+      },
+      {
+        "file": "supabase/migrations/20251227_security_checklist.sql",
+        "sha256": "fa1a6f2d0c1eaa42ae81ee539dfdc544594850c78c4a9a67edb28ba333c31c45"
+      },
+      {
+        "file": "supabase/migrations/20251227_subscription_bypass.sql",
+        "sha256": "d0fb0bfbea0e858fd808e7c7901741235badff3e63ad992e169155e8798701ec"
+      }
+    ],
+    "20251228": [
+      {
+        "file": "supabase/migrations/20251228_add_services.sql",
+        "sha256": "5a6da375b81a87215d2863fa8c33c73c611169ee87bd4bdb06b07f23a9b3e675"
+      },
+      {
+        "file": "supabase/migrations/20251228_seed_services.sql",
+        "sha256": "8fa85d81c579faf935e978b2e35f6ac0dc50cae77d61f8ab5256257341bc3e82"
+      },
+      {
+        "file": "supabase/migrations/20251228_update_patients_schema.sql",
+        "sha256": "283cb5fa638ebe2252686ca6fe1cfa332a111f8b183090fffb96edb32558cc6e"
+      }
+    ],
+    "20260113": [
+      {
+        "file": "supabase/migrations/20260113_defer_clinic_creation.sql",
+        "sha256": "b3c108d18cbb691e0bf14ca4aa3d7297447d389b6d75c2af2e9e3b6c228c643d"
+      },
+      {
+        "file": "supabase/migrations/20260113_production_indexes.sql",
+        "sha256": "676b9a54306b3a1cd7ca536f5a411afa8412f6771a712e759cdce6d206e0d713"
+      }
+    ],
+    "20260220": [
+      {
+        "file": "supabase/migrations/20260220_add_prescriptions.sql",
+        "sha256": "476d69cdecab85b6e70da61cf1e3c29bdef20f661a1d3ce107eb097f6a9cf55b"
+      },
+      {
+        "file": "supabase/migrations/20260220_analytics_view.sql",
+        "sha256": "9fe1d7494377df386bda23e85428727e39416467dff4b330cb0d7b219a4243be"
+      },
+      {
+        "file": "supabase/migrations/20260220_performance_indexes.sql",
+        "sha256": "ee2b53b94649b2e537aae3a4f9ee6554ca85e11e62c0331f88cc5bfbd06d2208"
+      },
+      {
+        "file": "supabase/migrations/20260220_secure_audit_view.sql",
+        "sha256": "f8f3adbb29e6e734181646340d35359574a8d418e5fd98adae7ace66a0daeccb"
+      }
+    ],
+    "20260920": [
+      {
+        "file": "supabase/migrations/20260920_m1_tenant_and_access_control.sql",
+        "sha256": "52bcd9144d85171cf3d1c12763c17ad30f8e1e23c280786bcd0a3f823d0fa319"
+      },
+      {
+        "file": "supabase/migrations/20260920_m2_clinical_services_payment_methods.sql",
+        "sha256": "a87c70bd3c9ad9ef492181471139edc4c276770847d44d115f918ebb83e35f7e"
+      },
+      {
+        "file": "supabase/migrations/20260920_m3_analytics_maintenance_rpcs.sql",
+        "sha256": "c524482fc7fa6074e6f46aeb72a434b96a7aa906e9ac0fe43a0729a4ce3b5bc0"
+      },
+      {
+        "file": "supabase/migrations/20260920_m4_data_rights_requests_lopdp.sql",
+        "sha256": "b58c73c02c8690ad7689537ebcc0ac048eb089dce9f54cd3990c85f15421b59a"
+      },
+      {
+        "file": "supabase/migrations/20260920_security_remediation_consolidated.sql",
+        "sha256": "ed4d65058a798b63178dcf13139ce3766fe49fe1ecd21d80fa3d43867e96ad64"
+      }
+    ],
+    "20260922": [
+      {
+        "file": "supabase/migrations/20260922_m5_security_and_production_readiness.sql",
+        "sha256": "5ab5dd78878dcac89341fafe98b3fb42a3dcb2be379c2b4f22aea5e807f82231"
+      },
+      {
+        "file": "supabase/migrations/20260922_m6_security_hardening_and_contract_fix.sql",
+        "sha256": "3222346ffb2d14c894400ce96b401d549ae2c4a77ed96192997458fa2a2876a3"
+      }
+    ]
+  },
+  "rollbackSources": [
+    {
+      "file": "supabase/migrations/rollback_20260922194927.sql",
+      "sha256": "c9ed69cd5b768d9a52976fb0772a4aaffba10f2b7f488b3b5f0dceac0e189268"
+    },
+    {
+      "file": "supabase/migrations/rollback_20260925000000.sql",
+      "sha256": "b73799f8199ad1c5b6d6f1a251df7ef4621398b6769930e3e8166eafe3ba74e7"
+    }
+  ],
+  "rules": [
+    "No historical migration renamed, ledger fabricated, or remote history repaired.",
+    "Remote version/name and local file hash are associations, not proof of executed statement bytes.",
+    "Captured schema proves pinned starting structure only; no remote Supabase migration history is imported.",
+    "Canonical external receipt records actual local source hashes and committed outcome; it is NOT supabase_migrations.schema_migrations.",
+    "Reconstruction of old applied statement bodies is unavailable from the pinned version/name receipts. A hosted adoption requires separate provenance/baseline verification; no claim of current hosted equivalence."
+  ]
+}

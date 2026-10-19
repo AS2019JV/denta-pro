@@ -1,0 +1,2 @@
+-- Empty managed dependency, metadata only; no objects or external data.
+INSERT INTO storage.buckets(id,name,public,file_size_limit,allowed_mime_types) VALUES ('patient-files','patient-files',false,10485760,ARRAY['application/pdf','image/png','image/jpeg']),('patient-avatars','patient-avatars',false,2097152,ARRAY['image/png','image/jpeg','image/webp']),('clinic-branding','clinic-branding',false,2097152,ARRAY['image/png','image/jpeg','image/webp']),('doctor-avatars','doctor-avatars',false,2097152,ARRAY['image/png','image/jpeg','image/webp']);

@@ -1,0 +1,228 @@
+{
+  "format": 1,
+  "packageId": "clinia-canonical-gate3-v1",
+  "scope": "NEW_DISPOSABLE_ONLY",
+  "baseCandidate": "627ff7a4c6ccabcd7fb718846c4f4f926046b5eb",
+  "m7": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+  "owners": "docs/production/reconciliation/encargo01_local_m7_owners.sql",
+  "forward": [
+    "docs/production/reconciliation/operational-convergence/before-authority.sql",
+    "docs/production/reconciliation/encargo02/forward.sql",
+    "docs/production/reconciliation/operational-convergence/after-authority.sql",
+    "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+    "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+    "supabase/migrations/20261001120000_invitation_pending_reservation.sql",
+    "supabase/migrations/20261001130000_durable_email_abuse_budget.sql",
+    "supabase/migrations/20261002120000_profile_guard_schema_compatibility.sql",
+    "supabase/migrations/20261002180423_live_session_revocation.sql",
+    "supabase/migrations/20261002180800_trusted_enrollment.sql",
+    "supabase/migrations/20261002231730_immutable_prescription_receipts.sql",
+    "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+    "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+    "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+    "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+    "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+    "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+    "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+    "supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql"
+  ],
+  "baselines": {
+    "clean": {
+      "file": "docs/production/migration-package/v1/baseline-clean.sql",
+      "sha256": "fe8d692856e96091eac8ae48f6ce2438c6fab85ea8e4c01679a4a000cb0a4347",
+      "kind": "APPLICATION_SCHEMA_ONLY_CAPTURE",
+      "captureDate": "2026-09-29",
+      "compatibleOnly": "Exact pinned application catalog, PostgreSQL17, fresh real Auth/Storage initialization; no clinical rows or remote ledger.",
+      "missing": [
+        "provider configuration",
+        "remote execution statement provenance",
+        "real data",
+        "backup recovery proof"
+      ]
+    },
+    "upgrade": {
+      "file": "docs/production/migration-package/v1/baseline-upgrade.sql",
+      "sha256": "e251b969c0b6df8c5281ecf753aedca1af146799d84ba41fc9a892a5fdb599f3",
+      "kind": "APPLICATION_SCHEMA_ONLY_CAPTURE",
+      "captureDate": "2026-09-29",
+      "compatibleOnly": "Exact pinned application catalog, PostgreSQL17, fresh real Auth/Storage initialization; no clinical rows or remote ledger.",
+      "missing": [
+        "provider configuration",
+        "remote execution statement provenance",
+        "real data",
+        "backup recovery proof"
+      ],
+      "applicationManagedDependencies": {
+        "file": "docs/production/migration-package/v1/baseline-upgrade-managed-application.sql",
+        "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66",
+        "policies": 22,
+        "triggers": 2,
+        "source": "remote-production-catalog.json 2026-10-19 read-only application metadata, not managed service internals"
+      }
+    }
+  },
+  "files": [
+    {
+      "file": "docs/production/migration-package/v1/baseline-clean.sql",
+      "sha256": "fe8d692856e96091eac8ae48f6ce2438c6fab85ea8e4c01679a4a000cb0a4347"
+    },
+    {
+      "file": "docs/production/migration-package/v1/baseline-upgrade.sql",
+      "sha256": "6d63843e66c528c7f504e84bfcb7f2e2cfbc506a506b6237c8371217712c4fe0"
+    },
+    {
+      "file": "docs/production/migration-package/v1/baseline-upgrade-managed-application.sql",
+      "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66"
+    },
+    {
+      "file": "docs/production/migration-package/v1/expected-clean.json",
+      "sha256": "e8e822bab2bcf3949e7c06d983bf836c6d117acee4883ae5795be091bbac5db3"
+    },
+    {
+      "file": "docs/production/migration-package/v1/expected-upgrade.json",
+      "sha256": "011ae1c34712826ab040aa12df4acccb44e809f6ca88896af35250a637ed2ef5"
+    },
+    {
+      "file": "docs/production/migration-package/v1/baseline-clean-catalog.json",
+      "sha256": "a900679ef39a9a63636e284b237cef8ba4f52727ed08214aa1e738027a4332cd"
+    },
+    {
+      "file": "docs/production/migration-package/v1/baseline-upgrade-catalog.json",
+      "sha256": "202a1fb803caf1928daa1d142207408d4bf0deb97a661e599593a19a9848ab33"
+    },
+    {
+      "file": "docs/production/migration-package/v1/buckets.sql",
+      "sha256": "e54ef72fc75da707e913f09596f2367b48167da6fc9cba76fd4920e647ea9a65"
+    },
+    {
+      "file": "docs/production/migration-package/v1/adjudication.json",
+      "sha256": "3bdadcca0fbcea6179eb0e915a63220433b729e5446e071ca5dcfcad356696f4"
+    },
+    {
+      "file": "docs/production/migration-package/v1/lineage.json",
+      "sha256": "002bc038031cac096e299a0e571452ab8dd07e2c39aefbad2d3083790b206eda"
+    },
+    {
+      "file": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d"
+    },
+    {
+      "file": "docs/production/reconciliation/encargo01_local_m7_owners.sql",
+      "sha256": "843aa4f398a3a8aadaa7b9a73309f787638ab6b8f5bece2d73f23bf224a39106"
+    },
+    {
+      "file": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9"
+    },
+    {
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077"
+    },
+    {
+      "file": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5"
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41"
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f"
+    },
+    {
+      "file": "supabase/migrations/20261001120000_invitation_pending_reservation.sql",
+      "sha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4"
+    },
+    {
+      "file": "supabase/migrations/20261001130000_durable_email_abuse_budget.sql",
+      "sha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f"
+    },
+    {
+      "file": "supabase/migrations/20261002120000_profile_guard_schema_compatibility.sql",
+      "sha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb"
+    },
+    {
+      "file": "supabase/migrations/20261002180423_live_session_revocation.sql",
+      "sha256": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d"
+    },
+    {
+      "file": "supabase/migrations/20261002180800_trusted_enrollment.sql",
+      "sha256": "bcc0c79413c07f78be13de15c6d11f324e0a538084e8e7ee1e60c39c482c67f3"
+    },
+    {
+      "file": "supabase/migrations/20261002231730_immutable_prescription_receipts.sql",
+      "sha256": "aecd0a804f9141faf349df9214f8694a8f5877cff3d42c5243824b854a7b3884"
+    },
+    {
+      "file": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+      "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf"
+    },
+    {
+      "file": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+      "sha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9"
+    },
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39"
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f"
+    },
+    {
+      "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728"
+    },
+    {
+      "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d"
+    },
+    {
+      "file": "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+      "sha256": "c713f1b31815c1727398f189f19e0e9304fba3376f2964d52dba944f188f08d7"
+    },
+    {
+      "file": "supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql",
+      "sha256": "3058ff52d237860d41e452fb5bee31d0be15979bfd7c93854557a0ea473d6944"
+    },
+    {
+      "file": "scripts/clinia-migration-package.cjs",
+      "sha256": "3688a9521c54b579792396b5138af98a87677ae54db9c0f1704f84a6f57881a1"
+    },
+    {
+      "file": "scripts/clinia-captured-stage-m7-bridge.cjs",
+      "sha256": "b7aca879cd244afc1044ee4ae282f4d1c8fea1a6ce3eeb356a13d1a95775419d"
+    },
+    {
+      "file": "scripts/prepare-clinia-hosted-staging.cjs",
+      "sha256": "ccf316aa3cfe5d0cb12a44bbc604908ad14e8ce48d7199adb96f0a02157436a4"
+    },
+    {
+      "file": "scripts/compare-supabase-catalogs.cjs",
+      "sha256": "43b2efd30b7dd7329ca2b356593af9bcc7fd4a74970b8ab700ae46fda6945a90"
+    },
+    {
+      "file": "docs/production/reconciliation/hosted-staging/catalog-query.sql",
+      "sha256": "d3ba91cecb5971818b5f7061b4a6d831893f209116e24eadb1172cc8f6c7abdc"
+    }
+  ],
+  "preconditions": [
+    "Local Docker desktop-linux exact endpoint, new project/DB/storage volumes/network and pinned installed images, no shared target.",
+    "PostgreSQL17 with genuine fresh Auth/Storage migrations; managed functions/version history remain unchanged.",
+    "Baseline exact catalog verified BEFORE first package DDL; upgrade synthetic rows already present BEFORE M7.",
+    "Initial authenticated supabase_admin superuser; guarded transaction-local session authorization changes to postgres.",
+    "No unknown catalog drift; no retry against occupied committed target."
+  ],
+  "executionOrder": [
+    "initialize real managed dependencies",
+    "install pinned schema-only baseline into empty application schemas",
+    "verify exact baseline catalog",
+    "upgrade only: seed known synthetic populated baseline; negative M7 test",
+    "single transaction M7 (or exact clean bridge), original owners, private empty bucket metadata, postgres authorization, ordered forward sources, conservative FK delta",
+    "exact expected full catalog, complete data invariants, real ordinary Auth/PostgREST",
+    "write external execution receipt after observed commit; never forge Supabase ledger"
+  ],
+  "failure": "ON_ERROR_STOP, connection terminates on any unexpected failure. Entire package transaction rolls back. Compare all scoped rows/sequences/roles/memberships/catalog. No partial step recorded as executed.",
+  "rollback": "Before COMMIT: transactional rollback. After COMMIT and new writes: no safe down migration asserted; requires verified full backup and reconciliation of later writes. Schema-only captures are not backups."
+}
