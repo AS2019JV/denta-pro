@@ -1,0 +1,36 @@
+{
+  "status": "PROPOSED_NOT_APPLIED",
+  "project": "fbtlldubzomocuhpvweg",
+  "scenario": "A_NEW_KNOWN_SYNTHETIC_ONLY",
+  "authBeforeBootstrap": {
+    "disable_signup": true,
+    "external_anonymous_users_enabled": false,
+    "mfa_totp_enroll_enabled": true,
+    "mfa_totp_verify_enabled": true,
+    "hook_custom_access_token_enabled": false
+  },
+  "authOnlyAfterHardenedContract": {
+    "hook_custom_access_token_enabled": true,
+    "hook_custom_access_token_uri": "pg-functions://postgres/public/clinia_document_access_token_hook"
+  },
+  "postgrest": {
+    "db_schema": "public",
+    "db_extra_search_path": "public,extensions",
+    "db_anon_role": "anon",
+    "max_rows": 1000
+  },
+  "buckets": [
+    {"id":"patient-files","public":false,"file_size_limit":10485760,"allowed_mime_types":["image/png","image/jpeg","image/webp","application/pdf"]},
+    {"id":"patient-avatars","public":false,"file_size_limit":4000000,"allowed_mime_types":["image/png","image/jpeg","image/webp"]},
+    {"id":"clinic-branding","public":false,"file_size_limit":4000000,"allowed_mime_types":["image/png","image/jpeg","image/webp"]},
+    {"id":"doctor-avatars","public":false,"file_size_limit":4000000,"allowed_mime_types":["image/png","image/jpeg","image/webp"]}
+  ],
+  "authority": {
+    "database":"existing postgres non-superuser via verified TLS only; no new provider membership/owner grants",
+    "fixtureAdministration":"test project's existing service_role for exactly two synthetic Auth accounts and four private buckets/known ASCII PDF bytes; private custody only",
+    "ordinaryRuntime":"fresh Auth-issued AAL2 JWTs for two known test users; own RPC/patient allowed, foreign data denied, direct human Storage denied",
+    "configuration":"existing release owner's project-scoped dashboard/management authority; no new PAT, billing or S3 credentials"
+  },
+  "preserve":"Do not change SMTP, OAuth, signing roots, provider-managed ledgers, S3 config, global limits, production or shared staging. Recapture actual filtered before/after settings; restore configuration only in local recovery.",
+  "limits":"Plan field names verified against current Management API docs. If backend rejects a field or cannot represent the reviewed proposal, stop for a revised candidate; do not substitute flags or loosen guards. Existing TOTP enabled; other initial Auth flags require fresh filtered read before authorized PATCH. No application deployment/browser UAT claim."
+}

@@ -1,0 +1,155 @@
+{
+  "scope": "GATE3_A_NEW_KNOWN_SYNTHETIC_ONLY",
+  "parent": "8d97afdd29e3b2f0e89ed6366d8d7ef42ef27209",
+  "local": "PASS_WITH_EXACT_LIMITS",
+  "hostedAdoption": "NOT_EXECUTED_PENDING_AUTHORIZATION",
+  "gate3": "BLOCKED",
+  "step2": "PARTIAL",
+  "production": "NO-GO",
+  "target": {
+    "project": "fbtlldubzomocuhpvweg",
+    "postgres": "17.11",
+    "systemIdentifier": "7692130048193495360"
+  },
+  "manifestSha256": "7994d5b98613005cec1891f979f770b2eee4c0b82a662b5cad4b7fe2d3deea0b",
+  "focusedTests": {
+    "pass": 15,
+    "fail": 0
+  },
+  "ownCI": "Separate immutable successor CI required; never inherit39500782339",
+  "receipts": [
+    {
+      "file": "managed-preflight.json",
+      "status": "PASS_READ_ONLY_METADATA_PREFLIGHT",
+      "sha256": "27a217f808efca1ff09d325908e869edee6e8a20b0fd6f26edb8ddf40469f2d4"
+    },
+    {
+      "file": "managed-http-versions.json",
+      "status": "metadata receipt",
+      "sha256": "4e751461265d34d7ee7b097553b4ce4a822293ac43062278c5f1f6807d0a70fc"
+    },
+    {
+      "file": "hosted-filtered-configuration.json",
+      "status": "READ_ONLY_OBSERVED_NO_CHANGES",
+      "sha256": "6821ee4abf6e9c3b241cbc916e09c1c494eb95d747cf5c8c2fd081310d7ab2a4"
+    },
+    {
+      "file": "hosted-policy-capabilities.json",
+      "status": "metadata receipt",
+      "sha256": "42d7b65cdc36bfe820f22e890fdf2b9a69c890709a729c8dd00fd3b91372adb2"
+    },
+    {
+      "file": "managed-dependency-comparison.json",
+      "status": "PARTIAL_RELEVANT_MANAGED_DIFFERENCES",
+      "sha256": "0ff4003b4e0dba2265c9efa47c786da7102d7f03c9ac52e9dd4032300565903b"
+    },
+    {
+      "file": "managed-locks-delta.json",
+      "status": "PASS_SCOPED_LOCKS_POSTGRES",
+      "sha256": "c3e592888b55ce8866c12e7843029cd6c925221b56633631007281c1c9044ca3"
+    },
+    {
+      "file": "occupied-synthetic-fixtures.json",
+      "status": "PASS_PRESENT_BEFORE_M7",
+      "sha256": "9f50b8ac779fa6b1eb23c38bece96dbeb8076c1efd19234ce89e27e3536ceb85"
+    },
+    {
+      "file": "a5-final-upgrade.json",
+      "status": "PASS_FINAL_COMPILER_OCCUPIED_ATOMIC_COMMIT",
+      "sha256": "75af11d1b8676ee0a32eeb0ea34a41f27c4a9d1e8b57fe7ed4e71ca43be54dbf"
+    },
+    {
+      "file": "a5-ordinary-runtime.json",
+      "status": "PASS_AUTH_POSTGREST_STORAGE_BOUNDARIES",
+      "sha256": "b619954b495d2adb0b30c83eb2f7a0b48389b1d01f76439da70a5f9c8ffa3ee5"
+    },
+    {
+      "file": "fixture-content-guard-delta.json",
+      "status": "PASS_NEW_CONTENT_GUARDS",
+      "sha256": "1c72b2990d3a86ab31bd42d25623db1e84156fec9dc4c9f6258b64edc8643cba"
+    },
+    {
+      "file": "a5-postcommit-confirmed-writes.json",
+      "status": "PASS_TWO_CONFIRMED_SYNTHETIC_WRITES_BEFORE_NEW_BACKUP",
+      "sha256": "33b370c50927c80c9df7d155114440967a487038d8279631e348ae12919cc7a8"
+    },
+    {
+      "file": "recovery-baseline-r4.json",
+      "status": "PASS_FULL_SYNTHETIC_RECOVERY",
+      "sha256": "c9bf818a1fe7734f97ebbd643cbc77b9cb29d51f5667029667fda782249eb28f"
+    },
+    {
+      "file": "recovery-postcommit-writes-r7.json",
+      "status": "PASS_FULL_SYNTHETIC_RECOVERY",
+      "sha256": "36d0ad7d1a01b64551ff023ebea05b394faf58dfe68a856cac7317323c23fabf"
+    },
+    {
+      "file": "pg1711-numeric-fk-delta.json",
+      "status": "PASS_NEW_PG1711_DATA_BOUNDARIES",
+      "sha256": "bb62c53fe82bc525ac1f97eda0ca314d807fb1fb9b016f58e7941455a132fe38"
+    },
+    {
+      "file": "readonly-quarantine-delta.json",
+      "status": "PASS_FINAL_READONLY_IDENTITY_AND_TERMINAL_CLOSURE",
+      "sha256": "0b4c235311c0cd215b31efab7f0282a412f13b17bd492505bc7a2d213893b8b0"
+    },
+    {
+      "file": "local-closure.json",
+      "status": "PASS_PRIOR_IDENTITIES_VOLUMES_PRESERVED_NEW_COHORT_STOPPED",
+      "sha256": "4e4b8749a1789bbddf8d449839c1e00838b3609ce2ded7eceed037c342edfd63"
+    }
+  ],
+  "measuredRecovery": {
+    "baselineSeconds": 55.425,
+    "afterConfirmedWritesSeconds": 43.116,
+    "rpoLostConfirmedWrites": 0,
+    "fullAuthOriginalMfaActors": 2,
+    "allStorageFiles": 2,
+    "allStorageBytes": 96,
+    "rtoIncludesAllByteVerification": true,
+    "scope": "local synthetic with local signing/encryption configuration; not hosted portability, Gate4 or production SLA"
+  },
+  "preservedFailures": [
+    "masked literal SQL attempt",
+    "unexpected provider default ACLs",
+    "source body CRLF digest differences",
+    "first recovery foreign RPC argument mismatch",
+    "membership assertion omitted two canonical role edges",
+    "allmanaged locks refused buckets_vectors",
+    "r3 credential binding to previous synthetic cohort",
+    "HTTP204 parser failed after confirmed PATCH; r5 not the two-write proof",
+    "r6 Windows free-memory preparation refusal and recovery aborted before target DB",
+    "FK probe reached earlier clinic_members NO ACTION guard",
+    "Luna findings before readonly identity/golden/terminal closure fixes"
+  ],
+  "limits": [
+    "Prior canonical clean/upgrade physical57differences and latent unmounted view consumer incompatibility retained; explicit variant contract only.",
+    "Auth82 matches; hosted Storage74 vs local68 with two additional nullable bucket fields; full managed parity not claimed.",
+    "Actual hosted backup restore including native MFA/managed configuration must PASS before M7; no remote restore authorized.",
+    "Private backup/key folders same computer/owner; not independent offsite custody.",
+    "No Vercel deployment, mounted UI/browser/gateway or external email proof; candidate branch deployment disabled.",
+    "Local harness source hashes/commands and detailed receipts retained in workspace evidence; private dumps/keys/config excluded from Git.",
+    "One unsealed a3 fixture receipt filename was superseded by a4 before sealing; a5 receipt is authoritative; no claim all intermediate unsealed bytes survived."
+  ],
+  "protectedInvitationInteraction": false,
+  "remoteDDL": false,
+  "ledgerRepairOrImport": false,
+  "productionDocketsAccepted": 0,
+  "sourceHistoricalArtifactsUnchanged": true,
+  "commands": [
+    "node .temp/gate3-bootstrap-runtime.cjs prepare/start a5 (separate calls)",
+    "node .temp/gate3-bootstrap-apply.cjs a5",
+    "GATE3_LOCAL_TARGET=a5 node .temp/gate3-bootstrap-http.cjs",
+    "GATE3_LOCAL_TARGET=a5 GATE3_RECOVERY_TARGET=r4 node .temp/gate3-bootstrap-recovery.cjs baseline-recovery",
+    "node .temp/gate3-bootstrap-final-upgrade.cjs",
+    "GATE3_LOCAL_TARGET=a5 node .temp/gate3-bootstrap-upgrade.cjs open",
+    "GATE3_LOCAL_TARGET=a5 node .temp/gate3-bootstrap-postwrite.cjs",
+    "GATE3_LOCAL_TARGET=a5 GATE3_RECOVERY_TARGET=r7 node .temp/gate3-bootstrap-recovery.cjs postcommit-recovery",
+    "node .temp/gate3-bootstrap-content-guard-delta.cjs",
+    "node .temp/gate3-bootstrap-pg1711-delta.cjs",
+    "node .temp/gate3-bootstrap-readonly-quarantine-delta.cjs",
+    "node .temp/close-gate3-bootstrap-local.cjs",
+    "node --test test/production/gate3-bootstrap.test.cjs",
+    "node scripts/clinia-secret-scan.cjs"
+  ]
+}

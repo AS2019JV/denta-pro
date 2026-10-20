@@ -1,0 +1,74 @@
+{
+  "status": "PENDING_RELEASE_OWNER_AUTHORIZATION",
+  "parent": "8d97afdd29e3b2f0e89ed6366d8d7ef42ef27209",
+  "scenario": "A_KNOWN_SYNTHETIC_ONLY",
+  "hostedWritesPerformed": false,
+  "files": [
+    {
+      "file": "10-baseline.sql",
+      "bytes": 344036,
+      "sha256": "2d63163137ad31f24bbdcdd3eb99c945622c630706525d26fb92ef9bb1e4af06"
+    },
+    {
+      "file": "20-seed.sql",
+      "bytes": 159987,
+      "sha256": "8e5ed0ebe183b063606e262a1fe1ae5e4b06387e6992bb0ab97d78cf2e3c8894"
+    },
+    {
+      "file": "25-fixture-precheck.sql",
+      "bytes": 4376,
+      "sha256": "8e7352353cacabd804330aa72669dabfb542060cd4eb332c5d6a1bf7bb31ba71"
+    },
+    {
+      "file": "30-capture.sql",
+      "bytes": 10975,
+      "sha256": "a26348342c63c9a2ab8a8f924904606775379e97853ba5020a3633bf09057dbb"
+    },
+    {
+      "file": "40-upgrade.sql",
+      "bytes": 564913,
+      "sha256": "99168968c6f8c0e4f949d59c8f2d8703717c070eab9b15df8d518d48059d7213"
+    },
+    {
+      "file": "50-open.sql",
+      "bytes": 342123,
+      "sha256": "d6d8251cd0ec54873c3e9321ccbfe9207278295f91a8e6931a3fdce3d6b3323a"
+    },
+    {
+      "file": "60-postchecks.sql",
+      "bytes": 177453,
+      "sha256": "ed99aacd4eb96e883466b5d25984f37ff6f549a6a7519941084e8b94a30abd7e"
+    },
+    {
+      "file": "90-quarantine.sql",
+      "bytes": 942,
+      "sha256": "7779f8bab4bd15c93dbcefa5f27e6f588315e501123935b8b1813e8adafbeb52"
+    }
+  ],
+  "parameter": {
+    "file": "40-upgrade.sql",
+    "name": "gate3_data_proof",
+    "type": "JSONB exact count/SHA256 map",
+    "source": "30-capture.sql after verified same-source backup, full restore and writer quiescence",
+    "arbitrarySqlAllowed": false
+  },
+  "prohibited": [
+    "Production/shared staging",
+    "ledger import/repair",
+    "provider role/ownership grants",
+    "remote restore",
+    "billable resources",
+    "historical provenance acceptance"
+  ],
+  "abortOn": [
+    "identity or baseline drift",
+    "unknown row or fixture",
+    "backup/key/config/Storage byte omission",
+    "failed full restore including original MFA",
+    "RPO nonzero",
+    "writers not quiesced",
+    "permission error: do not elevate",
+    "timeout/postcondition/ordinary API failure",
+    "uncertain COMMIT: reconcile, never blind retry"
+  ]
+}

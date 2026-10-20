@@ -4,3 +4,6 @@ supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql text
 docs/production/migration-package/** text eol=lf
 docs/production/migration-package/v1/baseline-clean.sql -text
 docs/production/migration-package/v1/baseline-upgrade.sql -text
+
+docs/production/migration-package/bootstrap-v3/baseline.sql -text
+docs/production/migration-package/bootstrap-v3/hosted-plan/*.sql -text
