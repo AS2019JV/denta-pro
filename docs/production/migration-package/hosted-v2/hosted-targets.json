@@ -1,0 +1,7 @@
+{
+  "status": "PENDING_NO_HOSTED_DESTINATION_AUTHORIZED",
+  "targets": [],
+  "requiredEntryFields": ["project", "host", "serverSystemIdentifier", "managementEvidenceSha256", "readApprovalSha256", "changeApprovalSha256", "executorRole", "privilegeReviewEvidenceSha256"],
+  "policy": "Default deny. Register an independently verified disposable project/system identity and exact separate human authorization evidence in a new reviewed candidate/CI before any hosted check or execution. Flags in a runtime config cannot authorize a target. Shared staging/production refs remain unconditionally denied.",
+  "privilegeStatus": "Local rehearsal uses actual postgres owner for application DDL; hosted minimum-privilege owner/delegation model is NOT verified or approved. No role creation or membership grant is authorized by this registry."
+}

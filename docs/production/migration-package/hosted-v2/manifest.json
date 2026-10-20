@@ -1,0 +1,199 @@
+{
+  "format": 2,
+  "baseCandidate": "17837fdbd6700f9c7943583dbd2b4620c6b057d2",
+  "scope": "EXPLICIT_AUTHORIZED_ISOLATED_TARGET_ONLY",
+  "sharedProjectsDenied": [
+    "phihonofwyerpfgqfekt",
+    "leqsrfyjvuxxdsubjjin"
+  ],
+  "variant": "production-shaped-upgrade",
+  "sourceManifestSha256": "8d238eeb8b09995166fb7e229b35320f099401f8a6af3d6192643d54c3d92969",
+  "sources": [
+    {
+      "file": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "sha256": "0fc3357fff3c8108099f90c952b4387874e689cbfafce9648f892d1c838418d9",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "sha256": "52193473664922ed94608b9c8e344b22ae166bf5ac5f64d140f548ff8b1a1077",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "sha256": "7d90f08e37ad22c41ff5f082038da0582c0afde0d5c84def0e7e3cf318d001e5",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "sha256": "79436969fe001c355fbdc3a8d807add8cad0b2f090eefbbb6882cc69c6535b41",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "sha256": "5d09791fb55c45f55972faa2432f58159523c882f89d6e6edd1f89b6b4d1ed4f",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261001120000_invitation_pending_reservation.sql",
+      "sha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261001130000_durable_email_abuse_budget.sql",
+      "sha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261002120000_profile_guard_schema_compatibility.sql",
+      "sha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261002180423_live_session_revocation.sql",
+      "sha256": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261002180800_trusted_enrollment.sql",
+      "sha256": "bcc0c79413c07f78be13de15c6d11f324e0a538084e8e7ee1e60c39c482c67f3",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261002231730_immutable_prescription_receipts.sql",
+      "sha256": "aecd0a804f9141faf349df9214f8694a8f5877cff3d42c5243824b854a7b3884",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+      "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+      "sha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+      "sha256": "c713f1b31815c1727398f189f19e0e9304fba3376f2964d52dba944f188f08d7",
+      "normalization": "UTF8_CRLF_TO_LF"
+    },
+    {
+      "file": "supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql",
+      "sha256": "3058ff52d237860d41e452fb5bee31d0be15979bfd7c93854557a0ea473d6944",
+      "normalization": "UTF8_CRLF_TO_LF"
+    }
+  ],
+  "transformations": [
+    {
+      "file": "docs/production/reconciliation/operational-convergence/before-authority.sql",
+      "beforeSha256": "8db063b49dacb34b6c101168a8fac35427dfc8414ae506bf4be3fca406434fa2",
+      "afterSha256": "6227ed38755cb9a5d32f748780524742d374121395c2ae41f9dd2a652766274c",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "beforeSha256": "d1be01d40741ce72cf198795d1f80557ae3432a0ab05da35dfb6aa7b32cad792",
+      "afterSha256": "263dfe1021cb3cd3e2205675b3031621582211e4eed384308b823bd731dc31c5",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "docs/production/reconciliation/encargo02/forward.sql",
+      "beforeSha256": "963ec1a1fde415db5e8d0d3a6023dc5a8aa5eb175f1a0307749c303293e838f4",
+      "afterSha256": "d55549ca9af185d98e39bbf142f24739792b2ec23fd1b4e68f13fd8a6ceca424",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "docs/production/reconciliation/operational-convergence/after-authority.sql",
+      "beforeSha256": "e8a6a3a0d457c18d35781a00df05fa561687a097060229186a2330b046aa5237",
+      "afterSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928032932_enforce_operational_agenda.sql",
+      "beforeSha256": "ab94de244b6ca7406e0db7d92e6831dcabe7e67c1a82e1ca3cf94612b5dc577e",
+      "afterSha256": "f4af7bc63e4aa39a219bc054cff5501003c34cc8e01994584752c640109308ba",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "tools/local-supabase/supabase/migrations/20260928190221_operational_reports.sql",
+      "beforeSha256": "c98af413b3d86ec5776fffac0a87f9ec22dd7d6cb5294f915a04ea95fb650dee",
+      "afterSha256": "df9752acfe1a50359d618b47aac30dd63d6c5e3a43c145121bd9af3fe4ed194f",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    },
+    {
+      "file": "supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql",
+      "beforeSha256": "85e059e69acf6d809dd5fc5cf752a74cdd31cacd9a8be30c884a73411a642b83",
+      "afterSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "purpose": "Replace installation-only local marker guard with independent target/baseline/approval guard in executor; keep structural/data checks."
+    }
+  ],
+  "excluded": [
+    "schema-only baselines as installation",
+    "local owner bridge: forward runs as actual postgres so M7 creates postgres-owned functions directly",
+    "synthetic bucket installer: four existing private empty-or-occupied buckets are preconditions, never inserted by executor",
+    "historical rollback files and remote ledger"
+  ],
+  "contractDecisions": [
+    "Retain baseline PUBLIC schema USAGE; no revoke or new USAGE grant just to force local equivalence. Table/function/column ACL/RLS remain exact.",
+    "Retain subscription_status default NULL ACL; measured effective privileges unchanged, no redundant grant.",
+    "Upgrade legacy/numeric variants unchanged; no narrowing or casting."
+  ],
+  "files": [
+    {
+      "file": "forward.sql",
+      "sha256": "471cabbd877d0c756be400bf59221ff548f23f3be49ff88eea2ef0aba52e3e2f"
+    },
+    {
+      "file": "baseline-upgrade.json",
+      "sha256": "981231e13c27ff8442b39bb27d2361f4ea32767a6197961562cf79c64121fc09"
+    },
+    {
+      "file": "expected-upgrade.json",
+      "sha256": "79b677be65c57896a8dc471cbc0b6d62e8629b0b6edcc2f2461fd70cc4ae4d55"
+    },
+    {
+      "file": "catalog.sql",
+      "sha256": "5378e697bc180ae106974d9bd9794a8414b779a6bc622e4221a1347ddcd99c1f"
+    },
+    {
+      "file": "invariants.sql",
+      "sha256": "31bf4f176330dc09ed197244812a92576a3ebe2404aa7551a63502f981926cb4"
+    },
+    {
+      "file": "hosted-targets.json",
+      "sha256": "1dad93019ec3744844775eb6e48a3ea27ca90b0b227e11d3a8f06568c382653e"
+    },
+    {
+      "file": "storage-preflight.sql",
+      "sha256": "46483a0c8b74929ea59d1240799bf197af5ae8752ea25b556a10b67f20a5fa86"
+    }
+  ],
+  "catalogNumericEncoding": "All pg_sequence bigint numeric fields are SQL-cast to text before JSON serialization. Old rounded JSON artifacts retained as historical evidence only."
+}

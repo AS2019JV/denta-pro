@@ -1,0 +1,31 @@
+-- Aggregate-only. No patient/clinic identifiers, contents, emails, tokens or invitations are returned/read.
+-- Run first on synthetic baseline. READ ONLY wrapper is provided by the caller.
+SELECT jsonb_build_object(
+ 'patients_without_clinic',(SELECT count(*) FROM public.patients WHERE clinic_id IS NULL),
+ 'appointments_without_clinic',(SELECT count(*) FROM public.appointments WHERE clinic_id IS NULL),
+ 'prescriptions_without_clinic',(SELECT count(*) FROM public.prescriptions WHERE clinic_id IS NULL),
+ 'hcu_without_clinic',(SELECT count(*) FROM public.hcu033_forms WHERE clinic_id IS NULL),
+ 'billings_without_clinic',(SELECT count(*) FROM public.billings WHERE clinic_id IS NULL),
+ 'invoices_without_clinic',(SELECT count(*) FROM public.invoices WHERE clinic_id IS NULL),
+ 'family_links_across_clinics',(SELECT count(*) FROM public.patients c JOIN public.patients p ON p.id=c.family_representative_id WHERE p.clinic_id IS DISTINCT FROM c.clinic_id),
+ 'family_links_orphan',(SELECT count(*) FROM public.patients c LEFT JOIN public.patients p ON p.id=c.family_representative_id WHERE c.family_representative_id IS NOT NULL AND p.id IS NULL),
+ 'duplicate_memberships',(SELECT count(*) FROM (SELECT 1 FROM public.clinic_members GROUP BY user_id,clinic_id HAVING count(*)>1) duplicates),
+ 'appointments_invalid_interval',(SELECT count(*) FROM public.appointments WHERE start_time IS NULL OR end_time IS NULL OR NOT isfinite(start_time) OR NOT isfinite(end_time) OR end_time-start_time<interval '5 minutes' OR end_time-start_time>interval '8 hours'),
+ 'appointments_invalid_status',(SELECT count(*) FROM public.appointments WHERE status IS NULL OR status NOT IN ('scheduled','confirmed','arrived','completed','cancelled','no_show')),
+ 'appointments_active_without_doctor',(SELECT count(*) FROM public.appointments WHERE deleted_at IS NULL AND status IN ('scheduled','confirmed','arrived') AND doctor_id IS NULL),
+ 'appointments_overlap_pairs',(SELECT count(*) FROM public.appointments a JOIN public.appointments b ON a.id<b.id AND a.clinic_id=b.clinic_id AND a.doctor_id=b.doctor_id AND a.start_time<b.end_time AND b.start_time<a.end_time WHERE a.deleted_at IS NULL AND b.deleted_at IS NULL AND a.status IN ('scheduled','confirmed','arrived') AND b.status IN ('scheduled','confirmed','arrived')),
+ 'services_cross_clinic_category',(SELECT count(*) FROM public.services s JOIN public.service_categories c ON c.id=s.category_id WHERE c.clinic_id IS DISTINCT FROM s.clinic_id),
+ 'appointments_patient_tenant',(SELECT count(*) FROM public.appointments c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'prescriptions_patient_tenant',(SELECT count(*) FROM public.prescriptions c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'clinical_records_patient_tenant',(SELECT count(*) FROM public.clinical_records c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'patient_notes_patient_tenant',(SELECT count(*) FROM public.patient_notes c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'patient_files_patient_tenant',(SELECT count(*) FROM public.patient_files c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'hcu_patient_tenant',(SELECT count(*) FROM public.hcu033_forms c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'rights_patient_tenant',(SELECT count(*) FROM public.data_rights_requests c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'billings_patient_tenant',(SELECT count(*) FROM public.billings c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'invoices_patient_tenant',(SELECT count(*) FROM public.invoices c LEFT JOIN public.patients p ON p.id=c.patient_id AND p.clinic_id=c.clinic_id WHERE c.patient_id IS NOT NULL AND p.id IS NULL),
+ 'appointments_clinician',(SELECT count(*) FROM public.appointments c WHERE c.doctor_id IS NOT NULL AND NOT EXISTS(SELECT FROM public.profiles p WHERE p.id=c.doctor_id AND p.status::text='active' AND (EXISTS(SELECT FROM public.clinic_members m WHERE m.user_id=p.id AND m.clinic_id=c.clinic_id AND m.status='active' AND m.role IN ('doctor','clinic_owner')) OR EXISTS(SELECT FROM public.clinics k WHERE k.id=c.clinic_id AND k.owner_id=p.id)))),
+ 'prescriptions_clinician',(SELECT count(*) FROM public.prescriptions c WHERE c.doctor_id IS NOT NULL AND NOT EXISTS(SELECT FROM public.profiles p WHERE p.id=c.doctor_id AND p.status::text='active' AND (EXISTS(SELECT FROM public.clinic_members m WHERE m.user_id=p.id AND m.clinic_id=c.clinic_id AND m.status='active' AND m.role IN ('doctor','clinic_owner')) OR EXISTS(SELECT FROM public.clinics k WHERE k.id=c.clinic_id AND k.owner_id=p.id)))),
+ 'clinical_records_clinician',(SELECT count(*) FROM public.clinical_records c WHERE c.doctor_id IS NOT NULL AND NOT EXISTS(SELECT FROM public.profiles p WHERE p.id=c.doctor_id AND p.status::text='active' AND (EXISTS(SELECT FROM public.clinic_members m WHERE m.user_id=p.id AND m.clinic_id=c.clinic_id AND m.status='active' AND m.role IN ('doctor','clinic_owner')) OR EXISTS(SELECT FROM public.clinics k WHERE k.id=c.clinic_id AND k.owner_id=p.id)))),
+ 'hcu_clinician',(SELECT count(*) FROM public.hcu033_forms c WHERE c.doctor_id IS NOT NULL AND NOT EXISTS(SELECT FROM public.profiles p WHERE p.id=c.doctor_id AND p.status::text='active' AND (EXISTS(SELECT FROM public.clinic_members m WHERE m.user_id=p.id AND m.clinic_id=c.clinic_id AND m.status='active' AND m.role IN ('doctor','clinic_owner')) OR EXISTS(SELECT FROM public.clinics k WHERE k.id=c.clinic_id AND k.owner_id=p.id))))
+) AS result;
