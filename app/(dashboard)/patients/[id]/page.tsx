@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
 import { loadPatientDetail } from "@/lib/patient-detail.mjs"
+import { formatBirthDate } from "@/lib/birth-date.mjs"
 import { readPatientTab } from "@/lib/prescription-policy.mjs"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -127,7 +128,8 @@ export default function PatientDetailsPage() {
   }, [scope, currentClinicId, patientId, reload])
 
   const formatBirthDateAndAge = (birthDateString?: string) => {
-    if (!birthDateString) return "Fecha de nacimiento no registrada"
+    const birthLabel = formatBirthDate(birthDateString)
+    if (!birthDateString || !birthLabel) return "Fecha de nacimiento no registrada"
     const birth = new Date(birthDateString)
     if (isNaN(birth.getTime())) return "Fecha de nacimiento no registrada"
     
@@ -137,7 +139,7 @@ export default function PatientDetailsPage() {
     if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
       age--
     }
-    return `${birth.toLocaleDateString("es-ES")} (${age} años)`
+    return `${birthLabel} (${age} años)`
   }
 
   if (authLoading || (authorized && (isLoading || loadedScope !== scope))) {
@@ -493,9 +495,7 @@ export default function PatientDetailsPage() {
                                     <div className="space-y-1.5">
                                         <Label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider">Fecha de Nacimiento</Label>
                                         <p className="text-base font-medium text-foreground">
-                                            {patient.birthDate && !isNaN(new Date(patient.birthDate).getTime()) 
-                                                ? new Date(patient.birthDate).toLocaleDateString("es-ES") 
-                                                : "No registrada"}
+                                            {formatBirthDate(patient.birthDate) || "No registrada"}
                                         </p>
                                     </div>
                                     <div className="space-y-1.5">

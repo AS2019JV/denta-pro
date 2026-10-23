@@ -26,3 +26,13 @@ El delta no cambia SQL, scripts de recuperación, perfil, manifiesto, Auth/MFA d
 La demo requiere cuentas sintéticas existentes y sesiones ordinarias. No se habilitan miembros, principal documental o permisos para eludir un fallo. Un principal previamente desactivado puede bloquear archivo privado; se registra el resultado y se solicita una autorización separada si exige configuración compartida.
 
 Producción NO-GO. No se modifica esquema/configuración compartida, ledger, invitación protegida, clinia-test ni M7. La demo no sustituye aceptación clínica/privacidad ni gates obligatorios.
+
+## Sucesor por defecto reproducido en la demostración
+
+El primer sucesor `8590022f9db7bf676e68536267086f6f8739176c` pasó CI `39999393762` con 430/430 y Preview `hma4kRF5duAE67dptMgeT4E59Nyc` Ready. En su recorrido real, el propietario sintético completó contraseña/MFA original, dashboard y alta/consulta del paciente ficticio. Tras confirmar el valor guardado `1990-01-01`, la ficha mostraba **31/12/1989** en Ecuador. Se conserva ese FAIL; no se atribuye al parche de dependencias como regresión demostrada.
+
+El sucesor corrige únicamente las dos presentaciones de nacimiento de la ficha. `lib/birth-date.mjs` valida y presenta campos de una fecha gregoriana sin convertirlos a un instante. No agrega Temporal/polyfill ni dependencias nuevas; no modifica fechas guardadas, cálculos de edad/HCU, RPC, SQL, autorizaciones o calendario de citas. El [comportamiento documentado de Date.parse](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date/parse) explica por qué una fecha ISO sin hora implica UTC.
+
+Regresiones nuevas: presentación en Ecuador continental, Galápagos, UTC y zona oriental; siglos/años bisiestos y fechas inválidas. Las pruebas existentes de PDF, publicación y ámbito clínico se conservan. Este código necesita su propio SHA, CI y verificación del Preview sucesor; no hereda los resultados desplegados de8590022.
+
+Límite clínico explícito: el cálculo de edad existente usa el día local del usuario y una fecha interpretada como instante UTC. Su frontera de aniversario, incluido29febrero, requiere decisión/revisión clínica. La propuesta inicial de cambiar también HCU/edad se descartó antes del commit; sus433 pruebas intermedias no acreditan el candidato final. El arreglo de presentación no declara resuelta esa regla ni aceptación clínica.
