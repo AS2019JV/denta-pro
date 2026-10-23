@@ -1,0 +1,663 @@
+{
+  "baselineCandidate": "bdba2368c657a926ee849bc75f62dfda957b1801",
+  "backupSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+  "remoteExecution": false,
+  "files": [
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/baseline-contract.json",
+      "sha256": "710053799b0277e9062226b98be1dc5666ac8b3b8e4262e7732875c351466e48"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/baseline.sql",
+      "sha256": "6f5b79ba0640d9dd4a585437b2d6ac9b0d6279649e7999a799c7d042011f4bc5"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/configuration-plan.json",
+      "sha256": "12b3b8283743c195f308dc238aaa800b46ef768309c29a40213c57b1f9c83607"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/derivation.json",
+      "sha256": "bbee9f1c5b58509d647783c9c6775ef18de7162f8485c3ff01494b24ee7b10c6"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/expected-contract.json",
+      "sha256": "a2ade425f85b3afd05ebc392324a65cb479f4ba942b53130e26567a28a29ed6d"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/expected-open-contract.json",
+      "sha256": "1b97d932eb47c185ebfb81aa7dfafb6401d2889b0a46536412daaf03df2f9955"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/fixture-contract.sql",
+      "sha256": "9bf1e480a732ec3c5b1c66c2224b89900764139733facc4bd8031c0e605e036e"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/fixture-precheck.sql",
+      "sha256": "c5021db575ccded8433ec2839b9049012c9775c6804b16a52ecfb2c156d5985d"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/10-baseline.sql",
+      "sha256": "2d63163137ad31f24bbdcdd3eb99c945622c630706525d26fb92ef9bb1e4af06"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/20-seed.sql",
+      "sha256": "8e5ed0ebe183b063606e262a1fe1ae5e4b06387e6992bb0ab97d78cf2e3c8894"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/25-fixture-precheck.sql",
+      "sha256": "8e7352353cacabd804330aa72669dabfb542060cd4eb332c5d6a1bf7bb31ba71"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/30-capture.sql",
+      "sha256": "a26348342c63c9a2ab8a8f924904606775379e97853ba5020a3633bf09057dbb"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/40-upgrade.sql",
+      "sha256": "99168968c6f8c0e4f949d59c8f2d8703717c070eab9b15df8d518d48059d7213"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/50-open.sql",
+      "sha256": "d6d8251cd0ec54873c3e9321ccbfe9207278295f91a8e6931a3fdce3d6b3323a"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/60-postchecks.sql",
+      "sha256": "ed99aacd4eb96e883466b5d25984f37ff6f549a6a7519941084e8b94a30abd7e"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/90-quarantine.sql",
+      "sha256": "7779f8bab4bd15c93dbcefa5f27e6f588315e501123935b8b1813e8adafbeb52"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/plan.json",
+      "sha256": "f544caa5712f254ddaeb9e6d58362d25dd262a4196b3ec8c4ce38cf357379c97"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/managed-application.sql",
+      "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/managed-locks.sql",
+      "sha256": "960bc83eedf98c2c3d304af8aa6905557ab2c5f89c4cdc280617864955e3ac40"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/manifest.json",
+      "sha256": "7994d5b98613005cec1891f979f770b2eee4c0b82a662b5cad4b7fe2d3deea0b"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/README.md",
+      "sha256": "39437388970eb6235da0365954ba729e240f2686d108ecd73a32df364c1f97a8"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/RECOVERY_PROCEDURE.md",
+      "sha256": "e0ee624c0fee81846e5337f200053461aaec7f455bc3aea11e804c94b5c1dba5"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/seed.sql",
+      "sha256": "9c07e276b2f7ef57413f70132fc99b54dba946f87e153d43f07cd60871f86a65"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/baseline-upgrade.json",
+      "sha256": "981231e13c27ff8442b39bb27d2361f4ea32767a6197961562cf79c64121fc09"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/catalog.sql",
+      "sha256": "5378e697bc180ae106974d9bd9794a8414b779a6bc622e4221a1347ddcd99c1f"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/expected-upgrade.json",
+      "sha256": "79b677be65c57896a8dc471cbc0b6d62e8629b0b6edcc2f2461fd70cc4ae4d55"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/forward.sql",
+      "sha256": "471cabbd877d0c756be400bf59221ff548f23f3be49ff88eea2ef0aba52e3e2f"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/hosted-targets.json",
+      "sha256": "1dad93019ec3744844775eb6e48a3ea27ca90b0b227e11d3a8f06568c382653e"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/invariants.sql",
+      "sha256": "31bf4f176330dc09ed197244812a92576a3ebe2404aa7551a63502f981926cb4"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/manifest.json",
+      "sha256": "a098eea8d600aee1cd5cfdf7bcff25751c731d5690ea76fd2eb8b623a848476c"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/README.md",
+      "sha256": "5bb8536b9e4be85aaf9a388382cf09d31e8d669dadb3595be9887d9ad1897d3c"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/storage-preflight.sql",
+      "sha256": "46483a0c8b74929ea59d1240799bf197af5ae8752ea25b556a10b67f20a5fa86"
+    },
+    {
+      "path": "docs/production/migration-package/v1/adjudication.json",
+      "sha256": "3bdadcca0fbcea6179eb0e915a63220433b729e5446e071ca5dcfcad356696f4"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-clean-catalog.json",
+      "sha256": "a900679ef39a9a63636e284b237cef8ba4f52727ed08214aa1e738027a4332cd"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-clean.sql",
+      "sha256": "fe8d692856e96091eac8ae48f6ce2438c6fab85ea8e4c01679a4a000cb0a4347"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade-catalog.json",
+      "sha256": "202a1fb803caf1928daa1d142207408d4bf0deb97a661e599593a19a9848ab33"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade-managed-application.sql",
+      "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade.sql",
+      "sha256": "e251b969c0b6df8c5281ecf753aedca1af146799d84ba41fc9a892a5fdb599f3"
+    },
+    {
+      "path": "docs/production/migration-package/v1/buckets.sql",
+      "sha256": "e54ef72fc75da707e913f09596f2367b48167da6fc9cba76fd4920e647ea9a65"
+    },
+    {
+      "path": "docs/production/migration-package/v1/expected-clean.json",
+      "sha256": "e8e822bab2bcf3949e7c06d983bf836c6d117acee4883ae5795be091bbac5db3"
+    },
+    {
+      "path": "docs/production/migration-package/v1/expected-upgrade.json",
+      "sha256": "011ae1c34712826ab040aa12df4acccb44e809f6ca88896af35250a637ed2ef5"
+    },
+    {
+      "path": "docs/production/migration-package/v1/lineage.json",
+      "sha256": "002bc038031cac096e299a0e571452ab8dd07e2c39aefbad2d3083790b206eda"
+    },
+    {
+      "path": "docs/production/migration-package/v1/manifest.json",
+      "sha256": "8d238eeb8b09995166fb7e229b35320f099401f8a6af3d6192643d54c3d92969"
+    },
+    {
+      "path": "docs/production/migration-package/v1/README.md",
+      "sha256": "cacba967930d51459d8f65e634a11cddc92459158bb6513d21ef495043b8323d"
+    },
+    {
+      "path": "docs/production/recovery-profile/backup-toc.txt",
+      "sha256": "cd7e8debbe89e5399ef77597f64fa40b78b3555504331d981969b12b6c3aba63"
+    },
+    {
+      "path": "docs/production/recovery-profile/contract.json",
+      "sha256": "e20449746cf12bc18d6e75ad6e4b18a09a04ee9155ad5ff10b1c5cde329a86d2"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-canonical-snapshot.cjs",
+      "sha256": "2a28017c751b7bc6220b66d5b89b5ddb1485a0d65f1697b340c92ccda6ad6248"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-complete-run.cjs",
+      "sha256": "eaeba79da6a969becdeaa8475d06b3e8861e4cfc3bf293654e95f9e2fadaf8f8"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-custody-check.ps1",
+      "sha256": "85a60d41775f531d3a1103dc577dd81e5260600dfe8bbb24dc25e1b09efd5afd"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-database-drill-v6.cjs",
+      "sha256": "5d4c7e6eb2278814b20d38097746aa831ac5f12ccb2492bd5652193773c1bdf7"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-extra-checks.cjs",
+      "sha256": "e8103718027c5ac2dd5e080230243d2386d157d4d8d0c7f792fbadb0ce874b04"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-local-custody.ps1",
+      "sha256": "2b0caf30d2f0fdc6981761dd094d847799375577648c78b5d99f4ee993999b0f"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-managed-catalog.cjs",
+      "sha256": "d206ac6811a15d47478963db3935f7411a416dfbdb015ef05f887676339a6fce"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-new-runtime.cjs",
+      "sha256": "c43952d7a8e8cf8f4d2caa96ea2131cac38d347e6687ade96d35654aa8a6afe2"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-private-archive.cjs",
+      "sha256": "a483694b062543773073ef18debe2082a492ded73a41f39c14bd59d8ff27285a"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-service-check.cjs",
+      "sha256": "b896c5ec6f2ccf2ee548281aab9327be104c4e7c823f966a48d49121a951f2be"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-validate-managed.cjs",
+      "sha256": "9f9dd13a838bb22adccfc353b3014a24277e1a5e09d1fe83d188046db7ae6275"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-authority-contract-v2.json",
+      "sha256": "166139636cfc8cb74c2a27b4e936e6b23eaf0383ba5bf5f9b5257f1125599967"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-differences.json",
+      "sha256": "91757447052ee4dad74192cbaeb96bc11f39006362e1a2583a3a0caca0f951d4"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-metadata.sql",
+      "sha256": "ccaeb5e2b2e791c9afd5f2e8153c5c726ab9a272406ce9ee4b883dd377a96c9d"
+    },
+    {
+      "path": "docs/production/recovery-profile/p4-atomic-failure-v6.json",
+      "sha256": "e502816436b9e5418eddcaf423a67f82e5d1bd36cc82287a56d7de5de60791c1"
+    },
+    {
+      "path": "docs/production/recovery-profile/profile-contract.json",
+      "sha256": "e20449746cf12bc18d6e75ad6e4b18a09a04ee9155ad5ff10b1c5cde329a86d2"
+    },
+    {
+      "path": "docs/production/recovery-profile/README.md",
+      "sha256": "ebd02aa5699f6e94b3d06d7cd90a69befe39d10c8bd2996c4d7d58c213441809"
+    },
+    {
+      "path": "docs/production/recovery-profile/runtime-template.json",
+      "sha256": "d58906499169770491fc434ac41ab6c1c0ade80e3c7c4b22426739d1357fa309"
+    },
+    {
+      "path": "docs/production/recovery-profile/source-managed-metadata.json",
+      "sha256": "572b7a350d2d7bf239db83625b6ef751d8b6d9814af2f0ba24b9233a9148aed8"
+    },
+    {
+      "path": "scripts/append-clinia-captured-overlays.cjs",
+      "sha256": "26b02950a63c17bd327b16425fc7e5fd9fa0b262b66c9a06eae85a12c90411c0"
+    },
+    {
+      "path": "scripts/apply-clinia-agenda-local.cjs",
+      "sha256": "25358847a7d7bbc95d0375a9e34613c5e62f57000b01c57c24db6e7785bae33e"
+    },
+    {
+      "path": "scripts/check-clinia-health.cjs",
+      "sha256": "836989dfa2be2f7378a15d6fe8e312c4caf25a2b31073b6c23653fa4d84479bf"
+    },
+    {
+      "path": "scripts/clinia-captured-stage-m7-bridge.cjs",
+      "sha256": "2b228ec9353dc60f0b776ed80b030bdf7e79017ca7834148b1a9b305c9d18baf"
+    },
+    {
+      "path": "scripts/clinia-catalog-fixture.cjs",
+      "sha256": "88606622d9ed6a9455ed68480727b1da2bb4e0ceaac29ec2834bf1538135e6fc"
+    },
+    {
+      "path": "scripts/clinia-ci-network-guard.cjs",
+      "sha256": "0ab7696dc0396485fc44cddee18b9bd2a95330f0b003c2d9e12981cb37b99bda"
+    },
+    {
+      "path": "scripts/clinia-clean-api.cjs",
+      "sha256": "9ec7d72d01b97a19b744e8a43ebeaeed028ee923251c7ddf054e0ebce2b69e97"
+    },
+    {
+      "path": "scripts/clinia-contract-api.cjs",
+      "sha256": "e9204cdcf60f271bfe1f9f7d127dcde07397783ae4b45e9696c125556af08ac6"
+    },
+    {
+      "path": "scripts/clinia-gate3-bootstrap-plan.cjs",
+      "sha256": "3f70dfd0ab55400ff1cab3a0b43fee7bfa2a9e17804d8d6838f7c267ba369df3"
+    },
+    {
+      "path": "scripts/clinia-gate3-bootstrap-restore-acls.cjs",
+      "sha256": "d011eca1dbf4d30b75dc99890ecf74eaf31e73fd5a0706dbccee39ba838b2908"
+    },
+    {
+      "path": "scripts/clinia-gate3-bootstrap.cjs",
+      "sha256": "1566cef0018923d33fbb4631bcf56d3c50bc3e162773cab3a1f550609d1f99fb"
+    },
+    {
+      "path": "scripts/clinia-hosted-successor.cjs",
+      "sha256": "795c5b13bcd4377d62197445e9bbb931a94b8b3dd6ce5f42f47491341078e534"
+    },
+    {
+      "path": "scripts/clinia-local-app.cjs",
+      "sha256": "23c890110cf42915beba5c305d9cd7dd81bf91a10fb8fe4c3747516b8fbd8a1b"
+    },
+    {
+      "path": "scripts/clinia-local-runtime.cjs",
+      "sha256": "8fdb4c56c82308a497cbbc651a7d97abe7f929e102aae688b27628a478d0b5db"
+    },
+    {
+      "path": "scripts/clinia-local-supabase.ps1",
+      "sha256": "32a23a73f62d5d86e369fc3aafcb24a474e04744d62fbf08d7aea55b16826848"
+    },
+    {
+      "path": "scripts/clinia-migration-package.cjs",
+      "sha256": "3688a9521c54b579792396b5138af98a87677ae54db9c0f1704f84a6f57881a1"
+    },
+    {
+      "path": "scripts/clinia-pg-settings.cjs",
+      "sha256": "880e4f93c3fe1353af74380a111bdd7f4d7a555446e6aa87b9bfb627e5f1f234"
+    },
+    {
+      "path": "scripts/clinia-recovery-acl-restriction.cjs",
+      "sha256": "cc6be0a5496ce39069ebc407b9659ca1884124456978ba646c5263981e8c6e56"
+    },
+    {
+      "path": "scripts/clinia-recovery-envelope.cjs",
+      "sha256": "7a9a817bffa86de9d017eb70a1de643edf94e06e25ae2bbbbb458071d129224a"
+    },
+    {
+      "path": "scripts/clinia-recovery-network.cjs",
+      "sha256": "982895d3fd325f6a00ae8d7cdf515f331d112dca1de187bf7aeae40fab764917"
+    },
+    {
+      "path": "scripts/clinia-recovery-package.cjs",
+      "sha256": "f96cc00ff8ae09ee1090002c17239988749da0f4db83f2d5af66ba468cb2f74e"
+    },
+    {
+      "path": "scripts/clinia-recovery-profile.cjs",
+      "sha256": "9a8e288e92ed85dba5487fa396b8cc713bab6e94235f29f08c1ddd098fd96312"
+    },
+    {
+      "path": "scripts/clinia-release-snapshot.cjs",
+      "sha256": "c35762caf16b01e6964b0b997152150e58491968d69c43fccf24ad6e751344be"
+    },
+    {
+      "path": "scripts/clinia-remote-schema-local-client.cjs",
+      "sha256": "b1c70c00c30a2d8ee196e1041f7a57ec8c6ffe02a63124a2071a811bc4c06d8f"
+    },
+    {
+      "path": "scripts/clinia-restore-owner-acls.cjs",
+      "sha256": "b7f7374ef06c45ad5cc5cf47693cfb95be4f9f513c4d3020fcd6e67c6d533a27"
+    },
+    {
+      "path": "scripts/clinia-secret-scan.cjs",
+      "sha256": "d7c236a6f3c8ea238520e95a1abff2d95e2ae7413d03ca3497f3e3f6a6660969"
+    },
+    {
+      "path": "scripts/clinia-staging-runtime.cjs",
+      "sha256": "ca3e950196a16a445636015c4e257ed1ffbd1fa6bdc5b0168937e7a8fdb65ee1"
+    },
+    {
+      "path": "scripts/clinia-synthetic-mfa.cjs",
+      "sha256": "ac3f26d571be19b9b8c7d91f8042f520d2bf7334dba29db057104e02260eb47c"
+    },
+    {
+      "path": "scripts/clinia-verify.cjs",
+      "sha256": "4b98cc6d965b75f16900db5f9da15e95f0e53a3e4c386cc4aab57602cbfcac6e"
+    },
+    {
+      "path": "scripts/compare-clinia-captured-upgrades.cjs",
+      "sha256": "eceb289e5a38a1b61768e0350c3279026d50a91b078295eb55635a2573e7db5f"
+    },
+    {
+      "path": "scripts/compare-supabase-catalogs.cjs",
+      "sha256": "0b5ab31876621e2862e5cf4b7f95e0706742cf3b216ae5494be7a4b5e950a8bf"
+    },
+    {
+      "path": "scripts/dr-drill-runner.cjs",
+      "sha256": "06b1d73e0f19821189ef5833fcad2f3a045b59deb8d1c493e46e060d7380feb9"
+    },
+    {
+      "path": "scripts/encargo01-docker-finalize.ps1",
+      "sha256": "8aa85ffa406eea13be7258ae804a23dee681d6b0aaa1e9faed576c56d3dbf17d"
+    },
+    {
+      "path": "scripts/encargo01-docker-tests.ps1",
+      "sha256": "4219460b02960920ae3738d5bc053cb1452010d01423133d3c662fd0ffc54fa4"
+    },
+    {
+      "path": "scripts/encargo01-docker.ps1",
+      "sha256": "5c4d5cc3afe18012da21aef516b8a0fdb061e33077aad102a95c8bd84413eb6c"
+    },
+    {
+      "path": "scripts/execute-clinia-hosted-successor.cjs",
+      "sha256": "cdcb4250dc2f49dad22788507a1182c0d4f97102cfb0bee10012d957ef10bca5"
+    },
+    {
+      "path": "scripts/finish-clinia-recovery.cjs",
+      "sha256": "75307bfbae4d59574cc9d80bcd3ceab8e1132fe24a5e338c8e02d40b39a97151"
+    },
+    {
+      "path": "scripts/generate-clinia-operational-convergence.cjs",
+      "sha256": "f3cdc61f0bf8ef291fb81d861af691490ad6ab9312af0eb880e62d0bf8afe00a"
+    },
+    {
+      "path": "scripts/generate-scoped-supabase-baseline.cjs",
+      "sha256": "41781fcda8a72ff68eac4c65e7ae06bc3898ff3adb8a1a28a0515fe067a9b327"
+    },
+    {
+      "path": "scripts/inspect-clinia-agenda-local.cjs",
+      "sha256": "41fc7ac86ba3d947a3b645221abb2fc59db08dfe4539529e08a366532a7b7a43"
+    },
+    {
+      "path": "scripts/install-clinia-clean-application.cjs",
+      "sha256": "f4d0bf4d6e556fd82e31efc03fb7035eef2a8bde46087027f8429004b75b81ac"
+    },
+    {
+      "path": "scripts/measure-clinia-local-queries.cjs",
+      "sha256": "52a5191b964b6adda308ee88bb2e9dfe937cfa6644f7fc21bb1cf39fa34de74e"
+    },
+    {
+      "path": "scripts/prepare-clinia-clean-managed.cjs",
+      "sha256": "349c565b2c23d79c8afdcead55bbe7979f6be31a7b3f515620d1e406d6ab7277"
+    },
+    {
+      "path": "scripts/prepare-clinia-compose.cjs",
+      "sha256": "5c037bb2a33d27343f1783b10dc542709ffd89644fa3e04c3bd6256ffeb7b8fb"
+    },
+    {
+      "path": "scripts/prepare-clinia-hosted-staging.cjs",
+      "sha256": "b275ace2d6b7f8825a623152b449edc6b26317646999a88d05b44dbd572d91a0"
+    },
+    {
+      "path": "scripts/prepare-clinia-primary.cjs",
+      "sha256": "1e64da56bc94f77eb45d832d8fb349a834d704202e1dbefdf46f3bfc9daa77c9"
+    },
+    {
+      "path": "scripts/publish-clinia-clean-loopback.cjs",
+      "sha256": "ec392294a0e732a009c307cb12f4007cddaf052d99d111144b4456fe91b3819f"
+    },
+    {
+      "path": "scripts/record-clinia-convergence-evidence.cjs",
+      "sha256": "093a419054b1fcecf9b3823f435fc70e90e028e47e2a5c24b113bea37de570a5"
+    },
+    {
+      "path": "scripts/refresh-clinia-hosted-actors.cjs",
+      "sha256": "752fad6b20f6b5d2c4b89f86373cdc1472305a02265cb3a91bdc7067408be1de"
+    },
+    {
+      "path": "scripts/restore-clinia-captured-schema.cjs",
+      "sha256": "29bee8fcb6421254f03515e5a19c9b868d4cfd0155a95e8ff31901f2a31bab4e"
+    },
+    {
+      "path": "scripts/summarize-clinia-local-evidence.cjs",
+      "sha256": "37ecec02ba0e59be98aa85910356770e41b5064eb28ff7f9c1c2a1c2d2eaa668"
+    },
+    {
+      "path": "scripts/upgrade-clinia-captured-schema.cjs",
+      "sha256": "213526466664a04ab5923eb4044e03e65075a2362878fad5b4f5ec56a4aecc60"
+    },
+    {
+      "path": "scripts/verify-clinia-agenda-serialization.cjs",
+      "sha256": "3c1b95f721956397630ef58c468ed5edaa5e03d35b7c462dea5f2cc0cf9ee639"
+    },
+    {
+      "path": "scripts/verify-clinia-agenda.cjs",
+      "sha256": "8b71cfc48a9943a7b3bbb22111b0d1b3ff05f274945bf2d5a876b93569aeaca2"
+    },
+    {
+      "path": "scripts/verify-clinia-auth-revocation.cjs",
+      "sha256": "41a0feb3bb0f41439d5b0d9fdb02fec4c12c06eb48a4ec336ab48b0d2150cce9"
+    },
+    {
+      "path": "scripts/verify-clinia-auth.cjs",
+      "sha256": "7e9e2a2b56e84f8d8cb6b0cc9a2ce6877aea6cdddfaeca5f353f9cb5e57a155e"
+    },
+    {
+      "path": "scripts/verify-clinia-clean-managed.cjs",
+      "sha256": "dac239f2b105aa4aea9a6bb47722b535cbf91fa132e6da215a36e129ee657e13"
+    },
+    {
+      "path": "scripts/verify-clinia-clinical-pdfs.cjs",
+      "sha256": "c2678238f9911e1fd9f35234873ed9b240650e28af2d1ae25722382f56e09a5d"
+    },
+    {
+      "path": "scripts/verify-clinia-clinical-pdfs.py",
+      "sha256": "e11fbd1630e5e5ec04d36a91f09903f9f214f67b3282e8f424feb287d3d9e6cf"
+    },
+    {
+      "path": "scripts/verify-clinia-contract-api.cjs",
+      "sha256": "4e0db4b0582300cb4d89f3eefbf7ddd6ce73acea4bb3f46e5185bb93bb2ef511"
+    },
+    {
+      "path": "scripts/verify-clinia-deployed-client-secrets.cjs",
+      "sha256": "a535bc4b5fac6465f3b0d55e46583cb4f7e66ec11d94fc62b532438eff8fde3f"
+    },
+    {
+      "path": "scripts/verify-clinia-document-attacks.cjs",
+      "sha256": "d36299fb68eca9d0ffcdf05439eac898e4886eac69590162ae4f21958977e3a3"
+    },
+    {
+      "path": "scripts/verify-clinia-document-closeout.cjs",
+      "sha256": "6b0cdb16c2906e9b5b14f01a1312074877b84d1edceb9d4aa4e8b84838d02399"
+    },
+    {
+      "path": "scripts/verify-clinia-document-controls.cjs",
+      "sha256": "6418d890908e93bd0df1b9ec6ac5f6f0c966e1082b639d9ed2efef50acfecceb"
+    },
+    {
+      "path": "scripts/verify-clinia-document-final-controls.cjs",
+      "sha256": "33669aa180ff0517b4a67a511acfe2ea56205adc421204887d06e36cca721fe8"
+    },
+    {
+      "path": "scripts/verify-clinia-document-migration.cjs",
+      "sha256": "f088e47f1ba39523ae23e783a62cf24ef499d2d3b3b783ae985a82a238d4b205"
+    },
+    {
+      "path": "scripts/verify-clinia-document-requalification.cjs",
+      "sha256": "3dccd7dbaf5bac404c0e718abdef8177337a7a11a27c4bcf253b366bc2ce74f5"
+    },
+    {
+      "path": "scripts/verify-clinia-document-runtime.cjs",
+      "sha256": "22154e222eb5f91c1bb257d17acfd31de26d0303713a20d17f8847ca4ceb4764"
+    },
+    {
+      "path": "scripts/verify-clinia-email-budget-sql.cjs",
+      "sha256": "64948588493951728730eb841dca7569ca679216cb270a9369df8382b54f55c1"
+    },
+    {
+      "path": "scripts/verify-clinia-enrollment-api.cjs",
+      "sha256": "4af04ea309d944e80651d11ecbce948877f95c65972bdbd439f61d05c99c4ff9"
+    },
+    {
+      "path": "scripts/verify-clinia-expiry-evidence.cjs",
+      "sha256": "424a4af242c8a76ecc47b3512425f05f88cfe370263c716f6642ec8eae63dee0"
+    },
+    {
+      "path": "scripts/verify-clinia-hcu-atomicity.cjs",
+      "sha256": "eee84d4ab1724e5b645b95480925cb6de4779bef7d93fe5c7bc270970fde0e9f"
+    },
+    {
+      "path": "scripts/verify-clinia-hosted-api.cjs",
+      "sha256": "c08c1fb30a863d039c6413cd2843b4eb408983f4c792cfb4010dacc711722acf"
+    },
+    {
+      "path": "scripts/verify-clinia-hosted-auth-revocation.cjs",
+      "sha256": "3c8b9146f698a723072f19b4f109f8a41e838c9bbd279b302346dd083dddab35"
+    },
+    {
+      "path": "scripts/verify-clinia-hosted-expired-replay.cjs",
+      "sha256": "c3de7449ecc2e6d2077e5923ccc262542c232c62d27e8480947c14d000af5e6b"
+    },
+    {
+      "path": "scripts/verify-clinia-hosted-nostore.cjs",
+      "sha256": "214f1d3a4df5c6dcba55c3c4a0bed72843a119eb0e60a9b1e95d892f92cb427e"
+    },
+    {
+      "path": "scripts/verify-clinia-hosted-storage-revocation.cjs",
+      "sha256": "e8bf622f090af4a4882d41123b9822baa57c569e107c252da4dcb322eb36e519"
+    },
+    {
+      "path": "scripts/verify-clinia-invitation-sql.cjs",
+      "sha256": "5691f63b2d9c844f1e4607ba0e12a969408a969c53f09d21675d128964a33880"
+    },
+    {
+      "path": "scripts/verify-clinia-legacy-retirement.cjs",
+      "sha256": "fbb6980cfbd3476fbcbc0315314ec31bb22e364c1e41f18d6f6b99a68665721f"
+    },
+    {
+      "path": "scripts/verify-clinia-legacy-storage-replay.cjs",
+      "sha256": "6a08bc095c099121788745de0df11c6085aebd9c27af387400ad2ca9ec4b7010"
+    },
+    {
+      "path": "scripts/verify-clinia-mfa-sql.cjs",
+      "sha256": "8ace36a81e64b883b482c2cfecc5b64f5060b6364e8f2ebeccf02858defeb651"
+    },
+    {
+      "path": "scripts/verify-clinia-operational-convergence.cjs",
+      "sha256": "aeeb9b4675db1ce84d56c72cdcdf92bc87c6cb699d6b2639839bb34c57c14f2f"
+    },
+    {
+      "path": "scripts/verify-clinia-operational-report.cjs",
+      "sha256": "8274951868d0a84241897d779db49f29aba5901d8839637a31815439db88a975"
+    },
+    {
+      "path": "scripts/verify-clinia-origin-candidate.cjs",
+      "sha256": "33b13522cdc0c57f6ecc85e4aa407b87b813a173a1783205f27c8ab1d6d0883c"
+    },
+    {
+      "path": "scripts/verify-clinia-prescription-idempotency.cjs",
+      "sha256": "555b95e9bf4170d4b45f2527f67dc08b32428023df85f6e23c3129bf5dd65528"
+    },
+    {
+      "path": "scripts/verify-clinia-prescription-receipts.cjs",
+      "sha256": "fce9a5456b55a79c1e26c791d0c807a88f011938c93978586b227ef0c42db620"
+    },
+    {
+      "path": "scripts/verify-clinia-preview.cjs",
+      "sha256": "097fdd6edb98ec8c5ee5b97a1e1e9b273be367d76127b6cfa72bd3893efa4c6c"
+    },
+    {
+      "path": "scripts/verify-clinia-private-media-origin.cjs",
+      "sha256": "8fcc29b0e6e6c74975e749f365cb144fd09b00c1d56f8b49998f3e4c983346bf"
+    },
+    {
+      "path": "scripts/verify-clinia-profile-state.cjs",
+      "sha256": "090c4c33bbeb172342d015701cf01dbb6ce67e33fa61f83632a8ee52fb323ec5"
+    },
+    {
+      "path": "scripts/verify-clinia-provider-cache-expiry.cjs",
+      "sha256": "9c62b4823f53713e75cd5e4c7f9b19b12dd874488c8322f4abeffa67371a8241"
+    },
+    {
+      "path": "scripts/verify-clinia-recovery-agenda-overlay.cjs",
+      "sha256": "948d38ca91dd40d72800d13d15e6c2634c49fbccc88bb430760b35e8dd97ec9f"
+    },
+    {
+      "path": "scripts/verify-clinia-recovery-overlay.cjs",
+      "sha256": "bd8f87fdd28ab6e251b866f87bfed272bc6ec75e45d1df38ad64be3b44ad3bcf"
+    },
+    {
+      "path": "scripts/verify-clinia-recovery-private-media.cjs",
+      "sha256": "c64a866dac0c98b668f5efbca0d34da772d8bef22254d013fc4059fd087c8935"
+    },
+    {
+      "path": "scripts/verify-clinia-recovery.cjs",
+      "sha256": "e7063df981ac6be0347072fb4f59b7f11b9842fc2e8ebc486124be08450a4ecb"
+    },
+    {
+      "path": "scripts/verify-clinia-requalification-client-secrets.cjs",
+      "sha256": "9966b96f28d60bec8fe85ac36ec5aacfc6a3fd2b1bbc7b256fe01e60a5551669"
+    },
+    {
+      "path": "scripts/verify-clinia-retirement-causal.cjs",
+      "sha256": "8f883243249d79bdd39dc3632dde3bcd7a274a38c9b03b2706983cb77200c3d2"
+    },
+    {
+      "path": "scripts/verify-clinia-s3-transport.cjs",
+      "sha256": "80c94dc432c5ec30252fda08844b33d14ade00c8d7f0b7bf7a38fbae58ed5ac3"
+    },
+    {
+      "path": "scripts/verify-clinia-scoped-runtime.cjs",
+      "sha256": "2628ca64e89b855578bfb08778e5c46a0f44c533c20951d459231df50d63a3f7"
+    },
+    {
+      "path": "scripts/verify-clinia-staging-password-policy.cjs",
+      "sha256": "b076b0eab8405ea4946d7b92f0ea137b9cfb4db98c58d56223d057529cc10d7e"
+    }
+  ]
+}

@@ -1,0 +1,850 @@
+{
+  "status": "35_IDENTITIES_EXPLICITLY_ADJUDICATED_NO_IGNORE_LIST",
+  "entries": [
+    {
+      "category": "columns",
+      "identity": "storage.buckets.lifecycle_configuration",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "lifecycle_configuration",
+        "type": "jsonb",
+        "table": "buckets",
+        "schema": "storage",
+        "notNull": false,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0069"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.buckets.lifecycle_configuration_generation",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "lifecycle_configuration_generation",
+        "type": "uuid",
+        "table": "buckets",
+        "schema": "storage",
+        "notNull": false,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0069"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "id",
+        "type": "uuid",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.bucket_name",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "bucket_name",
+        "type": "text",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.name",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "name",
+        "type": "text",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.created_at",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.updated_at",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.metadata",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "metadata",
+        "type": "jsonb",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_namespaces.catalog_id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "catalog_id",
+        "type": "uuid",
+        "table": "iceberg_namespaces",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "id",
+        "type": "uuid",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.namespace_id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "namespace_id",
+        "type": "uuid",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.bucket_name",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "bucket_name",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.name",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "name",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.location",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "location",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.created_at",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "created_at",
+        "type": "timestamp with time zone",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.updated_at",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "updated_at",
+        "type": "timestamp with time zone",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.remote_table_id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "remote_table_id",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": false,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.shard_key",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "shard_key",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": false,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.shard_id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "shard_id",
+        "type": "text",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": false,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "columns",
+      "identity": "storage.iceberg_tables.catalog_id",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "catalog_id",
+        "type": "uuid",
+        "table": "iceberg_tables",
+        "schema": "storage",
+        "notNull": true,
+        "identity": "",
+        "generated": ""
+      },
+      "disposition": "EXPLICIT_SINGLE_TENANT_VARIANT_ALL_18_FIELDS_EMPTY_RLS_NO_POLICIES",
+      "officialSources": [
+        "0038",
+        "0047",
+        "0048"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.enforce_bucket_lifecycle_service_role()",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "enforce_bucket_lifecycle_service_role",
+        "schema": "storage",
+        "sha256": "1cb7aecc95a27f8600fc8e7aab11f6a40b9b46a5cb86e02438f3af9642a0d2c4",
+        "identity": ""
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.get_common_prefix(p_key text, p_prefix text, p_delimiter text)",
+      "kind": "FIELD_DIFFERENCE",
+      "field": "sha256",
+      "source": "62810fa1178c7e748df4393fca51900b36841187fcbcfa79740d45ea54b4357d",
+      "local": "876b1259bea7051b5af1a6c8228652ea5126112bf8a81a3d73948075cdaac790",
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.get_size_by_bucket(noncurrent_versions text, delete_markers text)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "get_size_by_bucket",
+        "schema": "storage",
+        "sha256": "25ec89ec6e8b55554c0403487a7f83f9331d13b3a01d1f5e44d56857cec8476e",
+        "identity": "noncurrent_versions text, delete_markers text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.list_multipart_uploads_with_delimiter(bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text, raw_prefix_param text)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "list_multipart_uploads_with_delimiter",
+        "schema": "storage",
+        "sha256": "80bf7eb30e8b8b54536a0fbcc34f0da11310c375d56d358ca591d9e675e1e30e",
+        "identity": "bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text, raw_prefix_param text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.list_objects_with_delimiter(_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text, noncurrent_versions text, delete_markers text, next_token_archived_at timestamp with time zone, next_token_version text)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "list_objects_with_delimiter",
+        "schema": "storage",
+        "sha256": "2ea5b0041a685b122bc06e975e186c7b8bb6159c4561ff1e82c9ee142230a30e",
+        "identity": "_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text, noncurrent_versions text, delete_markers text, next_token_archived_at timestamp with time zone, next_token_version text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.protect_bucket_control_columns()",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "protect_bucket_control_columns",
+        "schema": "storage",
+        "sha256": "dac4257ed931d18bac0cbbc3135d0c75a36aae55309059d2913ed5e6792fa8de",
+        "identity": ""
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search(prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text, noncurrent_versions text, delete_markers text)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "search",
+        "schema": "storage",
+        "sha256": "554f4855e4490792b6c854ba68e622f39f004515d092e7409b0167a44b4acc99",
+        "identity": "prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text, noncurrent_versions text, delete_markers text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search_by_timestamp(p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text, noncurrent_versions text, delete_markers text, p_start_after_version text)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "search_by_timestamp",
+        "schema": "storage",
+        "sha256": "00035e14f49a1cd28b87d80e0aefde8e4bf1fb91fe4f8facbcb6001c27f8849b",
+        "identity": "p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text, noncurrent_versions text, delete_markers text, p_start_after_version text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search_v2(prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text, noncurrent_versions text, delete_markers text, start_after_archived_at timestamp with time zone, start_after_version text, start_after_is_continuation boolean)",
+      "kind": "MISSING_LOCAL",
+      "source": {
+        "name": "search_v2",
+        "schema": "storage",
+        "sha256": "cd96303762e94fbd02f84a408a09af8019d15c33b2df537bdf1909da8561bcaf",
+        "identity": "prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text, noncurrent_versions text, delete_markers text, start_after_archived_at timestamp with time zone, start_after_version text, start_after_is_continuation boolean"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.get_size_by_bucket()",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "get_size_by_bucket",
+        "schema": "storage",
+        "sha256": "168d8328dcbb9f03b700957b8ca4160fe9893948c682959225e01781056962e5",
+        "identity": ""
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.list_multipart_uploads_with_delimiter(bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text)",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "list_multipart_uploads_with_delimiter",
+        "schema": "storage",
+        "sha256": "2fe210749b98e9d73a1f49701b978e017c1200715fe8ff9b8508b134f3ddfd47",
+        "identity": "bucket_id text, prefix_param text, delimiter_param text, max_keys integer, next_key_token text, next_upload_token text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.list_objects_with_delimiter(_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text)",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "list_objects_with_delimiter",
+        "schema": "storage",
+        "sha256": "5350021479629d01cb5ac66126ceb81919e29ed1297276a9080d1991999e676e",
+        "identity": "_bucket_id text, prefix_param text, delimiter_param text, max_keys integer, start_after text, next_token text, sort_order text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search(prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text)",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "search",
+        "schema": "storage",
+        "sha256": "ec649f210293421d628962ca816d8e7c0f1b7f5d0a5c6b23b7c241fd96f1cc85",
+        "identity": "prefix text, bucketname text, limits integer, levels integer, offsets integer, search text, sortcolumn text, sortorder text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search_by_timestamp(p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text)",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "search_by_timestamp",
+        "schema": "storage",
+        "sha256": "97ec997b1ab15993052c7b0334d020e0c99f440dd722b60f23e6d6ad970d8df4",
+        "identity": "p_prefix text, p_bucket_id text, p_limit integer, p_level integer, p_start_after text, p_sort_order text, p_sort_column text, p_sort_column_after text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    },
+    {
+      "category": "functions",
+      "identity": "storage.search_v2(prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text)",
+      "kind": "EXTRA_LOCAL",
+      "local": {
+        "name": "search_v2",
+        "schema": "storage",
+        "sha256": "a56e65d9ee3552e8b543f788230cccbe3b2b5dfd4d5cf6b78e5d245c5369130f",
+        "identity": "prefix text, bucket_name text, limits integer, levels integer, start_after text, sort_order text, sort_column text, sort_column_after text"
+      },
+      "disposition": "RESOLVED_BY_OFFICIAL_PINNED_STORAGE_MIGRATIONS",
+      "officialSources": [
+        "0068",
+        "0070"
+      ],
+      "evidence": [
+        "p5-managed-contract.json",
+        "p5-restore-v6.json",
+        "managed-authority-contract-v2.json"
+      ],
+      "physicalParity": false
+    }
+  ]
+}

@@ -1,0 +1,809 @@
+;
+; Archive created at 2026-10-21 18:00:45 UTC
+;     dbname: postgres
+;     TOC Entries: 801
+;     Compression: gzip
+;     Dump Version: 1.16-0
+;     Format: CUSTOM
+;     Integer: 4 bytes
+;     Offset: 8 bytes
+;     Dumped from database version: 17.11
+;     Dumped by pg_dump version: 17.11
+;
+;
+; Selected TOC Entries:
+;
+17; 2615 16494 SCHEMA - auth supabase_admin
+4752; 0 0 ACL - SCHEMA "auth" supabase_admin
+11; 2615 17611 SCHEMA - logs postgres
+13; 2615 2200 SCHEMA - public pg_database_owner
+4753; 0 0 COMMENT - SCHEMA "public" pg_database_owner
+4754; 0 0 ACL - SCHEMA "public" pg_database_owner
+18; 2615 16542 SCHEMA - storage supabase_admin
+4755; 0 0 ACL - SCHEMA "storage" supabase_admin
+1105; 1247 16740 TYPE auth aal_level supabase_auth_admin
+1129; 1247 16881 TYPE auth code_challenge_method supabase_auth_admin
+1102; 1247 16734 TYPE auth factor_status supabase_auth_admin
+1099; 1247 16728 TYPE auth factor_type supabase_auth_admin
+1147; 1247 16984 TYPE auth oauth_authorization_status supabase_auth_admin
+1159; 1247 17057 TYPE auth oauth_client_type supabase_auth_admin
+1141; 1247 16962 TYPE auth oauth_registration_type supabase_auth_admin
+1150; 1247 16994 TYPE auth oauth_response_type supabase_auth_admin
+1135; 1247 16923 TYPE auth one_time_token_type supabase_auth_admin
+1323; 1247 17613 TYPE public app_role postgres
+4756; 0 0 ACL public TYPE "app_role" postgres
+1231; 1247 17620 TYPE public subscription_status postgres
+1324; 1247 17632 TYPE public user_status postgres
+4757; 0 0 ACL public TYPE "user_status" postgres
+1217; 1247 17508 TYPE storage buckettype supabase_storage_admin
+372; 1255 16540 FUNCTION auth email() supabase_auth_admin
+4758; 0 0 COMMENT auth FUNCTION "email"() supabase_auth_admin
+4759; 0 0 ACL auth FUNCTION "email"() supabase_auth_admin
+385; 1255 16710 FUNCTION auth jwt() supabase_auth_admin
+4760; 0 0 ACL auth FUNCTION "jwt"() supabase_auth_admin
+371; 1255 16539 FUNCTION auth role() supabase_auth_admin
+4761; 0 0 COMMENT auth FUNCTION "role"() supabase_auth_admin
+4762; 0 0 ACL auth FUNCTION "role"() supabase_auth_admin
+370; 1255 16538 FUNCTION auth uid() supabase_auth_admin
+4763; 0 0 COMMENT auth FUNCTION "uid"() supabase_auth_admin
+4764; 0 0 ACL auth FUNCTION "uid"() supabase_auth_admin
+423; 1255 17639 FUNCTION logs log_access_trigger() postgres
+424; 1255 17640 FUNCTION logs log_patient_view("uuid") postgres
+4765; 0 0 ACL logs FUNCTION "log_patient_view"("p_patient_id" "uuid") postgres
+425; 1255 17641 FUNCTION public accept_clinic_invitation("text") postgres
+4766; 0 0 ACL public FUNCTION "accept_clinic_invitation"("p_token" "text") postgres
+426; 1255 17642 FUNCTION public archive_clinic("uuid") postgres
+4767; 0 0 ACL public FUNCTION "archive_clinic"("target_clinic_id" "uuid") postgres
+427; 1255 17643 FUNCTION public check_subscription_active("uuid") postgres
+4768; 0 0 ACL public FUNCTION "check_subscription_active"("check_clinic_id" "uuid") postgres
+428; 1255 17644 FUNCTION public cleanup_soft_deleted_records() postgres
+4769; 0 0 ACL public FUNCTION "cleanup_soft_deleted_records"() postgres
+429; 1255 17645 FUNCTION public create_tenant_clinic("text", "text", "text") postgres
+4770; 0 0 ACL public FUNCTION "create_tenant_clinic"("clinic_name" "text", "clinic_address" "text", "clinic_phone" "text") postgres
+430; 1255 17646 FUNCTION public custom_access_token_hook("jsonb") postgres
+4771; 0 0 ACL public FUNCTION "custom_access_token_hook"("event" "jsonb") postgres
+431; 1255 17647 FUNCTION public enforce_patient_clinical_privileges() postgres
+4772; 0 0 ACL public FUNCTION "enforce_patient_clinical_privileges"() postgres
+432; 1255 17648 FUNCTION public get_checkout_payment_methods("uuid") postgres
+4773; 0 0 ACL public FUNCTION "get_checkout_payment_methods"("p_billing_id" "uuid") postgres
+433; 1255 17649 FUNCTION public get_clinic_member_role("uuid") postgres
+4774; 0 0 ACL public FUNCTION "get_clinic_member_role"("check_clinic_id" "uuid") postgres
+434; 1255 17650 FUNCTION public get_family_unit_with_stats("uuid") postgres
+4775; 0 0 ACL public FUNCTION "get_family_unit_with_stats"("p_patient_id" "uuid") postgres
+277; 1259 17651 TABLE public patients postgres
+4776; 0 0 COMMENT public COLUMN "patients"."blood_type" postgres
+4777; 0 0 COMMENT public COLUMN "patients"."marital_status" postgres
+4778; 0 0 COMMENT public COLUMN "patients"."has_diabetes" postgres
+4779; 0 0 COMMENT public COLUMN "patients"."has_hypertension" postgres
+4780; 0 0 COMMENT public COLUMN "patients"."preferred_contact_method" postgres
+4781; 0 0 COMMENT public COLUMN "patients"."recall_months" postgres
+4782; 0 0 COMMENT public COLUMN "patients"."family_representative_id" postgres
+4783; 0 0 COMMENT public COLUMN "patients"."family_relationship" postgres
+4784; 0 0 ACL public TABLE "patients" postgres
+435; 1255 17672 FUNCTION public get_patient_profile_secure("uuid") postgres
+4785; 0 0 ACL public FUNCTION "get_patient_profile_secure"("p_patient_id" "uuid") postgres
+436; 1255 17673 FUNCTION public get_patients_with_stats("uuid", "text", integer, integer, "text", "text", boolean, "uuid") postgres
+4786; 0 0 ACL public FUNCTION "get_patients_with_stats"("p_clinic_id" "uuid", "p_search" "text", "p_limit" integer, "p_offset" integer, "p_time_filter" "text", "p_badge_filter" "text", "p_group_by_family" boolean, "p_patient_id" "uuid") postgres
+437; 1255 17675 FUNCTION public get_user_clinic_id() postgres
+4787; 0 0 ACL public FUNCTION "get_user_clinic_id"() postgres
+438; 1255 17676 FUNCTION public guard_patient_clinical_insert() postgres
+4788; 0 0 ACL public FUNCTION "guard_patient_clinical_insert"() postgres
+439; 1255 17677 FUNCTION public handle_new_user() postgres
+4789; 0 0 ACL public FUNCTION "handle_new_user"() postgres
+440; 1255 17678 FUNCTION public handle_verified_clinic_creation() postgres
+4790; 0 0 ACL public FUNCTION "handle_verified_clinic_creation"() postgres
+441; 1255 17679 FUNCTION public is_clinic_member("uuid") postgres
+4791; 0 0 ACL public FUNCTION "is_clinic_member"("check_clinic_id" "uuid") postgres
+442; 1255 17680 FUNCTION public log_data_rights_request("text", "jsonb", "text", "text") postgres
+4792; 0 0 ACL public FUNCTION "log_data_rights_request"("p_request_type" "text", "p_details" "jsonb", "p_legal_basis" "text", "p_retention_note" "text") postgres
+443; 1255 17681 FUNCTION public log_profile_changes() postgres
+4793; 0 0 ACL public FUNCTION "log_profile_changes"() postgres
+444; 1255 17682 FUNCTION public prevent_profile_privilege_escalation() postgres
+4794; 0 0 ACL public FUNCTION "prevent_profile_privilege_escalation"() postgres
+445; 1255 17683 FUNCTION public protect_data_rights_requests() postgres
+4795; 0 0 ACL public FUNCTION "protect_data_rights_requests"() postgres
+446; 1255 17684 FUNCTION public purge_clinic_data("uuid") postgres
+4796; 0 0 ACL public FUNCTION "purge_clinic_data"("target_clinic_id" "uuid") postgres
+447; 1255 17685 FUNCTION public remove_clinic_member("uuid", "uuid") postgres
+4797; 0 0 ACL public FUNCTION "remove_clinic_member"("p_target_user_id" "uuid", "p_clinic_id" "uuid") postgres
+448; 1255 17686 FUNCTION public seed_default_services("uuid") postgres
+4798; 0 0 ACL public FUNCTION "seed_default_services"("target_clinic_id" "uuid") postgres
+449; 1255 17687 FUNCTION public set_updated_at() postgres
+4799; 0 0 ACL public FUNCTION "set_updated_at"() postgres
+450; 1255 17688 FUNCTION public sync_hcu033_form_clinic_id() postgres
+4800; 0 0 ACL public FUNCTION "sync_hcu033_form_clinic_id"() postgres
+451; 1255 17689 FUNCTION public update_billing_status() postgres
+4801; 0 0 ACL public FUNCTION "update_billing_status"() postgres
+452; 1255 17690 FUNCTION public update_patient_odontogram_summary() postgres
+4802; 0 0 ACL public FUNCTION "update_patient_odontogram_summary"() postgres
+414; 1255 17574 FUNCTION storage allow_any_operation("text"[]) supabase_storage_admin
+413; 1255 17573 FUNCTION storage allow_only_operation("text") supabase_storage_admin
+408; 1255 17449 FUNCTION storage can_insert_object("text", "text", "uuid", "jsonb") supabase_storage_admin
+416; 1255 17589 FUNCTION storage enforce_bucket_lifecycle_service_role() supabase_storage_admin
+410; 1255 17505 FUNCTION storage enforce_bucket_name_length() supabase_storage_admin
+406; 1255 17424 FUNCTION storage extension("text") supabase_storage_admin
+405; 1255 17423 FUNCTION storage filename("text") supabase_storage_admin
+404; 1255 17422 FUNCTION storage foldername("text") supabase_storage_admin
+411; 1255 17562 FUNCTION storage get_common_prefix("text", "text", "text") supabase_storage_admin
+422; 1255 17601 FUNCTION storage get_size_by_bucket("text", "text") supabase_storage_admin
+417; 1255 17593 FUNCTION storage list_multipart_uploads_with_delimiter("text", "text", "text", integer, "text", "text", "text") supabase_storage_admin
+418; 1255 17594 FUNCTION storage list_objects_with_delimiter("text", "text", "text", integer, "text", "text", "text", "text", "text", timestamp with time zone, "text") supabase_storage_admin
+409; 1255 17504 FUNCTION storage operation() supabase_storage_admin
+415; 1255 17588 FUNCTION storage protect_bucket_control_columns() supabase_storage_admin
+412; 1255 17569 FUNCTION storage protect_delete() supabase_storage_admin
+419; 1255 17596 FUNCTION storage search("text", "text", integer, integer, integer, "text", "text", "text", "text", "text") supabase_storage_admin
+420; 1255 17598 FUNCTION storage search_by_timestamp("text", "text", integer, integer, "text", "text", "text", "text", "text", "text", "text") supabase_storage_admin
+421; 1255 17600 FUNCTION storage search_v2("text", "text", integer, integer, "text", "text", "text", "text", "text", "text", timestamp with time zone, "text", boolean) supabase_storage_admin
+407; 1255 17439 FUNCTION storage update_updated_at_column() supabase_storage_admin
+236; 1259 16525 TABLE auth audit_log_entries supabase_auth_admin
+4803; 0 0 COMMENT auth TABLE "audit_log_entries" supabase_auth_admin
+4804; 0 0 ACL auth TABLE "audit_log_entries" supabase_auth_admin
+255; 1259 17080 TABLE auth custom_oauth_providers supabase_auth_admin
+4805; 0 0 ACL auth TABLE "custom_oauth_providers" supabase_auth_admin
+249; 1259 16885 TABLE auth flow_state supabase_auth_admin
+4806; 0 0 COMMENT auth TABLE "flow_state" supabase_auth_admin
+4807; 0 0 ACL auth TABLE "flow_state" supabase_auth_admin
+240; 1259 16682 TABLE auth identities supabase_auth_admin
+4808; 0 0 COMMENT auth TABLE "identities" supabase_auth_admin
+4809; 0 0 COMMENT auth COLUMN "identities"."email" supabase_auth_admin
+4810; 0 0 ACL auth TABLE "identities" supabase_auth_admin
+235; 1259 16518 TABLE auth instances supabase_auth_admin
+4811; 0 0 COMMENT auth TABLE "instances" supabase_auth_admin
+4812; 0 0 ACL auth TABLE "instances" supabase_auth_admin
+244; 1259 16772 TABLE auth mfa_amr_claims supabase_auth_admin
+4813; 0 0 COMMENT auth TABLE "mfa_amr_claims" supabase_auth_admin
+4814; 0 0 ACL auth TABLE "mfa_amr_claims" supabase_auth_admin
+243; 1259 16760 TABLE auth mfa_challenges supabase_auth_admin
+4815; 0 0 COMMENT auth TABLE "mfa_challenges" supabase_auth_admin
+4816; 0 0 ACL auth TABLE "mfa_challenges" supabase_auth_admin
+242; 1259 16747 TABLE auth mfa_factors supabase_auth_admin
+4817; 0 0 COMMENT auth TABLE "mfa_factors" supabase_auth_admin
+4818; 0 0 COMMENT auth COLUMN "mfa_factors"."last_webauthn_challenge_data" supabase_auth_admin
+4819; 0 0 ACL auth TABLE "mfa_factors" supabase_auth_admin
+260; 1259 17215 TABLE auth mfa_recovery_code_sets supabase_auth_admin
+4820; 0 0 ACL auth TABLE "mfa_recovery_code_sets" supabase_auth_admin
+261; 1259 17238 TABLE auth mfa_recovery_codes supabase_auth_admin
+4821; 0 0 ACL auth TABLE "mfa_recovery_codes" supabase_auth_admin
+252; 1259 16997 TABLE auth oauth_authorizations supabase_auth_admin
+4822; 0 0 ACL auth TABLE "oauth_authorizations" supabase_auth_admin
+254; 1259 17070 TABLE auth oauth_client_states supabase_auth_admin
+4823; 0 0 COMMENT auth TABLE "oauth_client_states" supabase_auth_admin
+4824; 0 0 ACL auth TABLE "oauth_client_states" supabase_auth_admin
+251; 1259 16967 TABLE auth oauth_clients supabase_auth_admin
+4825; 0 0 ACL auth TABLE "oauth_clients" supabase_auth_admin
+253; 1259 17030 TABLE auth oauth_consents supabase_auth_admin
+4826; 0 0 ACL auth TABLE "oauth_consents" supabase_auth_admin
+250; 1259 16935 TABLE auth one_time_tokens supabase_auth_admin
+4827; 0 0 ACL auth TABLE "one_time_tokens" supabase_auth_admin
+234; 1259 16507 TABLE auth refresh_tokens supabase_auth_admin
+4828; 0 0 COMMENT auth TABLE "refresh_tokens" supabase_auth_admin
+4829; 0 0 ACL auth TABLE "refresh_tokens" supabase_auth_admin
+233; 1259 16506 SEQUENCE auth refresh_tokens_id_seq supabase_auth_admin
+4830; 0 0 SEQUENCE OWNED BY auth refresh_tokens_id_seq supabase_auth_admin
+4831; 0 0 ACL auth SEQUENCE "refresh_tokens_id_seq" supabase_auth_admin
+247; 1259 16814 TABLE auth saml_providers supabase_auth_admin
+4832; 0 0 COMMENT auth TABLE "saml_providers" supabase_auth_admin
+4833; 0 0 ACL auth TABLE "saml_providers" supabase_auth_admin
+248; 1259 16832 TABLE auth saml_relay_states supabase_auth_admin
+4834; 0 0 COMMENT auth TABLE "saml_relay_states" supabase_auth_admin
+4835; 0 0 ACL auth TABLE "saml_relay_states" supabase_auth_admin
+259; 1259 17194 TABLE auth scim_tokens supabase_auth_admin
+4836; 0 0 ACL auth TABLE "scim_tokens" supabase_auth_admin
+258; 1259 17163 TABLE auth scim_users supabase_auth_admin
+4837; 0 0 ACL auth TABLE "scim_users" supabase_auth_admin
+241; 1259 16712 TABLE auth sessions supabase_auth_admin
+4838; 0 0 COMMENT auth TABLE "sessions" supabase_auth_admin
+4839; 0 0 COMMENT auth COLUMN "sessions"."not_after" supabase_auth_admin
+4840; 0 0 COMMENT auth COLUMN "sessions"."refresh_token_hmac_key" supabase_auth_admin
+4841; 0 0 COMMENT auth COLUMN "sessions"."refresh_token_counter" supabase_auth_admin
+4842; 0 0 ACL auth TABLE "sessions" supabase_auth_admin
+246; 1259 16799 TABLE auth sso_domains supabase_auth_admin
+4843; 0 0 COMMENT auth TABLE "sso_domains" supabase_auth_admin
+4844; 0 0 ACL auth TABLE "sso_domains" supabase_auth_admin
+245; 1259 16790 TABLE auth sso_providers supabase_auth_admin
+4845; 0 0 COMMENT auth TABLE "sso_providers" supabase_auth_admin
+4846; 0 0 COMMENT auth COLUMN "sso_providers"."resource_id" supabase_auth_admin
+4847; 0 0 ACL auth TABLE "sso_providers" supabase_auth_admin
+232; 1259 16495 TABLE auth users supabase_auth_admin
+4848; 0 0 COMMENT auth TABLE "users" supabase_auth_admin
+4849; 0 0 COMMENT auth COLUMN "users"."is_sso_user" supabase_auth_admin
+4850; 0 0 ACL auth TABLE "users" supabase_auth_admin
+257; 1259 17145 TABLE auth webauthn_challenges supabase_auth_admin
+4851; 0 0 ACL auth TABLE "webauthn_challenges" supabase_auth_admin
+256; 1259 17122 TABLE auth webauthn_credentials supabase_auth_admin
+4852; 0 0 ACL auth TABLE "webauthn_credentials" supabase_auth_admin
+278; 1259 17691 TABLE logs access_audit postgres
+4853; 0 0 ACL logs TABLE "access_audit" postgres
+279; 1259 17697 SEQUENCE logs access_audit_id_seq postgres
+280; 1259 17698 TABLE public appointments postgres
+4854; 0 0 ACL public TABLE "appointments" postgres
+281; 1259 17707 TABLE public automation_settings postgres
+4855; 0 0 ACL public TABLE "automation_settings" postgres
+282; 1259 17719 TABLE public billings postgres
+4856; 0 0 ACL public TABLE "billings" postgres
+283; 1259 17728 TABLE public clinic_invitations postgres
+4857; 0 0 ACL public TABLE "clinic_invitations" postgres
+284; 1259 17740 TABLE public clinic_members postgres
+4858; 0 0 ACL public TABLE "clinic_members" postgres
+285; 1259 17749 TABLE public clinical_records postgres
+4859; 0 0 ACL public TABLE "clinical_records" postgres
+286; 1259 17759 TABLE public clinics postgres
+4860; 0 0 ACL public TABLE "clinics" postgres
+287; 1259 17772 VIEW public dashboard_stats_view postgres
+4861; 0 0 ACL public TABLE "dashboard_stats_view" postgres
+288; 1259 17776 TABLE public data_rights_requests postgres
+4862; 0 0 ACL public TABLE "data_rights_requests" postgres
+289; 1259 17788 TABLE public hcu033_forms postgres
+4863; 0 0 ACL public TABLE "hcu033_forms" postgres
+290; 1259 17797 TABLE public invoices postgres
+4864; 0 0 ACL public TABLE "invoices" postgres
+291; 1259 17808 TABLE public messages postgres
+4865; 0 0 ACL public TABLE "messages" postgres
+292; 1259 17816 TABLE public notifications postgres
+4866; 0 0 ACL public TABLE "notifications" postgres
+293; 1259 17826 TABLE public patient_files postgres
+4867; 0 0 ACL public TABLE "patient_files" postgres
+294; 1259 17833 TABLE public patient_notes postgres
+4868; 0 0 ACL public TABLE "patient_notes" postgres
+295; 1259 17840 VIEW public patient_stats_view postgres
+4869; 0 0 ACL public TABLE "patient_stats_view" postgres
+296; 1259 17845 TABLE public payment_methods postgres
+4870; 0 0 ACL public TABLE "payment_methods" postgres
+297; 1259 17854 TABLE public payments postgres
+4871; 0 0 ACL public TABLE "payments" postgres
+298; 1259 17864 TABLE public prescription_templates postgres
+4872; 0 0 ACL public TABLE "prescription_templates" postgres
+299; 1259 17873 TABLE public prescriptions postgres
+4873; 0 0 ACL public TABLE "prescriptions" postgres
+300; 1259 17881 TABLE public profile_audit_log postgres
+4874; 0 0 ACL public TABLE "profile_audit_log" postgres
+301; 1259 17887 SEQUENCE public profile_audit_log_id_seq postgres
+4875; 0 0 SEQUENCE OWNED BY public profile_audit_log_id_seq postgres
+4876; 0 0 ACL public SEQUENCE "profile_audit_log_id_seq" postgres
+302; 1259 17888 TABLE public profiles postgres
+4877; 0 0 ACL public TABLE "profiles" postgres
+4878; 0 0 ACL public COLUMN "profiles"."full_name" postgres
+4879; 0 0 ACL public COLUMN "profiles"."avatar_url" postgres
+4880; 0 0 ACL public COLUMN "profiles"."phone" postgres
+4881; 0 0 ACL public COLUMN "profiles"."address" postgres
+4882; 0 0 ACL public COLUMN "profiles"."specialization" postgres
+4883; 0 0 ACL public COLUMN "profiles"."license_number" postgres
+4884; 0 0 ACL public COLUMN "profiles"."bio" postgres
+4885; 0 0 ACL public COLUMN "profiles"."updated_at" postgres
+303; 1259 17894 VIEW public recall_queue postgres
+4886; 0 0 ACL public TABLE "recall_queue" postgres
+304; 1259 17898 VIEW public receptionist_patient_view postgres
+4887; 0 0 ACL public TABLE "receptionist_patient_view" postgres
+305; 1259 17903 TABLE public service_categories postgres
+4888; 0 0 ACL public TABLE "service_categories" postgres
+306; 1259 17911 TABLE public services postgres
+4889; 0 0 ACL public TABLE "services" postgres
+307; 1259 17925 TABLE public treatments postgres
+4890; 0 0 ACL public TABLE "treatments" postgres
+270; 1259 17394 TABLE storage buckets supabase_storage_admin
+4891; 0 0 COMMENT storage COLUMN "buckets"."owner" supabase_storage_admin
+4892; 0 0 ACL storage TABLE "buckets" supabase_storage_admin
+274; 1259 17514 TABLE storage buckets_analytics supabase_storage_admin
+4893; 0 0 ACL storage TABLE "buckets_analytics" supabase_storage_admin
+275; 1259 17527 TABLE storage buckets_vectors supabase_storage_admin
+4894; 0 0 ACL storage TABLE "buckets_vectors" supabase_storage_admin
+271; 1259 17404 TABLE storage objects supabase_storage_admin
+4895; 0 0 COMMENT storage COLUMN "objects"."owner" supabase_storage_admin
+4896; 0 0 ACL storage TABLE "objects" supabase_storage_admin
+272; 1259 17453 TABLE storage s3_multipart_uploads supabase_storage_admin
+4897; 0 0 ACL storage TABLE "s3_multipart_uploads" supabase_storage_admin
+273; 1259 17467 TABLE storage s3_multipart_uploads_parts supabase_storage_admin
+4898; 0 0 ACL storage TABLE "s3_multipart_uploads_parts" supabase_storage_admin
+276; 1259 17537 TABLE storage vector_indexes supabase_storage_admin
+4899; 0 0 ACL storage TABLE "vector_indexes" supabase_storage_admin
+3770; 2604 16510 DEFAULT auth refresh_tokens id supabase_auth_admin
+3939; 2604 17934 DEFAULT public profile_audit_log id postgres
+4686; 0 16525 TABLE DATA auth audit_log_entries supabase_auth_admin
+4702; 0 17080 TABLE DATA auth custom_oauth_providers supabase_auth_admin
+4696; 0 16885 TABLE DATA auth flow_state supabase_auth_admin
+4687; 0 16682 TABLE DATA auth identities supabase_auth_admin
+4685; 0 16518 TABLE DATA auth instances supabase_auth_admin
+4691; 0 16772 TABLE DATA auth mfa_amr_claims supabase_auth_admin
+4690; 0 16760 TABLE DATA auth mfa_challenges supabase_auth_admin
+4689; 0 16747 TABLE DATA auth mfa_factors supabase_auth_admin
+4707; 0 17215 TABLE DATA auth mfa_recovery_code_sets supabase_auth_admin
+4708; 0 17238 TABLE DATA auth mfa_recovery_codes supabase_auth_admin
+4699; 0 16997 TABLE DATA auth oauth_authorizations supabase_auth_admin
+4701; 0 17070 TABLE DATA auth oauth_client_states supabase_auth_admin
+4698; 0 16967 TABLE DATA auth oauth_clients supabase_auth_admin
+4700; 0 17030 TABLE DATA auth oauth_consents supabase_auth_admin
+4697; 0 16935 TABLE DATA auth one_time_tokens supabase_auth_admin
+4684; 0 16507 TABLE DATA auth refresh_tokens supabase_auth_admin
+4694; 0 16814 TABLE DATA auth saml_providers supabase_auth_admin
+4695; 0 16832 TABLE DATA auth saml_relay_states supabase_auth_admin
+4706; 0 17194 TABLE DATA auth scim_tokens supabase_auth_admin
+4705; 0 17163 TABLE DATA auth scim_users supabase_auth_admin
+4688; 0 16712 TABLE DATA auth sessions supabase_auth_admin
+4693; 0 16799 TABLE DATA auth sso_domains supabase_auth_admin
+4692; 0 16790 TABLE DATA auth sso_providers supabase_auth_admin
+4682; 0 16495 TABLE DATA auth users supabase_auth_admin
+4704; 0 17145 TABLE DATA auth webauthn_challenges supabase_auth_admin
+4703; 0 17122 TABLE DATA auth webauthn_credentials supabase_auth_admin
+4717; 0 17691 TABLE DATA logs access_audit postgres
+4719; 0 17698 TABLE DATA public appointments postgres
+4720; 0 17707 TABLE DATA public automation_settings postgres
+4721; 0 17719 TABLE DATA public billings postgres
+4722; 0 17728 TABLE DATA public clinic_invitations postgres
+4723; 0 17740 TABLE DATA public clinic_members postgres
+4724; 0 17749 TABLE DATA public clinical_records postgres
+4725; 0 17759 TABLE DATA public clinics postgres
+4726; 0 17776 TABLE DATA public data_rights_requests postgres
+4727; 0 17788 TABLE DATA public hcu033_forms postgres
+4728; 0 17797 TABLE DATA public invoices postgres
+4729; 0 17808 TABLE DATA public messages postgres
+4730; 0 17816 TABLE DATA public notifications postgres
+4731; 0 17826 TABLE DATA public patient_files postgres
+4732; 0 17833 TABLE DATA public patient_notes postgres
+4716; 0 17651 TABLE DATA public patients postgres
+4733; 0 17845 TABLE DATA public payment_methods postgres
+4734; 0 17854 TABLE DATA public payments postgres
+4735; 0 17864 TABLE DATA public prescription_templates postgres
+4736; 0 17873 TABLE DATA public prescriptions postgres
+4737; 0 17881 TABLE DATA public profile_audit_log postgres
+4739; 0 17888 TABLE DATA public profiles postgres
+4740; 0 17903 TABLE DATA public service_categories postgres
+4741; 0 17911 TABLE DATA public services postgres
+4742; 0 17925 TABLE DATA public treatments postgres
+4709; 0 17394 TABLE DATA storage buckets supabase_storage_admin
+4713; 0 17514 TABLE DATA storage buckets_analytics supabase_storage_admin
+4714; 0 17527 TABLE DATA storage buckets_vectors supabase_storage_admin
+4710; 0 17404 TABLE DATA storage objects supabase_storage_admin
+4711; 0 17453 TABLE DATA storage s3_multipart_uploads supabase_storage_admin
+4712; 0 17467 TABLE DATA storage s3_multipart_uploads_parts supabase_storage_admin
+4715; 0 17537 TABLE DATA storage vector_indexes supabase_storage_admin
+4900; 0 0 SEQUENCE SET auth refresh_tokens_id_seq supabase_auth_admin
+4901; 0 0 SEQUENCE SET logs access_audit_id_seq postgres
+4902; 0 0 SEQUENCE SET public profile_audit_log_id_seq postgres
+4075; 2606 16785 CONSTRAINT auth mfa_amr_claims amr_id_pk supabase_auth_admin
+4049; 2606 16531 CONSTRAINT auth audit_log_entries audit_log_entries_pkey supabase_auth_admin
+4130; 2606 17117 CONSTRAINT auth custom_oauth_providers custom_oauth_providers_identifier_key supabase_auth_admin
+4132; 2606 17115 CONSTRAINT auth custom_oauth_providers custom_oauth_providers_pkey supabase_auth_admin
+4098; 2606 16891 CONSTRAINT auth flow_state flow_state_pkey supabase_auth_admin
+4053; 2606 16909 CONSTRAINT auth identities identities_pkey supabase_auth_admin
+4055; 2606 16919 CONSTRAINT auth identities identities_provider_id_provider_unique supabase_auth_admin
+4047; 2606 16524 CONSTRAINT auth instances instances_pkey supabase_auth_admin
+4077; 2606 16778 CONSTRAINT auth mfa_amr_claims mfa_amr_claims_session_id_authentication_method_pkey supabase_auth_admin
+4073; 2606 16766 CONSTRAINT auth mfa_challenges mfa_challenges_pkey supabase_auth_admin
+4065; 2606 16959 CONSTRAINT auth mfa_factors mfa_factors_last_challenged_at_key supabase_auth_admin
+4067; 2606 16753 CONSTRAINT auth mfa_factors mfa_factors_pkey supabase_auth_admin
+4160; 2606 17227 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_mfa_factor_id_key supabase_auth_admin
+4162; 2606 17223 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_pkey supabase_auth_admin
+4164; 2606 17225 CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_user_id_key supabase_auth_admin
+4166; 2606 17245 CONSTRAINT auth mfa_recovery_codes mfa_recovery_codes_pkey supabase_auth_admin
+4111; 2606 17018 CONSTRAINT auth oauth_authorizations oauth_authorizations_authorization_code_key supabase_auth_admin
+4113; 2606 17016 CONSTRAINT auth oauth_authorizations oauth_authorizations_authorization_id_key supabase_auth_admin
+4115; 2606 17014 CONSTRAINT auth oauth_authorizations oauth_authorizations_pkey supabase_auth_admin
+4125; 2606 17076 CONSTRAINT auth oauth_client_states oauth_client_states_pkey supabase_auth_admin
+4108; 2606 16978 CONSTRAINT auth oauth_clients oauth_clients_pkey supabase_auth_admin
+4119; 2606 17040 CONSTRAINT auth oauth_consents oauth_consents_pkey supabase_auth_admin
+4121; 2606 17042 CONSTRAINT auth oauth_consents oauth_consents_user_client_unique supabase_auth_admin
+4102; 2606 16944 CONSTRAINT auth one_time_tokens one_time_tokens_pkey supabase_auth_admin
+4041; 2606 16514 CONSTRAINT auth refresh_tokens refresh_tokens_pkey supabase_auth_admin
+4044; 2606 16695 CONSTRAINT auth refresh_tokens refresh_tokens_token_unique supabase_auth_admin
+4087; 2606 16825 CONSTRAINT auth saml_providers saml_providers_entity_id_key supabase_auth_admin
+4089; 2606 16823 CONSTRAINT auth saml_providers saml_providers_pkey supabase_auth_admin
+4094; 2606 16839 CONSTRAINT auth saml_relay_states saml_relay_states_pkey supabase_auth_admin
+4155; 2606 17204 CONSTRAINT auth scim_tokens scim_tokens_pkey supabase_auth_admin
+4147; 2606 17174 CONSTRAINT auth scim_users scim_users_pkey supabase_auth_admin
+4060; 2606 16716 CONSTRAINT auth sessions sessions_pkey supabase_auth_admin
+4084; 2606 16806 CONSTRAINT auth sso_domains sso_domains_pkey supabase_auth_admin
+4079; 2606 16797 CONSTRAINT auth sso_providers sso_providers_pkey supabase_auth_admin
+4034; 2606 16879 CONSTRAINT auth users users_phone_key supabase_auth_admin
+4036; 2606 16501 CONSTRAINT auth users users_pkey supabase_auth_admin
+4140; 2606 17154 CONSTRAINT auth webauthn_challenges webauthn_challenges_pkey supabase_auth_admin
+4136; 2606 17137 CONSTRAINT auth webauthn_credentials webauthn_credentials_pkey supabase_auth_admin
+4202; 2606 17936 CONSTRAINT logs access_audit access_audit_pkey postgres
+4205; 2606 17938 CONSTRAINT public appointments appointments_pkey postgres
+4208; 2606 17940 CONSTRAINT public automation_settings automation_settings_pkey postgres
+4210; 2606 17942 CONSTRAINT public billings billings_pkey postgres
+4213; 2606 17944 CONSTRAINT public clinic_invitations clinic_invitations_clinic_id_email_status_key postgres
+4215; 2606 17946 CONSTRAINT public clinic_invitations clinic_invitations_pkey postgres
+4217; 2606 17948 CONSTRAINT public clinic_invitations clinic_invitations_token_key postgres
+4221; 2606 17950 CONSTRAINT public clinic_members clinic_members_pkey postgres
+4223; 2606 17952 CONSTRAINT public clinic_members clinic_members_user_id_clinic_id_key postgres
+4226; 2606 17954 CONSTRAINT public clinical_records clinical_records_pkey postgres
+4229; 2606 17956 CONSTRAINT public clinics clinics_pkey postgres
+4231; 2606 17958 CONSTRAINT public data_rights_requests data_rights_requests_pkey postgres
+4235; 2606 17960 CONSTRAINT public hcu033_forms hcu033_forms_pkey postgres
+4240; 2606 17962 CONSTRAINT public invoices invoices_pkey postgres
+4243; 2606 17964 CONSTRAINT public messages messages_pkey postgres
+4245; 2606 17966 CONSTRAINT public notifications notifications_pkey postgres
+4248; 2606 17968 CONSTRAINT public patient_files patient_files_pkey postgres
+4251; 2606 17970 CONSTRAINT public patient_notes patient_notes_pkey postgres
+4198; 2606 17972 CONSTRAINT public patients patients_cedula_clinic_unique postgres
+4200; 2606 17974 CONSTRAINT public patients patients_pkey postgres
+4255; 2606 17976 CONSTRAINT public payment_methods payment_methods_pkey postgres
+4258; 2606 17978 CONSTRAINT public payments payments_pkey postgres
+4260; 2606 17980 CONSTRAINT public prescription_templates prescription_templates_pkey postgres
+4263; 2606 17982 CONSTRAINT public prescriptions prescriptions_pkey postgres
+4265; 2606 17984 CONSTRAINT public profile_audit_log profile_audit_log_pkey postgres
+4270; 2606 17986 CONSTRAINT public profiles profiles_pkey postgres
+4272; 2606 17988 CONSTRAINT public service_categories service_categories_clinic_id_name_key postgres
+4274; 2606 17990 CONSTRAINT public service_categories service_categories_pkey postgres
+4277; 2606 17992 CONSTRAINT public services services_pkey postgres
+4280; 2606 17994 CONSTRAINT public treatments treatments_pkey postgres
+4186; 2606 17560 CONSTRAINT storage buckets_analytics buckets_analytics_pkey supabase_storage_admin
+4170; 2606 17402 CONSTRAINT storage buckets buckets_pkey supabase_storage_admin
+4189; 2606 17536 CONSTRAINT storage buckets_vectors buckets_vectors_pkey supabase_storage_admin
+4179; 2606 17414 CONSTRAINT storage objects objects_pkey supabase_storage_admin
+4184; 2606 17476 CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_pkey supabase_storage_admin
+4182; 2606 17461 CONSTRAINT storage s3_multipart_uploads s3_multipart_uploads_pkey supabase_storage_admin
+4192; 2606 17546 CONSTRAINT storage vector_indexes vector_indexes_pkey supabase_storage_admin
+4050; 1259 16532 INDEX auth audit_logs_instance_id_idx supabase_auth_admin
+4020; 1259 16705 INDEX auth confirmation_token_idx supabase_auth_admin
+4126; 1259 17121 INDEX auth custom_oauth_providers_created_at_idx supabase_auth_admin
+4127; 1259 17120 INDEX auth custom_oauth_providers_enabled_idx supabase_auth_admin
+4128; 1259 17118 INDEX auth custom_oauth_providers_identifier_idx supabase_auth_admin
+4133; 1259 17119 INDEX auth custom_oauth_providers_provider_type_idx supabase_auth_admin
+4021; 1259 16707 INDEX auth email_change_token_current_idx supabase_auth_admin
+4022; 1259 16708 INDEX auth email_change_token_new_idx supabase_auth_admin
+4063; 1259 16787 INDEX auth factor_id_created_at_idx supabase_auth_admin
+4096; 1259 16895 INDEX auth flow_state_created_at_idx supabase_auth_admin
+4051; 1259 16875 INDEX auth identities_email_idx supabase_auth_admin
+4903; 0 0 COMMENT auth INDEX "identities_email_idx" supabase_auth_admin
+4056; 1259 16702 INDEX auth identities_user_id_idx supabase_auth_admin
+4099; 1259 16892 INDEX auth idx_auth_code supabase_auth_admin
+4123; 1259 17077 INDEX auth idx_oauth_client_states_created_at supabase_auth_admin
+4100; 1259 16893 INDEX auth idx_user_id_auth_method supabase_auth_admin
+4023; 1259 17253 INDEX auth idx_users_created_at_desc supabase_auth_admin
+4024; 1259 17252 INDEX auth idx_users_email supabase_auth_admin
+4025; 1259 17254 INDEX auth idx_users_last_sign_in_at_desc supabase_auth_admin
+4026; 1259 17255 INDEX auth idx_users_name supabase_auth_admin
+4071; 1259 16898 INDEX auth mfa_challenge_created_at_idx supabase_auth_admin
+4068; 1259 16759 INDEX auth mfa_factors_user_friendly_name_unique supabase_auth_admin
+4069; 1259 16904 INDEX auth mfa_factors_user_id_idx supabase_auth_admin
+4167; 1259 17251 INDEX auth mfa_recovery_codes_set_id_idx supabase_auth_admin
+4109; 1259 17029 INDEX auth oauth_auth_pending_exp_idx supabase_auth_admin
+4106; 1259 16982 INDEX auth oauth_clients_deleted_at_idx supabase_auth_admin
+4116; 1259 17055 INDEX auth oauth_consents_active_client_idx supabase_auth_admin
+4117; 1259 17053 INDEX auth oauth_consents_active_user_client_idx supabase_auth_admin
+4122; 1259 17054 INDEX auth oauth_consents_user_order_idx supabase_auth_admin
+4103; 1259 16951 INDEX auth one_time_tokens_relates_to_hash_idx supabase_auth_admin
+4104; 1259 16950 INDEX auth one_time_tokens_token_hash_hash_idx supabase_auth_admin
+4105; 1259 16952 INDEX auth one_time_tokens_user_id_token_type_key supabase_auth_admin
+4027; 1259 16709 INDEX auth reauthentication_token_idx supabase_auth_admin
+4028; 1259 16706 INDEX auth recovery_token_idx supabase_auth_admin
+4037; 1259 16515 INDEX auth refresh_tokens_instance_id_idx supabase_auth_admin
+4038; 1259 16516 INDEX auth refresh_tokens_instance_id_user_id_idx supabase_auth_admin
+4039; 1259 16701 INDEX auth refresh_tokens_parent_idx supabase_auth_admin
+4042; 1259 16789 INDEX auth refresh_tokens_session_id_revoked_idx supabase_auth_admin
+4045; 1259 16894 INDEX auth refresh_tokens_updated_at_idx supabase_auth_admin
+4090; 1259 16831 INDEX auth saml_providers_sso_provider_id_idx supabase_auth_admin
+4091; 1259 16896 INDEX auth saml_relay_states_created_at_idx supabase_auth_admin
+4092; 1259 16846 INDEX auth saml_relay_states_for_email_idx supabase_auth_admin
+4095; 1259 16845 INDEX auth saml_relay_states_sso_provider_id_idx supabase_auth_admin
+4153; 1259 17212 INDEX auth scim_tokens_expires_at_idx supabase_auth_admin
+4156; 1259 17213 INDEX auth scim_tokens_revoked_at_idx supabase_auth_admin
+4157; 1259 17211 INDEX auth scim_tokens_sso_provider_id_idx supabase_auth_admin
+4158; 1259 17210 INDEX auth scim_tokens_token_hash_key supabase_auth_admin
+4142; 1259 17190 INDEX auth scim_users_created_at_idx supabase_auth_admin
+4143; 1259 17193 INDEX auth scim_users_deleted_at_idx supabase_auth_admin
+4144; 1259 17186 INDEX auth scim_users_external_id_key supabase_auth_admin
+4145; 1259 17188 INDEX auth scim_users_id_idx supabase_auth_admin
+4148; 1259 17192 INDEX auth scim_users_sso_provider_id_idx supabase_auth_admin
+4149; 1259 17191 INDEX auth scim_users_updated_at_idx supabase_auth_admin
+4150; 1259 17187 INDEX auth scim_users_user_id_idx supabase_auth_admin
+4151; 1259 17189 INDEX auth scim_users_user_name_idx supabase_auth_admin
+4152; 1259 17185 INDEX auth scim_users_user_name_key supabase_auth_admin
+4057; 1259 16897 INDEX auth sessions_not_after_idx supabase_auth_admin
+4058; 1259 17067 INDEX auth sessions_oauth_client_id_idx supabase_auth_admin
+4061; 1259 16788 INDEX auth sessions_user_id_idx supabase_auth_admin
+4082; 1259 16813 INDEX auth sso_domains_domain_idx supabase_auth_admin
+4085; 1259 16812 INDEX auth sso_domains_sso_provider_id_idx supabase_auth_admin
+4080; 1259 16798 INDEX auth sso_providers_resource_id_idx supabase_auth_admin
+4081; 1259 16960 INDEX auth sso_providers_resource_id_pattern_idx supabase_auth_admin
+4070; 1259 16957 INDEX auth unique_phone_factor_per_user supabase_auth_admin
+4062; 1259 16786 INDEX auth user_id_created_at_idx supabase_auth_admin
+4029; 1259 16866 INDEX auth users_email_partial_key supabase_auth_admin
+4904; 0 0 COMMENT auth INDEX "users_email_partial_key" supabase_auth_admin
+4030; 1259 16703 INDEX auth users_instance_id_email_idx supabase_auth_admin
+4031; 1259 16505 INDEX auth users_instance_id_idx supabase_auth_admin
+4032; 1259 16921 INDEX auth users_is_anonymous_idx supabase_auth_admin
+4138; 1259 17161 INDEX auth webauthn_challenges_expires_at_idx supabase_auth_admin
+4141; 1259 17160 INDEX auth webauthn_challenges_user_id_idx supabase_auth_admin
+4134; 1259 17143 INDEX auth webauthn_credentials_credential_id_key supabase_auth_admin
+4137; 1259 17144 INDEX auth webauthn_credentials_user_id_idx supabase_auth_admin
+4203; 1259 17995 INDEX logs idx_access_audit_clinic_id postgres
+4206; 1259 17996 INDEX public idx_appointments_clinic_id postgres
+4211; 1259 17997 INDEX public idx_billings_clinic_id postgres
+4218; 1259 17998 INDEX public idx_clinic_invitations_email postgres
+4219; 1259 17999 INDEX public idx_clinic_invitations_status postgres
+4224; 1259 18000 INDEX public idx_clinic_members_auth_lookup postgres
+4227; 1259 18001 INDEX public idx_clinical_records_clinic_id postgres
+4232; 1259 18002 INDEX public idx_data_rights_requests_tenant postgres
+4233; 1259 18003 INDEX public idx_data_rights_requests_type postgres
+4236; 1259 18004 INDEX public idx_hcu033_forms_clinic_id postgres
+4237; 1259 18005 INDEX public idx_hcu033_forms_tenant_patient postgres
+4238; 1259 18006 INDEX public idx_invoices_clinic_id postgres
+4241; 1259 18007 INDEX public idx_messages_clinic_id postgres
+4246; 1259 18008 INDEX public idx_patient_files_patient postgres
+4249; 1259 18009 INDEX public idx_patient_notes_patient postgres
+4193; 1259 18010 INDEX public idx_patients_clinic_deleted postgres
+4194; 1259 18011 INDEX public idx_patients_clinic_id postgres
+4195; 1259 18012 INDEX public idx_patients_email postgres
+4196; 1259 18013 INDEX public idx_patients_family_rep postgres
+4252; 1259 18014 INDEX public idx_payment_methods_clinic_active postgres
+4253; 1259 18015 INDEX public idx_payment_methods_clinic_id postgres
+4256; 1259 18016 INDEX public idx_payments_clinic_id postgres
+4261; 1259 18017 INDEX public idx_prescriptions_tenant_doctor postgres
+4266; 1259 18018 INDEX public idx_profiles_clinic_id postgres
+4275; 1259 18019 INDEX public idx_services_clinic_id postgres
+4278; 1259 18020 INDEX public idx_treatments_clinic_id postgres
+4267; 1259 18021 INDEX public profiles_email_key postgres
+4268; 1259 18022 INDEX public profiles_license_key postgres
+4168; 1259 17403 INDEX storage bname supabase_storage_admin
+4187; 1259 17561 INDEX storage buckets_analytics_unique_name_idx supabase_storage_admin
+4180; 1259 17487 INDEX storage idx_multipart_uploads_list supabase_storage_admin
+4171; 1259 17452 INDEX storage idx_objects_bucket_id_name supabase_storage_admin
+4172; 1259 17568 INDEX storage idx_objects_bucket_id_name_lower supabase_storage_admin
+4173; 1259 17583 INDEX storage idx_objects_current_version supabase_storage_admin
+4174; 1259 17602 INDEX storage idx_objects_delete_markers supabase_storage_admin
+4175; 1259 17584 INDEX storage idx_objects_null_version supabase_storage_admin
+4176; 1259 17421 INDEX storage name_prefix_search supabase_storage_admin
+4177; 1259 17582 INDEX storage objects_bucket_id_name_version_key supabase_storage_admin
+4190; 1259 17552 INDEX storage vector_indexes_name_bucket_id_idx supabase_storage_admin
+4363; 2620 18388 TRIGGER auth users on_auth_user_created supabase_auth_admin
+4364; 2620 18389 TRIGGER auth users on_auth_user_verified supabase_auth_admin
+4375; 2620 18023 TRIGGER public billings audit_billings postgres
+4376; 2620 18024 TRIGGER public clinical_records audit_clinical_records postgres
+4379; 2620 18025 TRIGGER public hcu033_forms audit_hcu033_forms postgres
+4372; 2620 18026 TRIGGER public patients audit_patients postgres
+4382; 2620 18027 TRIGGER public profiles set_profiles_updated_at postgres
+4380; 2620 18028 TRIGGER public hcu033_forms tr_update_patient_odontogram postgres
+4373; 2620 18029 TRIGGER public patients trg_enforce_patient_clinical_privileges postgres
+4374; 2620 18030 TRIGGER public patients trg_guard_patient_clinical_insert postgres
+4383; 2620 18031 TRIGGER public profiles trg_log_profile_changes postgres
+4384; 2620 18032 TRIGGER public profiles trg_prevent_profile_privilege_escalation postgres
+4377; 2620 18033 TRIGGER public data_rights_requests trg_protect_data_requests_immutability postgres
+4378; 2620 18034 TRIGGER public data_rights_requests trg_protect_data_rights_requests postgres
+4381; 2620 18035 TRIGGER public hcu033_forms trg_sync_hcu033_form_clinic_id postgres
+4365; 2620 17506 TRIGGER storage buckets enforce_bucket_name_length_trigger supabase_storage_admin
+4366; 2620 17590 TRIGGER storage buckets protect_bucket_control_insert supabase_storage_admin
+4367; 2620 17591 TRIGGER storage buckets protect_bucket_control_update supabase_storage_admin
+4368; 2620 17592 TRIGGER storage buckets protect_bucket_control_update_role supabase_storage_admin
+4369; 2620 17570 TRIGGER storage buckets protect_buckets_delete supabase_storage_admin
+4370; 2620 17571 TRIGGER storage objects protect_objects_delete supabase_storage_admin
+4371; 2620 17440 TRIGGER storage objects update_objects_updated_at supabase_storage_admin
+4282; 2606 16689 FK CONSTRAINT auth identities identities_user_id_fkey supabase_auth_admin
+4287; 2606 16779 FK CONSTRAINT auth mfa_amr_claims mfa_amr_claims_session_id_fkey supabase_auth_admin
+4286; 2606 16767 FK CONSTRAINT auth mfa_challenges mfa_challenges_auth_factor_id_fkey supabase_auth_admin
+4285; 2606 16754 FK CONSTRAINT auth mfa_factors mfa_factors_user_id_fkey supabase_auth_admin
+4302; 2606 17233 FK CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_mfa_factor_id_fkey supabase_auth_admin
+4303; 2606 17228 FK CONSTRAINT auth mfa_recovery_code_sets mfa_recovery_code_sets_user_id_fkey supabase_auth_admin
+4304; 2606 17246 FK CONSTRAINT auth mfa_recovery_codes mfa_recovery_codes_mfa_recovery_code_set_id_fkey supabase_auth_admin
+4293; 2606 17019 FK CONSTRAINT auth oauth_authorizations oauth_authorizations_client_id_fkey supabase_auth_admin
+4294; 2606 17024 FK CONSTRAINT auth oauth_authorizations oauth_authorizations_user_id_fkey supabase_auth_admin
+4295; 2606 17048 FK CONSTRAINT auth oauth_consents oauth_consents_client_id_fkey supabase_auth_admin
+4296; 2606 17043 FK CONSTRAINT auth oauth_consents oauth_consents_user_id_fkey supabase_auth_admin
+4292; 2606 16945 FK CONSTRAINT auth one_time_tokens one_time_tokens_user_id_fkey supabase_auth_admin
+4281; 2606 16722 FK CONSTRAINT auth refresh_tokens refresh_tokens_session_id_fkey supabase_auth_admin
+4289; 2606 16826 FK CONSTRAINT auth saml_providers saml_providers_sso_provider_id_fkey supabase_auth_admin
+4290; 2606 16899 FK CONSTRAINT auth saml_relay_states saml_relay_states_flow_state_id_fkey supabase_auth_admin
+4291; 2606 16840 FK CONSTRAINT auth saml_relay_states saml_relay_states_sso_provider_id_fkey supabase_auth_admin
+4301; 2606 17205 FK CONSTRAINT auth scim_tokens scim_tokens_sso_provider_id_fkey supabase_auth_admin
+4299; 2606 17175 FK CONSTRAINT auth scim_users scim_users_sso_provider_id_fkey supabase_auth_admin
+4300; 2606 17180 FK CONSTRAINT auth scim_users scim_users_user_id_fkey supabase_auth_admin
+4283; 2606 17062 FK CONSTRAINT auth sessions sessions_oauth_client_id_fkey supabase_auth_admin
+4284; 2606 16717 FK CONSTRAINT auth sessions sessions_user_id_fkey supabase_auth_admin
+4288; 2606 16807 FK CONSTRAINT auth sso_domains sso_domains_sso_provider_id_fkey supabase_auth_admin
+4298; 2606 17155 FK CONSTRAINT auth webauthn_challenges webauthn_challenges_user_id_fkey supabase_auth_admin
+4297; 2606 17138 FK CONSTRAINT auth webauthn_credentials webauthn_credentials_user_id_fkey supabase_auth_admin
+4312; 2606 18036 FK CONSTRAINT public appointments appointments_clinic_id_fkey postgres
+4313; 2606 18041 FK CONSTRAINT public appointments appointments_doctor_id_fkey postgres
+4314; 2606 18046 FK CONSTRAINT public appointments appointments_patient_id_fkey postgres
+4315; 2606 18051 FK CONSTRAINT public automation_settings automation_settings_user_id_fkey postgres
+4316; 2606 18056 FK CONSTRAINT public billings billings_appointment_id_fkey postgres
+4317; 2606 18061 FK CONSTRAINT public billings billings_clinic_id_fkey postgres
+4318; 2606 18066 FK CONSTRAINT public billings billings_patient_id_fkey postgres
+4319; 2606 18071 FK CONSTRAINT public clinic_invitations clinic_invitations_clinic_id_fkey postgres
+4320; 2606 18076 FK CONSTRAINT public clinic_invitations clinic_invitations_invited_by_fkey postgres
+4321; 2606 18081 FK CONSTRAINT public clinic_members clinic_members_clinic_id_fkey postgres
+4322; 2606 18086 FK CONSTRAINT public clinic_members clinic_members_user_id_fkey postgres
+4323; 2606 18091 FK CONSTRAINT public clinical_records clinical_records_clinic_id_fkey postgres
+4324; 2606 18096 FK CONSTRAINT public clinical_records clinical_records_doctor_id_fkey postgres
+4325; 2606 18101 FK CONSTRAINT public clinical_records clinical_records_patient_id_fkey postgres
+4326; 2606 18106 FK CONSTRAINT public clinics clinics_owner_id_fkey postgres
+4327; 2606 18111 FK CONSTRAINT public data_rights_requests data_rights_requests_clinic_id_fkey postgres
+4328; 2606 18116 FK CONSTRAINT public data_rights_requests data_rights_requests_patient_id_fkey postgres
+4329; 2606 18121 FK CONSTRAINT public data_rights_requests data_rights_requests_resolved_by_fkey postgres
+4330; 2606 18126 FK CONSTRAINT public data_rights_requests data_rights_requests_user_id_fkey postgres
+4331; 2606 18131 FK CONSTRAINT public hcu033_forms hcu033_forms_clinic_id_fkey postgres
+4332; 2606 18136 FK CONSTRAINT public hcu033_forms hcu033_forms_doctor_id_fkey postgres
+4333; 2606 18141 FK CONSTRAINT public hcu033_forms hcu033_forms_patient_id_fkey postgres
+4334; 2606 18146 FK CONSTRAINT public invoices invoices_billing_id_fkey postgres
+4335; 2606 18151 FK CONSTRAINT public invoices invoices_clinic_id_fkey postgres
+4336; 2606 18156 FK CONSTRAINT public invoices invoices_patient_id_fkey postgres
+4337; 2606 18161 FK CONSTRAINT public messages messages_clinic_id_fkey postgres
+4338; 2606 18166 FK CONSTRAINT public messages messages_receiver_id_fkey postgres
+4339; 2606 18171 FK CONSTRAINT public messages messages_sender_id_fkey postgres
+4340; 2606 18176 FK CONSTRAINT public notifications notifications_user_id_fkey postgres
+4341; 2606 18181 FK CONSTRAINT public patient_files patient_files_clinic_id_fkey postgres
+4342; 2606 18186 FK CONSTRAINT public patient_files patient_files_patient_id_fkey postgres
+4343; 2606 18191 FK CONSTRAINT public patient_files patient_files_uploaded_by_fkey postgres
+4344; 2606 18196 FK CONSTRAINT public patient_notes patient_notes_author_id_fkey postgres
+4345; 2606 18201 FK CONSTRAINT public patient_notes patient_notes_clinic_id_fkey postgres
+4346; 2606 18206 FK CONSTRAINT public patient_notes patient_notes_patient_id_fkey postgres
+4310; 2606 18211 FK CONSTRAINT public patients patients_clinic_id_fkey postgres
+4311; 2606 18216 FK CONSTRAINT public patients patients_family_representative_id_fkey postgres
+4347; 2606 18221 FK CONSTRAINT public payment_methods payment_methods_clinic_id_fkey postgres
+4348; 2606 18226 FK CONSTRAINT public payment_methods payment_methods_doctor_id_fkey postgres
+4349; 2606 18231 FK CONSTRAINT public payments payments_clinic_id_fkey postgres
+4350; 2606 18236 FK CONSTRAINT public prescription_templates prescription_templates_doctor_id_fkey postgres
+4351; 2606 18241 FK CONSTRAINT public prescriptions prescriptions_clinic_id_fkey postgres
+4352; 2606 18246 FK CONSTRAINT public prescriptions prescriptions_doctor_id_fkey postgres
+4353; 2606 18251 FK CONSTRAINT public prescriptions prescriptions_patient_id_fkey postgres
+4354; 2606 18256 FK CONSTRAINT public profile_audit_log profile_audit_log_actor_user_id_fkey postgres
+4355; 2606 18261 FK CONSTRAINT public profile_audit_log profile_audit_log_target_user_id_fkey postgres
+4356; 2606 18266 FK CONSTRAINT public profiles profiles_clinic_id_fkey postgres
+4357; 2606 18271 FK CONSTRAINT public profiles profiles_id_fkey postgres
+4358; 2606 18276 FK CONSTRAINT public service_categories service_categories_clinic_id_fkey postgres
+4359; 2606 18281 FK CONSTRAINT public services services_category_id_fkey postgres
+4360; 2606 18286 FK CONSTRAINT public services services_clinic_id_fkey postgres
+4361; 2606 18291 FK CONSTRAINT public treatments treatments_clinic_id_fkey postgres
+4362; 2606 18296 FK CONSTRAINT public treatments treatments_user_id_fkey postgres
+4305; 2606 17415 FK CONSTRAINT storage objects objects_bucketId_fkey supabase_storage_admin
+4306; 2606 17462 FK CONSTRAINT storage s3_multipart_uploads s3_multipart_uploads_bucket_id_fkey supabase_storage_admin
+4307; 2606 17482 FK CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_bucket_id_fkey supabase_storage_admin
+4308; 2606 17477 FK CONSTRAINT storage s3_multipart_uploads_parts s3_multipart_uploads_parts_upload_id_fkey supabase_storage_admin
+4309; 2606 17547 FK CONSTRAINT storage vector_indexes vector_indexes_bucket_id_fkey supabase_storage_admin
+4540; 0 16525 ROW SECURITY auth audit_log_entries supabase_auth_admin
+4550; 0 16885 ROW SECURITY auth flow_state supabase_auth_admin
+4541; 0 16682 ROW SECURITY auth identities supabase_auth_admin
+4539; 0 16518 ROW SECURITY auth instances supabase_auth_admin
+4545; 0 16772 ROW SECURITY auth mfa_amr_claims supabase_auth_admin
+4544; 0 16760 ROW SECURITY auth mfa_challenges supabase_auth_admin
+4543; 0 16747 ROW SECURITY auth mfa_factors supabase_auth_admin
+4551; 0 16935 ROW SECURITY auth one_time_tokens supabase_auth_admin
+4538; 0 16507 ROW SECURITY auth refresh_tokens supabase_auth_admin
+4548; 0 16814 ROW SECURITY auth saml_providers supabase_auth_admin
+4549; 0 16832 ROW SECURITY auth saml_relay_states supabase_auth_admin
+4542; 0 16712 ROW SECURITY auth sessions supabase_auth_admin
+4547; 0 16799 ROW SECURITY auth sso_domains supabase_auth_admin
+4546; 0 16790 ROW SECURITY auth sso_providers supabase_auth_admin
+4537; 0 16495 ROW SECURITY auth users supabase_auth_admin
+4584; 3256 18301 POLICY logs access_audit No one allows delete on audit postgres
+4585; 3256 18302 POLICY logs access_audit No one allows update on audit postgres
+4586; 3256 18303 POLICY logs access_audit System can insert audit postgres
+4560; 0 17691 ROW SECURITY logs access_audit postgres
+4587; 3256 18304 POLICY public patients Active clinic members can insert patients postgres
+4588; 3256 18305 POLICY public patients Active clinic members can update patients postgres
+4589; 3256 18306 POLICY public patients Active clinic members can view patients postgres
+4590; 3256 18307 POLICY public profile_audit_log Admins can view audit logs postgres
+4591; 3256 18308 POLICY public payment_methods Allow checkout viewing of active payment methods postgres
+4593; 3256 18309 POLICY public clinic_invitations Anyone can view their own invitation by email postgres
+4594; 3256 18310 POLICY public data_rights_requests Authenticated users can submit data rights requests postgres
+4595; 3256 18311 POLICY public data_rights_requests Clinic members can view data rights requests postgres
+4596; 3256 18312 POLICY public hcu033_forms Clinic members can view hcu033_forms postgres
+4597; 3256 18314 POLICY public payment_methods Clinic members can view payment methods postgres
+4592; 3256 18315 POLICY public services Clinic members can view services postgres
+4598; 3256 18316 POLICY public clinical_records Clinic owners can delete clinical records postgres
+4599; 3256 18317 POLICY public hcu033_forms Clinic owners can delete hcu033_forms postgres
+4600; 3256 18319 POLICY public profiles Clinic owners can delete members in their clinic postgres
+4601; 3256 18320 POLICY public patients Clinic owners can delete patients in their clinic postgres
+4602; 3256 18321 POLICY public payment_methods Clinic owners can delete payment methods postgres
+4603; 3256 18323 POLICY public services Clinic owners can delete services postgres
+4604; 3256 18324 POLICY public payment_methods Clinic owners can insert payment methods postgres
+4605; 3256 18326 POLICY public services Clinic owners can insert services postgres
+4606; 3256 18327 POLICY public clinic_invitations Clinic owners can manage invitations postgres
+4607; 3256 18328 POLICY public data_rights_requests Clinic owners can update data rights requests postgres
+4608; 3256 18329 POLICY public profiles Clinic owners can update members in their clinic postgres
+4609; 3256 18330 POLICY public payment_methods Clinic owners can update payment methods postgres
+4610; 3256 18333 POLICY public services Clinic owners can update services postgres
+4611; 3256 18334 POLICY public clinical_records Clinical staff can insert clinical records postgres
+4612; 3256 18335 POLICY public hcu033_forms Clinical staff can insert hcu033_forms postgres
+4613; 3256 18337 POLICY public clinical_records Clinical staff can update clinical records postgres
+4614; 3256 18338 POLICY public hcu033_forms Clinical staff can update hcu033_forms postgres
+4615; 3256 18341 POLICY public prescriptions Doctors and owners can insert prescriptions postgres
+4616; 3256 18342 POLICY public prescriptions Doctors and owners can update their prescriptions postgres
+4619; 3256 18343 POLICY public clinical_records Medical staff can view clinical records postgres
+4620; 3256 18344 POLICY public clinics Owners can update their own clinic postgres
+4621; 3256 18345 POLICY public billings Owners can view billings postgres
+4622; 3256 18346 POLICY public payments Owners can view their payments postgres
+4623; 3256 18347 POLICY public prescriptions Prescriptions are deletable by clinic owners postgres
+4624; 3256 18348 POLICY public prescriptions Prescriptions are viewable by clinic members postgres
+4625; 3256 18349 POLICY public profiles Profiles are viewable by same clinic members postgres
+4626; 3256 18350 POLICY public notifications System can insert notifications postgres
+4617; 3256 18351 POLICY public prescription_templates Templates are deletable by their creator or clinic owners postgres
+4618; 3256 18352 POLICY public prescription_templates Templates are insertable by clinical staff postgres
+4627; 3256 18353 POLICY public prescription_templates Templates are updatable by their creator or clinic owners postgres
+4628; 3256 18354 POLICY public prescription_templates Templates are viewable by clinic members postgres
+4629; 3256 18355 POLICY public clinic_members Users and owners can view clinic memberships postgres
+4630; 3256 18356 POLICY public appointments Users can delete appointments in their clinic postgres
+4631; 3256 18357 POLICY public appointments Users can insert appointments in their clinic postgres
+4632; 3256 18358 POLICY public billings Users can insert billings in their clinic postgres
+4633; 3256 18359 POLICY public patient_files Users can insert files in their clinic postgres
+4634; 3256 18360 POLICY public invoices Users can insert invoices in their clinic postgres
+4635; 3256 18361 POLICY public messages Users can insert messages postgres
+4636; 3256 18362 POLICY public patient_notes Users can insert notes in their clinic postgres
+4637; 3256 18363 POLICY public automation_settings Users can insert their own settings postgres
+4638; 3256 18364 POLICY public treatments Users can insert treatments in their clinic postgres
+4639; 3256 18365 POLICY public service_categories Users can manage their clinic categories postgres
+4640; 3256 18366 POLICY public appointments Users can update appointments in their clinic postgres
+4641; 3256 18367 POLICY public billings Users can update billings in their clinic postgres
+4642; 3256 18368 POLICY public patient_files Users can update files in their clinic postgres
+4643; 3256 18369 POLICY public invoices Users can update invoices in their clinic postgres
+4645; 3256 18370 POLICY public patient_notes Users can update notes in their clinic postgres
+4646; 3256 18371 POLICY public profiles Users can update own profile postgres
+4647; 3256 18372 POLICY public messages Users can update their own messages postgres
+4648; 3256 18373 POLICY public notifications Users can update their own notifications postgres
+4649; 3256 18374 POLICY public automation_settings Users can update their own settings postgres
+4650; 3256 18375 POLICY public treatments Users can update treatments in their clinic postgres
+4651; 3256 18376 POLICY public appointments Users can view appointments in their clinic postgres
+4652; 3256 18377 POLICY public patient_files Users can view files in their clinic postgres
+4653; 3256 18378 POLICY public invoices Users can view invoices in their clinic postgres
+4644; 3256 18379 POLICY public patient_notes Users can view notes in their clinic postgres
+4654; 3256 18380 POLICY public clinics Users can view their own clinic postgres
+4655; 3256 18381 POLICY public messages Users can view their own messages postgres
+4656; 3256 18382 POLICY public notifications Users can view their own notifications postgres
+4657; 3256 18383 POLICY public automation_settings Users can view their own settings postgres
+4658; 3256 18384 POLICY public treatments Users can view treatments in their clinic postgres
+4561; 0 17698 ROW SECURITY public appointments postgres
+4562; 0 17707 ROW SECURITY public automation_settings postgres
+4563; 0 17719 ROW SECURITY public billings postgres
+4564; 0 17728 ROW SECURITY public clinic_invitations postgres
+4565; 0 17740 ROW SECURITY public clinic_members postgres
+4566; 0 17749 ROW SECURITY public clinical_records postgres
+4567; 0 17759 ROW SECURITY public clinics postgres
+4568; 0 17776 ROW SECURITY public data_rights_requests postgres
+4569; 0 17788 ROW SECURITY public hcu033_forms postgres
+4570; 0 17797 ROW SECURITY public invoices postgres
+4571; 0 17808 ROW SECURITY public messages postgres
+4572; 0 17816 ROW SECURITY public notifications postgres
+4573; 0 17826 ROW SECURITY public patient_files postgres
+4574; 0 17833 ROW SECURITY public patient_notes postgres
+4559; 0 17651 ROW SECURITY public patients postgres
+4575; 0 17845 ROW SECURITY public payment_methods postgres
+4576; 0 17854 ROW SECURITY public payments postgres
+4577; 0 17864 ROW SECURITY public prescription_templates postgres
+4578; 0 17873 ROW SECURITY public prescriptions postgres
+4579; 0 17881 ROW SECURITY public profile_audit_log postgres
+4580; 0 17888 ROW SECURITY public profiles postgres
+4581; 0 17903 ROW SECURITY public service_categories postgres
+4582; 0 17911 ROW SECURITY public services postgres
+4583; 0 17925 ROW SECURITY public treatments postgres
+4659; 3256 18390 POLICY storage objects Anyone can update an avatar supabase_storage_admin
+4660; 3256 18391 POLICY storage objects Anyone can upload an avatar supabase_storage_admin
+4661; 3256 18392 POLICY storage objects Authenticated users update doctor avatars supabase_storage_admin
+4662; 3256 18393 POLICY storage objects Authenticated users upload doctor avatars supabase_storage_admin
+4663; 3256 18394 POLICY storage objects Avatar images are publicly accessible supabase_storage_admin
+4664; 3256 18395 POLICY storage objects Owners can delete their logos supabase_storage_admin
+4665; 3256 18396 POLICY storage objects Owners can update their logos supabase_storage_admin
+4666; 3256 18397 POLICY storage objects Owners can upload logos supabase_storage_admin
+4667; 3256 18398 POLICY storage objects Public Access to Clinic Logos supabase_storage_admin
+4668; 3256 18399 POLICY storage objects Public Access to Doctor Avatars supabase_storage_admin
+4669; 3256 18400 POLICY storage objects Tenant isolated delete for patient-avatars supabase_storage_admin
+4670; 3256 18402 POLICY storage objects Tenant isolated delete for patient-files supabase_storage_admin
+4671; 3256 18404 POLICY storage objects Tenant isolated delete for receipts supabase_storage_admin
+4672; 3256 18406 POLICY storage objects Tenant isolated insert for patient-avatars supabase_storage_admin
+4673; 3256 18408 POLICY storage objects Tenant isolated insert for receipts supabase_storage_admin
+4674; 3256 18409 POLICY storage objects Tenant isolated read for patient-files supabase_storage_admin
+4675; 3256 18411 POLICY storage objects Tenant isolated select for patient-avatars supabase_storage_admin
+4676; 3256 18413 POLICY storage objects Tenant isolated select for receipts supabase_storage_admin
+4677; 3256 18414 POLICY storage objects Tenant isolated update for patient-avatars supabase_storage_admin
+4678; 3256 18416 POLICY storage objects Tenant isolated update for patient-files supabase_storage_admin
+4679; 3256 18419 POLICY storage objects Tenant isolated update for receipts supabase_storage_admin
+4680; 3256 18420 POLICY storage objects Tenant isolated upload for patient-files supabase_storage_admin
+4552; 0 17394 ROW SECURITY storage buckets supabase_storage_admin
+4556; 0 17514 ROW SECURITY storage buckets_analytics supabase_storage_admin
+4557; 0 17527 ROW SECURITY storage buckets_vectors supabase_storage_admin
+4553; 0 17404 ROW SECURITY storage objects supabase_storage_admin
+4554; 0 17453 ROW SECURITY storage s3_multipart_uploads supabase_storage_admin
+4555; 0 17467 ROW SECURITY storage s3_multipart_uploads_parts supabase_storage_admin
+4558; 0 17537 ROW SECURITY storage vector_indexes supabase_storage_admin
+2526; 826 16553 DEFAULT ACL auth DEFAULT PRIVILEGES FOR SEQUENCES supabase_auth_admin
+2527; 826 16554 DEFAULT ACL auth DEFAULT PRIVILEGES FOR FUNCTIONS supabase_auth_admin
+2525; 826 16552 DEFAULT ACL auth DEFAULT PRIVILEGES FOR TABLES supabase_auth_admin
+2540; 826 16490 DEFAULT ACL public DEFAULT PRIVILEGES FOR SEQUENCES postgres
+2519; 826 16491 DEFAULT ACL public DEFAULT PRIVILEGES FOR SEQUENCES supabase_admin
+2541; 826 16489 DEFAULT ACL public DEFAULT PRIVILEGES FOR FUNCTIONS postgres
+2521; 826 16493 DEFAULT ACL public DEFAULT PRIVILEGES FOR FUNCTIONS supabase_admin
+2542; 826 16488 DEFAULT ACL public DEFAULT PRIVILEGES FOR TABLES postgres
+2520; 826 16492 DEFAULT ACL public DEFAULT PRIVILEGES FOR TABLES supabase_admin
+2524; 826 16546 DEFAULT ACL storage DEFAULT PRIVILEGES FOR SEQUENCES postgres
+2523; 826 16545 DEFAULT ACL storage DEFAULT PRIVILEGES FOR FUNCTIONS postgres
+2522; 826 16544 DEFAULT ACL storage DEFAULT PRIVILEGES FOR TABLES postgres

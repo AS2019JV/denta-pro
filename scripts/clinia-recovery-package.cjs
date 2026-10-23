@@ -1,0 +1,7 @@
+'use strict';
+const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto');
+const ROOT=path.resolve(__dirname,'..'),DIR=path.join(ROOT,'docs/production/recovery-profile'),sha=x=>crypto.createHash('sha256').update(x).digest('hex');
+function verifyEntries(manifest,read){assert.equal(manifest.baselineCandidate,'bdba2368c657a926ee849bc75f62dfda957b1801');assert.equal(manifest.remoteExecution,false);assert.equal(new Set(manifest.files.map(x=>x.path)).size,manifest.files.length);for(const f of manifest.files){assert.match(f.path,/^(?:scripts|docs\/production\/(?:recovery-profile|migration-package))\/[a-zA-Z0-9_./-]+$/);assert.ok(!f.path.split('/').includes('..'));assert.match(f.sha256,/^[a-f0-9]{64}$/);assert.equal(sha(read(f.path)),f.sha256,'Recovery package source changed: '+f.path);}return manifest;}
+function verify(){return verifyEntries(JSON.parse(fs.readFileSync(path.join(DIR,'manifest.json'))),relative=>{const absolute=path.resolve(ROOT,relative);assert.ok(absolute.startsWith(ROOT+path.sep));assert.equal(fs.lstatSync(absolute).isSymbolicLink(),false);return fs.readFileSync(absolute);});}
+if(require.main===module){const m=verify();console.log(JSON.stringify({status:'PASS_LOCAL_RECOVERY_PACKAGE_HASHES',files:m.files.length,baseline:m.baselineCandidate,remoteExecution:false}));}
+module.exports={ROOT,DIR,sha,verify,verifyEntries};
