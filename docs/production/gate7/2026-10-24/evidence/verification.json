@@ -1,0 +1,101 @@
+{
+  "gate": "Gate7",
+  "checkedAtUtc": "2026-10-24T06:42:01.1051761Z",
+  "baseSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "knownSuccessor": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "successorCI": {
+    "runId": "40003941444",
+    "headSha": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+    "conclusion": "success",
+    "status": "completed",
+    "verifiedLiveVia": "gh run view --json headSha,conclusion,status,url; GitHub connector job read",
+    "newRunStarted": false,
+    "tests433": "Historical ci-successor.json/log; not rerun"
+  },
+  "successorEnvironment": {
+    "deploymentId": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+    "identity": "Receipt 2026-10-23 only",
+    "githubVercelStatus": "success observed 2026-10-24",
+    "liveEnvironmentVerified": false,
+    "finalCandidateAssigned": false
+  },
+  "deltaPaths": [
+    "app/(dashboard)/patients/[id]/page.tsx",
+    "docs/production/SECURITY_PATCHES_2026-10-23.md",
+    "lib/birth-date.d.mts",
+    "lib/birth-date.mjs",
+    "package-lock.json",
+    "package.json",
+    "test/production/birth-date.test.cjs"
+  ],
+  "sourceBlobComparisons": [
+    {
+      "path": "components/hcu033-form.tsx",
+      "b7Blob": "70671eeb8c6911c12531efa0571a05dca5ef92ee",
+      "baseBlob": "70671eeb8c6911c12531efa0571a05dca5ef92ee",
+      "successorBlob": "70671eeb8c6911c12531efa0571a05dca5ef92ee",
+      "unchanged": true
+    },
+    {
+      "path": "components/odontograma-interactive.tsx",
+      "b7Blob": "375c47da9a83775bd94a748a22e5aa3546793629",
+      "baseBlob": "375c47da9a83775bd94a748a22e5aa3546793629",
+      "successorBlob": "375c47da9a83775bd94a748a22e5aa3546793629",
+      "unchanged": true
+    },
+    {
+      "path": "app/actions/save-prescription.ts",
+      "b7Blob": "a7955ec4bc1da68cf5f70cb41945859379e25840",
+      "baseBlob": "a7955ec4bc1da68cf5f70cb41945859379e25840",
+      "successorBlob": "a7955ec4bc1da68cf5f70cb41945859379e25840",
+      "unchanged": true
+    },
+    {
+      "path": "lib/prescription-receipt.mjs",
+      "b7Blob": "8140fca920be0d41ba57042e1e64fbe44b75f1dc",
+      "baseBlob": "8140fca920be0d41ba57042e1e64fbe44b75f1dc",
+      "successorBlob": "8140fca920be0d41ba57042e1e64fbe44b75f1dc",
+      "unchanged": true
+    },
+    {
+      "path": "lib/pdf-client.ts",
+      "b7Blob": "9ed7e88d9feb3754c9ec7d458f11558ffd91b580",
+      "baseBlob": "9ed7e88d9feb3754c9ec7d458f11558ffd91b580",
+      "successorBlob": "9ed7e88d9feb3754c9ec7d458f11558ffd91b580",
+      "unchanged": true
+    },
+    {
+      "path": "lib/pdf-generator.ts",
+      "b7Blob": "8db280287908b61d3e4ca927a142949824c1876d",
+      "baseBlob": "8db280287908b61d3e4ca927a142949824c1876d",
+      "successorBlob": "8db280287908b61d3e4ca927a142949824c1876d",
+      "unchanged": true
+    },
+    {
+      "path": "components/settings/privacy-tab.tsx",
+      "b7Blob": "36ba3bf4eb2f511a19c2a3dc6d2f5c9bf34c21c1",
+      "baseBlob": "36ba3bf4eb2f511a19c2a3dc6d2f5c9bf34c21c1",
+      "successorBlob": "36ba3bf4eb2f511a19c2a3dc6d2f5c9bf34c21c1",
+      "unchanged": true
+    }
+  ],
+  "reusedEvidence": "Historical exact-candidate scope only",
+  "newApplicationOrSqlChanges": false,
+  "newProductTests": 0,
+  "newHostedFlows": 0,
+  "repeatedSuites": 0,
+  "restores": 0,
+  "dockerStarts": 0,
+  "clinicalAcceptance": "REQUIRES-HUMAN",
+  "privacyAcceptance": "REQUIRES-HUMAN",
+  "finalFlows": "NOT VERIFIED",
+  "production": "NO-GO",
+  "userClarification": "Final candidate handoff unavailable; document as pending",
+  "lunaReviews": 0,
+  "limits": [
+    "Documentation-only delta; no app CI started",
+    "No coordinator integration or global matrix updates",
+    "No hosted environment or fixture authorization",
+    "No professional or legal signatures"
+  ]
+}

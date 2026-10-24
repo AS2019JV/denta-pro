@@ -1,0 +1,100 @@
+{
+  "scope": "Integrated RC local affected regressions only; not GitHub CI or hosted acceptance. A test is counted once by file/name; historical/overlapping runs are not added.",
+  "files": [
+    "test/production/gate4-recovery-ops.test.cjs",
+    "test/production/gate5-observability.test.cjs",
+    "test/production/readiness-health.test.cjs",
+    "test/production/clinical-document-route.test.cjs",
+    "test/production/private-media-delivery.test.cjs",
+    "test/production/clinical-document-delivery.test.cjs",
+    "test/production/private-media.test.cjs",
+    "test/production/clinical-document-principal.test.cjs",
+    "test/production/clinical-media-boundary.test.cjs",
+    "test/security/prod-chk-f02-logging-pii.test.cjs"
+  ],
+  "checks": [
+    {
+      "name": "affected-regressions",
+      "command": [
+        "node",
+        "--test",
+        "--test-concurrency=1",
+        "test/production/gate4-recovery-ops.test.cjs",
+        "test/production/gate5-observability.test.cjs",
+        "test/production/readiness-health.test.cjs",
+        "test/production/clinical-document-route.test.cjs",
+        "test/production/private-media-delivery.test.cjs",
+        "test/production/clinical-document-delivery.test.cjs",
+        "test/production/private-media.test.cjs",
+        "test/production/clinical-document-principal.test.cjs",
+        "test/production/clinical-media-boundary.test.cjs",
+        "test/security/prod-chk-f02-logging-pii.test.cjs"
+      ],
+      "startedAt": "2026-10-24T17:03:49.858Z",
+      "endedAt": "2026-10-24T17:03:56.553Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "artifact": "affected-regressions.txt",
+      "counts": {
+        "tests": 96,
+        "pass": 96,
+        "fail": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "node",
+        "node_modules/typescript/bin/tsc",
+        "--noEmit",
+        "--incremental",
+        "false"
+      ],
+      "startedAt": "2026-10-24T17:03:56.560Z",
+      "endedAt": "2026-10-24T17:04:16.227Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "artifact": "typecheck.txt",
+      "counts": null
+    },
+    {
+      "name": "affected-lint",
+      "command": [
+        "node",
+        "node_modules/next/dist/bin/next",
+        "lint",
+        "--no-cache",
+        "--file",
+        "lib/logger.ts",
+        "--file",
+        "lib/operational-observability.ts",
+        "--file",
+        "app/api/health/route.ts",
+        "--file",
+        "app/api/clinical-documents/route.ts",
+        "--file",
+        "app/api/private-media/route.ts"
+      ],
+      "startedAt": "2026-10-24T17:04:16.228Z",
+      "endedAt": "2026-10-24T17:04:55.261Z",
+      "exitCode": 0,
+      "errorCode": null,
+      "artifact": "affected-lint.txt",
+      "counts": null
+    },
+    {
+      "name": "source-secret-scan",
+      "command": [
+        "node",
+        "scripts/clinia-secret-scan.cjs"
+      ],
+      "startedAt": "2026-10-24T17:04:55.262Z",
+      "endedAt": "2026-10-24T17:04:55.443Z",
+      "exitCode": 1,
+      "errorCode": null,
+      "artifact": "source-secret-scan.txt",
+      "counts": null
+    }
+  ]
+}

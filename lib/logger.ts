@@ -1,5 +1,31 @@
 export type LogLevel = 'info' | 'warn' | 'error';
 
+export type OperationalEvent = 'readiness.ok' | 'readiness.unavailable' |
+  'application.response' | 'application.error' | 'security.request_rejected';
+export type OperationalContext = {
+  correlationId: string;
+  operation: 'health' | 'clinical-document' | 'private-media';
+  status: number;
+  durationMs: number;
+};
+
+/** Closed vocabulary: no request data, identity, URL, exception or body enters logs. */
+function operational(event: OperationalEvent, context: OperationalContext) {
+  const events = ['readiness.ok', 'readiness.unavailable', 'application.response',
+    'application.error', 'security.request_rejected'];
+  if (!events.includes(event) || !['health', 'clinical-document', 'private-media'].includes(context.operation)
+    || !/^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(context.correlationId)
+    || !Number.isInteger(context.status) || context.status < 100 || context.status > 599
+    || !Number.isFinite(context.durationMs) || context.durationMs < 0) return;
+  const level = event === 'application.error' || event === 'readiness.unavailable' ? 'error'
+    : event === 'security.request_rejected' ? 'warn' : 'info';
+  try {
+    console[level](JSON.stringify({ timestamp: new Date().toISOString(), level, event,
+      correlationId: context.correlationId, operation: context.operation,
+      status: context.status, durationMs: Math.min(86400000, Math.round(context.durationMs)) }));
+  } catch { /* Telemetry failure must not change authorization or response. */ }
+}
+
 /**
  * Mask an email address to protect personal data (e.g. "jdoe@example.com" -> "j***@example.com")
  */
@@ -157,24 +183,14 @@ export function sanitizePII(value: any, seen = new WeakSet<object>()): any {
 }
 
 export const logger = {
-  log: (level: LogLevel, message: string, data?: any) => {
+  operational,
+  log: (level: LogLevel, _message: string, _data?: any) => {
     const timestamp = new Date().toISOString();
-    const sanitizedMessage = sanitizePII(message);
-    const sanitizedData = data !== undefined ? sanitizePII(data) : undefined;
-
-    if (process.env.NODE_ENV === 'development') {
-      const formattedMessage = `[${timestamp}] [${level.toUpperCase()}]: ${sanitizedMessage}`;
-      console[level](formattedMessage, sanitizedData !== undefined ? sanitizedData : '');
-    } else {
-      console[level](
-        JSON.stringify({
-          timestamp,
-          level,
-          message: sanitizedMessage,
-          data: sanitizedData,
-        })
-      );
-    }
+    // Legacy free text and arbitrary payloads cannot be proven PHI/secret-free.
+    // Retain severity in every environment; use operational() for useful context.
+    try {
+      console[level](JSON.stringify({ timestamp, level, event: 'application.legacy' }));
+    } catch { /* Logging must not change application behavior. */ }
   },
   info: (message: string, data?: any) => logger.log('info', message, data),
   warn: (message: string, data?: any) => logger.log('warn', message, data),

@@ -1,0 +1,40 @@
+{
+  "purpose": "OFFSITE_PREPARATION_ONLY",
+  "authorizedUpload": false,
+  "approval": null,
+  "sourceSnapshot": {
+    "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+    "databaseSha256": "e78df7646b06eb479c0d0645cc27cca647dd88f41b0c2ef959701b68d66de7e0",
+    "capturedCandidate": "bdba2368c657a926ee849bc75f62dfda957b1801",
+    "syntheticBytes": 53
+  },
+  "requestedOwnerDecisions": {
+    "backupDestination": null,
+    "backupCustodian": null,
+    "separateKeyDestination": null,
+    "keyCustodian": null,
+    "keyProtectionAndRecoveryMethod": null,
+    "independentRecoveryOperator": null,
+    "allowedReadersAndRevocationOwner": null,
+    "retentionAndImmutability": null,
+    "rpoRtoAndVolumeAcceptance": null
+  },
+  "minimumAction": "Owner identifies and authorizes the two separate destinations and custodians, then they place and retrieve a verified encrypted archive plus recovery kit and separately protected key. A second operator must authenticate and recover in an authorized NEW target from another device without this chat or the original PC.",
+  "requiredReceipts": [
+    "Archive ciphertext SHA256 read back at the authorized independent location",
+    "Key retrieval proved through a separate custodian; no key or key hash in public evidence",
+    "Recovery kit commit and complete SHA256 manifest independently retrieved",
+    "Second-device dry-run and then complete restore with original MFA, config and all bytes",
+    "Ordinary own-clinic positive, foreign-clinic denial and private app delivery",
+    "Declared start through every check, operational volume and fresh source RPO proof",
+    "Owner review of access, retention, alerts and operational targets"
+  ],
+  "currentReality": {
+    "copiesOnSameComputer": true,
+    "logicalKeySeparation": true,
+    "offsite": false,
+    "independentCustodian": false,
+    "singleMachineLossProtected": false,
+    "unattendedScheduleActive": false
+  }
+}

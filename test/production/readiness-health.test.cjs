@@ -4,6 +4,7 @@ const assert = require('node:assert/strict');
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript');
 const monitor = require('../../scripts/check-clinia-health.cjs');
 const root = path.resolve(__dirname, '../..');
+const observability = require('./helpers/operational-observability.cjs').loadObservability();
 const key = 'sb_publishable_' + 'synthetic'.repeat(4);
 const input = { CLINIA_HEALTH_ENABLED: '1', NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.supabase.co', NEXT_PUBLIC_SUPABASE_ANON_KEY: key };
 function load(file, imports = {}, env = {}) {
@@ -12,7 +13,7 @@ function load(file, imports = {}, env = {}) {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   vm.runInNewContext(code, { module, exports: module.exports, URL, Buffer, AbortSignal, Response, fetch,
-    process: { env }, require: name => name === 'server-only' ? {} : imports[name] });
+    process: { env }, require: name => name === 'server-only' ? {} : name === '@/lib/operational-observability' ? observability : imports[name] });
   return module.exports;
 }
 const { probeReadiness } = load('lib/readiness-health.ts');

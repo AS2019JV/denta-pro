@@ -1,0 +1,56 @@
+{
+  "projectId": "phihonofwyerpfgqfekt",
+  "projectName": "cliniaplus-staging",
+  "region": "sa-east-1",
+  "status": "ACTIVE_HEALTHY",
+  "databaseVersion": "17.6.1.166",
+  "readOnly": true,
+  "clinicalRowsRead": 0,
+  "fixtureInteractions": 0,
+  "metadata": {
+    "observed_at": "2026-10-24 17:03:02.439837+00",
+    "contracts": [
+      {
+        "signature": "clinia_session_active()",
+        "definition_md5": "fc93cccd07f216b57ac0d0793112b4ab"
+      },
+      {
+        "signature": "redeem_verified_clinic_invitation(text)",
+        "definition_md5": "3d41297208021e8f3e2dfe2828e006bd"
+      },
+      {
+        "signature": "security_internal.lock_clinia_session()",
+        "definition_md5": "0427db17efca6f91d0bb39d86f93bb2d"
+      }
+    ],
+    "migration_count": 18,
+    "migration_versions_md5": "0b1d62b85b5f37677e142bd025242095",
+    "latest_migration_version": "20261007230644"
+  },
+  "scope": "Project identity, three selected pg_proc contracts and ledger count/version digest only. Not full catalog parity, executed SQL lineage, managed migration adoption or RC deployment binding.",
+  "earlierLookup": {
+    "signature": "public.redeem_clinic_invitation(text)",
+    "result": null,
+    "disposition": "Incorrect lookup name; corrected using the existing saved contract receipt, no fixture call."
+  },
+  "contractComparison": [
+    {
+      "signature": "clinia_session_active()",
+      "priorDefinitionMd5": "fc93cccd07f216b57ac0d0793112b4ab",
+      "currentDefinitionMd5": "fc93cccd07f216b57ac0d0793112b4ab",
+      "status": "MATCH"
+    },
+    {
+      "signature": "redeem_verified_clinic_invitation(text)",
+      "priorDefinitionMd5": "3d41297208021e8f3e2dfe2828e006bd",
+      "currentDefinitionMd5": "3d41297208021e8f3e2dfe2828e006bd",
+      "status": "MATCH"
+    },
+    {
+      "signature": "security_internal.lock_clinia_session()",
+      "priorDefinitionMd5": "0427db17efca6f91d0bb39d86f93bb2d",
+      "currentDefinitionMd5": "0427db17efca6f91d0bb39d86f93bb2d",
+      "status": "MATCH"
+    }
+  ]
+}

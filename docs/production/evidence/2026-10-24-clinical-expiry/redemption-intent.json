@@ -1,0 +1,12 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "startedAt": "2026-10-24T16:03:41.204Z",
+  "invitationId": "dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7",
+  "recipientId": "979d0bea-07c7-470f-b188-9c029d1a0701",
+  "tokenDigest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+  "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+  "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+  "requestDigest": "ecc8cc8ffce33b2b0eb08d6adf075070c17f5c52728b1109bea44e3cb5a418de",
+  "refreshUsed": false
+}

@@ -1,0 +1,56 @@
+{
+  "baseSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "sourceReceipts": [
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/RESULTADO.md",
+      "sha256": "52e2c71151228743546a518b7663c6c50f818264423571e9f64f62c296f4fbde"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/p8-complete-recovery-timing.json",
+      "sha256": "da749063fbc89e824c49df90aaf66f23e4e9dab3fc0712c532fda1bb4b3b23e6"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/p8-restore-v6.json",
+      "sha256": "66fe452e010440549c94da5d63f9d56e671d211f82d71cff4047ab36c428e704"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/p8-recovered-services.json",
+      "sha256": "c6487d25a31ecfcc8ea14c7dceade9910671049334838e83bd403955e672b8a1"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/final-boundary-verification.json",
+      "sha256": "0af068b756f6f2b7401c02a44f972997baf3660ba1b6dae0e2275b0de8e567a5"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-22-gate3-recovery-profile/successor-ci.json",
+      "sha256": "6c51a90e41930058635c4654d6757eb183d85be11a1d09078685b95cb1239d1e"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-21-gate3-access-resume-2/hosted-encrypted-backup.json",
+      "sha256": "f3eeae5c8c509c9a03b320e75dd0268b3ddbe04f705208233b5ec43a918ffdb6"
+    }
+  ],
+  "reuse": "Historical candidate-specific receipts, not rerun and not transferred to final application",
+  "profileManifestSha256": "e7fd596baeb1ca5c930639539cc87650d5e7fdcc8fa5a2041623d87131ce07e9",
+  "preserved": {
+    "tables": 58,
+    "sequences": 3,
+    "cohorts": 35,
+    "invariants": 27,
+    "originalTotp": 2,
+    "bytes": 53,
+    "closedScopeSeconds": 130.356
+  },
+  "noCurrentRpo": true,
+  "noOpenSelectiveAccess": true,
+  "noOffsite": true,
+  "noOperationalSla": true,
+  "sourceReceiptsModified": false,
+  "baseCi": {
+    "id": "39987122895",
+    "sha": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+    "conclusion": "failure",
+    "source": "Historical exact-SHA receipt read now; no new CI execution"
+  },
+  "securitySuccessor": "Matrix mentions 5a7a24af57c645bfc1cf8c70594cc568e03a7176 / CI40003941444; coordinator final handoff not received; not adopted"
+}

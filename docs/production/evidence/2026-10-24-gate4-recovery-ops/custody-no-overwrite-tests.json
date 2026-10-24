@@ -1,0 +1,16 @@
+{
+  "status": "PASS",
+  "checks": [
+    {
+      "name": "existing destination refused",
+      "expectedExit": 1,
+      "sourceAndExistingReceiptsUnchanged": true
+    },
+    {
+      "name": "existing receipt refused",
+      "expectedExit": 1,
+      "sourceAndExistingReceiptsUnchanged": true
+    }
+  ],
+  "secretValuesPrinted": false
+}

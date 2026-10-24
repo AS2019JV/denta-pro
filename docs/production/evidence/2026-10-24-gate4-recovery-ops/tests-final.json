@@ -1,0 +1,14 @@
+{
+  "status": "PASS",
+  "tests": 15,
+  "passed": 15,
+  "failed": 0,
+  "command": "node --test test/production/gate4-recovery-ops.test.cjs",
+  "reasonForRepeat": "Only new Gate4 suite repeated after Luna fixes affecting selective no-store/Range acceptance; original13 preserved in tests.json",
+  "additionalRealChecks": [
+    "two existing-file/receipt refusal tests",
+    "ancestor junction refusal and ordinary path acceptance",
+    "kit02 zip extraction, all hashes and164profile sources"
+  ],
+  "noOriginalSuitesOrRestoresRepeated": true
+}

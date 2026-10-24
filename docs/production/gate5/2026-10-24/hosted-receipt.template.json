@@ -1,0 +1,30 @@
+{
+  "gate": "Gate5",
+  "status": "NOT VERIFIED",
+  "candidateSHA": null,
+  "ciRunId": null,
+  "ciConclusion": null,
+  "environment": "isolated-preview",
+  "authorizationRef": null,
+  "operatorRef": null,
+  "providerRef": null,
+  "channelRef": null,
+  "recipientRef": null,
+  "monitorProcessRef": null,
+  "monitorHeartbeatArtifact": null,
+  "baseline": { "deploymentId": null, "observedAt": null, "httpStatus": null, "correlationId": null },
+  "fault": { "deploymentId": null, "injectedAt": null, "reversibleChangeRef": null, "httpStatus": null },
+  "detection": { "at": null, "durationMs": null, "incidentId": null },
+  "alert": { "eventId": null, "providerAcceptedAt": null, "deliveredAt": null, "deliveryDurationMs": null, "deliveryEvidenceRef": null },
+  "humanAcknowledgement": { "operatorRef": null, "at": null, "directHumanStatementRef": null },
+  "recovery": { "deploymentId": null, "restoredAt": null, "twoHealthySamplesAt": [], "durationMs": null, "recoveryDeliveredAt": null },
+  "rollback": {
+    "status": "NOT VERIFIED", "fromSHA": null, "toSHA": null,
+    "fromDeploymentId": null, "toDeploymentId": null, "targetGreenCIRef": null,
+    "databaseCompatibilityEvidenceRef": null, "exclusiveAliasPrivateRef": null,
+    "beforeMappingEvidenceRef": null, "afterMappingEvidenceRef": null,
+    "performedAt": null, "healthyAfterAt": null, "authorizationAndStorageChecksRef": null,
+    "finalAliasDispositionRef": null
+  },
+  "limits": ["Template only: no hosted execution, delivery or ack inferred", "No protected URL, body, credential or clinical data belongs in this receipt"]
+}

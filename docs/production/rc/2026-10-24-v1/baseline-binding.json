@@ -1,0 +1,20 @@
+{
+  "sha": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "ci": {
+    "runId": 40003941444,
+    "headSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+    "status": "completed",
+    "conclusion": "success",
+    "event": "workflow_dispatch",
+    "readLive": true,
+    "tests": 433,
+    "testsCountSource": "Existing sealed receipt and user correction; not rerun"
+  },
+  "preview": {
+    "deploymentId": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+    "state": "Ready",
+    "bindingSource": "Step2 deployment-binding.json and known green user handoff; not transferred to RC"
+  },
+  "successorOwnCI": null,
+  "successorDeployment": null
+}

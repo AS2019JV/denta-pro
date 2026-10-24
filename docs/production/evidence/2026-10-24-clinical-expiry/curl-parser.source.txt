@@ -1,0 +1,118 @@
+'use strict';
+// Local staging evidence runner. Never executes the copied cURL command.
+const fs = require('node:fs');
+const path = require('node:path');
+const { createHash } = require('node:crypto');
+const root = path.resolve(__dirname, '..');
+const input = path.join(__dirname, 'invite-flow-request.private.curl');
+const frozen = path.join(__dirname, 'invite-flow-request.frozen.private.json');
+const evidence = path.join(root, 'docs/production/evidence/2026-10-12-invitations-fresh');
+const endpoint = 'https://phihonofwyerpfgqfekt.supabase.co/rest/v1/rpc/get_clinic_member_role';
+const actor = '7697eca5-f974-458f-b4b8-e53e6d33d9c2';
+const clinic = '6a804c0e-df14-42c0-a08d-9286ee49fcbe';
+const sha = value => createHash('sha256').update(value).digest('hex');
+function words(text) {
+  const result = []; let word = '', quote = '', started = false;
+  for (let i = 0; i < text.length; i++) {
+    const c = text[i];
+    if (c === '\\' && quote !== "'") {
+      const n = text[++i];
+      if (n === '\r' && text[i + 1] === '\n') { i++; continue; }
+      if (n === '\n') continue;
+      if (n === undefined) throw Error('Invalid quoted request');
+      word += n; started = true; continue;
+    }
+    if (quote) { if (c === quote) quote = ''; else word += c; started = true; continue; }
+    if (c === "'" || c === '"') { quote = c; started = true; continue; }
+    if (/\s/.test(c)) { if (started) result.push(word); word = ''; started = false; continue; }
+    word += c; started = true;
+  }
+  if (quote) throw Error('Invalid quoted request');
+  if (started) result.push(word);
+  return result;
+}
+function parseCurl(text) {
+  if (Buffer.byteLength(text) > 65536) throw Error('Request file too large');
+  const args = words(text); if (args.shift() !== 'curl') throw Error('Use Copy as cURL (bash)');
+  let url, method, body; const headers = {};
+  while (args.length) {
+    const option = args.shift();
+    if (option === '--compressed' || option === '--globoff') continue;
+    if (option === '--url') { if (url) throw Error('Unsupported copied request option'); url = args.shift(); continue; }
+    if (option === '-H' || option === '--header') {
+      const value = args.shift(); const colon = value?.indexOf(':') ?? -1;
+      if (colon < 1 || /[\r\n]/.test(value)) throw Error('Invalid request header');
+      const key = value.slice(0, colon).toLowerCase();
+      if (Object.hasOwn(headers, key)) throw Error('Duplicate header');
+      headers[key] = value.slice(colon + 1).trim(); continue;
+    }
+    if (option === '-X' || option === '--request') { method = args.shift(); continue; }
+    if (option === '--data-raw' || option === '--data' || option === '-d') {
+      if (body !== undefined) throw Error('Duplicate request body');
+      body = args.shift(); if (body?.startsWith('@')) throw Error('External body file refused'); continue;
+    }
+    if (option.startsWith('https://') && !url) { url = option; continue; }
+    throw Error('Unsupported copied request option');
+  }
+  return { url, method: method ?? (body === undefined ? 'GET' : 'POST'), headers, body };
+}
+function validate(request) {
+  if (request.url !== endpoint || request.method !== 'POST') throw Error('Staging role RPC required');
+  const body = JSON.parse(request.body);
+  if (Object.keys(body).length !== 1 || body.check_clinic_id !== clinic) throw Error('Exact synthetic clinic required');
+  const token = request.headers.authorization?.match(/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/)?.[1];
+  if (!token) throw Error('Original ordinary bearer required');
+  const claims = JSON.parse(Buffer.from(token.split('.')[1], 'base64url'));
+  if (claims.sub !== actor || claims.role !== 'authenticated' || claims.aal !== 'aal2') throw Error('Exact invited AAL2 actor required');
+  if (!Number.isInteger(claims.iat) || !Number.isInteger(claims.exp) || claims.exp <= claims.iat || typeof claims.session_id !== 'string' || !claims.session_id) throw Error('Original session timestamps required');
+  const apiKey = request.headers.apikey;
+  if (!apiKey || apiKey.startsWith('sb_secret_')) throw Error('Public client API key required');
+  if (apiKey.startsWith('eyJ') && JSON.parse(Buffer.from(apiKey.split('.')[1], 'base64url')).role !== 'anon') throw Error('Privileged API key refused');
+  if (!apiKey.startsWith('eyJ') && !apiKey.startsWith('sb_publishable_')) throw Error('Public client API key required');
+  const canonical = JSON.stringify({ ...request, headers: Object.fromEntries(Object.entries(request.headers).sort(([a], [b]) => a.localeCompare(b))) });
+  return { requestDigest: sha(canonical), jwtDigest: sha(token), issuedAt: claims.iat, expiresAt: claims.exp,
+    sessionDigest: sha(String(claims.session_id ?? '')), aal: claims.aal };
+}
+async function main() {
+  const mode = process.argv[2];
+  if (!['check', 'warm', 'replay', 'cleanup'].includes(mode)) throw Error('Use check, warm, replay or cleanup');
+  if (mode === 'cleanup') {
+    for (const file of [input, frozen]) fs.rmSync(file, { force: true });
+    const record = { privateFilesAbsent: !fs.existsSync(input) && !fs.existsSync(frozen) };
+    fs.writeFileSync(path.join(evidence, 'ordinary-request-cleanup.json'), JSON.stringify(record, null, 2));
+    console.log(JSON.stringify(record)); return;
+  }
+  const request = mode === 'warm' || mode === 'check' ? parseCurl(fs.readFileSync(input, 'utf8')) : JSON.parse(fs.readFileSync(frozen, 'utf8')).request;
+  const identity = validate(request);
+  if (mode === 'check') { console.log(JSON.stringify({ originalRequestValidated: true, ...identity, liveRequestExecuted: false })); return; }
+  if (mode === 'warm' && identity.expiresAt * 1000 <= Date.now()) throw Error('Original bearer already expired; no refresh performed');
+  if (mode === 'replay' && identity.requestDigest !== JSON.parse(fs.readFileSync(frozen, 'utf8')).requestDigest) throw Error('Frozen original request changed');
+  const response = await fetch(request.url, { method: request.method, headers: request.headers, body: request.body, redirect: 'error', signal: AbortSignal.timeout(20000) });
+  const text = await response.text(); let value;
+  try { value = JSON.parse(text); } catch { value = undefined; }
+  const authorized = response.status === 200 && value === 'receptionist';
+  const denied = [401, 403].includes(response.status) || (response.status === 200 && value === null);
+  const record = { candidate: 'e340ab2f6b247f85e597918afdef04eac48718fb', deployment: 'FUztXUJuW21ywfUm1AUJcmVbjvfC',
+    project: 'phihonofwyerpfgqfekt', capturedAt: new Date().toISOString(), mode, ...identity, httpStatus: response.status,
+    result: authorized ? 'receptionist' : value === null ? 'null' : 'withheld', responseDigest: sha(text), authorized, denied,
+    originalBearerExpiredAtExecution: identity.expiresAt * 1000 <= Date.now(), refreshUsed: false,
+    scope: 'Exact original staging role-RPC request and bearer; does not prove clinical write isolation or another endpoint' };
+  fs.writeFileSync(path.join(evidence, `ordinary-request-${mode}.json`), JSON.stringify(record, null, 2));
+  if (mode === 'warm' && authorized) fs.writeFileSync(frozen, JSON.stringify({ request, requestDigest: identity.requestDigest }), { mode: 0o600 });
+  console.log(JSON.stringify(record));
+  if ((mode === 'warm' && !authorized) || (mode === 'replay' && !denied)) process.exitCode = 2;
+}
+const safeErrors = new Set([
+  'Invalid quoted request', 'Request file too large', 'Use Copy as cURL (bash)',
+  'Invalid request header', 'Duplicate header', 'Duplicate request body', 'External body file refused',
+  'Unsupported copied request option', 'Staging role RPC required', 'Exact synthetic clinic required',
+  'Original ordinary bearer required', 'Exact invited AAL2 actor required', 'Original session timestamps required',
+  'Public client API key required', 'Privileged API key refused', 'Original bearer already expired; no refresh performed',
+  'Frozen original request changed', 'Use check, warm, replay or cleanup'
+]);
+if (require.main === module) main().catch(error => {
+  const reason = safeErrors.has(error?.message) ? error.message : error?.code === 'ENOENT' ? 'Required local file not found' : 'Malformed copied request or unavailable staging transport';
+  console.error(JSON.stringify({ verificationStopped: true, reason, credentialsPrinted: false, refreshUsed: false }));
+  process.exitCode = 1;
+});
+module.exports = { words, parseCurl, validate };

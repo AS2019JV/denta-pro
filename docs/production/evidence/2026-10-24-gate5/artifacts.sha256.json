@@ -1,0 +1,94 @@
+{
+  "algorithm": "SHA-256",
+  "bytes": "working-tree bytes; Git commit identity recorded separately",
+  "files": [
+    {
+      "path": ".gitignore",
+      "sha256": "41048b37a28bc62560e396b104ae9d1ec8135f34c54d88ce4ff644f47b192900"
+    },
+    {
+      "path": "app/api/clinical-documents/route.ts",
+      "sha256": "8786ba70f61b3517a575a1705ab84539febcb4332c55f4c5b3003fe7456a5472"
+    },
+    {
+      "path": "app/api/health/route.ts",
+      "sha256": "577cc91e54b8851b55444c99aa926a780d31ae17f4fc63a5fd460b1aacdfceef"
+    },
+    {
+      "path": "app/api/private-media/route.ts",
+      "sha256": "f936ba9d914aa5cb3ae264b573265b5c5ce08b194e4b2121469eadae4d7ed612"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/RESULTADO.md",
+      "sha256": "7dc158156e82fb417ea8a689ebde7add8bbe5e1efc8700d968bdad1cd5d533e0"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/delta-tests-final.txt",
+      "sha256": "3ce3ee67519df741ebe0952f7cf9858c89b71b78bac2ba91b3d9b194120c6564"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/final-checks.json",
+      "sha256": "9ef7d81baa19bebbe4f3b4de2db715bdd0dc8256061dc012cb9ddd2a1030ca84"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/independent-review.json",
+      "sha256": "462691090ad011c2bf6e217e289f3da3a07090b6673dc1139198a6d6a394b7bf"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/local-checks.json",
+      "sha256": "ccaad3f2a98d0f89160d3db803c488825dc92d9457349d0bbf2233ac6198f4e2"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/monitor-syntax.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/targeted-lint.txt",
+      "sha256": "cd3e2da705a618c9a11745f753a9ac408286b28ea9df243511b6f03e05b92dc4"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-24-gate5/targeted-tests.txt",
+      "sha256": "88b761a8da40037c3a595bac917c4431860d3cf9c4d7bd936880ee9c0d6b4d74"
+    },
+    {
+      "path": "docs/production/gate5/2026-10-24/RUNBOOK.md",
+      "sha256": "6bc8b65d6dfadee0a36d43941913b6d72e2ccb46fda1f0f8f8bb58a807e05515"
+    },
+    {
+      "path": "docs/production/gate5/2026-10-24/hosted-receipt.template.json",
+      "sha256": "595ba1cb2116fdad55f9a61d3948c60a17cc748b33ca0d13d32688f00f0a1b06"
+    },
+    {
+      "path": "docs/production/gate5/2026-10-24/monitor.example.json",
+      "sha256": "ffe838da605ce60ba2eb8d676aca7ef5befd79b53a34c25fb96b85bc4afdd764"
+    },
+    {
+      "path": "lib/logger.ts",
+      "sha256": "8de5b3d38db4aab02b553e7935468062137c297e009c5addc33ba18bae522c34"
+    },
+    {
+      "path": "lib/operational-observability.ts",
+      "sha256": "9ba9b0d4318a2081879db57bd8e7d2871af93d4cb2aaa8448c4617c4c28b8d03"
+    },
+    {
+      "path": "scripts/gate5-monitor.cjs",
+      "sha256": "1c7ce77b5812f3f8fbece33567008c3084d56e44a94b4936fb63dfe73b42f22f"
+    },
+    {
+      "path": "test/production/clinical-document-route.test.cjs",
+      "sha256": "f8fb81dbacbd0b246513dfc8e4b5b7e9e15386fff9a936af2a0e17ff71d80a83"
+    },
+    {
+      "path": "test/production/gate5-observability.test.cjs",
+      "sha256": "40ad785e8a5662c57b6c7f0fbb530f4c5688bc12bd9de0f3c15a0ac69e9ac672"
+    },
+    {
+      "path": "test/production/helpers/operational-observability.cjs",
+      "sha256": "7568d87050c266bd151e9333148e0c6126978bdaad7f295e9dbfefb774d09c95"
+    },
+    {
+      "path": "test/production/readiness-health.test.cjs",
+      "sha256": "87e00e8bd1e10bec22ebe7a1049ac362de6fed2f847c7507008413a1fd46971a"
+    }
+  ]
+}

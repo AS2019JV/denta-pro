@@ -1,0 +1,31 @@
+{
+  "project": "phihonofwyerpfgqfekt",
+  "query": "select now() as db_now,now()>i.expires_at as naturally_expired,i.id,i.status,i.auth_ready,i.email as invitation_email,i.role,i.clinic_id,i.invited_by,i.accepted_by,i.accepted_at,i.expires_at,encode(extensions.digest(i.token,'sha256'),'hex') as token_digest,u.id as recipient_id,u.email as auth_email,u.email_confirmed_at,u.deleted_at is null as auth_not_deleted,(u.banned_until is null or u.banned_until<=now()) as auth_not_banned,(select p.status::text from public.profiles p where p.id=u.id) as profile_status,(select p.deleted_at is null from public.profiles p where p.id=u.id) as profile_not_deleted,(select count(*) from public.clinic_members m where m.user_id=u.id) as membership_count,(select count(*) from public.clinics c where c.owner_id=u.id) as owned_clinic_count from public.clinic_invitations i join auth.users u on u.id='979d0bea-07c7-470f-b188-9c029d1a0701' where i.id='dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7'",
+  "rows": [
+    {
+      "db_now": "2026-10-24 06:14:10.329124+00",
+      "naturally_expired": true,
+      "id": "dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7",
+      "status": "pending",
+      "auth_ready": true,
+      "invitation_email": "invite-expiry-b@auth.cliniaplus.com",
+      "role": "receptionist",
+      "clinic_id": "38853304-adc0-4be7-bbae-b6b9fbf44a48",
+      "invited_by": "eaea20c5-e241-42ab-ab64-27306af2e0ac",
+      "accepted_by": null,
+      "accepted_at": null,
+      "expires_at": "2026-10-23 23:14:19.707469+00",
+      "token_digest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+      "recipient_id": "979d0bea-07c7-470f-b188-9c029d1a0701",
+      "auth_email": "invite-expiry-b@auth.cliniaplus.com",
+      "email_confirmed_at": "2026-10-18 02:40:43.383953+00",
+      "auth_not_deleted": true,
+      "auth_not_banned": true,
+      "profile_status": "active",
+      "profile_not_deleted": true,
+      "membership_count": 0,
+      "owned_clinic_count": 0
+    }
+  ],
+  "mutations": 0
+}

@@ -1,0 +1,29 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "checks": [
+    {
+      "route": "/auth/v1/user",
+      "method": "GET",
+      "httpStatus": 200,
+      "passed": true,
+      "responseDigest": "fbdf64891a11785a82eb0f5c3a0f7dbe779f20e106f75869cfeaf43fcce6d51b",
+      "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+      "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+      "refreshUsed": false,
+      "observedAt": "2026-10-24T16:03:40.751Z"
+    },
+    {
+      "route": "/rest/v1/rpc/clinia_session_active",
+      "method": "POST",
+      "httpStatus": 200,
+      "passed": true,
+      "responseDigest": "b5bea41b6c623f7c09f1bf24dcae58ebab3c0cdd90ad966bc43a45b44867e12b",
+      "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+      "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+      "refreshUsed": false,
+      "observedAt": "2026-10-24T16:03:41.200Z"
+    }
+  ],
+  "allPassed": true
+}

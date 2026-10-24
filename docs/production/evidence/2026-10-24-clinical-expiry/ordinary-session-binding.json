@@ -1,0 +1,24 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "recipientId": "979d0bea-07c7-470f-b188-9c029d1a0701",
+  "email": "invite-expiry-b@auth.cliniaplus.com",
+  "aal": "aal2",
+  "issuedAt": 1792856821,
+  "expiresAt": 1792860421,
+  "amr": [
+    {
+      "method": "totp",
+      "timestamp": 1792856821
+    },
+    {
+      "method": "password",
+      "timestamp": 1792856564
+    }
+  ],
+  "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+  "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+  "captureDigest": "cfc7fb680e74dcb785459c1c4f4e10519d0c4878c32db608e1a19634032d780a",
+  "refreshUsed": false,
+  "privilegedTraffic": false
+}

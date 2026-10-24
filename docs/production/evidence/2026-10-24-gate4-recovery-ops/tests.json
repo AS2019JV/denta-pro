@@ -1,0 +1,9 @@
+{
+  "status": "PASS",
+  "command": "node --test test/production/gate4-recovery-ops.test.cjs",
+  "tests": 13,
+  "passed": 13,
+  "failed": 0,
+  "scope": "Only new Gate4 policy/retention/metrics/contract/codec regressions; selective fixtures are synthetic decisions, not HTTP",
+  "reusedSuite430NotRepeated": true
+}

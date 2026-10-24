@@ -1,0 +1,43 @@
+{
+  "project": "phihonofwyerpfgqfekt",
+  "query": "select now() as db_now,now()>i.expires_at as naturally_expired,i.id,i.status,i.auth_ready,i.email as invitation_email,i.role,i.clinic_id,i.invited_by,i.accepted_by,i.accepted_at,i.expires_at,encode(extensions.digest(i.token,'sha256'),'hex') as token_digest,u.id as recipient_id,u.email as auth_email,u.email_confirmed_at,u.deleted_at is null as auth_not_deleted,(u.banned_until is null or u.banned_until<=now()) as auth_not_banned,u.is_anonymous is not true as auth_nonanonymous,p.status::text as profile_status,p.deleted_at is null as profile_not_deleted,(select count(*) from public.clinic_members m where m.user_id=u.id) as membership_count,(select count(*) from public.clinics x where x.owner_id=u.id) as owned_clinic_count,encode(extensions.digest(s.id::text,'sha256'),'hex') as session_digest,s.aal::text as session_aal,s.created_at as session_created_at,(s.id is not null and (s.not_after is null or s.not_after>now()) and u.deleted_at is null and u.is_anonymous is not true and (u.banned_until is null or u.banned_until<=now())) as exact_session_live,(s.created_at>'2026-10-24T06:14:10.329124Z'::timestamptz and exists(select 1 from auth.mfa_amr_claims a where a.session_id=s.id and a.authentication_method='password' and a.created_at>=s.created_at) and exists(select 1 from auth.mfa_amr_claims a where a.session_id=s.id and a.authentication_method='totp' and a.created_at>=s.created_at)) as fresh_password_totp,(select count(*) from auth.mfa_factors f where f.user_id=u.id and f.status='verified') as verified_factor_count,exists(select 1 from public.clinic_members m join public.profiles ip on ip.id=m.user_id join auth.users iu on iu.id=m.user_id where m.user_id=i.invited_by and m.clinic_id=i.clinic_id and m.role='clinic_owner' and m.status='active' and ip.status::text='active' and ip.deleted_at is null and iu.deleted_at is null and (iu.banned_until is null or iu.banned_until<=now())) as issuer_owner_active,(c.archived_at is null and (c.bypass_subscription is true or c.subscription_status::text='active' or c.trial_ends_at>now())) as clinic_usable,c.trial_ends_at,encode(extensions.digest(pg_get_functiondef('public.redeem_verified_clinic_invitation(text)'::regprocedure),'sha256'),'hex') as guard_digest,encode(extensions.digest(pg_get_functiondef('public.clinia_session_active()'::regprocedure),'sha256'),'hex') as session_active_digest,encode(extensions.digest(pg_get_functiondef('security_internal.lock_clinia_session()'::regprocedure),'sha256'),'hex') as session_lock_digest from public.clinic_invitations i join auth.users u on u.id='979d0bea-07c7-470f-b188-9c029d1a0701' join public.profiles p on p.id=u.id left join auth.sessions s on s.user_id=u.id and encode(extensions.digest(s.id::text,'sha256'),'hex')='dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637' join public.clinics c on c.id=i.clinic_id where i.id='dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7'",
+  "rows": [
+    {
+      "db_now": "2026-10-24 16:04:04.7208+00",
+      "naturally_expired": true,
+      "id": "dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7",
+      "status": "pending",
+      "auth_ready": true,
+      "invitation_email": "invite-expiry-b@auth.cliniaplus.com",
+      "role": "receptionist",
+      "clinic_id": "38853304-adc0-4be7-bbae-b6b9fbf44a48",
+      "invited_by": "eaea20c5-e241-42ab-ab64-27306af2e0ac",
+      "accepted_by": null,
+      "accepted_at": null,
+      "expires_at": "2026-10-23 23:14:19.707469+00",
+      "token_digest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+      "recipient_id": "979d0bea-07c7-470f-b188-9c029d1a0701",
+      "auth_email": "invite-expiry-b@auth.cliniaplus.com",
+      "email_confirmed_at": "2026-10-18 02:40:43.383953+00",
+      "auth_not_deleted": true,
+      "auth_not_banned": true,
+      "auth_nonanonymous": true,
+      "profile_status": "active",
+      "profile_not_deleted": true,
+      "membership_count": 0,
+      "owned_clinic_count": 0,
+      "session_digest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+      "session_aal": "aal2",
+      "session_created_at": "2026-10-24 15:42:44.258916+00",
+      "exact_session_live": true,
+      "fresh_password_totp": true,
+      "verified_factor_count": 1,
+      "issuer_owner_active": true,
+      "clinic_usable": true,
+      "trial_ends_at": "2026-10-27 02:32:21.890106+00",
+      "guard_digest": "adc8312bd72e5538646f9135a73ec590d4a85ad98510e1f1627966efc64974b8",
+      "session_active_digest": "76f32d7a45dc5ac8100500addb2d94fc0396b84a70cd179d1d7a562638a6d06e",
+      "session_lock_digest": "e3f27c8739f237ddeee40fc2d207566aca508931260bd1b56d95f65a57a01d28"
+    }
+  ]
+}

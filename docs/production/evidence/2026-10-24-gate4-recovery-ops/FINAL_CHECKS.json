@@ -1,0 +1,37 @@
+{
+  "status": "PASS_BOUNDED_FINAL_BRANCH_CHECKS",
+  "baseSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "resultSHA": "82b0452097164a5c88f496b1f16f68759161c33c",
+  "branch": "codex/gate4-recovery-ops",
+  "ownChangedFiles": 35,
+  "originalProfileGitBlobsVerified": 164,
+  "tests": {
+    "newGate4": 15,
+    "noOverwriteRuntime": 2,
+    "ancestorJunctionRuntime": 1
+  },
+  "whitespace": {
+    "defaultCheck": "Flagged CRLF as trailing whitespace; no source changed",
+    "windowsAwareCheck": "PASS with core.whitespace=cr-at-eol; per-command setting only"
+  },
+  "applicationFilesChanged": false,
+  "workflowsChanged": false,
+  "dependenciesChanged": false,
+  "remoteWrites": 0,
+  "stacksStarted": 0,
+  "uploads": 0,
+  "globalMatrixChanged": false,
+  "ci": {
+    "run": null,
+    "state": "NOT_RUN_KNOWN_BASE_VULNERABLE",
+    "baselineRun": "39987122895",
+    "baselineConclusion": "failure"
+  },
+  "protectedFixtureQueries": 0,
+  "limits": [
+    "No independent-device or offsite recovery",
+    "No current-source RPO",
+    "No final integrated application candidate received"
+  ],
+  "recordedAt": "2026-10-24T06:58:20.880Z"
+}

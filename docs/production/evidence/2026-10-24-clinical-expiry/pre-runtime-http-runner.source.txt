@@ -1,0 +1,79 @@
+'use strict';
+// Bounded staging expiry experiment. No admin traffic, login, token refresh, email or automatic retry.
+const fs=require('node:fs'),path=require('node:path'),crypto=require('node:crypto');
+const {parseCurl}=require('./expiry-curl-parser.cjs');
+const root=path.resolve(__dirname,'..'),dir=path.join(root,'docs/production/evidence/2026-10-24-clinical-expiry');
+const api='https://phihonofwyerpfgqfekt.supabase.co',uid='979d0bea-07c7-470f-b188-9c029d1a0701',email='invite-expiry-b@auth.cliniaplus.com';
+const invitation='dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7',tokenDigest='b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665';
+const baseSHA='5a7a24af57c645bfc1cf8c70594cc568e03a7176',deployment='DSCZLhuZTEpkMK34H4Y5uocJaUmp';
+const capture=path.join(__dirname,'expiry-recipient.private.curl'),frozen=path.join(__dirname,'expiry-frozen.private.json');
+const sha=x=>crypto.createHash('sha256').update(x).digest('hex'),read=p=>JSON.parse(fs.readFileSync(p,'utf8'));
+const save=(n,v)=>fs.writeFileSync(path.join(dir,n),JSON.stringify({baseSHA,deployment,...v},null,2)+'\n',{flag:'wx'});
+function ordinary(){
+ const f=read(frozen),b=fs.readFileSync(capture);
+ if(sha(b)!==f.captureDigest||f.claims.sub!==uid||f.claims.role!=='authenticated'||f.claims.aal!=='aal2'||f.claims.is_anonymous===true||f.claims.exp*1000<Date.now()+60000)throw Error('Original ordinary session not usable');
+ return f;
+}
+async function http(route,options={}){
+ if(!['/auth/v1/user','/rest/v1/rpc/clinia_session_active','/rest/v1/rpc/redeem_verified_clinic_invitation'].includes(route))throw Error('Route not in scope');
+ return fetch(api+route,{...options,redirect:'manual',signal:AbortSignal.timeout(20000)});
+}
+async function probe(f){
+ const checks=[];
+ for(const [route,method,body] of [['/auth/v1/user','GET',undefined],['/rest/v1/rpc/clinia_session_active','POST','{}']]){
+  const r=await http(route,{method,headers:f.headers,body}),raw=await r.text();let value;try{value=JSON.parse(raw);}catch{}
+  const passed=route==='/auth/v1/user'?r.status===200&&value?.id===uid&&value?.email===email&&!!value?.email_confirmed_at&&value?.is_anonymous!==true:r.status===200&&value===true;
+  checks.push({route,method,httpStatus:r.status,passed,responseDigest:sha(raw),jwtDigest:f.jwtDigest,sessionDigest:f.sessionDigest,refreshUsed:false,observedAt:new Date().toISOString()});
+  if(!passed)return{checks,allPassed:false};
+ }
+ return{checks,allPassed:true};
+}
+async function main(){
+ const mode=process.argv[2];
+ if(mode==='bind'){
+  if(fs.existsSync(frozen))throw Error('No overwrite of original session');
+  const b=fs.readFileSync(capture),r=parseCurl(b.toString('utf8'));
+  if(r.method!=='GET'||r.body!==undefined||r.url!==api+'/auth/v1/user')throw Error('Capture only GET auth/v1/user; never password token request');
+  if(r.headers.origin!=='https://v0-denta-hfccp41io-alesuav2001-gmailcoms-projects.vercel.app')throw Error('Capture must originate from the verified immutable Preview');
+  const token=r.headers.authorization?.match(/^Bearer ([A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+)$/)?.[1];if(!token)throw Error('Ordinary bearer missing');
+  const c=JSON.parse(Buffer.from(token.split('.')[1],'base64url'));
+  const started=Date.parse(read(path.join(dir,'clock-and-fixture-before.json')).rows[0].db_now)/1000;
+  if(c.sub!==uid||c.role!=='authenticated'||c.aal!=='aal2'||c.is_anonymous===true||!Number.isInteger(c.iat)||!Number.isInteger(c.exp)||c.iat<started||c.exp*1000<Date.now()+180000||typeof c.session_id!=='string'||!Array.isArray(c.amr)||!c.amr.some(x=>x.method==='password')||!c.amr.some(x=>x.method==='totp'))throw Error('Fresh exact password/TOTP ordinary session required');
+  const key=r.headers.apikey;if(!key||key.startsWith('sb_secret_'))throw Error('Public client key required');
+  if(key.startsWith('eyJ')){if(JSON.parse(Buffer.from(key.split('.')[1],'base64url')).role!=='anon')throw Error('Privileged client key refused');}
+  else if(!key.startsWith('sb_publishable_'))throw Error('Unknown client key');
+  const f={claims:c,headers:{authorization:'Bearer '+token,apikey:key,'Content-Type':'application/json'},captureDigest:sha(b),jwtDigest:sha(token),sessionDigest:sha(c.session_id)};
+  fs.writeFileSync(frozen,JSON.stringify(f),{mode:384,flag:'wx'});
+  save('ordinary-session-binding.json',{recipientId:uid,email,aal:c.aal,issuedAt:c.iat,expiresAt:c.exp,amr:c.amr,sessionDigest:f.sessionDigest,jwtDigest:f.jwtDigest,captureDigest:f.captureDigest,refreshUsed:false,privilegedTraffic:false});
+  console.log(JSON.stringify({bound:true,aal:c.aal,fresh:true}));return;
+ }
+ if(mode==='probe'){const p=await probe(ordinary());save('ordinary-live-probe.json',p);console.log(JSON.stringify({allPassed:p.allPassed}));if(!p.allPassed)process.exitCode=2;return;}
+ if(mode==='redeem'){
+  if(fs.existsSync(path.join(dir,'redemption-intent.json')))throw Error('No repeated negative attempt');
+  const s=read(path.join(dir,'immediate-before.json')).rows[0],f=ordinary();
+  if(Date.now()-Date.parse(s.db_now)>45000||Date.parse(s.db_now)>Date.now()+5000||!s.naturally_expired||s.status!=='pending'||s.token_digest!==tokenDigest||s.expires_at!=='2026-10-23 23:14:19.707469+00'||s.recipient_id!==uid||s.auth_email!==email||s.invitation_email!==email||!s.auth_ready||s.role!=='receptionist'||!s.auth_not_deleted||!s.auth_not_banned||s.profile_status!=='active'||!s.profile_not_deleted||s.membership_count!==0||s.owned_clinic_count!==0||s.session_digest!==f.sessionDigest||!s.exact_session_live||s.session_aal!=='aal2'||!s.fresh_password_totp||!s.issuer_owner_active||!s.clinic_usable)throw Error('Fresh complete independent expiry preconditions required');
+  const expected=read(path.join(dir,'live-guard-contracts.json')).rows.find(x=>x.signature==='redeem_verified_clinic_invitation(text)');
+  if(s.guard_digest!==sha(expected.definition))throw Error('Live guard changed');
+  const contracts=read(path.join(dir,'live-guard-contracts.json')).rows;
+  if(s.session_active_digest!==sha(contracts.find(x=>x.signature==='clinia_session_active()').definition)||s.session_lock_digest!==sha(contracts.find(x=>x.signature==='security_internal.lock_clinia_session()').definition))throw Error('Live session guards changed');
+  const t=read(path.join(__dirname,'expiry-token.private.json'));if(t.invitationId!==invitation||sha(t.token)!==tokenDigest)throw Error('Original token mismatch');
+  const p=await probe(f);save('immediate-live-probe.json',p);if(!p.allPassed)throw Error('Ordinary session denied before expiry; no redemption');
+  if(Date.now()-Date.parse(s.db_now)>45000)throw Error('Independent snapshot too old; no automatic retry');
+  const body=JSON.stringify({p_token:t.token}),route='/rest/v1/rpc/redeem_verified_clinic_invitation';
+  const requestDigest=sha(JSON.stringify({route,method:'POST',headers:f.headers,body}));
+  save('redemption-intent.json',{startedAt:new Date().toISOString(),invitationId:invitation,recipientId:uid,tokenDigest,jwtDigest:f.jwtDigest,sessionDigest:f.sessionDigest,requestDigest,refreshUsed:false});
+  const requestStartedAt=new Date().toISOString();if(Date.now()-Date.parse(s.db_now)>45000)throw Error('Snapshot aged before request; intent retained, no retry');
+  const r=await http(route,{method:'POST',headers:f.headers,body}),raw=await r.text();let v;try{v=JSON.parse(raw);}catch{}
+  const expectedDenied=r.status===403&&v?.code==='42501'&&v?.message==='Invitation denied';
+  save('redemption-http.json',{requestStartedAt,snapshotAgeAtRequestMs:Date.parse(requestStartedAt)-Date.parse(s.db_now),completedAt:new Date().toISOString(),httpStatus:r.status,sqlState:typeof v?.code==='string'?v.code:null,expectedDenied,expectedErrorMessage:expectedDenied?'Invitation denied':null,responseDigest:sha(raw),requestDigest,tokenDigest,jwtDigest:f.jwtDigest,sessionDigest:f.sessionDigest,refreshUsed:false,retries:0,clinicalAuthorityGranted:false});
+  console.log(JSON.stringify({httpStatus:r.status,expectedDenied}));if(!expectedDenied)process.exitCode=2;return;
+ }
+ if(mode==='cleanup'){
+  const names=['expiry-recipient.private.curl','expiry-frozen.private.json','expiry-token.private.json','expiry-custody-key.private.pem','expiry-custody-key.public.pem'];
+  for(const n of names)fs.rmSync(path.join(__dirname,n),{force:true});
+  save('private-cleanup.json',{capturedAt:new Date().toISOString(),files:names,allAbsent:names.every(n=>!fs.existsSync(path.join(__dirname,n))),temporaryPreviewAccessCreated:false,globalLogoutClaimed:false,refreshUsed:false});
+  console.log(JSON.stringify({allPrivateFilesAbsent:names.every(n=>!fs.existsSync(path.join(__dirname,n)))}));return;
+ }
+ throw Error('Unknown bounded mode');
+}
+main().catch(()=>{console.error(JSON.stringify({stopped:true,noCredentialsPrinted:true,noAutomaticRetry:true}));process.exitCode=1;});

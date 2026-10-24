@@ -1,0 +1,220 @@
+{
+  "gate": "Gate4",
+  "status": "BLOCKED",
+  "production": "NO-GO",
+  "baseSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "resultSHA": "82b0452097164a5c88f496b1f16f68759161c33c",
+  "resultSHAKind": "Exact implementation-and-evidence commit tested. A subsequent documentation-only commit carries this handoff/seal; it must not be treated as a new green application candidate.",
+  "branch": "codex/gate4-recovery-ops",
+  "published": false,
+  "worktree": "C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro",
+  "changedFiles": [
+    ".gitignore",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/COMANDOS.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/LUNA.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/RESULTADO.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/checkout-canonicalization.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/custody-no-overwrite-tests.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/execution-notes.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-01.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-02.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-junction-negative.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-catalog.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-copy.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.acl.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.timing.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.acl.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-input.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/retention-plan.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/reused-evidence.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests.json",
+    "docs/production/gate4-recovery-ops/RUNBOOK.md",
+    "docs/production/gate4-recovery-ops/custody-request.json",
+    "docs/production/gate4-recovery-ops/policy.proposed.json",
+    "scripts/clinia-gate4-custody.ps1",
+    "scripts/clinia-gate4-local-custody.cjs",
+    "scripts/clinia-gate4-recovery-kit.ps1",
+    "scripts/clinia-gate4-recovery-ops.cjs",
+    "scripts/clinia-gate4-scan.cjs",
+    "test/production/gate4-recovery-ops.test.cjs",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/handoff.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/FINAL_CHECKS.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/SEAL.json"
+  ],
+  "destinations": {
+    "newLocalArchive": ".gate4-private/archives/custody-01/baseline.aesgcm",
+    "separateLocalKey": ".gate4-private/keys/custody-01/baseline.key",
+    "kit": ".gate4-private/recovery-kit-02.zip",
+    "kitSha256": "fdb7546accd054f84abcf2512cf756464aca1878ba9949d492bde66e2f19c219",
+    "allOnSameComputer": true,
+    "offsite": null,
+    "backupCustodian": null,
+    "keyCustodian": null,
+    "independentRecoveryOperator": null,
+    "remoteTargetsUsed": [],
+    "dockerStacksStarted": []
+  },
+  "reusedCoverage": {
+    "exactProfileCandidate": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+    "manifestSha256": "e7fd596baeb1ca5c930639539cc87650d5e7fdcc8fa5a2041623d87131ce07e9",
+    "tables": 58,
+    "sequences": 3,
+    "cohorts": 35,
+    "invariantsZero": 27,
+    "originalMfaTotp": 2,
+    "storageBytes": 53,
+    "closedScopeSeconds": 130.356,
+    "restoreRepeated": false,
+    "currentSourceRpo": null,
+    "sourceReceipts": "reused-evidence.json",
+    "limits": "Closed captured synthetic snapshot only. No own-positive/selective-open application or offsite/SLA proof."
+  },
+  "closedGaps": [
+    "Executable conservative policy/evaluation and retention planning; targets remain proposed",
+    "NEW exclusive local ciphertext/key copy, original hashes/payloads preserved, owner/SYSTEM ACL verified",
+    "Authenticated dump/config/contracts/35cohorts/2original factor payloads/all53bytes; no new DB restore/login",
+    "Wrong-key/tamper/truncation and real no-overwrite/ancestor junction controls",
+    "Corrected local recovery kit176files, fresh extraction and164frozen-source hashes",
+    "Explicit operational blockers and minimum independent-custody owner actions"
+  ],
+  "commandsAndResults": [
+    {
+      "command": "node --test test/production/gate4-recovery-ops.test.cjs",
+      "result": "PASS15/15; only delta suite; original13 receipt preserved"
+    },
+    {
+      "command": "pwsh scripts/clinia-gate4-custody.ps1 -Mode Verify -Attempt custody-01 -ReceiptName local-final-verification.json",
+      "result": "PASS all local custody checks",
+      "seconds": 0.567
+    },
+    {
+      "command": "existing destination and receipt attempts",
+      "result": "EXPECTED_REFUSAL2/2; hashes unchanged"
+    },
+    {
+      "command": "Assert-KitNoReparse real synthetic ancestor junction",
+      "result": "EXPECTED_REFUSAL; ordinary path PASS"
+    },
+    {
+      "command": "pwsh scripts/clinia-gate4-recovery-kit.ps1 -KitId kit-02",
+      "result": "PASSZIP/extract/allhashes164profile sources",
+      "bytes": 1063384
+    },
+    {
+      "command": "operational policy evaluate",
+      "result": "BLOCKED expected; no operationalGO"
+    },
+    {
+      "command": "retention plan",
+      "result": "KEEP2/2; deletes0"
+    },
+    {
+      "command": "bounded public scanners",
+      "result": "PASS known synthetic secrets/raw key and existing credential rules; no full-audit claim"
+    },
+    {
+      "command": "exact committed profile blob comparison",
+      "result": "PASS164pins"
+    },
+    {
+      "command": "branchCI",
+      "result": "NOT_RUN; known vulnerable base; security/CI patch owned by another chat"
+    }
+  ],
+  "artifacts": [
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/checkout-canonicalization.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/COMANDOS.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/custody-no-overwrite-tests.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/execution-notes.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/FINAL_CHECKS.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-01.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-02.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-junction-negative.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-catalog.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-copy.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.acl.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.timing.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.acl.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/LUNA.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-input.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/RESULTADO.md",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/retention-plan.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/reused-evidence.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests-final.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests.json",
+    "docs/production/evidence/2026-10-24-gate4-recovery-ops/SEAL.json",
+    "docs/production/gate4-recovery-ops/RUNBOOK.md",
+    "docs/production/gate4-recovery-ops/policy.proposed.json",
+    "docs/production/gate4-recovery-ops/custody-request.json",
+    ".gate4-private/recovery-kit-02.zip"
+  ],
+  "metrics": {
+    "historicalClosedRestoreSeconds": 130.356,
+    "completeLocalCustodyVerificationSeconds": 0.567,
+    "localCustodyStart": "2026-10-24T06:45:06.0030856Z",
+    "localCustodyAllChecksCompleted": "2026-10-24T06:45:06.5745982Z",
+    "localCustodyIsNotRestoreRto": true,
+    "currentSourceRpo": null,
+    "productionRto": null,
+    "proposedRpoSeconds": 86400,
+    "proposedRtoSeconds": 14400,
+    "ownerApproved": false
+  },
+  "custody": {
+    "actual": "Restricted copies and logically separate key on SAME computer",
+    "offsite": false,
+    "independentCustodian": false,
+    "secondDevice": false,
+    "uploadAuthorized": false
+  },
+  "pending": [
+    "Coordinator final fullSHA/CI/environment/turn and reviewed positive application contract",
+    "Ordinary own-clinic allow, foreign/anon deny and private broker full/Range/no-store bytes in NEW isolated copy",
+    "Owner operational RPO/RTO, retention, representative volume and alert/acknowledgment decision",
+    "Authorized independent backup/key destinations, separate custodians and recovery operator",
+    "Independent-device recovery without this chat or original PC",
+    "Fresh authorized source proof for current RPO; complete operational app/Auth/MFA/config/allbytes scope",
+    "Provider roots/SMTP/OAuth/gateway/Realtime and qualified clinical/legal approvals where applicable"
+  ],
+  "userSteering": "Document final candidate and custody destination/custodians as pending.",
+  "review": {
+    "reviewer": "one Luna6",
+    "scope": "Final relevant Gate4 delta only",
+    "findings": 2,
+    "correctedByPrincipal": true,
+    "reReview": false,
+    "receipt": "docs/production/evidence/2026-10-24-gate4-recovery-ops/LUNA.md"
+  },
+  "boundaries": {
+    "productionMutation": false,
+    "sharedStagingMutation": false,
+    "quarantinedTestAccess": false,
+    "m7": false,
+    "grantsBroadened": false,
+    "ledgerRepair": false,
+    "protectedExpiryActorsTouched": false,
+    "otherChatReportsEdited": false,
+    "globalMatrixEdited": false
+  },
+  "limits": [
+    "Branch local only; no merge, no generalGO, no new greenCI claim",
+    "Decision inputs are assertions evaluated, not authenticated approval or authority to perform writes",
+    "Selective tests use synthetic input decisions, not actual applicationHTTP",
+    "Kit is supplement to exact checkout, excludes backup/key/images and is not offline full app recovery",
+    "Unchanged frozen files may appear in git status due Windows conversion/index filters; raw bytes and committed164source pins exact. They are not included as changes.",
+    "Copy authentication PASS and original factor payload preservation are not ordinaryMfaLogin or runtime recovery proof"
+  ]
+}

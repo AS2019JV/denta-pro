@@ -1,0 +1,32 @@
+{
+  "scope": "CAPTURED_SYNTHETIC_CLOSED_BASELINE",
+  "candidateSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "finalCandidateReceived": false,
+  "approvedCandidateSHA": null,
+  "ci": {
+    "sha": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+    "conclusion": "failure"
+  },
+  "environmentReceipt": null,
+  "backupCapturedAt": "2026-10-21T18:01:22.055Z",
+  "drillCompletedAt": "2026-10-23T16:25:33.155Z",
+  "recoveryStartedAt": "2026-10-23T16:23:22.799Z",
+  "allChecksCompletedAt": "2026-10-23T16:25:33.155Z",
+  "checks": {
+    "database": true,
+    "originalAuthMfa": true,
+    "configuration": true,
+    "allStorageBytes": true,
+    "catalogsAndSequences": true,
+    "ownClinicAllowed": false,
+    "foreignClinicDenied": false,
+    "anonymousDenied": false,
+    "privateDelivery": false
+  },
+  "checkBasis": "Historical p8 closed-scope only. Not a fresh integrated-candidate acceptance.",
+  "ordinaryAuthority": false,
+  "serviceRoleUsedForOrdinary": false,
+  "representativeVolume": false,
+  "independentRecovery": false,
+  "alertAcknowledged": false
+}

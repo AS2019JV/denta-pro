@@ -1,6 +1,16 @@
+**Vigente24oct2026 — integración RC v1 local, producción NO-GO.** Rama `codex/clinia-rc-20261024-v1`, base verde `5a7a24af57c645bfc1cf8c70594cc568e03a7176`. Gate4 integra solo los deltas82b0452+16754bb; Gate5 solo15cf5f2; Gate7 solo documentosbddad19. No merge de árboles902999c ni reemplazo de lockfile, controles de seguridad, workflows o matrices por históricos. SHA/árbol del RC se entregan en el envelope externo versionado `RC_HANDOFF.json`; no se llama FINAL y su CI/deployment propios aún son null, pendientes de autorización de publicación del sucesor. CI40003941444 SUCCESS433/433 y DSCZ Ready pertenecen exclusivamente a5a7a24a. [Recibos de integración](rc/2026-10-24-v1/integration-verification.json); [lectura para gates](rc/2026-10-24-v1/READ_FIRST.md).
+
+Caducidad negativa clínica **VERIFIED** en5a7/DSCZ, un solo intento403/42501; manifiesto conservado y fixture sin volver a consultar ni modificar. Step2 **PARTIAL**: clínica120/h, global1000/día y los demás criterios de Auth/correo pendientes no se cierran. Gate3 **BLOCKED**: parches/demo no acreditan migración, paridad, adopción alojada ni M7. Gate4 **BLOCKED** con preparación/custodia local histórica; Gate5 **BLOCKED** con código y96 regresiones afectadas locales PASS, tipos/lint PASS; Gate7 **NOT VERIFIED** en RC y aceptación humana pendiente. Incidente de custodia de staging ABIERTO sin contención/revocación demostrada; descarga privada histórica FAIL/BLOCKED. No se suman96+433 ni p8/restores/recibos solapados como pruebas distintas. Production intacta; clinia-test/M7 sigue en cuarentena.
+
+Los checkpoints inferiores conservan su fecha/candidato; el antiguo pendiente de caducidad y la CI vulnerable son históricos y quedan supersedidos en su alcance por esta entrada. No se hereda aceptación alojada al RC.
+
 # Clinia+ — Matriz de cierre por comportamiento
 
 Fecha de inicio: 28-09-2026. **Estado global: NO-GO clínico.**
+
+Actualización23oct2026: [entrega de parches y demostración real](evidence/2026-10-23-security-patches-functional/RESULTADO.md).5a7a24a/CI40003941444 SUCCESS433/433/PreviewDSCZ Ready: dependencias y CI PASS; recorridos MFA/rol/paciente consultado/cita persistida/subida privada/PDF/denegación ajena PASS acotados. Descarga privada FAIL/BLOCKED; incidente privilegiado de staging abierto y sin revocación. Gate3 BLOCKED, Step2 PARTIAL, aceptación clínica/privacidad y gates operativos pendientes; Production NO-GO. No se hereda aceptación alojada ni se reabre clinia-test/M7. Las versiones anteriores de esta matriz están preservadas por hash en la nueva carpeta de evidencia.
+
+Actualización09/10-10: [matriz vigente de siete gates](PRODUCTION_ACCEPTANCE_2026-10-07.md). Paso1 PASS sobre b7a0f2f/FQUrCboN1, acceso temporal revocado y producción intacta. Los seis gates restantes siguen BLOCKED con componentes verificados explícitos; las filas históricas no sustituyen la evidencia del candidato actual.
 
 Actualización04-10: [Production Acceptance Matrix vigente](CANDIDATE_READINESS_2026-10-04.md). La arquitectura de entrega clínica por servidor y sus controles son pruebas locales; todavía no cierran el P1 de URLs cacheadas ni los gates externos. Esta matriz histórica conserva su evidencia y no equivale a aprobación clínica/privacidad.
 
@@ -61,4 +71,10 @@ Evidencia actual: [progreso](IMPLEMENTATION_PROGRESS.md), [convergencia/autorida
 | Operación y autorización de producción | Titular designa operador, aprobador y contacto de incidentes | 14A/15B |
 
 Una firma o aprobación solo se registra cuando existe. El estado cambia por evidencia y alcance, no por porcentaje de avance.
+
+## Delta Gate3 —23oct2026
+
+[Expediente de recuperación](evidence/2026-10-22-gate3-recovery-profile/RESULTADO.md): perfil902999c/manifest9a79e0…6074. PASS local del backup sintético congelado:58tablas/3secuencias,2TOTP originales,53bytes,27invariantes y fallo antesCOMMIT;130.356s del alcance cerrado. API clínica y objeto Storage continúan denegados en baseline cerrado, sin positivo propio/aislamiento selectivo abierto. No equivale a aceptación alojada ni RPO0 actual.
+
+430/430 pruebas locales PASS; CI propia39987122895 FAILURE por avisos críticos de dos dependencias heredadas, Next15.5.26 y DOMPurify3.4.16. Gate3BLOCKED, Step2PARTIAL, producciónNO-GO; no cambios alojados/M7/apertura/ledger ni aceptaciónB. Backups/clave,61artefactos21oct y49volúmenes previos conservados. Los estados generales anteriores no se elevan por este ensayo acotado. Siguiente acción: candidato separado para corregir dependencias y recuperar CI verde sin excepciones.
 

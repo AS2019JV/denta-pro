@@ -1,0 +1,11 @@
+{
+  "gate": "Step2 clinical invitation expiry only",
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "branch": "codex/step2-clinical-expiry-20261024",
+  "worktree": "C:/Users/aleja/.codex/worktrees/clinia-invitation-expiry/denta-pro",
+  "browserExclusiveTurn": "User confirmed Sí, turno exclusivo ahora",
+  "temporaryPreviewAccessAuthorized": false,
+  "configurationOrDdlChangesAuthorized": false,
+  "ordinaryNegativeRedemptionOnly": true,
+  "globalMatrixEditing": false
+}

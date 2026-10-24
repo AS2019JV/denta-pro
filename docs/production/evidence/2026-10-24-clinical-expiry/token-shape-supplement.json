@@ -1,0 +1,15 @@
+{
+  "query": "select now() as db_now,i.id,length(i.token) as original_token_length,(select count(*) from public.clinic_invitations x where x.token=i.token) as matching_original_token_rows,encode(extensions.digest(i.token,'sha256'),'hex') as token_digest,i.status,i.expires_at from public.clinic_invitations i where i.id='dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7'",
+  "rows": [
+    {
+      "db_now": "2026-10-24 16:09:34.992706+00",
+      "id": "dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7",
+      "original_token_length": 56,
+      "matching_original_token_rows": 1,
+      "token_digest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+      "status": "pending",
+      "expires_at": "2026-10-23 23:14:19.707469+00"
+    }
+  ],
+  "scope": "Read-only supplementary token format/unique lookup verification after HTTP; same original digest binds unchanged capability to the prior request. No second redemption."
+}

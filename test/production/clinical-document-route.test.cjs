@@ -4,6 +4,7 @@ const fs = require('node:fs')
 const path = require('node:path')
 const vm = require('node:vm')
 const ts = require('typescript')
+const observability = require('./helpers/operational-observability.cjs').loadObservability()
 
 // Execute the actual route and delivery handler. Only Auth/database/S3 providers
 // are simulated: these application integration contracts are not hosted RLS proof.
@@ -101,6 +102,7 @@ async function harness(options = {}) {
     fetch: async () => { throw new Error('Unexpected direct HTTP transport') },
     require(name) {
       if (name === 'server-only') return {}
+      if (name === '@/lib/operational-observability') return observability
       if (name === '@/lib/env') return { env: { NEXT_PUBLIC_APP_URL: origin, NEXT_PUBLIC_SUPABASE_URL: provider, NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-anon' } }
       if (name === '@/lib/clinical-document-delivery.mjs') return delivery
       if (name === '@/lib/clinical-document-principal.mjs') return principalCache

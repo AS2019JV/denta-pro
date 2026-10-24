@@ -5,6 +5,7 @@ import { cookies } from 'next/headers'
 import { documentDeliveryHandler, type DocumentScope } from '@/lib/clinical-document-delivery.mjs'
 import { deliveryTokenCache } from '@/lib/clinical-document-principal.mjs'
 import { env } from '@/lib/env'
+import { observeResponse } from '@/lib/operational-observability'
 import { downloadStorageOrigin } from '@/lib/storage-origin'
 
 export const dynamic = 'force-dynamic'
@@ -13,6 +14,10 @@ export const maxDuration = 30
 const deliveryToken = deliveryTokenCache()
 
 export async function POST(request: Request) {
+  return observeResponse('clinical-document', () => handlePost(request))
+}
+
+async function handlePost(request: Request) {
   // Per request: neither caller authority nor clinical bytes are shared/cached.
   let delivery: SupabaseClient | null = null
   let transportToken: string | null = null

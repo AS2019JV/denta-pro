@@ -1,0 +1,17 @@
+{
+  "status": "PASS_LOCAL_KIT_ZIP_EXTRACT_AND_HASHES",
+  "kitId": "kit-01",
+  "recordedAt": "2026-10-24T06:49:33.5299105Z",
+  "path": ".gate4-private/recovery-kit-01.zip",
+  "zipSha256": "4f231b22f3d6dceac42f6e8fed2b62e9dc7eaf93ddd100b2709b5e4b3c89c31f",
+  "bytes": 1062860,
+  "sourceFiles": 176,
+  "frozenPackageSources": 164,
+  "backupIncluded": false,
+  "keyIncluded": false,
+  "imagesIncluded": false,
+  "sameComputer": true,
+  "offsite": false,
+  "independentRecovery": false,
+  "independentDeviceTest": false
+}

@@ -1,0 +1,16 @@
+{
+  "oldSHA": "627ff7a4c6ccabcd7fb718846c4f4f926046b5eb",
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "unchangedSelectedHandlers": true,
+  "handlerDiffCommand": "git diff --name-status 627ff7a4c6ccabcd7fb718846c4f4f926046b5eb 5a7a24af57c645bfc1cf8c70594cc568e03a7176 -- lib/verified-enrollment.ts app/actions/complete-verified-enrollment.ts app/actions/invite-member.ts app/auth/confirm/page.tsx components/auth-context.tsx middleware.ts supabase/migrations/20261002180800_trusted_enrollment.sql",
+  "liveContracts": [
+    {
+      "signature": "redeem_verified_clinic_invitation(text)",
+      "oldDigest": "adc8312bd72e5538646f9135a73ec590d4a85ad98510e1f1627966efc64974b8",
+      "currentDigest": "adc8312bd72e5538646f9135a73ec590d4a85ad98510e1f1627966efc64974b8",
+      "identical": true
+    }
+  ],
+  "runtimeAcceptanceTransferred": false,
+  "preservedEvidence": "Historical recipient preparation, identity, digest/expiry and unchanged selected enrollment sources. Fresh ordinary session and runtime still required."
+}

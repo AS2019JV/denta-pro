@@ -1,0 +1,8 @@
+{
+  "status": "PASS_REAL_ANCESTOR_JUNCTION_NEGATIVE",
+  "syntheticOnly": true,
+  "ordinaryPathAccepted": true,
+  "ancestorJunctionRejected": true,
+  "filesDeleted": 0,
+  "sourceBackupTouched": false
+}

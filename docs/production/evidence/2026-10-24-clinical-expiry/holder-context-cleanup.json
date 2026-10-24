@@ -1,0 +1,12 @@
+{
+  "holderReported": "ventana cerrada",
+  "onlyExpiryRecipientIncognitoRequested": true,
+  "clipboardReplacementRequested": true,
+  "holderAcknowledgedCombinedCleanup": true,
+  "clipboardContentIndependentlyRead": false,
+  "globalLogoutClaimed": false,
+  "ordinarySessionsAdministrativelyRevoked": false,
+  "temporaryPreviewAccessCreated": false,
+  "temporaryPreviewAccessRevoked": "N/A",
+  "otherAccessChanged": false
+}

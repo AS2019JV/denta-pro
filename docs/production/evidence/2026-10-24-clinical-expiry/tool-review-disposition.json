@@ -1,0 +1,13 @@
+{
+  "plaintextConnectorTransport": {
+    "blockedBeforeExecution": true,
+    "reason": "Plaintext clinical capability in Node connector request would expose it to that connector",
+    "resolvedBy": "Holder copied original link directly to ignored local file; local harness read it without capability in connector/command arguments"
+  },
+  "privateFileCreation": {
+    "unsafeOverwriteBlocked": true,
+    "resolvedBy": "Read-only existence check and atomic CreateNew; no existing custody overwritten"
+  },
+  "noSecurityProtectionWeakened": true,
+  "noClinicalLinkOpened": true
+}

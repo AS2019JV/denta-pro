@@ -30,3 +30,8 @@ next-env.d.ts
 /.playwright-cli/
 /.next-clinia-acceptance/
 /.release-snapshots/
+
+# Isolated RC gate-private state (no credentials in Git)
+.gate4-private/
+.gate5-private/
+.rc-private/

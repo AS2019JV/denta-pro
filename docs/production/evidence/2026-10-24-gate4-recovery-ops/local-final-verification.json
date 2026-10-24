@@ -1,0 +1,40 @@
+{
+  "mode": "verify",
+  "attempt": "custody-01",
+  "startedAt": "2026-10-24T06:45:06.459Z",
+  "sourceModified": false,
+  "offsite": false,
+  "independentCustody": false,
+  "plaintextPersisted": false,
+  "remoteOperations": 0,
+  "sourceRestore": false,
+  "scope": "LOCAL_NEW_COPY_AUTHENTICATION_ONLY_NOT_RECOVERY_RTO_OR_CURRENT_RPO",
+  "payload": {
+    "authenticatedBeforeParse": true,
+    "capturedAt": "2026-10-21T18:01:22.055Z",
+    "databaseBytes": 490818,
+    "databaseSha256": "e78df7646b06eb479c0d0645cc27cca647dd88f41b0c2ef959701b68d66de7e0",
+    "originalFactorPayloads": 2,
+    "cohorts": 35,
+    "objects": [
+      {
+        "bytes": 53,
+        "sha256": "9243683ff3a5244ecd69af270e55f3ec9eb598125d629c6b0711c46240a4f698"
+      }
+    ],
+    "configurationPayloadPreserved": true,
+    "managedAndApplicationContractsPreserved": true,
+    "databaseRestoreExecuted": false,
+    "ordinaryMfaLoginExecuted": false,
+    "applicationRecovery": false
+  },
+  "negativeControls": {
+    "wrongKeyRejected": true,
+    "tamperRejected": true,
+    "truncationRejected": true
+  },
+  "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+  "completedAt": "2026-10-24T06:45:06.474Z",
+  "localCopyCheckSeconds": 0.013,
+  "status": "PASS_LOCAL_CIPHERTEXT_KEY_COPY_AND_PAYLOAD_AUTHENTICATION"
+}

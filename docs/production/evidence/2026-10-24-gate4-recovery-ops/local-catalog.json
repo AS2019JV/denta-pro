@@ -1,0 +1,20 @@
+[
+  {
+    "id": "original-20261021",
+    "capturedAt": "2026-10-21T18:01:22.055Z",
+    "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+    "verified": true,
+    "independentCopyVerified": false,
+    "keyRecoveryVerified": false,
+    "hold": true
+  },
+  {
+    "id": "gate4-custody-01",
+    "capturedAt": "2026-10-21T18:01:22.055Z",
+    "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+    "verified": true,
+    "independentCopyVerified": false,
+    "keyRecoveryVerified": false,
+    "hold": true
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "environment": "isolated-preview",
+  "exclusive": true,
+  "originKind": "immutable-deployment",
+  "aliasAuthorizationRef": null,
+  "candidateSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "deploymentId": null,
+  "origin": null,
+  "ci": { "headSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2", "runId": "39987122895", "conclusion": "failure" },
+  "ownerRef": null,
+  "providerRef": null,
+  "recipientRef": null,
+  "channelRef": null,
+  "authorizationRef": null,
+  "windowStart": null,
+  "windowEnd": null,
+  "policy": { "intervalMs": 60000, "failureThreshold": 3, "recoveryThreshold": 2, "timeoutMs": 5000 }
+}

@@ -5,12 +5,17 @@ import { cookies } from 'next/headers'
 import { privateMediaDeliveryHandler, ordinaryPrivateMediaAuthority } from '@/lib/private-media-delivery.mjs'
 import { downloadPrivateMedia } from '@/lib/private-media-transport'
 import { env } from '@/lib/env'
+import { observeResponse } from '@/lib/operational-observability'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
 export const maxDuration = 30
 
 export async function POST(request: Request) {
+  return observeResponse('private-media', () => handlePost(request))
+}
+
+async function handlePost(request: Request) {
   let caller: SupabaseClient | null = null
   let explicitBearer: string | null = null
   const handler = privateMediaDeliveryHandler({

@@ -1,0 +1,11 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "runId": 40003941444,
+  "status": "completed",
+  "conclusion": "success",
+  "event": "workflow_dispatch",
+  "source": "gh run view --json headSha,conclusion,status,event,url",
+  "failedHandoffSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "failedHandoffRun": 39987122895,
+  "acceptanceTransferred": false
+}

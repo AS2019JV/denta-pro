@@ -1,0 +1,12 @@
+{
+  "allSnapshotFieldsExceptClockUnchanged": true,
+  "changedFields": [],
+  "naturallyExpired": true,
+  "invitationStillPending": true,
+  "noAcceptedIdentity": true,
+  "noMembershipsOrOwnedClinics": true,
+  "originalTokenAndExpiryUnchanged": true,
+  "sameOrdinarySessionStillLive": true,
+  "threeGuardDigestsUnchanged": true,
+  "isolatedExpiredPredicateIsFirstFailedGuard": true
+}

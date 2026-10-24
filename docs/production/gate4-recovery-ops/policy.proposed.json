@@ -1,0 +1,57 @@
+{
+  "version": 1,
+  "gate": "Gate4",
+  "baseSHA": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+  "state": "PROPOSED_NOT_APPROVED",
+  "approval": null,
+  "objectives": {
+    "rpoSeconds": 86400,
+    "rtoSeconds": 14400,
+    "maxBackupAgeSeconds": 86400,
+    "maxRestoreDrillAgeSeconds": 2592000,
+    "basis": "Technical proposal for owner review; synthetic 53-byte evidence cannot size a production SLA"
+  },
+  "schedule": {
+    "timezone": "America/Guayaquil",
+    "capture": "Daily 02:00 after approved consistent snapshot/quiescence barrier",
+    "restoreDrill": "Monthly and after material recovery-contract changes",
+    "installed": false
+  },
+  "retention": {
+    "daily": 7,
+    "weekly": 4,
+    "monthly": 3,
+    "minimumVerifiedIndependentCopies": 2,
+    "deleteEnabled": false,
+    "clinicalRecordRetentionDecision": null
+  },
+  "custody": {
+    "backupLocation": null,
+    "backupCustodian": null,
+    "keyLocation": null,
+    "keyCustodian": null,
+    "independentRecoveryOperator": null,
+    "offsiteAuthorization": null,
+    "offsiteReceipt": null
+  },
+  "backupContract": {
+    "cipher": "Existing CLINIA-RECOVERY-AES256GCM-V1 codec; authenticate before parse",
+    "keyBytes": 32,
+    "sourceOverwrite": false,
+    "remoteCaptureAuthorized": false,
+    "components": ["database", "originalAuthMfa", "configuration", "allStorageBytes", "catalogsAndSequences"],
+    "consistency": "Snapshot identity plus exact per-table and per-object proof; capture times and writer boundary required",
+    "rotation": "New key per new capture; retain each old key while any corresponding archive is retained",
+    "alerts": "Decision file only. Owner must approve destination and acknowledge before monitor activation"
+  },
+  "recoveryContract": {
+    "freshTargetOnly": true,
+    "retryIndeterminateCommit": false,
+    "preserveOriginalFactors": true,
+    "ordinaryPositiveOwnClinicRequired": true,
+    "ordinaryForeignClinicDenyRequired": true,
+    "privateDeliveryAllBytesRequired": true,
+    "serviceRoleCountsAsOrdinary": false,
+    "targetReconciliation": "Before commit compare complete catalog and rows; after indeterminate commit stop and reconcile read-only; after sequences/bytes failure use another NEW target"
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "safeFailures": [
+    {
+      "phase": "Package preflight",
+      "result": "FAIL_CRLF; corrected 164-source package from exact Git blobs in own worktree; manifest now PASS"
+    },
+    {
+      "phase": "Custody parameter validation",
+      "result": "Rejected receipt without .json before any copy"
+    },
+    {
+      "phase": "Custody wrapper final receipt",
+      "result": "COPY_AUTHENTICATION_PASS but ACL-receipt write failed because Set-Content lacks NoClobber; first receipt preserved; fixed CreateNew then read-only verification PASS"
+    }
+  ],
+  "docker": {
+    "version": "29.8.0",
+    "context": "desktop-linux",
+    "endpoint": "Local Desktop Linux named pipe verified",
+    "runningContainers": 0,
+    "stacksStarted": 0,
+    "volumesMutated": 0
+  },
+  "remoteActions": 0,
+  "uploads": 0,
+  "sourceModified": false,
+  "globalMatrixModified": false,
+  "userDecision": "Record final coordinator candidate and independent custody destinations/custodians as pending"
+}

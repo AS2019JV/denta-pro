@@ -1,0 +1,17 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "capturedAt": "2026-10-24T16:04:06.879Z",
+  "files": [
+    "expiry-recipient.private.curl",
+    "expiry-frozen.private.json",
+    "expiry-token.private.json",
+    "expiry-custody-key.private.pem",
+    "expiry-custody-key.public.pem",
+    "expiry-original-link.private.txt"
+  ],
+  "allAbsent": true,
+  "temporaryPreviewAccessCreated": false,
+  "globalLogoutClaimed": false,
+  "refreshUsed": false
+}

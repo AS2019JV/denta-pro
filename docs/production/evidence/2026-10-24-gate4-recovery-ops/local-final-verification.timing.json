@@ -1,0 +1,13 @@
+{
+  "status": "PASS_COMPLETE_LOCAL_CUSTODY_VERIFICATION",
+  "attempt": "custody-01",
+  "startedAt": "2026-10-24T06:45:06.0030856Z",
+  "allChecksCompletedAt": "2026-10-24T06:45:06.5745982Z",
+  "elapsedSeconds": 0.567,
+  "scope": "Own-worktree guard, ACLs, ciphertext authentication, dump and all captured byte hashes, original-factor payload preservation, negative crypto controls, ACL recheck and receipt",
+  "databaseRestore": false,
+  "applicationRuntime": false,
+  "productionRto": null,
+  "currentSourceRpo": null,
+  "offsite": false
+}

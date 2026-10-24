@@ -1,0 +1,734 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "protectedDirectories": [
+    "supabase/migrations",
+    "docs/production/migration-package",
+    "docs/production/recovery-profile"
+  ],
+  "sourcePins": [
+    {
+      "path": "supabase/migrations/20231123_auto_create_profile.sql",
+      "blobSHA": "c67a30dd962f0cdec050a49bfa1c880a9426c4da",
+      "sha256": "37a3fb483a43ac96b4cab481821cae3f49e6216a4cf3733e74e0effccb7413f7"
+    },
+    {
+      "path": "supabase/migrations/20251214_billing_enhancements.sql",
+      "blobSHA": "ed2a876a4020eddf8ae0f338dc19b10fc53e0b8d",
+      "sha256": "30a43241d339e42fa31e7a76a2c8563222f66cacf9fd25048e4f5ff551469fed"
+    },
+    {
+      "path": "supabase/migrations/20251215_add_patient_columns.sql",
+      "blobSHA": "e0e7f467cf4242b13a65901df6b8c620b7cdac5a",
+      "sha256": "6eed433565683f058b379b3a0ddc5d28712bd2e66bb6af443960658625074464"
+    },
+    {
+      "path": "supabase/migrations/20251215_fix_patient_uniqueness.sql",
+      "blobSHA": "399d95554da661b3f4451ad0bb0c5016a9225161",
+      "sha256": "741091b452fd7a7e728c96edb687239a839d0f637f24eb7359e30f24f8b6faeb"
+    },
+    {
+      "path": "supabase/migrations/20251215_multi_clinic_support.sql",
+      "blobSHA": "db85880129dc5a679d611a53d502449a1cfbe53d",
+      "sha256": "b1bc9ccfbd15d923ab6000953bf14fa9f2247ca237ac77c2fc47d8a361b06815"
+    },
+    {
+      "path": "supabase/migrations/20251216_clinic_invitations.sql",
+      "blobSHA": "aa7bb343f65ceb884eca73f6c9badb2fd96eb832",
+      "sha256": "f8af3707f264f19a55da2bff6a64ce7924c3ab321cfbaa472f8ef0815919ac73"
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_audit_triggers.sql",
+      "blobSHA": "e7f56e78c8390a238992d0cd859ca0fe1516eee7",
+      "sha256": "8059d4f60680d0d1472b0ad063d7804e5d927d03a4b3fba4422594fb905eadcc"
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_functions.sql",
+      "blobSHA": "eb04d1dbae486a37549d1dddd05b28238be47b1d",
+      "sha256": "dab9db6799afd782380d52a77c6275c322ea895aeed6d9d5e95aa03b78c45aa1"
+    },
+    {
+      "path": "supabase/migrations/20251218_saas_schema.sql",
+      "blobSHA": "113f13353af69b7c53bb4e7f69d2d7d73f84039f",
+      "sha256": "756af9f6cb44d54171a42bbeafa6071dd9d0b8fc3e2160a7c16e9b3a26795e96"
+    },
+    {
+      "path": "supabase/migrations/20251219_add_clinic_metadata.sql",
+      "blobSHA": "680c6692444d084ef70943d489446dcf690e32e0",
+      "sha256": "b486fa51d28e009c0f7c9607fa3a0672bef8369ca1cb1f1a9a3bddb6c732108a"
+    },
+    {
+      "path": "supabase/migrations/20251219_allow_create_clinic.sql",
+      "blobSHA": "02a3fe8414e30038ef97132a5edfc1963fa758fc",
+      "sha256": "d71510c652f508215971856e10442e0ba00f22384a7d29fb9ce9f477f35803bf"
+    },
+    {
+      "path": "supabase/migrations/20251219_genesis_flow.sql",
+      "blobSHA": "7781e12d0f5c696604aa646b51472eff9b71469b",
+      "sha256": "f2064ef0d7e1b10f3529dbbc6ab9750903c0f80d455530262b8eddfd3137f5e1"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_disclaimer_text.sql",
+      "blobSHA": "fa9022baed2ce252cc8e049210b0f5e64e0bd99a",
+      "sha256": "e0cd594f95cd3239b881d7f32fbc0e5e83062607551247b613351655ab9a08a5"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_medical_alerts.sql",
+      "blobSHA": "e6cce251528edab854a6acb54534be4ad9b07803",
+      "sha256": "d7569627ca6f787b80a5e0cd977db7593d96ec0832d7721a00936c353d2b1949"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_odontogram_state.sql",
+      "blobSHA": "500aa295621f016a42e2d3dc0a8bba2f7b97dc7e",
+      "sha256": "9061c1188531d2d62381180dd33160ed64d9254d4fb373f5ae33a134cc79e31f"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_periodontogram_state.sql",
+      "blobSHA": "0085eb027a34f61fa9d3317003c7a8f99f0bff6f",
+      "sha256": "3d2eac6a39ad4c50ef95cd7835641143faf7db95fb13a88616d4b458aafc84b6"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_trial_support.sql",
+      "blobSHA": "2d0a708485ab92befdd0f7ea48bb9f6dc9cbc0a7",
+      "sha256": "4a6f601e1c15aafe0619061092c71973e74b2451768dfc0b5d65ac1a298ee555"
+    },
+    {
+      "path": "supabase/migrations/20251222_add_working_hours.sql",
+      "blobSHA": "c9db7fbb816a750f5ca8138fd56947933aec2609",
+      "sha256": "003f4fe5872b65fbbf500aa9c1abc0aca04ac80c0b9ab953113154c9d966199e"
+    },
+    {
+      "path": "supabase/migrations/20251222_create_recall_queue_view.sql",
+      "blobSHA": "651037bb8016d7f38473271cbf7852cda7dbc1ab",
+      "sha256": "20c00847f3f0757231d9fde9fd122a65301e7e51ffa0dcd15162301fa2a53a21"
+    },
+    {
+      "path": "supabase/migrations/20251222_create_storage_branding.sql",
+      "blobSHA": "88d56be23264bcaaf94e2892e3f6ac013c3e4d1e",
+      "sha256": "6e9e8692cc876f5662070f0bc1f604fd387dc2a4db9ec0fc06f458ffb5a22939"
+    },
+    {
+      "path": "supabase/migrations/20251222_enforce_enums.sql",
+      "blobSHA": "1846000c2b952ecfe522bd6a7c698546b1fe3f44",
+      "sha256": "f26aabe4aa9a3c25eefde42a5f5e3934ff2bbb20db008f216f99d973e26559da"
+    },
+    {
+      "path": "supabase/migrations/20251222_fix_permissions.sql",
+      "blobSHA": "f3cfef5b1f3a9b017bcb77c4e070385054f0e1ff",
+      "sha256": "f3549fb2ef578a14e57ce5f2fd7004b40608f6d12590c5fbd5a0605855dcd44e"
+    },
+    {
+      "path": "supabase/migrations/20251227_audit_read_beacon.sql",
+      "blobSHA": "88413318c595e654c5218d2463c180a5ad659dca",
+      "sha256": "2d94dbf8e1297648f065ee85a57afdfa5e5a9211e02b081b23ee51ba27344acc"
+    },
+    {
+      "path": "supabase/migrations/20251227_data_retention_lifecycle.sql",
+      "blobSHA": "4a2ff8028f46cc6b747ddf8e92f668977457ff69",
+      "sha256": "a665fc5649fb4fdb45f88f02e36d9967c2a81b7e6daaae65a60bdfe564b03398"
+    },
+    {
+      "path": "supabase/migrations/20251227_enforce_subscription_rls.sql",
+      "blobSHA": "56c851500c5c4771407b873575d6a9abda48b516",
+      "sha256": "05bb4b6d5d1884ef22286fdeff70e19d88ea084142678179771f86ccac97b32a"
+    },
+    {
+      "path": "supabase/migrations/20251227_ensure_clinics_rls.sql",
+      "blobSHA": "206efaea338a24884d25d32d15781a103c589b49",
+      "sha256": "369a3e110593bfcf6a49430cd23a893c39ea49c78669f898be0f2ca168f0cc92"
+    },
+    {
+      "path": "supabase/migrations/20251227_fix_signup_error.sql",
+      "blobSHA": "7803b26a7003390999508ff15950243d0ba97cc9",
+      "sha256": "8828015c1d960226643dd308c5cf3f87d1aa9face346c57ef6cdf7542325b66b"
+    },
+    {
+      "path": "supabase/migrations/20251227_optimize_rls_jwt.sql",
+      "blobSHA": "9225f9008cbc4b4ddb2ac2673f8cbeff9e71ed60",
+      "sha256": "5b7b0b4ce6e9daa09dcf20d7f42074d407f357aa7af6c1340da9ef862e748a50"
+    },
+    {
+      "path": "supabase/migrations/20251227_payment_schema.sql",
+      "blobSHA": "d6d521cea6c3ba36defc4637c40a0623731452fe",
+      "sha256": "f2ef7db427e290203bdc4c3b0bb0d37ca328b98bf8b6a6ecc8b195cf8ca242a5"
+    },
+    {
+      "path": "supabase/migrations/20251227_secure_rpc_access.sql",
+      "blobSHA": "7124e26b7b64f59856b76f53c583957668752b76",
+      "sha256": "b497fcb362a85cd2433ac284df5e4cdae74ee5dd91c033fc747663b076a5c9a3"
+    },
+    {
+      "path": "supabase/migrations/20251227_security_checklist.sql",
+      "blobSHA": "dddd7e6d34d60c31dba96d155c57f25796217a06",
+      "sha256": "d834d28c02132f5e4d43fa19c161a32e26a8fe46ac3866def33d25675d211fcb"
+    },
+    {
+      "path": "supabase/migrations/20251227_subscription_bypass.sql",
+      "blobSHA": "9ea27a751c11567c7c1cd532d3e3910152fec5d9",
+      "sha256": "f6800d5f08eadb1ef6204346e083a6e40a8f21665ede31f90037325be21ecef4"
+    },
+    {
+      "path": "supabase/migrations/20251228_add_services.sql",
+      "blobSHA": "1562172c8799f351689f98bb1eeb0ac04ee69081",
+      "sha256": "fcf909a57578c956212e04570addda3f3c3e8708db88c9670d259a77fe01fbc4"
+    },
+    {
+      "path": "supabase/migrations/20251228_seed_services.sql",
+      "blobSHA": "cf5a6e57fe8cdbcc7049e7cff6695d46babfce2a",
+      "sha256": "d5ced329f900b8731ef7c6cd4c74ce3d8a936a0f9037069899442010b75f6e78"
+    },
+    {
+      "path": "supabase/migrations/20251228_update_patients_schema.sql",
+      "blobSHA": "a376bdff59b356f7f3102742aa9efa2bd419d605",
+      "sha256": "0c5fca6f0d79b346e04144af68cf5926a1e9ee4989adee8d1e170e607bfd4ab7"
+    },
+    {
+      "path": "supabase/migrations/20260113_defer_clinic_creation.sql",
+      "blobSHA": "f73ddc8d3b64b733b2d38ee379269134e47a325a",
+      "sha256": "da6b2093efadd97da9a0b8ee412d70470adcf6702bc2cdd7ac3e8f53829d0fec"
+    },
+    {
+      "path": "supabase/migrations/20260113_production_indexes.sql",
+      "blobSHA": "30f2f7233f526af2210c60ba54b867dd8ac3e4e4",
+      "sha256": "b91b814824a0d01fd1d960bf6422a45f2ed60f1f6d3d06a8bcae02c734e611fe"
+    },
+    {
+      "path": "supabase/migrations/20260130_fix_security_definer.sql",
+      "blobSHA": "79346b6b4fee9662c959c82acfa9bccd790f3469",
+      "sha256": "69a5bea65b8ef3d2fce5e6e3a1108f0fc07c4f888acedde99cd7a5bc757e7133"
+    },
+    {
+      "path": "supabase/migrations/20260220_add_prescriptions.sql",
+      "blobSHA": "dd74d2e5bbd888838f0866e8e5ab3b114d673a47",
+      "sha256": "92eee78786182a7232361fe5e45680988e4818234143c60f9462a3f6e2a98d49"
+    },
+    {
+      "path": "supabase/migrations/20260220_analytics_view.sql",
+      "blobSHA": "781c23e0fd1d5b376b8e22eff9ec0ce98ac0e576",
+      "sha256": "9d5091de54baf5ec9669a4685c02547ea399a66e1f8bd84fc39a3fbd6c348180"
+    },
+    {
+      "path": "supabase/migrations/20260220_performance_indexes.sql",
+      "blobSHA": "e3087082d62f348273fee0313f9c126fdf732e6d",
+      "sha256": "e6eaa89653a6697aeed9a9fe80842804c0803f4b0b03871dcb305bf8a688905f"
+    },
+    {
+      "path": "supabase/migrations/20260220_secure_audit_view.sql",
+      "blobSHA": "de037a142aa9e357ec3a6c79827be445705f10ef",
+      "sha256": "84f94fe854b76e5f2d2b7b1011fe3d6c4d7283676afc05aca8e0f8b2ce7c0b16"
+    },
+    {
+      "path": "supabase/migrations/20260222_loyalty_marketing.sql",
+      "blobSHA": "1c8f583390284e71fa59c45b04e2e4fb10de143d",
+      "sha256": "2d16775b5b223b91ca72b35edcdbdbc8b88b8bfd2c0f521431c9d6fe870e5bef"
+    },
+    {
+      "path": "supabase/migrations/20260401_fix_admin_roles.sql",
+      "blobSHA": "271d11e96671cdd20e58abe09aff0f617935257a",
+      "sha256": "fe294dff88abce581b7190a5933da611d19be6392e8050378426045b749ffee2"
+    },
+    {
+      "path": "supabase/migrations/20260423_fix_clinic_trigger.sql",
+      "blobSHA": "897a9f3c87f650393d2de6dfd44c7b042fdd3d21",
+      "sha256": "dd288bc08735148b39d3b922223cd5e3da9a7156f86bf3214294bd433099de38"
+    },
+    {
+      "path": "supabase/migrations/20260429_add_title_to_profiles.sql",
+      "blobSHA": "b1dc8766f917e649fc41381548b6d0298e00d6c6",
+      "sha256": "14a0f6a6fefff48fd41d488098acf5c53b5dd2db402ca70f20b7c5b019799d55"
+    },
+    {
+      "path": "supabase/migrations/20260502_prescription_templates.sql",
+      "blobSHA": "039dcb6720dbf0d48a94cf79de8f89d2a6afca67",
+      "sha256": "f4f789136b0085505fde8c8e92f6fe0bf3736de9b9c0e2685daf0016e21d2adf"
+    },
+    {
+      "path": "supabase/migrations/20260508220424_enable_rls_prescriptions.sql",
+      "blobSHA": "700f1aebd0687fe43d2b1ab8b79aca07d8180277",
+      "sha256": "719d7db3fa9e7534f1f601d851d3483ad1c8b6590bdd2a10bc85b1b391979aba"
+    },
+    {
+      "path": "supabase/migrations/20260520_fix_get_patients_with_stats.sql",
+      "blobSHA": "9241619b109c74b6d7e4a945861803a4aa6f3f50",
+      "sha256": "a12304bf8e6563f6e1b351bd2919a1c2ab50a78c1ef6cdba9236e9de15e59594"
+    },
+    {
+      "path": "supabase/migrations/20260521_fix_overloaded_function.sql",
+      "blobSHA": "a7d0b09c175269f134dcbae1f0e33126071707cf",
+      "sha256": "4551a31a11024d4263b0f20edf49da9a9cbc30ef2456653c6c553b889bc75a83"
+    },
+    {
+      "path": "supabase/migrations/20260525_db_verification_and_repair.sql",
+      "blobSHA": "c9fb6ad4a4826db31497bf731bc05c8d5c64cc2f",
+      "sha256": "31511709bcbb7bfd593de74c0b63ab26a1bc45893fcf2f13d29d3be7bf142485"
+    },
+    {
+      "path": "supabase/migrations/20260526_create_patient_files_and_notes.sql",
+      "blobSHA": "4155c57c7287259400624e2491d5636e9cbc1ecb",
+      "sha256": "a4bfe9df28a3c5b0ee4617adced1df6e7da9f144c1c5e2c2e9d33b6d32561744"
+    },
+    {
+      "path": "supabase/migrations/20260920_m1_tenant_and_access_control.sql",
+      "blobSHA": "f3ebbd21d517c17da8ac2c04263fc34a6f0b5f61",
+      "sha256": "52bcd9144d85171cf3d1c12763c17ad30f8e1e23c280786bcd0a3f823d0fa319"
+    },
+    {
+      "path": "supabase/migrations/20260920_m2_clinical_services_payment_methods.sql",
+      "blobSHA": "c952a666377413cd6052373677f9f5fa8f7df404",
+      "sha256": "a87c70bd3c9ad9ef492181471139edc4c276770847d44d115f918ebb83e35f7e"
+    },
+    {
+      "path": "supabase/migrations/20260920_m3_analytics_maintenance_rpcs.sql",
+      "blobSHA": "7996ac8ed61f4a809d0179882d49b4ee592ce44c",
+      "sha256": "c524482fc7fa6074e6f46aeb72a434b96a7aa906e9ac0fe43a0729a4ce3b5bc0"
+    },
+    {
+      "path": "supabase/migrations/20260920_m4_data_rights_requests_lopdp.sql",
+      "blobSHA": "004910c777c79e7f26749b2f85917704e51b2714",
+      "sha256": "b58c73c02c8690ad7689537ebcc0ac048eb089dce9f54cd3990c85f15421b59a"
+    },
+    {
+      "path": "supabase/migrations/20260920_security_remediation_consolidated.sql",
+      "blobSHA": "47d5adb619ffe4598052c62269bf266f55a16e7c",
+      "sha256": "ed4d65058a798b63178dcf13139ce3766fe49fe1ecd21d80fa3d43867e96ad64"
+    },
+    {
+      "path": "supabase/migrations/20260922194927_enforce_clinical_tenant_links_and_rights_audit.sql",
+      "blobSHA": "10d260b84404e12a589c92a823be8ed032853cb0",
+      "sha256": "cd6fbf5ab50dc4b214b587febacb7534fb3816b1f0c76767d83aa1b6519ea47d"
+    },
+    {
+      "path": "supabase/migrations/20260922_m5_security_and_production_readiness.sql",
+      "blobSHA": "7f6172c630b49495c027de0c4f32d83fa0189c9a",
+      "sha256": "5ab5dd78878dcac89341fafe98b3fb42a3dcb2be379c2b4f22aea5e807f82231"
+    },
+    {
+      "path": "supabase/migrations/20260922_m6_security_hardening_and_contract_fix.sql",
+      "blobSHA": "e0e3d5e2ca32aef2206c1c136caef7627aff26a4",
+      "sha256": "3222346ffb2d14c894400ce96b401d549ae2c4a77ed96192997458fa2a2876a3"
+    },
+    {
+      "path": "supabase/migrations/20260925000000_compound_multi_tenant_indexes.sql",
+      "blobSHA": "13e97fe916a6113c753f60384c91cb793f1aa549",
+      "sha256": "ccbb943456a8c2777bc87085c65d590f52bda77260cbd62a1bb5e4456e4b2c79"
+    },
+    {
+      "path": "supabase/migrations/20261001120000_invitation_pending_reservation.sql",
+      "blobSHA": "06905cda200c4693258c38446b42eccbc01fd06e",
+      "sha256": "c436b9e2d814374e373dd27fb42b437f0e1eaa1599dd9ea6a728fa2d8d2b3ac4"
+    },
+    {
+      "path": "supabase/migrations/20261001130000_durable_email_abuse_budget.sql",
+      "blobSHA": "c80d0d97d4dd3528448da99ed8870ad989b162b5",
+      "sha256": "5d6a85b96033fc74ee32ff3cb882dc6b78e03b7a0ac0acbb8d145ee23cdce21f"
+    },
+    {
+      "path": "supabase/migrations/20261002120000_profile_guard_schema_compatibility.sql",
+      "blobSHA": "2b2bdc2a1099e269da7f600d5b8e92aa28de407d",
+      "sha256": "a89bf8fcfb8be928f73ad4b3e25dc2862d43ad9684def34aa60ae614c684c5bb"
+    },
+    {
+      "path": "supabase/migrations/20261002180423_live_session_revocation.sql",
+      "blobSHA": "580101ddb42a800a579ca3a814a789b19ed27803",
+      "sha256": "9e9e28f2b8871c5218a19b84918974061541808b141279d6b0fab7f666af0c9d"
+    },
+    {
+      "path": "supabase/migrations/20261002180800_trusted_enrollment.sql",
+      "blobSHA": "2b787648e204c44551c1d2eaf2d7e3dcad1e0eca",
+      "sha256": "bcc0c79413c07f78be13de15c6d11f324e0a538084e8e7ee1e60c39c482c67f3"
+    },
+    {
+      "path": "supabase/migrations/20261002231730_immutable_prescription_receipts.sql",
+      "blobSHA": "5e94d5eb58296095c28200fb932357cff308db26",
+      "sha256": "da6c2212eb85989ef891a9251e3f4ad0519b9de97f683ae3e5b73b4a0ba268d8"
+    },
+    {
+      "path": "supabase/migrations/20261002234427_enable_prescription_request_ids.sql",
+      "blobSHA": "818117680709309cc3697b2e5ccdd16763492170",
+      "sha256": "1462d48079fa232131f1bfa066b34db34876f0eebe62c5b64be93270c26646bf"
+    },
+    {
+      "path": "supabase/migrations/20261003140122_serialize_appointment_rpc_writes.sql",
+      "blobSHA": "9facf452a395d8a28bf4afbf33e8963585e903fd",
+      "sha256": "21e299752fb9db44859911ccd568e21b9e715237225323620e52c34f985518b9"
+    },
+    {
+      "path": "supabase/migrations/20261004022340_clinical_document_delivery.sql",
+      "blobSHA": "fd8bfa4abdba6b3f3077acaa9015f92a5078398e",
+      "sha256": "e8406a04a9df1c04376d377af8459e533a161c934bada4c1f4f82dffbeacaf39"
+    },
+    {
+      "path": "supabase/migrations/20261004220500_document_delivery_info_operation.sql",
+      "blobSHA": "5d6bc39c0ba096d2b676d11011e063afba80eecf",
+      "sha256": "d3ba55f9e9cad2b364f3ea5f8f704819d3b494d43383250ebf699122f952bf2f"
+    },
+    {
+      "path": "supabase/migrations/20261006050131_clinical_s3_origin_delivery.sql",
+      "blobSHA": "6edeb8ffc60b2c0980a0013ad5eca15d8f3a15e2",
+      "sha256": "3fc1c62e4a7ff0e7cbd2fefc4158dd769cb1cbfc40a3961d5e6eca34c1b59728"
+    },
+    {
+      "path": "supabase/migrations/20261006050505_private_media_origin_boundary.sql",
+      "blobSHA": "77e22c26c1f71d13cc84dd204f0ed60108909d74",
+      "sha256": "048438953eecdf9f3a6e63afb510add49a8c6334d4286c4564fbad52b92d8d6d"
+    },
+    {
+      "path": "supabase/migrations/20261007045223_mandatory_clinical_mfa.sql",
+      "blobSHA": "218a07e651ce34ea79c6ec94105d4c24000eb807",
+      "sha256": "c713f1b31815c1727398f189f19e0e9304fba3376f2964d52dba944f188f08d7"
+    },
+    {
+      "path": "supabase/migrations/20261019190004_gate3_payment_method_delete_restrict.sql",
+      "blobSHA": "d20fcf6fd8966bb83ce8e7ad042d61d23ffa8eb0",
+      "sha256": "3058ff52d237860d41e452fb5bee31d0be15979bfd7c93854557a0ea473d6944"
+    },
+    {
+      "path": "supabase/migrations/rollback_20260922194927.sql",
+      "blobSHA": "5203ee40be41f4281c215742d976fa6991a67045",
+      "sha256": "c9ed69cd5b768d9a52976fb0772a4aaffba10f2b7f488b3b5f0dceac0e189268"
+    },
+    {
+      "path": "supabase/migrations/rollback_20260925000000.sql",
+      "blobSHA": "bfb0a8069ed54814570179a1bdacc10cac7e8bb7",
+      "sha256": "b73799f8199ad1c5b6d6f1a251df7ef4621398b6769930e3e8166eafe3ba74e7"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/README.md",
+      "blobSHA": "620fa65391dfcbf6a7a819a076e23a50353afef8",
+      "sha256": "39437388970eb6235da0365954ba729e240f2686d108ecd73a32df364c1f97a8"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/RECOVERY_PROCEDURE.md",
+      "blobSHA": "519a6e47771af27bef5e891ade595c1a387ab514",
+      "sha256": "e0ee624c0fee81846e5337f200053461aaec7f455bc3aea11e804c94b5c1dba5"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/baseline-contract.json",
+      "blobSHA": "c1d3cd018d5cf42ad3795100f83073e41d80eac0",
+      "sha256": "710053799b0277e9062226b98be1dc5666ac8b3b8e4262e7732875c351466e48"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/baseline.sql",
+      "blobSHA": "d7bc514fe1154136b82120a44ce1a53015da5648",
+      "sha256": "6f5b79ba0640d9dd4a585437b2d6ac9b0d6279649e7999a799c7d042011f4bc5"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/configuration-plan.json",
+      "blobSHA": "06023d8f7e722f5e558689c29ad09a2bab9c2feb",
+      "sha256": "12b3b8283743c195f308dc238aaa800b46ef768309c29a40213c57b1f9c83607"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/derivation.json",
+      "blobSHA": "5bd02d678805169c80f29169f6928310f1740d32",
+      "sha256": "bbee9f1c5b58509d647783c9c6775ef18de7162f8485c3ff01494b24ee7b10c6"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/expected-contract.json",
+      "blobSHA": "e0a25a2f2752cc6e5e037297cbaea61ec25b4a68",
+      "sha256": "a2ade425f85b3afd05ebc392324a65cb479f4ba942b53130e26567a28a29ed6d"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/expected-open-contract.json",
+      "blobSHA": "5f23a147d915bb4fd8fa01cc34e56370b771c38f",
+      "sha256": "1b97d932eb47c185ebfb81aa7dfafb6401d2889b0a46536412daaf03df2f9955"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/fixture-contract.sql",
+      "blobSHA": "c930c81e1fbb456624b9c4aa85b8a33e6b2e0225",
+      "sha256": "9bf1e480a732ec3c5b1c66c2224b89900764139733facc4bd8031c0e605e036e"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/fixture-precheck.sql",
+      "blobSHA": "b5da54fdb58523d837b5a0100f16b79e5bc7925d",
+      "sha256": "c5021db575ccded8433ec2839b9049012c9775c6804b16a52ecfb2c156d5985d"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/10-baseline.sql",
+      "blobSHA": "51ef29e20995a1d756705d0a9099ffc988dedbfa",
+      "sha256": "2d63163137ad31f24bbdcdd3eb99c945622c630706525d26fb92ef9bb1e4af06"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/20-seed.sql",
+      "blobSHA": "a3bbea23349c70998679fffa9362db37fbdd5f7a",
+      "sha256": "8e5ed0ebe183b063606e262a1fe1ae5e4b06387e6992bb0ab97d78cf2e3c8894"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/25-fixture-precheck.sql",
+      "blobSHA": "815f2bdd0ee66d362f536d3452bc019aa3537de0",
+      "sha256": "8e7352353cacabd804330aa72669dabfb542060cd4eb332c5d6a1bf7bb31ba71"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/30-capture.sql",
+      "blobSHA": "532ebc13c66f8fdf7eb256f62d4d66405966cd6e",
+      "sha256": "a26348342c63c9a2ab8a8f924904606775379e97853ba5020a3633bf09057dbb"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/40-upgrade.sql",
+      "blobSHA": "1ebb011efd4796657effade06dfb9f74667fa6c3",
+      "sha256": "99168968c6f8c0e4f949d59c8f2d8703717c070eab9b15df8d518d48059d7213"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/50-open.sql",
+      "blobSHA": "06ac9d5a73fbf24ac2489f86e668c6d89e9884ea",
+      "sha256": "d6d8251cd0ec54873c3e9321ccbfe9207278295f91a8e6931a3fdce3d6b3323a"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/60-postchecks.sql",
+      "blobSHA": "ac603e2b01f06b1ec4738660ce0757a1ec84ddbb",
+      "sha256": "ed99aacd4eb96e883466b5d25984f37ff6f549a6a7519941084e8b94a30abd7e"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/90-quarantine.sql",
+      "blobSHA": "c9bed7f4f9faa57e256569b9015099088fa73fb4",
+      "sha256": "7779f8bab4bd15c93dbcefa5f27e6f588315e501123935b8b1813e8adafbeb52"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/hosted-plan/plan.json",
+      "blobSHA": "a1f0e15d4c6103fd9177fc1da675bb92a7a60a91",
+      "sha256": "f544caa5712f254ddaeb9e6d58362d25dd262a4196b3ec8c4ce38cf357379c97"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/managed-application.sql",
+      "blobSHA": "0b5aa414fbf08652a3297adfcd67b31b5c4171e9",
+      "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/managed-locks.sql",
+      "blobSHA": "ea1a34d9f5a9c71a926076a440923c75acfd9ddb",
+      "sha256": "960bc83eedf98c2c3d304af8aa6905557ab2c5f89c4cdc280617864955e3ac40"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/manifest.json",
+      "blobSHA": "204ebc98183589f7f764adda6cb9406a83f615c8",
+      "sha256": "7994d5b98613005cec1891f979f770b2eee4c0b82a662b5cad4b7fe2d3deea0b"
+    },
+    {
+      "path": "docs/production/migration-package/bootstrap-v3/seed.sql",
+      "blobSHA": "152174537a943f5508fafbcf582572a0facc77ba",
+      "sha256": "9c07e276b2f7ef57413f70132fc99b54dba946f87e153d43f07cd60871f86a65"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/README.md",
+      "blobSHA": "a690d713949ba8482d1aae42cdaffe216e681e9e",
+      "sha256": "5bb8536b9e4be85aaf9a388382cf09d31e8d669dadb3595be9887d9ad1897d3c"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/baseline-upgrade.json",
+      "blobSHA": "43d9d4b23b6f0e1c91f7791e9b03d1f2da4941e9",
+      "sha256": "981231e13c27ff8442b39bb27d2361f4ea32767a6197961562cf79c64121fc09"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/catalog.sql",
+      "blobSHA": "8f336b065de368d3ce90f2a6be38d88f7e2baf9e",
+      "sha256": "5378e697bc180ae106974d9bd9794a8414b779a6bc622e4221a1347ddcd99c1f"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/expected-upgrade.json",
+      "blobSHA": "5c6c360f2185abe82b155a29150c0600966b37cf",
+      "sha256": "79b677be65c57896a8dc471cbc0b6d62e8629b0b6edcc2f2461fd70cc4ae4d55"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/forward.sql",
+      "blobSHA": "7c3df248c558c0c7cba9bfad46de5caa0d6819a6",
+      "sha256": "471cabbd877d0c756be400bf59221ff548f23f3be49ff88eea2ef0aba52e3e2f"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/hosted-targets.json",
+      "blobSHA": "76b43ff21591256f2e9d9f6f384f346d19bd239b",
+      "sha256": "1dad93019ec3744844775eb6e48a3ea27ca90b0b227e11d3a8f06568c382653e"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/invariants.sql",
+      "blobSHA": "6a6c1e9308dbb1cf4d7e2e303ab4ec5e687869cc",
+      "sha256": "31bf4f176330dc09ed197244812a92576a3ebe2404aa7551a63502f981926cb4"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/manifest.json",
+      "blobSHA": "6d5dc953dd829efa8ce95ec7c00fd52d9b1667d3",
+      "sha256": "a098eea8d600aee1cd5cfdf7bcff25751c731d5690ea76fd2eb8b623a848476c"
+    },
+    {
+      "path": "docs/production/migration-package/hosted-v2/storage-preflight.sql",
+      "blobSHA": "0410db87647851cbf6d9b167705aab1cc7fe76e3",
+      "sha256": "46483a0c8b74929ea59d1240799bf197af5ae8752ea25b556a10b67f20a5fa86"
+    },
+    {
+      "path": "docs/production/migration-package/v1/README.md",
+      "blobSHA": "af1856792e9e90dde6685d864b228d1afa729493",
+      "sha256": "cacba967930d51459d8f65e634a11cddc92459158bb6513d21ef495043b8323d"
+    },
+    {
+      "path": "docs/production/migration-package/v1/adjudication.json",
+      "blobSHA": "bb223472990d6bed9213ae38b6c7df7c105605d9",
+      "sha256": "3bdadcca0fbcea6179eb0e915a63220433b729e5446e071ca5dcfcad356696f4"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-clean-catalog.json",
+      "blobSHA": "7d5a4d673dae2a9b2a982b7ad43f94802243a64a",
+      "sha256": "a900679ef39a9a63636e284b237cef8ba4f52727ed08214aa1e738027a4332cd"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-clean.sql",
+      "blobSHA": "6fda485596c0908e2f13886e10566c143f6e3ace",
+      "sha256": "fe8d692856e96091eac8ae48f6ce2438c6fab85ea8e4c01679a4a000cb0a4347"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade-catalog.json",
+      "blobSHA": "685003c54b3b25542238b0204f092ef1a7d6ca23",
+      "sha256": "202a1fb803caf1928daa1d142207408d4bf0deb97a661e599593a19a9848ab33"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade-managed-application.sql",
+      "blobSHA": "0b5aa414fbf08652a3297adfcd67b31b5c4171e9",
+      "sha256": "691e09a712e7d3afaa005341f8b736b90f43ed003d0727c38f0ec6edaa831b66"
+    },
+    {
+      "path": "docs/production/migration-package/v1/baseline-upgrade.sql",
+      "blobSHA": "8d7aa6ed852e1ed59f8176cfdd9b596754dab373",
+      "sha256": "e251b969c0b6df8c5281ecf753aedca1af146799d84ba41fc9a892a5fdb599f3"
+    },
+    {
+      "path": "docs/production/migration-package/v1/buckets.sql",
+      "blobSHA": "ef01a17bd76cf03bf3880504937d9de4ec80f213",
+      "sha256": "e54ef72fc75da707e913f09596f2367b48167da6fc9cba76fd4920e647ea9a65"
+    },
+    {
+      "path": "docs/production/migration-package/v1/expected-clean.json",
+      "blobSHA": "06c4604cbb7115185e5f96eae8d103e5b3fe21c7",
+      "sha256": "e8e822bab2bcf3949e7c06d983bf836c6d117acee4883ae5795be091bbac5db3"
+    },
+    {
+      "path": "docs/production/migration-package/v1/expected-upgrade.json",
+      "blobSHA": "7cca8013a12d82d409f56ce52c9430efbd997247",
+      "sha256": "011ae1c34712826ab040aa12df4acccb44e809f6ca88896af35250a637ed2ef5"
+    },
+    {
+      "path": "docs/production/migration-package/v1/lineage.json",
+      "blobSHA": "667bf68bc6ab8802f20185ec78734ed9c00f69d5",
+      "sha256": "002bc038031cac096e299a0e571452ab8dd07e2c39aefbad2d3083790b206eda"
+    },
+    {
+      "path": "docs/production/migration-package/v1/manifest.json",
+      "blobSHA": "e5e3b1117c31aa43e64160c15bcfc8ddeadf666c",
+      "sha256": "8d238eeb8b09995166fb7e229b35320f099401f8a6af3d6192643d54c3d92969"
+    },
+    {
+      "path": "docs/production/recovery-profile/README.md",
+      "blobSHA": "706a3b445ef21b9f6fbc887b1fe7cdcc5b1da148",
+      "sha256": "ebd02aa5699f6e94b3d06d7cd90a69befe39d10c8bd2996c4d7d58c213441809"
+    },
+    {
+      "path": "docs/production/recovery-profile/backup-toc.txt",
+      "blobSHA": "028b5b66d3ffe9dae166e0fa4e7806d53a4219a6",
+      "sha256": "cd7e8debbe89e5399ef77597f64fa40b78b3555504331d981969b12b6c3aba63"
+    },
+    {
+      "path": "docs/production/recovery-profile/contract.json",
+      "blobSHA": "81066a5ac9c3196524e16b3501b61546fed1f019",
+      "sha256": "e20449746cf12bc18d6e75ad6e4b18a09a04ee9155ad5ff10b1c5cde329a86d2"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-canonical-snapshot.cjs",
+      "blobSHA": "f08b9344dc733737b0b99bc9274d9039aecb04e3",
+      "sha256": "2a28017c751b7bc6220b66d5b89b5ddb1485a0d65f1697b340c92ccda6ad6248"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-complete-run.cjs",
+      "blobSHA": "a0013c097a423aad59498400c2c81e3abdf22fce",
+      "sha256": "eaeba79da6a969becdeaa8475d06b3e8861e4cfc3bf293654e95f9e2fadaf8f8"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-custody-check.ps1",
+      "blobSHA": "ffd109ad695ba36a9568aac21882074021645d90",
+      "sha256": "85a60d41775f531d3a1103dc577dd81e5260600dfe8bbb24dc25e1b09efd5afd"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-database-drill-v6.cjs",
+      "blobSHA": "2c74cd4c6a4ed6b041d16e55696947b5bacdac29",
+      "sha256": "5d4c7e6eb2278814b20d38097746aa831ac5f12ccb2492bd5652193773c1bdf7"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-extra-checks.cjs",
+      "blobSHA": "2c9812117f8f89a97de0e962b7ff661176724c3e",
+      "sha256": "e8103718027c5ac2dd5e080230243d2386d157d4d8d0c7f792fbadb0ce874b04"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-local-custody.ps1",
+      "blobSHA": "dc82ebeeaf268d709f752762094b24352a53ff5b",
+      "sha256": "2b0caf30d2f0fdc6981761dd094d847799375577648c78b5d99f4ee993999b0f"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-managed-catalog.cjs",
+      "blobSHA": "3f3f2ffc0e1b60bfd43b756fd6a4d2cb612367c4",
+      "sha256": "d206ac6811a15d47478963db3935f7411a416dfbdb015ef05f887676339a6fce"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-new-runtime.cjs",
+      "blobSHA": "400f31afe4d9b71d1e67d48aa0de2968551a5363",
+      "sha256": "c43952d7a8e8cf8f4d2caa96ea2131cac38d347e6687ade96d35654aa8a6afe2"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-private-archive.cjs",
+      "blobSHA": "b51fe1aea180bf489d3aa57f9cf7d35752169e66",
+      "sha256": "a483694b062543773073ef18debe2082a492ded73a41f39c14bd59d8ff27285a"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-service-check.cjs",
+      "blobSHA": "f50d72cf19f276346f1ec58b4f07b42a40885385",
+      "sha256": "b896c5ec6f2ccf2ee548281aab9327be104c4e7c823f966a48d49121a951f2be"
+    },
+    {
+      "path": "docs/production/recovery-profile/harness/gate3-recovery-validate-managed.cjs",
+      "blobSHA": "f07a65acfb8b03dcb37aeab6cb7da4d99839cdbf",
+      "sha256": "9f9dd13a838bb22adccfc353b3014a24277e1a5e09d1fe83d188046db7ae6275"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-authority-contract-v2.json",
+      "blobSHA": "c713319931d2884f4eb01e27f15f0cca64b1aebd",
+      "sha256": "166139636cfc8cb74c2a27b4e936e6b23eaf0383ba5bf5f9b5257f1125599967"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-differences.json",
+      "blobSHA": "c670258a8f0e6271be79b221c51038934248bb64",
+      "sha256": "91757447052ee4dad74192cbaeb96bc11f39006362e1a2583a3a0caca0f951d4"
+    },
+    {
+      "path": "docs/production/recovery-profile/managed-metadata.sql",
+      "blobSHA": "f05e357341051d8e2fc606b62cfafbc451b185d5",
+      "sha256": "ccaeb5e2b2e791c9afd5f2e8153c5c726ab9a272406ce9ee4b883dd377a96c9d"
+    },
+    {
+      "path": "docs/production/recovery-profile/manifest.json",
+      "blobSHA": "9fe6f14186e9e80a339090d81b5ba6a7ec8f38ab",
+      "sha256": "9a79e0ca54e7685213835b3ad8defb615520608a3e59000a9c450206cf756074"
+    },
+    {
+      "path": "docs/production/recovery-profile/p4-atomic-failure-v6.json",
+      "blobSHA": "004b630c9b74349af491ff02f49e1973650b1e20",
+      "sha256": "e502816436b9e5418eddcaf423a67f82e5d1bd36cc82287a56d7de5de60791c1"
+    },
+    {
+      "path": "docs/production/recovery-profile/profile-contract.json",
+      "blobSHA": "81066a5ac9c3196524e16b3501b61546fed1f019",
+      "sha256": "e20449746cf12bc18d6e75ad6e4b18a09a04ee9155ad5ff10b1c5cde329a86d2"
+    },
+    {
+      "path": "docs/production/recovery-profile/runtime-template.json",
+      "blobSHA": "9e2710a1a6f2c1c856eddbb31f5236d99c8d3383",
+      "sha256": "d58906499169770491fc434ac41ab6c1c0ade80e3c7c4b22426739d1357fa309"
+    },
+    {
+      "path": "docs/production/recovery-profile/source-managed-metadata.json",
+      "blobSHA": "d1abb4ec1bfc9b1bca40ff453c229e92766ce369",
+      "sha256": "572b7a350d2d7bf239db83625b6ef751d8b6d9814af2f0ba24b9233a9148aed8"
+    }
+  ],
+  "allRetained": true,
+  "frozenRecoveryProfile": {
+    "manifestSha256": "9a79e0ca54e7685213835b3ad8defb615520608a3e59000a9c450206cf756074",
+    "differences": [],
+    "status": "FROZEN SOURCE PINS MATCH ONLY",
+    "scope": "No restore, Docker, app-positive recovery, MFA login or offsite transfer repeated. Kit is not regenerated for RC."
+  },
+  "hostedParity": "NOT VERIFIED",
+  "migrationAdoption": "NOT VERIFIED"
+}

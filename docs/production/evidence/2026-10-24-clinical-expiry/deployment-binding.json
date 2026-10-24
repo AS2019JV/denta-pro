@@ -1,0 +1,15 @@
+{
+  "candidate": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "environment": "Preview",
+  "state": "Ready",
+  "branch": "codex/clinia-security-patches",
+  "sourceCommitFullObserved": true,
+  "immutableHostObserved": "v0-denta-hfccp41io-alesuav2001-gmailcoms-projects.vercel.app",
+  "source": "Vercel exact deployment detail UI, no moving alias used as identity",
+  "applicationLoginOpened": true,
+  "applicationStagingProjectBinding": "PASS: ordinary GET auth/v1/user capture from immutable DSCZ origin, expected phihonofwyerpfgqfekt endpoint, signed identity and live session corroborated",
+  "temporaryPreviewAccessCreated": false,
+  "otherAccessChanged": false,
+  "revalidatedBeforeRuntimeOn": "2026-10-24"
+}

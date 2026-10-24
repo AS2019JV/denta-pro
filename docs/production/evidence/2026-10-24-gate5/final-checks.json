@@ -1,0 +1,77 @@
+{
+  "gate": "Gate5",
+  "generatedAt": "2026-10-24T06:54:16.512Z",
+  "status": "PASS",
+  "scope": "Local contracts only; no hosted, CI, delivery, human acknowledgement or rollback acceptance",
+  "coverage": {
+    "existingAffectedTestsPassed": 43,
+    "finalGate5TestsPassed": 10,
+    "distinctPassingTests": 53,
+    "unresolvedFailures": 0
+  },
+  "preservedAttempt": {
+    "artifact": "local-checks.json",
+    "tests": 51,
+    "passed": 50,
+    "failed": 1,
+    "reason": "New private-media test mock lacked env; fixed in harness",
+    "supersededForGate5By": "delta-tests-final.txt"
+  },
+  "checks": [
+    {
+      "command": [
+        "node",
+        "--test",
+        "test/production/gate5-observability.test.cjs"
+      ],
+      "exitCode": 0,
+      "artifact": "delta-tests-final.txt"
+    },
+    {
+      "command": [
+        "node",
+        "--check",
+        "scripts/gate5-monitor.cjs"
+      ],
+      "exitCode": 0,
+      "rerunReason": "Lock cleanup changed monitor after first syntax check"
+    },
+    {
+      "command": [
+        "git",
+        "diff",
+        "--check"
+      ],
+      "exitCode": 0
+    },
+    {
+      "command": "existing inspectText rules, changed Git-visible files only",
+      "scanned": 23,
+      "findings": []
+    },
+    {
+      "command": [
+        "node",
+        "scripts/clinia-verify.cjs",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "retainedFrom": "local-checks.json; TypeScript source unchanged since successful check"
+    },
+    {
+      "command": "next lint --no-cache --file (five changed TypeScript files)",
+      "exitCode": 0,
+      "artifact": "targeted-lint.txt",
+      "retained": true
+    }
+  ],
+  "remoteActions": {
+    "dockerStarted": false,
+    "browserUsed": false,
+    "ciDispatched": false,
+    "pushed": false,
+    "deployed": false,
+    "noticesSent": 0,
+    "hostedTestsExecuted": false
+  }
+}

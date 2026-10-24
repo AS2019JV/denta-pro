@@ -1,0 +1,360 @@
+TAP version 13
+# Subtest: actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+ok 1 - actual cookie route checks exact live scope twice and forwards only isolated broker authorization
+  ---
+  duration_ms: 162.8874
+  type: 'test'
+  ...
+# Subtest: explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+ok 2 - explicit Bearer uses the exact token for identity, claims and ordinary RLS without cookie fallback
+  ---
+  duration_ms: 98.7024
+  type: 'test'
+  ...
+# Subtest: invalid or rejected explicit Bearer never falls back to a valid browser cookie
+ok 3 - invalid or rejected explicit Bearer never falls back to a valid browser cookie
+  ---
+  duration_ms: 166.5542
+  type: 'test'
+  ...
+# Subtest: ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+ok 4 - ordinary live denial blocks broker login and Storage fetch for each concrete revoked state
+  ---
+  duration_ms: 229.4579
+  type: 'test'
+  ...
+# Subtest: plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+ok 5 - plain SDK claims exceptions fail closed before clinical queries, broker login or Storage
+  ---
+  duration_ms: 137.0925
+  type: 'test'
+  ...
+# Subtest: foreign clinic, patient and file scopes cannot access the legitimate object
+ok 6 - foreign clinic, patient and file scopes cannot access the legitimate object
+  ---
+  duration_ms: 44.2189
+  type: 'test'
+  ...
+# Subtest: the same original Bearer succeeds once then denies after live logout or removal
+ok 7 - the same original Bearer succeeds once then denies after live logout or removal
+  ---
+  duration_ms: 29.5157
+  type: 'test'
+  ...
+# Subtest: revocation committed during upstream fetch discards buffered clinical bytes
+ok 8 - revocation committed during upstream fetch discards buffered clinical bytes
+  ---
+  duration_ms: 143.2795
+  type: 'test'
+  ...
+# Subtest: user and session identity remain pinned across buffering even when both new identities are otherwise valid
+ok 9 - user and session identity remain pinned across buffering even when both new identities are otherwise valid
+  ---
+  duration_ms: 23.4131
+  type: 'test'
+  ...
+# Subtest: missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+ok 10 - missing broker configuration or incorrect broker identity/role fails closed without forwarding human authority
+  ---
+  duration_ms: 93.3583
+  type: 'test'
+  ...
+# Subtest: broker revocation during fetch denies publication and query/RPC errors expose no provider details
+ok 11 - broker revocation during fetch denies publication and query/RPC errors expose no provider details
+  ---
+  duration_ms: 56.1198
+  type: 'test'
+  ...
+# Subtest: actual route cannot publish if its ordinary-actor audit fails
+ok 12 - actual route cannot publish if its ordinary-actor audit fails
+  ---
+  duration_ms: 27.2951
+  type: 'test'
+  ...
+# Subtest: missing protected delivery path never falls back to the legacy path
+ok 13 - missing protected delivery path never falls back to the legacy path
+  ---
+  duration_ms: 13.7895
+  type: 'test'
+  ...
+# Subtest: origin transport failure withholds provider details and never audits publication
+ok 14 - origin transport failure withholds provider details and never audits publication
+  ---
+  duration_ms: 19.1049
+  type: 'test'
+  ...
+# Subtest: closed logger discards arbitrary text, nested PHI, errors and getters in all environments
+ok 15 - closed logger discards arbitrary text, nested PHI, errors and getters in all environments
+  ---
+  duration_ms: 199.7233
+  type: 'test'
+  ...
+# Subtest: response wrapper preserves bytes, no-store and denial while correlating events with fresh IDs
+ok 16 - response wrapper preserves bytes, no-store and denial while correlating events with fresh IDs
+  ---
+  duration_ms: 121.9014
+  type: 'test'
+  ...
+# Subtest: health events and unhandled application errors carry no error content; broken sink does not break app
+ok 17 - health events and unhandled application errors carry no error content; broken sink does not break app
+  ---
+  duration_ms: 156.1859
+  type: 'test'
+  ...
+# Subtest: actual private-media route instruments POST/GET/HEAD without inspecting a request body
+not ok 18 - actual private-media route instruments POST/GET/HEAD without inspecting a request body
+  ---
+  duration_ms: 84.6439
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\gate5-observability\\denta-pro\\test\\production\\gate5-observability.test.cjs:53:1'
+  failureType: 'testCodeFailure'
+  error: "Cannot read properties of undefined (reading 'NEXT_PUBLIC_APP_URL')"
+  code: 'ERR_TEST_FAILURE'
+  name: 'TypeError'
+  stack: |-
+    handlePost (evalmachine.<anonymous>:23:30)
+    evalmachine.<anonymous>:17:84
+    observeResponse (evalmachine.<anonymous>:12:32)
+    Object.POST (evalmachine.<anonymous>:17:60)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\gate5-observability\denta-pro\test\production\gate5-observability.test.cjs:65:50)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+  ...
+# Subtest: monitor fails closed for missing owner, non-green CI, wrong identity, scope, policy or time
+ok 19 - monitor fails closed for missing owner, non-green CI, wrong identity, scope, policy or time
+  ---
+  duration_ms: 36.0055
+  type: 'test'
+  ...
+# Subtest: consecutive failure and recovery thresholds suppress noise and preserve ordered durable events
+ok 20 - consecutive failure and recovery thresholds suppress noise and preserve ordered durable events
+  ---
+  duration_ms: 2.6159
+  type: 'test'
+  ...
+# Subtest: webhook sends only fixed metadata, rejects redirects and never claims delivery or human ack
+ok 21 - webhook sends only fixed metadata, rejects redirects and never claims delivery or human ack
+  ---
+  duration_ms: 1.9302
+  type: 'test'
+  ...
+# Subtest: foreground runner retries failed outbox, restores state and keeps recovery ordered; simulated transports only
+ok 22 - foreground runner retries failed outbox, restores state and keeps recovery ordered; simulated transports only
+  ---
+  duration_ms: 40.2753
+  type: 'test'
+  ...
+# Subtest: server delivers exact raster bytes after two live checks, with no cache capability
+ok 23 - server delivers exact raster bytes after two live checks, with no cache capability
+  ---
+  duration_ms: 181.2765
+  type: 'test'
+  ...
+# Subtest: warm request is denied on replay after live revocation before transport
+ok 24 - warm request is denied on replay after live revocation before transport
+  ---
+  duration_ms: 3.0716
+  type: 'test'
+  ...
+# Subtest: revocation, changed object or changed identity while buffering cannot publish bytes
+ok 25 - revocation, changed object or changed identity while buffering cannot publish bytes
+  ---
+  duration_ms: 7.7473
+  type: 'test'
+  ...
+# Subtest: body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+ok 26 - body accepts exact entity scopes and rejects raw paths, unknown kinds, malformed IDs and surplus input
+  ---
+  duration_ms: 11.3051
+  type: 'test'
+  ...
+# Subtest: malformed Bearer never falls back to cookies and foreign origins never authorize
+ok 27 - malformed Bearer never falls back to cookies and foreign origins never authorize
+  ---
+  duration_ms: 3.9453
+  type: 'test'
+  ...
+# Subtest: conditional/range requests and foreign registered paths cannot reach image transport
+ok 28 - conditional/range requests and foreign registered paths cannot reach image transport
+  ---
+  duration_ms: 4.5964
+  type: 'test'
+  ...
+# Subtest: SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+ok 29 - SVG, wrong MIME, fake raster bytes, truncated streams and oversize payloads fail closed
+  ---
+  duration_ms: 10.9577
+  type: 'test'
+  ...
+# Subtest: aborting an in-flight stream cancels the reader and releases its concurrency slot
+ok 30 - aborting an in-flight stream cancels the reader and releases its concurrency slot
+  ---
+  duration_ms: 4.8296
+  type: 'test'
+  ...
+# Subtest: ordinary authority resolves each registered entity with receptionist-safe projections
+ok 31 - ordinary authority resolves each registered entity with receptionist-safe projections
+  ---
+  duration_ms: 2.4429
+  type: 'test'
+  ...
+# Subtest: every live authority denial prevents access and an otherwise valid new session stays pinned out
+ok 32 - every live authority denial prevents access and an otherwise valid new session stays pinned out
+  ---
+  duration_ms: 2.3885
+  type: 'test'
+  ...
+# Subtest: doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+ok 33 - doctor-avatar target must be active directory clinician, path-bound and in requested clinic
+  ---
+  duration_ms: 0.6316
+  type: 'test'
+  ...
+# Subtest: client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+ok 34 - client rejects late bytes, invalid MIME/length and emits only a same-origin entity POST
+  ---
+  duration_ms: 16.9724
+  type: 'test'
+  ...
+# Subtest: readiness fails closed before transport for disabled, privileged or invalid provider config
+ok 35 - readiness fails closed before transport for disabled, privileged or invalid provider config
+  ---
+  duration_ms: 10.2281
+  type: 'test'
+  ...
+# Subtest: readiness uses one bounded public probe and emits only fixed metadata
+ok 36 - readiness uses one bounded public probe and emits only fixed metadata
+  ---
+  duration_ms: 8.5603
+  type: 'test'
+  ...
+# Subtest: provider errors, HTML challenges, malformed bodies and oversized bodies stay unavailable
+ok 37 - provider errors, HTML challenges, malformed bodies and oversized bodies stay unavailable
+  ---
+  duration_ms: 5.7143
+  type: 'test'
+  ...
+# Subtest: actual route returns no-store 200 or retryable 503 without accepting target or identity input
+ok 38 - actual route returns no-store 200 or retryable 503 without accepting target or identity input
+  ---
+  duration_ms: 37.0559
+  type: 'test'
+  ...
+# Subtest: only exact health route avoids unbounded visitor-session refresh in middleware
+ok 39 - only exact health route avoids unbounded visitor-session refresh in middleware
+  ---
+  duration_ms: 98.1809
+  type: 'test'
+  ...
+# Subtest: one-shot monitor rejects protection pages, redirects, stale responses and sends no alerts
+ok 40 - one-shot monitor rejects protection pages, redirects, stale responses and sends no alerts
+  ---
+  duration_ms: 95.581
+  type: 'test'
+  ...
+# Subtest: Gate 6: PROD-CHK-F02 Structured Logging & PII Sanitization
+    # Subtest: 1. Masking Primitives
+        # Subtest: maskEmail obfuscates local-part while preserving domain
+        ok 1 - maskEmail obfuscates local-part while preserving domain
+          ---
+          duration_ms: 1.7079
+          type: 'test'
+          ...
+        # Subtest: maskCedula masks leading digits preserving only last 4
+        ok 2 - maskCedula masks leading digits preserving only last 4
+          ---
+          duration_ms: 0.3486
+          type: 'test'
+          ...
+        # Subtest: maskPhone masks leading digits preserving last 4
+        ok 3 - maskPhone masks leading digits preserving last 4
+          ---
+          duration_ms: 0.4703
+          type: 'test'
+          ...
+        1..3
+    ok 1 - 1. Masking Primitives
+      ---
+      duration_ms: 4.0573
+      type: 'suite'
+      ...
+    # Subtest: 2. Deep Object & Free-Text PII Sanitization
+        # Subtest: Sanitizes confidential credentials and tokens
+        ok 1 - Sanitizes confidential credentials and tokens
+          ---
+          duration_ms: 0.9148
+          type: 'test'
+          ...
+        # Subtest: Sanitizes patient personal identifiers and contacts
+        ok 2 - Sanitizes patient personal identifiers and contacts
+          ---
+          duration_ms: 0.7028
+          type: 'test'
+          ...
+        # Subtest: Omits sensitive clinical health fields (PHI)
+        ok 3 - Omits sensitive clinical health fields (PHI)
+          ---
+          duration_ms: 0.6692
+          type: 'test'
+          ...
+        # Subtest: Redacts PII embedded in free-text messages
+        ok 4 - Redacts PII embedded in free-text messages
+          ---
+          duration_ms: 0.3485
+          type: 'test'
+          ...
+        # Subtest: Handles circular references gracefully without crashing
+        ok 5 - Handles circular references gracefully without crashing
+          ---
+          duration_ms: 1.1718
+          type: 'test'
+          ...
+        # Subtest: Handles native Error instances safely
+        ok 6 - Handles native Error instances safely
+          ---
+          duration_ms: 0.9196
+          type: 'test'
+          ...
+        1..6
+    ok 2 - 2. Deep Object & Free-Text PII Sanitization
+      ---
+      duration_ms: 6.1935
+      type: 'suite'
+      ...
+    # Subtest: 3. Static AST Security Audit on Logging Ingress Points
+        # Subtest: app/api/auth/confirm/route.ts does NOT leak token_hash or raw searchParams into console
+        ok 1 - app/api/auth/confirm/route.ts does NOT leak token_hash or raw searchParams into console
+          ---
+          duration_ms: 10.1267
+          type: 'test'
+          ...
+        # Subtest: app/actions/resend-confirmation.ts masks email before logging
+        ok 2 - app/actions/resend-confirmation.ts masks email before logging
+          ---
+          duration_ms: 2.1119
+          type: 'test'
+          ...
+        1..2
+    ok 3 - 3. Static AST Security Audit on Logging Ingress Points
+      ---
+      duration_ms: 12.5535
+      type: 'suite'
+      ...
+    1..3
+ok 41 - Gate 6: PROD-CHK-F02 Structured Logging & PII Sanitization
+  ---
+  duration_ms: 24.4358
+  type: 'suite'
+  ...
+1..41
+# tests 51
+# suites 4
+# pass 50
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 2126.3064

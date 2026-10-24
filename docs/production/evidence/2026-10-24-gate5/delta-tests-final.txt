@@ -1,0 +1,70 @@
+TAP version 13
+# Subtest: closed logger discards arbitrary text, nested PHI, errors and getters in all environments
+ok 1 - closed logger discards arbitrary text, nested PHI, errors and getters in all environments
+  ---
+  duration_ms: 107.1618
+  type: 'test'
+  ...
+# Subtest: response wrapper preserves bytes, no-store and denial while correlating events with fresh IDs
+ok 2 - response wrapper preserves bytes, no-store and denial while correlating events with fresh IDs
+  ---
+  duration_ms: 82.3836
+  type: 'test'
+  ...
+# Subtest: health events and unhandled application errors carry no error content; broken sink does not break app
+ok 3 - health events and unhandled application errors carry no error content; broken sink does not break app
+  ---
+  duration_ms: 51.0265
+  type: 'test'
+  ...
+# Subtest: actual private-media route instruments POST/GET/HEAD without inspecting a request body
+ok 4 - actual private-media route instruments POST/GET/HEAD without inspecting a request body
+  ---
+  duration_ms: 29.4132
+  type: 'test'
+  ...
+# Subtest: monitor fails closed for missing owner, non-green CI, wrong identity, scope, policy or time
+ok 5 - monitor fails closed for missing owner, non-green CI, wrong identity, scope, policy or time
+  ---
+  duration_ms: 25.7385
+  type: 'test'
+  ...
+# Subtest: consecutive failure and recovery thresholds suppress noise and preserve ordered durable events
+ok 6 - consecutive failure and recovery thresholds suppress noise and preserve ordered durable events
+  ---
+  duration_ms: 2.115
+  type: 'test'
+  ...
+# Subtest: webhook sends only fixed metadata, rejects redirects and never claims delivery or human ack
+ok 7 - webhook sends only fixed metadata, rejects redirects and never claims delivery or human ack
+  ---
+  duration_ms: 4.7741
+  type: 'test'
+  ...
+# Subtest: foreground runner retries failed outbox, restores state and keeps recovery ordered; simulated transports only
+ok 8 - foreground runner retries failed outbox, restores state and keeps recovery ordered; simulated transports only
+  ---
+  duration_ms: 20.3954
+  type: 'test'
+  ...
+# Subtest: failed lock initialization cleans only its own lock before any probe or notification
+ok 9 - failed lock initialization cleans only its own lock before any probe or notification
+  ---
+  duration_ms: 2.8252
+  type: 'test'
+  ...
+# Subtest: restart gap resets old failure streak while preserving persisted state and target identity
+ok 10 - restart gap resets old failure streak while preserving persisted state and target identity
+  ---
+  duration_ms: 8.9287
+  type: 'test'
+  ...
+1..10
+# tests 10
+# suites 0
+# pass 10
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 737.4113

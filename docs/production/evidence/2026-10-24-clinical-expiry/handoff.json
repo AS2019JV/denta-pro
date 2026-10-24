@@ -1,0 +1,203 @@
+{
+  "gate": "Step2 / protected clinical invitation natural expiry",
+  "status": "VERIFIED",
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "resultSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "resultSHAType": "Application code tested; no application patch or evidence commit created",
+  "branch": "codex/step2-clinical-expiry-20261024",
+  "worktree": "C:\\Users\\aleja\\.codex\\worktrees\\clinia-invitation-expiry\\denta-pro",
+  "workingTree": "Only this new gate evidence directory is uncommitted; ignored harness retained without private capabilities",
+  "published": false,
+  "candidate": {
+    "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+    "environment": "Preview",
+    "ready": true,
+    "fullSourceSHAVerified": true,
+    "ci": 40003941444,
+    "ciStatus": "SUCCESS",
+    "movingAliasUsedAsIdentity": false,
+    "mainUsedAsIdentity": false
+  },
+  "filesChanged": [
+    "docs/production/evidence/2026-10-24-clinical-expiry/RESULTADO.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/candidate-ci.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/checkpoint-private-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/clock-and-fixture-before.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/curl-parser.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/deployment-binding.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/evidence-secret-check.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/handoff.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/historical-evidence-reuse.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/holder-context-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/http-runner.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/http-state-comparison.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-after.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-before.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-live-probe.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/live-guard-contracts.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/luna-final-review.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/manifest.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/ordinary-live-probe.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/ordinary-session-binding.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/pre-runtime-RESULTADO.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/pre-runtime-http-runner.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/private-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/redemption-http.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/redemption-intent.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/scope-authorization.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-custody-runtime.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-custody.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-shape-supplement.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/tool-review-disposition.json"
+  ],
+  "destinations": [
+    {
+      "project": "phihonofwyerpfgqfekt",
+      "role": "shared staging; read-only observation and one ordinary negative RPC",
+      "configurationChanged": false,
+      "ddlChanged": false
+    },
+    {
+      "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+      "environment": "Preview",
+      "accessChanged": false
+    }
+  ],
+  "fixture": {
+    "invitation": "dd2f9c40-705c-42b8-b39a-4f04e4e9b7f7",
+    "recipient": "979d0bea-07c7-470f-b188-9c029d1a0701",
+    "email": "invite-expiry-b@auth.cliniaplus.com",
+    "expiresAt": "2026-10-23T23:14:19.707469Z",
+    "tokenDigest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+    "tokenUnchanged": true,
+    "finalState": "pending",
+    "memberships": 0,
+    "ownedClinics": 0
+  },
+  "tests": [
+    {
+      "command": "gh run view 40003941444 --repo AS2019JV/denta-pro --json headSha,conclusion,status,event,url",
+      "result": "PASS: completed/success for exact5a7a24af; no workflow executed"
+    },
+    {
+      "command": "git diff --name-status 627ff7a4c6ccabcd7fb718846c4f4f926046b5eb 5a7a24af57c645bfc1cf8c70594cc568e03a7176 -- selected7 enrollment/auth sources",
+      "result": "No selected source changes; prior preparation/contract evidence reused only within unchanged scope"
+    },
+    {
+      "command": "node --check .temp/clinical-expiry.cjs",
+      "result": "PASS; no application suite or restore rerun"
+    },
+    {
+      "command": "node .temp/clinical-expiry.cjs bind",
+      "result": "PASS after capture moved from prior folder to own ignored directory; new ordinary password/TOTP/AAL2, immutable origin"
+    },
+    {
+      "command": "node .temp/clinical-expiry.cjs probe",
+      "result": "PASS Auth user200 and clinia_session_active200/true; same frozen JWT"
+    },
+    {
+      "command": "node .temp/clinical-expiry.cjs custody",
+      "result": "PASS original capability digest; holder local file only, no Auth link opened"
+    },
+    {
+      "command": "MCP execute_sql SELECT immediate-before.json",
+      "result": "PASS natural expiry, exact live session and preceding guards, issuer/clinic valid; three function hashes"
+    },
+    {
+      "command": "node .temp/clinical-expiry.cjs redeem",
+      "result": "PASS one POST403/42501/Invitation denied; snapshot age3798ms; retries0; refreshUsed=false"
+    },
+    {
+      "command": "MCP execute_sql SELECT immediate-after.json",
+      "result": "PASS all fields except clock identical; zero authority; pending/token/expiry intact"
+    },
+    {
+      "command": "MCP execute_sql SELECT token-shape-supplement.json",
+      "result": "PASS supplementary length56 and unique matching row1; same digest; no second redemption"
+    },
+    {
+      "command": "node .temp/clinical-expiry.cjs cleanup",
+      "result": "PASS six private files absent; holder confirmed requested incognito/clipboard cleanup; no global logout asserted"
+    }
+  ],
+  "http": {
+    "harnessRequests": 5,
+    "authIdentityProbes": 2,
+    "liveSessionProbes": 2,
+    "clinicalRedemptions": 1,
+    "status": 403,
+    "sqlState": "42501",
+    "requestStartedAt": "2026-10-24T16:03:41.204Z",
+    "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+    "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+    "refreshUsed": false,
+    "retries": 0
+  },
+  "causality": "Confirmed exact ordinary identity/session, profile, token/email/role and pending preconditions; expired expires_at is the first failed predicate in unchanged live guard. Independent before/after authority state identical. Not an Auth-link TTL, identity, session or MFA denial.",
+  "artifacts": [
+    "docs/production/evidence/2026-10-24-clinical-expiry/RESULTADO.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/candidate-ci.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/checkpoint-private-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/clock-and-fixture-before.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/curl-parser.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/deployment-binding.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/evidence-secret-check.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/handoff.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/historical-evidence-reuse.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/holder-context-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/http-runner.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/http-state-comparison.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-after.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-before.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/immediate-live-probe.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/live-guard-contracts.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/luna-final-review.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/manifest.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/ordinary-live-probe.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/ordinary-session-binding.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/pre-runtime-RESULTADO.md",
+    "docs/production/evidence/2026-10-24-clinical-expiry/pre-runtime-http-runner.source.txt",
+    "docs/production/evidence/2026-10-24-clinical-expiry/private-cleanup.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/redemption-http.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/redemption-intent.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/scope-authorization.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-custody-runtime.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-custody.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/token-shape-supplement.json",
+    "docs/production/evidence/2026-10-24-clinical-expiry/tool-review-disposition.json"
+  ],
+  "luna": {
+    "reviewer": "/root/clinical_expiry_luna6",
+    "model": "gpt-6-luna",
+    "scope": "Same single reviewer; delta only; no repeated audit",
+    "verdict": "VERIFIED scoped",
+    "artifact": "docs/production/evidence/2026-10-24-clinical-expiry/luna-final-review.md"
+  },
+  "temporaryAccess": {
+    "created": false,
+    "revocation": "N/A",
+    "otherAccessChanged": false
+  },
+  "privateCustody": {
+    "allEnumeratedFilesAbsent": true,
+    "ordinaryJWTRefreshed": false,
+    "globalLogoutClaimed": false
+  },
+  "blockers": [],
+  "limits": [
+    "Only this single naturally expired invitation case, not complete Step2 or overall invitation acceptance on every deployment",
+    "No universal JWT invalidation/global logout claim",
+    "No clinic120/global1000 or other outstanding Auth/email gates executed",
+    "No Production/config/DDL/ledger/incident repair or historical risk acceptance",
+    "No clinia-test/M7, Docker stack or gates3-7; quarantine not opened",
+    "Prior runtime acceptance not inherited by the newer Preview"
+  ],
+  "pending": [
+    "Coordinator integrates this handoff into its global matrix",
+    "Step2 clinic120/global1000 and other remaining requirements stay unresolved; no GO general"
+  ],
+  "step2": "PARTIAL",
+  "production": "untouched by this block; NO-GO",
+  "globalMatrixEdited": false,
+  "nextSingleAction": "Coordinator integrates this scoped expiry handoff, preserving Step2 PARTIAL and all other pending gates"
+}

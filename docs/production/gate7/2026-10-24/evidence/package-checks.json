@@ -1,0 +1,30 @@
+{
+  "gate": "Gate7",
+  "checkedAtUtc": "2026-10-24T06:43:40.4384577Z",
+  "result": "PASS for document package only",
+  "parsedSourceJsonFiles": 2,
+  "localMarkdownLinks": 5,
+  "journeyRows": [
+    "G7-01",
+    "G7-02",
+    "G7-03",
+    "G7-04",
+    "G7-05",
+    "G7-06",
+    "G7-07"
+  ],
+  "boundedCredentialAndProtectedTargetPatterns": 0,
+  "reservedFixtureIdentifiers": 0,
+  "stagedWhitespace": "PASS",
+  "stagedScope": "Only docs/production/gate7/2026-10-24/",
+  "applicationChanges": 0,
+  "sqlChanges": 0,
+  "newClinicalPasses": 0,
+  "newProductTests": 0,
+  "limits": [
+    "Pattern scan is bounded, not a security audit",
+    "No hosted execution or professional acceptance",
+    "Manifest excludes itself; handoff external to commit"
+  ],
+  "canonicalBytes": "UTF-8 LF, folder-scoped .gitattributes; staged Git bytes checked against manifest"
+}

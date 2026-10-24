@@ -1,0 +1,19 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "requestStartedAt": "2026-10-24T16:03:41.204Z",
+  "snapshotAgeAtRequestMs": 3798,
+  "completedAt": "2026-10-24T16:03:41.710Z",
+  "httpStatus": 403,
+  "sqlState": "42501",
+  "expectedDenied": true,
+  "expectedErrorMessage": "Invitation denied",
+  "responseDigest": "57f20122af3ecd09205df2f83a7300d7c389f825513d30975d13131b8b754485",
+  "requestDigest": "ecc8cc8ffce33b2b0eb08d6adf075070c17f5c52728b1109bea44e3cb5a418de",
+  "tokenDigest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+  "jwtDigest": "3264677c7d1838f50c1cfd21b69619f11009de57749d2a761d60386816a6eb65",
+  "sessionDigest": "dc7509367b0f1a803dda70c48116cb7026d865437e0cacc0d2acea1aedbc2637",
+  "refreshUsed": false,
+  "retries": 0,
+  "clinicalAuthorityGranted": false
+}

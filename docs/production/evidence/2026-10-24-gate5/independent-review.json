@@ -1,0 +1,15 @@
+{
+  "reviewer": "gpt-6-luna",
+  "reviewsUsed": 1,
+  "scope": "Gate5 final delta only; read-only; no repository audit or hosted execution",
+  "finding": {
+    "severity": "low",
+    "file": "scripts/gate5-monitor.cjs",
+    "description": "PID write before try/finally could leave an orphan lock when initialization fails",
+    "resolution": "PID write moved inside try/finally; close and unlink cleanup nested",
+    "regression": "failed lock initialization cleans only its own lock before any probe or notification",
+    "status": "FIXED_AND_LOCALLY_TESTED"
+  },
+  "otherFindings": [],
+  "limits": ["Reviewer did not run the monitor", "Fix verified by primary agent, no second reviewer pass", "No hosted, CI or release acceptance inferred"]
+}

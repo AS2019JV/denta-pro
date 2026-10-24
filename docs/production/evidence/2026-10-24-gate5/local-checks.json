@@ -1,0 +1,78 @@
+{
+  "scope": "Gate5 local contracts only; providers simulated; no hosted acceptance",
+  "checks": [
+    {
+      "name": "targeted-tests",
+      "command": [
+        "node",
+        "--test",
+        "test/production/gate5-observability.test.cjs",
+        "test/production/readiness-health.test.cjs",
+        "test/production/clinical-document-route.test.cjs",
+        "test/production/private-media-delivery.test.cjs",
+        "test/security/prod-chk-f02-logging-pii.test.cjs"
+      ],
+      "exitCode": 1,
+      "status": "FAIL",
+      "startedAt": "2026-10-24T06:48:11.683Z",
+      "completedAt": "2026-10-24T06:48:13.949Z",
+      "artifact": "targeted-tests.txt",
+      "tests": 51,
+      "passed": 50,
+      "failed": 1
+    },
+    {
+      "name": "targeted-lint",
+      "command": [
+        "node",
+        "node_modules/next/dist/bin/next",
+        "lint",
+        "--no-cache",
+        "--file",
+        "lib/logger.ts",
+        "lib/operational-observability.ts",
+        "app/api/health/route.ts",
+        "app/api/clinical-documents/route.ts",
+        "app/api/private-media/route.ts"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "startedAt": "2026-10-24T06:48:13.950Z",
+      "completedAt": "2026-10-24T06:49:03.952Z",
+      "artifact": "targeted-lint.txt"
+    },
+    {
+      "name": "monitor-syntax",
+      "command": [
+        "node",
+        "--check",
+        "scripts/gate5-monitor.cjs"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "startedAt": "2026-10-24T06:49:03.952Z",
+      "completedAt": "2026-10-24T06:49:04.171Z",
+      "artifact": "monitor-syntax.txt"
+    },
+    {
+      "name": "changed-files-secret-check",
+      "command": "existing inspectText rules over Gate5 changed/untracked Git-visible text only",
+      "status": "PASS",
+      "scanned": 17,
+      "findings": [],
+      "limits": "No ignored files, history, compiled bundle, deployed credentials or exhaustive PHI scan"
+    },
+    {
+      "name": "typecheck",
+      "command": [
+        "node",
+        "scripts/clinia-verify.cjs",
+        "typecheck"
+      ],
+      "exitCode": 0,
+      "status": "PASS",
+      "evidence": "Completed earlier in this turn; tool session 97976 exitCode 0; no TypeScript source changes afterward",
+      "repeated": false
+    }
+  ]
+}

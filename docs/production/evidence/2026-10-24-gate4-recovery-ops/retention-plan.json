@@ -1,0 +1,28 @@
+{
+  "status": "PLAN_ONLY_NO_DELETION",
+  "entries": [
+    {
+      "id": "gate4-custody-01",
+      "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+      "action": "KEEP",
+      "reasons": [
+        "EXPLICIT_HOLD",
+        "CUSTODY_OR_KEY_NOT_VERIFIED",
+        "TOO_FEW_VERIFIED_INDEPENDENT_COPIES",
+        "RETENTION_BUCKET_OR_MINIMUM_COPY"
+      ]
+    },
+    {
+      "id": "original-20261021",
+      "archiveSha256": "2626ec45be9b4e7c38471fa0ab7eaf55e9952b846c928a5279bd8ff006ca7256",
+      "action": "KEEP",
+      "reasons": [
+        "EXPLICIT_HOLD",
+        "CUSTODY_OR_KEY_NOT_VERIFIED",
+        "TOO_FEW_VERIFIED_INDEPENDENT_COPIES"
+      ]
+    }
+  ],
+  "deletes": 0,
+  "clinicalRetentionApproved": false
+}

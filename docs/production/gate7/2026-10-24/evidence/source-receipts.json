@@ -1,0 +1,70 @@
+{
+  "sourceRoot": "C:\\Users\\aleja\\Documents\\0-dev\\denta-pro",
+  "checkedAtUtc": "2026-10-24T06:42:00.0946891Z",
+  "manifestSha256": "291997cd92098a46b06de466ddb10ad2b9a90cf831900300531abcb74d47b292",
+  "matchesExternalSeal": true,
+  "selectedSealedReceipts": 5,
+  "all60FilesReverified": false,
+  "receipts": [
+    {
+      "path": "docs/production/evidence/2026-10-23-security-patches-functional/RESULTADO.md",
+      "sha256": "de2a7ee33c61a2ad3ae14dcf6c9262dc18e48031c3cd8b181e8895280a4235f9",
+      "manifestMatched": true,
+      "scope": "Historical 5a7 receipt only; no current hosted verification"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-23-security-patches-functional/ci-successor.json",
+      "sha256": "62ff4640c66cf642ba615f684fa22922f3200f6c4bf3024d04e8b60e182e1cfd",
+      "manifestMatched": true,
+      "scope": "Historical 5a7 receipt only; no current hosted verification"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-23-security-patches-functional/successor-candidate.json",
+      "sha256": "e5aec0ab37c884bb599c7bf0e3f0de4944a3290b5f0f12c183b58104e4e3f9d5",
+      "manifestMatched": true,
+      "scope": "Historical 5a7 receipt only; no current hosted verification"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-23-security-patches-functional/recovery-scope-reuse.json",
+      "sha256": "894dec24686f56f916efafe9c37635d2b49688d52a2415cbcb3381512a7c7bce",
+      "manifestMatched": true,
+      "scope": "Historical 5a7 receipt only; no current hosted verification"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-23-security-patches-functional/DEMO_5_MIN.md",
+      "sha256": "547836d0cefa3079ed791fece49f9b5bde40f6c66cafbcb1ac42c7b9ca5ae729",
+      "manifestMatched": true,
+      "scope": "Historical 5a7 receipt only; no current hosted verification"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-09-release/clinical-browser.json",
+      "sha256": "b9dc97327a1fec5959f4becec9d371c54de5f2c5575ecff6799808c132b86b5b",
+      "manifestMatched": null,
+      "scope": "Read-only source hash at preparation; not a new runtime assertion"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-09-release/clinical-hosted-integration.json",
+      "sha256": "f81a4ac361f61497325520b0c2763ebab5e4992b9dbe7702d870a58e4de8877f",
+      "manifestMatched": null,
+      "scope": "Read-only source hash at preparation; not a new runtime assertion"
+    },
+    {
+      "path": "docs/production/PRODUCTION_ACCEPTANCE_2026-10-07.md",
+      "sha256": "bff8dc67d8a288b7fe54942d175481d0f09a43feceb17d3d01bac059667c942b",
+      "manifestMatched": null,
+      "scope": "Read-only source hash at preparation; not a new runtime assertion"
+    },
+    {
+      "path": ".agents/skills/dental-clinical-standards/SKILL.md",
+      "sha256": "f43f2e0e6a7edf6d9f36f6fbe121624cbcde344a64322fe25fdc4df23eb316f6",
+      "manifestMatched": null,
+      "scope": "Read-only source hash at preparation; not a new runtime assertion"
+    }
+  ],
+  "limits": [
+    "Do not transfer historical runtime PASS to the final candidate",
+    "Source global matrices may subsequently change",
+    "Source receipts were read only; no historical fixture queried or reused",
+    "No protected URLs or source secrets copied"
+  ]
+}

@@ -1,0 +1,12 @@
+{
+  "status": "PASS_OWNER_SYSTEM_ONLY_LOCAL_COPY",
+  "attempt": "custody-01",
+  "recordedAt": "2026-10-24T06:45:06.4951734Z",
+  "principals": "Current user and SYSTEM",
+  "protectedDirectories": true,
+  "reparsePoints": false,
+  "logicalKeySeparation": true,
+  "offsite": false,
+  "independentCustodian": false,
+  "sourceAclModified": false
+}

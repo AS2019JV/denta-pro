@@ -1,0 +1,809 @@
+{
+  "version": 1,
+  "createdAt": "2026-10-24T17:00:52.519Z",
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "checks": [
+    {
+      "label": "commit 5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+      "status": "PASS",
+      "sha256": "5a7a24af57c645bfc1cf8c70594cc568e03a7176"
+    },
+    {
+      "label": "commit 902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+      "status": "PASS",
+      "sha256": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2"
+    },
+    {
+      "label": "commit 82b0452097164a5c88f496b1f16f68759161c33c",
+      "status": "PASS",
+      "sha256": "82b0452097164a5c88f496b1f16f68759161c33c"
+    },
+    {
+      "label": "commit 16754bb168edf4627eb4a18b2f9f3f725f1e8181",
+      "status": "PASS",
+      "sha256": "16754bb168edf4627eb4a18b2f9f3f725f1e8181"
+    },
+    {
+      "label": "commit 15cf5f2b02ed2a80d72220af2f6f49310ff23023",
+      "status": "PASS",
+      "sha256": "15cf5f2b02ed2a80d72220af2f6f49310ff23023"
+    },
+    {
+      "label": "commit bddad198297c93b31d3bddbd490a9848abee3027",
+      "status": "PASS",
+      "sha256": "bddad198297c93b31d3bddbd490a9848abee3027"
+    },
+    {
+      "label": "Step2 candidate-ci.json",
+      "status": "PASS",
+      "sha256": "0e4528c40b1cde51486ff528ee108b86b4f21134f0bbd4d3f8b7b84026047ac1"
+    },
+    {
+      "label": "Step2 checkpoint-private-cleanup.json",
+      "status": "PASS",
+      "sha256": "65ecb60cfe134483b9faeb7ad3466b421b0365694540ccf24bc13cea68fe8876"
+    },
+    {
+      "label": "Step2 clock-and-fixture-before.json",
+      "status": "PASS",
+      "sha256": "12270dfccd5e5a88b9808973de2adad128fe94a7b6b43f5f3f1dca35b68cfaf8"
+    },
+    {
+      "label": "Step2 curl-parser.source.txt",
+      "status": "PASS",
+      "sha256": "d3ebd8ab48a9183a512d74f78085e3649789ac9887bec9ed2b15edf5c6c83e62"
+    },
+    {
+      "label": "Step2 deployment-binding.json",
+      "status": "PASS",
+      "sha256": "164d94968fd7e77c85efaba82fd8dd1a43f91548e64916bdebd5232b7c8c2066"
+    },
+    {
+      "label": "Step2 evidence-secret-check.json",
+      "status": "PASS",
+      "sha256": "17f8bd4b3776b6f9ac96f86e4cf190513f4d10bb0c24b5c8ff3398656c3a110e"
+    },
+    {
+      "label": "Step2 handoff.json",
+      "status": "PASS",
+      "sha256": "c22e84a732d6b757c5e2c0c0886ca05eec88213b16b847141acf4192d8f4d52e"
+    },
+    {
+      "label": "Step2 historical-evidence-reuse.json",
+      "status": "PASS",
+      "sha256": "e10ce811be588289835a879bd051955487e84ca39d204ef83a64c9b58ad2bc31"
+    },
+    {
+      "label": "Step2 holder-context-cleanup.json",
+      "status": "PASS",
+      "sha256": "fb58274763451b6b6cd8694e13109f746bb891787c6776090a6ba965d04b3754"
+    },
+    {
+      "label": "Step2 http-runner.source.txt",
+      "status": "PASS",
+      "sha256": "eee8817c62a2f4008be0730ff76fbafb8be308dec06824319ee6e1df981bfab4"
+    },
+    {
+      "label": "Step2 http-state-comparison.json",
+      "status": "PASS",
+      "sha256": "6c28b00c0cacc1e628d2669539bcc566b4de385b6d09ed6116ef0397878a279e"
+    },
+    {
+      "label": "Step2 immediate-after.json",
+      "status": "PASS",
+      "sha256": "e44348792f9bce95cf1780ff683529480d5b53a86d3d31b6c76b3ab02eca9028"
+    },
+    {
+      "label": "Step2 immediate-before.json",
+      "status": "PASS",
+      "sha256": "4535da3a5a017388d7e558173471fd655402ed51d7d4ac838a3654abd6410289"
+    },
+    {
+      "label": "Step2 immediate-live-probe.json",
+      "status": "PASS",
+      "sha256": "115d49b23f934b1f3be6f80c2c3c603623974555b57e1e7aa34941c426ea9ac6"
+    },
+    {
+      "label": "Step2 live-guard-contracts.json",
+      "status": "PASS",
+      "sha256": "8acd6dd6088dcdec43e00443a8f9ebcc038672e00902b221dc1cb44f8a051c4f"
+    },
+    {
+      "label": "Step2 luna-final-review.md",
+      "status": "PASS",
+      "sha256": "1334b802194c1e82acde6e3d4d68f0f765cc82bb6a58d72e43712e91244e1239"
+    },
+    {
+      "label": "Step2 ordinary-live-probe.json",
+      "status": "PASS",
+      "sha256": "449171beee42509bfbf9bc03048bed19a973d35a62e3be9a1b42cbd240937183"
+    },
+    {
+      "label": "Step2 ordinary-session-binding.json",
+      "status": "PASS",
+      "sha256": "d9b8fc6d8fe891023d1d20c2709fa4ceedd1cd6876994244c844a583c2c1f6ee"
+    },
+    {
+      "label": "Step2 pre-runtime-http-runner.source.txt",
+      "status": "PASS",
+      "sha256": "1f39762ce16b8c911517013f3585108ec7931888c2580c7e5e7e87c62036dba1"
+    },
+    {
+      "label": "Step2 pre-runtime-RESULTADO.md",
+      "status": "PASS",
+      "sha256": "fe485d93fef61a547f2e89a30881c881306d4cb8bd345c7a6b12f79f72ebbe8e"
+    },
+    {
+      "label": "Step2 private-cleanup.json",
+      "status": "PASS",
+      "sha256": "f90d52bf716775e7dc1a024c5dba8f8eae42ce8cbc2d27bc582fe9db7ca62d68"
+    },
+    {
+      "label": "Step2 redemption-http.json",
+      "status": "PASS",
+      "sha256": "8a37b9aa795ff3c874dd95b18c9261c890112f40f1a85457e96b10431bf78975"
+    },
+    {
+      "label": "Step2 redemption-intent.json",
+      "status": "PASS",
+      "sha256": "104c9fb964e6a2d8c5b9d1bb2ac54f17361410d57329f708f2f3030e5a32e30d"
+    },
+    {
+      "label": "Step2 RESULTADO.md",
+      "status": "PASS",
+      "sha256": "5b9622b1711c8fee64f44d47e0e60513c403c9a83d5ad4060925e9f875a47f62"
+    },
+    {
+      "label": "Step2 scope-authorization.json",
+      "status": "PASS",
+      "sha256": "e4ad66d07fc0614bdf93db565cf993b1a4d3f18c363a03709446200ba1c85de9"
+    },
+    {
+      "label": "Step2 token-custody-runtime.json",
+      "status": "PASS",
+      "sha256": "8ddeeed2be75695f4fe1d3a1a8abc538a9d691a22e886afcc606b58632977fab"
+    },
+    {
+      "label": "Step2 token-custody.json",
+      "status": "PASS",
+      "sha256": "7d15ff6943e87b7b126aabab518843ad6e34f16b1f94b1f22ab884f62f607d0f"
+    },
+    {
+      "label": "Step2 token-shape-supplement.json",
+      "status": "PASS",
+      "sha256": "9d4905e0190f9f80cb88689b1d0c23dce0089c4516b436e256539ff28aaa7eec"
+    },
+    {
+      "label": "Step2 tool-review-disposition.json",
+      "status": "PASS",
+      "sha256": "cf6419cafbcb1b795b186901ed4067d5da7c950e3e12977d1760575e16c69f43"
+    },
+    {
+      "label": "Gate4 envelope canonical .gitignore",
+      "status": "PASS",
+      "sha256": "bec12887032e45c899dd7cfa99b09899716b56a0934ebb7eb7e895296c0820bb"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/COMANDOS.md",
+      "status": "PASS",
+      "sha256": "0b299574e66714055f222f9e29552a89b7eca09b74b912951fe30c07941c8ab7"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/LUNA.md",
+      "status": "PASS",
+      "sha256": "6f2ccfaf0e8356be6b3698da96692a26300993f44b97aa1fee76e7a30b112b46"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/RESULTADO.md",
+      "status": "PASS",
+      "sha256": "793e2f642694651d56fc4f6dbbd12301636cb486e67004b48c3cd30477a04d3d"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/checkout-canonicalization.json",
+      "status": "PASS",
+      "sha256": "9553c1990573df8b217075005cbc52688ef906902f48d3548674501dfe4f321e"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/custody-no-overwrite-tests.json",
+      "status": "PASS",
+      "sha256": "1c75955afe1047e9f7b1c0d629e42efa80c997076b430125954593f2e9a56016"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/execution-notes.json",
+      "status": "PASS",
+      "sha256": "8ec9ddcbefb09276cd31c42750e0056e43ef126fa77fd5a50e317776185d6ee3"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-01.json",
+      "status": "PASS",
+      "sha256": "07a97d93d85df9dba3761e0f963c5be51ea170c5dabf9b7106f639cf44f293d8"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-02.json",
+      "status": "PASS",
+      "sha256": "c26151a718506d6658384e37904cd23ac18ed19455732148e1b3dcbe0bbb8410"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-junction-negative.json",
+      "status": "PASS",
+      "sha256": "c1d0c061208678115c840ce591f5a735e7c98285ae0a179c4a9259f1453424ef"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-catalog.json",
+      "status": "PASS",
+      "sha256": "94583c439871977fc866f6eacc0bb8a05e02be9ca43b0b2b34053a4989fea73e"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-copy.json",
+      "status": "PASS",
+      "sha256": "84682492621dedef2dd9684f2280e748766fcd04f7a22becb9767db516306520"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.acl.json",
+      "status": "PASS",
+      "sha256": "07635c25ef065139fb70f3c25b7733e5ea17257640b780f9e1dc453fb1a6fe7b"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.json",
+      "status": "PASS",
+      "sha256": "604a218e4e8971e2cf3c6e90c1b86054bf67a8a22b6d9916fecb92cec75ef11e"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.timing.json",
+      "status": "PASS",
+      "sha256": "724707591d747c2b46701652977d0b333e91d54b90728f3ee58a7e24f4b9b048"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.acl.json",
+      "status": "PASS",
+      "sha256": "e1b528658b8a8ba5999694315163a1b22d1419db43bd19926c98333080ffa6b0"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.json",
+      "status": "PASS",
+      "sha256": "be81120d86735548862dd29bab8c351918d5a5397f70d2b735fe7282e201dd8f"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision-final.json",
+      "status": "PASS",
+      "sha256": "95318a206ef94f556154cdfc3b7cb44bc5464252e6d548d5721ee11727f5877d"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision.json",
+      "status": "PASS",
+      "sha256": "ed9c8dc21dccf5607eb86ca9e9ad3220a065e16ace600e3c73718e2883f94f70"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-input.json",
+      "status": "PASS",
+      "sha256": "5814b4f67a099f4023bfdbed8d47cb7cb06b11b27e6b191c062b420a24e1ec02"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan-final.json",
+      "status": "PASS",
+      "sha256": "ec58563e739cc63080bec5a070bf034b42ed47a222f9662bc30bdd0a5f8189b9"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan.json",
+      "status": "PASS",
+      "sha256": "0d2a62c2c07648d4bb951ee10fe3b4fd8e431e7cf4aa22abbea7b3ca6bbe45f4"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/retention-plan.json",
+      "status": "PASS",
+      "sha256": "9d506ed1ea4bfcd5c8250be3c5043045855ed8cfefc9df3026d7345359b16193"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/reused-evidence.json",
+      "status": "PASS",
+      "sha256": "36be830ac0bbef1ef147dd05b1a7b5d6eec0872f42e3be80ee11cd6c1081304a"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/tests-final.json",
+      "status": "PASS",
+      "sha256": "3b90fd829b94e49b6b1f63de0d1d8638a6043395e793bf1ca9b62ea8d65a906d"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/tests.json",
+      "status": "PASS",
+      "sha256": "1a7f329bc3b799a365158ed40a4682033efa7e31a9092b555736abec07eddff2"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/gate4-recovery-ops/RUNBOOK.md",
+      "status": "PASS",
+      "sha256": "a510476852fa5b26d561907a4d44e8d9caa53fb2c10c862fd29fab290ab9578c"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/gate4-recovery-ops/custody-request.json",
+      "status": "PASS",
+      "sha256": "f0a59e157d21dedfb2d38900b13d205e8222398b2fb136e31864f6bfc0b8cd71"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/gate4-recovery-ops/policy.proposed.json",
+      "status": "PASS",
+      "sha256": "1e61037e393cc5e079b2abe84539fb3b881d1fe7db14455af1ea61c0c17be6b3"
+    },
+    {
+      "label": "Gate4 envelope canonical scripts/clinia-gate4-custody.ps1",
+      "status": "PASS",
+      "sha256": "0475da8b858356ae8c3bfd39a1ca69a8b8d18b2b54a56b58e9bdcfe1c5e3d028"
+    },
+    {
+      "label": "Gate4 envelope canonical scripts/clinia-gate4-local-custody.cjs",
+      "status": "PASS",
+      "sha256": "ea724821266188050b66055b53814bf4683fe7562a2ea6c92fed8bb8ae3fbca5"
+    },
+    {
+      "label": "Gate4 envelope canonical scripts/clinia-gate4-recovery-kit.ps1",
+      "status": "PASS",
+      "sha256": "db08446e361f690de2746154b068d1c009802bcb4402d2d27ce1dd16a8f67381"
+    },
+    {
+      "label": "Gate4 envelope canonical scripts/clinia-gate4-recovery-ops.cjs",
+      "status": "PASS",
+      "sha256": "acf7247011a014bedba52e4b4f7c7fbef530083d9ea0536498634b3bb515ea45"
+    },
+    {
+      "label": "Gate4 envelope canonical scripts/clinia-gate4-scan.cjs",
+      "status": "PASS",
+      "sha256": "4faabc552d9be519b4d905b18eb452299724476f39431fbb75dc5ddf030c82e6"
+    },
+    {
+      "label": "Gate4 envelope canonical test/production/gate4-recovery-ops.test.cjs",
+      "status": "PASS",
+      "sha256": "325156d9edeab7aca010d281f3e6fea906a1227e80c42dc83bfced21717ec736"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/FINAL_CHECKS.json",
+      "status": "PASS",
+      "sha256": "dd10c75232fe8ae758942da9957e644fc321019b2a7f1e7abb98ff38c3720b08"
+    },
+    {
+      "label": "Gate4 envelope canonical docs/production/evidence/2026-10-24-gate4-recovery-ops/handoff.json",
+      "status": "PASS",
+      "sha256": "368869ba1c70113b4d63880166ff58885b8f1fd0f9fd74e549c1bce47d09e6db"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/RESULTADO.md",
+      "status": "PASS",
+      "sha256": "7dc158156e82fb417ea8a689ebde7add8bbe5e1efc8700d968bdad1cd5d533e0"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/artifacts.sha256.json",
+      "status": "PASS",
+      "sha256": "14e376870d72530db86549c34bdbf86f6578b0f563d2f2fcef37a3811721bf7a"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/delta-tests-final.txt",
+      "status": "PASS",
+      "sha256": "3ce3ee67519df741ebe0952f7cf9858c89b71b78bac2ba91b3d9b194120c6564"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/final-checks.json",
+      "status": "PASS",
+      "sha256": "9ef7d81baa19bebbe4f3b4de2db715bdd0dc8256061dc012cb9ddd2a1030ca84"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/independent-review.json",
+      "status": "PASS",
+      "sha256": "462691090ad011c2bf6e217e289f3da3a07090b6673dc1139198a6d6a394b7bf"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/local-checks.json",
+      "status": "PASS",
+      "sha256": "ccaad3f2a98d0f89160d3db803c488825dc92d9457349d0bbf2233ac6198f4e2"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/monitor-syntax.txt",
+      "status": "PASS",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/targeted-lint.txt",
+      "status": "PASS",
+      "sha256": "cd3e2da705a618c9a11745f753a9ac408286b28ea9df243511b6f03e05b92dc4"
+    },
+    {
+      "label": "Gate5 canonical docs/production/evidence/2026-10-24-gate5/targeted-tests.txt",
+      "status": "PASS",
+      "sha256": "88b761a8da40037c3a595bac917c4431860d3cf9c4d7bd936880ee9c0d6b4d74"
+    },
+    {
+      "label": "Gate5 canonical docs/production/gate5/2026-10-24/RUNBOOK.md",
+      "status": "PASS",
+      "sha256": "6bc8b65d6dfadee0a36d43941913b6d72e2ccb46fda1f0f8f8bb58a807e05515"
+    },
+    {
+      "label": "Gate5 canonical docs/production/gate5/2026-10-24/hosted-receipt.template.json",
+      "status": "PASS",
+      "sha256": "595ba1cb2116fdad55f9a61d3948c60a17cc748b33ca0d13d32688f00f0a1b06"
+    },
+    {
+      "label": "Gate5 canonical docs/production/gate5/2026-10-24/monitor.example.json",
+      "status": "PASS",
+      "sha256": "ffe838da605ce60ba2eb8d676aca7ef5befd79b53a34c25fb96b85bc4afdd764"
+    },
+    {
+      "label": "Gate5 working-tree .gitignore",
+      "status": "PASS",
+      "sha256": "41048b37a28bc62560e396b104ae9d1ec8135f34c54d88ce4ff644f47b192900"
+    },
+    {
+      "label": "Gate5 working-tree app/api/clinical-documents/route.ts",
+      "status": "PASS",
+      "sha256": "8786ba70f61b3517a575a1705ab84539febcb4332c55f4c5b3003fe7456a5472"
+    },
+    {
+      "label": "Gate5 working-tree app/api/health/route.ts",
+      "status": "PASS",
+      "sha256": "577cc91e54b8851b55444c99aa926a780d31ae17f4fc63a5fd460b1aacdfceef"
+    },
+    {
+      "label": "Gate5 working-tree app/api/private-media/route.ts",
+      "status": "PASS",
+      "sha256": "f936ba9d914aa5cb3ae264b573265b5c5ce08b194e4b2121469eadae4d7ed612"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/RESULTADO.md",
+      "status": "PASS",
+      "sha256": "7dc158156e82fb417ea8a689ebde7add8bbe5e1efc8700d968bdad1cd5d533e0"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/delta-tests-final.txt",
+      "status": "PASS",
+      "sha256": "3ce3ee67519df741ebe0952f7cf9858c89b71b78bac2ba91b3d9b194120c6564"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/final-checks.json",
+      "status": "PASS",
+      "sha256": "9ef7d81baa19bebbe4f3b4de2db715bdd0dc8256061dc012cb9ddd2a1030ca84"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/independent-review.json",
+      "status": "PASS",
+      "sha256": "462691090ad011c2bf6e217e289f3da3a07090b6673dc1139198a6d6a394b7bf"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/local-checks.json",
+      "status": "PASS",
+      "sha256": "ccaad3f2a98d0f89160d3db803c488825dc92d9457349d0bbf2233ac6198f4e2"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/monitor-syntax.txt",
+      "status": "PASS",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/targeted-lint.txt",
+      "status": "PASS",
+      "sha256": "cd3e2da705a618c9a11745f753a9ac408286b28ea9df243511b6f03e05b92dc4"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/evidence/2026-10-24-gate5/targeted-tests.txt",
+      "status": "PASS",
+      "sha256": "88b761a8da40037c3a595bac917c4431860d3cf9c4d7bd936880ee9c0d6b4d74"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/gate5/2026-10-24/RUNBOOK.md",
+      "status": "PASS",
+      "sha256": "6bc8b65d6dfadee0a36d43941913b6d72e2ccb46fda1f0f8f8bb58a807e05515"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/gate5/2026-10-24/hosted-receipt.template.json",
+      "status": "PASS",
+      "sha256": "595ba1cb2116fdad55f9a61d3948c60a17cc748b33ca0d13d32688f00f0a1b06"
+    },
+    {
+      "label": "Gate5 working-tree docs/production/gate5/2026-10-24/monitor.example.json",
+      "status": "PASS",
+      "sha256": "ffe838da605ce60ba2eb8d676aca7ef5befd79b53a34c25fb96b85bc4afdd764"
+    },
+    {
+      "label": "Gate5 working-tree lib/logger.ts",
+      "status": "PASS",
+      "sha256": "8de5b3d38db4aab02b553e7935468062137c297e009c5addc33ba18bae522c34"
+    },
+    {
+      "label": "Gate5 working-tree lib/operational-observability.ts",
+      "status": "PASS",
+      "sha256": "9ba9b0d4318a2081879db57bd8e7d2871af93d4cb2aaa8448c4617c4c28b8d03"
+    },
+    {
+      "label": "Gate5 working-tree scripts/gate5-monitor.cjs",
+      "status": "PASS",
+      "sha256": "1c7ce77b5812f3f8fbece33567008c3084d56e44a94b4936fb63dfe73b42f22f"
+    },
+    {
+      "label": "Gate5 working-tree test/production/clinical-document-route.test.cjs",
+      "status": "PASS",
+      "sha256": "f8fb81dbacbd0b246513dfc8e4b5b7e9e15386fff9a936af2a0e17ff71d80a83"
+    },
+    {
+      "label": "Gate5 working-tree test/production/gate5-observability.test.cjs",
+      "status": "PASS",
+      "sha256": "40ad785e8a5662c57b6c7f0fbb530f4c5688bc12bd9de0f3c15a0ac69e9ac672"
+    },
+    {
+      "label": "Gate5 working-tree test/production/helpers/operational-observability.cjs",
+      "status": "PASS",
+      "sha256": "7568d87050c266bd151e9333148e0c6126978bdaad7f295e9dbfefb774d09c95"
+    },
+    {
+      "label": "Gate5 working-tree test/production/readiness-health.test.cjs",
+      "status": "PASS",
+      "sha256": "87e00e8bd1e10bec22ebe7a1049ac362de6fed2f847c7507008413a1fd46971a"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/.gitattributes",
+      "status": "PASS",
+      "sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/ACEPTACION_HUMANA.md",
+      "status": "PASS",
+      "sha256": "428fc8ab1cef265dda36632ce95f0e90db084ec06a01e16e2d98354a3161241d"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/COMANDOS.md",
+      "status": "PASS",
+      "sha256": "39445d1112ffe4e00ac96c47ad500951f678bdc6e8e3b96e82e2e0df22ac76ad"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/DEMO_5_MIN.md",
+      "status": "PASS",
+      "sha256": "0a3844df964bbe8dfb145eadf3c6443f7ab6993bde6658b0aeb8fda44611f3b5"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/MANIFEST.sha256",
+      "status": "PASS",
+      "sha256": "ed6468985398f59b3b6134e817e376a4f3b18886776be5b054d92d0ccc3ccdc8"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/MATRIZ_RECORRIDOS.md",
+      "status": "PASS",
+      "sha256": "8e2df283f8d276c5360eb09f11359016f5bf5b375d5cafd85deece250d43d6bb"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/PRIVACIDAD_LOPDP.md",
+      "status": "PASS",
+      "sha256": "8cbe892452c7d87c7873442bfdaec26dc238325798b133052984ca12b3565dca"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/RESULTADO.md",
+      "status": "PASS",
+      "sha256": "c671bfd964c46f1f5fbd8327f4e5c0f4fc886e48d07ddd1cf86f85028ff47957"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/evidence/package-checks.json",
+      "status": "PASS",
+      "sha256": "660938b2674c69de97fdfc58259281400492b5276d725ef9bd401069ea0c7a64"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/evidence/source-receipts.json",
+      "status": "PASS",
+      "sha256": "24e24bdca5c5c680e628908f4142fe524951f222e6c84dbdd428c89070fef2b0"
+    },
+    {
+      "label": "Gate7 canonical docs/production/gate7/2026-10-24/evidence/verification.json",
+      "status": "PASS",
+      "sha256": "90fc914e04b35059a7b1e8e8361d813c61e1a1f4ac579f53a1e836ff82722b3d"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/.gitattributes",
+      "status": "PASS",
+      "sha256": "a79691a93b46e49ce460c26ef22afcc03d6eca1e63bf2edbc20e96159510f6c9"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/ACEPTACION_HUMANA.md",
+      "status": "PASS",
+      "sha256": "428fc8ab1cef265dda36632ce95f0e90db084ec06a01e16e2d98354a3161241d"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/COMANDOS.md",
+      "status": "PASS",
+      "sha256": "39445d1112ffe4e00ac96c47ad500951f678bdc6e8e3b96e82e2e0df22ac76ad"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/DEMO_5_MIN.md",
+      "status": "PASS",
+      "sha256": "0a3844df964bbe8dfb145eadf3c6443f7ab6993bde6658b0aeb8fda44611f3b5"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/evidence/package-checks.json",
+      "status": "PASS",
+      "sha256": "660938b2674c69de97fdfc58259281400492b5276d725ef9bd401069ea0c7a64"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/evidence/source-receipts.json",
+      "status": "PASS",
+      "sha256": "24e24bdca5c5c680e628908f4142fe524951f222e6c84dbdd428c89070fef2b0"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/evidence/verification.json",
+      "status": "PASS",
+      "sha256": "90fc914e04b35059a7b1e8e8361d813c61e1a1f4ac579f53a1e836ff82722b3d"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/MATRIZ_RECORRIDOS.md",
+      "status": "PASS",
+      "sha256": "8e2df283f8d276c5360eb09f11359016f5bf5b375d5cafd85deece250d43d6bb"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/PRIVACIDAD_LOPDP.md",
+      "status": "PASS",
+      "sha256": "8cbe892452c7d87c7873442bfdaec26dc238325798b133052984ca12b3565dca"
+    },
+    {
+      "label": "Gate7 manifest docs/production/gate7/2026-10-24/RESULTADO.md",
+      "status": "PASS",
+      "sha256": "c671bfd964c46f1f5fbd8327f4e5c0f4fc886e48d07ddd1cf86f85028ff47957"
+    },
+    {
+      "label": "baseline retained package.json",
+      "status": "PASS",
+      "sha256": "63b41b70365c9dd51246c336b68a319067ee83e914735f792d22fbceaf6530d7"
+    },
+    {
+      "label": "baseline retained package-lock.json",
+      "status": "PASS",
+      "sha256": "afe47c1098acf77fe2685cd76737737dd21d34546f077c115f14c871f385fafa"
+    },
+    {
+      "label": "baseline retained .github/workflows/clinia-verification.yml",
+      "status": "PASS",
+      "sha256": "ab4f6b9831e9f21f5d970b71068a37af09756b91af34d8023aefa198bdb6b8b8"
+    },
+    {
+      "label": "baseline retained middleware.ts",
+      "status": "PASS",
+      "sha256": "05b45251ff26da473fbd49ed8dd963c50b462c61a466bc3d9709cdcf5caf8d9d"
+    },
+    {
+      "label": "baseline retained next.config.mjs",
+      "status": "PASS",
+      "sha256": "c36ebd6abb1d7fa1cdad4e258cbb3f26dc17d261c82e856fcdf9123c896c5f7c"
+    }
+  ],
+  "integratedDeltas": [
+    {
+      "sourceCommit": "82b0452097164a5c88f496b1f16f68759161c33c",
+      "parent": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+      "selectedPaths": [
+        ".gitignore",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/COMANDOS.md",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/LUNA.md",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/RESULTADO.md",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/checkout-canonicalization.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/custody-no-overwrite-tests.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/execution-notes.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-01.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-02.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/kit-junction-negative.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-catalog.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-copy.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.acl.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-final-verification.timing.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.acl.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/local-reopen.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision-final.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-decision.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/operational-input.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan-final.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/public-secret-scan.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/retention-plan.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/reused-evidence.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests-final.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/tests.json",
+        "docs/production/gate4-recovery-ops/RUNBOOK.md",
+        "docs/production/gate4-recovery-ops/custody-request.json",
+        "docs/production/gate4-recovery-ops/policy.proposed.json",
+        "scripts/clinia-gate4-custody.ps1",
+        "scripts/clinia-gate4-local-custody.cjs",
+        "scripts/clinia-gate4-recovery-kit.ps1",
+        "scripts/clinia-gate4-recovery-ops.cjs",
+        "scripts/clinia-gate4-scan.cjs",
+        "test/production/gate4-recovery-ops.test.cjs"
+      ],
+      "method": "exact changed blobs; .gitignore additions composed"
+    },
+    {
+      "sourceCommit": "16754bb168edf4627eb4a18b2f9f3f725f1e8181",
+      "parent": "82b0452097164a5c88f496b1f16f68759161c33c",
+      "selectedPaths": [
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/FINAL_CHECKS.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/SEAL.json",
+        "docs/production/evidence/2026-10-24-gate4-recovery-ops/handoff.json"
+      ],
+      "method": "exact changed blobs; .gitignore additions composed"
+    },
+    {
+      "sourceCommit": "15cf5f2b02ed2a80d72220af2f6f49310ff23023",
+      "parent": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+      "selectedPaths": [
+        ".gitignore",
+        "app/api/clinical-documents/route.ts",
+        "app/api/health/route.ts",
+        "app/api/private-media/route.ts",
+        "docs/production/evidence/2026-10-24-gate5/RESULTADO.md",
+        "docs/production/evidence/2026-10-24-gate5/artifacts.sha256.json",
+        "docs/production/evidence/2026-10-24-gate5/delta-tests-final.txt",
+        "docs/production/evidence/2026-10-24-gate5/final-checks.json",
+        "docs/production/evidence/2026-10-24-gate5/independent-review.json",
+        "docs/production/evidence/2026-10-24-gate5/local-checks.json",
+        "docs/production/evidence/2026-10-24-gate5/monitor-syntax.txt",
+        "docs/production/evidence/2026-10-24-gate5/targeted-lint.txt",
+        "docs/production/evidence/2026-10-24-gate5/targeted-tests.txt",
+        "docs/production/gate5/2026-10-24/RUNBOOK.md",
+        "docs/production/gate5/2026-10-24/hosted-receipt.template.json",
+        "docs/production/gate5/2026-10-24/monitor.example.json",
+        "lib/logger.ts",
+        "lib/operational-observability.ts",
+        "scripts/gate5-monitor.cjs",
+        "test/production/clinical-document-route.test.cjs",
+        "test/production/gate5-observability.test.cjs",
+        "test/production/helpers/operational-observability.cjs",
+        "test/production/readiness-health.test.cjs"
+      ],
+      "method": "exact changed blobs; .gitignore additions composed"
+    },
+    {
+      "sourceCommit": "bddad198297c93b31d3bddbd490a9848abee3027",
+      "parent": "902999c6b7b7ee696982d87e8ce7f6e5087f75e2",
+      "selectedPaths": [
+        "docs/production/gate7/2026-10-24/.gitattributes",
+        "docs/production/gate7/2026-10-24/ACEPTACION_HUMANA.md",
+        "docs/production/gate7/2026-10-24/COMANDOS.md",
+        "docs/production/gate7/2026-10-24/DEMO_5_MIN.md",
+        "docs/production/gate7/2026-10-24/MANIFEST.sha256",
+        "docs/production/gate7/2026-10-24/MATRIZ_RECORRIDOS.md",
+        "docs/production/gate7/2026-10-24/PRIVACIDAD_LOPDP.md",
+        "docs/production/gate7/2026-10-24/RESULTADO.md",
+        "docs/production/gate7/2026-10-24/evidence/package-checks.json",
+        "docs/production/gate7/2026-10-24/evidence/source-receipts.json",
+        "docs/production/gate7/2026-10-24/evidence/verification.json"
+      ],
+      "method": "exact changed blobs; .gitignore additions composed"
+    }
+  ],
+  "protectedPaths": [
+    {
+      "path": "docs/production/RELEASE_ACCEPTANCE_MATRIX.md",
+      "preIntegrationSHA256": "83091f84bfc06b4b18a677696fef51f41fd3e788e1ab51427287c17933a5f27a",
+      "source": "current coordinator checkout"
+    },
+    {
+      "path": "docs/production/PRODUCTION_ACCEPTANCE_2026-10-07.md",
+      "preIntegrationSHA256": "bff8dc67d8a288b7fe54942d175481d0f09a43feceb17d3d01bac059667c942b",
+      "source": "current coordinator checkout"
+    }
+  ],
+  "sourceEnvelopes": [
+    {
+      "gate": "step2",
+      "source": "C:/Users/aleja/.codex/worktrees/clinia-invitation-expiry/denta-pro/docs/production/evidence/2026-10-24-clinical-expiry/handoff.json",
+      "sha256": "c22e84a732d6b757c5e2c0c0886ca05eec88213b16b847141acf4192d8f4d52e"
+    },
+    {
+      "gate": "gate4",
+      "source": "C:/Users/aleja/.codex/worktrees/clinia-gate4-recovery/denta-pro/docs/production/evidence/2026-10-24-gate4-recovery-ops/handoff.json",
+      "sha256": "368869ba1c70113b4d63880166ff58885b8f1fd0f9fd74e549c1bce47d09e6db"
+    },
+    {
+      "gate": "gate5",
+      "source": "C:/Users/aleja/.codex/worktrees/gate5-observability/denta-pro/.gate5-private/handoff.json",
+      "sha256": "ea97c90cf95eeaab2612382f023dae11c1c591a015294021659e091d3cc53cbb"
+    },
+    {
+      "gate": "gate7",
+      "source": "C:/Users/aleja/.codex/worktrees/gate7-clinical-acceptance/denta-pro/.release-snapshots/gate7-delivery-2026-10-24/handoff.json",
+      "sha256": "edb952fb8a895f53f27ed6ab3e468695f2b5e1779a64cd418a6ccfc2d3389924"
+    }
+  ],
+  "canonicalBaseFiles": 1163,
+  "gate4Envelope": {
+    "implementationSHA": "82b0452097164a5c88f496b1f16f68759161c33c",
+    "envelopeSHA": "16754bb168edf4627eb4a18b2f9f3f725f1e8181",
+    "note": "SEAL declares implementation SHA; FINAL_CHECKS is introduced by the envelope commit. Verify sealed blobs at final supplied envelope, never claim all files exist at implementation SHA."
+  }
+}

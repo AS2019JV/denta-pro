@@ -1,0 +1,11 @@
+{
+  "baseSHA": "5a7a24af57c645bfc1cf8c70594cc568e03a7176",
+  "deployment": "DSCZLhuZTEpkMK34H4Y5uocJaUmp",
+  "capturedAt": "2026-10-24T16:03:13.123Z",
+  "source": "Holder copied original authorized invitation link to ignored local file",
+  "tokenDigest": "b2d03228c6184004ebd8888e13e907afefcdf29e52cfedf517a96eed9ca65665",
+  "matchedOriginal": true,
+  "originalLinkOpened": false,
+  "newInvitationIssued": false,
+  "plaintextInConnectorRequest": false
+}
