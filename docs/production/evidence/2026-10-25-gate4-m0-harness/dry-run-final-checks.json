@@ -1,0 +1,39 @@
+{
+  "status": "PASS_FINAL_DRY_RUN_BOUNDED_INVARIANTS",
+  "command": "node scripts/clinia-gate4-managed-m0.cjs dry-run --receipt m0-dry-run-final.json",
+  "exitCode": 0,
+  "harnessState": "PASS_DRY_RUN_READ_ONLY_DISPATCH_NO_MANAGED_INITIALIZATION",
+  "dockerReadOnlyDispatches": 9,
+  "allDockerDispatchesReadOnly": true,
+  "custodyActions": [
+    "AssertAbsent"
+  ],
+  "beforeSha256": "0a2d02c175e9cd8a6e98b990db03fbb475a3a20b1d36788e7b6cc46a0ca0e2d9",
+  "afterSha256": "0a2d02c175e9cd8a6e98b990db03fbb475a3a20b1d36788e7b6cc46a0ca0e2d9",
+  "globalInventoriesEqual": true,
+  "delta": {
+    "containers": {
+      "added": [],
+      "removed": []
+    },
+    "volumes": {
+      "added": [],
+      "removed": []
+    },
+    "networks": {
+      "added": [],
+      "removed": []
+    }
+  },
+  "privateDirectoryAbsent": true,
+  "targetResourcesAbsent": true,
+  "managedStarts": 0,
+  "probeStarts": 0,
+  "credentialsCreated": false,
+  "leaseAllocated": false,
+  "firstGlobalComparisonFailurePreserved": true,
+  "firstBridgeChangeCause": "NOT_VERIFIED",
+  "stdout": "{\"state\":\"PASS_DRY_RUN_READ_ONLY_DISPATCH_NO_MANAGED_INITIALIZATION\",\"mode\":\"dry-run\",\"target\":\"clinia-gate3-20261020-a9\",\"receipt\":\"C:\\\\Users\\\\aleja\\\\.codex\\\\worktrees\\\\clinia-gate4-recovery\\\\denta-pro\\\\docs\\\\production\\\\evidence\\\\2026-10-25-gate4-m0-harness\\\\m0-dry-run-final.json\",\"managedStackStarts\":0,\"credentialsCreated\":false,\"leaseAllocated\":false,\"safeError\":null}",
+  "stderr": "",
+  "initializationExecuted": false
+}

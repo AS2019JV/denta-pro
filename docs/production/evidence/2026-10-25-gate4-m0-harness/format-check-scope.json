@@ -1,0 +1,7 @@
+{
+  "rawTapLogsPreserved": true,
+  "initialAllFileDiffCheck": "Reported whitespace-only diagnostic lines in original RED TAP output; no commit made",
+  "appliedCheck": "git diff --cached --check -- *.cjs *.ps1 *.json *.md with cr-at-eol",
+  "sourceOrWorkflowControlsChanged": false,
+  "logsTrimmedOrRewritten": false
+}

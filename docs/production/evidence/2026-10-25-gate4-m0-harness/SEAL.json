@@ -1,0 +1,101 @@
+{
+  "version": 1,
+  "baseSHA": "639de2276acbba7086e48e76c855ed978e868c11",
+  "resultSHA": "9f4235bf5b76b140d1c78bfd363c01a1ac010782",
+  "scope": "Exact owned executor package; integrity only, not authority/CI acceptance",
+  "files": [
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/RESULTADO.md",
+      "sha256": "9d4c2c72669e3ea590b39d3d0ceb092891e666147294ecc5f6cd641358a5bba8"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-command.json",
+      "sha256": "a1a74ee6a8285dc5480c072b4c106e3f658d9d95d9e15699430f3fb107e056bf"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-final-checks.json",
+      "sha256": "7bffbceaef8db356eac91c4241b593b5a9e94fdafe0ec470a5b0d8ebe3cd2707"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-gate-red.txt",
+      "sha256": "1eba4141a62284a6a538680a9b1f027bd99ae8786818d3010388d54190ce457c"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-network-events.json",
+      "sha256": "6c4f3b6f27022fd34d7fe192a5506a3684037b2a87db6ac0ca860651cfab76fd"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/executor-closure.json",
+      "sha256": "950f5d0f94475010f34760b3794bb66a65815441c81c7cd9908c048510c295f2"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/format-check-scope.json",
+      "sha256": "41b375bdee4d156c448c12f3e007b87857d962ed1e99246f87b21b69524b6be7"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/host-cleanup-red.txt",
+      "sha256": "a0cc4becbd379e1d7814693b450a0a8118b9c5e4a4b49633984ae069da534281"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/initial-global-inventory-discrepancy.json",
+      "sha256": "faf3aebb7e3772a4f28309b63c58e56a4f5a14dbb7a448d941846b3250a0f80e"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run-final.json",
+      "sha256": "6ae30f02303646531d3e3270c098262928c62a659794c8364892b8430e4e48a5"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run-release.json",
+      "sha256": "88e5b58525523b1bfb659356445b2886440673aa251ff8d95e8b5e1b073f7830"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run.json",
+      "sha256": "01dbfcc99861ae2f7238b16c1dedeb4f73ad417e444e6db7acdab42e84f7d7e6"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/public-checks.json",
+      "sha256": "623c33119ae45523af2842297c1febf5cb0cc0f1ce9d64737dbe6afb44dadefa"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/release-checks.json",
+      "sha256": "7769b9a8dc47f04d1842cfb4de97ac3f2f033ba002db83d2c15d7f72a3a32fa6"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-final.txt",
+      "sha256": "37557f3510a365223f7239888841db772b22785a82745a60de09c16c07228002"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-green.txt",
+      "sha256": "52f2e560af59a12af102605314b71ef5e373e07a8894bba8f0df826d78db2d5e"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-red.txt",
+      "sha256": "7ee088918fcf93662967dd62b036b1cc691993dfd90b7aee46b74b46618da98f"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/M0_EXECUTOR.md",
+      "sha256": "d1390f718d5c3b761201e668845e7d8769274e621abf47b25818f3dbf5c0b167"
+    },
+    {
+      "path": "scripts/clinia-gate4-m0-custody.ps1",
+      "sha256": "ac065e2de5ffa1bdf2a2b3872e25c2c5f7b8d0686cc81995ce35b81bdd8293ad"
+    },
+    {
+      "path": "scripts/clinia-gate4-managed-m0.cjs",
+      "sha256": "5fafb08d8170c9e8dea3026423e47229f5cf460dce56ebbe5bdc1b9154680f13"
+    },
+    {
+      "path": "test/production/gate4-managed-m0.test.cjs",
+      "sha256": "8ffa61bf3eb0a7cbe96017573286184762846b05f5e838b4721e6f67188b6240"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/M0_EXECUTOR_DELTA.patch",
+      "sha256": "4292349aece355d4c45f2e6a10384c500e8de0ea661b3d217fb3d078895f6cb1"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/handoff.json",
+      "sha256": "01d76b4957f1812d34ce80ee16bc6c9d9a7027be10062636014fe792ecd3b3b4"
+    }
+  ],
+  "selfExcluded": true
+}

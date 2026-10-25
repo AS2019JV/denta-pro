@@ -1,0 +1,89 @@
+{
+  "schemaVersion": 1,
+  "status": "PASS_POINT_IN_TIME_PHYSICAL_PREFLIGHT_PLAN_ONLY",
+  "recordedAt": "2026-10-25T17:15:27.917Z",
+  "target": "clinia-gate3-20261020-a9",
+  "localEndpointVerified": true,
+  "absent": {
+    "containers": true,
+    "volumes": true,
+    "networks": true
+  },
+  "images": [
+    {
+      "service": "db",
+      "reference": "public.ecr.aws/supabase/postgres@sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda",
+      "imageId": "sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda"
+    },
+    {
+      "service": "auth",
+      "reference": "public.ecr.aws/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "imageId": "sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b"
+    },
+    {
+      "service": "storage",
+      "reference": "supabase/storage-api@sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4",
+      "imageId": "sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4"
+    }
+  ],
+  "templateSha256": "d58906499169770491fc434ac41ab6c1c0ade80e3c7c4b22426739d1357fa309",
+  "officialDbInitializationCommandSha256": "391e675630b3f59507638d3cb121478ecc2cc8af898445d155fa80304d8d41a1",
+  "capacity": {
+    "availableVmBytes": 3246661632,
+    "scope": "Linux MemAvailable via ephemeral cat/proc probe, not Docker total memory",
+    "managedServicesMaxBytes": 671088640,
+    "additionalHeadroomBytes": 67108864,
+    "minimumAvailableBytes": 738197504,
+    "thresholdMet": true,
+    "continuousAvailabilityProven": false
+  },
+  "network": {
+    "proposedName": "clinia-gate3-20261020-a9-private",
+    "proposedSubnet": "10.253.9.0/24",
+    "internal": true,
+    "publishedPorts": [],
+    "conflicts": [],
+    "routeAndDockerInventorySha256": "9efddb4228ce705f13bdc283a375d40c31f3178c50bfc69a4b780d1bad6a5fb0",
+    "defaultRouteExcluded": true,
+    "created": false
+  },
+  "exclusivity": {
+    "runningContainersAtObservation": 0,
+    "noneRunningAtObservation": true,
+    "reserved": false,
+    "lease": null,
+    "globalWriterGuarantee": false,
+    "initializationAuthorization": null
+  },
+  "probe": {
+    "name": "clinia-gate4-a9-memory-probe-20261025",
+    "readOnly": true,
+    "network": "none",
+    "declaredImageVolumePathsUseTmpfs": [],
+    "persistentVolumesCreated": 0,
+    "removed": true,
+    "sqlExecuted": false
+  },
+  "realTargetIdentity": {
+    "postgresVersion": null,
+    "systemIdentifier": null,
+    "containerIds": null
+  },
+  "actions": {
+    "ephemeralReadOnlyProbeRuns": 1,
+    "managedStackStarts": 0,
+    "targetVolumesCreated": 0,
+    "targetNetworksCreated": 0,
+    "applicationSql": 0,
+    "m7": false,
+    "upgrade": false,
+    "open": false,
+    "restore": false
+  },
+  "limits": [
+    "Point-in-time resource/absence observations must be repeated immediately before authorized initialization",
+    "No target reservation or runtime authorization inferred",
+    "Actual PG17.11/sysid only after authorized empty managed initialization",
+    "No Gate3 RC contract tests or p8/copy/15tests repeated"
+  ]
+}

@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "state": "REVIEWABLE_PROPOSAL_NOT_AUTHORIZATION",
+  "gate": "Gate4",
+  "consumerGate": "Gate3",
+  "target": "clinia-gate3-20261020-a9",
+  "composeTemplate": {
+    "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+    "sha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+    "containsSecretValues": false,
+    "source": "docs/production/recovery-profile/runtime-template.json",
+    "sourceSha256": "d58906499169770491fc434ac41ab6c1c0ade80e3c7c4b22426739d1357fa309",
+    "sourceDbInitializationCommandSha256": "391e675630b3f59507638d3cb121478ecc2cc8af898445d155fa80304d8d41a1",
+    "changes": [
+      "Project/private-directory placeholders replaced with exact new local identity",
+      "rest removed; only db/auth/storage",
+      "privileged=false and pull_policy=never explicit",
+      "Internal10.253.9.0/24 added after conflict check",
+      "Two dormant S3 credential fields omitted while S3 protocol remains disabled"
+    ],
+    "dormantCredentialFieldsRemoved": [
+      "S3_PROTOCOL_ACCESS_KEY_ID",
+      "S3_PROTOCOL_ACCESS_KEY_SECRET"
+    ],
+    "uninstantiatedSecretTokens": [
+      "__ANON_JWT__",
+      "__AUTH_DATABASE_URI__",
+      "__DATABASE_PASSWORD__",
+      "__JWT_SECRET__",
+      "__PRIVATE_JWT_KEYS__",
+      "__PUBLIC_JWT_KEYS__",
+      "__SERVICE_JWT__",
+      "__STORAGE_DATABASE_URI__"
+    ]
+  },
+  "rcBinding": {
+    "handoffVersion": "2026-10-25-v2.4-integrity-repaired",
+    "actualHandoffSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "declaredHandoffSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "envelopeIntegrityVerified": true,
+    "sha": "95b059bea1d985c48a62e81d7237be7dcc19b228",
+    "treeSHA": "9727796e88f0a9fd9b90d00773c8215f376af112",
+    "ciRunId": 40160132494,
+    "ciConclusion": "success",
+    "deploymentId": "7bnyGT3TV3WnX2newWEA4oNnb7Cs",
+    "deploymentState": "Ready",
+    "candidateFinal": false,
+    "individualCiPreviewReceiptBindingsVerified": true,
+    "templateMatchesRcGitBlob": true,
+    "scope": "Planning tuple and one template source only. Gate3 owns RC compatibility; no compatibility suite repeated."
+  },
+  "services": {
+    "db": {
+      "image": "public.ecr.aws/supabase/postgres@sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda",
+      "container": "supabase_db_clinia-gate3-20261020-a9",
+      "memoryBytes": 402653184,
+      "swapLimitBytes": 402653184,
+      "cpus": 1,
+      "pidsLimit": 256,
+      "privileged": false,
+      "publishedPorts": [],
+      "restart": "no"
+    },
+    "auth": {
+      "image": "public.ecr.aws/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+      "container": "supabase_auth_clinia-gate3-20261020-a9",
+      "memoryBytes": 100663296,
+      "swapLimitBytes": 100663296,
+      "cpus": 1,
+      "pidsLimit": 256,
+      "privileged": false,
+      "publishedPorts": [],
+      "restart": "no"
+    },
+    "storage": {
+      "image": "supabase/storage-api@sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4",
+      "container": "supabase_storage_clinia-gate3-20261020-a9",
+      "memoryBytes": 167772160,
+      "swapLimitBytes": 167772160,
+      "cpus": 1,
+      "pidsLimit": 256,
+      "privileged": false,
+      "publishedPorts": [],
+      "restart": "no"
+    }
+  },
+  "network": {
+    "name": "clinia-gate3-20261020-a9-private",
+    "subnet": "10.253.9.0/24",
+    "internal": true,
+    "publishedPorts": []
+  },
+  "volumes": {
+    "supabase_db_clinia-gate3-20261020-a9": {
+      "name": "supabase_db_clinia-gate3-20261020-a9",
+      "labels": {
+        "clinia.environment": "clean-managed-synthetic"
+      }
+    },
+    "supabase_storage_clinia-gate3-20261020-a9": {
+      "name": "supabase_storage_clinia-gate3-20261020-a9",
+      "labels": {
+        "clinia.environment": "clean-managed-synthetic"
+      }
+    }
+  },
+  "privateArtifacts": {
+    "directory": "C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\.gate4-private\\managed-a9",
+    "created": false,
+    "ownerAndSystemOnlyRequired": true,
+    "files": [
+      "credentials.private.json",
+      "runtime.compose.json",
+      "db-pgsodium_root.key"
+    ],
+    "generation": "Only after scoped approval; existing signingMaterial({project:target}); no historical key/archive read or copy"
+  },
+  "capacity": {
+    "serviceLimitsBytes": 671088640,
+    "minimumAvailableVmBytes": 738197504,
+    "observedAvailableVmBytes": 3246661632,
+    "recheckImmediatelyBeforeCreate": true
+  },
+  "writerTurn": {
+    "owner": "Gate4",
+    "consumer": "Gate3",
+    "allocated": false,
+    "authorization": null,
+    "starts": 0,
+    "boundary": "Only Gate4 prepares/starts/stops this cohort. Gate3 receives read-only identity; app SQL requires separate exact approval."
+  },
+  "allowedAfterExactApproval": [
+    "Unchanged inherited official empty DB initialization",
+    "Pinned Auth/Storage native migrations with refresh disabled",
+    "Read-only version/sysid/roles/health/emptiness/ports/mount checks"
+  ],
+  "forbidden": [
+    "Application baseline/seed/upgrade SQL",
+    "M7",
+    "Schema opening",
+    "Restore",
+    "Historical source/target overwrite",
+    "Ledger repair/import",
+    "Additional grants/role escalation",
+    "Shared staging/production/quarantine access",
+    "External email",
+    "Image pulls",
+    "Global Docker changes",
+    "Other containers/volumes mutations"
+  ],
+  "expectedAfterInitialization": {
+    "postgresVersionNum": "170011",
+    "systemIdentifier": "Actual new value only; cannot be predicted/substituted",
+    "currentUser": "postgres",
+    "postgresSuperuser": false,
+    "authMigrationRows": 82,
+    "storageMigrationRows": 74,
+    "authUsers": 0,
+    "verifiedMfaFactors": 0,
+    "storageBuckets": 0,
+    "storageObjects": 0,
+    "applicationRelations": 0,
+    "applicationLedgerAbsent": true,
+    "publishedPorts": [],
+    "imagesExact": true,
+    "networkExact": true,
+    "volumesNewAndExact": true
+  },
+  "failurePolicy": "Stop only owned started services, preserve volumes/private diagnostics/failure receipt; no retry or app phase on partial or uncertain initialization.",
+  "nextDecision": "Review this exact empty managed target/template/resource/network plan and give actual scoped initialization/turn authorization, or revise it. Coordination messages/JSON do not authorize execution.",
+  "reviewVersion": 2,
+  "supersedesForReview": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.proposed.json",
+  "earlierInputRefusalsPreserved": [
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff-inconsistency-observed.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/receipt-schema-observation.json"
+  ],
+  "postgrestLaterPhase": {
+    "allowedNow": false,
+    "image": "public.ecr.aws/supabase/postgrest@sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+    "memoryBytes": 67108864,
+    "fourServiceLimitBytes": 738197504,
+    "minimumVmWith64MiBHeadroomBytes": 805306368,
+    "requires": "Separate reviewed application scope/ordinary-JWT contract, actual approval and fresh resource/network admission",
+    "ordinaryProofCannotUse": [
+      "SQL SET ROLE",
+      "service_role"
+    ]
+  }
+}

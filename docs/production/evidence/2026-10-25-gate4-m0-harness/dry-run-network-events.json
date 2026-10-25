@@ -1,0 +1,10 @@
+{
+  "scope": "One bounded read-only event query around first dry-run",
+  "since": "2026-10-25T17:59:00.762Z",
+  "until": "2026-10-25T17:59:28.139Z",
+  "exitCode": 0,
+  "events": [],
+  "rootCause": "NOT_VERIFIED",
+  "limit": "Docker event history is bounded; presence/absence alone does not identify the initiating actor.",
+  "noEnvironmentChangeAttempted": true
+}

@@ -1,0 +1,100 @@
+TAP version 13
+# Subtest: initialize refuses missing or merely documented authorization before mutation
+ok 1 - initialize refuses missing or merely documented authorization before mutation
+  ---
+  duration_ms: 6.7044
+  type: 'test'
+  ...
+# Subtest: exact approval reference binds reviewed hash but is explicitly not authority by itself
+ok 2 - exact approval reference binds reviewed hash but is explicitly not authority by itself
+  ---
+  duration_ms: 8.7793
+  type: 'test'
+  ...
+# Subtest: target/container/volume/network occupation and other running containers reject initialization
+ok 3 - target/container/volume/network occupation and other running containers reject initialization
+  ---
+  duration_ms: 3.7692
+  type: 'test'
+  ...
+# Subtest: remote Docker endpoint and subnet conflicts are not admitted
+ok 4 - remote Docker endpoint and subnet conflicts are not admitted
+  ---
+  duration_ms: 6.4958
+  type: 'test'
+  ...
+# Subtest: total memory cannot replace actual MemAvailable or bypass exact lower bound
+ok 5 - total memory cannot replace actual MemAvailable or bypass exact lower bound
+  ---
+  duration_ms: 3.971
+  type: 'test'
+  ...
+# Subtest: reviewed package stays exactly three services, frozen initializer and no public ports
+ok 6 - reviewed package stays exactly three services, frozen initializer and no public ports
+  ---
+  duration_ms: 5.8203
+  type: 'test'
+  ...
+# Subtest: new private instantiation resolves tokens without changing native initializer or adding rest
+ok 7 - new private instantiation resolves tokens without changing native initializer or adding rest
+  ---
+  duration_ms: 4.3185
+  type: 'test'
+  ...
+# Subtest: actual PG identity, authority, native migrations and emptiness must all match
+ok 8 - actual PG identity, authority, native migrations and emptiness must all match
+  ---
+  duration_ms: 5.2352
+  type: 'test'
+  ...
+# Subtest: effective container image/network/ports/privileges reject drift
+ok 9 - effective container image/network/ports/privileges reject drift
+  ---
+  duration_ms: 5.4907
+  type: 'test'
+  ...
+# Subtest: DB-start failure stops only owned cohort once; no retry or later phase
+ok 10 - DB-start failure stops only owned cohort once; no retry or later phase
+  ---
+  duration_ms: 0.5642
+  type: 'test'
+  ...
+# Subtest: private preparation failure never attempts a Docker start or stops others
+ok 11 - private preparation failure never attempts a Docker start or stops others
+  ---
+  duration_ms: 0.3087
+  type: 'test'
+  ...
+# Subtest: complete empty-managed sequence never dispatches application/M7/open/restore stages
+ok 12 - complete empty-managed sequence never dispatches application/M7/open/restore stages
+  ---
+  duration_ms: 0.2285
+  type: 'test'
+  ...
+# Subtest: execution host is Windows and exact owned private location; package inspection stays separate
+ok 13 - execution host is Windows and exact owned private location; package inspection stays separate
+  ---
+  duration_ms: 3.9054
+  type: 'test'
+  ...
+# Subtest: cleanup refuses a wrong-image/project container and never targets unrelated names
+ok 14 - cleanup refuses a wrong-image/project container and never targets unrelated names
+  ---
+  duration_ms: 4.1104
+  type: 'test'
+  ...
+# Subtest: dry-run command gate refuses every Docker mutation regardless of call path
+ok 15 - dry-run command gate refuses every Docker mutation regardless of call path
+  ---
+  duration_ms: 4.4945
+  type: 'test'
+  ...
+1..15
+# tests 15
+# suites 0
+# pass 15
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 146.8521

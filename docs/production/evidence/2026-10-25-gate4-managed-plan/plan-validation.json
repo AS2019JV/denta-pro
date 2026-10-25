@@ -1,0 +1,21 @@
+{
+  "status": "PASS_STATIC_MANAGED_ONLY_PLAN",
+  "composeTemplateSha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+  "contractSha256": "6e8f900b05999755e9feb232cf33b97026bee02ec5b43b66fd96b2d628686842",
+  "services": [
+    "db",
+    "auth",
+    "storage"
+  ],
+  "totalMemoryLimitBytes": 671088640,
+  "publishedPorts": [],
+  "internalNetwork": true,
+  "uninstantiatedSecretsOnly": true,
+  "credentialsCreated": false,
+  "applicationSqlAdded": false,
+  "officialDbCommandUnchanged": true,
+  "composeConfigQuietExit": 0,
+  "targetStarted": false,
+  "envelopeIntegrityVerified": false,
+  "planningDoesNotAuthorizeExecution": true
+}

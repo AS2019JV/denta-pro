@@ -1,0 +1,11 @@
+{
+  "status": "INITIAL_GENERATION_REFUSED_BEFORE_TARGET_PREPARATION",
+  "jsonVersion": "2026-10-24-v2.2-published",
+  "actualJsonSha256": "672201b6b2823b5db99f362a89e42e190e94e22ebe8d06b240c15e06aa20eea0",
+  "declaredSha256": "efe54fec429bf854b8414ba3de870fce2749e2db2caf39293eac8f490ff1d09a",
+  "coordinatorNotified": true,
+  "coordinatorFilesModified": false,
+  "credentialsCreated": false,
+  "managedStarts": 0,
+  "evidence": "Observed assertion output in this turn; later coordinator changes must be recorded separately."
+}

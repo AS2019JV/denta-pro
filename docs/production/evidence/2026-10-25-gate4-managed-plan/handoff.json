@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "gate": "Gate4",
+  "consumerGate": "Gate3",
+  "phase": "EMPTY_MANAGED_TARGET_PLAN",
+  "status": "PHYSICAL_PREFLIGHT_PASS_POINT_IN_TIME_PLAN_READY_FOR_REVIEW",
+  "overallGate4": "BLOCKED_OPERATIONAL_RECOVERY",
+  "baseSHA": "aacb0d48a7aeedf01b681c19d3b9e00de45edf7b",
+  "resultSHA": "70aba1a7d64637fb1bef058a7b8fb62fcdecaec3",
+  "resultKind": "Exact preflight/plan artifact commit; later docs-only commit carries handoff and seal",
+  "branch": "codex/gate4-recovery-ops",
+  "published": false,
+  "changedFiles": [
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/RESULTADO.md",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/artifact-checks.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/coordinator-envelope-final-observation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff-inconsistency-observed.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/physical-preflight.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/plan-validation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/receipt-schema-observation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/review-validation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/static-plan-checks.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.proposed.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+    "docs/superpowers/plans/2026-10-25-gate4-managed-a9.md",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/SEAL.json"
+  ],
+  "candidate": {
+    "handoffVersion": "2026-10-25-v2.4-integrity-repaired",
+    "actualHandoffSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "declaredHandoffSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "envelopeIntegrityVerified": true,
+    "sha": "95b059bea1d985c48a62e81d7237be7dcc19b228",
+    "treeSHA": "9727796e88f0a9fd9b90d00773c8215f376af112",
+    "ciRunId": 40160132494,
+    "ciConclusion": "success",
+    "deploymentId": "7bnyGT3TV3WnX2newWEA4oNnb7Cs",
+    "deploymentState": "Ready",
+    "candidateFinal": false,
+    "individualCiPreviewReceiptBindingsVerified": true,
+    "templateMatchesRcGitBlob": true,
+    "scope": "Planning tuple and one template source only. Gate3 owns RC compatibility; no compatibility suite repeated."
+  },
+  "finalEnvelopeObservation": {
+    "recordedAt": "2026-10-25T17:32:25.584Z",
+    "version": "2026-10-25-v2.4-integrity-repaired",
+    "sha": "95b059bea1d985c48a62e81d7237be7dcc19b228",
+    "actualSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "declaredSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+    "match": true,
+    "sourceFilesModified": false,
+    "scope": "Final observation only; earlier mismatch preserved; no authority or application acceptance."
+  },
+  "destination": {
+    "project": "clinia-gate3-20261020-a9",
+    "proposedNetwork": {
+      "name": "clinia-gate3-20261020-a9-private",
+      "subnet": "10.253.9.0/24",
+      "internal": true,
+      "publishedPorts": []
+    },
+    "proposedVolumes": {
+      "supabase_db_clinia-gate3-20261020-a9": {
+        "name": "supabase_db_clinia-gate3-20261020-a9",
+        "labels": {
+          "clinia.environment": "clean-managed-synthetic"
+        }
+      },
+      "supabase_storage_clinia-gate3-20261020-a9": {
+        "name": "supabase_storage_clinia-gate3-20261020-a9",
+        "labels": {
+          "clinia.environment": "clean-managed-synthetic"
+        }
+      }
+    },
+    "reserved": false,
+    "lease": null,
+    "writerTurnAllocated": false,
+    "actualDatabase": null,
+    "actualVersion": null,
+    "systemIdentifier": null,
+    "absenceAtObservation": {
+      "containers": true,
+      "volumes": true,
+      "networks": true
+    },
+    "absenceMustBeRecheckedBeforeCreate": true
+  },
+  "physicalPreflight": {
+    "status": "PASS_POINT_IN_TIME_PHYSICAL_PREFLIGHT_PLAN_ONLY",
+    "recordedAt": "2026-10-25T17:15:27.917Z",
+    "images": [
+      {
+        "service": "db",
+        "reference": "public.ecr.aws/supabase/postgres@sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda",
+        "imageId": "sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda"
+      },
+      {
+        "service": "auth",
+        "reference": "public.ecr.aws/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+        "imageId": "sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b"
+      },
+      {
+        "service": "storage",
+        "reference": "supabase/storage-api@sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4",
+        "imageId": "sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4"
+      }
+    ],
+    "availableVmBytes": 3246661632,
+    "requiredVmBytes": 738197504,
+    "serviceLimitBytes": 671088640,
+    "subnetConflicts": [],
+    "runningContainersAtObservation": 0,
+    "continuousAvailabilityOrExclusivityProven": false,
+    "probe": {
+      "name": "clinia-gate4-a9-memory-probe-20261025",
+      "readOnly": true,
+      "network": "none",
+      "declaredImageVolumePathsUseTmpfs": [],
+      "persistentVolumesCreated": 0,
+      "removed": true,
+      "sqlExecuted": false
+    }
+  },
+  "exactReviewPackage": {
+    "contract": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+    "contractSha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7",
+    "composeTemplate": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+    "composeTemplateSha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+    "plan": "docs/superpowers/plans/2026-10-25-gate4-managed-a9.md",
+    "instantiatedSecretValues": false,
+    "managedServices": [
+      "db",
+      "auth",
+      "storage"
+    ],
+    "laterPostgrestSeparateScope": {
+      "allowedNow": false,
+      "image": "public.ecr.aws/supabase/postgrest@sha256:85258123312dc496ad4c2ed832154a65e9746f84df0d6d09b44229ff9230c08e",
+      "memoryBytes": 67108864,
+      "fourServiceLimitBytes": 738197504,
+      "minimumVmWith64MiBHeadroomBytes": 805306368,
+      "requires": "Separate reviewed application scope/ordinary-JWT contract, actual approval and fresh resource/network admission",
+      "ordinaryProofCannotUse": [
+        "SQL SET ROLE",
+        "service_role"
+      ]
+    }
+  },
+  "commandsResults": [
+    {
+      "command": "Docker context/containers/volumes/networks/image inspect",
+      "result": "PASS current absence and three pinned images; local named pipe"
+    },
+    {
+      "command": "one bounded read-only network-none cat/proc probe",
+      "result": "MemAvailable3246661632; probe removed, persistent volumes unchanged"
+    },
+    {
+      "command": "specific route/subnet comparison",
+      "result": "No conflicts for10.253.9.0/24 at observation"
+    },
+    {
+      "command": "compose config --quiet of public proposal",
+      "result": "exit0; no target start"
+    },
+    {
+      "command": "static plan/source DB initializer/hash/credential-pattern checks",
+      "result": "PASS; official initializer unchanged"
+    },
+    {
+      "command": "initial envelope hash comparison",
+      "result": "REFUSED; historical mismatch preserved, coordinator notified"
+    },
+    {
+      "command": "actual v2 CI fields and final envelope observation",
+      "result": "CI/Preview exact95b tuple bound; v2.4 integrity repaired and matching"
+    },
+    {
+      "command": "Gate3 compatibility/15tests/p8/verified copy/restore/applicationSQL",
+      "result": "NOT REPEATED / NOT EXECUTED"
+    }
+  ],
+  "actions": {
+    "diagnosticEphemeralContainerRuns": 1,
+    "managedStackStarts": 0,
+    "targetNetworksCreated": 0,
+    "targetVolumesCreated": 0,
+    "secretMaterialGenerated": 0,
+    "privateComposeCreated": false,
+    "applicationSql": 0,
+    "m7": false,
+    "upgrade": false,
+    "open": false,
+    "restore": false,
+    "hostedActions": 0,
+    "uploads": 0,
+    "otherChatReportsChanged": false,
+    "globalMatrixChanged": false
+  },
+  "authorization": {
+    "managedInitialization": null,
+    "exclusiveWriterTurn": null,
+    "sourceOfRequiredDecision": "Exact scoped new-target initialization and turn remain pending; receiving a request/coordination JSON does not approve them.",
+    "ordinaryApplicationOrFurtherPhase": null
+  },
+  "pendingBeforeInitialization": [
+    "Actual exact managed-only contract/turn approval",
+    "Fresh absence/images/resources/routes admission immediately before create"
+  ],
+  "pendingAfterApprovedInitialization": [
+    "Real PG17.11/systemIdentifier/role/health/ports/mounts/emptiness receipt; no fabricated values"
+  ],
+  "gate3LaterScope": [
+    "Reviewed/approved occupied-baseline and upgrade/data-preservation SQL",
+    "Separate PostgREST admission/ordinary-JWT positive/negative phase"
+  ],
+  "operationalRecoveryStillPending": [
+    "Fresh authorized source/capture/restore",
+    "Original Auth/MFA/config/relationships/allbytes and private app delivery",
+    "Actual full-check timing/RPO proof",
+    "Human custody/offsite/operator/equipment/objectives/retention decisions"
+  ],
+  "metrics": {
+    "newOperationalRtoSeconds": null,
+    "newCurrentSourceRpoSeconds": null,
+    "historicalCustodyAndP8NotReusedAsOperationalRto": true
+  },
+  "artifacts": [
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/RESULTADO.md",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/artifact-checks.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/coordinator-envelope-final-observation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff-inconsistency-observed.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/physical-preflight.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/plan-validation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/receipt-schema-observation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/review-validation.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/static-plan-checks.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.proposed.json",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+    "docs/superpowers/plans/2026-10-25-gate4-managed-a9.md",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff.json",
+    "docs/production/evidence/2026-10-25-gate4-managed-plan/SEAL.json"
+  ],
+  "limits": [
+    "Preflight is point-in-time; no reservation or continuous writer guarantee",
+    "Public compose has unresolved secret tokens and must not be launched directly",
+    "Plan/scope receipts are not authorization",
+    "No application recovery, Gate3 acceptance or productionGO",
+    "No additional audit/Luna",
+    "Initial source input refusals and old Docker failure remain preserved"
+  ],
+  "next": "Review exact contract and authorize only the empty managed target/turn if desired. Gate4 remains sole stack owner; Gate3 receives actual metadata after approved initialization."
+}

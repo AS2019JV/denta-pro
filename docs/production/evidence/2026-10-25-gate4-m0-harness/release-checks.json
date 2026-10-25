@@ -1,0 +1,56 @@
+{
+  "state": "PARTIAL_EXTERNAL_INVENTORY_DRIFT",
+  "startedAt": "2026-10-25T21:22:34.894Z",
+  "completedAt": "2026-10-25T21:22:57.351Z",
+  "command": "node scripts/clinia-gate4-managed-m0.cjs dry-run --receipt m0-dry-run-release.json",
+  "exitCode": 0,
+  "executorClosureSha256": "768f85e9388a5657d7e55712f7aeadf157650ab4bc44cfe44f348015812a7b82",
+  "allDockerDispatchesReadOnly": true,
+  "dockerCalls": 9,
+  "custodyActions": [
+    "AssertAbsent"
+  ],
+  "globalInventoriesEqual": false,
+  "delta": {
+    "containers": {
+      "added": [],
+      "removed": []
+    },
+    "volumes": {
+      "added": [],
+      "removed": []
+    },
+    "networks": {
+      "added": [
+        "bridge|7b83c3a26c4a"
+      ],
+      "removed": [
+        "bridge|dcdb4278ba33"
+      ]
+    }
+  },
+  "privateDirectoryAbsent": true,
+  "targetResourcesAbsent": true,
+  "managedStarts": 0,
+  "probeStarts": 0,
+  "credentialsCreated": false,
+  "leaseAllocated": false,
+  "earlierBridgeDifferencePreserved": true,
+  "earlierBridgeCause": "NOT_VERIFIED",
+  "newM0UnitTests": {
+    "file": "test/production/gate4-managed-m0.test.cjs",
+    "pass": 15,
+    "fail": 0,
+    "log": "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-final.txt"
+  },
+  "original15Repeated": false,
+  "p8Repeated": false,
+  "rc462Inherited": false,
+  "executionCi": {
+    "sha": null,
+    "run": null,
+    "status": "NOT_VERIFIED_PENDING_COORDINATOR_SUCCESSOR_AND_OWN_CI"
+  },
+  "stdout": "{\"state\":\"PASS_DRY_RUN_READ_ONLY_DISPATCH_NO_MANAGED_INITIALIZATION\",\"mode\":\"dry-run\",\"target\":\"clinia-gate3-20261020-a9\",\"receipt\":\"C:\\\\Users\\\\aleja\\\\.codex\\\\worktrees\\\\clinia-gate4-recovery\\\\denta-pro\\\\docs\\\\production\\\\evidence\\\\2026-10-25-gate4-m0-harness\\\\m0-dry-run-release.json\",\"managedStackStarts\":0,\"credentialsCreated\":false,\"leaseAllocated\":false,\"safeError\":null}",
+  "stderr": ""
+}

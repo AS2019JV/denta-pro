@@ -1,0 +1,10 @@
+{
+  "recordedAt": "2026-10-25T17:32:25.584Z",
+  "version": "2026-10-25-v2.4-integrity-repaired",
+  "sha": "95b059bea1d985c48a62e81d7237be7dcc19b228",
+  "actualSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+  "declaredSha256": "12b821e793e90a1678a3c03731d37741d09050ba296c2cec1b1d47edf112f011",
+  "match": true,
+  "sourceFilesModified": false,
+  "scope": "Final observation only; earlier mismatch preserved; no authority or application acceptance."
+}

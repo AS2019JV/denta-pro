@@ -1,0 +1,7 @@
+{
+  "command": "node scripts/clinia-gate4-managed-m0.cjs dry-run --receipt m0-dry-run.json",
+  "exitCode": 0,
+  "stdout": "{\"state\":\"PASS_DRY_RUN_NO_DOCKER_OR_PRIVATE_RESOURCES_CREATED\",\"mode\":\"dry-run\",\"target\":\"clinia-gate3-20261020-a9\",\"receipt\":\"C:\\\\Users\\\\aleja\\\\.codex\\\\worktrees\\\\clinia-gate4-recovery\\\\denta-pro\\\\docs\\\\production\\\\evidence\\\\2026-10-25-gate4-m0-harness\\\\m0-dry-run.json\",\"managedStackStarts\":0,\"credentialsCreated\":false,\"leaseAllocated\":false,\"safeError\":null}",
+  "stderr": "",
+  "scope": "Read-only Docker/custody/package checks only; no live memory probe or initialization"
+}

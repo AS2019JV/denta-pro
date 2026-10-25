@@ -1,0 +1,18 @@
+{
+  "status": "PASS_PUBLIC_MANAGED_PLAN_CHECKS",
+  "filesScanned": 12,
+  "jsonParsed": 10,
+  "credentialPatternFindings": 0,
+  "exactTemplateHashVerified": true,
+  "currentReviewHasNoAllocatedTurn": true,
+  "managedStarts": 0,
+  "ephemeralReadOnlyProbeRuns": 1,
+  "unitSuitesRun": 0,
+  "gate3CompatibilitySuitesRun": 0,
+  "p8Repeated": false,
+  "original15Repeated": false,
+  "historicalArchiveOrKeyRead": false,
+  "approvalReviewTimeout": "One read-only WSL/Docker query review timed out; permitted retry succeeded through same review mechanism.",
+  "initialEnvelopeAndReaderRefusalsPreserved": true,
+  "coordinatorEnvelopeRepairVerified": true
+}

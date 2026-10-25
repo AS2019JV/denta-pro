@@ -1,0 +1,64 @@
+TAP version 13
+# Subtest: execution host is Windows and exact owned private location; package inspection stays separate
+not ok 1 - execution host is Windows and exact owned private location; package inspection stays separate
+  ---
+  duration_ms: 22.0686
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:104:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:105:31)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: cleanup refuses a wrong-image/project container and never targets unrelated names
+not ok 2 - cleanup refuses a wrong-image/project container and never targets unrelated names
+  ---
+  duration_ms: 6.6852
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:111:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly equal:
+    + actual - expected
+    
+    + 'undefined'
+    - 'function'
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: 'function'
+  actual: 'undefined'
+  operator: 'strictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:112:31)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+1..2
+# tests 2
+# suites 0
+# pass 0
+# fail 2
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 117.9944

@@ -1,0 +1,79 @@
+{
+  "gate": "Gate4",
+  "phase": "M0_EMPTY_MANAGED_ONLY",
+  "mode": "dry-run",
+  "startedAt": "2026-10-25T17:59:05.762Z",
+  "target": "clinia-gate3-20261020-a9",
+  "contractSha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7",
+  "composeTemplateSha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+  "approval": {
+    "invocationMustHaveIndependentHumanApproval": true,
+    "reference": null,
+    "flagsAreNotAuthorization": true
+  },
+  "state": "PASS_DRY_RUN_NO_DOCKER_OR_PRIVATE_RESOURCES_CREATED",
+  "managedStackStarts": 0,
+  "ephemeralProbeRuns": 0,
+  "applicationSql": 0,
+  "m7": false,
+  "upgrade": false,
+  "open": false,
+  "restore": false,
+  "credentialsCreated": false,
+  "privateDirectoryCreated": false,
+  "leaseAllocated": false,
+  "recoveryRtoSeconds": null,
+  "currentSourceRpoSeconds": null,
+  "custody": {
+    "status": "PASS_M0_CUSTODY_BOUNDARY",
+    "action": "AssertAbsent",
+    "targetCreated": false,
+    "secretValuesRead": false
+  },
+  "preflight": {
+    "endpointLocal": true,
+    "targetAbsent": true,
+    "otherRunningContainers": 0,
+    "networkConflicts": 0,
+    "images": [
+      {
+        "service": "db",
+        "reference": "public.ecr.aws/supabase/postgres@sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda",
+        "id": "sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda"
+      },
+      {
+        "service": "auth",
+        "reference": "public.ecr.aws/supabase/gotrue@sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b",
+        "id": "sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b"
+      },
+      {
+        "service": "storage",
+        "reference": "supabase/storage-api@sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4",
+        "id": "sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4"
+      }
+    ],
+    "routeInventorySha256": "1bb041383d61f76b7358bee61d64bab7a73868f4e28c4f4ac5f0a1ad1c0ff3ae"
+  },
+  "liveMemoryAdmissionVerified": false,
+  "liveMemoryRequiredBeforeInitialize": 738197504,
+  "frozenDependencies": [
+    "scripts/prepare-clinia-clean-managed.cjs",
+    "scripts/prepare-clinia-compose.cjs",
+    "scripts/clinia-local-runtime.cjs",
+    "scripts/clinia-recovery-network.cjs"
+  ],
+  "actualManagedIdentity": null,
+  "wouldExecute": [
+    "fresh live MemAvailable probe",
+    "atomic restricted private directory and fresh signingMaterial",
+    "private config --quiet",
+    "cached-image DB up --wait",
+    "cached-image auth/storage up --no-deps --wait",
+    "effective Docker identity checks",
+    "fixed READ ONLY empty-managed SQL",
+    "retain Gate4 lease; no app SQL"
+  ],
+  "completedAt": "2026-10-25T17:59:18.139Z",
+  "m0OrDryRunElapsedSeconds": 12.375,
+  "elapsedScope": "This invocation only; never operational recoveryRTO/currentRPO"
+}

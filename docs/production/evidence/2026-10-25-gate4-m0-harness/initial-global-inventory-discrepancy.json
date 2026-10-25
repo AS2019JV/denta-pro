@@ -1,0 +1,12 @@
+{
+  "status": "FAIL_FIRST_EXTERNAL_GLOBAL_EQUALITY_ASSERTION_PRESERVED",
+  "harnessDryRunExitCode": 0,
+  "containersAndVolumesEqualInOriginalDiff": true,
+  "changedDefaultBridge": {
+    "before": "56ff560c7c0b",
+    "after": "dcdb4278ba33"
+  },
+  "privateInitializationClaimed": false,
+  "rootCause": "NOT_VERIFIED",
+  "explanation": "The outer before/after comparison failed on the default bridge ID. This is preserved and not relabelled PASS or attributed to the harness without evidence."
+}

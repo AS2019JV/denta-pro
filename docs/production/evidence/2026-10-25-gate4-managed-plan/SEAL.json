@@ -1,0 +1,65 @@
+{
+  "version": 1,
+  "baseSHA": "aacb0d48a7aeedf01b681c19d3b9e00de45edf7b",
+  "resultSHA": "70aba1a7d64637fb1bef058a7b8fb62fcdecaec3",
+  "scope": "Owned public managed-plan artifacts; checksum only, not signature or approval",
+  "files": [
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/RESULTADO.md",
+      "sha256": "d777c8645d7a0db23922ceca38fbde8e370364bbc00c7fff94e5b0618a7f3a75"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/artifact-checks.json",
+      "sha256": "d703e8a2973814a77bbe148f4fad793a34bfd0d51e672d97a543eac6461c9089"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/coordinator-envelope-final-observation.json",
+      "sha256": "b54fbf13499e2f18bfb2a1dfed8e4875d641124f513a916979276990948b96ba"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff-inconsistency-observed.json",
+      "sha256": "ce0b441139ed7accfc764f43768b8d4908116e122f5b7c826fc136410ea51ef3"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/physical-preflight.json",
+      "sha256": "8da2bb22a5c6cb2c5364ddc0ee292fa561c743c7ecd99d71948094bd257fb296"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/plan-validation.json",
+      "sha256": "a17118f08bdeac43155616afc24f8d5aaf45c085c656cd0e2abf029b0643868a"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/receipt-schema-observation.json",
+      "sha256": "6aea710255764bc036bf02402fbf88a5510fba752d2c3328de1db41ca57e7a35"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/review-validation.json",
+      "sha256": "160def3f1d6eec2504c60e8e1c791ce63adf515fa0a64d9f74292574da7f0e4d"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/static-plan-checks.json",
+      "sha256": "e63fe826dd10e33f542540b9629001c49ca89530038d6efd41189ae3d46d857b"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+      "sha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.proposed.json",
+      "sha256": "6e8f900b05999755e9feb232cf33b97026bee02ec5b43b66fd96b2d628686842"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+      "sha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7"
+    },
+    {
+      "path": "docs/superpowers/plans/2026-10-25-gate4-managed-a9.md",
+      "sha256": "eb9fa8dfbf51db0ed39b49d4a006679657c1db634651d52c50aaeb5690c6aa6e"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-25-gate4-managed-plan/handoff.json",
+      "sha256": "1cd95335556208e0555e244f109fa0e47941c728d81d2d17be523c24a8b09fdf"
+    }
+  ],
+  "selfExcluded": true
+}

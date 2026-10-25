@@ -1,0 +1,13 @@
+{
+  "status": "PASS_PUBLIC_ARTIFACT_AND_CLOSURE_CHECKS",
+  "filesScanned": 19,
+  "jsonParsed": 9,
+  "credentialPatternFindings": 0,
+  "executorClosureSha256": "768f85e9388a5657d7e55712f7aeadf157650ab4bc44cfe44f348015812a7b82",
+  "closureMatchesDryRun": true,
+  "ownExecutorCi": null,
+  "globalInventoryVerdict": "PARTIAL_EXTERNAL_INVENTORY_DRIFT",
+  "globalInventoryDriftNotRelabelledPass": true,
+  "initialized": false,
+  "originalContractAndComposeUnchanged": true
+}

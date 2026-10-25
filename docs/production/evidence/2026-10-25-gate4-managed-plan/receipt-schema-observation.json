@@ -1,0 +1,15 @@
+{
+  "status": "PLANNING_READER_ADAPTED_TO_ACTUAL_V2_RECEIPT_FIELDS",
+  "earlierGenerationStoppedBeforeTemplateOrCredentials": true,
+  "v1Fields": [
+    "headSha",
+    "databaseId"
+  ],
+  "actualV2Fields": [
+    "headSHA",
+    "runId"
+  ],
+  "observationOnly": true,
+  "existingV1PreflightOrTestsModified": false,
+  "gate3CompatibilityTestsRepeated": false
+}

@@ -1,0 +1,284 @@
+TAP version 13
+# Subtest: initialize refuses missing or merely documented authorization before mutation
+not ok 1 - initialize refuses missing or merely documented authorization before mutation
+  ---
+  duration_ms: 3.1134
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:6:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:7:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.start (node:internal/test_runner/test:944:17)
+    startSubtestAfterBootstrap (node:internal/test_runner/harness:296:17)
+  ...
+# Subtest: exact approval reference binds reviewed hash but is explicitly not authority by itself
+not ok 2 - exact approval reference binds reviewed hash but is explicitly not authority by itself
+  ---
+  duration_ms: 0.6292
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:11:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:12:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async startSubtestAfterBootstrap (node:internal/test_runner/harness:296:3)
+  ...
+# Subtest: target/container/volume/network occupation and other running containers reject initialization
+not ok 3 - target/container/volume/network occupation and other running containers reject initialization
+  ---
+  duration_ms: 0.4209
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:18:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:19:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: remote Docker endpoint and subnet conflicts are not admitted
+not ok 4 - remote Docker endpoint and subnet conflicts are not admitted
+  ---
+  duration_ms: 0.3347
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:28:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:29:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: total memory cannot replace actual MemAvailable or bypass exact lower bound
+not ok 5 - total memory cannot replace actual MemAvailable or bypass exact lower bound
+  ---
+  duration_ms: 1.0175
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:35:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:36:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: reviewed package stays exactly three services, frozen initializer and no public ports
+not ok 6 - reviewed package stays exactly three services, frozen initializer and no public ports
+  ---
+  duration_ms: 0.3079
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:40:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:41:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: new private instantiation resolves tokens without changing native initializer or adding rest
+not ok 7 - new private instantiation resolves tokens without changing native initializer or adding rest
+  ---
+  duration_ms: 0.2803
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:46:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:47:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: actual PG identity, authority, native migrations and emptiness must all match
+not ok 8 - actual PG identity, authority, native migrations and emptiness must all match
+  ---
+  duration_ms: 0.2294
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:59:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:60:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: effective container image/network/ports/privileges reject drift
+not ok 9 - effective container image/network/ports/privileges reject drift
+  ---
+  duration_ms: 0.5485
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:65:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:66:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: DB-start failure stops only owned cohort once; no retry or later phase
+not ok 10 - DB-start failure stops only owned cohort once; no retry or later phase
+  ---
+  duration_ms: 0.4273
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:84:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:85:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: private preparation failure never attempts a Docker start or stops others
+not ok 11 - private preparation failure never attempts a Docker start or stops others
+  ---
+  duration_ms: 0.226
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:92:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:93:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: complete empty-managed sequence never dispatches application/M7/open/restore stages
+not ok 12 - complete empty-managed sequence never dispatches application/M7/open/restore stages
+  ---
+  duration_ms: 0.2072
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-gate4-recovery\\denta-pro\\test\\production\\gate4-managed-m0.test.cjs:98:1'
+  failureType: 'testCodeFailure'
+  error: 'M0 harness not implemented'
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected: true
+  actual: false
+  operator: '=='
+  stack: |-
+    api (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:4:23)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-gate4-recovery\denta-pro\test\production\gate4-managed-m0.test.cjs:99:10)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..12
+# tests 12
+# suites 0
+# pass 0
+# fail 12
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 98.6721

@@ -1,0 +1,225 @@
+{
+  "schemaVersion": 1,
+  "gate": "Gate4",
+  "consumerGate": "Gate3",
+  "phase": "M0_EXECUTOR_ARTIFACT_HANDOFF",
+  "baseSHA": "639de2276acbba7086e48e76c855ed978e868c11",
+  "resultSHA": "9f4235bf5b76b140d1c78bfd363c01a1ac010782",
+  "resultSHAKind": "Exact local executor/evidence commit; subsequent packaging adds only patch/handoff/seal",
+  "branch": "codex/gate4-recovery-ops",
+  "published": false,
+  "status": "EXECUTOR_PINNED_LOCAL_TESTS_PASS_DRY_GLOBAL_PARTIAL_CI_PENDING_NO_INITIALIZE",
+  "observedApplicationRc": {
+    "sha": "95b059bea1d985c48a62e81d7237be7dcc19b228",
+    "ciRun": 40160132494,
+    "ciTests": 462,
+    "ciScope": "Prior application only; NOT the new executor",
+    "successNotInherited": true,
+    "finalCandidate": false
+  },
+  "executorCi": {
+    "sha": null,
+    "runId": null,
+    "conclusion": null,
+    "status": "NOT_VERIFIED",
+    "requiredBeforeProposingInitialize": true,
+    "decisionNeeded": "Coordinator fixes the immutable integration/successor containing exact executor closure, reviews any delta and obtains its own CI. No old-tree rerun, foreign merge, workflow bypass or risk acceptance here."
+  },
+  "executorClosure": {
+    "schemaVersion": 1,
+    "scope": "Exact transitive M0 execution sources/data; excludes native Node/PowerShell/Git/Docker binaries",
+    "closureSha256": "768f85e9388a5657d7e55712f7aeadf157650ab4bc44cfe44f348015812a7b82",
+    "files": [
+      {
+        "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+        "sha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e"
+      },
+      {
+        "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+        "sha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7"
+      },
+      {
+        "path": "scripts/clinia-gate4-custody.ps1",
+        "sha256": "0475da8b858356ae8c3bfd39a1ca69a8b8d18b2b54a56b58e9bdcfe1c5e3d028"
+      },
+      {
+        "path": "scripts/clinia-gate4-m0-custody.ps1",
+        "sha256": "ac065e2de5ffa1bdf2a2b3872e25c2c5f7b8d0686cc81995ce35b81bdd8293ad"
+      },
+      {
+        "path": "scripts/clinia-gate4-managed-m0.cjs",
+        "sha256": "5fafb08d8170c9e8dea3026423e47229f5cf460dce56ebbe5bdc1b9154680f13"
+      },
+      {
+        "path": "scripts/clinia-local-runtime.cjs",
+        "sha256": "b71ab6eb651225e7b3737425d9788c7904a661a29305b942570ad6f99ec47af9"
+      },
+      {
+        "path": "scripts/clinia-recovery-network.cjs",
+        "sha256": "982895d3fd325f6a00ae8d7cdf515f331d112dca1de187bf7aeae40fab764917"
+      },
+      {
+        "path": "scripts/prepare-clinia-clean-managed.cjs",
+        "sha256": "6a38074da8077d2ed390a5f726b377dfd3856523e244ccda61ada211c68af184"
+      },
+      {
+        "path": "scripts/prepare-clinia-compose.cjs",
+        "sha256": "f3c9319e1c511ddaa4ddfb2c26b1f937d9a6b5518b8a89bde457fd411dd3b2fd"
+      }
+    ],
+    "contractSha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7",
+    "composeSha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+    "runtimeRequirements": {
+      "node": "22",
+      "powershell": "7 Windows",
+      "dockerContext": "desktop-linux local named pipe"
+    },
+    "executionCi": null,
+    "ownCiRequiredBeforeInitialize": true,
+    "applicationCi95bIsNotExecutorCi": true,
+    "sourceSigningMaterialAndCustodyPrimitivesReused": true,
+    "immutableApprovalContractNotChanged": true
+  },
+  "patch": {
+    "path": "docs/production/evidence/2026-10-25-gate4-m0-harness/M0_EXECUTOR_DELTA.patch",
+    "sha256": "4292349aece355d4c45f2e6a10384c500e8de0ea661b3d217fb3d078895f6cb1",
+    "baseSHA": "639de2276acbba7086e48e76c855ed978e868c11",
+    "resultSHA": "9f4235bf5b76b140d1c78bfd363c01a1ac010782",
+    "files": [
+      "scripts/clinia-gate4-managed-m0.cjs",
+      "scripts/clinia-gate4-m0-custody.ps1",
+      "test/production/gate4-managed-m0.test.cjs"
+    ]
+  },
+  "procedure": {
+    "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/M0_EXECUTOR.md",
+    "dryRunCommand": "node scripts/clinia-gate4-managed-m0.cjs dry-run --receipt NEW_BASENAME.json",
+    "initializeNotProposedUntilCiAndScopeApproved": true,
+    "approvalFlagsAreMetadataNotAuthority": true
+  },
+  "fixedScope": {
+    "target": "clinia-gate3-20261020-a9",
+    "contractSha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7",
+    "composeSha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+    "changed": false,
+    "services": [
+      "db",
+      "auth",
+      "storage"
+    ],
+    "postgrestExcluded": true,
+    "noApplicationSql": true
+  },
+  "checks": {
+    "newM0TestFile": "test/production/gate4-managed-m0.test.cjs",
+    "newM0TestsPassed": 15,
+    "newM0TestsFailed": 0,
+    "originalRecoveryOps15Repeated": false,
+    "p8Repeated": false,
+    "historicalCopyRepeated": false,
+    "syntaxNode": "PASS",
+    "syntaxPowerShell": "PASS",
+    "closureCommittedBlobChecks": 9,
+    "readOnlyDispatches": 9,
+    "allDispatchesReadOnly": true,
+    "privateTargetAbsent": true,
+    "targetResourcesAbsent": true,
+    "globalInventoryVerdict": "PARTIAL_EXTERNAL_INVENTORY_DRIFT",
+    "lastDelta": {
+      "containers": {
+        "added": [],
+        "removed": []
+      },
+      "volumes": {
+        "added": [],
+        "removed": []
+      },
+      "networks": {
+        "added": [
+          "bridge|7b83c3a26c4a"
+        ],
+        "removed": [
+          "bridge|dcdb4278ba33"
+        ]
+      }
+    },
+    "firstBridgeDifferencePreserved": true,
+    "intermediateEqualObservationPreserved": true,
+    "lastGlobalEqual": false,
+    "driftCause": "NOT_VERIFIED",
+    "networkEventsObserved": 0,
+    "networkEventAbsenceDoesNotProveCause": true
+  },
+  "actions": {
+    "initializeExecuted": false,
+    "managedStackStarts": 0,
+    "probeStartsInM0DryRuns": 0,
+    "credentialsGenerated": false,
+    "privateDirectoryCreated": false,
+    "leaseAllocated": false,
+    "applicationSql": 0,
+    "m7": false,
+    "baseline": false,
+    "seed": false,
+    "upgrade": false,
+    "open": false,
+    "restore": false,
+    "sourceContractsOrFrozenGuardsChanged": false,
+    "globalSettingsChanged": false,
+    "globalMatrixChanged": false
+  },
+  "runtimeGuards": [
+    "Fixed reviewed contract/compose/helper hashes and own Windows location/branch",
+    "No overwrite; absent Docker identities; network/current MemAvailable admission in authorized initialize",
+    "Atomic owner/SYSTEM directory and exclusive new files/lease; fresh existing signingMaterial",
+    "One native DB start and one auth/storage start; no retry or app dispatch",
+    "Actual Docker/PG17.11/sysid/health/emptiness verification only after authorized startup",
+    "On failure identity-checked owned stop, verified stopped or operator-required; no volume deletion; phase/private-file metadata preserved"
+  ],
+  "unverified": [
+    "New executor own CI",
+    "Cause/disposition of last default-bridge inventory change",
+    "Real managed initialization, actual version/sysid/health/emptiness/mounts/ports",
+    "Actual scoped M0 authorization and single-writer turn"
+  ],
+  "next": "Coordinator selects successor/own CI for these exact sources before any initialize approval proposal; preserve drift evidence and require fresh physical admission for eventual approved M0.",
+  "approval": {
+    "m0": null,
+    "writerTurn": null,
+    "coordinationIsNotApproval": true
+  },
+  "artifacts": [
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/RESULTADO.md",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-command.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-final-checks.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-gate-red.txt",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/dry-run-network-events.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/executor-closure.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/format-check-scope.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/host-cleanup-red.txt",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/initial-global-inventory-discrepancy.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run-final.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run-release.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/m0-dry-run.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/public-checks.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/release-checks.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-final.txt",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-green.txt",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/tests-red.txt",
+    "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/M0_EXECUTOR.md",
+    "scripts/clinia-gate4-m0-custody.ps1",
+    "scripts/clinia-gate4-managed-m0.cjs",
+    "test/production/gate4-managed-m0.test.cjs",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/M0_EXECUTOR_DELTA.patch",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/handoff.json",
+    "docs/production/evidence/2026-10-25-gate4-m0-harness/SEAL.json"
+  ],
+  "limits": [
+    "Local unit/guard fixtures are not Supabase runtime acceptance",
+    "No CI462 transfer to helper",
+    "No new audit/Luna",
+    "Native runtime binaries not included in source closure; requirements are stated",
+    "Global bridge identity changed in last comparison; do not cite the intermediate equal snapshot as final"
+  ],
+  "rawTapLogsPreservedWithOriginalDiagnosticWhitespace": true
+}
