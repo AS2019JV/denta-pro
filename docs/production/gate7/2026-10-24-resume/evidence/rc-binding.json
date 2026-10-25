@@ -1,0 +1,70 @@
+{
+  "rcReference": "C:/Users/aleja/Documents/0-dev/denta-pro/docs/production/rc/2026-10-24-v1/RC_HANDOFF.json",
+  "version": "2026-10-24-v1.5",
+  "initialVersion": "2026-10-24-v1.2",
+  "initialHash": "c48136b9ce3b29a5abd75fe23ac1a24b87cc27d35bfccbc2562318f0cdf6367d",
+  "envelopeAdvancedDuringWork": true,
+  "privateSnapshotReference": ".release-snapshots/gate7-resume-20261024/RC_HANDOFF.observed.json",
+  "sha256": "fb5c5a34ec4ba244aa6148049407dccbeca456ea10a165a3c950a92bb62e44f9",
+  "sidecarMatched": true,
+  "candidateSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+  "treeSHA": "2ba4e231747575d312e2419e61869bed42573e09",
+  "gitIdentityChecked": "254996d89b68d11aec43e82f8184e01035b55696 2ba4e231747575d312e2419e61869bed42573e09",
+  "ci": {
+    "runId": 40116990280,
+    "headSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+    "conclusion": "failure",
+    "testSuiteExecuted": false,
+    "liveJobRead": "GitHub connector: offline-contracts FAILURE at audit; verify/build step skipped; no new dispatch"
+  },
+  "deployment": {
+    "id": "83WHkLXSCDVsdoHXjxC6KjoVRa6v",
+    "state": "Ready",
+    "liveRevalidated": false
+  },
+  "db": {
+    "project": "phihonofwyerpfgqfekt",
+    "contractCount": 3,
+    "contractReference": "C:/Users/aleja/Documents/0-dev/denta-pro/docs/production/rc/2026-10-24-v1/supabase-live-metadata.json",
+    "rcCompatibility": null,
+    "fullParity": false,
+    "ledger": {
+      "count": 18,
+      "latestVersion": "20261007230644",
+      "versionsMd5": "0b1d62b85b5f37677e142bd025242095",
+      "sourceTreeUnchanged": true,
+      "adoptionVerified": false,
+      "fullExecutedLineageVerified": false
+    },
+    "scope": "Existing RC receipt only; Gate7 made no DB read"
+  },
+  "gate7Assignment": {
+    "status": "NOT VERIFIED",
+    "rcSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+    "preparation": "Seven journeys and unsigned clinical/privacy/owner acceptance documents integrated",
+    "environment": null,
+    "exclusiveBrowserWindow": null,
+    "syntheticClinicReference": null,
+    "actorsReference": null,
+    "fixturesReference": null,
+    "hostedJourneyReceipt": null,
+    "qualifiedDentist": null,
+    "privacyResponsible": null,
+    "ownerAcceptance": null,
+    "signatures": null,
+    "nextAction": "Documents refer to this concrete RC; no hosted journeys or human acceptance inferred. A green successor, contained credential incident, private-delivery disposition and exclusive fixtures/actors/turn remain pending.",
+    "candidatePreviewId": "83WHkLXSCDVsdoHXjxC6KjoVRa6v",
+    "ownCIInput": "FAILURE; do not treat as green gate input",
+    "runtimeTurnAuthorized": false
+  },
+  "finance": "No explicit frozen inclusion found in RC handoff/read-first/authorization inspected; coordinator asked to confirm; excluded from proposal",
+  "runtimeAuthorized": false,
+  "humanIdentityReply": "User: siguen sin designar",
+  "identities": {
+    "owner": null,
+    "qualifiedDentist": null,
+    "privacyResponsible": null
+  },
+  "newHostedFlows": 0,
+  "noProtectedURLsCopied": true
+}

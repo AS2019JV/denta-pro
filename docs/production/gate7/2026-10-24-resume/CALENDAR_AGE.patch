@@ -1,0 +1,131 @@
+diff --git a/app/(dashboard)/patients/[id]/page.tsx b/app/(dashboard)/patients/[id]/page.tsx
+index f6ef58c..5062b54 100644
+--- a/app/(dashboard)/patients/[id]/page.tsx
++++ b/app/(dashboard)/patients/[id]/page.tsx
+@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
+ import { useParams, useRouter, useSearchParams } from "next/navigation"
+ import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
+ import { loadPatientDetail } from "@/lib/patient-detail.mjs"
+-import { formatBirthDate } from "@/lib/birth-date.mjs"
++import { formatBirthDate, ageFromBirthDate } from "@/lib/birth-date.mjs"
+ import { readPatientTab } from "@/lib/prescription-policy.mjs"
+ import { supabase } from "@/lib/supabase"
+ import { Button } from "@/components/ui/button"
+@@ -130,15 +130,8 @@ export default function PatientDetailsPage() {
+   const formatBirthDateAndAge = (birthDateString?: string) => {
+     const birthLabel = formatBirthDate(birthDateString)
+     if (!birthDateString || !birthLabel) return "Fecha de nacimiento no registrada"
+-    const birth = new Date(birthDateString)
+-    if (isNaN(birth.getTime())) return "Fecha de nacimiento no registrada"
+-    
+-    const today = new Date()
+-    let age = today.getFullYear() - birth.getFullYear()
+-    const monthDiff = today.getMonth() - birth.getMonth()
+-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
+-      age--
+-    }
++    const age = ageFromBirthDate(birthDateString)
++    if (age === null) return "Fecha de nacimiento no registrada"
+     return `${birthLabel} (${age} años)`
+   }
+ 
+diff --git a/components/hcu033-form.tsx b/components/hcu033-form.tsx
+index 278bb24..40df417 100644
+--- a/components/hcu033-form.tsx
++++ b/components/hcu033-form.tsx
+@@ -36,6 +36,7 @@ import {
+   Maximize2,
+ } from "lucide-react"
+ import { exportPersistedHCU033 } from "@/lib/pdf-client"
++import { ageFromBirthDate } from "@/lib/birth-date.mjs"
+ import { toast } from "sonner"
+ 
+ interface HCU033FormProps {
+@@ -328,17 +329,8 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
+         if (patientError) throw patientError
+ 
+         if (pData) {
+-          const birthDate = pData.birth_date ? new Date(pData.birth_date) : null
+-          let age = ""
+-          if (birthDate && !isNaN(birthDate.getTime())) {
+-            const today = new Date()
+-            let calculatedAge = today.getFullYear() - birthDate.getFullYear()
+-            const monthDiff = today.getMonth() - birthDate.getMonth()
+-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+-              calculatedAge--
+-            }
+-            age = calculatedAge.toString()
+-          }
++          const calculatedAge = ageFromBirthDate(pData.birth_date)
++          const age = calculatedAge === null ? "" : calculatedAge.toString()
+ 
+           setFormData((prev: any) => {
+             if (!isCurrent()) return prev
+@@ -668,14 +660,8 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
+                     onChange={(e) => {
+                       updateField("fecha_nacimiento", e.target.value)
+                       // Calcular edad automáticamente
+-                      const birthDate = new Date(e.target.value)
+-                      const today = new Date()
+-                      let age = today.getFullYear() - birthDate.getFullYear()
+-                      const monthDiff = today.getMonth() - birthDate.getMonth()
+-                      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+-                        age--
+-                      }
+-                      updateField("edad", age.toString())
++                      const age = ageFromBirthDate(e.target.value)
++                      updateField("edad", age === null ? "" : age.toString())
+                     }}
+                     required
+                   />
+diff --git a/lib/birth-date.d.mts b/lib/birth-date.d.mts
+index cb7e29f..1badb62 100644
+--- a/lib/birth-date.d.mts
++++ b/lib/birth-date.d.mts
+@@ -1 +1,2 @@
+ export function formatBirthDate(value?: string | null): string
++export function ageFromBirthDate(value: unknown, today?: Date): number | null
+diff --git a/lib/birth-date.mjs b/lib/birth-date.mjs
+index ca93223..99581e2 100644
+--- a/lib/birth-date.mjs
++++ b/lib/birth-date.mjs
+@@ -12,3 +12,13 @@ export function formatBirthDate(value) {
+   const birth = calendarBirthDate(value)
+   return birth ? `${birth.day}/${birth.month}/${birth.year}` : ''
+ }
++
++// Keep calendar birth dates separate from UTC instants when calculating age.
++export function ageFromBirthDate(value, today = new Date()) {
++  const birth = calendarBirthDate(value)
++  if (!birth || !(today instanceof Date) || !Number.isFinite(today.getTime())) return null
++  const year = today.getFullYear(), month = today.getMonth() + 1, day = today.getDate()
++  let age = year - birth.year
++  if (month < birth.month || (month === birth.month && day < birth.day)) age--
++  return age < 0 ? null : age
++}
+diff --git a/test/production/age-boundaries.test.cjs b/test/production/age-boundaries.test.cjs
+new file mode 100644
+index 0000000..4fba658
+--- /dev/null
++++ b/test/production/age-boundaries.test.cjs
+@@ -0,0 +1,19 @@
++"use strict";
++const test=require("node:test"),assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),ts=require("typescript");
++const {pathToFileURL}=require("node:url"),root=path.resolve(__dirname,"../..");
++const load=()=>import(pathToFileURL(path.join(root,"lib/birth-date.mjs")));
++const cases=[["2008-10-25","2026-10-24",17],["2008-10-24","2026-10-24",18],["2008-10-23","2026-10-24",18],["2008-01-01","2025-12-31",17],["2008-02-29","2024-02-28",15],["2008-02-29","2024-02-29",16],["2008-02-29","2024-03-01",16]];
++function zones(run){const old=process.env.TZ;try{for(const z of ["America/Guayaquil","UTC","Pacific/Kiritimati"]){process.env.TZ=z;run(z);}}finally{if(old===undefined)delete process.env.TZ;else process.env.TZ=old;}}
++function evaluate(expression,context){const module={exports:{}};vm.runInNewContext(ts.transpileModule("module.exports="+expression,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,{module,...context});return module.exports;}
++test("calendar age at birthday/year/leap boundaries in three zones",async()=>{const api=await load();zones(z=>{for(const [birth,today,age]of cases)assert.equal(api.ageFromBirthDate(birth,new Date(today+"T12:00:00")),age,z+"/"+birth);});});
++test("invalid/future dates fail closed; zero age and date labels retained",async()=>{const api=await load(),now=new Date(2026,9,24,12);for(const s of ["",null,undefined,"2007-02-29","1900-02-29","2008-13-01","0000-01-01","2026-10-25"])assert.equal(api.ageFromBirthDate(s,now),null,String(s));assert.equal(api.ageFromBirthDate("2008-10-25",new Date(NaN)),null);assert.equal(api.ageFromBirthDate("2026-10-24",now),0);assert.equal(api.formatBirthDate("2008-02-29"),"29/2/2008");});
++test("real patient formatter and HCU load/input agree with calendar age",async()=>{
++ const api=await load(),page=fs.readFileSync(path.join(root,"app/(dashboard)/patients/[id]/page.tsx"),"utf8"),hcu=fs.readFileSync(path.join(root,"components/hcu033-form.tsx"),"utf8");
++ const ast=ts.createSourceFile("patient.tsx",page,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let formatter;
++ function visit(n){if(ts.isVariableDeclaration(n)&&n.name.getText(ast)==="formatBirthDateAndAge")formatter=n.initializer.getText(ast);ts.forEachChild(n,visit);}visit(ast);assert.ok(formatter);
++ const start=hcu.indexOf("const calculatedAge = ageFromBirthDate(pData.birth_date)"),end=hcu.indexOf("setFormData((prev: any)",start),inputStart=hcu.indexOf("// Calcular edad automáticamente"),last='updateField("edad", age === null ? "" : age.toString())',inputEnd=hcu.indexOf(last,inputStart);
++ assert.ok(start>=0&&end>start&&inputStart>=0&&inputEnd>inputStart);
++ const loadExpression="(pData)=>{"+hcu.slice(start,end)+";return age;}",inputExpression="(e)=>{"+hcu.slice(inputStart,inputEnd+last.length)+"}";
++ zones(z=>{for(const [birth,today,age]of cases){const ageFromBirthDate=s=>api.ageFromBirthDate(s,new Date(today+"T12:00:00")),context={ageFromBirthDate,formatBirthDate:api.formatBirthDate},writes=[];assert.equal(evaluate(formatter,context)(birth),api.formatBirthDate(birth)+" ("+age+" años)",z);assert.equal(evaluate(loadExpression,context)({birth_date:birth}),String(age),z);evaluate(inputExpression,{...context,updateField:(k,v)=>writes.push([k,v])})({target:{value:birth}});assert.equal(JSON.stringify(writes),JSON.stringify([["edad",String(age)]]),z);}});
++});
++test("non-leap Feb29 outputs documented without asserting legal capacity",async()=>{const api=await load();zones(()=>{assert.equal(api.ageFromBirthDate("2008-02-29",new Date(2026,1,28,12)),17);assert.equal(api.ageFromBirthDate("2008-02-29",new Date(2026,2,1,12)),18);});});
+\ No newline at end of file

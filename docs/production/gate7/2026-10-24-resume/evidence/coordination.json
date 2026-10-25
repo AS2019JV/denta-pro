@@ -1,0 +1,15 @@
+{
+  "threadId": "01a16ed4-8dfe-7112-b66e-028b66b0e95e",
+  "threadTitle": "Integrar evidencia y preparar RC",
+  "userAuthorization": "User explicitly requested proposing manifest and delivering automatic progress/human blockers to coordinator",
+  "proposalSent": true,
+  "approvalGranted": false,
+  "technicalReplyObserved": {
+    "messageId": "msg_00f6c9d63a2868ea016add64a279008190a6c599a45568908c",
+    "phase": "commentary",
+    "scope": "Active finance excluded; SaaS subscription access checks retained; broker dependencies G7-06 and actual dependent exports; common execution prerequisites remain pending"
+  },
+  "humanIdentityAnswer": "siguen sin designar",
+  "newTasksDelegated": 0,
+  "noAuthorizationInferred": true
+}

@@ -1,0 +1,53 @@
+{
+  "baseCandidateSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+  "kind": "PREPARED_PATCH_NOT_APPLIED_TO_RUNTIME_OR_SHARED_RC",
+  "paths": [
+    "lib/birth-date.mjs",
+    "lib/birth-date.d.mts",
+    "app/(dashboard)/patients/[id]/page.tsx",
+    "components/hcu033-form.tsx",
+    "test/production/age-boundaries.test.cjs"
+  ],
+  "patchSHA256": "9cc2430c6bd5816ef1575e8603927062c486c3752b02541bd318470fb92d08c4",
+  "patchApplyCheck": "PASS against exact-RC isolated snapshot",
+  "proposedHashes": {
+    "lib/birth-date.mjs": "14a0126d5c35cccfb1ce4e68e3083fa6d9c46da5e94bf39b2280503ef7e63b64",
+    "lib/birth-date.d.mts": "1914a61bf7aa92e83647cab8dd2d75e94bbb45f4e0485cd5a4b1c5eeb7e2b94f",
+    "app/(dashboard)/patients/[id]/page.tsx": "b4dd99d057640f2256c49737bbffeb2bf1f6936246164c97d5dbd9a0d29a3a6f",
+    "components/hcu033-form.tsx": "ae44c072aa5768e8a8bc1efb82f983ba15a8da166adeb8979c58086529533647",
+    "test/production/age-boundaries.test.cjs": "44e66f50f0d005245506f80ae1bcc543481c648f6d09f8b533698b06322a733b"
+  },
+  "runtimeApplied": false,
+  "ci": "PENDING successor integration and its own CI",
+  "scope": "Calendar age only; existing birth labels/security patches retained. No authority/schema/RLS/MFA or finance change.",
+  "sourceHashesNormalizedLF": {
+    "lib/birth-date.mjs": "6654c53a002ec844719b642e25686d900b714ee43abccd12055d17429e3dfabb",
+    "lib/birth-date.d.mts": "40eeb907fd779d466fc81b3005b501ab8111851738c18316f8820497cf25f9bb",
+    "app/(dashboard)/patients/[id]/page.tsx": "30ca108466e04f2b5817280e20facb237e4064cd50f72b116c7612964bf231dc",
+    "components/hcu033-form.tsx": "27121225b0ccfba729b956f18ab96718b1467c82f14460f9609df8ad7889a839"
+  },
+  "rawSourceHashes": {
+    "lib/birth-date.mjs": "6654c53a002ec844719b642e25686d900b714ee43abccd12055d17429e3dfabb",
+    "lib/birth-date.d.mts": "40eeb907fd779d466fc81b3005b501ab8111851738c18316f8820497cf25f9bb",
+    "app/(dashboard)/patients/[id]/page.tsx": "3a3de4a1e0ebd323cdb3a2aaff89028efd0d49a23070e4ab5c2d25685292cbcb",
+    "components/hcu033-form.tsx": "6eb34106cdc1c023ff412d17ba1a76b8328e32fe1942bdc128f907815d3e57df"
+  },
+  "rawByteTargetApplyCheck": "PASS",
+  "rawTargetRoundtrip": "PASS: apply to original Git bytes in disposable copy; all five proposed normalized contents match",
+  "affectedRegression": {
+    "tests": 4,
+    "passed": 4,
+    "failed": 0,
+    "skipped": 0,
+    "command": "NODE_PATH=<existing shared TypeScript dependency> node --test .release-snapshots/gate7-resume-20261024/after/test/production/age-boundaries.test.cjs",
+    "runtime": "Node local; no full component/browser/backend/typecheck/build claim",
+    "independentDateZoneRows": 21,
+    "modes": [
+      "helper",
+      "actual patient formatter",
+      "actual HCU load block",
+      "actual HCU date-input block"
+    ],
+    "notSummedIntoDistinctHostedCases": true
+  }
+}

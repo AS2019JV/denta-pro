@@ -1,0 +1,193 @@
+{
+  "schemaVersion": 1,
+  "gate": "Gate7",
+  "state": "PROPOSED_NOT_AUTHORIZED",
+  "continuationFrom": "bddad198297c93b31d3bddbd490a9848abee3027",
+  "sourceRC": {
+    "reference": "C:/Users/aleja/Documents/0-dev/denta-pro/docs/production/rc/2026-10-24-v1/RC_HANDOFF.json",
+    "version": "2026-10-24-v1.5",
+    "expectedSHA256": "fb5c5a34ec4ba244aa6148049407dccbeca456ea10a165a3c950a92bb62e44f9",
+    "candidateSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+    "ci": 40116990280,
+    "conclusion": "failure",
+    "deployment": "83WHkLXSCDVsdoHXjxC6KjoVRa6v",
+    "usableForHostedExecution": false,
+    "initialPlanningVersion": "2026-10-24-v1.2"
+  },
+  "executableAssignment": {
+    "rcHandoffReference": null,
+    "rcHandoffSHA256": null,
+    "candidateSHA": null,
+    "ci": null,
+    "deployment": null,
+    "projectRef": null,
+    "dbContractReceipt": null,
+    "explicitAuthorizationReference": null,
+    "validFromUtc": null,
+    "validUntilUtc": null,
+    "browserOwner": null,
+    "exclusive": true
+  },
+  "requestedProject": "phihonofwyerpfgqfekt",
+  "dbContractRequirements": [
+    "Exact deployment to DB project binding",
+    "Selected clinical API/RPC/table contracts required by assigned flows, revision and verified result",
+    "Ledger/catalog limitations retained; no repair, parity claim or remote DDL",
+    "Positive/selective runtime compatibility proven or explicitly scoped as part of authorized tests"
+  ],
+  "frozenScope": {
+    "status": "PENDING_COORDINATOR_CONFIRMATION",
+    "proposed": "Clinical journeys G7-01 through G7-07 and age boundaries only",
+    "financeIncluded": false,
+    "financeInclusionAuthorized": false,
+    "excluded": [
+      "billing",
+      "payments",
+      "subscriptions",
+      "financial reports",
+      "financial ledger writes"
+    ],
+    "decisionReference": null
+  },
+  "clinic": {
+    "reference": null,
+    "id": null,
+    "label": "DEMO-G7-<runId>",
+    "exclusiveTo": "Gate7",
+    "syntheticOnly": true,
+    "sharedGateFixturesAllowed": false,
+    "billableResourceCreationAllowed": false,
+    "provisioning": "Coordinator assigns an eligible existing exclusive clinic or separately authorizes ordinary product provisioning; no SQL authority grants"
+  },
+  "actors": [
+    {
+      "slot": "owner",
+      "reference": null,
+      "userId": null,
+      "role": "clinic_owner",
+      "existingEligibleMembershipRequired": true,
+      "exclusiveSessionsRequired": true,
+      "purpose": "Operational review and privacy JSON export using ordinary authority"
+    },
+    {
+      "slot": "dentist",
+      "reference": null,
+      "userId": null,
+      "role": "doctor",
+      "existingEligibleMembershipRequired": true,
+      "exclusiveSessionsRequired": true,
+      "professionalQualificationReference": null,
+      "purpose": "HCU/odontogram/prescription/file and clinical review"
+    },
+    {
+      "slot": "reception",
+      "reference": null,
+      "userId": null,
+      "role": "receptionist",
+      "existingEligibleMembershipRequired": true,
+      "exclusiveSessionsRequired": true,
+      "purpose": "Patient demographics/appointment plus clinical read/write/export/file denials"
+    }
+  ],
+  "fixtures": {
+    "namespace": "G7-<runId>",
+    "assignedIds": null,
+    "patients": [
+      {
+        "slot": "adult",
+        "id": null,
+        "document": "Unique fictional nonnational document G7A<runId>, <=20 chars, never a real cedula",
+        "birthDate": "1990-01-01",
+        "ageBoundaryUse": "Cycle dates before any HCU/prescription emission, restore fixture baseline and read back",
+        "purpose": "Creation/reopen/HCU/FDI/appointment/prescription/correction"
+      },
+      {
+        "slot": "minor",
+        "id": null,
+        "document": "Unique fictional nonnational document G7M<runId>, <=20 chars",
+        "birthDate": "2016-02-29",
+        "guardian": "REPRESENTANTE FICTICIO G7; legal authority not inferred",
+        "purpose": "Existing minor/guardian/consent UI; no legal acceptance inferred"
+      }
+    ],
+    "hcuVersionsMaximum": 3,
+    "appointmentsMaximum": 1,
+    "prescriptionsMaximum": 1,
+    "filesMaximum": 1,
+    "file": "One harmless synthetic PDF, original size/hash pinned; no real diagnosis",
+    "rightsRequestsMaximum": 1,
+    "externalMessages": 0,
+    "secondTenant": {
+      "authorized": false,
+      "clinicId": null,
+      "actorReference": null,
+      "patientId": null,
+      "rule": "Do not reuse other gates; cross-tenant test only with a second explicitly exclusive fixture, otherwise NOT VERIFIED"
+    },
+    "cleanup": "No automatic deletion/global logout; only dedicated assigned sessions, documented disposition by coordinator"
+  },
+  "evidence": {
+    "privateProposedRoot": "C:\\Users\\aleja\\.codex\\worktrees\\gate7-clinical-acceptance\\denta-pro/.release-snapshots/gate7-runtime/<runId>",
+    "sanitizedProposedRoot": "C:\\Users\\aleja\\.codex\\worktrees\\gate7-clinical-acceptance\\denta-pro/docs/production/gate7/2026-10-24-resume/runtime/<runId>",
+    "acceptedRoot": null,
+    "custodian": null,
+    "retentionDecision": null,
+    "readers": null,
+    "externalTransferAuthorized": false,
+    "rawHeadersTokensCookiesAllowed": false,
+    "protectedURLsInPublicReceipts": false,
+    "perCase": [
+      "RC_HANDOFF hash",
+      "SHA/CI/deployment/project",
+      "UTC and America/Guayaquil clock",
+      "actor role and exclusive synthetic IDs",
+      "UI action and semantic outcome",
+      "ordinary persisted read by ID/clinic, author/date/version",
+      "file/PDF bytes, size/hash, text/render result",
+      "pertinent denial and no-side-effect proof",
+      "limits/status"
+    ]
+  },
+  "executionSplit": {
+    "commonGates": [
+      "Green exact assigned successor with own CI",
+      "Explicit runtime authorization/turn/fixtures/DB contract",
+      "Incident disposition required by RC or a revised explicit split from coordinator"
+    ],
+    "independentOnceCommonGatesAuthorized": [
+      "G7-01 patient/HCU",
+      "G7-02 FDI/CPO",
+      "G7-03 appointment",
+      "G7-04 prescription/reprint",
+      "G7-05 export where no blocked broker dependency",
+      "G7-07 minor/consent/correction",
+      "Age boundary UI/reload checks"
+    ],
+    "gate1DocumentDependency": [
+      "G7-06 download and byte parity/render",
+      "Any specific G7-05 export that actually requires blocked document delivery"
+    ],
+    "rule": "Do not wait on Gate1 for otherwise explicitly authorized independent steps; no common runtime gate is currently satisfied"
+  },
+  "humanReview": {
+    "durationMinutes": 15,
+    "owner": {
+      "identity": null,
+      "acceptance": null
+    },
+    "qualifiedDentist": {
+      "identity": null,
+      "qualificationReference": null,
+      "acceptance": null
+    },
+    "qualifiedPrivacyResponsible": {
+      "identity": null,
+      "competenceReference": null,
+      "acceptance": null
+    },
+    "signatures": null,
+    "sessionTime": null,
+    "userReply": "siguen sin designar",
+    "acceptanceRequestedAfterEvidenceReviewOnly": true
+  }
+}

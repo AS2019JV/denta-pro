@@ -1,0 +1,19 @@
+"use strict";
+const test=require("node:test"),assert=require("node:assert/strict"),fs=require("node:fs"),path=require("node:path"),vm=require("node:vm"),ts=require("typescript");
+const {pathToFileURL}=require("node:url"),root=path.resolve(__dirname,"../..");
+const load=()=>import(pathToFileURL(path.join(root,"lib/birth-date.mjs")));
+const cases=[["2008-10-25","2026-10-24",17],["2008-10-24","2026-10-24",18],["2008-10-23","2026-10-24",18],["2008-01-01","2025-12-31",17],["2008-02-29","2024-02-28",15],["2008-02-29","2024-02-29",16],["2008-02-29","2024-03-01",16]];
+function zones(run){const old=process.env.TZ;try{for(const z of ["America/Guayaquil","UTC","Pacific/Kiritimati"]){process.env.TZ=z;run(z);}}finally{if(old===undefined)delete process.env.TZ;else process.env.TZ=old;}}
+function evaluate(expression,context){const module={exports:{}};vm.runInNewContext(ts.transpileModule("module.exports="+expression,{compilerOptions:{target:ts.ScriptTarget.ES2022,module:ts.ModuleKind.CommonJS}}).outputText,{module,...context});return module.exports;}
+test("calendar age at birthday/year/leap boundaries in three zones",async()=>{const api=await load();zones(z=>{for(const [birth,today,age]of cases)assert.equal(api.ageFromBirthDate(birth,new Date(today+"T12:00:00")),age,z+"/"+birth);});});
+test("invalid/future dates fail closed; zero age and date labels retained",async()=>{const api=await load(),now=new Date(2026,9,24,12);for(const s of ["",null,undefined,"2007-02-29","1900-02-29","2008-13-01","0000-01-01","2026-10-25"])assert.equal(api.ageFromBirthDate(s,now),null,String(s));assert.equal(api.ageFromBirthDate("2008-10-25",new Date(NaN)),null);assert.equal(api.ageFromBirthDate("2026-10-24",now),0);assert.equal(api.formatBirthDate("2008-02-29"),"29/2/2008");});
+test("real patient formatter and HCU load/input agree with calendar age",async()=>{
+ const api=await load(),page=fs.readFileSync(path.join(root,"app/(dashboard)/patients/[id]/page.tsx"),"utf8"),hcu=fs.readFileSync(path.join(root,"components/hcu033-form.tsx"),"utf8");
+ const ast=ts.createSourceFile("patient.tsx",page,ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);let formatter;
+ function visit(n){if(ts.isVariableDeclaration(n)&&n.name.getText(ast)==="formatBirthDateAndAge")formatter=n.initializer.getText(ast);ts.forEachChild(n,visit);}visit(ast);assert.ok(formatter);
+ const start=hcu.indexOf("const calculatedAge = ageFromBirthDate(pData.birth_date)"),end=hcu.indexOf("setFormData((prev: any)",start),inputStart=hcu.indexOf("// Calcular edad automáticamente"),last='updateField("edad", age === null ? "" : age.toString())',inputEnd=hcu.indexOf(last,inputStart);
+ assert.ok(start>=0&&end>start&&inputStart>=0&&inputEnd>inputStart);
+ const loadExpression="(pData)=>{"+hcu.slice(start,end)+";return age;}",inputExpression="(e)=>{"+hcu.slice(inputStart,inputEnd+last.length)+"}";
+ zones(z=>{for(const [birth,today,age]of cases){const ageFromBirthDate=s=>api.ageFromBirthDate(s,new Date(today+"T12:00:00")),context={ageFromBirthDate,formatBirthDate:api.formatBirthDate},writes=[];assert.equal(evaluate(formatter,context)(birth),api.formatBirthDate(birth)+" ("+age+" años)",z);assert.equal(evaluate(loadExpression,context)({birth_date:birth}),String(age),z);evaluate(inputExpression,{...context,updateField:(k,v)=>writes.push([k,v])})({target:{value:birth}});assert.equal(JSON.stringify(writes),JSON.stringify([["edad",String(age)]]),z);}});
+});
+test("non-leap Feb29 outputs documented without asserting legal capacity",async()=>{const api=await load();zones(()=>{assert.equal(api.ageFromBirthDate("2008-02-29",new Date(2026,1,28,12)),17);assert.equal(api.ageFromBirthDate("2008-02-29",new Date(2026,2,1,12)),18);});});

@@ -1,0 +1,249 @@
+{
+  "candidateSHA": "254996d89b68d11aec43e82f8184e01035b55696",
+  "scope": "Offline execution of exact RC formatter and HCU load/input blocks; synthetic dates only, fixed clock; no browser/backend execution",
+  "sourceHashes": {
+    "app/(dashboard)/patients/[id]/page.tsx": "30ca108466e04f2b5817280e20facb237e4064cd50f72b116c7612964bf231dc",
+    "components/hcu033-form.tsx": "27121225b0ccfba729b956f18ab96718b1467c82f14460f9609df8ad7889a839",
+    "lib/birth-date.mjs": "6654c53a002ec844719b642e25686d900b714ee43abccd12055d17429e3dfabb"
+  },
+  "typescriptVersion": "5.9.3",
+  "sourceFormat": "Git source normalized CRLF to LF for AST/block extraction",
+  "observations": [
+    {
+      "id": "before-birthday",
+      "birth": "2008-10-25",
+      "asOf": "2026-10-24",
+      "expected": 17,
+      "zone": "America/Guayaquil",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": false
+    },
+    {
+      "id": "birthday",
+      "birth": "2008-10-24",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "America/Guayaquil",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "after-birthday",
+      "birth": "2008-10-23",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "America/Guayaquil",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "jan1-eve",
+      "birth": "2008-01-01",
+      "asOf": "2025-12-31",
+      "expected": 17,
+      "zone": "America/Guayaquil",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": false
+    },
+    {
+      "id": "leap-birth-eve",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-28",
+      "expected": 15,
+      "zone": "America/Guayaquil",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": false
+    },
+    {
+      "id": "leap-birthday",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-29",
+      "expected": 16,
+      "zone": "America/Guayaquil",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    },
+    {
+      "id": "leap-after",
+      "birth": "2008-02-29",
+      "asOf": "2024-03-01",
+      "expected": 16,
+      "zone": "America/Guayaquil",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    },
+    {
+      "id": "before-birthday",
+      "birth": "2008-10-25",
+      "asOf": "2026-10-24",
+      "expected": 17,
+      "zone": "UTC",
+      "pageAge": 17,
+      "hcuAge": 17,
+      "hcuInputAge": 17,
+      "passed": true
+    },
+    {
+      "id": "birthday",
+      "birth": "2008-10-24",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "UTC",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "after-birthday",
+      "birth": "2008-10-23",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "UTC",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "jan1-eve",
+      "birth": "2008-01-01",
+      "asOf": "2025-12-31",
+      "expected": 17,
+      "zone": "UTC",
+      "pageAge": 17,
+      "hcuAge": 17,
+      "hcuInputAge": 17,
+      "passed": true
+    },
+    {
+      "id": "leap-birth-eve",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-28",
+      "expected": 15,
+      "zone": "UTC",
+      "pageAge": 15,
+      "hcuAge": 15,
+      "hcuInputAge": 15,
+      "passed": true
+    },
+    {
+      "id": "leap-birthday",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-29",
+      "expected": 16,
+      "zone": "UTC",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    },
+    {
+      "id": "leap-after",
+      "birth": "2008-02-29",
+      "asOf": "2024-03-01",
+      "expected": 16,
+      "zone": "UTC",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    },
+    {
+      "id": "before-birthday",
+      "birth": "2008-10-25",
+      "asOf": "2026-10-24",
+      "expected": 17,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 17,
+      "hcuAge": 17,
+      "hcuInputAge": 17,
+      "passed": true
+    },
+    {
+      "id": "birthday",
+      "birth": "2008-10-24",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "after-birthday",
+      "birth": "2008-10-23",
+      "asOf": "2026-10-24",
+      "expected": 18,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 18,
+      "hcuAge": 18,
+      "hcuInputAge": 18,
+      "passed": true
+    },
+    {
+      "id": "jan1-eve",
+      "birth": "2008-01-01",
+      "asOf": "2025-12-31",
+      "expected": 17,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 17,
+      "hcuAge": 17,
+      "hcuInputAge": 17,
+      "passed": true
+    },
+    {
+      "id": "leap-birth-eve",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-28",
+      "expected": 15,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 15,
+      "hcuAge": 15,
+      "hcuInputAge": 15,
+      "passed": true
+    },
+    {
+      "id": "leap-birthday",
+      "birth": "2008-02-29",
+      "asOf": "2024-02-29",
+      "expected": 16,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    },
+    {
+      "id": "leap-after",
+      "birth": "2008-02-29",
+      "asOf": "2024-03-01",
+      "expected": 16,
+      "zone": "Pacific/Kiritimati",
+      "pageAge": 16,
+      "hcuAge": 16,
+      "hcuInputAge": 16,
+      "passed": true
+    }
+  ],
+  "failedRows": 3,
+  "clinicalPolicy": "Ordinary calendar-year comparisons only. Non-leap-year Feb29 legal/clinical anniversary policy remains a qualified human decision; not prescribed here.",
+  "authorization": "Read-only exact RC code and local boundary probe only",
+  "productionMutations": 0,
+  "hostedFlows": 0
+}

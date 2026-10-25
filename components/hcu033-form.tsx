@@ -36,6 +36,7 @@ import {
   Maximize2,
 } from "lucide-react"
 import { exportPersistedHCU033 } from "@/lib/pdf-client"
+import { ageFromBirthDate } from "@/lib/birth-date.mjs"
 import { toast } from "sonner"
 
 interface HCU033FormProps {
@@ -328,17 +329,8 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         if (patientError) throw patientError
 
         if (pData) {
-          const birthDate = pData.birth_date ? new Date(pData.birth_date) : null
-          let age = ""
-          if (birthDate && !isNaN(birthDate.getTime())) {
-            const today = new Date()
-            let calculatedAge = today.getFullYear() - birthDate.getFullYear()
-            const monthDiff = today.getMonth() - birthDate.getMonth()
-            if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-              calculatedAge--
-            }
-            age = calculatedAge.toString()
-          }
+          const calculatedAge = ageFromBirthDate(pData.birth_date)
+          const age = calculatedAge === null ? "" : calculatedAge.toString()
 
           setFormData((prev: any) => {
             if (!isCurrent()) return prev
@@ -668,14 +660,8 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                     onChange={(e) => {
                       updateField("fecha_nacimiento", e.target.value)
                       // Calcular edad automáticamente
-                      const birthDate = new Date(e.target.value)
-                      const today = new Date()
-                      let age = today.getFullYear() - birthDate.getFullYear()
-                      const monthDiff = today.getMonth() - birthDate.getMonth()
-                      if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
-                        age--
-                      }
-                      updateField("edad", age.toString())
+                      const age = ageFromBirthDate(e.target.value)
+                      updateField("edad", age === null ? "" : age.toString())
                     }}
                     required
                   />

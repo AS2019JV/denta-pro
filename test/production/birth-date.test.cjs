@@ -1,6 +1,6 @@
 const test = require('node:test'), assert = require('node:assert/strict')
 const { spawnSync } = require('node:child_process')
-const { formatBirthDate } = require('../../lib/birth-date.mjs')
+const { formatBirthDate, ageFromBirthDate } = require('../../lib/birth-date.mjs')
 const fs = require('node:fs'), vm = require('node:vm'), ts = require('typescript')
 
 test('actual patient summary formatter displays the saved day and keeps missing dates explicit', () => {
@@ -12,7 +12,10 @@ test('actual patient summary formatter displays the saved day and keeps missing 
   const fixed=new Date(2026,9,23,12).getTime()
   class ClockDate extends Date {constructor(...args){super(...(args.length?args:[fixed]))}}
   const module={exports:{}}
-  vm.runInNewContext(ts.transpileModule('module.exports='+initializer,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,{module,Date:ClockDate,formatBirthDate})
+  vm.runInNewContext(ts.transpileModule('module.exports='+initializer,{compilerOptions:{target:ts.ScriptTarget.ES2022}}).outputText,{
+    module,Date:ClockDate,formatBirthDate,
+    ageFromBirthDate: value => ageFromBirthDate(value,new ClockDate()),
+  })
   assert.equal(module.exports('1990-01-01'),'1/1/1990 (36 años)')
   for(const value of [undefined,'','2026-02-30'])assert.equal(module.exports(value),'Fecha de nacimiento no registrada')
 })

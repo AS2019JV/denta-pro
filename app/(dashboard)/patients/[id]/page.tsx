@@ -4,7 +4,7 @@ import { useEffect, useState, useRef } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
 import { loadPatientDetail } from "@/lib/patient-detail.mjs"
-import { formatBirthDate } from "@/lib/birth-date.mjs"
+import { formatBirthDate, ageFromBirthDate } from "@/lib/birth-date.mjs"
 import { readPatientTab } from "@/lib/prescription-policy.mjs"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -130,15 +130,8 @@ export default function PatientDetailsPage() {
   const formatBirthDateAndAge = (birthDateString?: string) => {
     const birthLabel = formatBirthDate(birthDateString)
     if (!birthDateString || !birthLabel) return "Fecha de nacimiento no registrada"
-    const birth = new Date(birthDateString)
-    if (isNaN(birth.getTime())) return "Fecha de nacimiento no registrada"
-    
-    const today = new Date()
-    let age = today.getFullYear() - birth.getFullYear()
-    const monthDiff = today.getMonth() - birth.getMonth()
-    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birth.getDate())) {
-      age--
-    }
+    const age = ageFromBirthDate(birthDateString)
+    if (age === null) return "Fecha de nacimiento no registrada"
     return `${birthLabel} (${age} años)`
   }
 
