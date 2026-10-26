@@ -61,25 +61,41 @@ function safeError(error) {
   return true
 }
 
-test('origin config uses exact project anon JWT and session token with one attempt and no URL credentials', async () => {
+test('origin config uses project ref as signing material and original session token, without an API key', async () => {
   const { storageOriginConfig } = await import('../../lib/storage-origin-config.mjs')
-  assert.deepEqual(storageOriginConfig(provider, anon, 'us-east-1', token), {
+  assert.deepEqual(storageOriginConfig(provider, 'us-east-1', token), {
     endpoint: `https://${project}.storage.supabase.co/storage/v1/s3`, region: 'us-east-1',
     forcePathStyle: true, maxAttempts: 1,
-    credentials: { accessKeyId: project, secretAccessKey: anon, sessionToken: token },
+    credentials: { accessKeyId: project, secretAccessKey: project, sessionToken: token },
   })
 })
 
-test('origin config rejects missing region, publishable/secret/service keys and wrong project', async () => {
+test('origin config rejects missing region, invalid origin and missing session', async () => {
   const { storageOriginConfig: config } = await import('../../lib/storage-origin-config.mjs')
-  for (const region of [undefined, '', 'auto', 'us-east-1/evil']) assert.throws(() => config(provider, anon, region, token), /region configuration invalid/)
-  for (const key of ['sb_publishable_synthetic', 'sb_secret_synthetic', jwt({ role: 'service_role', ref: project }), jwt({ role: 'anon', ref: 'zyxwvutsrqponmlkjihg' }), 'invalid']) {
-    assert.throws(() => config(provider, key, 'us-east-1', token), /(?:project anon JWT key|anon configuration invalid)/)
-  }
+  for (const region of [undefined, '', 'auto', 'us-east-1/evil']) assert.throws(() => config(provider, region, token), /region configuration invalid/)
   for (const origin of ['https://example.com', `http://${project}.supabase.co`, `${provider}/path`, `${provider}?key=secret`, `${provider}#secret`, `https://user:secret@${project}.supabase.co`, `${provider}:444`]) {
-    assert.throws(() => config(origin, anon, 'us-east-1', token), /origin configuration invalid/)
+    assert.throws(() => config(origin, 'us-east-1', token), /origin configuration invalid/)
   }
-  for (const badToken of ['', 'not-a-jwt', 'Bearer header.payload.sig']) assert.throws(() => config(provider, anon, 'us-east-1', badToken), /session absent/)
+  for (const badToken of ['', 'not-a-jwt', 'Bearer header.payload.sig']) assert.throws(() => config(provider, 'us-east-1', badToken), /session absent/)
+})
+
+test('actual adapter with publishable or absent public API key signs only with project ref', async () => {
+  for (const publicKey of ['sb_publishable_synthetic', undefined]) {
+    const h = await harness({ providerEnv: { NEXT_PUBLIC_SUPABASE_ANON_KEY: publicKey } })
+    const response = await h.download()
+    assert.deepEqual(Buffer.from(await response.arrayBuffer()), payload)
+    assert.equal(h.state.configs[0].credentials.accessKeyId, project)
+    assert.equal(h.state.configs[0].credentials.secretAccessKey, project)
+    assert.equal(h.state.configs[0].credentials.sessionToken, token)
+  }
+})
+
+test('unsupported provider fails closed with one SDK call and no legacy or REST retry', async () => {
+  const h = await harness({ providerEnv: { NEXT_PUBLIC_SUPABASE_ANON_KEY: 'sb_publishable_synthetic' }, error: new Error('SignatureDoesNotMatch') })
+  await assert.rejects(h.download(), safeError)
+  assert.equal(h.state.sends.length, 1)
+  assert.equal(h.state.configs[0].credentials.secretAccessKey, project)
+  assert.equal(h.state.destroys, 1)
 })
 
 test('actual origin adapter preserves bucket/path/session and publishes only safe response metadata', async () => {

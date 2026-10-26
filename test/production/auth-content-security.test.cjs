@@ -15,7 +15,7 @@ function load(file, mocks = {}, extra = {}) {
   } }).outputText;
   vm.runInNewContext(js + (file.endsWith('page.tsx') ? '\nexports.ConfirmContent = ConfirmContent;' : ''), {
     module, exports: module.exports, URL, Buffer, console: { info() {}, log() {}, error() {}, warn() {} },
-    process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.supabase.co',
+    process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.supabase.co', NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-anon',
       SUPABASE_SERVICE_ROLE_KEY: 'synthetic-only', RESEND_API_KEY: 'synthetic-only',
       NEXT_PUBLIC_APP_URL: 'https://app.example.invalid' }, cwd: () => root },
     require(name) {
@@ -114,10 +114,14 @@ test('confirmed OTP or existing session never redirects to clinic when trusted e
 });
 
 function signupHarness(metadata = {}, delivery = 'ok') {
-  const mails = [], effects = [];
+  const mails = [], effects = [], resends = [];
   const client = {
     from() { const query = { select() { return query; }, eq() { return query; }, single: async () => ({ data: null, error: null }) }; return query; },
-    auth: { admin: {
+    auth: { resend: async payload => {
+      resends.push(payload);
+      if (delivery === 'throw') throw Error('sensitive-provider-detail');
+      return { error: delivery === 'error' ? { message: 'sensitive-provider-detail' } : null };
+    }, admin: {
       createUser: async payload => { effects.push(payload); return { data: {user:{id:'synthetic-created-user'}}, error: null }; },
       listUsers: async () => ({ data: { users: [{ email: 'synthetic@example.invalid', user_metadata: metadata }] }, error: null }),
       generateLink: async () => ({ data: { user:{id:'synthetic-created-user'}, properties: { action_link: 'https://synthetic.supabase.co/verify', hashed_token: 'synthetic+token' } }, error: null }),
@@ -136,9 +140,9 @@ function signupHarness(metadata = {}, delivery = 'ok') {
         ? { data: null, error: { message: 'sensitive-provider-detail' } }
         : { data: {}, error: null };
     } }; } },
-    '@/lib/logger': { maskEmail: () => 'masked', logger: { info() {}, error() {} } },
+    '@/lib/logger': { maskEmail: () => 'masked', logger: { info() {}, warn() {}, error() {} } },
   };
-  return { mocks, mails, effects };
+  return { mocks, mails, effects, resends };
 }
 function validForm() {
   const data = new FormData();
@@ -190,16 +194,17 @@ test('signup provider rejection and transport failure preserve account and retur
   }
 });
 
-test('resend provider rejection and transport failure never claim success or reveal provider errors', async () => {
+test('resend provider rejection and transport failure acknowledge only the request without claiming delivery', async () => {
   for (const delivery of ['error', 'throw']) {
     const harness = signupHarness({}, delivery);
     const action = load('app/actions/resend-confirmation.ts', harness.mocks);
     const result = await action.resendConfirmationEmail('synthetic@example.invalid');
     assert.equal(result.success, undefined);
-    assert.equal(harness.mails.length, 1);
-    assert.ok(result.error);
+    assert.equal(result.accepted, true);
+    assert.equal(result.error, undefined);
+    assert.equal(harness.resends.length, 1);
+    assert.equal(harness.mails.length, 0);
     assert.ok(!JSON.stringify(result).includes('sensitive-provider-detail'));
-    if (delivery === 'throw') assert.match(result.error, /No pudimos confirmar/);
   }
 });
 
@@ -215,14 +220,14 @@ test('signup server accepts password boundaries 12 and 128 and rejects 11 and 12
   assert.ok(!source.includes('Mínimo 6 caracteres'));
 });
 
-test('real resend email escapes editable metadata and rejects invalid addresses', async () => {
+test('resend rejects invalid addresses and never forwards editable metadata into the Auth resend request', async () => {
   const harness = signupHarness({ title: '<a href="https://attacker.invalid">', full_name: '<img/src=x/onerror=alert(1)>' });
   const action = load('app/actions/resend-confirmation.ts', harness.mocks);
   assert.ok((await action.resendConfirmationEmail('invalid')).error);
   assert.equal(harness.mails.length, 0);
-  assert.equal((await action.resendConfirmationEmail('synthetic@example.invalid')).success, true);
-  assert.equal(harness.mails.length, 1);
-  assert.ok(!harness.mails[0].html.includes('<img/src='));
-  assert.ok(harness.mails[0].html.includes('&lt;img/src=x/onerror=alert(1)&gt;'));
-  assert.ok(!harness.mails[0].html.includes('<a href="https://attacker.invalid">'));
+  assert.equal((await action.resendConfirmationEmail('synthetic@example.invalid')).accepted, true);
+  assert.equal(harness.mails.length, 0);
+  assert.equal(harness.resends.length, 1);
+  assert.ok(!JSON.stringify(harness.resends).includes('attacker.invalid'));
+  assert.ok(!JSON.stringify(harness.resends).includes('onerror='));
 });

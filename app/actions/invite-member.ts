@@ -265,7 +265,7 @@ export async function inviteTeamMember(formData: FormData): Promise<InviteResult
                 <a href="${confirmUrl}" style="color: #0d9488; word-break: break-all;">${confirmUrl}</a>
               </p>
               <p style="font-size: 13px; color: #ef4444; font-weight: 600; margin-top: 24px; padding: 12px; background: #fef2f2; border-radius: 8px; border: 1px solid #fecaca; text-align: center;">
-                ⚠️ Por tu seguridad, este enlace expirará en 7 días.
+                ⚠️ Este enlace puede caducar antes que la invitación a la clínica. Si caduca, solicita un nuevo enlace al administrador.
               </p>
             </div>
           </div>

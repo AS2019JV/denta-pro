@@ -12,7 +12,7 @@ import { env } from './env'
 export async function downloadStorageOrigin(bucket: PrivateMediaBucket, path: string, token: string, signal: AbortSignal): Promise<Response> {
   signal.throwIfAborted()
   if (privateMediaPath(path, bucket, env.NEXT_PUBLIC_SUPABASE_URL) !== path) throw new Error('Storage reference denied')
-  const client = new S3Client(storageOriginConfig(env.NEXT_PUBLIC_SUPABASE_URL, env.NEXT_PUBLIC_SUPABASE_ANON_KEY, process.env.CLINIA_STORAGE_REGION, token))
+  const client = new S3Client(storageOriginConfig(env.NEXT_PUBLIC_SUPABASE_URL, process.env.CLINIA_STORAGE_REGION, token))
   let release = () => client.destroy()
   try {
     const object = await client.send(new GetObjectCommand({ Bucket: bucket, Key: path }), { abortSignal: signal })

@@ -1,10 +1,20 @@
-/** Resend renders signup/invite; Supabase SMTP renders the recovery template. */
+/** Initial signup/invite use Resend; existing-account resend/recovery use Auth SMTP. */
 export const AUTH_EMAIL_CONTRACT = Object.freeze({
   signup: { provider: 'resend', template: 'emails/signup-confirmation.html', type: 'signup', next: '/dashboard' },
+  resendSignup: { provider: 'supabase-smtp', template: 'emails/resend-confirmation.html', type: 'signup', next: '/dashboard' },
   // Invited users have not chosen a password during signup. Set it before normal login/MFA.
   invite: { provider: 'resend', template: 'server-action', type: 'invite', next: '/update-password' },
   recovery: { provider: 'supabase-smtp', template: 'emails/reset-password.html', type: 'recovery', next: '/update-password' },
 })
+
+export const RESEND_CONFIRMATION_MESSAGE = 'Si la cuenta requiere confirmación, revisa tu bandeja y spam. Si no recibes instrucciones, vuelve a intentarlo más tarde.'
+
+/** The matching SMTP template appends TokenHash and fixed signup parameters. */
+export function signupResendRedirect(origin: string): string {
+  const configured = configuredAuthOrigin(origin)
+  if (!configured) throw new Error('No se pudo preparar el enlace de autenticación.')
+  return new URL('/auth/confirm', configured).href
+}
 
 export function configuredAuthOrigin(value: unknown): string | null {
   if (typeof value !== 'string' || value.trim() !== value) return null

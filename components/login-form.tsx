@@ -15,6 +15,7 @@ import { Eye, EyeOff, Loader2 } from "lucide-react"
 import { useTheme } from "next-themes"
 import { useRouter } from "next/navigation"
 import { resendConfirmationEmail } from "@/app/actions/resend-confirmation"
+import { RESEND_CONFIRMATION_MESSAGE } from "@/lib/auth-email-contract"
 
 import { motion } from "framer-motion"
 
@@ -67,10 +68,10 @@ export function LoginForm() {
   const handleResendConfirmation = async () => {
       setIsLoading(true)
       try {
-          const { error, success } = await resendConfirmationEmail(email)
+          const { error, accepted } = await resendConfirmationEmail(email)
           
           if (error) throw new Error(error)
-          if (success) {
+          if (accepted) {
             setResendSuccess(true)
             setError("")
           }
@@ -160,7 +161,7 @@ export function LoginForm() {
 
               {resendSuccess && (
                   <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-3 rounded-lg bg-emerald-50 border border-emerald-100 text-emerald-700 text-sm">
-                      ¡Correo enviado! Revise su bandeja de entrada.
+                      {RESEND_CONFIRMATION_MESSAGE}
                   </motion.div>
               )}
 
