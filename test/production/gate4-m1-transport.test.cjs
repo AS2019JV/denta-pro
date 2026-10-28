@@ -43,7 +43,7 @@ test('SQLSTATE script failure before COMMIT is aborted, never retried',()=>{cons
 test('timeout, throw, signal, transport exit and missing COMMIT ACK stay UNKNOWN',()=>{for(const output of [null,{status:null,error:{code:'ETIMEDOUT'}},{status:2,stdout:Buffer.alloc(0)},{status:0,stdout:Buffer.from('DO\n')},{status:3,stdout:Buffer.from('COMMIT\n'),stderr:Buffer.from('ERROR:  42501: synthetic\n')},{status:3,stdout:Buffer.alloc(0),stderr:Buffer.from('unclassified error')}]){const f=fixture();f.io.dispatch=()=>{f.calls.push('write');if(output===null)throw Error('transport');return output;};const r=f.a.run(f.p,f.approval,f.io);assert.equal(r.state,'DISPATCH_UNKNOWN');assert.equal(r.writeDispatches,1);assert.ok(!f.calls.includes('post'));}});
 test('postcheck error after COMMIT is committed failure, no inverse/second write',()=>{const f=fixture(),query=f.io.query;f.io.query=(k,b)=>k==='post'?{status:3,stdout:Buffer.alloc(0),stderr:Buffer.alloc(0)}:query(k,b);const r=f.a.run(f.p,f.approval,f.io);assert.equal(r.state,'COMMITTED_POSTCHECK_FAILED');assert.equal(r.commitAcknowledged,true);assert.equal(r.writeDispatches,1);});
 test('managed owner/table ACL/schema ACL/RLS/column ACL drift all fail after commit',()=>{for(const mutate of [m=>m.relations[0].owner='changed',m=>m.relations[1].acl='changed',m=>m.schemas[0].acl='changed',m=>m.relations[1].rls=false,m=>m.relations[1].columns[0].acl='changed']){const f=fixture();mutate(f.after.managed);assert.equal(f.a.run(f.p,f.approval,f.io).state,'COMMITTED_POSTCHECK_FAILED');}});
-test('postcondition public USAGE, nonempty scope or unexpected service never accepted',()=>{for(const mutate of [f=>f.after.clientUsage.anon=true,f=>f.after.counts.users=1,f=>f.after.native.auth=83,f=>{let n=0,inspect=f.io.inspect;f.io.inspect=()=>{const x=inspect();if(n++)x.targetNames.push('rest');return x;};}]){const f=fixture();mutate(f);assert.equal(f.a.run(f.p,f.approval,f.io).state,'COMMITTED_POSTCHECK_FAILED');}});
+test('postcondition public USAGE, nonempty scope or unexpected service never accepted',()=>{for(const mutate of [f=>f.after.clientUsage.anon=true,f=>f.after.counts.users=1,f=>f.after.native.auth=83,f=>{let n=0,inspect=f.io.inspect;f.io.inspect=()=>{const x=inspect();if(++n===3)x.targetNames.push('rest');return x;};}]){const f=fixture();mutate(f);assert.equal(f.a.run(f.p,f.approval,f.io).state,'COMMITTED_POSTCHECK_FAILED');}});
 test('native request sends Buffer unchanged with ON_ERROR_STOP and fixed local socket/ID',()=>{const f=fixture(),b=f.p.buffers.main,r=f.a.request(f.p,'main',b);assert.ok(Buffer.isBuffer(r.input));assert.ok(r.input.equals(b));assert.ok(r.args.includes('ON_ERROR_STOP=1'));assert.ok(r.args.includes('/var/run/postgresql'));assert.ok(r.args.includes(f.p.contract.containers.db.id));assert.ok(!r.args.includes('-qAt'));assert.equal(r.options.shell,false);assert.ok(r.options.timeout>0);assert.ok(!JSON.stringify(r.args).includes('SET ROLE'));});
 test('input/output bounds and malformed read-only metadata refuse safely',()=>{const f=fixture();assert.throws(()=>f.a.request(f.p,'main',Buffer.alloc(1024*1024+1)));for(const stdout of [Buffer.from('M1_META:{}\n'),Buffer.from('M1_META:{}\nM1_META:{}\n'),Buffer.alloc(1024*1024+1)]){const g=fixture();g.io.query=()=>({status:0,stdout});assert.equal(g.a.run(g.p,g.approval,g.io).state,'ADMISSION_REFUSED');assert.ok(!g.calls.includes('write'));}});
 test('lease finalization error preserves committed classification and operator-required flag',()=>{const f=fixture();f.io.finish=()=>{throw Error('journal failure');};const r=f.a.run(f.p,f.approval,f.io);assert.equal(r.state,'COMMITTED_VERIFIED');assert.equal(r.operatorRequired,true);});
@@ -174,4 +174,40 @@ test('custody helper contract regression rejects missing/broadened allowlist or 
   s.replace("'S-1-5-18')","'S-1-5-18','S-1-1-0')"),
   s.replace(/Assert-Custody \$taskLeasePath\r?\n/,'')+'\nAssert-Custody $taskLeasePath\n'
  ])assert.throws(()=>checkCustodySource(bad));
+});
+
+
+for(const [name,mutate] of [
+ ['health',x=>{x.containers[0].State.Health.Status='unhealthy';}],
+ ['network',x=>{x.network.Internal=false;}],
+ ['ports',x=>{x.containers[0].HostConfig.PortBindings={'5432/tcp':[{}]};}],
+ ['context',x=>{x.endpoint='tcp://synthetic-remote';}]
+])test('last admission refuses '+name+' drift during precheck or acquire before write intent',()=>{
+ for(const stage of ['pre','acquire']){
+  const f=fixture(),query=f.io.query,acquire=f.io.acquire,intents=[];
+  f.io.journal=r=>{if(r.state==='SEALED_BASELINE_DISPATCH_INTENT')intents.push(r.state);};
+  if(stage==='pre')f.io.query=(kind,b)=>{const result=query(kind,b);if(kind==='pre')mutate(f.physical);return result;};
+  else f.io.acquire=data=>{acquire(data);mutate(f.physical);};
+  const r=f.a.run(f.p,f.approval,f.io);
+  assert.equal(r.state,'ADMISSION_REFUSED',stage);assert.equal(r.writeDispatches,0,stage);
+  assert.equal(r.commitAcknowledged,false);assert.equal(r.writerActive,false);
+  assert.equal(f.calls.filter(x=>x==='write').length,0);assert.deepEqual(intents,[]);
+  assert.equal(f.calls.filter(x=>x==='finish').length,1);
+ }
+});
+
+test('final physical admission precedes sealed intent and the single dispatch',()=>{
+ const f=fixture();f.io.journal=r=>f.calls.push(r.state);
+ const r=f.a.run(f.p,f.approval,f.io);assert.equal(r.state,'COMMITTED_VERIFIED');
+ assert.deepEqual(f.calls.slice(0,6),['inspect','pre','lease','inspect','SEALED_BASELINE_DISPATCH_INTENT','write']);
+ assert.equal(f.calls.filter(x=>x==='inspect').length,3);assert.equal(r.writeDispatches,1);
+});
+
+test('age and sealed bytes are rechecked after the final inspection completes',()=>{
+ for(const mutate of [f=>f.advance(60001),f=>f.advance(-1),f=>{f.p.buffers.main[0]^=1;}]){
+  const f=fixture(),inspect=f.io.inspect;let calls=0;
+  f.io.inspect=()=>{const x=inspect();if(++calls===2)mutate(f);return x;};
+  const r=f.a.run(f.p,f.approval,f.io);assert.equal(r.state,'ADMISSION_REFUSED');assert.equal(r.writeDispatches,0);
+  assert.ok(!f.calls.includes('write'));assert.equal(calls,2);
+ }
 });

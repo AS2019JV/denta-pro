@@ -16,8 +16,8 @@ function safeRead(relative){
  return fs.readFileSync(file);
 }
 function loadPackage(){
- const raw=safeRead(DIR+'/contract.v3.json'),contract=JSON.parse(raw);
- need(contract.revision===3&&contract.target.systemIdentifier==='7701080397606109221','M1_CONTRACT_REFUSED');
+ const raw=safeRead(DIR+'/contract.v4.json'),contract=JSON.parse(raw);
+ need(contract.revision===4&&contract.target.systemIdentifier==='7701080397606109221','M1_CONTRACT_REFUSED');
  need(hash(safeRead('scripts/clinia-gate4-managed-m0.cjs'))===M0_SHA,'M1_M0_SOURCE_DRIFT');
  for(const x of contract.code)need(hash(safeRead(x.path))===x.sha256,'M1_CODE_PIN_REFUSED');
  const buffers={};for(const[k,x]of Object.entries(contract.payloads)){buffers[k]=safeRead(x.path);need(hash(buffers[k])===x.sha256,'M1_SQL_PIN_REFUSED');}
@@ -27,7 +27,7 @@ function loadPackage(){
 function validatePackage(p){
  need(JSON.stringify(p.contract)===p.contractCanonical,'M1_CONTRACT_MUTATED');
  const c=p.contract,t=c.target;
- need(c.revision===3&&t.project==='clinia-gate3-20261020-a9'&&t.database==='postgres'&&t.role==='postgres'&&t.version==='170011'&&t.systemIdentifier==='7701080397606109221','M1_TARGET_REFUSED');
+ need(c.revision===4&&t.project==='clinia-gate3-20261020-a9'&&t.database==='postgres'&&t.role==='postgres'&&t.version==='170011'&&t.systemIdentifier==='7701080397606109221','M1_TARGET_REFUSED');
  need(c.endpoint==='npipe:////./pipe/dockerDesktopLinuxEngine','M1_ENDPOINT_REFUSED');
  need(c.payloads.main.path===MAIN&&c.payloads.main.sha256===MAIN_SHA,'M1_BASELINE_REFUSED');
  need(c.payloads.pre.path===DIR+'/00-admission.sql'&&c.payloads.post.path===DIR+'/20-postcheck.sql','M1_PAYLOAD_PATH_REFUSED');
@@ -142,6 +142,7 @@ function run(p,a,io){
   physical(io.inspect(),p);
   const before=readMetadata(io.query('pre',Buffer.from(p.buffers.pre)));metadata(before,'pre');r.managedBefore=before.managed;r.authorityBefore=before.authority;
   io.acquire({turn:a.turn,authorizationRef:a.authorizationRef,contractSha:p.contractSha});lease=true;
+  physical(io.inspect(),p); // Fresh complete admission after precheck/acquire and before sealed intent.
   validatePackage(p);need(io.now()-admittedAt<=LIMIT.admissionMs&&io.now()>=admittedAt,'M1_STALE_ADMISSION');
   mark('SEALED_BASELINE_DISPATCH_INTENT');
   submitted=true;r.writeDispatches=1;r.writerActive=true;

@@ -1,0 +1,178 @@
+{
+  "revision": 4,
+  "status": "LOCAL_CODE_AND_OFFLINE_TESTS_ONLY_RUNTIME_NOT_AUTHORIZED",
+  "target": {
+    "project": "clinia-gate3-20261020-a9",
+    "database": "postgres",
+    "role": "postgres",
+    "version": "170011",
+    "systemIdentifier": "7701080397606109221"
+  },
+  "endpoint": "npipe:////./pipe/dockerDesktopLinuxEngine",
+  "containers": {
+    "db": {
+      "id": "9469fe0a7ce7fc71da3f2ce3844f981bd8f22b4261927a2b8bf5ab804c098661",
+      "image": "sha256:d6844e71062a3c8e2f8021d644802850760ef970a45ac163ec8c9f0171075bda"
+    },
+    "auth": {
+      "id": "b55027226d785f1ba067917462f3ec92a0dfc045aae216745f1a3a60f6b0cb6e",
+      "image": "sha256:1736a63078f5922b198c4cbe50f80ab9a2d3b54fe8b7b6cfb2e9dc5dbbc12c6b"
+    },
+    "storage": {
+      "id": "694cc6985a7fa124342e5a84a76e5aa7e7e2237ed286b6fbdda6d17538b85d7e",
+      "image": "sha256:5b070fc2c6266e0e704f30d1772180ecb0890593f5176e7adb2f7a5a17ff3cd4"
+    }
+  },
+  "network": {
+    "id": "f4bc549f4f788a39a014df83871835a971bdab47774737e7599231a48ef384e8",
+    "name": "clinia-gate3-20261020-a9-private",
+    "subnet": "10.253.9.0/24",
+    "internal": true
+  },
+  "volumes": [
+    {
+      "name": "supabase_db_clinia-gate3-20261020-a9",
+      "createdAt": "2026-10-26T20:45:03Z",
+      "driver": "local"
+    },
+    {
+      "name": "supabase_storage_clinia-gate3-20261020-a9",
+      "createdAt": "2026-10-26T20:45:16Z",
+      "driver": "local"
+    }
+  ],
+  "code": [
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+      "sha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+      "sha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7"
+    },
+    {
+      "path": "scripts/clinia-gate4-custody.ps1",
+      "sha256": "0475da8b858356ae8c3bfd39a1ca69a8b8d18b2b54a56b58e9bdcfe1c5e3d028"
+    },
+    {
+      "path": "scripts/clinia-gate4-m0-custody.ps1",
+      "sha256": "ac065e2de5ffa1bdf2a2b3872e25c2c5f7b8d0686cc81995ce35b81bdd8293ad"
+    },
+    {
+      "path": "scripts/clinia-gate4-managed-m0.cjs",
+      "sha256": "5fafb08d8170c9e8dea3026423e47229f5cf460dce56ebbe5bdc1b9154680f13"
+    },
+    {
+      "path": "scripts/clinia-local-runtime.cjs",
+      "sha256": "b71ab6eb651225e7b3737425d9788c7904a661a29305b942570ad6f99ec47af9"
+    },
+    {
+      "path": "scripts/clinia-recovery-network.cjs",
+      "sha256": "982895d3fd325f6a00ae8d7cdf515f331d112dca1de187bf7aeae40fab764917"
+    },
+    {
+      "path": "scripts/prepare-clinia-clean-managed.cjs",
+      "sha256": "6a38074da8077d2ed390a5f726b377dfd3856523e244ccda61ada211c68af184"
+    },
+    {
+      "path": "scripts/prepare-clinia-compose.cjs",
+      "sha256": "f3c9319e1c511ddaa4ddfb2c26b1f937d9a6b5518b8a89bde457fd411dd3b2fd"
+    },
+    {
+      "path": "scripts/clinia-gate4-m1-transport.cjs",
+      "sha256": "c51e9528900eb2c4ad98aab7f8a4c2092f12a085fd17a029a2a0cfdb6ae92dc4"
+    },
+    {
+      "path": "scripts/clinia-gate4-m1-custody.ps1",
+      "sha256": "744455f2fa5c05bf7fe9634fcb9f51304d3cf1ae61d0a06b1cb974001d69e0b3"
+    },
+    {
+      "path": "scripts/.gitattributes",
+      "sha256": "5d5974be5af7e6727b8dd2d43b2839053d3aa74406ce6ffd3139210a70940df0"
+    }
+  ],
+  "payloads": {
+    "pre": {
+      "path": "docs/production/gate4-recovery-ops/m1-transport-2026-10-27/00-admission.sql",
+      "sha256": "cb365cc0a53f24d323261514db26b38a9e90d8feb79378e877925155c6ec865e",
+      "bytes": 5018
+    },
+    "main": {
+      "path": "docs/production/gate4-recovery-ops/m1-baseline-2026-10-26/10-baseline.proposed.sql",
+      "sha256": "f9195bac42cc0413af5e3b8f77ebe1793817e66e114d81c13bc1de83a7cada6a",
+      "bytes": 344036
+    },
+    "post": {
+      "path": "docs/production/gate4-recovery-ops/m1-transport-2026-10-27/20-postcheck.sql",
+      "sha256": "c9504cc9b13650e0948119d9ba99fe2b5cb9bc3ad70b37abfe08cb4eb3c27cf0",
+      "bytes": 159453
+    }
+  },
+  "affectedMetadata": {
+    "schemas": [
+      "auth",
+      "storage"
+    ],
+    "relations": [
+      "auth.users",
+      "storage.objects"
+    ],
+    "fields": [
+      "oid",
+      "ownerOID",
+      "owner",
+      "acl",
+      "rls",
+      "forceRls",
+      "columns.attacl"
+    ],
+    "wholeManagedParity": false
+  },
+  "authority": {
+    "storagePolicyDDL": "Existing owner rights via pg_has_role(current_user,relowner,USAGE); MEMBER or SET ability is not sufficient",
+    "newGrantsOrMembershipOrSetRole": false
+  },
+  "quarantine": "EMPTY_INTERNAL_WITH_LATENT_TRIGGERS_POLICIES; no accounts/MFA/buckets/objects/bytes/application API/PostgREST/opening; existing native Auth/Storage internal health services retained",
+  "writeDispatchesMaximum": 1,
+  "commitEvidence": "Nonquiet psql final COMMIT tag with normal exit0 required; SQLSTATE script exit3 without COMMIT allows precommit abort classification; other outcomes UNKNOWN",
+  "authorizationM1": null,
+  "turnM1": null,
+  "ownCandidateCI": null,
+  "M0ClosureUnchanged": "768f85e9388a5657d7e55712f7aeadf157650ab4bc44cfe44f348015812a7b82",
+  "storageBytesAdmission": {
+    "path": "/mnt",
+    "metadataOnly": true,
+    "readContents": false,
+    "followLinks": false,
+    "maxEntries": 1000,
+    "maxDepth": 16,
+    "requireFilesBytesLinksOtherAllZero": true,
+    "user": "Existing storage image default user; never elevate",
+    "maxOldSpaceMiB": 16,
+    "containerHealthRecheckedAfterScan": true
+  },
+  "readVisibility": "READ ONLY pre/post SET LOCAL row_security=off: errors if RLS would filter; does not disable RLS or grant BYPASSRLS",
+  "orderCorrection": {
+    "previousContractSHA256": "cd701130674076750aba2345bfd38eb9f778ed020027da17f6b3dbf98d94fe6a",
+    "endpointImmediate": true,
+    "fullPhysicalInventoryBeforeFirstExec": true,
+    "fullRevalidationAfterStorageScan": true,
+    "SQLBuffersChanged": false
+  },
+  "custodyCorrection": {
+    "originalCurrentSidAndSystemOnly": true,
+    "guardOriginalLeaseFileBeforeRead": true,
+    "nativeCustodyNotExecutedHere": true
+  },
+  "lastAdmissionCorrection": {
+    "previousContractSHA256": "251f7066393cc7c7cd5fd384cb4ae75773b3a7e3fa32fdf9eccc40a47ec2cd49",
+    "completePhysicalRevalidationAfterPrecheckAndAcquire": true,
+    "beforeSealedDispatchIntent": true,
+    "hashesAndAdmissionAgeRecheckedAfterLastInspection": true,
+    "admissionLimitMs": 60000,
+    "writeDispatchesMaximum": 1,
+    "SQLBuffersChanged": false,
+    "M0Changed": false,
+    "custodyOrPermissionsChanged": false
+  }
+}
