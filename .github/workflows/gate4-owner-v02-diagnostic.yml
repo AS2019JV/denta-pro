@@ -1,0 +1,32 @@
+name: Gate4 owner V02 diagnostic
+
+on:
+  push:
+    branches: [codex/clinia-owner-v02-diagnostic]
+
+permissions:
+  contents: read
+
+jobs:
+  owner-diagnostic-offline:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .node-version
+      - name: Verify exact diagnostic source and frozen dependency pins
+        run: node docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/ci-source-pins.cjs
+      - name: Check diagnostic JavaScript syntax
+        run: |
+          node --check docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/probe-native-owner.cjs
+          node --check docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/password-field-reader.cjs
+          node --check docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/native-owner.test.cjs
+      - name: Exercise actual V02 source and strict negative regressions
+        run: node --test docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/native-owner.test.cjs
+      - name: Scan public source for privileged credentials without values
+        run: node scripts/clinia-secret-scan.cjs

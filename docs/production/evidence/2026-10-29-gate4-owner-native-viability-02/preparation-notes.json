@@ -1,0 +1,58 @@
+{
+  "schemaVersion": 1,
+  "authoringFailure": {
+    "kind": "Transient authoring JavaScript syntax error before any statement executed; corrected locally",
+    "targetOperations": 0
+  },
+  "firstLocalValidation": {
+    "command": "node --test docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/native-owner.test.cjs",
+    "tests": 48,
+    "pass": 47,
+    "fail": 1,
+    "failure": "M1_CODE_PIN_REFUSED",
+    "log": "local-tests.log"
+  },
+  "cause": "Windows checkout CRLF conversion; RC5 Git blobs match original native public package and original pinned hashes",
+  "materializationRemedy": [
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+      "fromSHA256": "4ff8624517edad052b91c956c041b674b65c1221e17e07b483adc947d86e59e8",
+      "toSHA256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+      "fromSHA256": "24800f1003a7cb81452fa2dbfdd4a1315d25fd7d8a7a15c53017e8a99bfb058c",
+      "toSHA256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    },
+    {
+      "path": "scripts/clinia-local-runtime.cjs",
+      "fromSHA256": "8fdb4c56c82308a497cbbc651a7d97abe7f929e102aae688b27628a478d0b5db",
+      "toSHA256": "b71ab6eb651225e7b3737425d9788c7904a661a29305b942570ad6f99ec47af9",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    },
+    {
+      "path": "scripts/clinia-recovery-network.cjs",
+      "fromSHA256": "35a117aab473f3576733c2098452f89601fc03360f071d2355f8f24e63e9c57c",
+      "toSHA256": "982895d3fd325f6a00ae8d7cdf515f331d112dca1de187bf7aeae40fab764917",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    },
+    {
+      "path": "scripts/prepare-clinia-clean-managed.cjs",
+      "fromSHA256": "349c565b2c23d79c8afdcead55bbe7979f6be31a7b3f515620d1e406d6ab7277",
+      "toSHA256": "6a38074da8077d2ed390a5f726b377dfd3856523e244ccda61ada211c68af184",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    },
+    {
+      "path": "scripts/prepare-clinia-compose.cjs",
+      "fromSHA256": "5c037bb2a33d27343f1783b10dc542709ffd89644fa3e04c3bd6256ffeb7b8fb",
+      "toSHA256": "f3c9319e1c511ddaa4ddfb2c26b1f937d9a6b5518b8a89bde457fd411dd3b2fd",
+      "source": "exact frozen RC5 Git blob; no pin or logic changes"
+    }
+  ],
+  "guardsContractsExpectedHashesChanged": false,
+  "targetOperations": 0,
+  "originalNativeWorktreeChanged": false,
+  "repeatScope": "Only package-pin test affected; retain47priorPASS; full dedicated CI after reviewed publication"
+}

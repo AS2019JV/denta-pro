@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "status": "PROPOSED_ONLY_NOT_APPLIED_NOT_AUTHORIZED_FOR_EXECUTION",
+  "baseSourceCommit": "384820f9bb40d167c9a6a3b1e539706571b37f10",
+  "changes": [
+    {
+      "path": "docs/production/evidence/2026-10-28-gate4-owner-native-viability-01/owner-identity-read.sql",
+      "baseSHA256": "73c2be7ef94926d28707178b649e39d2b8fc6b0f8156f980cf0bb334a8b8f0c5",
+      "before": "inet_server_addr()::text",
+      "after": "host(inet_server_addr())"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-28-gate4-owner-native-viability-01/probe-native-owner.cjs",
+      "baseSHA256": "0a78d7b737fac8facceb94158297840f1aa2edaa7510b9785b118256256536f0",
+      "before": " try{assert.deepEqual(Object.keys(j).sort(),['identity','object','permissions']);assert.deepEqual(Object.keys(j.identity).sort(),['sessionUser','currentUser','database','version','readOnly','defaultReadOnly','serverAddress','serverPort'].sort());assert.equal(j.identity.sessionUser,ACTOR);assert.equal(j.identity.currentUser,ACTOR);assert.equal(j.identity.database,'postgres');assert.equal(j.identity.version,'170011');assert.equal(j.identity.readOnly,'on');assert.equal(j.identity.defaultReadOnly,'on');assert.equal(j.identity.serverAddress,address);assert.equal(j.identity.serverPort,5432);assert.deepEqual(Object.keys(j.object).sort(),['schema','name','oid','ownerOID','owner'].sort());assert.equal(j.object.schema,'storage');assert.equal(j.object.name,'objects');assert.equal(j.object.owner,ACTOR);assert.equal(j.object.oid,'17300');assert.equal(j.object.ownerOID,'16506');assert.deepEqual(Object.keys(j.permissions).sort(),['storageSchemaUsage','storageSchemaCreate','objectsSelect','objectsTrigger','effectiveOwner'].sort());assert.ok(Object.values(j.permissions).every(x=>typeof x==='boolean'));assert.equal(j.permissions.effectiveOwner,true);}catch{return {status:'AUTHENTICATED_IDENTITY_OR_METADATA_REFUSED'};}",
+      "after": " let failureField=\"metadata.shape\";try{failureField=\"metadata.shape\";assert.deepEqual(Object.keys(j).sort(),['identity','object','permissions']);failureField=\"identity.shape\";assert.deepEqual(Object.keys(j.identity).sort(),['sessionUser','currentUser','database','version','readOnly','defaultReadOnly','serverAddress','serverPort'].sort());failureField=\"identity.sessionUser\";assert.equal(j.identity.sessionUser,ACTOR);failureField=\"identity.currentUser\";assert.equal(j.identity.currentUser,ACTOR);failureField=\"identity.database\";assert.equal(j.identity.database,'postgres');failureField=\"identity.version\";assert.equal(j.identity.version,'170011');failureField=\"identity.readOnly\";assert.equal(j.identity.readOnly,'on');failureField=\"identity.defaultReadOnly\";assert.equal(j.identity.defaultReadOnly,'on');failureField=\"identity.serverAddress\";assert.equal(j.identity.serverAddress,address);failureField=\"identity.serverPort\";assert.equal(j.identity.serverPort,5432);failureField=\"object.shape\";assert.deepEqual(Object.keys(j.object).sort(),['schema','name','oid','ownerOID','owner'].sort());failureField=\"object.schema\";assert.equal(j.object.schema,'storage');failureField=\"object.name\";assert.equal(j.object.name,'objects');failureField=\"object.owner\";assert.equal(j.object.owner,ACTOR);failureField=\"object.oid\";assert.equal(j.object.oid,'17300');failureField=\"object.ownerOID\";assert.equal(j.object.ownerOID,'16506');failureField=\"permissions.shape\";assert.deepEqual(Object.keys(j.permissions).sort(),['storageSchemaUsage','storageSchemaCreate','objectsSelect','objectsTrigger','effectiveOwner'].sort());failureField=\"permissions.booleanTypes\";assert.ok(Object.values(j.permissions).every(x=>typeof x==='boolean'));failureField=\"permissions.effectiveOwner\";assert.equal(j.permissions.effectiveOwner,true);}catch{return {status:'AUTHENTICATED_IDENTITY_OR_METADATA_REFUSED',failureField};}"
+    }
+  ],
+  "failureFieldAllowlist": [
+    "metadata.shape",
+    "identity.shape",
+    "identity.sessionUser",
+    "identity.currentUser",
+    "identity.database",
+    "identity.version",
+    "identity.readOnly",
+    "identity.defaultReadOnly",
+    "identity.serverAddress",
+    "identity.serverPort",
+    "object.shape",
+    "object.schema",
+    "object.name",
+    "object.owner",
+    "object.oid",
+    "object.ownerOID",
+    "permissions.shape",
+    "permissions.booleanTypes",
+    "permissions.effectiveOwner"
+  ],
+  "purpose": "Use documented PostgreSQL host formatting with unchanged exact-address equality; identify only failing public metadata field, without raw or expected/actual values.",
+  "unchanged": [
+    "Original reference/custody/private selector and zero private-file edits",
+    "Exact target/container/sysid/turn/one-attempt and auth-method guards",
+    "Strict identity/version/object OIDs/owner/read-only equality",
+    "Existing authentication transport and no SET ROLE/DDL/P/S",
+    "Original V receipt and consumed attempt preserved"
+  ],
+  "requires": [
+    "Root source review",
+    "Own validation/CI appropriate to delta before any use",
+    "New human authorization and new exact exclusive turn for another login; current turn cannot be reused",
+    "New immutable source bundle and append-only evidence directory; never overwrite native-attempt.json"
+  ],
+  "nativeExecutions": 0
+}

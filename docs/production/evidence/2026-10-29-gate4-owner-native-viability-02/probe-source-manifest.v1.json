@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "scope": "V-02_DIAGNOSTIC_ONLY_READ_ONLY_NO_DDL",
+  "authorizedPatchSHA256": "3afbca741f139e423a23e046bffd6bb5412ffb141a70120337f921dd3cf78117",
+  "frozenCandidateSHA": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+  "files": [
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/probe-native-owner.cjs",
+      "bytes": 15350,
+      "sha256": "fbb127874a3a2db757fd4572a0033d64dea1c971cdd9ba4343f284fe93b99139"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/password-field-reader.cjs",
+      "bytes": 1275,
+      "sha256": "b0b8c32791aea285b04369788cda76076b46144f2cd162f1a018b79cd13d5ef8"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/assert-private-reference.ps1",
+      "bytes": 1690,
+      "sha256": "5f4514825635a824e839d52b7326f254472bf154f6d533e8249847658f755235"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/owner-identity-read.sql",
+      "bytes": 1276,
+      "sha256": "ddb79a0010f8c53f7fb8ff2377966fd3a86faebc523e1f62eef37c7f675d6469"
+    }
+  ]
+}

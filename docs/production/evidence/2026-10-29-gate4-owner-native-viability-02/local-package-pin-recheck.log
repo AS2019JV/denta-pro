@@ -1,0 +1,16 @@
+TAP version 13
+# Subtest: frozen RC5 public M1/M0 package pins validate offline without native execution
+ok 1 - frozen RC5 public M1/M0 package pins validate offline without native execution
+  ---
+  duration_ms: 61.096
+  type: 'test'
+  ...
+1..1
+# tests 1
+# suites 0
+# pass 1
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 323.6809

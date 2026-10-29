@@ -1,0 +1,312 @@
+TAP version 13
+# Subtest: selector binds a9 and reads only password secret range
+ok 1 - selector binds a9 and reads only password secret range
+  ---
+  duration_ms: 9.8185
+  type: 'test'
+  ...
+# Subtest: wrong project refuses before password read
+ok 2 - wrong project refuses before password read
+  ---
+  duration_ms: 5.9815
+  type: 'test'
+  ...
+# Subtest: changed envelope refuses before password read
+ok 3 - changed envelope refuses before password read
+  ---
+  duration_ms: 2.6336
+  type: 'test'
+  ...
+# Subtest: invalid password format refuses
+ok 4 - invalid password format refuses
+  ---
+  duration_ms: 0.9802
+  type: 'test'
+  ...
+# Subtest: args have one actor, forced prompt, noTTY, disabled password/service fallback and no secret
+ok 5 - args have one actor, forced prompt, noTTY, disabled password/service fallback and no secret
+  ---
+  duration_ms: 0.3442
+  type: 'test'
+  ...
+# Subtest: single attempt succeeds and second is refused; input/output buffers wiped
+ok 6 - single attempt succeeds and second is refused; input/output buffers wiped
+  ---
+  duration_ms: 5.1611
+  type: 'test'
+  ...
+# Subtest: secret echo in stdout discarded without hashes/raw and buffers wiped
+ok 7 - secret echo in stdout discarded without hashes/raw and buffers wiped
+  ---
+  duration_ms: 0.4709
+  type: 'test'
+  ...
+# Subtest: secret echo in stderr discarded without hashes/raw and buffers wiped
+ok 8 - secret echo in stderr discarded without hashes/raw and buffers wiped
+  ---
+  duration_ms: 0.2424
+  type: 'test'
+  ...
+# Subtest: raw native error only produces allowlisted codes and booleans
+ok 9 - raw native error only produces allowlisted codes and booleans
+  ---
+  duration_ms: 2.4528
+  type: 'test'
+  ...
+# Subtest: unsupported auth method is a limit, not a wrong-password assertion
+ok 10 - unsupported auth method is a limit, not a wrong-password assertion
+  ---
+  duration_ms: 1.0638
+  type: 'test'
+  ...
+# Subtest: identity mismatch produces fixed refusal, no raw metadata
+ok 11 - identity mismatch produces fixed refusal, no raw metadata
+  ---
+  duration_ms: 2.7658
+  type: 'test'
+  ...
+# Subtest: SQL is readonly metadata only and ends rollback
+ok 12 - SQL is readonly metadata only and ends rollback
+  ---
+  duration_ms: 0.31
+  type: 'test'
+  ...
+# Subtest: future, expired and insufficient windows refuse
+ok 13 - future, expired and insufficient windows refuse
+  ---
+  duration_ms: 1.3069
+  type: 'test'
+  ...
+# Subtest: active exact15min window accepted
+ok 14 - active exact15min window accepted
+  ---
+  duration_ms: 0.2562
+  type: 'test'
+  ...
+# Subtest: approved bundle verifies exactly self/selector/PS/SQL before private work
+ok 15 - approved bundle verifies exactly self/selector/PS/SQL before private work
+  ---
+  duration_ms: 6.1262
+  type: 'test'
+  ...
+# Subtest: manifest hash drift stops before reading sources
+ok 16 - manifest hash drift stops before reading sources
+  ---
+  duration_ms: 0.7791
+  type: 'test'
+  ...
+# Subtest: source byte drift refuses approved bundle
+ok 17 - source byte drift refuses approved bundle
+  ---
+  duration_ms: 1.2444
+  type: 'test'
+  ...
+# Subtest: private or unknown source path is refused without reading it
+ok 18 - private or unknown source path is refused without reading it
+  ---
+  duration_ms: 0.6964
+  type: 'test'
+  ...
+# Subtest: normal client exit records protocol closure with no independent remote claim
+ok 19 - normal client exit records protocol closure with no independent remote claim
+  ---
+  duration_ms: 0.39
+  type: 'test'
+  ...
+# Subtest: timeout or signal never claims normal close
+ok 20 - timeout or signal never claims normal close
+  ---
+  duration_ms: 0.2711
+  type: 'test'
+  ...
+# Subtest: error exit distinguished from normal success and remote closure
+ok 21 - error exit distinguished from normal success and remote closure
+  ---
+  duration_ms: 0.3212
+  type: 'test'
+  ...
+# Subtest: sealed actual four-file bundle verifies all actual source bytes
+ok 22 - sealed actual four-file bundle verifies all actual source bytes
+  ---
+  duration_ms: 8.0153
+  type: 'test'
+  ...
+# Subtest: actual source delta is exactly authorized patch plus listed V-02 package paths
+ok 23 - actual source delta is exactly authorized patch plus listed V-02 package paths
+  ---
+  duration_ms: 8.7582
+  type: 'test'
+  ...
+# Subtest: original private selector and original custody guard remain byte-identical
+ok 24 - original private selector and original custody guard remain byte-identical
+  ---
+  duration_ms: 1.8369
+  type: 'test'
+  ...
+# Subtest: SQL normalizes host format explicitly, without mask-stripping validator
+ok 25 - SQL normalizes host format explicitly, without mask-stripping validator
+  ---
+  duration_ms: 0.6714
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection metadata.shape has fixed code and no values
+ok 26 - actual strict field rejection metadata.shape has fixed code and no values
+  ---
+  duration_ms: 2.4212
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.shape has fixed code and no values
+ok 27 - actual strict field rejection identity.shape has fixed code and no values
+  ---
+  duration_ms: 1.299
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.sessionUser has fixed code and no values
+ok 28 - actual strict field rejection identity.sessionUser has fixed code and no values
+  ---
+  duration_ms: 0.9569
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.currentUser has fixed code and no values
+ok 29 - actual strict field rejection identity.currentUser has fixed code and no values
+  ---
+  duration_ms: 0.772
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.database has fixed code and no values
+ok 30 - actual strict field rejection identity.database has fixed code and no values
+  ---
+  duration_ms: 0.8657
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.version has fixed code and no values
+ok 31 - actual strict field rejection identity.version has fixed code and no values
+  ---
+  duration_ms: 0.7678
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.readOnly has fixed code and no values
+ok 32 - actual strict field rejection identity.readOnly has fixed code and no values
+  ---
+  duration_ms: 0.6519
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.defaultReadOnly has fixed code and no values
+ok 33 - actual strict field rejection identity.defaultReadOnly has fixed code and no values
+  ---
+  duration_ms: 0.6518
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.serverAddress has fixed code and no values
+ok 34 - actual strict field rejection identity.serverAddress has fixed code and no values
+  ---
+  duration_ms: 0.5069
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection identity.serverPort has fixed code and no values
+ok 35 - actual strict field rejection identity.serverPort has fixed code and no values
+  ---
+  duration_ms: 0.4898
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.shape has fixed code and no values
+ok 36 - actual strict field rejection object.shape has fixed code and no values
+  ---
+  duration_ms: 0.9933
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.schema has fixed code and no values
+ok 37 - actual strict field rejection object.schema has fixed code and no values
+  ---
+  duration_ms: 0.5731
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.name has fixed code and no values
+ok 38 - actual strict field rejection object.name has fixed code and no values
+  ---
+  duration_ms: 0.4567
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.owner has fixed code and no values
+ok 39 - actual strict field rejection object.owner has fixed code and no values
+  ---
+  duration_ms: 0.4637
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.oid has fixed code and no values
+ok 40 - actual strict field rejection object.oid has fixed code and no values
+  ---
+  duration_ms: 0.4778
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection object.ownerOID has fixed code and no values
+ok 41 - actual strict field rejection object.ownerOID has fixed code and no values
+  ---
+  duration_ms: 0.4421
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection permissions.shape has fixed code and no values
+ok 42 - actual strict field rejection permissions.shape has fixed code and no values
+  ---
+  duration_ms: 0.6277
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection permissions.booleanTypes has fixed code and no values
+ok 43 - actual strict field rejection permissions.booleanTypes has fixed code and no values
+  ---
+  duration_ms: 46.2836
+  type: 'test'
+  ...
+# Subtest: actual strict field rejection permissions.effectiveOwner has fixed code and no values
+ok 44 - actual strict field rejection permissions.effectiveOwner has fixed code and no values
+  ---
+  duration_ms: 0.6306
+  type: 'test'
+  ...
+# Subtest: masked format, foreign host, null host remain refused without normalization fallback
+ok 45 - masked format, foreign host, null host remain refused without normalization fallback
+  ---
+  duration_ms: 1.3599
+  type: 'test'
+  ...
+# Subtest: normal PASS output suppresses address but records strict match
+ok 46 - normal PASS output suppresses address but records strict match
+  ---
+  duration_ms: 1.2052
+  type: 'test'
+  ...
+# Subtest: missing object returns fixed shape field, without exception or raw details
+ok 47 - missing object returns fixed shape field, without exception or raw details
+  ---
+  duration_ms: 0.758
+  type: 'test'
+  ...
+# Subtest: frozen RC5 public M1/M0 package pins validate offline without native execution
+not ok 48 - frozen RC5 public M1/M0 package pins validate offline without native execution
+  ---
+  duration_ms: 14.2009
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-owner-v02-diagnostic\\denta-pro\\docs\\production\\evidence\\2026-10-29-gate4-owner-native-viability-02\\native-owner.test.cjs:44:1'
+  failureType: 'testCodeFailure'
+  error: 'M1_CODE_PIN_REFUSED'
+  code: 'M1_CODE_PIN_REFUSED'
+  stack: |-
+    need (C:\Users\aleja\.codex\worktrees\clinia-owner-v02-diagnostic\denta-pro\scripts\clinia-gate4-m1-transport.cjs:11:40)
+    Object.loadPackage (C:\Users\aleja\.codex\worktrees\clinia-owner-v02-diagnostic\denta-pro\scripts\clinia-gate4-m1-transport.cjs:22:31)
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-owner-v02-diagnostic\denta-pro\docs\production\evidence\2026-10-29-gate4-owner-native-viability-02\native-owner.test.cjs:44:173)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+1..48
+# tests 48
+# suites 0
+# pass 47
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 631.7335

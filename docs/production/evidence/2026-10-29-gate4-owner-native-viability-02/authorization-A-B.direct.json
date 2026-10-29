@@ -1,0 +1,48 @@
+{
+  "schemaVersion": 1,
+  "source": "Direct human Gate4 authorization A/B",
+  "humanTurnId": "01a18637-2cc4-7753-aae4-1c946a0718e4",
+  "humanMessageId": "01a18637-377c-7b11-bf7c-1280d700cb6a",
+  "candidateSHA": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+  "approvedPatchSHA256": "3afbca741f139e423a23e046bffd6bb5412ffb141a70120337f921dd3cf78117",
+  "A": {
+    "scope": [
+      "Explicit host-format normalization",
+      "Fixed sanitized rejected-field name",
+      "Strict original actor/owner/target/read-only guards retained",
+      "Own reviewed commit/publication/dedicated CI; no app deployment or RC5 change"
+    ],
+    "authorized": true
+  },
+  "B": {
+    "id": "G4-OWNER-NATIVE-V-02",
+    "maxMinutes": 15,
+    "maxAuthenticationAttempts": 1,
+    "actor": "supabase_storage_admin",
+    "target": "clinia-gate3-20261020-a9",
+    "context": "desktop-linux",
+    "database": "postgres",
+    "version": "170011",
+    "systemIdentifier": "7701080397606109221",
+    "credentialReference": ".gate4-private/managed-a9/credentials.private.json",
+    "conditions": [
+      "Reviewed sealed diagnostic delta and own exact-SHA successful CI",
+      "No unreviewed executable changes",
+      "Coordinator-confirmed new exclusive turn",
+      "Fresh exact original physical/custody admission",
+      "Bind exact diagnostic SHA/CI/bundle to this direct authorization before login",
+      "If an original guard requires later identified human approval, stop and request exactly it"
+    ],
+    "onRefusal": "Sanitized classification/failureField only; stop without retry, repair or relaxation",
+    "clientClose": "Close client and distinguish normal termination from independently demonstrated remote closure",
+    "exclusions": [
+      "DDL/M1/P/S/GRANT/SET ROLE/owner/password/config changes",
+      "Clinical/pg_authid/MFA/Storage byte queries",
+      "Other roles or substituted credentials",
+      "New resources/hosted/Production"
+    ]
+  },
+  "humanCustodian": "Original responsible developer directly designated; no independent custody asserted",
+  "futureAuthority": "Identity proof alone does not authorize migration/payload generation or production GO",
+  "nativeActivityAtPreparation": 0
+}

@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "originalSourceBaseCommit": "384820f9bb40d167c9a6a3b1e539706571b37f10",
+  "preservedReceiptCommit": "b7865b7318c8a045c1386f1e42f61efb777055b2",
+  "authorizedPatchSHA256": "3afbca741f139e423a23e046bffd6bb5412ffb141a70120337f921dd3cf78117",
+  "oldDirectoryNeverModified": true,
+  "sourceDeltas": [
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/probe-native-owner.cjs",
+      "diagnosticChange": "Authorized19fixedfailureField labels only",
+      "necessaryPackagingChange": "V-02 public source-bundle path/prefix only; same ROOT, actor, target, identity values, secret path, one-attempt guard and protected transport",
+      "packagingOccurrences": 2
+    }
+  ],
+  "sqlChange": "inet_server_addr()::text -> host(inet_server_addr())",
+  "privateSelectorAndCustodySourceIdentical": true,
+  "protocolOrExpectedIdentityChanges": false,
+  "newNativeActivity": 0,
+  "reviewRequiredBeforeExecution": true
+}
