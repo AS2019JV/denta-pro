@@ -1,0 +1,425 @@
+TAP version 13
+# Subtest: actual current metadata accepted with all future limits unchanged
+ok 1 - actual current metadata accepted with all future limits unchanged
+  ---
+  duration_ms: 26.4533
+  type: 'test'
+  ...
+# Subtest: one SQL row and exit0 cannot bypass accepted=false
+ok 2 - one SQL row and exit0 cannot bypass accepted=false
+  ---
+  duration_ms: 9.1373
+  type: 'test'
+  ...
+# Subtest: one SQL row and exit0 cannot bypass accepted=null
+ok 3 - one SQL row and exit0 cannot bypass accepted=null
+  ---
+  duration_ms: 2.5034
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects session_actor_matches=false
+ok 4 - each identity check independently rejects session_actor_matches=false
+  ---
+  duration_ms: 2.115
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects session_actor_matches=null
+ok 5 - each identity check independently rejects session_actor_matches=null
+  ---
+  duration_ms: 1.2171
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects current_actor_matches=false
+ok 6 - each identity check independently rejects current_actor_matches=false
+  ---
+  duration_ms: 1.0084
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects current_actor_matches=null
+ok 7 - each identity check independently rejects current_actor_matches=null
+  ---
+  duration_ms: 1.0387
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects database_matches=false
+ok 8 - each identity check independently rejects database_matches=false
+  ---
+  duration_ms: 0.8954
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects database_matches=null
+ok 9 - each identity check independently rejects database_matches=null
+  ---
+  duration_ms: 1.5157
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects version_matches=false
+ok 10 - each identity check independently rejects version_matches=false
+  ---
+  duration_ms: 2.1607
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects version_matches=null
+ok 11 - each identity check independently rejects version_matches=null
+  ---
+  duration_ms: 0.9598
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects read_only=false
+ok 12 - each identity check independently rejects read_only=false
+  ---
+  duration_ms: 0.6417
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects read_only=null
+ok 13 - each identity check independently rejects read_only=null
+  ---
+  duration_ms: 0.8602
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects default_read_only=false
+ok 14 - each identity check independently rejects default_read_only=false
+  ---
+  duration_ms: 2.6582
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects default_read_only=null
+ok 15 - each identity check independently rejects default_read_only=null
+  ---
+  duration_ms: 0.6296
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects server_port_matches=false
+ok 16 - each identity check independently rejects server_port_matches=false
+  ---
+  duration_ms: 0.5333
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects server_port_matches=null
+ok 17 - each identity check independently rejects server_port_matches=null
+  ---
+  duration_ms: 0.4778
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects server_address_matches=false
+ok 18 - each identity check independently rejects server_address_matches=false
+  ---
+  duration_ms: 0.4675
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects server_address_matches=null
+ok 19 - each identity check independently rejects server_address_matches=null
+  ---
+  duration_ms: 0.4964
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects original_object_owner_matches=false
+ok 20 - each identity check independently rejects original_object_owner_matches=false
+  ---
+  duration_ms: 0.4773
+  type: 'test'
+  ...
+# Subtest: each identity check independently rejects original_object_owner_matches=null
+ok 21 - each identity check independently rejects original_object_owner_matches=null
+  ---
+  duration_ms: 0.4752
+  type: 'test'
+  ...
+# Subtest: accepted missing, nonboolean and malformed shapes reject
+ok 22 - accepted missing, nonboolean and malformed shapes reject
+  ---
+  duration_ms: 45.3812
+  type: 'test'
+  ...
+# Subtest: state cannot be promoted observationState
+ok 23 - state cannot be promoted observationState
+  ---
+  duration_ms: 1.0261
+  type: 'test'
+  ...
+# Subtest: state cannot be promoted postPStatus
+ok 24 - state cannot be promoted postPStatus
+  ---
+  duration_ms: 0.5942
+  type: 'test'
+  ...
+# Subtest: state cannot be promoted fullPAuthority
+ok 25 - state cannot be promoted fullPAuthority
+  ---
+  duration_ms: 0.4995
+  type: 'test'
+  ...
+# Subtest: top shape extra body/missing fields/null reject without raw
+ok 26 - top shape extra body/missing fields/null reject without raw
+  ---
+  duration_ms: 2.0591
+  type: 'test'
+  ...
+# Subtest: exactly three ordered distinct dependency records required
+ok 27 - exactly three ordered distinct dependency records required
+  ---
+  duration_ms: 15.1849
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 0.schema
+ok 28 - fixed dependency identity 0.schema
+  ---
+  duration_ms: 0.9833
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 0.function
+ok 29 - fixed dependency identity 0.function
+  ---
+  duration_ms: 0.7681
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 0.expectedInputTypeOIDs
+ok 30 - fixed dependency identity 0.expectedInputTypeOIDs
+  ---
+  duration_ms: 0.849
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 0.schemaExists
+ok 31 - missing/denied/null dependency 0.schemaExists
+  ---
+  duration_ms: 1.3474
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 0.exactInputSignatureExists
+ok 32 - missing/denied/null dependency 0.exactInputSignatureExists
+  ---
+  duration_ms: 1.1926
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 0.schemaUsage
+ok 33 - missing/denied/null dependency 0.schemaUsage
+  ---
+  duration_ms: 5.4604
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 0.functionExecute
+ok 34 - missing/denied/null dependency 0.functionExecute
+  ---
+  duration_ms: 3.2029
+  type: 'test'
+  ...
+# Subtest: strict sanitized metadata fields dependency 0
+ok 35 - strict sanitized metadata fields dependency 0
+  ---
+  duration_ms: 25.3045
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 1.schema
+ok 36 - fixed dependency identity 1.schema
+  ---
+  duration_ms: 0.9372
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 1.function
+ok 37 - fixed dependency identity 1.function
+  ---
+  duration_ms: 0.8202
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 1.expectedInputTypeOIDs
+ok 38 - fixed dependency identity 1.expectedInputTypeOIDs
+  ---
+  duration_ms: 0.6959
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 1.schemaExists
+ok 39 - missing/denied/null dependency 1.schemaExists
+  ---
+  duration_ms: 1.6929
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 1.exactInputSignatureExists
+ok 40 - missing/denied/null dependency 1.exactInputSignatureExists
+  ---
+  duration_ms: 1.2036
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 1.schemaUsage
+ok 41 - missing/denied/null dependency 1.schemaUsage
+  ---
+  duration_ms: 1.2428
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 1.functionExecute
+ok 42 - missing/denied/null dependency 1.functionExecute
+  ---
+  duration_ms: 1.2947
+  type: 'test'
+  ...
+# Subtest: strict sanitized metadata fields dependency 1
+ok 43 - strict sanitized metadata fields dependency 1
+  ---
+  duration_ms: 16.6417
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 2.schema
+ok 44 - fixed dependency identity 2.schema
+  ---
+  duration_ms: 0.8449
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 2.function
+ok 45 - fixed dependency identity 2.function
+  ---
+  duration_ms: 1.4915
+  type: 'test'
+  ...
+# Subtest: fixed dependency identity 2.expectedInputTypeOIDs
+ok 46 - fixed dependency identity 2.expectedInputTypeOIDs
+  ---
+  duration_ms: 10.0619
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 2.schemaExists
+ok 47 - missing/denied/null dependency 2.schemaExists
+  ---
+  duration_ms: 3.9337
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 2.exactInputSignatureExists
+ok 48 - missing/denied/null dependency 2.exactInputSignatureExists
+  ---
+  duration_ms: 1.9082
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 2.schemaUsage
+ok 49 - missing/denied/null dependency 2.schemaUsage
+  ---
+  duration_ms: 1.624
+  type: 'test'
+  ...
+# Subtest: missing/denied/null dependency 2.functionExecute
+ok 50 - missing/denied/null dependency 2.functionExecute
+  ---
+  duration_ms: 2.3447
+  type: 'test'
+  ...
+# Subtest: strict sanitized metadata fields dependency 2
+ok 51 - strict sanitized metadata fields dependency 2
+  ---
+  duration_ms: 27.1479
+  type: 'test'
+  ...
+# Subtest: OID range and observed flags do not pretend type/body compatibility
+ok 52 - OID range and observed flags do not pretend type/body compatibility
+  ---
+  duration_ms: 1.0251
+  type: 'test'
+  ...
+# Subtest: wrong protocol/multiple rows/extra output do not leak raw
+ok 53 - wrong protocol/multiple rows/extra output do not leak raw
+  ---
+  duration_ms: 3.1787
+  type: 'test'
+  ...
+# Subtest: secret echo stdout discarded
+ok 54 - secret echo stdout discarded
+  ---
+  duration_ms: 0.6744
+  type: 'test'
+  ...
+# Subtest: secret echo stderr discarded
+ok 55 - secret echo stderr discarded
+  ---
+  duration_ms: 0.3094
+  type: 'test'
+  ...
+# Subtest: auth/query failure outputs allowlisted status only, never raw
+not ok 56 - auth/query failure outputs allowlisted status only, never raw
+  ---
+  duration_ms: 3.6528
+  type: 'test'
+  location: 'C:\\Users\\aleja\\.codex\\worktrees\\clinia-owner-dependency-read-01\\denta-pro\\docs\\production\\evidence\\2026-10-29-gate4-owner-dependency-read-01\\dependency-read.test.cjs:23:1'
+  failureType: 'testCodeFailure'
+  error: |-
+    Expected values to be strictly deep-equal:
+    + actual - expected
+    
+    + []
+    - [
+    -   '42501'
+    - ]
+    
+  code: 'ERR_ASSERTION'
+  name: 'AssertionError'
+  expected:
+    0: '42501'
+  actual:
+  operator: 'deepStrictEqual'
+  stack: |-
+    TestContext.<anonymous> (C:\Users\aleja\.codex\worktrees\clinia-owner-dependency-read-01\denta-pro\docs\production\evidence\2026-10-29-gate4-owner-dependency-read-01\dependency-read.test.cjs:23:229)
+    Test.runInAsyncScope (node:async_hooks:214:14)
+    Test.run (node:internal/test_runner/test:1047:25)
+    Test.processPendingSubtests (node:internal/test_runner/test:744:18)
+    Test.postRun (node:internal/test_runner/test:1173:19)
+    Test.run (node:internal/test_runner/test:1101:12)
+    async Test.processPendingSubtests (node:internal/test_runner/test:744:7)
+  ...
+# Subtest: oversized output refused before JSON/echo persistence
+ok 57 - oversized output refused before JSON/echo persistence
+  ---
+  duration_ms: 2.0141
+  type: 'test'
+  ...
+# Subtest: same reused transport enforces single attempt and wipes actual validator streams
+ok 58 - same reused transport enforces single attempt and wipes actual validator streams
+  ---
+  duration_ms: 5.9715
+  type: 'test'
+  ...
+# Subtest: fixed address guard before private accepts only frozen exact address
+ok 59 - fixed address guard before private accepts only frozen exact address
+  ---
+  duration_ms: 4.6549
+  type: 'test'
+  ...
+# Subtest: query turn binds exact phase and approved SQL, not consumed V02
+ok 60 - query turn binds exact phase and approved SQL, not consumed V02
+  ---
+  duration_ms: 1.8999
+  type: 'test'
+  ...
+# Subtest: original transport/window/client helper sources and private helpers unchanged
+ok 61 - original transport/window/client helper sources and private helpers unchanged
+  ---
+  duration_ms: 7.9615
+  type: 'test'
+  ...
+# Subtest: SQL bytes exact human approved metadata only; no function calls or bodies
+ok 62 - SQL bytes exact human approved metadata only; no function calls or bodies
+  ---
+  duration_ms: 0.9635
+  type: 'test'
+  ...
+# Subtest: real four-file bundle verifies actual source bytes without private reads
+ok 63 - real four-file bundle verifies actual source bytes without private reads
+  ---
+  duration_ms: 8.7099
+  type: 'test'
+  ...
+# Subtest: changed manifest or SQL authority rejected before source/private use
+ok 64 - changed manifest or SQL authority rejected before source/private use
+  ---
+  duration_ms: 24.5567
+  type: 'test'
+  ...
+# Subtest: current source hash drift and private-path manifest refused
+ok 65 - current source hash drift and private-path manifest refused
+  ---
+  duration_ms: 34.1062
+  type: 'test'
+  ...
+1..65
+# tests 65
+# suites 0
+# pass 64
+# fail 1
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1048.6985

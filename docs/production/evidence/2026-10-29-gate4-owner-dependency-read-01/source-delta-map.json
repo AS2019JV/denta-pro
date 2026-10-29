@@ -1,0 +1,49 @@
+{
+  "schemaVersion": 1,
+  "baseDiagnosticSHA": "fd08cf59c38dbf2ab81cd82a1592f65131f59ac9",
+  "preservedV02NativeBundleSHA256": "6bea6c1a5722a14aa724c99838a9481ae9485ce897db78cf2d20837cd32063d9",
+  "native4Manifest": "probe-source-manifest.v1.json",
+  "reusedFunctions": [
+    {
+      "name": "oneAttempt",
+      "byteIdenticalFunctionSource": true,
+      "sha256": "b60a6def86ff4c8dd4a5f7cea6a0e1577bc502e4962333f9829e4beeded2cf5c"
+    },
+    {
+      "name": "buildArgs",
+      "byteIdenticalFunctionSource": true,
+      "sha256": "b3a14ba4846f897efc058eb9e1c031324a3b83fb8a4f3bc1595824646d5da96c"
+    },
+    {
+      "name": "validateWindow",
+      "byteIdenticalFunctionSource": true,
+      "sha256": "b19ff1083d48b1f417e2f8763b5451f39e118008a6859315ffb58258509d1dee"
+    },
+    {
+      "name": "clientOutcome",
+      "byteIdenticalFunctionSource": true,
+      "sha256": "03b852c8377733eaad9cf834010350563f6dda17169a2a758934ff4e19af36ee"
+    }
+  ],
+  "selectorAndCustodyHashesUnchanged": true,
+  "enumeratedChanges": [
+    "Append-only phase directory, emitter/SQL file names and four-file bundle set/prefix",
+    "Exact human-approved SQL d46 copied without byte changes; SHA fixed in emitter and turn validation",
+    "New strict fixed-prefix/shape/identity boolean and three-dependency validator; accepted false/NULL or any individual false/NULL rejected; numeric-only OIDs/known names/booleans, no raw failure metadata",
+    "Frozen address helper validated from exact fresh physical inventory before custody/private/login; no expectation tuning",
+    "Exact new turn ID and approved SQL SHA required; original general turn/window/actor/role/context/source guards retained",
+    "Record phase label reflects current metadata scope; no postP/fullP authority assertion"
+  ],
+  "originalReferenceContractGuardPreserved": {
+    "path": "owner-scoped-preparation/OWNER_SCOPED_CONTRACT.proposed.v1.json",
+    "sha256": "38d127338f8a497058b1748b693827a5f0f1e364220cc4d4052326ef6cf42a4f",
+    "note": "Same original V02 native source guard; current documentary v2 is not silently substituted"
+  },
+  "nativeExecutionPlan": {
+    "root": "C:/Users/aleja/.codex/worktrees/clinia-gate4-recovery/denta-pro",
+    "branch": "codex/gate4-recovery-ops",
+    "copyOnlyReviewedExactPublicBlobsAfterCI": true,
+    "privateReferenceAndOriginalCustodyUnchanged": true
+  },
+  "nativeActivity": 0
+}

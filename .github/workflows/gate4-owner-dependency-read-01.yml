@@ -1,0 +1,36 @@
+name: Gate4 owner dependency metadata read
+
+on:
+  push:
+    branches: [codex/clinia-owner-dependency-read-01]
+
+permissions:
+  contents: read
+
+jobs:
+  owner-diagnostic-offline:
+    runs-on: windows-2025
+    env:
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: "false"
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .node-version
+      - name: Verify exact diagnostic source and frozen dependency pins
+        run: node docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/ci-source-pins.cjs
+      - name: Check diagnostic JavaScript syntax
+        run: |
+          node --check docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/probe-owner-dependencies.cjs
+          node --check docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/password-field-reader.cjs
+          node --check docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/dependency-read.test.cjs
+      - name: Exercise current dependency source and strict negative regressions
+        run: node --test docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/dependency-read.test.cjs
+      - name: Scan public source for privileged credentials without values
+        run: node scripts/clinia-secret-scan.cjs

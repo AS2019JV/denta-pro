@@ -1,0 +1,20 @@
+{
+  "schemaVersion": 1,
+  "source": "Direct human response in coordinator thread, independently read via read_thread; not a human message in Gate4",
+  "sourceThread": "01a16ed4-8dfe-7112-b66e-028b66b0e95e",
+  "sourceTurn": "01a18949-5db1-7272-95f1-6f6f1ab76d25",
+  "humanMessageID": "01a18949-73dd-7b20-aa85-59b804690346",
+  "question": "call_6ac1e23e79734e06a1ad325f5a9a2da0:item0",
+  "answer": "Autorizar A y B condicionada",
+  "rootEnvelope": {
+    "path": "C:/Users/aleja/Documents/0-dev/denta-pro/docs/production/rc/2026-10-27-v5/G4_OWNER_DEPENDENCY_READ.AUTHORIZATION.json",
+    "sha256": "2a09803a0e0210c056cb50f75cd1e6b611a478a07dc4179023ce2288aca17142"
+  },
+  "AApproved": true,
+  "BConditional": true,
+  "BReleased": false,
+  "turn": null,
+  "approvedSQLSHA256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752",
+  "scope": "New minimum current-only metadata emitter and own CI; no source/secret/target operations under A",
+  "noPOrSPayloadAuthority": true
+}

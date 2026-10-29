@@ -1,0 +1,16 @@
+{
+  "schemaVersion": 1,
+  "baseDiagnosticSHA": "fd08cf59c38dbf2ab81cd82a1592f65131f59ac9",
+  "firstLocalTargetedRun": {
+    "tests": 65,
+    "pass": 64,
+    "fail": 1,
+    "failedTest": "auth/query failure outputs allowlisted status only, never raw",
+    "log": "local-targeted-tests.log"
+  },
+  "cause": "New source authoring introduced a backslash escape discrepancy in RegExp SQLSTATE matching. No execution/private/target operations occurred.",
+  "correction": "Reuse exact existing V02 bounded error branch byte-for-byte; no expectation/control changed.",
+  "repeatScope": "Only affected auth/query error-classification test locally; full new dedicated CI after review. No old48 or526 suite.",
+  "oldNativeSourcesUnchanged": true,
+  "newQueriesOrLogins": 0
+}

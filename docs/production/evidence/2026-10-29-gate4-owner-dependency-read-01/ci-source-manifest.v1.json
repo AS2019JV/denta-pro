@@ -1,0 +1,180 @@
+{
+  "schemaVersion": 1,
+  "frozenCandidateSHA": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+  "scope": "Own current-only dependency emitter CI; no historical test-suite or app build",
+  "nativeBundleSHA256": "81200c4bd8301f30d34463d1829cd7e2cf7879ebaee9c8df2d9c5d27042c453c",
+  "files": [
+    {
+      "path": ".github/workflows/clinia-verification.yml",
+      "bytes": 1210,
+      "sha256": "ab4f6b9831e9f21f5d970b71068a37af09756b91af34d8023aefa198bdb6b8b8"
+    },
+    {
+      "path": ".github/workflows/gate4-owner-dependency-read-01.yml",
+      "bytes": 1580,
+      "sha256": "abc6f022bfff9fd2e5cf722067c6802a2bb6393bd7ca42cb086c8bd5e3fc27df"
+    },
+    {
+      "path": ".github/workflows/gate4-owner-v02-diagnostic.yml",
+      "bytes": 1515,
+      "sha256": "1594e50853aa198e7b052b144df4b30aeeb876885d5011f095799b7c133a9efa"
+    },
+    {
+      "path": ".node-version",
+      "bytes": 8,
+      "sha256": "a0e27aeeac42d6102f4ff2bce40d8fb011c07e5cb28eff3c9d77e68df29e5dd6"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/.gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/README.md",
+      "bytes": 2633,
+      "sha256": "371a3226aa8d83e3f5cda0bf581cd83d25e9333696b8e656f3c5f2f92eb0386c"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/assert-private-reference.ps1",
+      "bytes": 1690,
+      "sha256": "5f4514825635a824e839d52b7326f254472bf154f6d533e8249847658f755235"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/authorization-source.json",
+      "bytes": 987,
+      "sha256": "0786a1cbd13e932288d94c8c425a7216af91056b689d3be83b274eb805a4e46a"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/ci-source-pins.cjs",
+      "bytes": 1419,
+      "sha256": "9d5523d6b8c4a5f7e65a78937e3880b131abec60421127a6c4a3d7043ca1321f"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/dependency-read.test.cjs",
+      "bytes": 11783,
+      "sha256": "c367773aee2239ffb8fbfb6cca19439b2eeb0a0875b91067dbe6c321c13b37d3"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/owner-dependency-current.sql",
+      "bytes": 3860,
+      "sha256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/password-field-reader.cjs",
+      "bytes": 1275,
+      "sha256": "b0b8c32791aea285b04369788cda76076b46144f2cd162f1a018b79cd13d5ef8"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/preparation-notes.json",
+      "bytes": 764,
+      "sha256": "783c1f9cc3b1113faeac6ebc158e660e42f2f580010689b0e8cba39ddc5fe6b0"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/probe-owner-dependencies.cjs",
+      "bytes": 17517,
+      "sha256": "6040d0e372d33d91c5b405d4f5513e27ccee4713b9916f37a13de39c3b135aa2"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/probe-source-manifest.v1.json",
+      "bytes": 1247,
+      "sha256": "81200c4bd8301f30d34463d1829cd7e2cf7879ebaee9c8df2d9c5d27042c453c"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/source-delta-map.json",
+      "bytes": 2381,
+      "sha256": "ff50bcf369267a9ac5454002a37acab1697a2a5e1734e0ec42b8f41b687d7c60"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/m1-baseline-2026-10-26/10-baseline.proposed.sql",
+      "bytes": 344036,
+      "sha256": "f9195bac42cc0413af5e3b8f77ebe1793817e66e114d81c13bc1de83a7cada6a"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/m1-transport-2026-10-27/00-admission.sql",
+      "bytes": 5018,
+      "sha256": "cb365cc0a53f24d323261514db26b38a9e90d8feb79378e877925155c6ec865e"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/m1-transport-2026-10-27/20-postcheck.sql",
+      "bytes": 159453,
+      "sha256": "c9504cc9b13650e0948119d9ba99fe2b5cb9bc3ad70b37abfe08cb4eb3c27cf0"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/m1-transport-2026-10-27/contract.v4.json",
+      "bytes": 6513,
+      "sha256": "e4510ee134bfba467ebd182a17002b2ec3986323fcc056ee731f9cea2666e11d"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.compose.proposed.json",
+      "bytes": 21189,
+      "sha256": "fc56a725b7e325cfcffb3a60c3de333dbd8ea5de2f2512018b05206bc68d416e"
+    },
+    {
+      "path": "docs/production/gate4-recovery-ops/managed-a9-2026-10-25/managed-only.contract.review.json",
+      "bytes": 7351,
+      "sha256": "4c8b61e0c2df354d58be32f8f3d583aba17c2b7d5979ebe55f9e9cb57c8e20d7"
+    },
+    {
+      "path": "scripts/.gitattributes",
+      "bytes": 91,
+      "sha256": "5d5974be5af7e6727b8dd2d43b2839053d3aa74406ce6ffd3139210a70940df0"
+    },
+    {
+      "path": "scripts/clinia-gate4-custody.ps1",
+      "bytes": 6420,
+      "sha256": "0475da8b858356ae8c3bfd39a1ca69a8b8d18b2b54a56b58e9bdcfe1c5e3d028"
+    },
+    {
+      "path": "scripts/clinia-gate4-m0-custody.ps1",
+      "bytes": 2385,
+      "sha256": "ac065e2de5ffa1bdf2a2b3872e25c2c5f7b8d0686cc81995ce35b81bdd8293ad"
+    },
+    {
+      "path": "scripts/clinia-gate4-m1-custody.ps1",
+      "bytes": 1848,
+      "sha256": "744455f2fa5c05bf7fe9634fcb9f51304d3cf1ae61d0a06b1cb974001d69e0b3"
+    },
+    {
+      "path": "scripts/clinia-gate4-m1-transport.cjs",
+      "bytes": 18508,
+      "sha256": "c51e9528900eb2c4ad98aab7f8a4c2092f12a085fd17a029a2a0cfdb6ae92dc4"
+    },
+    {
+      "path": "scripts/clinia-gate4-managed-m0.cjs",
+      "bytes": 24281,
+      "sha256": "5fafb08d8170c9e8dea3026423e47229f5cf460dce56ebbe5bdc1b9154680f13"
+    },
+    {
+      "path": "scripts/clinia-local-runtime.cjs",
+      "bytes": 4799,
+      "sha256": "b71ab6eb651225e7b3737425d9788c7904a661a29305b942570ad6f99ec47af9"
+    },
+    {
+      "path": "scripts/clinia-recovery-network.cjs",
+      "bytes": 1055,
+      "sha256": "982895d3fd325f6a00ae8d7cdf515f331d112dca1de187bf7aeae40fab764917"
+    },
+    {
+      "path": "scripts/clinia-secret-scan.cjs",
+      "bytes": 3442,
+      "sha256": "eb6f895ca0f8693a7025f1eddb10a19b520f1ba5878e07aa9fed7b14368f9d08"
+    },
+    {
+      "path": "scripts/prepare-clinia-clean-managed.cjs",
+      "bytes": 12961,
+      "sha256": "6a38074da8077d2ed390a5f726b377dfd3856523e244ccda61ada211c68af184"
+    },
+    {
+      "path": "scripts/prepare-clinia-compose.cjs",
+      "bytes": 10659,
+      "sha256": "f3c9319e1c511ddaa4ddfb2c26b1f937d9a6b5518b8a89bde457fd411dd3b2fd"
+    },
+    {
+      "path": "vercel.json",
+      "bytes": 295,
+      "sha256": "e2635007e28ed54b5b1eb14e4248490e7c28257732084d9df1a4e07733af6bbf"
+    }
+  ],
+  "privateInputs": 0,
+  "nativeOperations": 0
+}
