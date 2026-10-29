@@ -11,8 +11,8 @@
     },
     {
       "path": ".github/workflows/gate4-owner-dependency-read-01.yml",
-      "bytes": 1580,
-      "sha256": "abc6f022bfff9fd2e5cf722067c6802a2bb6393bd7ca42cb086c8bd5e3fc27df"
+      "bytes": 1544,
+      "sha256": "e90a1fad5d779aec54c1378e9bbf77dd61f1c38ccc664f6cf3112bc003b04f5f"
     },
     {
       "path": ".github/workflows/gate4-owner-v02-diagnostic.yml",
@@ -28,11 +28,6 @@
       "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/.gitattributes",
       "bytes": 8,
       "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
-    },
-    {
-      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/README.md",
-      "bytes": 2633,
-      "sha256": "371a3226aa8d83e3f5cda0bf581cd83d25e9333696b8e656f3c5f2f92eb0386c"
     },
     {
       "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/assert-private-reference.ps1",
@@ -66,8 +61,8 @@
     },
     {
       "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/preparation-notes.json",
-      "bytes": 764,
-      "sha256": "783c1f9cc3b1113faeac6ebc158e660e42f2f580010689b0e8cba39ddc5fe6b0"
+      "bytes": 1441,
+      "sha256": "43fe18507f67f03b538236cb4da6ba4273605f3f10fab57200eebdd22492db29"
     },
     {
       "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/probe-owner-dependencies.cjs",
@@ -80,9 +75,19 @@
       "sha256": "81200c4bd8301f30d34463d1829cd7e2cf7879ebaee9c8df2d9c5d27042c453c"
     },
     {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/README.md",
+      "bytes": 2633,
+      "sha256": "371a3226aa8d83e3f5cda0bf581cd83d25e9333696b8e656f3c5f2f92eb0386c"
+    },
+    {
       "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-01/source-delta-map.json",
       "bytes": 2381,
       "sha256": "ff50bcf369267a9ac5454002a37acab1697a2a5e1734e0ec42b8f41b687d7c60"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-native-viability-02/probe-native-owner.cjs",
+      "bytes": 15350,
+      "sha256": "fbb127874a3a2db757fd4572a0033d64dea1c971cdd9ba4343f284fe93b99139"
     },
     {
       "path": "docs/production/gate4-recovery-ops/m1-baseline-2026-10-26/10-baseline.proposed.sql",

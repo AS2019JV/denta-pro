@@ -12,5 +12,18 @@
   "correction": "Reuse exact existing V02 bounded error branch byte-for-byte; no expectation/control changed.",
   "repeatScope": "Only affected auth/query error-classification test locally; full new dedicated CI after review. No old48 or526 suite.",
   "oldNativeSourcesUnchanged": true,
-  "newQueriesOrLogins": 0
+  "newQueriesOrLogins": 0,
+  "prepublicationByteCheck": {
+    "commit": "b810c6e049cb831ddb02fcccb53410056dace666",
+    "status": "FAIL_WORKFLOW_WORKING_EOL_DIFFERS_FROM_GIT_BLOB",
+    "discrepancies": [
+      {
+        "path": ".github/workflows/gate4-owner-dependency-read-01.yml",
+        "previousWorkingSHA": "abc6f022bfff9fd2e5cf722067c6802a2bb6393bd7ca42cb086c8bd5e3fc27df",
+        "committedSHA": "e90a1fad5d779aec54c1378e9bbf77dd61f1c38ccc664f6cf3112bc003b04f5f",
+        "onlyEOL": true
+      }
+    ],
+    "remedy": "Materialize exact already committed LF workflow bytes; update CI-only manifest hash and record this event. Native4,SQL,guards,tests unchanged; no CI or target operation."
+  }
 }
