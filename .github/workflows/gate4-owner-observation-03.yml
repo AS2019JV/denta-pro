@@ -1,0 +1,30 @@
+name: Gate4 owner observations offline 03
+on:
+  push:
+    branches: [codex/clinia-owner-observation-03]
+permissions:
+  contents: read
+jobs:
+  classification-offline:
+    runs-on: windows-2025
+    timeout-minutes: 5
+    env:
+      GIT_CONFIG_COUNT: "1"
+      GIT_CONFIG_KEY_0: core.autocrlf
+      GIT_CONFIG_VALUE_0: "false"
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+        with:
+          ref: ${{ github.sha }}
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version-file: .node-version
+      - name: Verify exact offline source closure
+        run: node docs/production/evidence/2026-10-30-gate4-owner-decision-package/ci-source-pins.cjs
+      - name: Check offline regression syntax
+        run: node --check docs/production/evidence/2026-10-30-gate4-owner-decision-package/classification.test.cjs
+      - name: Exercise strict identity and complete sanitized observations
+        run: node --test docs/production/evidence/2026-10-30-gate4-owner-decision-package/classification.test.cjs
+      - name: Scan public source without credential values
+        run: node scripts/clinia-secret-scan.cjs

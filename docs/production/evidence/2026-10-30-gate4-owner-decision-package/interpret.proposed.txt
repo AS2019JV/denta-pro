@@ -1,0 +1,51 @@
+function interpret(q,secret,address){
+ const out=Buffer.isBuffer(q.stdout)?q.stdout:Buffer.alloc(0),err=Buffer.isBuffer(q.stderr)?q.stderr:Buffer.alloc(0);
+ if(out.includes(secret)||err.includes(secret))return {status:'SECRET_ECHO_DETECTED_OUTPUT_DISCARDED'};
+ if(out.length+err.length>65536)return {status:'OUTPUT_BOUND_REFUSED'};
+ if(q.error||q.signal||q.status!==0){const e=err.toString('utf8');return {status:'AUTH_OR_QUERY_NOT_VERIFIED',nativeExitCode:q.status,timeout:q.error?.code==='ETIMEDOUT',knownSQLSTATE:['28P01','42501','3D000','57P03','57014','55P03'].filter(x=>new RegExp('(?:ERROR|FATAL):\\s+'+x+':').test(e)),authenticationFailed:/password authentication failed/i.test(e),connectionRefused:/connection refused/i.test(e),authenticationMethodRequirementRejected:/require_auth|authentication method|authentication requirement/i.test(e),actorExistenceOrCredentialValidityNotInferredFromFailure:true};}
+ let j;try{const marker='G4_OWNER_DEPENDENCY_CURRENT_V1:',rows=out.toString('utf8').split(/\r?\n/).filter(x=>x.length);if(rows.length!==1||!rows[0].startsWith(marker))return {status:'DEPENDENCY_PROTOCOL_REFUSED'};j=JSON.parse(rows[0].slice(marker.length));}catch{return {status:'DEPENDENCY_PROTOCOL_REFUSED'};}
+ const classifyDependencies=records=>{
+  const expected=[['auth','role',''],['auth','uid',''],['storage','foldername','25']],fields=['schemaExists','exactInputSignatureExists','schemaUsage','functionExecute'];
+  const label=(o,k)=>!Object.hasOwn(o,k)?'MISSING':o[k]===null?'NULL':typeof o[k]!=='boolean'?'INVALID_TYPE':o[k]?'TRUE':'FALSE';
+  return expected.map(([schema,fn,args],i)=>{
+   const present=Array.isArray(records)&&Object.hasOwn(records,i),v=present?records[i]:undefined;
+   const record=!Array.isArray(records)?'ERROR':!present?'MISSING':v===null?'NULL':typeof v!=='object'||Array.isArray(v)?'INVALID_TYPE':'TRUE';
+   let identity=record==='TRUE'?'TRUE':'ERROR';
+   if(record==='TRUE')for(const [k,want]of [['schema',schema],['function',fn],['expectedInputTypeOIDs',args]]){
+    if(!Object.hasOwn(v,k)){identity='MISSING';break;}if(v[k]===null){identity='NULL';break;}if(typeof v[k]!=='string'){identity='INVALID_TYPE';break;}if(v[k]!==want){identity='FALSE';break;}
+   }
+   const checks=Object.fromEntries(fields.map(k=>[k,identity==='TRUE'?label(v,k):record==='TRUE'?'ERROR':record]));
+   return {signature:schema+'.'+fn+'('+(args==='25'?'text':'')+')',record,identity,checks};
+  });
+ };
+ let identityAccepted=false;
+ let failureField='metadata.shape';const check=(field,f)=>{failureField=field;f();},keys=(v,names)=>{assert.ok(v&&typeof v==='object'&&!Array.isArray(v));assert.deepEqual(Object.keys(v).sort(),[...names].sort());};
+ try{
+  check('metadata.shape',()=>keys(j,['observationState','postPStatus','fullPAuthority','identityChecks','dependencies']));
+  check('observationState',()=>assert.equal(j.observationState,'CURRENT_ONLY'));
+  check('postPStatus',()=>assert.equal(j.postPStatus,'NOT_VERIFIED'));
+  check('fullPAuthority',()=>assert.equal(j.fullPAuthority,'NOT_VERIFIED'));
+  const identityKeys=['session_actor_matches','current_actor_matches','database_matches','version_matches','read_only','default_read_only','server_port_matches','server_address_matches','original_object_owner_matches','accepted'];
+  check('identityChecks.shape',()=>keys(j.identityChecks,identityKeys));
+  // A single returned SQL row and exit0 are never sufficient. accepted=false/NULL rejects first.
+  check('identityChecks.accepted',()=>assert.equal(j.identityChecks.accepted,true));
+  for(const field of identityKeys.filter(x=>x!=='accepted'))check('identityChecks.'+field,()=>assert.equal(j.identityChecks[field],true));
+  check('guardedServerAddress',()=>validateFrozenAddress(address));
+  identityAccepted=true;
+  check('dependencies.length',()=>assert.ok(Array.isArray(j.dependencies)&&j.dependencies.length===3));
+  const expected=[['auth','role',''],['auth','uid',''],['storage','foldername','25']],depKeys=['schema','function','expectedInputTypeOIDs','schemaExists','exactInputSignatureExists','namedRoutineCount','functionOID','ownerOID','returnTypeOID','returnsSet','securityDefiner','variadicTypeOID','defaultArgumentCount','schemaUsage','functionExecute','status'];
+  for(let i=0;i<3;i++){
+   const x=j.dependencies[i],prefix='dependencies.'+i+'.',e=expected[i];
+   check(prefix+'shape',()=>keys(x,depKeys));
+   for(const [field,value] of [['schema',e[0]],['function',e[1]],['expectedInputTypeOIDs',e[2]]])check(prefix+field,()=>assert.equal(x[field],value));
+   for(const field of ['schemaExists','exactInputSignatureExists','schemaUsage','functionExecute'])check(prefix+field,()=>assert.equal(x[field],true));
+   check(prefix+'namedRoutineCount',()=>assert.ok(Number.isSafeInteger(x.namedRoutineCount)&&x.namedRoutineCount>=1&&x.namedRoutineCount<=4294967295));
+   for(const field of ['functionOID','ownerOID','returnTypeOID'])check(prefix+field,()=>assert.ok(validOID(x[field])));
+   for(const field of ['returnsSet','securityDefiner'])check(prefix+field,()=>assert.equal(typeof x[field],'boolean'));
+   check(prefix+'variadicTypeOID',()=>assert.ok(validOID(x.variadicTypeOID,true)));
+   check(prefix+'defaultArgumentCount',()=>assert.ok(Number.isSafeInteger(x.defaultArgumentCount)&&x.defaultArgumentCount>=0&&x.defaultArgumentCount<=(i===2?1:0)));
+   check(prefix+'status',()=>assert.equal(x.status,'CURRENT_METADATA_ACCESS_PRESENT'));
+  }
+ }catch{return {status:'DEPENDENCY_METADATA_REFUSED',failureField,...(identityAccepted?{dependencyObservations:classifyDependencies(j.dependencies)}:{})};}
+ return {status:'PASS_CURRENT_DEPENDENCY_METADATA_ONLY',metadata:j,dependencyObservations:classifyDependencies(j.dependencies),nativeExitCode:q.status,rawOutputDiscarded:true,limits:['Current catalog/privilege observation only','No Auth/Storage function invocation or body/transitive semantic proof','Post-P resolution/type compatibility and full P authority NOT VERIFIED'],credentialChallengeRequiredByClient:'scram-sha-256 or md5; no trust/certificate/GSS-only success accepted'};
+}

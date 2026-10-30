@@ -1,0 +1,19 @@
+{
+  "status": "OFFLINE_PATCH_ONLY_NOT_A_NEW_NATIVE_EXECUTOR",
+  "baseSHA": "20ff880d5ec3e1285caa51c5fc956a1fe8387fc4",
+  "sourcePath": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-02/probe-owner-dependencies.cjs",
+  "sourceSHA256": "b9f00746fd2dc697fb437d0ece47a1b673ba37005be8bfdfa50fe6fe1ac68bf8",
+  "originalInterpretSHA256": "50a1d902f00a28a2ed3231636504d96ff20104e40598f9fc087a00e5402afbd4",
+  "proposedInterpretSHA256": "4f46ab1684bec1eb2c44b7f0f2cc39405f0c400a80816a448eb6655c8daf012d",
+  "proposedWholeSourceSHA256": "bc0726b55748b1502775dd1ea2b76223f466d5b19fa944f1a59e97dc3b41ffd3",
+  "patchSHA256": "287b5e275da3b530ac8b17e3efb3d940e162a09aaeac749da27434111dd5efbe",
+  "SQLSHA256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752",
+  "sourceMainTransportGuardsAndSQLUnchanged": true,
+  "nativePathAndMarkerAssignmentUnchanged": true,
+  "nativeExecutionForbidden": true,
+  "publicationAuthorized": false,
+  "futureNativeSourceSHA": null,
+  "futureNativeBundleSHA256": null,
+  "futureCI": null,
+  "explanation": "Adds only bounded observations after all original identity checks have succeeded. Original first failure/status and full success requirements remain unchanged. Consumed02 marker forbids runtime reuse; future trace identity/source closure needs separate review and authorization."
+}
