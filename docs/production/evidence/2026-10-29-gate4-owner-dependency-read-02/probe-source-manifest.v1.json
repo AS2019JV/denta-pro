@@ -1,0 +1,29 @@
+{
+  "schemaVersion": 1,
+  "scope": "CURRENT_ONLY_METADATA_QUERY_NO_FUNCTION_INVOCATION",
+  "approvedSQLSHA256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752",
+  "frozenCandidateSHA": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+  "sourceBaseSHA": "a5a21539a10dac69021915d048f664d837f95b9a",
+  "files": [
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-02/probe-owner-dependencies.cjs",
+      "bytes": 17517,
+      "sha256": "b9f00746fd2dc697fb437d0ece47a1b673ba37005be8bfdfa50fe6fe1ac68bf8"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-02/password-field-reader.cjs",
+      "bytes": 1275,
+      "sha256": "b0b8c32791aea285b04369788cda76076b46144f2cd162f1a018b79cd13d5ef8"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-02/assert-private-reference.ps1",
+      "bytes": 1690,
+      "sha256": "5f4514825635a824e839d52b7326f254472bf154f6d533e8249847658f755235"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-29-gate4-owner-dependency-read-02/owner-dependency-current.sql",
+      "bytes": 3860,
+      "sha256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752"
+    }
+  ]
+}

@@ -5,7 +5,8 @@
       "codex/clinia-rc-20261002": false,
       "codex/clinia-gate3-bootstrap": false,
       "codex/clinia-owner-v02-diagnostic": false,
-      "codex/clinia-owner-dependency-read-01": false
+      "codex/clinia-owner-dependency-read-01": false,
+      "codex/clinia-owner-dependency-read-02": false
     }
   }
 }
