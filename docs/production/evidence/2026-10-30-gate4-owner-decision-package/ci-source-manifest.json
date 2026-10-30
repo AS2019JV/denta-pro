@@ -123,12 +123,12 @@
     {
       "path": "docs/production/evidence/2026-10-30-gate4-owner-decision-package/delta-map.json",
       "bytes": 1342,
-      "sha256": "7a17fe14b0dfe614ac5d6f560bda9ea6e2665cb812a0008cf26b0b9c12679df3"
+      "sha256": "9a59972aea5d6b9d717014fc035848ce2a8d92a202378df417275f84ea36d433"
     },
     {
       "path": "docs/production/evidence/2026-10-30-gate4-owner-decision-package/delta.proposed.patch",
-      "bytes": 11177,
-      "sha256": "287b5e275da3b530ac8b17e3efb3d940e162a09aaeac749da27434111dd5efbe"
+      "bytes": 11193,
+      "sha256": "35e534f3ae9a6b2e32edd3208299a8039b76f2784b50c7e1f544eea52739a630"
     },
     {
       "path": "docs/production/evidence/2026-10-30-gate4-owner-decision-package/interpret.proposed.txt",

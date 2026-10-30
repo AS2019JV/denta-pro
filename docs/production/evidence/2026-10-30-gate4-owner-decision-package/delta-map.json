@@ -6,7 +6,7 @@
   "originalInterpretSHA256": "50a1d902f00a28a2ed3231636504d96ff20104e40598f9fc087a00e5402afbd4",
   "proposedInterpretSHA256": "4f46ab1684bec1eb2c44b7f0f2cc39405f0c400a80816a448eb6655c8daf012d",
   "proposedWholeSourceSHA256": "bc0726b55748b1502775dd1ea2b76223f466d5b19fa944f1a59e97dc3b41ffd3",
-  "patchSHA256": "287b5e275da3b530ac8b17e3efb3d940e162a09aaeac749da27434111dd5efbe",
+  "patchSHA256": "35e534f3ae9a6b2e32edd3208299a8039b76f2784b50c7e1f544eea52739a630",
   "SQLSHA256": "d46f58333f766521eeedc32a0a32ddd7e5de158325111ff6fc770767862d5752",
   "sourceMainTransportGuardsAndSQLUnchanged": true,
   "nativePathAndMarkerAssignmentUnchanged": true,
