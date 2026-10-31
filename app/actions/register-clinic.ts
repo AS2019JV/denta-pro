@@ -9,6 +9,7 @@ import { signupSchema } from '@/lib/signup-validation'
 import { headers } from 'next/headers'
 import { consumeEmailBudget } from '@/lib/server-email-gate'
 import { configuredAuthOrigin, validEmailToken } from '@/lib/auth-email-contract'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -18,6 +19,7 @@ if (!supabaseUrl || !supabaseServiceKey) {
 }
 
 export async function registerClinic(formData: FormData) {
+  if (SYNTHETIC_PILOT) return { error: PILOT_UNAVAILABLE }
   const input = signupSchema.safeParse({
     title: formData.get('title') ?? undefined,
     firstName: formData.get('firstName'),

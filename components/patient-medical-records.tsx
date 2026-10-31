@@ -1,598 +1,81 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useEffect, useRef, useState } from "react"
 import { useAuth } from "@/components/auth-context"
 import { supabase } from "@/lib/supabase"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { toast } from "sonner"
 import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { OdontogramaInteractive } from "@/components/odontograma-interactive"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { OdontogramPreview } from "@/components/odontogram-preview"
+import { clinicDate } from "@/lib/agenda.mjs"
 
+interface Props { patientId: string; onOpenClinicalForm: () => void }
 
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
-
-import { Plus, FileText, Calendar, Stethoscope, Pill, AlertTriangle, User, Loader2 } from "lucide-react"
-
-interface PatientMedicalRecordsProps {
-  patientId: string
-  onSave?: () => void
-}
-
-export function PatientMedicalRecords({ patientId, onSave }: PatientMedicalRecordsProps) {
-  const { user, currentClinicId } = useAuth()
-  const [activeTab, setActiveTab] = useState("overview")
-  const [isAddNoteOpen, setIsAddNoteOpen] = useState(false)
-  const [isAddTreatmentOpen, setIsAddTreatmentOpen] = useState(false)
-  const [isSavingOdontogram, setIsSavingOdontogram] = useState(false)
-
-  // Form states
-  const [newNote, setNewNote] = useState({ type: "Consulta", content: "" })
-  const [newTreatment, setNewTreatment] = useState({ tooth: "", treatment: "", status: "Programado", notes: "" })
-  const [odontogramData, setOdontogramData] = useState<any>({})
-  const [isLoadingOdontogram, setIsLoadingOdontogram] = useState(false)
-
-
-  // Mock data state
-  const [data, setData] = useState({
-    allergies: ["Penicilina", "Látex"],
-    medications: ["Lisinopril 10mg", "Atorvastatin 20mg"],
-    conditions: ["Hipertensión", "Colesterol Alto"],
-    notes: [
-      {
-        id: "1",
-        date: "2024-01-15",
-        type: "Consulta",
-        content: "Paciente acude para limpieza regular. Sin complicaciones.",
-        doctor: "Dra. María González",
-      },
-      {
-        id: "2",
-        date: "2024-01-10",
-        type: "Tratamiento",
-        content: "Empaste en molar superior derecho. Anestesia local aplicada sin complicaciones.",
-        doctor: "Dr. Carlos Ruiz",
-      },
-    ],
-    treatments: [
-      {
-        id: "1",
-        date: "2024-01-15",
-        tooth: "16",
-        treatment: "Limpieza",
-        status: "Completado",
-        notes: "Limpieza profunda realizada",
-        doctor: "Dra. María González",
-      },
-      {
-        id: "2",
-        date: "2024-01-10",
-        type: "26",
-        treatment: "Empaste",
-        status: "Completado",
-        notes: "Empaste de composite",
-        doctor: "Dr. Carlos Ruiz",
-      },
-    ],
-  })
-
-  // THE RECEPTIONIST FIREWALL (UI Safety)
-  // Ensures the UI never tries to fetch forbidden data
+/** Read-only projection. Clinical writes use the versioned HCU workflow. */
+export function PatientMedicalRecords({ patientId, onOpenClinicalForm }: Props) {
+  const { user, currentClinicId, isRevalidating } = useAuth()
+  const allowed = !isRevalidating && !!user?.id && !!currentClinicId && ["doctor", "clinic_owner"].includes(user.role)
+  const scope = allowed ? `${currentClinicId}:${user?.id}:${user?.role}:${patientId}` : ""
+  const currentScope = useRef(scope)
+  currentScope.current = scope
+  const [attempt, setAttempt] = useState(0)
+  const [result, setResult] = useState<{ scope: string; status: 'loading' | 'error' | 'ready'; row: any }>({ scope: '', status: 'loading', row: null })
   useEffect(() => {
-     const fetchSafeData = async () => {
-         if (!user) return;
-
-         if (user.role === 'receptionist') {
-             // 1. SAFE PATH: Fetch only allowed view
-             // Receptionists are BLIND to 'clinical_records', so we never query it.
-             const { data: safeData } = await supabase
-                .from('receptionist_patient_view')
-                .select('medical_alerts')
-                .eq('id', patientId)
-                .single();
-             
-             // In a real app, parse safeData.medical_alerts and update state
-             console.log("Receptionist View Loaded: Safety Alerts Only");
-         } else {
-             // 2. FULL PATH: Fetch sensitive clinical records
-             // Only Doctors/Owners execute this query
-             const { data: clinicalData } = await supabase
-                .from('clinical_records')
-                .select('*')
-                .eq('patient_id', patientId);
-             
-             console.log("Doctor View Loaded: Full Clinical Records");
-         }
+    const controller = new AbortController()
+    setResult({ scope, status: 'loading', row: null })
+    if (!scope) return () => controller.abort()
+    const load = async () => {
+      try {
+        const { data, error } = await supabase.from('hcu033_forms')
+          .select('id,clinic_id,patient_id,doctor_id,created_at,form_data')
+          .eq('clinic_id', currentClinicId!).eq('patient_id', patientId).is('deleted_at', null)
+          .order('created_at', { ascending: false }).order('id', { ascending: false })
+          .limit(1).abortSignal(controller.signal).maybeSingle()
+        if (controller.signal.aborted || currentScope.current !== scope) return
+        if (error || (data && (!data.form_data || typeof data.form_data !== 'object' || Array.isArray(data.form_data)))) throw new Error('Unavailable')
+        setResult({ scope, status: 'ready', row: data })
+      } catch {
+        if (!controller.signal.aborted && currentScope.current === scope) setResult({ scope, status: 'error', row: null })
       }
-      fetchSafeData();
-      if (user?.role !== 'receptionist') {
-        fetchOdontogram();
-      }
-   }, [user, patientId]);
-
-  const fetchOdontogram = async () => {
-    if (!currentClinicId) return
-    try {
-      setIsLoadingOdontogram(true)
-      const { data, error } = await supabase
-        .from('hcu033_forms')
-        .select('form_data')
-        .eq('patient_id', patientId)
-        .eq('clinic_id', currentClinicId)
-        .order('created_at', { ascending: false })
-        .limit(1)
-        .maybeSingle()
-
-      if (error) throw error
-
-      if (data) {
-        setOdontogramData(data.form_data.odontograma_data || {})
-      }
-    } catch (err) {
-      console.error("Error fetching odontogram:", err)
-    } finally {
-      setIsLoadingOdontogram(false)
     }
-  }
-
-  const handleOdontogramChange = async (newData: any) => {
-    setOdontogramData(newData)
-  }
-
-  const handleSaveOdontogram = async () => {
-    try {
-      setIsSavingOdontogram(true)
-      
-      // 1. Update patient's global state
-      const { error: patientErr } = await supabase
-        .from('patients')
-        .update({ odontogram_state: odontogramData })
-        .eq('id', patientId)
-      
-      if (patientErr) throw patientErr
-
-      // 2. Insert/update the latest HCU-033 form's odontograma_data to guarantee total synchronization
-      const { data: latestForm } = await supabase
-        .from('hcu033_forms')
-        .select('id, form_data')
-        .eq('patient_id', patientId)
-        .order('created_at', { ascending: false })
-        .limit(1)
-
-      if (latestForm && latestForm.length > 0) {
-        const form = latestForm[0]
-        const updatedFormData = {
-          ...form.form_data,
-          odontograma_data: odontogramData
-        }
-        await supabase
-          .from('hcu033_forms')
-          .update({ form_data: updatedFormData })
-          .eq('id', form.id)
-      } else {
-        // If no form exists yet, create one
-        await supabase
-          .from('hcu033_forms')
-          .insert({
-            patient_id: patientId,
-            doctor_id: user?.id,
-            form_data: { odontograma_data: odontogramData }
-          })
-      }
-
-      toast.success("Odontograma guardado correctamente")
-      onSave?.()
-    } catch (err) {
-      console.error("Error saving odontogram:", err)
-      toast.error("Error al guardar el odontograma")
-    } finally {
-      setIsSavingOdontogram(false)
-    }
-  }
-
-
-  const handleSaveNote = () => {
-    const note = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
-      type: newNote.type,
-      content: newNote.content,
-      doctor: "Dr. Actual", // In a real app, get from auth context
-    }
-    
-    setData(prev => ({
-      ...prev,
-      notes: [note, ...prev.notes]
-    }))
-    setNewNote({ type: "Consulta", content: "" })
-    setIsAddNoteOpen(false)
-  }
-
-  const handleSaveTreatment = () => {
-    const treatment = {
-      id: Date.now().toString(),
-      date: new Date().toISOString(),
-      tooth: newTreatment.tooth,
-      treatment: newTreatment.treatment,
-      status: newTreatment.status,
-      notes: newTreatment.notes,
-      doctor: "Dr. Actual",
-    }
-
-    setData(prev => ({
-      ...prev,
-      treatments: [treatment, ...prev.treatments]
-    }))
-    setNewTreatment({ tooth: "", treatment: "", status: "Programado", notes: "" })
-    setIsAddTreatmentOpen(false)
-  }
-
-  return (
-    <div className="space-y-6">
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
-        <TabsList className="grid w-full grid-cols-5">
-           <TabsTrigger value="overview">Resumen</TabsTrigger>
-           <TabsTrigger value="odontogram">Odontograma</TabsTrigger>
-           <TabsTrigger value="notes">Notas</TabsTrigger>
-           <TabsTrigger value="treatments">Tratamientos</TabsTrigger>
-           <TabsTrigger value="history">Historial</TabsTrigger>
-         </TabsList>
-
-        <TabsContent value="overview" className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Card>
-              <CardHeader className="bg-red-50/50 dark:bg-red-900/10 pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <AlertTriangle className="h-4 w-4 text-red-600 dark:text-red-400" />
-                  Alergias
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-3">
-                <div className="space-y-2">
-                  {data.allergies.map((allergy, index) => (
-                    <Badge
-                      key={index}
-                      variant="outline"
-                      className="bg-red-50/50 text-red-700 border-red-200 dark:bg-red-900/10 dark:text-red-300 dark:border-red-800"
-                    >
-                      {allergy}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="bg-blue-50/50 dark:bg-blue-900/10 pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Pill className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  Medicamentos
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-3">
-                <div className="space-y-2">
-                  {data.medications.map((medication, index) => (
-                    <div key={index} className="text-sm">
-                      {medication}
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader className="bg-primary/5 pb-3">
-                <CardTitle className="text-base flex items-center gap-2">
-                  <Stethoscope className="h-4 w-4 text-primary" />
-                  Condiciones
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="pt-3">
-                <div className="space-y-2">
-                  {data.conditions.map((condition, index) => (
-                    <Badge key={index} variant="outline" className="bg-primary/5 text-primary border-primary/20">
-                      {condition}
-                    </Badge>
-                  ))}
-                </div>
-              </CardContent>
-             </Card>
-           </div>
-         </TabsContent>
-
-         <TabsContent value="odontogram" className="space-y-4">
-            <Card className="border-none shadow-none bg-transparent">
-               <CardHeader className="px-0">
-                  <div className="flex items-center justify-between gap-4 flex-wrap">
-                     <div>
-                        <CardTitle>Estado Dental Interactivo</CardTitle>
-                        <CardDescription>Visualización y edición rápida del odontograma actual</CardDescription>
-                     </div>
-                     <div className="flex items-center gap-2 flex-wrap">
-                        <Badge variant="outline" className="bg-blue-50 text-blue-700 border-blue-200">
-                           Sincronizado con HCU-033
-                        </Badge>
-                        <Button 
-                          onClick={handleSaveOdontogram} 
-                          disabled={isSavingOdontogram}
-                          size="sm"
-                          className="text-xs font-bold gap-1.5 shadow-sm"
-                        >
-                           {isSavingOdontogram ? <Loader2 className="h-4 w-4 animate-spin" /> : <Stethoscope className="h-4 w-4" />}
-                           {isSavingOdontogram ? "Guardando..." : "Guardar Cambios"}
-                        </Button>
-                     </div>
-                  </div>
-               </CardHeader>
-               <CardContent className="px-0">
-                  <div className="w-full">
-                     <OdontogramaInteractive 
-                        data={odontogramData} 
-                        onChange={handleOdontogramChange}
-                        patientId={patientId}
-                        stickyOffset={96}
-                        onSave={handleSaveOdontogram}
-                     />
-                  </div>
-               </CardContent>
-            </Card>
-         </TabsContent>
-
-        <TabsContent value="notes" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-medium">Notas Clínicas</h3>
-            <Button size="sm" onClick={() => setIsAddNoteOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Nueva Nota
-            </Button>
-          </div>
-          <div className="space-y-4">
-            {data.notes.length === 0 ? (
-              <Card className="border-dashed bg-muted/20">
-                <CardContent className="p-8 text-center text-muted-foreground text-sm">
-                  <FileText className="h-8 w-8 mx-auto opacity-20 mb-2" />
-                  <p className="font-medium text-foreground">No hay notas clínicas registradas</p>
-                  <p className="text-xs text-muted-foreground mt-1">Usa el botón &quot;Nueva Nota&quot; para agregar anotaciones del paciente.</p>
-                </CardContent>
-              </Card>
-            ) : (
-              data.notes.map((note) => (
-                <Card key={note.id}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base flex items-center gap-2">
-                        <FileText className="h-4 w-4" />
-                        {note.type}
-                      </CardTitle>
-                      <div className="flex items-center gap-2">
-                         <Badge variant="secondary" className="gap-1 font-normal">
-                            <User className="h-3 w-3" />
-                            {note.doctor}
-                         </Badge>
-                         <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(note.date).toLocaleDateString("es-ES")}
-                         </div>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm">{note.content}</p>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="treatments" className="space-y-4">
-          <div className="flex justify-between items-center">
-            <h3 className="text-lg font-medium">Tratamientos</h3>
-            <Button size="sm" onClick={() => setIsAddTreatmentOpen(true)}>
-              <Plus className="h-4 w-4 mr-2" />
-              Nuevo Tratamiento
-            </Button>
-          </div>
-          <div className="space-y-4">
-            {data.treatments.length === 0 ? (
-              <Card className="border-dashed bg-muted/20">
-                <CardContent className="p-8 text-center text-muted-foreground text-sm">
-                  <Stethoscope className="h-8 w-8 mx-auto opacity-20 mb-2" />
-                  <p className="font-medium text-foreground">No hay tratamientos registrados</p>
-                  <p className="text-xs text-muted-foreground mt-1">Usa el botón &quot;Nuevo Tratamiento&quot; para registrar un procedimiento odontológico.</p>
-                </CardContent>
-              </Card>
-            ) : (
-              data.treatments.map((treatment) => (
-                <Card key={treatment.id}>
-                  <CardHeader className="pb-3">
-                    <div className="flex items-center justify-between">
-                      <CardTitle className="text-base">
-                        {treatment.treatment} - Diente {treatment.tooth}
-                      </CardTitle>
-                      <div className="flex items-center gap-2">
-                        <Badge variant="outline" className="gap-1 font-normal text-muted-foreground border-dashed">
-                            <User className="h-3 w-3" />
-                            {treatment.doctor}
-                        </Badge>
-                        <Badge variant={treatment.status === "Completado" ? "default" : "secondary"}>
-                          {treatment.status}
-                        </Badge>
-                        <div className="flex items-center gap-1 text-sm text-muted-foreground">
-                          <Calendar className="h-4 w-4" />
-                          {new Date(treatment.date).toLocaleDateString("es-ES")}
-                        </div>
-                      </div>
-                    </div>
-                  </CardHeader>
-                  <CardContent>
-                    <p className="text-sm text-muted-foreground">{treatment.notes}</p>
-                  </CardContent>
-                </Card>
-              ))
-            )}
-          </div>
-        </TabsContent>
-
-        <TabsContent value="history" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Historial Completo</CardTitle>
-              <CardDescription>Cronología de todas las visitas y tratamientos</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="relative">
-                  <div className="absolute left-4 top-6 bottom-0 w-0.5 bg-border"></div>
-                  {[
-                    ...data.notes.map(n => ({ ...n, id: `note-${n.id}` })),
-                    ...data.treatments.map((t) => ({
-                      id: `treatment-${t.id}`,
-                      date: t.date,
-                      type: t.treatment,
-                      content: `${t.treatment} en diente ${t.tooth}. ${t.notes}`,
-                      doctor: t.doctor,
-                    })),
-                  ]
-                    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-                    .map((item, index) => (
-                      <div key={item.id} className="relative flex items-start space-x-4">
-                        <div className="flex-shrink-0 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                          <div className="w-2 h-2 bg-primary-foreground rounded-full"></div>
-                        </div>
-                        <div className="flex-1 min-w-0 pb-4">
-                          <div className="flex items-center justify-between mb-1">
-                            <p className="text-sm font-medium">{item.type}</p>
-                            <Badge variant="outline" className="scale-90 origin-right gap-1 font-normal text-muted-foreground border-transparent bg-muted/50">
-                                <User className="h-3 w-3" />
-                                {item.doctor}
-                            </Badge>
-                          </div>
-                          <p className="text-xs text-muted-foreground mb-1">
-                              {new Date(item.date).toLocaleDateString("es-ES")}
-                          </p>
-                          <p className="text-sm text-muted-foreground">{item.content}</p>
-                        </div>
-                      </div>
-                    ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-
-      </Tabs>
-
-
-      <Dialog open={isAddNoteOpen} onOpenChange={setIsAddNoteOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Nueva Nota Clínica</DialogTitle>
-            <DialogDescription>Agregue una nueva nota al historial médico del paciente</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="space-y-2">
-              <Label>Tipo</Label>
-              <Select value={newNote.type} onValueChange={(v) => setNewNote({...newNote, type: v})}>
-                <SelectTrigger>
-                  <SelectValue placeholder="Seleccione tipo" />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="Consulta">Consulta</SelectItem>
-                  <SelectItem value="Urgencia">Urgencia</SelectItem>
-                  <SelectItem value="Seguimiento">Seguimiento</SelectItem>
-                  <SelectItem value="Diagnóstico">Diagnóstico</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>Contenido</Label>
-              <Textarea 
-                placeholder="Escriba los detalles de la nota..." 
-                value={newNote.content}
-                onChange={(e) => setNewNote({...newNote, content: e.target.value})}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddNoteOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSaveNote}>Guardar Nota</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
-
-      <Dialog open={isAddTreatmentOpen} onOpenChange={setIsAddTreatmentOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Nuevo Tratamiento</DialogTitle>
-            <DialogDescription>Registre un nuevo tratamiento dental</DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4 py-4">
-            <div className="grid grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>Diente</Label>
-                <Input 
-                  placeholder="Ej. 18, 24..." 
-                  value={newTreatment.tooth}
-                  onChange={(e) => setNewTreatment({...newTreatment, tooth: e.target.value})}
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>Estado</Label>
-                <Select value={newTreatment.status} onValueChange={(v) => setNewTreatment({...newTreatment, status: v})}>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Estado" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Programado">Programado</SelectItem>
-                    <SelectItem value="En Progreso">En Progreso</SelectItem>
-                    <SelectItem value="Completado">Completado</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="space-y-2">
-              <Label>Tratamiento</Label>
-              <Input 
-                placeholder="Ej. Limpieza, Endodoncia..." 
-                value={newTreatment.treatment}
-                onChange={(e) => setNewTreatment({...newTreatment, treatment: e.target.value})}
-              />
-            </div>
-            <div className="space-y-2">
-              <Label>Notas Adicionales</Label>
-              <Textarea 
-                placeholder="Detalles del procedimiento..." 
-                value={newTreatment.notes}
-                onChange={(e) => setNewTreatment({...newTreatment, notes: e.target.value})}
-              />
-            </div>
-          </div>
-          <DialogFooter>
-            <Button variant="outline" onClick={() => setIsAddTreatmentOpen(false)}>Cancelar</Button>
-            <Button onClick={handleSaveTreatment}>Guardar Tratamiento</Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog>
+    void load()
+    return () => controller.abort()
+  }, [scope, currentClinicId, patientId, attempt])
+  if (!allowed) return <p role="alert">No hay acceso clínico vigente.</p>
+  if (result.scope !== scope || result.status === 'loading') return <p role="status">Cargando historia guardada…</p>
+  if (result.status === 'error') return <div role="alert" className="space-y-3"><p>No se pudo cargar la historia guardada.</p><Button onClick={() => setAttempt(value => value + 1)}>Reintentar</Button></div>
+  const row = result.row
+  const form = row?.form_data
+  const sessions = Array.isArray(form?.registro_sesiones) ? form.registro_sesiones : []
+  const plans = Array.isArray(form?.plan_terapeutico) ? form.plan_terapeutico : []
+  const antecedents = [
+    ['ant_alergia_antibioticos', 'Alergia a antibióticos'], ['ant_alergia_anestesia', 'Alergia a anestesia'],
+    ['ant_hemorragias', 'Hemorragias'], ['ant_diabetes', 'Diabetes'], ['ant_hipertension', 'Hipertensión'],
+    ['ant_enf_cardiaca', 'Enfermedad cardíaca'], ['ant_asma', 'Asma'],
+  ].filter(([key]) => form?.[key] === true).map(([, label]) => label)
+  return <div className="space-y-5">
+    <div className="flex flex-wrap items-center justify-between gap-3">
+      <div><h2 className="text-xl font-semibold">Historia clínica guardada</h2><p className="text-sm text-muted-foreground">Consulta y edita antecedentes, odontograma y evolución desde HCU-033.</p></div>
+      <Button onClick={onOpenClinicalForm}>{row ? 'Abrir HCU-033' : 'Registrar primera HCU-033'}</Button>
     </div>
-  )
+    {!row ? <p>Sin historia clínica registrada. No hay antecedentes, notas ni tratamientos precargados.</p> : <>
+      <p className="text-sm text-muted-foreground">Último registro: {row.created_at ? clinicDate(row.created_at) : 'Fecha no registrada'}. {row.doctor_id === user?.id ? 'Guardado por tu cuenta.' : row.doctor_id ? 'Guardado por otro profesional autorizado.' : 'Autoría no registrada.'}</p>
+      <Card><CardHeader><CardTitle>Antecedentes y alertas</CardTitle></CardHeader><CardContent className="space-y-2">
+        <p>{antecedents.length ? antecedents.join(' · ') : 'Sin alertas positivas registradas. Esto no confirma ausencia de antecedentes.'}</p>
+        <p className="whitespace-pre-wrap">{form.ant_otros || 'Otros antecedentes: sin registrar.'}</p>
+      </CardContent></Card>
+      <Card><CardHeader><CardTitle>Odontograma</CardTitle></CardHeader><CardContent>
+        {form.odontograma_data && Object.keys(form.odontograma_data).length ? <OdontogramPreview data={form.odontograma_data} /> : <p>Sin odontograma registrado.</p>}
+      </CardContent></Card>
+      <Card><CardHeader><CardTitle>Evolución y sesiones</CardTitle></CardHeader><CardContent>
+        {sessions.length ? <ol className="space-y-3">{sessions.map((session: any, index: number) => <li key={index} className="border-b pb-3">
+          <p className="font-medium">{session.procedimiento || 'Procedimiento sin registrar'}</p>
+          <p className="text-sm">{session.fecha?.slice(0, 16).replace('T', ' ') || 'Fecha sin registrar'}</p>
+          <p className="whitespace-pre-wrap">{session.observaciones || 'Observaciones sin registrar'}</p>
+        </li>)}</ol> : <p>Sin evolución registrada.</p>}
+      </CardContent></Card>
+      <Card><CardHeader><CardTitle>Plan de tratamiento</CardTitle></CardHeader><CardContent>
+        {plans.length ? <ul className="space-y-2">{plans.map((plan: any, index: number) => <li key={index}>{plan.procedimiento || 'Procedimiento sin registrar'}{plan.dientes_involucrados ? ` · Piezas: ${plan.dientes_involucrados}` : ''}</li>)}</ul> : <p>Sin plan de tratamiento registrado.</p>}
+      </CardContent></Card>
+    </>}
+  </div>
 }

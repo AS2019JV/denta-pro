@@ -1,4 +1,5 @@
 import { NextResponse } from 'next/server'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { createClient as createSupabaseClient } from '@supabase/supabase-js'
@@ -194,6 +195,7 @@ function renderTemplate(
 }
 
 export async function POST(request: Request) {
+  if (SYNTHETIC_PILOT) return NextResponse.json({ error: PILOT_UNAVAILABLE }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
   try {
     if (request.headers.get('content-type')?.split(';', 1)[0].trim().toLowerCase() !== 'application/json') {
       return NextResponse.json({ error: 'Content-Type must be application/json' }, { status: 415 })

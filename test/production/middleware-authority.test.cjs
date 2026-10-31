@@ -15,7 +15,8 @@ async function run(pathname, {role='receptionist',status='active',identity=true,
   const source=fs.readFileSync(path.resolve(__dirname,'../../middleware.ts'),'utf8')
   const code=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText
   vm.runInNewContext(code,{module,exports:module.exports,process:{env},URL,console,
-    require(id){
+    require(id){if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
       if(id==='next/server')return{NextResponse}
       if(id==='@/lib/clinic-authority.mjs')return policy
       if(id==='@supabase/ssr')return{createServerClient:(_url,_key,options)=>({

@@ -1,0 +1,57 @@
+{
+  "preparedAt": "2026-10-31T14:19:56.672Z",
+  "baseSHA": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+  "branch": "codex/clinia-mvp-synthetic",
+  "snapshotId": "clinia-mvp-synthetic-v2",
+  "snapshotTreeSHA256": "622578d5675dd1e99790a5ef37b3f3969aa3570d3b7516a1cddd8ee1950c3ed0",
+  "snapshotManifestSHA256": "9f0f37b75c38aa8419265cd21de6ce14d0670980d917c2aaf1e7498d1695de56",
+  "verifiedSourceFiles": 1305,
+  "localVerification": {
+    "command": "node scripts/clinia-pilot-verify.cjs",
+    "exitCode": 0,
+    "types": "PASS",
+    "lint": "PASS with existing warnings",
+    "tests": {
+      "passed": 546,
+      "failed": 0,
+      "skipped": 0
+    },
+    "syntheticBuild": "PASS",
+    "clientCredentialSentinel": "PASS: 99 compiled files",
+    "authTemplatePackaging": "PASS",
+    "logPath": ".release-snapshots/clinia-mvp-synthetic-v2/local-verify.log",
+    "logSHA256": "6c102974ccc21e7db7751d3299fa3e289d678600f2204c0d99560f9bdc5bb116"
+  },
+  "review": {
+    "chat": "Assess Denta production readiness",
+    "scope": "two P2 corrections only",
+    "result": "PASS bounded, 10 independent tests; native browser history integration still pending"
+  },
+  "browser": {
+    "localLogin": "observed",
+    "desktopViewport": {
+      "width": 1366,
+      "height": 768,
+      "status": "observed"
+    },
+    "mobile": "NOT VERIFIED; screenshot interrupted",
+    "authenticatedJourneys": "NOT VERIFIED"
+  },
+  "http": {
+    "login": 200,
+    "signup": 403,
+    "clinicalDocuments": 403,
+    "root": 307
+  },
+  "dependencyAudit": {
+    "status": "BLOCKED_BY_AUTO_REVIEW",
+    "reason": "npm dependency names/versions would be transmitted to public registry without specific authorization",
+    "attemptExecuted": false
+  },
+  "hostedCI": null,
+  "hostedDeployment": null,
+  "DBChanges": 0,
+  "productionChanges": 0,
+  "externalPilot": "NOT OPEN",
+  "realPatientUse": "NO-GO"
+}

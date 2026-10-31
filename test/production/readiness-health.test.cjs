@@ -60,6 +60,7 @@ test('actual route returns no-store 200 or retryable 503 without accepting targe
 test('only exact health route avoids unbounded visitor-session refresh in middleware', async () => {
   let clients = 0;
   const middleware = load('middleware.ts', {
+    '@/lib/pilot-policy': require('./helpers/pilot-policy.cjs')(),
     '@/lib/clinic-authority.mjs': {},
     'next/server': { NextResponse: { next: () => ({ kind: 'next' }) } },
     '@supabase/ssr': { createServerClient: () => { clients++; throw Error('unexpected session refresh'); } },

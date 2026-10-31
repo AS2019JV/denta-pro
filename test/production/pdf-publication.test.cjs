@@ -7,7 +7,7 @@ test('deferred PDF import rechecks publication before generating a clinical down
   let finish,calls=0,valid=true
   const loaded=new Promise(resolve=>{finish=resolve})
   const module={exports:{}}
-  vm.runInNewContext(compiled,{module,exports:module.exports,require:id=>{assert.equal(id,'@/lib/pdf-generator');return loaded}})
+  vm.runInNewContext(compiled,{module,exports:module.exports,require:id=>{if(id==='@/lib/pilot-policy')return require('./helpers/pilot-policy.cjs')();assert.equal(id,'@/lib/pdf-generator');return loaded}})
   const pending=module.exports.generatePrescription({synthetic:true},()=>valid)
   valid=false;finish({generatePrescription(){calls++}})
   await pending;assert.equal(calls,0)

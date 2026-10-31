@@ -3,6 +3,7 @@
 import { cookies } from 'next/headers'
 import { createServerClient } from '@supabase/ssr'
 import { createClient } from '@supabase/supabase-js'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 
 export type PendingInvitation = { id: string; email: string; role: 'doctor' | 'receptionist'; expires_at: string }
 const uuid = /^[0-9a-f]{8}(-[0-9a-f]{4}){3}-[0-9a-f]{12}$/i
@@ -27,6 +28,7 @@ async function ownerClient(clinicId: string) {
 }
 
 export async function listPendingClinicInvitations(clinicId: string): Promise<{ success: true; invitations: PendingInvitation[] } | { success: false; error: string }> {
+  if (SYNTHETIC_PILOT) return { success: false, error: PILOT_UNAVAILABLE }
   try {
     const admin = await ownerClient(clinicId)
     // Explicit projection: no token/hash/URL or caller-selected columns.
@@ -38,6 +40,7 @@ export async function listPendingClinicInvitations(clinicId: string): Promise<{ 
 }
 
 export async function revokeClinicInvitation(clinicId: string, invitationId: string): Promise<{ success: boolean; error?: string }> {
+  if (SYNTHETIC_PILOT) return { success: false, error: PILOT_UNAVAILABLE }
   try {
     if (!uuid.test(invitationId)) return { success: false, error: 'Solicitud no válida.' }
     const admin = await ownerClient(clinicId)

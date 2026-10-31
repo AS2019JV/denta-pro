@@ -10,6 +10,8 @@ import { useSidebar } from "@/components/sidebar-context"
 import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
 import { cn } from "@/lib/utils"
+import { SYNTHETIC_PILOT, pilotPathBlocked } from "@/lib/pilot-policy"
+import { requestClinicalNavigation } from "@/lib/clinical-navigation"
 import {
   LayoutDashboard,
   Users,
@@ -80,10 +82,12 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   const resolvedAvatar = usePrivateMediaUrl('doctor-avatar', user?.id, user?.avatar)
 
   const handleLogout = () => {
+    if (!requestClinicalNavigation()) return
     logout()
   }
 
   const handleItemClick = (href: string, name: string) => {
+    if (!requestClinicalNavigation()) return
     setIsOpen(false)
     if (onNavigate) {
       onNavigate(href)
@@ -94,6 +98,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
 
   // Role-Based Access Control (RBAC) Filtering
   const filteredNavigation = navigation.filter(item => {
+    if (SYNTHETIC_PILOT && pilotPathBlocked(item.href)) return false;
     if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
     if (user?.role === "doctor") {
         return item.name !== "billing";
@@ -106,6 +111,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   });
 
   const filteredUserNavigation = userNavigation.filter(item => {
+    if (SYNTHETIC_PILOT && pilotPathBlocked(item.href)) return false;
     if (user?.role === "clinic_owner" || user?.role === "admin" as any) return true;
     // Clinic settings are admin-only
     if (item.name === "clinic") return false;

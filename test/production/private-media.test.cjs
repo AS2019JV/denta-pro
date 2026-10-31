@@ -45,7 +45,8 @@ function hookHarness() {
   vm.runInNewContext(compiled, { module, exports: module.exports, AbortController,
     URL: { createObjectURL(blob) { const url = `blob:synthetic-${++urlId}`; created.push({ blob, url }); return url }, revokeObjectURL(url) { revoked.push(url) } },
     setTimeout(fn, delay) { const id = ++timerId; timers.set(id, { fn, delay }); return id }, clearTimeout(id) { timers.delete(id) },
-    require(id) {
+    require(id) {if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
       if (id === 'react') return react
       if (id === '@/components/auth-context') return { useAuth: () => auth }
       if (id === '@/lib/private-media-client.mjs') return { fetchPrivateMedia(scope, signal, current) {

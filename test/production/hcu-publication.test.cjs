@@ -9,7 +9,7 @@ function source(file,imports){
   const code=ts.transpileModule(fs.readFileSync(file,'utf8'),{compilerOptions:{
     module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020,jsx:ts.JsxEmit.ReactJSX,
   }}).outputText
-  vm.runInNewContext(code,{module,exports:module.exports,require:imports,console,Date,Promise})
+  vm.runInNewContext(code,{module,exports:module.exports,require: id => id === '@/lib/pilot-policy' ? require('./helpers/pilot-policy.cjs')() : imports(id),console,Date,Promise})
   return module.exports
 }
 // Executes real PDF workflow with synthetic ordinary-client responses. No JWT/RLS claim.
@@ -120,6 +120,7 @@ function componentHarness(){
   }
   const jsx=(_type,props)=>({props})
   const mod=source('components/hcu033-form.tsx',id=>{
+    if(id==='@/lib/agenda.mjs')return require('../../lib/agenda.mjs');
     if(id==='react')return react
     if(id==='react/jsx-runtime')return {jsx,jsxs:jsx}
     if(id==='@/components/auth-context')return {useAuth:()=>auth}

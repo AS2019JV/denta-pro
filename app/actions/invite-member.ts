@@ -8,6 +8,7 @@ import { escapeHtml } from "@/lib/html-escape"
 import { consumeEmailBudget } from "@/lib/server-email-gate"
 import { configuredAuthOrigin, validEmailToken, authEmailLink } from "@/lib/auth-email-contract"
 import { randomUUID } from "node:crypto"
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 
 // SEC-06 INVARIANT: Allowed staff invitation roles (strictly excludes clinic_owner)
 const ALLOWED_STAFF_ROLES = ["doctor", "receptionist"] as const
@@ -20,6 +21,7 @@ const pendingInvitationResult = (): InviteResult => ({
 })
 
 export async function inviteTeamMember(formData: FormData): Promise<InviteResult> {
+  if (SYNTHETIC_PILOT) return { success: false, code: 'INVITATION_PENDING', error: PILOT_UNAVAILABLE }
   const cookieStore = await cookies()
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!

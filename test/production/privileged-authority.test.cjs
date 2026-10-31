@@ -21,7 +21,7 @@ function sourceModule(file, requireMock, env = {}) {
   const module = {exports:{}}
   const source = fs.readFileSync(path.join(root, file), 'utf8')
   const code = ts.transpileModule(source, {compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText
-  vm.runInNewContext(code, {module,exports:module.exports,require:requireMock,
+  vm.runInNewContext(code, {module,exports:module.exports,require: id => id === '@/lib/pilot-policy' ? require('./helpers/pilot-policy.cjs')() : requireMock(id),
     process:{env},console:{warn(){},error(){},info(){}},URL,Buffer,TextEncoder})
   return module.exports
 }

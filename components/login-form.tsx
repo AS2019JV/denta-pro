@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { SYNTHETIC_PILOT } from "@/lib/pilot-policy"
 
 import { useState, useEffect } from "react"
 import { supabase } from "@/lib/supabase"
@@ -190,6 +191,7 @@ export function LoginForm() {
               </Button>
             </form>
 
+            {!SYNTHETIC_PILOT && <>
             <div className="relative my-8">
               <div className="absolute inset-0 flex items-center">
                 <span className="w-full border-t border-border" />
@@ -233,9 +235,9 @@ export function LoginForm() {
                 />
               </svg>
               Continuar con Google
-            </Button>
+            </Button></>}
             
-            <div className="mt-8 text-center">
+            {SYNTHETIC_PILOT ? <div className="mt-6 text-center text-sm text-muted-foreground"><p className="font-medium text-primary">Entorno de evaluación. Utiliza únicamente datos ficticios</p><p className="mt-2">Acceso por invitación. Si necesitas ayuda, contacta al responsable que te invitó.</p></div> : <div className="mt-8 text-center">
               <p className="text-sm text-slate-500">
                 ¿No tienes una cuenta?{" "}
                 <Button
@@ -247,6 +249,7 @@ export function LoginForm() {
                 </Button>
               </p>
             </div>
+            }
           </CardContent>
         </Card>
         

@@ -1,8 +1,10 @@
 import 'server-only'
 import type { SupabaseClient } from '@supabase/supabase-js'
+import { SYNTHETIC_PILOT } from '@/lib/pilot-policy'
 
 /** Ordinary authenticated client only; the DB derives identity and authority. */
 export async function finishVerifiedEnrollment(client: SupabaseClient, type?: string | null, token?: string | null) {
+  if (SYNTHETIC_PILOT && (!type || ['signup', 'email'].includes(type))) return { success: false as const }
   try {
     const { data: { user }, error } = await client.auth.getUser()
     if (error || !user?.email_confirmed_at || !user.email) return { success: false as const }

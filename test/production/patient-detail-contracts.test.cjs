@@ -19,7 +19,7 @@ function effectFor(name) {
   const js = ts.transpileModule('module.exports = ' + effect, { compilerOptions: { target: ts.ScriptTarget.ES2020 } }).outputText;
   return context => {
     const module = { exports: {} };
-    vm.runInNewContext(js, { module, AbortController, Error, ...context });
+    vm.runInNewContext(js, { module, AbortController, Error, SYNTHETIC_PILOT: false, ...context });
     return module.exports();
   };
 }

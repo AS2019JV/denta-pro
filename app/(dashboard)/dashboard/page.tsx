@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from "@/lib/pilot-policy"
 import { useState, useEffect, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { toast } from "sonner"
@@ -265,6 +266,7 @@ export default function DashboardPage() {
   }
 
   const handleSendMessage = () => {
+    if (SYNTHETIC_PILOT) { toast.info(PILOT_UNAVAILABLE); return }
     if (!selectedAppointment || !selectedAppointment.patients?.phone) {
         toast.error("No hay número de teléfono disponible")
         return
@@ -274,6 +276,7 @@ export default function DashboardPage() {
   }
 
   const handleSendReminder = () => {
+    if (SYNTHETIC_PILOT) { toast.info(PILOT_UNAVAILABLE); return }
       // Functional placeholder for now
       toast.info("Funcionalidad de envío masivo de correos próximamente")
   }
@@ -401,7 +404,7 @@ export default function DashboardPage() {
                   </div>
                 </DropdownMenuItem>}
                 
-                {isClinical && canIssuePrescription && <DropdownMenuItem 
+                {!SYNTHETIC_PILOT && isClinical && canIssuePrescription && <DropdownMenuItem
                   onClick={() => {
                     setPrescriptionPatientId("")
                     setIsNewPrescriptionOpen(true)
@@ -422,7 +425,7 @@ export default function DashboardPage() {
                 <DropdownMenuSeparator className="my-2" />
                 
                 <DropdownMenuItem 
-                  onClick={handleSendReminder}
+                  disabled={SYNTHETIC_PILOT} onClick={handleSendReminder}
                   className="cursor-pointer py-3 px-3 rounded-md hover:bg-accent/80 focus:bg-accent/80 transition-all duration-200"
                 >
                   <div className="flex items-center gap-3 w-full">
@@ -441,7 +444,7 @@ export default function DashboardPage() {
         </div>
       </div>
 
-      <Dialog open={isClinical && canIssuePrescription && isNewPrescriptionOpen} onOpenChange={setIsNewPrescriptionOpen}>
+      <Dialog open={!SYNTHETIC_PILOT && isClinical && canIssuePrescription && isNewPrescriptionOpen} onOpenChange={setIsNewPrescriptionOpen}>
         <DialogContent className="sm:max-w-[500px]">
           <DialogHeader>
             <DialogTitle>Nueva Receta Médica</DialogTitle>
@@ -515,7 +518,7 @@ export default function DashboardPage() {
                     <Button size="sm" variant="destructive" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('cancelled')}>
                          <X className="w-4 h-4 mr-1" /> Cancelar
                     </Button>
-                    <Button size="sm" variant="secondary" className="ml-auto" onClick={handleSendMessage}>
+                    <Button size="sm" variant="secondary" className="ml-auto" disabled={SYNTHETIC_PILOT} onClick={handleSendMessage}>
                          <Send className="w-4 h-4 mr-1" /> Mensaje
                     </Button>
                 </div>

@@ -34,7 +34,8 @@ function harness(options = {}) {
   const source = fs.readFileSync(path.resolve(__dirname, '../../app/actions/manage-invitations.ts'), 'utf8')
   vm.runInNewContext(ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 } }).outputText, {
     module, exports: module.exports, process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.invalid', NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-public', SUPABASE_SERVICE_ROLE_KEY: 'synthetic-private' } },
-    require(name) {
+    require(name) {if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
       if (name === 'next/headers') return { cookies: async () => ({ getAll: () => [], set() {} }) }
       if (name === '@supabase/ssr') return { createServerClient: () => ordinary }
       if (name === '@supabase/supabase-js') return { createClient: () => { state.adminCreated++; return admin } }

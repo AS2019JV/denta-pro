@@ -1,0 +1,15 @@
+{
+  "observedAt": "2026-10-31",
+  "source": "Supabase Management get_project; read-only",
+  "projectId": "fbtlldubzomocuhpvweg",
+  "projectName": "clinia-test",
+  "region": "us-east-1",
+  "databaseVersion": "17.11.0.003",
+  "status": "COMING_UP",
+  "reactivation": "User reported performed externally: clinia-test turned on",
+  "agentResumeCalls": 0,
+  "SQLCalls": 0,
+  "DDL": 0,
+  "quarantineRemovalVerified": false,
+  "applicationRuntimeVerified": false
+}

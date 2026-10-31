@@ -5,9 +5,11 @@ type PublicInput = {
   NEXT_PUBLIC_APP_URL?: string
   NEXT_PUBLIC_INVOICE_PROVIDER?: string
   NEXT_PUBLIC_CLINIA_OFFLINE_VERIFY?: string
+  NEXT_PUBLIC_CLINIA_PILOT_MODE?: string
   NEXT_PUBLIC_CLINIA_LOCAL_ACCEPTANCE?: string
   CLINIA_LOCAL_ACCEPTANCE?: string
   VERCEL?: string
+  VERCEL_ENV?: string
 }
 
 function isPublicKey(key: string): boolean {
@@ -44,6 +46,11 @@ export function readPublicEnv(input: PublicInput) {
     && (typeof window !== 'undefined' || input.CLINIA_LOCAL_ACCEPTANCE === '1')
     && supabaseUrl === 'http://127.0.0.1:56321' && appUrl === 'http://127.0.0.1:3400'
   const invalid: string[] = []
+  if (input.NEXT_PUBLIC_CLINIA_PILOT_MODE && input.NEXT_PUBLIC_CLINIA_PILOT_MODE !== 'synthetic') invalid.push('NEXT_PUBLIC_CLINIA_PILOT_MODE')
+  if (input.NEXT_PUBLIC_CLINIA_PILOT_MODE === 'synthetic') {
+    if (input.VERCEL_ENV === 'production') invalid.push('synthetic pilot cannot run in Production')
+    if (!offline && !local && supabaseUrl !== 'https://fbtlldubzomocuhpvweg.supabase.co') invalid.push('pilot target must be reviewed clinia-test')
+  }
   if ((localRequested && !local) || (offlineRequested && !offline)) invalid.push('local verification mode')
   if (!local && !offline && !httpsOrigin(supabaseUrl)) invalid.push('NEXT_PUBLIC_SUPABASE_URL')
   if (!local && !offline && !httpsOrigin(appUrl)) invalid.push('NEXT_PUBLIC_APP_URL')
@@ -64,7 +71,9 @@ export const env = readPublicEnv({
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   NEXT_PUBLIC_INVOICE_PROVIDER: process.env.NEXT_PUBLIC_INVOICE_PROVIDER,
   NEXT_PUBLIC_CLINIA_OFFLINE_VERIFY: process.env.NEXT_PUBLIC_CLINIA_OFFLINE_VERIFY,
+  NEXT_PUBLIC_CLINIA_PILOT_MODE: process.env.NEXT_PUBLIC_CLINIA_PILOT_MODE,
   NEXT_PUBLIC_CLINIA_LOCAL_ACCEPTANCE: process.env.NEXT_PUBLIC_CLINIA_LOCAL_ACCEPTANCE,
   CLINIA_LOCAL_ACCEPTANCE: process.env.CLINIA_LOCAL_ACCEPTANCE,
   VERCEL: process.env.VERCEL,
+  VERCEL_ENV: process.env.VERCEL_ENV,
 })

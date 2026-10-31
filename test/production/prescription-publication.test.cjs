@@ -11,7 +11,8 @@ function harness(){
   const client={from(table){const filters=[];state.queries.push({table,filters});const q={select(){return q},eq(k,v){filters.push([k,v]);return q},is(k,v){filters.push([k,v]);return q},maybeSingle:async()=>({data:table==='prescriptions'?state.saved:state.patient,error:null})};return q},auth:{getUser:async()=>({data:{user:state.user?{id:state.user}:null},error:null})},rpc:async(name)=>({data:name==='get_clinic_member_role'?state.role:state.subscription,error:null})};
   const module={exports:{}};
   const compiled=ts.transpileModule(fs.readFileSync('lib/pdf-client.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText;
-  vm.runInNewContext(compiled,{module,exports:module.exports,require(name){if(name==='@/lib/pdf-generator')return deferred;if(name==='@/lib/prescription-receipt.mjs')return receipt;throw Error(name)}});
+  vm.runInNewContext(compiled,{module,exports:module.exports,require(name){if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+if(name==='@/lib/pdf-generator')return deferred;if(name==='@/lib/prescription-receipt.mjs')return receipt;throw Error(name)}});
   return {state,finish:()=>finish({generatePrescription(data){state.published.push(data)}}),run:()=>module.exports.exportPersistedPrescription(client,scope,()=>state.current)};
 }
 test('persisted Rx export reloads exact document and patient after deferred import, then publishes original receipt',async()=>{

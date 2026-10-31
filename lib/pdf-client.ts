@@ -1,8 +1,10 @@
 // Types are erased at build time; the PDF engine loads only on demand.
 import type * as PDF from "@/lib/pdf-generator"
 import type { SupabaseClient } from "@supabase/supabase-js"
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 
 export async function generatePrescription(data: Parameters<typeof PDF.generatePrescription>[0], shouldPublish: () => boolean = () => true) {
+  if (SYNTHETIC_PILOT) throw new Error(PILOT_UNAVAILABLE)
   const pdf = await import("@/lib/pdf-generator")
   if (!shouldPublish()) return
   return pdf.generatePrescription(data)
@@ -14,6 +16,7 @@ export async function exportPersistedPrescription(
   scope: { userId: string; clinicId: string; patientId: string; prescriptionId: string },
   isCurrent: () => boolean,
 ): Promise<boolean> {
+  if (SYNTHETIC_PILOT) throw new Error(PILOT_UNAVAILABLE)
   if (!scope.userId || !scope.clinicId || !scope.patientId || !scope.prescriptionId || !isCurrent()) return false
   const pdf = await import("@/lib/pdf-generator")
   const { prescriptionPdfFromReceipt, HISTORICAL_PRESCRIPTION_MESSAGE } = await import("@/lib/prescription-receipt.mjs")
@@ -57,6 +60,7 @@ export async function generateHCU033(
   loadPersistedData: () => Promise<Parameters<typeof PDF.generateHCU033>[0] | null>,
   shouldPublish: () => boolean,
 ): Promise<boolean> {
+  if (SYNTHETIC_PILOT) throw new Error(PILOT_UNAVAILABLE)
   const pdf = await import("@/lib/pdf-generator")
   if (!shouldPublish()) return false
   const data = await loadPersistedData()
@@ -70,6 +74,7 @@ export async function exportPersistedHCU033(
   scope: { userId: string; clinicId: string; patientId: string },
   isCurrent: () => boolean,
 ): Promise<boolean> {
+  if (SYNTHETIC_PILOT) throw new Error(PILOT_UNAVAILABLE)
   if (!scope.userId || !scope.clinicId || !scope.patientId || !isCurrent()) return false
   return generateHCU033(async () => {
     const [saved, patient] = await Promise.all([

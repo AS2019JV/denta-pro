@@ -26,7 +26,9 @@ function harness(options={}){
     };return q}},
   jsx=(_type,props)=>({props})
   const m={exports:{}},js=ts.transpileModule(fs.readFileSync('components/hcu033-form.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText
-  vm.runInNewContext(js,{module:m,exports:m.exports,Date,Promise,AbortController,console,require(id){
+  vm.runInNewContext(js,{module:m,exports:m.exports,Date,Promise,AbortController,console,require(id){if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
+    if(id==='@/lib/agenda.mjs')return require('../../lib/agenda.mjs');
     if(id==='react')return react
     if(id==='react/jsx-runtime')return {jsx,jsxs:jsx}
     if(id==='@/components/auth-context')return {useAuth:()=>auth}
@@ -92,13 +94,23 @@ test('successful HCU save uses one insert and never repeats the atomic database 
   assert.equal(h.state.saved[0].odontograma_descripcion,form.odontograma_descripcion)
 })
 
+test('two immediate save clicks share one in-flight write and preserve the captured form',async()=>{
+  const saveWait=deferred(),h=harness({saveWait});h.render('patient-a')
+  h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A',motivo_consulta:'Captured finding'}},error:null});await settle()
+  const save=h.render('patient-a'),first=save(),second=save()
+  assert.equal(h.state.writes.length,1)
+  saveWait.resolve();await Promise.all([first,second])
+  assert.equal(h.state.writes[0].form_data.motivo_consulta,'Captured finding')
+  assert.equal(h.state.saved.length,1)
+})
+
 test('database summary-trigger failure never reports HCU success or invokes onSave',async()=>{
   const h=harness({saveError:{code:'23514',message:'Synthetic summary rejection'}});h.render('patient-a')
   h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A',odontograma_data:{'11':{condition:'extraction'}}}},error:null});await settle()
   await h.render('patient-a')()
   assert.equal(h.state.writes.length,1);assert.equal(h.state.updates.length,0)
   assert.equal(h.state.successes.length,0);assert.equal(h.state.saved.length,0)
-  assert.deepEqual(h.state.errors,['Error al guardar el formulario'])
+  assert.deepEqual(h.state.errors,['No se pudo confirmar el guardado. Conserva tus cambios y revisa la historia antes de repetir.'])
 })
 
 test('a save acknowledged after changing patient cannot publish success into the next HCU context',async()=>{

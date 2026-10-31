@@ -6,6 +6,8 @@ import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
 import { loadPatientDetail } from "@/lib/patient-detail.mjs"
 import { formatBirthDate, ageFromBirthDate } from "@/lib/birth-date.mjs"
 import { readPatientTab } from "@/lib/prescription-policy.mjs"
+import { SYNTHETIC_PILOT, pilotPatientTab } from "@/lib/pilot-policy"
+import { requestClinicalNavigation } from "@/lib/clinical-navigation"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
@@ -63,11 +65,14 @@ export default function PatientDetailsPage() {
   const [isSidebarOpen, setIsSidebarOpen] = useState(true)
   const [isTransitioning, setIsTransitioning] = useState(false)
   const [isScheduleOpen, setIsScheduleOpen] = useState(false)
+  const [clinicalDirty, setClinicalDirty] = useState(false)
   const searchParams = useSearchParams()
   const requestedTab = readPatientTab(searchParams.get("tab"))
-  const activeTab = requestedTab === "payments" ? "info" : requestedTab
+  const activeTab = pilotPatientTab(requestedTab === "payments" ? "info" : requestedTab)
 
   const handleTabChange = (value: string) => {
+    if (!requestClinicalNavigation()) return
+    setClinicalDirty(false)
     const tab = readPatientTab(value)
     const url = new URL(window.location.href)
     url.searchParams.set("tab", tab)
@@ -123,7 +128,7 @@ export default function PatientDetailsPage() {
       } catch { if (current()) setFilesError(true) }
     }
     void load()
-    void countFiles()
+    if (!SYNTHETIC_PILOT) void countFiles()
     return () => controller.abort()
   }, [scope, currentClinicId, patientId, reload])
 
@@ -147,7 +152,7 @@ export default function PatientDetailsPage() {
     return <div className="p-10 text-center space-y-4" role="alert">
       <p>No se pudo cargar la ficha clínica.</p>
       {authorized && <Button onClick={() => setReload(value => value + 1)}>Reintentar</Button>}
-      <Button variant="outline" onClick={() => router.push('/patients')}>Volver a Pacientes</Button>
+      <Button variant="outline" onClick={() => requestClinicalNavigation() && router.push('/patients')}>Volver a Pacientes</Button>
     </div>
   }
 
@@ -155,7 +160,7 @@ export default function PatientDetailsPage() {
       return (
           <div className="h-screen w-full flex flex-col items-center justify-center bg-background gap-4">
               <p className="text-lg font-medium text-muted-foreground">Paciente no encontrado</p>
-              <Button onClick={() => router.push('/patients')}>Volver a Pacientes</Button>
+              <Button onClick={() => requestClinicalNavigation() && router.push('/patients')}>Volver a Pacientes</Button>
           </div>
       )
   }
@@ -165,7 +170,7 @@ export default function PatientDetailsPage() {
       {/* Top Navigation Bar */}
       <div className="flex-none border-b bg-card px-6 py-2.5 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-sm">
         <div className="flex items-center gap-3">
-          <Button variant="ghost" size="sm" onClick={() => router.push('/patients')} className="-ml-3 gap-1 text-muted-foreground hover:text-foreground">
+          <Button variant="ghost" size="sm" onClick={() => requestClinicalNavigation() && router.push('/patients')} className="-ml-3 gap-1 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-4 w-4" />
               Volver a Pacientes
           </Button>
@@ -293,7 +298,8 @@ export default function PatientDetailsPage() {
                   <Button 
                     variant="outline" 
                     className="w-full border-green-200 bg-green-50 dark:bg-green-950/20 text-green-700 dark:text-green-400 hover:bg-green-100 hover:text-green-800 text-xs gap-1.5 h-9 px-2 shadow-sm"
-                    onClick={() => window.open(getWhatsAppUrl(patient.phone || "", getClinicWhatsAppMessage(patient.name, clinicName)), "_blank")}
+                    disabled={SYNTHETIC_PILOT}
+                    onClick={() => { if (!SYNTHETIC_PILOT) window.open(getWhatsAppUrl(patient.phone || "", getClinicWhatsAppMessage(patient.name, clinicName)), "_blank") }}
                   >
                     <MessageCircle className="h-4 w-4 text-green-500" />
                     WhatsApp
@@ -431,7 +437,7 @@ export default function PatientDetailsPage() {
                <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 sticky top-0">
                   <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                      <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
-                         {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'files'].map((tab) => (
+                         {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'files'].filter(tab => !SYNTHETIC_PILOT || !['recipes', 'files'].includes(tab)).map((tab) => (
                              <TabsTrigger 
                                  key={tab}
                                  value={tab}
@@ -457,10 +463,10 @@ export default function PatientDetailsPage() {
                {/* Scrollable Work Area Content */}
                <div className="flex-1">
                   <div className="max-w-7xl mx-auto p-6 space-y-6">
-                        <TabsContent value="files" className="mt-0 focus-visible:ring-0">
+                        {!SYNTHETIC_PILOT && <TabsContent value="files" className="mt-0 focus-visible:ring-0">
                             {filesError && <p role="alert" className="text-sm text-destructive mb-3">No se pudo contar los archivos.</p>}
                             <PatientFiles key={scope} patientId={patient.id} onFilesChange={handleUpdatePatient} />
-                        </TabsContent>
+                        </TabsContent>}
 
 
                         <TabsContent value="info" className="mt-0 space-y-6 focus-visible:ring-0">
@@ -615,7 +621,7 @@ export default function PatientDetailsPage() {
                         <TabsContent value="medical" className="mt-0 focus-visible:ring-0">
                             <PatientMedicalRecords 
                                 patientId={patient.id} 
-                                onSave={handleUpdatePatient}
+                                onOpenClinicalForm={() => handleTabChange("hcu033")}
                             />
                         </TabsContent>
 
@@ -624,21 +630,22 @@ export default function PatientDetailsPage() {
                                 patientId={patient.id} 
                                 patientName={`${patient.name} ${patient.lastName}`} 
                                 onSave={handleUpdatePatient}
-                                onExpand={(currentData) => {
+                                onDirtyChange={setClinicalDirty}
+                                onExpand={SYNTHETIC_PILOT ? undefined : (currentData) => {
                                   setHcuData(currentData)
                                   setIsHCUOpen(true)
                                 }}
-                                externalData={hcuData}
-                                onDataChange={setHcuData}
+                                externalData={SYNTHETIC_PILOT ? undefined : hcuData}
+                                onDataChange={SYNTHETIC_PILOT ? undefined : setHcuData}
                             />
                         </TabsContent>
 
-                        <TabsContent value="recipes" className="mt-0 focus-visible:ring-0">
+                        {!SYNTHETIC_PILOT && <TabsContent value="recipes" className="mt-0 focus-visible:ring-0">
                             <PatientPrescriptions 
                                 patientId={patient.id} 
                                 patientName={`${patient.name} ${patient.lastName}`} 
                             />
-                        </TabsContent>
+                        </TabsContent>}
 
                         <TabsContent value="appointments" className="mt-0 focus-visible:ring-0">
                             <AppointmentsList patientId={patient.id} onNewAppointment={() => setIsScheduleOpen(true)} />

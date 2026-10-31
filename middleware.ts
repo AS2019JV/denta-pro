@@ -1,6 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { CLINIC_PREFERENCE_COOKIE, CLINIC_ROLES, selectClinicMembership } from "@/lib/clinic-authority.mjs";
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE, pilotPathBlocked } from "@/lib/pilot-policy";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -12,6 +13,14 @@ export async function middleware(request: NextRequest) {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;
+  if (SYNTHETIC_PILOT && pathname === '/') return NextResponse.redirect(new URL('/login', request.url));
+  // This also blocks direct API requests before creating any provider client.
+  // Server actions have their own guard because Next may POST them to any page.
+  if (SYNTHETIC_PILOT && pilotPathBlocked(pathname)) {
+    return NextResponse.json({ error: PILOT_UNAVAILABLE }, {
+      status: 403, headers: { 'Cache-Control': 'no-store' },
+    });
+  }
   // Public metadata-only readiness owns its bounded provider probe. Do not
   // refresh visitor sessions or add a second network call before that bound.
   if (pathname === '/api/health') return response;

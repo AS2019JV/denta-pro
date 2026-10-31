@@ -100,7 +100,8 @@ async function harness(options = {}) {
   }).outputText
   vm.runInNewContext(code, { module, exports: module.exports, process: { env }, Buffer, URL, AbortSignal,
     fetch: async () => { throw new Error('Unexpected direct HTTP transport') },
-    require(name) {
+    require(name) {if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
       if (name === 'server-only') return {}
       if (name === '@/lib/operational-observability') return observability
       if (name === '@/lib/env') return { env: { NEXT_PUBLIC_APP_URL: origin, NEXT_PUBLIC_SUPABASE_URL: provider, NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-anon' } }

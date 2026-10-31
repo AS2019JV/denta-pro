@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '@/components/auth-context'
 import { fetchPrivateMedia } from '@/lib/private-media-client.mjs'
 import type { PrivateImageKind } from '@/lib/private-media-delivery.mjs'
+import { SYNTHETIC_PILOT } from '@/lib/pilot-policy'
 
 // The reference only invalidates the UI after an entity update. The request
 // contains entity IDs; the server resolves the registered current object.
@@ -37,7 +38,7 @@ export function usePrivateMediaUrl(kind: PrivateImageKind, entityId: string | nu
         if (current()) { clearUrl(); setResult({ token, url: null }) }
       }
     }
-    if (scope && entityId && reference) void load()
+    if (!SYNTHETIC_PILOT && scope && entityId && reference) void load()
     return () => { token.valid = false; controller.abort(); if (timer) clearTimeout(timer); clearUrl() }
   }, [key, scope, kind, entityId, reference, currentClinicId])
   return scope && result?.token === publication.current && result.token.valid ? result.url : null

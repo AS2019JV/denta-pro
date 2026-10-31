@@ -38,11 +38,15 @@ import {
 import { exportPersistedHCU033 } from "@/lib/pdf-client"
 import { ageFromBirthDate } from "@/lib/birth-date.mjs"
 import { toast } from "sonner"
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from "@/lib/pilot-policy"
+import { clinicDayKey, clinicTime } from "@/lib/agenda.mjs"
+import { CLINICAL_DRAFT_WARNING, protectClinicalHistory, supportsClinicalHistoryGuard } from "@/lib/clinical-navigation"
 
 interface HCU033FormProps {
   patientId: string
   patientName?: string
   onSave?: (data: any) => void
+  onDirtyChange?: (dirty: boolean) => void
   isFullScreen?: boolean
   onClose?: () => void
   onExpand?: (currentData: any) => void
@@ -50,7 +54,7 @@ interface HCU033FormProps {
   onDataChange?: (data: any) => void
 }
 
-export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClose, onExpand, externalData, onDataChange }: HCU033FormProps) {
+export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFullScreen, onClose, onExpand, externalData, onDataChange }: HCU033FormProps) {
   const { user, currentClinicId, isRevalidating } = useAuth()
   const clinicalRole = user?.role === "doctor" || user?.role === "clinic_owner"
   const exportScope = `${currentClinicId || ""}:${user?.id || ""}:${user?.role || ""}:${patientId}`
@@ -74,7 +78,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     unicodigo: "",
     historia_numero: "",
     hoja_numero: "",
-    fecha: new Date().toISOString().split("T")[0],
+    fecha: clinicDayKey(),
     nombre_completo: patientName || "",
     identificacion: "",
     nacionalidad: "Ecuatoriana",
@@ -165,6 +169,10 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   const [activeSection, setActiveSection] = useState("A")
   const initialFormData = useRef(formData)
   const loadedFormScope = useRef("")
+  const saving = useRef(false)
+  const savedFingerprint = useRef("")
+  const [saveError, setSaveError] = useState(false)
+  const [savedMetadata, setSavedMetadata] = useState<{ doctor_id?: string; created_at?: string } | null>(null)
   const [isSignatureDialogOpen, setIsSignatureDialogOpen] = useState(false)
 
   const updateField = (field: string, value: any) => {
@@ -232,11 +240,11 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
       registro_sesiones: [
         ...prev.registro_sesiones,
         {
-          fecha: new Date().toISOString(),
+          fecha: `${clinicDayKey()}T${clinicTime(new Date())}`,
           procedimiento: "",
           codigo: "",
           medicamentos: "",
-          profesional: "",
+          profesional: user?.name || "",
           observaciones: "",
         },
       ],
@@ -246,6 +254,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
   const [isLoading, setIsLoading] = useState(false)
 
   const handleExport = async () => {
+    if (SYNTHETIC_PILOT) { toast.error(PILOT_UNAVAILABLE); return }
     const token = publication.current
     const capturedScope = exportScope
     const isCurrent = () => token.valid && publication.current === token && scopeRef.current === capturedScope
@@ -275,6 +284,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     const isCurrent = () => !controller.signal.aborted && token.valid
       && publication.current === token && scopeRef.current === capturedScope
     loadedFormScope.current = ""
+    savedFingerprint.current = ""
+    setSavedMetadata(null)
+    setSaveError(false)
     setFormData({ ...initialFormData.current, nombre_completo: patientName || "" })
     void loadFormData(isCurrent, controller.signal)
     return () => controller.abort()
@@ -285,7 +297,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
       setIsLoading(true)
       const { data, error } = await supabase
         .from('hcu033_forms')
-        .select('form_data')
+        .select('form_data,doctor_id,created_at')
         .eq('clinic_id', currentClinicId!)
         .eq('patient_id', patientId)
         .is('deleted_at', null)
@@ -299,6 +311,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
       if (error) throw error
 
       if (data && data.form_data) {
+        setSavedMetadata({ doctor_id: data.doctor_id, created_at: data.created_at })
         setFormData((prev: any) => {
             if (!isCurrent()) return prev
             const merged = { 
@@ -310,6 +323,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
             if (!merged.indices_cpo) merged.indices_cpo = prev.indices_cpo;
             if (!merged.indices_ceo) merged.indices_ceo = prev.indices_ceo;
             
+            savedFingerprint.current = JSON.stringify(merged)
             loadedFormScope.current = exportScope
             if (onDataChange) Promise.resolve().then(() => { if (isCurrent()) onDataChange(merged) })
             return merged;
@@ -354,6 +368,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               ant_otros: pData.allergies ? `Alergias: ${pData.allergies}` : prev.ant_otros
             }
             loadedFormScope.current = exportScope
+            savedFingerprint.current = JSON.stringify(populated)
             if (onDataChange) Promise.resolve().then(() => { if (isCurrent()) onDataChange(populated) })
             return populated
           })
@@ -370,11 +385,15 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
     const token = publication.current
     const capturedScope = exportScope
     const isCurrent = () => token.valid && publication.current === token && scopeRef.current === capturedScope
+    if (saving.current || saveError || !historySupported) return
     if (!currentClinicId || !user?.id || !clinicalRole || isRevalidating || !isCurrent() || loadedFormScope.current !== capturedScope) {
       toast.error("No se puede guardar hasta verificar la ficha de este paciente y tu acceso vigente.")
       return
     }
+    saving.current = true
+    const savedData = JSON.parse(JSON.stringify(formData))
     try {
+      setSaveError(false)
       setIsLoading(true)
       const { error } = await supabase
         .from('hcu033_forms')
@@ -382,7 +401,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
           clinic_id: currentClinicId,
           patient_id: patientId,
           doctor_id: user?.id,
-          form_data: formData,
+          form_data: savedData,
         })
 
       if (error) throw error
@@ -391,14 +410,45 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
       // The canonical HCU AFTER trigger updates the patient summary in this
       // INSERT transaction. A trigger failure rejects and rolls back the HCU;
       // a second client UPDATE could race a newer HCU and overwrite its summary.
+      savedFingerprint.current = JSON.stringify(savedData)
+      setSavedMetadata({ doctor_id: user.id, created_at: new Date().toISOString() })
+      onDirtyChange?.(JSON.stringify(formData) !== savedFingerprint.current)
       toast.success("Formulario guardado correctamente")
-      onSave?.(formData)
+      onSave?.(savedData)
     } catch (error) {
-      if (isCurrent()) { console.error('Error saving form:', error); toast.error("Error al guardar el formulario") }
+      if (isCurrent()) { setSaveError(true); toast.error("No se pudo confirmar el guardado. Conserva tus cambios y revisa la historia antes de repetir.") }
     } finally {
+      saving.current = false
       if (isCurrent()) setIsLoading(false)
     }
   }
+
+  const dirty = loadedFormScope.current === exportScope && !!savedFingerprint.current && JSON.stringify(formData) !== savedFingerprint.current
+  const [historySupported, setHistorySupported] = useState(true)
+  useEffect(() => {
+    if (SYNTHETIC_PILOT && typeof window !== 'undefined') setHistorySupported(supportsClinicalHistoryGuard(window))
+  }, [])
+  useEffect(() => {
+    onDirtyChange?.(dirty)
+    return () => onDirtyChange?.(false)
+  }, [dirty, onDirtyChange])
+  useEffect(() => {
+    if (!dirty) return
+    const beforeUnload = (event: BeforeUnloadEvent) => { event.preventDefault(); event.returnValue = "" }
+    const beforeNavigate = (event: Event) => {
+      if (!window.confirm(CLINICAL_DRAFT_WARNING)) event.preventDefault()
+    }
+    const followLink = (event: MouseEvent) => {
+      const link = (event.target as Element)?.closest?.("a[href]")
+      if (!link || link.getAttribute("href")?.startsWith("#")) return
+      if (!window.confirm(CLINICAL_DRAFT_WARNING)) { event.preventDefault(); event.stopPropagation() }
+    }
+    window.addEventListener("beforeunload", beforeUnload)
+    window.addEventListener('clinia:before-navigation', beforeNavigate)
+    document.addEventListener("click", followLink, true)
+    const releaseHistory = SYNTHETIC_PILOT ? protectClinicalHistory(window, () => window.confirm(CLINICAL_DRAFT_WARNING)) : () => {}
+    return () => { releaseHistory(); window.removeEventListener("beforeunload", beforeUnload); window.removeEventListener('clinia:before-navigation', beforeNavigate); document.removeEventListener("click", followLink, true) }
+  }, [dirty])
 
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const contentScrollRef = useRef<HTMLDivElement>(null)
@@ -464,12 +514,12 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         )}
 
         <div className="flex gap-2 w-full md:w-auto md:ml-auto justify-end">
-          <Button variant="outline" size="sm" className="h-9" onClick={handleExport} disabled={isExporting || isLoading || isRevalidating || !clinicalRole || !currentClinicId}>
+          {!SYNTHETIC_PILOT && <Button variant="outline" size="sm" className="h-9" onClick={handleExport} disabled={isExporting || isLoading || isRevalidating || !clinicalRole || !currentClinicId}>
             <Download className="h-4 w-4 mr-2" />
             <span className="hidden sm:inline">Exportar HCU guardada</span>
             <span className="sm:hidden">PDF</span>
-          </Button>
-          <Button onClick={handleSave} className="h-9">
+          </Button>}
+          <Button onClick={handleSave} disabled={isLoading || isRevalidating || saveError || !clinicalRole || !historySupported} className="h-9">
             <Save className="h-4 w-4 mr-2" />
             Guardar Cambios
           </Button>
@@ -478,6 +528,9 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
 
 
 
+      <p role="status" className="py-2 text-sm text-muted-foreground">{dirty ? "Cambios sin guardar" : "Sin cambios pendientes"}{savedMetadata?.doctor_id ? (savedMetadata.doctor_id === user?.id ? " · Último guardado por tu cuenta" : " · Último guardado por otro profesional autorizado") : " · Autoría guardada sin registrar"}</p>
+      {saveError && <p role="alert" className="text-sm text-destructive">El guardado no está confirmado. Tus cambios siguen en pantalla. Copia lo necesario antes de recargar y revisar la historia; no repitas una escritura incierta.</p>}
+      {!historySupported && <p role="alert" className="text-sm text-destructive">Tu navegador no permite proteger el borrador al usar Atrás. Actualízalo para editar la ficha de evaluación.</p>}
       <div ref={contentScrollRef} className={isFullScreen ? "flex-1 overflow-y-auto px-6 pb-32 w-full scroll-smooth" : ""}>
          <div className={isFullScreen ? "max-w-7xl mx-auto" : ""}>
 
@@ -488,7 +541,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
         >
              <div className="flex items-center justify-between py-2 gap-4 w-full">
                 <div className="flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden py-0.5">
-                  {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].map(section => (
+                  {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].filter(section => !SYNTHETIC_PILOT || section !== "L").map(section => (
                       <Button 
                           key={section} 
                           variant={activeSection === section ? "default" : "ghost"} 
@@ -503,7 +556,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                 <div className="flex items-center gap-1.5 flex-shrink-0">
                    <Button 
                      onClick={handleSave} 
-                     disabled={isLoading}
+                     disabled={isLoading || isRevalidating || saveError || !clinicalRole || !historySupported}
                      size="sm"
                      className="h-8 text-xs font-bold gap-1 shadow-md hover:shadow-lg transition-all"
                    >
@@ -514,7 +567,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
              </div>
         </div>
 
-        <div className="space-y-12">
+        <fieldset disabled={isLoading || saveError || isRevalidating || !historySupported} className="min-w-0 space-y-12">
 
         {/* Sección A: Datos del establecimiento y paciente */}
         {/* Sección A: Datos del establecimiento y paciente */}
@@ -1465,6 +1518,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
                         <Label>Profesional</Label>
                         <Input
                           value={sesion.profesional}
+                          readOnly={SYNTHETIC_PILOT}
                           onChange={(e) => {
                             const newSesiones = [...formData.registro_sesiones]
                             newSesiones[index].profesional = e.target.value
@@ -1563,7 +1617,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
 
               <div className="space-y-2">
                 <Label>Sello / código del establecimiento (imagen)</Label>
-                <Input type="file" accept="image/*,application/pdf" />
+                <Input type="file" accept="image/*,application/pdf" disabled={SYNTHETIC_PILOT} />
               </div>
             </CardContent>
           </Card>
@@ -1571,7 +1625,7 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
 
         {/* Sección L: Adjuntos */}
         {/* Sección L: Adjuntos */}
-        <div id={getSectionId("L")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        {!SYNTHETIC_PILOT && <div id={getSectionId("L")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
@@ -1607,8 +1661,8 @@ export function HCU033Form({ patientId, patientName, onSave, isFullScreen, onClo
               )}
             </CardContent>
           </Card>
-        </div>
-         </div>
+        </div>}
+         </fieldset>
          </div>
       </div>
       <Dialog open={isSignatureDialogOpen} onOpenChange={setIsSignatureDialogOpen}>

@@ -1,4 +1,5 @@
 import 'server-only'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -16,6 +17,7 @@ export async function POST(request: Request) {
 }
 
 async function handlePost(request: Request) {
+  if (SYNTHETIC_PILOT) return Response.json({ error: PILOT_UNAVAILABLE }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
   let caller: SupabaseClient | null = null
   let explicitBearer: string | null = null
   const handler = privateMediaDeliveryHandler({

@@ -53,7 +53,8 @@ function actionHarness(output,error=null,transport=false) {
     from(table){if(table!=='prescriptions')return q;return {insert(r){writes.push(r);return {select(){return {single:async()=>{if(transport)throw Error('raw sensitive error');return {data:output,error}}}}}}}}}
   const mod={exports:{}}
   const js=ts.transpileModule(fs.readFileSync('app/actions/save-prescription.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText
-  vm.runInNewContext(js,{module:mod,exports:mod.exports,process:{env:{NEXT_PUBLIC_SUPABASE_URL:'https://synthetic.invalid',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic'}},require(name){
+  vm.runInNewContext(js,{module:mod,exports:mod.exports,process:{env:{NEXT_PUBLIC_SUPABASE_URL:'https://synthetic.invalid',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic'}},require(name){if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
     if(name==='@supabase/ssr')return {createServerClient:()=>client}
     if(name==='next/headers')return {cookies:async()=>({getAll:()=>[],set(){}})}
     if(name==='@/lib/prescription-policy.mjs')return policy
@@ -90,7 +91,8 @@ function retryHarness(options={}) {
     }}
   const mod={exports:{}}
   const js=ts.transpileModule(fs.readFileSync('app/actions/save-prescription.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText
-  vm.runInNewContext(js,{module:mod,exports:mod.exports,process:{env:{NEXT_PUBLIC_SUPABASE_URL:'https://synthetic.invalid',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic'}},require(name){
+  vm.runInNewContext(js,{module:mod,exports:mod.exports,process:{env:{NEXT_PUBLIC_SUPABASE_URL:'https://synthetic.invalid',NEXT_PUBLIC_SUPABASE_ANON_KEY:'synthetic'}},require(name){if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
     if(name==='@supabase/ssr')return {createServerClient:()=>client}
     if(name==='next/headers')return {cookies:async()=>({getAll:()=>[],set(){}})}
     if(name==='@/lib/prescription-policy.mjs')return policy
@@ -141,7 +143,8 @@ test('actual PDF engine prints the persisted date and does not fabricate registr
   }
   const mod={exports:{}}
   const js=ts.transpileModule(fs.readFileSync('lib/pdf-generator.ts','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,esModuleInterop:true}}).outputText
-  vm.runInNewContext(js,{module:mod,exports:mod.exports,Date,console,require(name){
+  vm.runInNewContext(js,{module:mod,exports:mod.exports,Date,console,require(name){if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+
     if(name==='jspdf')return PDF
     if(name==='jspdf-autotable')return require(name)
     throw Error(name)
