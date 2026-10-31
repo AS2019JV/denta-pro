@@ -1,0 +1,25 @@
+{
+  "status": "SEPARATE_PROPOSED_READ_NOT_AUTHORIZED_NOT_EXECUTED",
+  "project": "fbtlldubzomocuhpvweg",
+  "source": "Existing legitimate management connection, independently bound to exact project; no token requested in chat",
+  "Auth": {
+    "booleanFields": ["disable_signup", "external_anonymous_users_enabled", "mfa_totp_enroll_enabled", "mfa_totp_verify_enabled", "hook_custom_access_token_enabled"],
+    "hookURI": "Only classify OFF, exact known pg-functions://postgres/public/clinia_document_access_token_hook, or UNLISTED_HASH; never return a raw URL",
+    "unknownFields": "NOT_VERIFIED; never assumed from defaults"
+  },
+  "DataAPI": {
+    "fields": ["db_schema", "db_extra_search_path", "db_anon_role", "max_rows"],
+    "allowedNameLabels": ["public", "graphql_public", "extensions", "anon"],
+    "unlistedNames": "Count/hash only; do not widen schemas or roles",
+    "maxRows": "Bounded nonnegative integer only; invalid type is ERROR"
+  },
+  "excluded": ["API keys", "passwords", "JWT/signing settings", "SMTP", "OAuth", "MFA factors", "Auth users", "Storage bucket/object rows or bytes", "S3", "Vault", "other projects", "configuration writes"],
+  "outputByteLimit": 8192,
+  "onError": "Fixed status and field label only; no raw response or partial retry",
+  "authority": null,
+  "approval": null,
+  "turn": null,
+  "nativeCalls": 0,
+  "managementCalls": 0,
+  "SQLDoesNotCoverTheseSettings": true
+}

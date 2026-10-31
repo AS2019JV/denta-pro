@@ -1,0 +1,153 @@
+{
+  "catalog": {
+    "acl": [
+      "grantorOID",
+      "granteeOID",
+      "privilege",
+      "grantable"
+    ],
+    "constraints": [
+      "oid",
+      "tableOID",
+      "name",
+      "type",
+      "validated",
+      "deferrable",
+      "deferred",
+      "referencedTableOID",
+      "onUpdate",
+      "onDelete",
+      "definitionMd5"
+    ],
+    "indexes": [
+      "indexOID",
+      "tableOID",
+      "name",
+      "valid",
+      "ready",
+      "definitionMd5"
+    ],
+    "triggers": [
+      "oid",
+      "tableOID",
+      "name",
+      "functionOID",
+      "enabled",
+      "definitionMd5"
+    ],
+    "policies": [
+      "oid",
+      "tableOID",
+      "name",
+      "command",
+      "permissive",
+      "roleOIDs",
+      "usingMd5",
+      "checkMd5"
+    ],
+    "sequences": [
+      "oid",
+      "typeOID",
+      "start",
+      "increment",
+      "minimum",
+      "maximum",
+      "cache",
+      "cycle"
+    ],
+    "dependencyEdges": [
+      "classOID",
+      "objectOID",
+      "objectSubID",
+      "referencedClassOID",
+      "referencedObjectOID",
+      "referencedSubID",
+      "deptype"
+    ]
+  },
+  "authority": {
+    "roles": [
+      "role",
+      "oid",
+      "superuser",
+      "login",
+      "inherit",
+      "bypassRLS"
+    ],
+    "ownerRoles": [
+      "oid",
+      "knownNameOrHash"
+    ],
+    "database": [
+      "role",
+      "CONNECT_CREATE_TEMPORARY_flags"
+    ],
+    "memberships": [
+      "role",
+      "memberOf",
+      "MEMBER",
+      "USAGE",
+      "SET"
+    ],
+    "schemas": [
+      "schema",
+      "role",
+      "schemaExists",
+      "privilegeFlags",
+      "ownerUsage"
+    ],
+    "tables": [
+      "oid",
+      "role",
+      "privilegeFlags",
+      "ownerUsage"
+    ],
+    "functions": [
+      "oid",
+      "role",
+      "privilegeFlags",
+      "ownerUsage"
+    ],
+    "locks": [
+      "schema",
+      "table",
+      "role",
+      "exists",
+      "SHARE_ROW_EXCLUSIVE_privilege_OR"
+    ],
+    "sequences": [
+      "oid",
+      "role",
+      "privilegeFlags"
+    ],
+    "languages": [
+      "language",
+      "role",
+      "exists",
+      "trusted",
+      "USAGE_flag"
+    ],
+    "types": [
+      "oid",
+      "role",
+      "USAGE_and_GRANT_OPTION_flags"
+    ]
+  },
+  "pgDepend": {
+    "direction": "Direct incoming or outgoing edges of observed objects only; no recursive closure",
+    "bridges": [
+      "pg_rewrite",
+      "pg_attrdef"
+    ],
+    "maxEdges": 8192,
+    "truncation": false,
+    "PLpgSQLAndDynamicCalls": "NOT_DISCOVERED",
+    "functionSemantics": "NOT_VERIFIED"
+  },
+  "claims": {
+    "capture": "Current metadata only",
+    "missingRPC": "Captured as MISSING, never silently omitted",
+    "cohortRows": "Deferred, not part of this SQL",
+    "managedSettings": "Separate read plan, not executed"
+  }
+}

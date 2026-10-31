@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "state": "OFFLINE_PROPOSAL_NOT_AUTHORIZED",
+  "product": {
+    "MVP": "5a81247cb857a5c9ff4df2601c68241450813758",
+    "tree": "18cea82a8352fee737880d1a2725accba5e5fd92",
+    "baselineRC5": "ba47f5273fef85fca1cf92784c8ff8c7b50faf54",
+    "ownMVPPreview": null,
+    "ownMVPVerifiedCI": null
+  },
+  "target": {
+    "project": "fbtlldubzomocuhpvweg",
+    "name": "clinia-test",
+    "database": "postgres",
+    "actor": "postgres",
+    "superuser": false,
+    "version": "170011",
+    "systemIdentifier": "7692130048193495360",
+    "tlsHost": "db.fbtlldubzomocuhpvweg.supabase.co",
+    "tlsMode": "verify-full"
+  },
+  "roles": [
+    "postgres",
+    "supabase_storage_admin",
+    "supabase_auth_admin",
+    "anon",
+    "authenticated",
+    "service_role",
+    "authenticator"
+  ],
+  "namespaces": [
+    "public",
+    "logs",
+    "security_internal",
+    "auth",
+    "storage"
+  ],
+  "schemas": [
+    "public",
+    "logs",
+    "security_internal",
+    "auth",
+    "storage",
+    "extensions"
+  ],
+  "locks": [
+    [
+      "auth",
+      "users"
+    ],
+    [
+      "auth",
+      "identities"
+    ],
+    [
+      "auth",
+      "sessions"
+    ],
+    [
+      "auth",
+      "refresh_tokens"
+    ],
+    [
+      "auth",
+      "mfa_factors"
+    ],
+    [
+      "auth",
+      "mfa_challenges"
+    ],
+    [
+      "auth",
+      "mfa_amr_claims"
+    ],
+    [
+      "auth",
+      "audit_log_entries"
+    ],
+    [
+      "storage",
+      "buckets"
+    ],
+    [
+      "storage",
+      "objects"
+    ]
+  ],
+  "requiredRPCs": [
+    [
+      "public",
+      "get_patient_demographics",
+      "2950 25 23 23 2950"
+    ],
+    [
+      "public",
+      "save_patient_demographics",
+      "2950 3802 2950"
+    ],
+    [
+      "public",
+      "get_clinic_schedule",
+      "2950 1184 1184"
+    ],
+    [
+      "public",
+      "get_clinic_staff_directory",
+      "2950"
+    ],
+    [
+      "public",
+      "save_clinic_appointment",
+      "2950 3802 2950"
+    ],
+    [
+      "public",
+      "redeem_verified_clinic_invitation",
+      "25"
+    ]
+  ],
+  "dependencies": [
+    [
+      "auth",
+      "role",
+      ""
+    ],
+    [
+      "auth",
+      "uid",
+      ""
+    ],
+    [
+      "storage",
+      "foldername",
+      "25"
+    ]
+  ],
+  "unqualified": [
+    [
+      "table",
+      "profiles",
+      ""
+    ],
+    [
+      "table",
+      "patients",
+      ""
+    ],
+    [
+      "table",
+      "billings",
+      ""
+    ],
+    [
+      "function",
+      "is_clinic_member",
+      "2950"
+    ],
+    [
+      "function",
+      "get_clinic_member_role",
+      "2950"
+    ],
+    [
+      "function",
+      "check_subscription_active",
+      "2950"
+    ]
+  ],
+  "limits": {
+    "outputBytes": 1048576,
+    "tables": 192,
+    "columns": 4096,
+    "functions": 512,
+    "policies": 512,
+    "constraints": 2048,
+    "triggers": 1024,
+    "indexes": 2048,
+    "defaultEntries": 2048,
+    "dependencyEdges": 8192,
+    "resolutionCandidates": 16
+  },
+  "flags": {
+    "alphabet": [
+      "T",
+      "F",
+      "N"
+    ],
+    "table": [
+      "SELECT",
+      "INSERT",
+      "UPDATE",
+      "DELETE",
+      "TRUNCATE",
+      "REFERENCES",
+      "TRIGGER",
+      "MAINTAIN",
+      "SELECT WITH GRANT OPTION",
+      "INSERT WITH GRANT OPTION",
+      "UPDATE WITH GRANT OPTION",
+      "DELETE WITH GRANT OPTION",
+      "TRIGGER WITH GRANT OPTION"
+    ],
+    "column": [
+      "SELECT",
+      "INSERT",
+      "UPDATE",
+      "REFERENCES"
+    ],
+    "schema": [
+      "USAGE",
+      "CREATE",
+      "USAGE WITH GRANT OPTION",
+      "CREATE WITH GRANT OPTION"
+    ],
+    "function": [
+      "EXECUTE",
+      "EXECUTE WITH GRANT OPTION"
+    ],
+    "database": [
+      "CONNECT",
+      "CREATE",
+      "TEMPORARY"
+    ],
+    "sequence": [
+      "USAGE",
+      "SELECT",
+      "UPDATE",
+      "USAGE WITH GRANT OPTION",
+      "SELECT WITH GRANT OPTION",
+      "UPDATE WITH GRANT OPTION"
+    ]
+  },
+  "normalization": "Only CRLF to LF inside definition/body/expression fingerprints; ACL OID entries sorted without removing entries. No current/full-parity or function-semantic acceptance.",
+  "output": "One complete prefixed JSON line or fixed refusal; no truncation. Identity DO executes before payload statements. Snapshot REPEATABLE READ READ ONLY.",
+  "serverTimeouts": {
+    "statementMs": 15000,
+    "lockMs": 2000,
+    "idleTransactionMs": 15000
+  },
+  "SQLRuntime": "NOT_PARSED_OR_EXECUTED_BY_POSTGRES",
+  "futureTransport": {
+    "executorAdded": false,
+    "sourceSHA": null,
+    "CI": null,
+    "approval": null,
+    "turn": null,
+    "stdinOrReviewedExistingHostedFileTransportRequired": true,
+    "neverReuseA9IdentityOrCredential": true
+  },
+  "historicalReference": {
+    "directory": ".temp/gate3-hosted-access",
+    "specificEncryptedFile": ".temp/gate3-hosted-access/access.dpapi.json",
+    "specificField": "DatabasePassword",
+    "source": "docs/production/evidence/2026-10-21-gate3-access-resume-2/import-gate3-password-file.ps1",
+    "credentialContentsRead": false,
+    "currentExistenceCustodyAuthorization": "PENDING_FRESH_METADATA_ATTESTATION",
+    "currentCredentialValidity": "NOT_VERIFIED",
+    "a9ReferenceNotApplicable": true
+  },
+  "cohort": {
+    "rowHashesDeferred": true,
+    "reason": "No new row whitelist or access to Auth/MFA/session/invitation rows is authorized by this metadata proposal."
+  },
+  "entitlement": {
+    "futureOnly": true,
+    "status": "active",
+    "bypassSubscription": false,
+    "trialEndsAt": null,
+    "archivedAt": null,
+    "profileStatus": "active",
+    "membershipStatus": "active",
+    "noSevenDayCommercialExpiry": true,
+    "invitationTTLIsSeparate": true,
+    "sourceFunction": "public.check_subscription_active(uuid)",
+    "guards": "Membership and archived-clinic guard must match approved successor contract; metadata hashes do not execute the function."
+  },
+  "noReadinessInheritance": [
+    "RC5 CI526",
+    "offline03 CI9",
+    "dependency02 CI68",
+    "p8 recovery"
+  ],
+  "nativeOperations": 0,
+  "SQLSHA256": "1b4c86fed4cd53d7ac8447947da89092a7a4d9b802ca69f7f31ccaf712307cef"
+}

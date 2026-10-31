@@ -1,0 +1,86 @@
+{
+  "schemaVersion": 1,
+  "sourceBaseSHA": "72ff36372d139fe32523af38000edad8fe4f0237",
+  "productMVP": "5a81247cb857a5c9ff4df2601c68241450813758",
+  "sourceBundleManifestSHA256": "5593f72275251eccaad114cdbd25a50a9c6b28efa80575b8d69bf4d81ff013ba",
+  "scope": "OFFLINE_METADATA_PROPOSAL_ONLY_NO_REGISTRY_INSTALL_AUDIT_DB_OR_DEPLOY",
+  "nativeExecutionAuthorized": false,
+  "applicationAcceptance": false,
+  "files": [
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/.gitattributes",
+      "bytes": 8,
+      "sha256": "705fd4d6451a31d36b3df7de96f83f30ac976c9b4a6d1e51671d8e2f33e2d0da"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/assemble-offline.cjs",
+      "bytes": 29512,
+      "sha256": "1d178b5b9455cb0fd6aaa6d0760ccc29ba05239bcf0d09448636bfb54b6e43f5"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/contract.json",
+      "bytes": 6014,
+      "sha256": "99d63d8f0f278146166e6627e8f4e52150a5c486b3f31593c6fcf9780f2ac666"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/managed-read-plan.json",
+      "bytes": 1415,
+      "sha256": "daadf89c519bdbeae3cf283a0ae348e2273f2f580c536cbeb7ae21ffd3fe0c3d"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/observation.test.cjs",
+      "bytes": 10471,
+      "sha256": "d67fe4516ab92a7d4cceb248dd9ea05ca816d9f80cd4888324debcf12ed74bb4"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/observe.proposed.sql",
+      "bytes": 30009,
+      "sha256": "1b4c86fed4cd53d7ac8447947da89092a7a4d9b802ca69f7f31ccaf712307cef"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/protocol.cjs",
+      "bytes": 9007,
+      "sha256": "679e4d51d0768dbb4268ac8f34164928b4e367027f0db9bb83c6051f253e156e"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/record-layouts.json",
+      "bytes": 2748,
+      "sha256": "8b3a55b82e0316345c144d157c10c24857415f852487f7f4be389aff737b3a31"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/README.md",
+      "bytes": 7845,
+      "sha256": "33c72111b3b0bcf2da0a81bcdab92b35998629996a3e748cff0413ebbdbb0803"
+    },
+    {
+      "path": "docs/production/evidence/2026-10-31-gate3-hosted-observation/verify-ci-inputs.cjs",
+      "bytes": 1595,
+      "sha256": "956cb317da9d900699bf2b70f26b4291d0a3cd889e2838182227a12740ead0af"
+    },
+    {
+      "path": "docs/production/recovery-profile/source-managed-metadata.json",
+      "bytes": 85542,
+      "sha256": "572b7a350d2d7bf239db83625b6ef751d8b6d9814af2f0ba24b9233a9148aed8"
+    },
+    {
+      "path": ".github/workflows/clinia-hosted-observation-01.yml",
+      "bytes": 1082,
+      "sha256": "fc8a517e70f1c1f751256429a40da60d26f3416de87e6fc868557f6be2ac0369"
+    },
+    {
+      "path": "vercel.json",
+      "bytes": 450,
+      "sha256": "7f549da7a732f949e32debe74c46b9ef5bd9d585d9515c9d11fba224d888d950"
+    },
+    {
+      "path": ".node-version",
+      "bytes": 8,
+      "sha256": "a0e27aeeac42d6102f4ff2bce40d8fb011c07e5cb28eff3c9d77e68df29e5dd6"
+    },
+    {
+      "path": "scripts/clinia-secret-scan.cjs",
+      "bytes": 3442,
+      "sha256": "eb6f895ca0f8693a7025f1eddb10a19b520f1ba5878e07aa9fed7b14368f9d08"
+    }
+  ]
+}
