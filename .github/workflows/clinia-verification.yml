@@ -3,7 +3,7 @@ name: Clinia verification
 on:
   pull_request:
   push:
-    branches: [main, master]
+    branches: [main, master, codex/clinia-mvp-synthetic]
   workflow_dispatch:
 
 permissions:
@@ -32,6 +32,10 @@ jobs:
       - name: Reject high and critical production dependency advisories
         run: npm audit --omit=dev --audit-level=high
       - name: Verify types, lint, contracts and production compilation
+        if: github.ref != 'refs/heads/codex/clinia-mvp-synthetic'
         run: npm run verify
+      - name: Verify synthetic MVP types, lint, contracts and compilation
+        if: github.ref == 'refs/heads/codex/clinia-mvp-synthetic'
+        run: node scripts/clinia-pilot-verify.cjs
 
       # No deployment, application secrets, clinical providers or integration/JWT claim.

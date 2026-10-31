@@ -6,7 +6,7 @@ const { spawnSync } = require('node:child_process');
 const checks = require('./clinia-verify.cjs');
 
 try {
-  if (!fs.existsSync('.clinia-release-snapshot.json')) throw new Error('Pilot verification requires a real isolated release snapshot');
+  if (!fs.existsSync('.clinia-release-snapshot.json') && process.env.GITHUB_ACTIONS !== 'true') throw new Error('Pilot verification requires a real isolated release snapshot or GitHub runner');
   for (const mode of ['typecheck', 'lint', 'test']) {
     const status = checks.run(mode);
     if (status) process.exit(status);

@@ -5,7 +5,7 @@ export const SYNTHETIC_PILOT = process.env.NEXT_PUBLIC_CLINIA_PILOT_MODE === 'sy
 export const PILOT_UNAVAILABLE = 'Esta función no está disponible en la evaluación con datos ficticios.'
 
 const excluded = ['/billing', '/pay', '/reports', '/recipes', '/marketing', '/messages',
-  '/settings', '/profile', '/clinic', '/dentists', '/dashboard/services', '/signup', '/free-trial',
+  '/settings', '/profile', '/clinic', '/dentists', '/dashboard/services', '/free-trial',
   '/schedule-demo', '/api/clinical-documents', '/api/private-media', '/api/payments',
   '/api/webhooks', '/api/send-email']
 

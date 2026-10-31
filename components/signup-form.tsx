@@ -1,7 +1,7 @@
 "use client"
 
 import type React from "react"
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -12,12 +12,14 @@ import { useRouter } from "next/navigation"
 import { motion, AnimatePresence } from "framer-motion"
 import { registerClinic } from "@/app/actions/register-clinic"
 import { toast } from "sonner"
+import { SYNTHETIC_PILOT } from "@/lib/pilot-policy"
 
 export function SignupForm() {
   const [step, setStep] = useState(1) // 1: Form, 2: Success
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
+  const submittingRef = useRef(false)
   
   const [formData, setFormData] = useState({
     title: "Dr.",
@@ -38,6 +40,8 @@ export function SignupForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    if (submittingRef.current) return
+    submittingRef.current = true
     setIsLoading(true)
     setError("")
 
@@ -45,24 +49,28 @@ export function SignupForm() {
     if (!formData.firstName || !formData.lastName) {
       setError("Por favor, ingresa tu nombre y apellidos completos")
       setIsLoading(false)
+      submittingRef.current = false
       return
     }
 
     if (!formData.practiceName) {
       setError("El nombre de tu clínica es obligatorio para comenzar")
       setIsLoading(false)
+      submittingRef.current = false
       return
     }
 
     if (!formData.email || !formData.email.includes("@")) {
       setError("Ingresa un correo electrónico válido")
       setIsLoading(false)
+      submittingRef.current = false
       return
     }
 
     if (formData.password.length < 12 || formData.password.length > 128) {
       setError("La contraseña debe tener entre 12 y 128 caracteres")
       setIsLoading(false)
+      submittingRef.current = false
       return
     }
 
@@ -79,18 +87,21 @@ export function SignupForm() {
 
       const result = await registerClinic(submissionData)
       
-      if (result?.error) {
+      if (result?.success === true) {
+        setStep(2)
+        toast.success("Solicitud enviada. Revisa tu correo para confirmarla.")
+      } else if (result?.error) {
         setError(result.error)
         toast.error("Error en el registro", { description: result.error })
       } else {
-        setStep(2)
-        toast.success("¡Cuenta creada exitosamente!")
+        setError("No pudimos confirmar el registro. Revisa tu correo o inténtalo más tarde.")
       }
     } catch (err) {
       setError("Ocurrió un error inesperado.")
       console.error(err)
     } finally {
       setIsLoading(false)
+      submittingRef.current = false
     }
   }
 
@@ -119,7 +130,9 @@ export function SignupForm() {
             >
               Gestión clínica de <span className="text-teal-400">alta precisión</span>.
               <span className="block text-xl lg:text-2xl font-medium text-teal-100/60 mt-4 leading-relaxed">
-                Rendimiento superior para especialistas.
+                {SYNTHETIC_PILOT
+                  ? "Un espacio de evaluación para tu consultorio."
+                  : "Rendimiento superior para especialistas."}
               </span>
             </motion.h1>
             
@@ -129,7 +142,9 @@ export function SignupForm() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-xl text-teal-100/70 leading-relaxed"
             >
-              Optimiza el flujo operativo de tu consultorio con tecnología avanzada y un ecosistema digital sin fricciones. Comienza tu experiencia premium de 14 días sin costo.
+              {SYNTHETIC_PILOT
+                ? "Crea tu clínica de evaluación con datos ficticios para conocer el flujo de trabajo."
+                : "Optimiza el flujo operativo de tu consultorio con tecnología avanzada y un ecosistema digital sin fricciones. Comienza tu experiencia premium de 14 días sin costo."}
             </motion.p>
 
             <div className="space-y-6 pt-4">
@@ -184,11 +199,18 @@ export function SignupForm() {
               </div>
 
               <div className="space-y-2 mb-8">
-                <h2 className="text-3xl font-bold text-foreground tracking-tight">Comienza tu prueba gratis</h2>
-                <p className="text-slate-500 font-medium">Configura tu cuenta y clínica en menos de 2 minutos.</p>
+                <h2 className="text-3xl font-bold text-foreground tracking-tight">{SYNTHETIC_PILOT ? "Crea tu clínica de evaluación" : "Comienza tu prueba gratis"}</h2>
+                <p className="text-slate-500 font-medium">{SYNTHETIC_PILOT ? "Configura tu cuenta para explorar Clinia+ con datos ficticios." : "Configura tu cuenta y clínica en menos de 2 minutos."}</p>
               </div>
 
-              <form onSubmit={handleSubmit} className="space-y-6" noValidate>
+              {SYNTHETIC_PILOT && (
+                <div role="note" className="mb-6 rounded-xl border border-orange-200 bg-orange-50 p-4 text-sm font-medium text-orange-900">
+                  Entorno de evaluación: usa únicamente datos ficticios de pacientes. Confirma tu correo y completa la verificación MFA antes de acceder.
+                </div>
+              )}
+
+              <form onSubmit={handleSubmit} className="space-y-6">
+                <fieldset disabled={isLoading} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="firstName" className="text-slate-700 font-semibold ml-1">Nombre</Label>
@@ -208,6 +230,9 @@ export function SignupForm() {
                         <User className="absolute left-3 top-3.5 h-5 w-5 text-slate-400" />
                         <Input
                           id="firstName"
+                          autoComplete="given-name"
+                          maxLength={100}
+                          required
                           placeholder="Ej. María"
                           value={formData.firstName}
                           onChange={handleInputChange}
@@ -220,6 +245,9 @@ export function SignupForm() {
                     <Label htmlFor="lastName" className="text-slate-700 font-semibold ml-1">Apellidos</Label>
                     <Input
                       id="lastName"
+                      autoComplete="family-name"
+                      maxLength={100}
+                      required
                       placeholder="Ej. González"
                       value={formData.lastName}
                       onChange={handleInputChange}
@@ -234,6 +262,9 @@ export function SignupForm() {
                     <Building2 className="absolute left-4 top-3.5 h-5 w-5 text-slate-400" />
                     <Input
                       id="practiceName"
+                      autoComplete="organization"
+                      maxLength={160}
+                      required
                       placeholder="Ej. Dental Care Center"
                       value={formData.practiceName}
                       onChange={handleInputChange}
@@ -274,6 +305,9 @@ export function SignupForm() {
                     <Input
                       id="email"
                       type="email"
+                      autoComplete="email"
+                      maxLength={254}
+                      required
                       placeholder="doctor@clinia.com"
                       value={formData.email}
                       onChange={handleInputChange}
@@ -289,6 +323,8 @@ export function SignupForm() {
                       id="password"
                       minLength={12}
                       maxLength={128}
+                      autoComplete="new-password"
+                      required
                       type={showPassword ? "text" : "password"}
                       placeholder="Entre 12 y 128 caracteres"
                       value={formData.password}
@@ -301,6 +337,7 @@ export function SignupForm() {
                       size="icon"
                       className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 hover:bg-transparent"
                       onClick={() => setShowPassword(!showPassword)}
+                      aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                     >
                       {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
                     </Button>
@@ -308,7 +345,7 @@ export function SignupForm() {
                 </div>
 
                 {error && (
-                  <motion.div initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium flex items-center gap-2">
+                  <motion.div role="alert" aria-live="assertive" initial={{ opacity: 0, y: -10 }} animate={{ opacity: 1, y: 0 }} className="p-4 rounded-xl bg-red-50 border border-red-100 text-red-600 text-sm font-medium flex items-center gap-2">
                     <div className="w-1.5 h-1.5 rounded-full bg-red-500" />
                     {error}
                   </motion.div>
@@ -326,15 +363,15 @@ export function SignupForm() {
                     </div>
                   ) : (
                     <div className="flex items-center gap-2">
-                      <span>Comenzar mi transformación</span>
+                      <span>{SYNTHETIC_PILOT ? "Crear clínica de evaluación" : "Comenzar mi transformación"}</span>
                       <ArrowRight className="h-5 w-5" />
                     </div>
                   )}
                 </Button>
                 
-                <p className="text-center text-xs text-slate-400 px-4 leading-relaxed">
+                {!SYNTHETIC_PILOT && <p className="text-center text-xs text-slate-400 px-4 leading-relaxed">
                   Al registrarte, aceptas nuestros <a href="#" className="text-teal-600 hover:underline font-bold">Términos de Servicio</a> y <a href="#" className="text-teal-600 hover:underline font-bold">Política de Privacidad</a>. No se requiere tarjeta de crédito.
-                </p>
+                </p>}
 
                 <div className="pt-4 text-center">
                   <p className="text-sm text-slate-500 font-medium">
@@ -348,6 +385,7 @@ export function SignupForm() {
                     </button>
                   </p>
                 </div>
+                </fieldset>
               </form>
             </motion.div>
           ) : (
@@ -373,9 +411,9 @@ export function SignupForm() {
                   </motion.div>
 
                   <div className="space-y-4 mb-10">
-                    <h2 className="text-[36px] font-bold text-foreground tracking-tight leading-tight">¡Bienvenido a la familia Clinia+!</h2>
+                    <h2 className="text-[36px] font-bold text-foreground tracking-tight leading-tight">{SYNTHETIC_PILOT ? "Revisa tu correo" : "¡Bienvenido a la familia Clinia+!"}</h2>
                     <p className="text-lg text-slate-500 font-medium px-4">
-                      Hemos enviado un enlace de confirmación a <span className="text-teal-700 font-bold">{formData.email}</span> para activar tu clínica.
+                      {SYNTHETIC_PILOT ? <>Revisa la bandeja de entrada y spam de <span className="text-teal-700 font-bold">{formData.email}</span> para confirmar tu correo. La clínica aún no está lista para operar; después deberás completar la verificación MFA.</> : <>Hemos enviado un enlace de confirmación a <span className="text-teal-700 font-bold">{formData.email}</span> para activar tu clínica.</>}
                     </p>
                   </div>
 
@@ -390,8 +428,8 @@ export function SignupForm() {
                     <div className="flex items-center gap-4">
                       <div className="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm font-bold shadow-md shadow-teal-600/20">2</div>
                       <div>
-                        <p className="font-bold text-foreground/90">Haz clic en el enlace de activación</p>
-                        <p className="text-xs text-slate-500 font-medium">Serás redirigido directamente a tu panel</p>
+                        <p className="font-bold text-foreground/90">{SYNTHETIC_PILOT ? "Completa la verificación MFA" : "Haz clic en el enlace de activación"}</p>
+                        <p className="text-xs text-slate-500 font-medium">{SYNTHETIC_PILOT ? "Después podrás acceder al entorno de evaluación." : "Serás redirigido directamente a tu panel"}</p>
                       </div>
                     </div>
                   </div>
@@ -403,9 +441,9 @@ export function SignupForm() {
                      Regresar al Inicio de Sesión
                   </Button>
                   
-                  <p className="mt-8 text-sm text-slate-400 italic font-medium">
+                  {!SYNTHETIC_PILOT && <p className="mt-8 text-sm text-slate-400 italic font-medium">
                     "Tu viaje hacia una práctica más eficiente comienza hoy"
-                  </p>
+                  </p>}
                 </CardContent>
               </Card>
             </motion.div>

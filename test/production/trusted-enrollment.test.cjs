@@ -53,7 +53,7 @@ function registrationHarness(options={}){
   const state={calls:[],mails:[],...options},client={
     from(){const builder={select(){return this},eq(){return this},single:async()=>({data:null,error:null})};return builder},
     auth:{admin:{
-      createUser:async payload=>{state.calls.push({createUser:payload});return {data:{user:{id:'server-created-auth-id'}},error:null}},
+      createUser:async payload=>{state.calls.push({createUser:payload});return {data:{user:{id:'server-created-auth-id'}},error:state.authError || null}},
       generateLink:async()=>{state.calls.push({generateLink:true});return {data:{user:{id:state.linkUserId || 'server-created-auth-id'},
         properties:{action_link:'https://synthetic.invalid/verify',hashed_token:'synthetic'}},error:state.linkError || null}},
     }},
@@ -62,7 +62,7 @@ function registrationHarness(options={}){
   const action=load('app/actions/register-clinic.ts',{
     '@supabase/supabase-js':{createClient:()=>client},
     'next/headers':{headers:async()=>new Headers()},
-    '@/lib/server-email-gate':{consumeEmailBudget:async()=>({allowed:true})},
+    '@/lib/server-email-gate':{consumeEmailBudget:async()=>state.budget || ({allowed:true})},
     resend:{Resend:class{emails={send:async data=>{state.mails.push(data);return {error:state.deliveryError || null}}}}},
   })
   const form=new FormData()
@@ -80,6 +80,25 @@ test('signup binds returned Auth ID to server-generated clinic intent before lin
   assert.deepEqual(Object.keys(h.state.calls[0].createUser.user_metadata).sort(),['full_name','phone','title'])
   assert.equal(h.state.calls[2].generateLink,true)
   assert.equal(h.state.mails.length,1)
+})
+
+test('public signup budget refusal prevents Auth, intent and mail effects',async()=>{
+  const h=registrationHarness({budget:{allowed:false,message:'Synthetic budget denied'}})
+  assert.equal((await h.run()).error,'Synthetic budget denied')
+  assert.equal(h.state.calls.length,0);assert.equal(h.state.mails.length,0)
+})
+
+test('public signup does not disclose existing accounts or raw provider diagnostics',async()=>{
+  for(const authError of [{code:'email_exists',message:'private provider detail'},
+    {message:'User already registered'},{message:'User has already been registered'}]){
+    const h=registrationHarness({authError})
+    assert.equal((await h.run()).success,true)
+    assert.equal(h.state.calls.length,1);assert.equal(h.state.mails.length,0)
+  }
+  const h=registrationHarness({authError:{code:'unexpected',message:'PRIVATE_DIAGNOSTIC'}})
+  const result=await h.run()
+  assert.equal(result.success,undefined);assert.ok(!result.error.includes('PRIVATE_DIAGNOSTIC'))
+  assert.equal(h.state.calls.length,1);assert.equal(h.state.mails.length,0)
 })
 test('signup intent failure stops email generation and leaves an honest support outcome',async()=>{
   for(const outcome of [{intentError:{message:'synthetic unavailable'}},{intentThrows:true}]){

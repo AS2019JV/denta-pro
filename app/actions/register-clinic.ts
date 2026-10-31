@@ -9,7 +9,6 @@ import { signupSchema } from '@/lib/signup-validation'
 import { headers } from 'next/headers'
 import { consumeEmailBudget } from '@/lib/server-email-gate'
 import { configuredAuthOrigin, validEmailToken } from '@/lib/auth-email-contract'
-import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
@@ -19,7 +18,6 @@ if (!supabaseUrl || !supabaseServiceKey) {
 }
 
 export async function registerClinic(formData: FormData) {
-  if (SYNTHETIC_PILOT) return { error: PILOT_UNAVAILABLE }
   const input = signupSchema.safeParse({
     title: formData.get('title') ?? undefined,
     firstName: formData.get('firstName'),
@@ -57,17 +55,6 @@ export async function registerClinic(formData: FormData) {
 
   const fullName = `${firstName} ${lastName}`.trim()
 
-  // 2.0 Check for Duplicate Clinic Name BEFORE creating anything
-  const { data: existingClinic } = await supabase
-    .from('clinics')
-    .select('id')
-    .eq('name', practiceName)
-    .single()
-
-  if (existingClinic) {
-    return { error: "Ya existe una clínica registrada con este nombre. Por favor, elige otro nombre." }
-  }
-
   // Generate Clinic ID upfront
   const clinicId = randomUUID()
 
@@ -84,13 +71,15 @@ export async function registerClinic(formData: FormData) {
     }
   })
 
-  // Handle "User already exists" gracefully
+  // Acknowledge existing accounts exactly like a new request. Never expose the
+  // account directory or raw provider errors through the public signup form.
   if (authError) {
     const errorMsg = authError.message.toLowerCase()
-    if (errorMsg.includes("already registered") || errorMsg.includes("already been registered")) {
-        return { error: "Ya te has registrado. Si tu enlace expiró, ve a Iniciar Sesión para enviarte uno nuevo." }
+    if (['email_exists', 'user_already_exists'].includes(authError.code ?? '')
+      || errorMsg.includes("already registered") || errorMsg.includes("already been registered")) {
+        return { success: true }
     }
-    return { error: authError.message }
+    return { error: 'No pudimos procesar la solicitud. Intenta más tarde.' }
   }
 
   if (!authData?.user?.id) return { error: 'No se pudo confirmar la creación de tu cuenta. Contacta al soporte antes de repetir.' }

@@ -237,7 +237,8 @@ export function LoginForm() {
               Continuar con Google
             </Button></>}
             
-            {SYNTHETIC_PILOT ? <div className="mt-6 text-center text-sm text-muted-foreground"><p className="font-medium text-primary">Entorno de evaluación. Utiliza únicamente datos ficticios</p><p className="mt-2">Acceso por invitación. Si necesitas ayuda, contacta al responsable que te invitó.</p></div> : <div className="mt-8 text-center">
+            {SYNTHETIC_PILOT && <div role="note" className="mt-6 rounded-xl border border-orange-200 bg-orange-50 p-4 text-center text-sm font-medium text-orange-900">Entorno de evaluación: utiliza únicamente datos ficticios de pacientes.</div>}
+            <div className="mt-8 text-center">
               <p className="text-sm text-slate-500">
                 ¿No tienes una cuenta?{" "}
                 <Button
@@ -249,7 +250,6 @@ export function LoginForm() {
                 </Button>
               </p>
             </div>
-            }
           </CardContent>
         </Card>
         

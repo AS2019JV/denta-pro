@@ -27,7 +27,7 @@ function load(file, extra = {}, input = {}) {
 
 test('pilot actions deny excluded operations before cookie, validation, DB or email effects', async () => {
   for (const [file, method, args] of [
-    ['register-clinic', 'registerClinic', [null]], ['save-prescription', 'savePrescription', [null]],
+    ['save-prescription', 'savePrescription', [null]],
     ['invite-member', 'inviteTeamMember', [null]], ['settings', 'seedClinicServices', ['clinic']],
     ['manage-invitations', 'listPendingClinicInvitations', ['clinic']],
     ['manage-invitations', 'revokeClinicInvitation', ['clinic', 'invitation']],
@@ -35,23 +35,24 @@ test('pilot actions deny excluded operations before cookie, validation, DB or em
     const result = await load(`app/actions/${file}.ts`)[method](...args)
     assert.equal(result.error, pilot.PILOT_UNAVAILABLE, method)
   }
-  for (const type of [undefined, 'signup', 'email']) {
-    assert.equal((await load('app/actions/complete-verified-enrollment.ts').completeVerifiedEnrollment(type)).success, false)
-  }
 })
 
-test('shared callback enrollment helper refuses registration but retains invite and recovery flows', async () => {
+test('synthetic enrollment uses verified identity and canonical registration, invite and recovery flows', async () => {
   const calls = []
   const client = {
     auth: { getUser: async () => ({ data: { user: { id: 'ordinary-evaluator', email: 'synthetic@example.invalid', email_confirmed_at: 'confirmed' } }, error: null }) },
     rpc: async name => { calls.push(name); return { data: 'clinic', error: null } },
   }
   const { finishVerifiedEnrollment } = load('lib/verified-enrollment.ts')
-  for (const type of [undefined, 'signup', 'email']) assert.equal((await finishVerifiedEnrollment(client, type)).success, false)
-  assert.equal(calls.length, 0)
+  for (const type of [undefined, 'signup', 'email']) assert.equal((await finishVerifiedEnrollment(client, type)).success, true)
   assert.equal((await finishVerifiedEnrollment(client, 'invite', 'synthetic-invitation')).success, true)
   assert.equal((await finishVerifiedEnrollment(client, 'recovery')).success, true)
-  assert.deepEqual(calls, ['redeem_verified_clinic_invitation'])
+  assert.deepEqual(calls, ['complete_verified_clinic_registration', 'complete_verified_clinic_registration',
+    'complete_verified_clinic_registration', 'redeem_verified_clinic_invitation'])
+  calls.length = 0
+  client.auth.getUser = async () => ({ data: { user: { email: 'unconfirmed@example.invalid' } }, error: null })
+  assert.equal((await finishVerifiedEnrollment(client, 'signup')).success, false)
+  assert.equal(calls.length, 0)
 })
 
 test('pilot document, image and operational-email routes deny before resolving any credentials', async () => {
@@ -67,10 +68,11 @@ test('pilot document, image and operational-email routes deny before resolving a
 test('pilot middleware excludes direct routes without any configured provider and redirects home', async () => {
   const { middleware } = load('middleware.ts')
   const request = pathname => ({ headers: {}, url: 'https://pilot.example.invalid' + pathname, nextUrl: { pathname } })
-  for (const pathname of ['/signup', '/billing', '/recipes', '/api/private-media', '/api/send-email']) {
+  for (const pathname of ['/billing', '/recipes', '/api/private-media', '/api/send-email']) {
     assert.equal((await middleware(request(pathname))).status, 403)
   }
   assert.equal((await middleware(request('/api/health'))).kind, 'next')
+  assert.equal((await middleware(request('/signup'))).kind, 'next')
   assert.equal((await middleware(request('/'))).url, 'https://pilot.example.invalid/login')
 })
 
@@ -89,7 +91,8 @@ test('pilot configuration rejects Production, wrong project and unknown modes wi
   assert.equal(readPublicEnv(valid).NEXT_PUBLIC_SUPABASE_URL, valid.NEXT_PUBLIC_SUPABASE_URL)
   for (const input of [{ ...valid, VERCEL_ENV: 'production' },
     { ...valid, NEXT_PUBLIC_SUPABASE_URL: 'https://other.example.invalid' },
-    { ...valid, NEXT_PUBLIC_CLINIA_PILOT_MODE: 'unknown' }]) {
+    { ...valid, NEXT_PUBLIC_CLINIA_PILOT_MODE: 'unknown' },
+    { ...valid, NEXT_PUBLIC_CLINIA_PILOT_MODE: undefined, VERCEL_GIT_COMMIT_REF: 'codex/clinia-mvp-synthetic' }]) {
     assert.throws(() => readPublicEnv(input), /Invalid public configuration/)
   }
 })

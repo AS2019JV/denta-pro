@@ -10,6 +10,7 @@ type PublicInput = {
   CLINIA_LOCAL_ACCEPTANCE?: string
   VERCEL?: string
   VERCEL_ENV?: string
+  VERCEL_GIT_COMMIT_REF?: string
 }
 
 function isPublicKey(key: string): boolean {
@@ -46,6 +47,8 @@ export function readPublicEnv(input: PublicInput) {
     && (typeof window !== 'undefined' || input.CLINIA_LOCAL_ACCEPTANCE === '1')
     && supabaseUrl === 'http://127.0.0.1:56321' && appUrl === 'http://127.0.0.1:3400'
   const invalid: string[] = []
+  if (input.VERCEL === '1' && input.VERCEL_GIT_COMMIT_REF === 'codex/clinia-mvp-synthetic'
+    && input.NEXT_PUBLIC_CLINIA_PILOT_MODE !== 'synthetic') invalid.push('synthetic branch requires pilot mode')
   if (input.NEXT_PUBLIC_CLINIA_PILOT_MODE && input.NEXT_PUBLIC_CLINIA_PILOT_MODE !== 'synthetic') invalid.push('NEXT_PUBLIC_CLINIA_PILOT_MODE')
   if (input.NEXT_PUBLIC_CLINIA_PILOT_MODE === 'synthetic') {
     if (input.VERCEL_ENV === 'production') invalid.push('synthetic pilot cannot run in Production')
@@ -76,4 +79,5 @@ export const env = readPublicEnv({
   CLINIA_LOCAL_ACCEPTANCE: process.env.CLINIA_LOCAL_ACCEPTANCE,
   VERCEL: process.env.VERCEL,
   VERCEL_ENV: process.env.VERCEL_ENV,
+  VERCEL_GIT_COMMIT_REF: process.env.VERCEL_GIT_COMMIT_REF,
 })

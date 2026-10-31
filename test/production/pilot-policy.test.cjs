@@ -27,7 +27,7 @@ test('synthetic pilot blocks every excluded route at its exact path and below it
   const { pilotPathBlocked } = loadPolicy()
   const excluded = [
     '/billing', '/pay', '/reports', '/recipes', '/marketing', '/messages',
-    '/settings', '/clinic', '/dentists', '/dashboard/services', '/signup',
+    '/settings', '/clinic', '/dentists', '/dashboard/services',
     '/free-trial', '/schedule-demo', '/api/clinical-documents', '/api/private-media',
     '/api/payments', '/api/webhooks', '/api/send-email',
   ]
@@ -47,7 +47,7 @@ test('route exclusions use path boundaries and do not block similarly named rout
 
 test('ordinary pilot routes for patients, calendar, login, auth, MFA, and health stay available', () => {
   const { pilotPathBlocked } = loadPolicy()
-  for (const route of ['/patients', '/calendar', '/login', '/auth/callback', '/mfa', '/api/health']) {
+  for (const route of ['/patients', '/calendar', '/login', '/signup', '/auth/callback', '/mfa', '/api/health']) {
     assert.equal(pilotPathBlocked(route), false, `${route} should remain available`)
   }
 })
