@@ -332,7 +332,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
         // If no prior HCU form exists, pre-populate from patients table
         const { data: pData, error: patientError } = await supabase
           .from('patients')
-          .select('*')
+          .select('id,clinic_id,first_name,last_name,cedula,gender,birth_date,address,phone,medical_record_number,guardian_name,emergency_contact,has_diabetes,has_hypertension,has_heart_disease,allergies,deleted_at')
           .eq('clinic_id', currentClinicId!)
           .eq('id', patientId)
           .is('deleted_at', null)
@@ -351,7 +351,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
             const populated = {
               ...prev,
               nombre_completo: `${pData.first_name || ''} ${pData.last_name || ''}`.trim() || prev.nombre_completo,
-              identificacion: pData.cedula || pData.identification || prev.identificacion,
+              identificacion: pData.cedula || prev.identificacion,
               sexo: pData.gender === 'female' ? 'F' : pData.gender === 'male' ? 'M' : prev.sexo,
               fecha_nacimiento: pData.birth_date || prev.fecha_nacimiento,
               edad: age || prev.edad,
@@ -359,7 +359,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
               telefono: pData.phone || prev.telefono,
               historia_numero: pData.medical_record_number || prev.historia_numero,
               responsable: pData.guardian_name || pData.emergency_contact || prev.responsable,
-              nacionalidad: pData.nationality || "Ecuatoriana",
+              nacionalidad: prev.nacionalidad || "Ecuatoriana",
               ant_diabetes: !!pData.has_diabetes,
               ant_hipertension: !!pData.has_hypertension,
               ant_enf_cardiaca: !!pData.has_heart_disease,

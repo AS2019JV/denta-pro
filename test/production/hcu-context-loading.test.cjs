@@ -15,7 +15,7 @@ function harness(options={}){
       if(!old || deps.some((v,n)=>v!==old.deps[n]))state.effects.push(()=>{old?.cleanup?.();state.slots[i]={deps,cleanup:effect()}})},
   }
   const client={from(table){const filters={},call={table,filters};state.calls.push(call)
-    const q={select(){return q},order(){return q},limit(){return q},eq(k,v){filters[k]=v;return q},is(k,v){return q.eq(k,v)},
+    const q={select(fields){call.projection=fields;return q},order(){return q},limit(){return q},eq(k,v){filters[k]=v;return q},is(k,v){return q.eq(k,v)},
       abortSignal(signal){call.signal=signal;return q},
       maybeSingle:async()=>{
         if(table==='hcu033_forms'){const d=deferred();state.pending.set(filters.patient_id,d);return d.promise}
@@ -80,6 +80,10 @@ test('clinic/user change, completed revalidation and unmount discard late HCU re
 test('smoking does not prefill asthma, and a failed HCU load cannot be saved as a new blank record',async()=>{
   const h=harness();h.render('patient-a');h.state.pending.get('patient-a').resolve({data:null,error:null});await settle()
   assert.equal(h.form().ant_asma,false);assert.equal(h.form().nombre_completo,'SYNTHETIC patient-a')
+  const patientRead=h.state.calls.find(call=>call.table==='patients')
+  assert.ok(patientRead)
+  assert.deepEqual(patientRead.projection.split(',').sort(),['id','clinic_id','first_name','last_name','cedula','gender','birth_date','address','phone','medical_record_number','guardian_name','emergency_contact','has_diabetes','has_hypertension','has_heart_disease','allergies','deleted_at'].sort())
+  assert.equal(patientRead.filters.clinic_id,'clinic-a');assert.equal(patientRead.filters.id,'patient-a')
   const failed=harness();failed.render('patient-a');failed.state.pending.get('patient-a').resolve({data:null,error:{message:'synthetic unavailable'}});await settle()
   await failed.render('patient-a')();assert.equal(failed.state.writes.length,0)
 })
