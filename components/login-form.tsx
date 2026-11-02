@@ -154,6 +154,7 @@ export function LoginForm() {
                     size="icon"
                     className="absolute right-1 top-1 h-10 w-10 text-slate-400 hover:text-slate-600 rounded-lg"
                     onClick={() => setShowPassword(!showPassword)}
+                    aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
                   >
                     {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                   </Button>

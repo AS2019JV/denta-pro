@@ -13,6 +13,7 @@ const tasks = [
   "Registrar odontograma y evolución en HCU-033",
   "Guardar y reabrir el registro",
 ]
+const feedbackEmail = "soporte@care.cliniaplus.com"
 
 function safeRoute(pathname: string | null): string {
   if (!pathname || !pathname.startsWith("/")) return "/"
@@ -32,9 +33,9 @@ export function PilotWelcome() {
     setCopyStatus("")
     try {
       await navigator.clipboard.writeText(`Ruta: ${safeRoute(pathname)}`)
-      setCopyStatus("Ruta copiada. Compártela por el canal privado del responsable.")
+      setCopyStatus(`Ruta copiada. Envíala con tus comentarios a ${feedbackEmail}.`)
     } catch {
-      setCopyStatus("No se pudo copiar. Puedes indicar la ruta manualmente por el canal privado del responsable.")
+      setCopyStatus(`No se pudo copiar. Puedes indicar la ruta manualmente a ${feedbackEmail}.`)
     }
   }
 
@@ -62,8 +63,11 @@ export function PilotWelcome() {
               <Button type="button" size="sm" variant="outline" onClick={copyRoute}>
                 Copiar ruta para comentarios
               </Button>
-              <span className="text-muted-foreground">Envía tus comentarios por el canal privado del responsable.</span>
+              <a className="text-primary underline underline-offset-4" href={`mailto:${feedbackEmail}?subject=${encodeURIComponent("Comentarios sobre Clinia+")}`}>
+                {feedbackEmail}
+              </a>
             </div>
+            <p className="text-muted-foreground">Cuéntanos dónde te detuviste, qué esperabas y qué te impediría usar Clinia+. Incluye sólo datos ficticios.</p>
             <p className="sr-only" role="status" aria-live="polite">{copyStatus}</p>
             {copyStatus && <p className="text-sm text-muted-foreground" aria-hidden="true">{copyStatus}</p>}
           </div>
