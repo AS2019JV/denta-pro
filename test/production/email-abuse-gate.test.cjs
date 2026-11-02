@@ -15,7 +15,7 @@ const defaults = { NODE_ENV: 'production', VERCEL: '1', CLINIA_EMAIL_ENABLED: '1
   NEXT_PUBLIC_SUPABASE_ANON_KEY: 'synthetic-anon', SUPABASE_SERVICE_ROLE_KEY: 'synthetic-service',
   RESEND_API_KEY: 'synthetic-resend', RESEND_FROM_EMAIL: 'Clinia+ <sender@example.invalid>' };
 function harness(options = {}) {
-  const state = { calls: [], effects: [], clients: [] };
+  const state = { calls: [], effects: [], clients: [], warnings: [] };
   const env = { ...defaults, ...options.env };
   const trusted = new Headers({ origin, 'x-vercel-forwarded-for': '203.0.113.1', ...options.headers });
   const effect = name => { state.effects.push(name); throw Error('Provider side effect must be blocked'); };
@@ -58,7 +58,7 @@ function harness(options = {}) {
       return require(name);
     };
     vm.runInNewContext(js, { module, exports: module.exports, require: imports, URL, Buffer, TextEncoder,
-      console: { log() {}, warn() {}, error() {} }, process: { env, cwd: () => root } }, { filename: file });
+      console: { log() {}, warn(...args) { state.warnings.push(args); }, error() {} }, process: { env, cwd: () => root } }, { filename: file });
     return module.exports;
   }
   const gate = input => load('lib/server-email-gate.ts').consumeEmailBudget({ action: 'signup',
@@ -124,6 +124,35 @@ test('gate hashes normalized identity with stable HMAC and only permits exact du
     const result = await harness(options).gate(); assert.equal(result.status, 503);
     assert.ok(!JSON.stringify(result).includes('sensitive'));
   }
+});
+
+test('unavailable diagnostics distinguish stages without logging identities, secrets or provider errors', async () => {
+  const cases = [
+    [{ env: { CLINIA_EMAIL_ENABLED: '' } }, 'email_disabled'],
+    [{ env: { VERCEL: '' } }, 'ingress_unavailable'],
+    [{ env: { EMAIL_ABUSE_HASH_SECRET: 'short' } }, 'hash_secret_invalid'],
+    [{ env: { RESEND_API_KEY: '' } }, 'server_config_missing'],
+    [{ env: { RESEND_FROM_EMAIL: 'invalid-sender' } }, 'sender_invalid'],
+    [{ env: { NEXT_PUBLIC_APP_URL: 'https://example.invalid/path' } }, 'origin_config_invalid'],
+    [{ headers: { 'x-vercel-forwarded-for': '' } }, 'client_ip_invalid'],
+    [{ error: { message: 'sensitive provider detail', details: defaults.SUPABASE_SERVICE_ROLE_KEY } }, 'budget_rpc_failed'],
+    [{ data: null }, 'budget_response_invalid'],
+    [{ throws: true }, 'budget_exception'],
+  ];
+  for (const [options, code] of cases) {
+    const h = harness(options);
+    const result = await h.gate();
+    assert.equal(result.status, 503);
+    assert.deepEqual(h.state.warnings, [[`[email-gate] ${code}`]]);
+    assert.equal(result.message, 'El envío de correos no está disponible. Intenta más tarde.');
+    assert.deepEqual(h.state.effects, []);
+  }
+  const success = harness({ data: { allowed: true, retry_after_seconds: 0 } });
+  assert.equal((await success.gate()).allowed, true);
+  assert.deepEqual(success.state.warnings, []);
+  const limited = harness();
+  assert.equal((await limited.gate()).status, 429);
+  assert.deepEqual(limited.state.warnings, []);
 });
 
 function signupForm() {
