@@ -15,6 +15,16 @@ const tasks = [
 ]
 const feedbackEmail = "soporte@care.cliniaplus.com"
 
+export function PilotNotice() {
+  return (
+    <header className="shrink-0 bg-background px-4 py-3 pl-16 lg:px-8">
+      <p className="text-sm font-medium text-primary" role="note">
+        Entorno de evaluación. Utiliza únicamente datos ficticios
+      </p>
+    </header>
+  )
+}
+
 function safeRoute(pathname: string | null): string {
   if (!pathname || !pathname.startsWith("/")) return "/"
   const segments = pathname.split("/").filter(Boolean).map(segment => {
@@ -40,13 +50,9 @@ export function PilotWelcome() {
   }
 
   return (
-    <Card className="border-primary/20">
+    <Card className="mb-5 border-primary/20">
       <CardContent className="p-4 sm:p-5">
-        <p className="text-sm font-medium text-primary" role="note">
-          Entorno de evaluación. Utiliza únicamente datos ficticios
-        </p>
-
-        <details className="mt-3 group">
+        <details className="group">
           <summary className="cursor-pointer text-sm font-semibold underline-offset-4 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded-sm">
             Bienvenida y tareas sugeridas
           </summary>

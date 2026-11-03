@@ -11,7 +11,7 @@ import { Toaster } from "sonner"
 import { SubscriptionBlocker } from "@/components/subscription-blocker"
 import { DashboardWrapper } from "@/components/dashboard-wrapper"
 import { SYNTHETIC_PILOT } from "@/lib/pilot-policy"
-import { PilotWelcome } from "@/components/pilot-welcome"
+import { PilotNotice, PilotWelcome } from "@/components/pilot-welcome"
 
 export const dynamic = 'force-dynamic'
 
@@ -45,14 +45,17 @@ export default function RootLayout({
                     >
                       Saltar al contenido principal
                     </a>
-                    <div className="flex h-screen bg-background">
+                    <div className="flex h-dvh min-h-0 bg-background">
                       <Sidebar />
-                      <main id="main-content" className="flex-1 overflow-auto focus:outline-none" tabIndex={-1}>
-                        <div className="container mx-auto p-6 pt-20 lg:p-8">
-                          {SYNTHETIC_PILOT && <div className="sticky top-0 z-50 mb-5 bg-background"><PilotWelcome /></div>}
-                          {children}
-                        </div>
-                      </main>
+                      <div className="flex min-w-0 min-h-0 flex-1 flex-col">
+                        {SYNTHETIC_PILOT && <PilotNotice />}
+                        <main id="main-content" className="min-w-0 min-h-0 flex-1 overflow-auto focus:outline-none" tabIndex={-1}>
+                          <div className={`container mx-auto p-6 ${SYNTHETIC_PILOT ? "" : "pt-20"} lg:p-8`}>
+                            {SYNTHETIC_PILOT && <PilotWelcome />}
+                            {children}
+                          </div>
+                        </main>
+                      </div>
                     </div>
                     <Toaster />
                   </SidebarProvider>
