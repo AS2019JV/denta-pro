@@ -81,7 +81,7 @@ export default function UpdatePasswordPage() {
         setIsSuccess(true)
         // Auto redirect after 3 seconds
         setTimeout(() => {
-          router.push("/login")
+          router.replace("/dashboard")
         }, 3000)
       }
     } catch (err) {
@@ -101,10 +101,10 @@ export default function UpdatePasswordPage() {
             </div>
             <CardTitle className="text-2xl font-bold mb-2">¡Contraseña Actualizada!</CardTitle>
             <CardDescription className="text-slate-500 mb-6">
-              Tu contraseña ha sido cambiada exitosamente. Te redirigiremos al inicio de sesión en unos segundos.
+              Tu contraseña ha sido actualizada. Tu sesión sigue activa; te llevaremos al panel en unos segundos.
             </CardDescription>
-            <Button className="w-full bg-teal-600" onClick={() => router.push("/login")}>
-              Ir al Inicio de Sesión
+            <Button className="w-full bg-teal-600" onClick={() => router.replace("/dashboard")}>
+              Ir al panel
             </Button>
           </Card>
         </motion.div>

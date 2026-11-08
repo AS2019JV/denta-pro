@@ -2,13 +2,13 @@ const { test } = require('node:test')
 const assert = require('node:assert/strict')
 const fs = require('node:fs'), path = require('node:path'), vm = require('node:vm'), ts = require('typescript')
 const root = path.resolve(__dirname, '../..')
-function load(file, requireModule, hardNavigate = () => {}) {
+function load(file, requireModule, hardNavigate = () => {}, schedule = () => {}) {
   const module = { exports: {} }
   const output = ts.transpileModule(fs.readFileSync(path.join(root, file), 'utf8'), {
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, jsx: ts.JsxEmit.ReactJSX },
   }).outputText
   vm.runInNewContext(output, { module, exports: module.exports, require: requireModule, URLSearchParams,
-    window: { location: { search: testSearch, replace: hardNavigate } }, setTimeout() {} })
+    window: { location: { search: testSearch, replace: hardNavigate } }, setTimeout: schedule })
   return module.exports
 }
 let testSearch = ''
@@ -34,7 +34,7 @@ function fixture(aal = 'aal1', verified = true) {
 function page(file, h, search = '') {
   testSearch = search
   let cursor = 0, effects = [], tree
-  const state = [], routes = [], documentRoutes = []
+  const state = [], routes = [], documentRoutes = [], timers = []
   const router = { replace: route => routes.push(route), push: route => routes.push(route) }
   const react = {
     useState: initial => { const index = cursor++; if (!(index in state)) state[index] = initial; return [state[index], value => { state[index] = value }] },
@@ -51,7 +51,7 @@ function page(file, h, search = '') {
     if (id === '@/lib/mfa-enrollment') return {}
     if (id === 'framer-motion') return { motion: { div: 'motion-div' } }
     return new Proxy({}, { get: (_, name) => name })
-  }, route => { documentRoutes.push(route); routes.push(route) }).default
+  }, route => { documentRoutes.push(route); routes.push(route) }, callback => timers.push(callback)).default
   const render = () => { cursor = 0; effects = []; tree = component(); return tree }
   const find = (predicate, node) => {
     if (!node || typeof node !== 'object') return
@@ -59,7 +59,7 @@ function page(file, h, search = '') {
     else { if (predicate(node)) return node; return find(predicate, node.props?.children) }
   }
   render()
-  return { state, routes, documentRoutes, render, find: predicate => find(predicate, tree), mount: async () => { effects.forEach(effect => effect()); for (let n = 0; n < 25; n++) await Promise.resolve(); render() },
+  return { state, routes, documentRoutes, timers, render, find: predicate => find(predicate, tree), mount: async () => { effects.forEach(effect => effect()); for (let n = 0; n < 25; n++) await Promise.resolve(); render() },
     submit: () => find(node => node.type === 'form', tree).props.onSubmit({ preventDefault() {} }) }
 }
 const passwordPage = 'app/(auth)/update-password/page.tsx', mfaPage = 'app/(auth)/auth/mfa/page.tsx'
@@ -166,4 +166,19 @@ test('password update exception stays unsuccessful and uses a safe message', asy
   assert.equal(p.state[4], false)
   assert.doesNotMatch(p.state[5], /private-request-detail/)
   assert.match(p.state[5], /No pudimos confirmar/)
+})
+
+test('password success keeps verified session and both continuations replace with dashboard', async () => {
+  for (const continuation of ['timer', 'button']) {
+    const h = fixture('aal2'), p = page(passwordPage, h)
+    await p.mount(); p.state[0] = p.state[1] = 'synthetic-password-only'; p.render()
+    await p.submit(); p.render()
+    assert.equal(p.state[4], true)
+    const copy = JSON.stringify(p.find(node => node.type === 'CardDescription').props.children)
+    assert.match(copy, /sesión sigue activa/)
+    assert.doesNotMatch(copy, /inicio de sesión/)
+    if (continuation === 'timer') { assert.equal(p.timers.length, 1); p.timers[0]() }
+    else p.find(node => node.type === 'Button' && node.props.children === 'Ir al panel').props.onClick()
+    assert.deepEqual(p.routes, ['/dashboard'])
+  }
 })
