@@ -6,7 +6,7 @@ function render(auth){
  const source=fs.readFileSync(path.resolve(__dirname,'../../components/dashboard-wrapper.tsx'),'utf8')
  vm.runInNewContext(ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX}}).outputText,
   {module,exports:module.exports,require(id){
-   if(id==='react')return{}
+   if(id==='react')return{useRef:current=>({current}),useEffect(){}}
    if(id==='react/jsx-runtime')return{jsx,jsxs:jsx}
    if(id==='@/components/auth-context')return{useAuth:()=>auth}
    if(id==='@/hooks/use-realtime-notifications')return{useRealtimeNotifications(){}}
@@ -32,9 +32,20 @@ test('failed logout renders the actual retryable error with no protected content
  action.props.onClick();assert.equal(calls,1)
 })
 
-test('same-scope checking keeps mounted draft visible and inert without an access modal',()=>{
+test('connection notice keeps the mounted draft inert and warns against reloading',()=>{
  const tree=render({user:{id:'owner',role:'doctor'},currentClinicId:'synthetic-clinic',logoutStatus:'idle',isLoading:false,isRevalidating:true,authError:'Conexión interrumpida.'});
  assert.match(text(tree),/protected-clinic-content/);assert.match(text(tree),/Conexión interrumpida/);
+ assert.match(text(tree),/Se perderán si recargas o cierras/);
+ const overlay=tree.props.children.find(node=>node?.props?.className?.includes('fixed inset-0'));
+ assert.equal(overlay.props.children.props.role,'alertdialog');assert.equal(overlay.props.children.props['aria-modal'],'true');
  const draft=tree.props.children.find(node=>node?.props?.children==='protected-clinic-content');
  assert.equal(draft.props.inert,true);assert.equal(draft.props.hidden,undefined);
 });
+
+test('routine successful scope checks do not show a connection dialog',()=>{
+ const tree=render({user:{id:'owner',role:'doctor'},currentClinicId:'synthetic-clinic',logoutStatus:'idle',isLoading:false,isRevalidating:true,authError:null})
+ assert.doesNotMatch(JSON.stringify(tree),/alertdialog|connection-notice-title/)
+ assert.match(text(tree),/protected-clinic-content/)
+ const draft=tree.props.children.find(node=>node?.props?.children==='protected-clinic-content')
+ assert.equal(draft.props.inert,true)
+})

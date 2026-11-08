@@ -478,7 +478,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
 
   return (
     <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full min-w-0 [&_[tabindex]]:scroll-mt-52">
-      <div className="sticky top-14 z-20 sm:hidden border-b bg-card p-2 space-y-2" aria-label="Controles del odontograma">
+      <div className="sticky top-14 z-20 grid grid-cols-1 gap-2 landscape:grid-cols-2 sm:hidden [@media(max-height:500px)]:!grid border-b bg-card p-2" aria-label="Controles del odontograma">
         <div className="flex items-end gap-2">
           <label className="flex-1 min-w-0 text-xs font-semibold">
             Herramienta
@@ -491,13 +491,22 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
               {Object.values(TOOLS).map(tool => <option key={tool.id} value={tool.id}>{tool.label}</option>)}
             </select>
           </label>
+          <label className="shrink-0 text-xs font-semibold">
+            Zoom
+            <select aria-label="Zoom del dibujo dental" value={zoomLevel}
+              className="mt-1 h-11 w-20 rounded-md border bg-background px-1 text-sm text-foreground"
+              onChange={event => { const value = Number(event.target.value); if (Number.isFinite(value) && value >= 0.75 && value <= 1.5) setZoomLevel(value); }}>
+              {![0.75, 1, 1.25, 1.5].includes(zoomLevel) && <option value={zoomLevel}>{Math.round(zoomLevel * 100)}%</option>}
+              {[0.75, 1, 1.25, 1.5].map(value => <option key={value} value={value}>{Math.round(value * 100)}%</option>)}
+            </select>
+          </label>
           <button type="button" onClick={handleUndo} disabled={readOnly || history.length === 0}
             className="h-11 w-11 shrink-0 rounded-md border bg-background flex items-center justify-center disabled:opacity-40"
             aria-label="Deshacer último cambio dental">
             <RotateCcw className="h-4 w-4" />
           </button>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex self-end items-center gap-2">
           <button type="button" disabled={readOnly} aria-pressed={activeMode === 'red'} onClick={() => setActiveMode('red')}
             className={cn("min-h-11 flex-1 rounded-md border px-2 text-xs font-semibold", activeMode === 'red' ? "border-red-700 bg-red-700 text-white" : "bg-background text-foreground")}>
             Patología · rojo
@@ -513,11 +522,11 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             <Maximize2 className="h-4 w-4" />
           </button>
         </div>
-        {wideView && <p className="text-xs text-muted-foreground">Vista ancha: desliza las piezas horizontalmente.</p>}
+        {wideView && <p className="landscape:col-span-2 text-xs text-muted-foreground">Vista ancha: desliza las piezas horizontalmente. <span className="landscape:hidden">Puedes girar el móvil para disponer de más espacio.</span></p>}
       </div>
 
       <div 
-         className="bg-card/95 backdrop-blur border-b p-3.5 hidden sm:flex flex-wrap items-center justify-between gap-3 relative transition-all shadow-sm"
+         className="bg-card/95 backdrop-blur border-b p-3.5 hidden sm:flex [@media(max-height:500px)]:!hidden flex-wrap items-center justify-between gap-3 relative transition-all shadow-sm"
       >
          <div className="flex min-w-0 items-center gap-3 flex-wrap">
             <div className="space-y-1">
@@ -630,8 +639,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                </button>
                <button
                   type="button"
-                  onClick={() => setZoomLevel(prev => Math.min(1.25, Number((prev + 0.1).toFixed(2))))}
-                  disabled={zoomLevel >= 1.25}
+                  onClick={() => setZoomLevel(prev => Math.min(1.5, Number((prev + 0.1).toFixed(2))))}
+                  disabled={zoomLevel >= 1.5}
                   className="p-1 px-1.5 rounded hover:bg-card text-muted-foreground hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed transition-all"
                   title="Acercar odontograma (+10%)"
                >

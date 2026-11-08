@@ -157,17 +157,10 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           isExpanded ? "w-64 lg:w-64" : "w-64 lg:w-20"
         )}
       >
-
-        <div className="lg:hidden flex shrink-0 justify-end border-b px-3 py-2 bg-background">
-          <Button type="button" variant="ghost" size="sm" onClick={() => setIsOpen(false)}
-            className="h-10 gap-2" aria-label="Cerrar menú de navegación">
-            <X className="h-4 w-4" /> Cerrar
-          </Button>
-        </div>
         {/* Personalized Branding: Clinic Name on Left, Logo on Right */}
         <div className={cn(
-          "flex items-center justify-between h-16 border-b shrink-0 bg-background/50 relative overflow-hidden group transition-all duration-300",
-          isExpanded ? "px-6" : "px-3 lg:justify-center"
+          "flex items-center justify-between gap-2 h-16 border-b shrink-0 bg-background/50 relative overflow-hidden group transition-all duration-300",
+          isExpanded ? "px-3 lg:px-6" : "px-3 lg:justify-center"
         )}>
           {/* Subtle glowing indicator */}
           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/80 to-transparent" />
@@ -190,6 +183,10 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
               <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
             </div>
           )}
+          <Button type="button" variant="ghost" size="icon" onClick={() => setIsOpen(false)}
+            className="lg:hidden h-11 w-11 shrink-0" aria-label="Cerrar menú de navegación" title="Cerrar menú">
+            <PanelLeftClose className="h-4 w-4" />
+          </Button>
         </div>
 
         {/* User info & Actions */}
