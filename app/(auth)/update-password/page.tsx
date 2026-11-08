@@ -10,7 +10,7 @@ import { Loader2, Eye, EyeOff, CheckCircle2 } from "lucide-react"
 import { useRouter } from "next/navigation"
 import { supabase } from "@/lib/supabase"
 import { motion } from "framer-motion"
-import { passwordUpdateAccess } from "@/lib/password-update"
+import { passwordUpdateAccess, passwordUpdateErrorMessage } from "@/lib/password-update"
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("")
@@ -76,7 +76,7 @@ export default function UpdatePasswordPage() {
         setAccessReady(false)
         router.replace('/auth/mfa?next=/update-password')
       } else if (error) {
-        setError(error.message)
+        setError(passwordUpdateErrorMessage(error))
       } else {
         setIsSuccess(true)
         // Auto redirect after 3 seconds
@@ -85,7 +85,7 @@ export default function UpdatePasswordPage() {
         }, 3000)
       }
     } catch (err) {
-      setError("Ocurrió un error inesperado")
+      setError(passwordUpdateErrorMessage(err))
     } finally {
       setIsLoading(false)
     }
@@ -148,6 +148,8 @@ export default function UpdatePasswordPage() {
                   variant="ghost"
                   size="icon"
                   className="absolute right-1 top-1 h-10 w-10 text-slate-400"
+                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-pressed={showPassword}
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}

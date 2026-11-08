@@ -132,3 +132,38 @@ test('MFA document navigation stays blocked when refreshed assurance or factors 
     assert.match(p.state[8], /no se pudo verificar/)
   }
 })
+
+test('password update failures render safe actionable messages without claiming success', async () => {
+  for (const [error, expected] of [
+    [{ message: '{}' }, /No se pudo actualizar/],
+    [{ code: 'same_password', message: 'private-provider-detail' }, /diferente/],
+    [{ code: 'weak_password' }, /seguridad/],
+    [{ code: 'request_timeout', status: 504, message: '{}' }, /No pudimos confirmar.*iniciar sesión/],
+    [{ status: 503 }, /No pudimos confirmar/],
+    [{ name: 'AuthRetryableFetchError', status: 0 }, /No pudimos confirmar/],
+    [{ code: 'reauthentication_needed' }, /enlace nuevo/],
+    [{ status: 429 }, /Espera unos minutos/],
+  ]) {
+    const h = fixture('aal2'), p = page(passwordPage, h)
+    await p.mount(); p.state[0] = p.state[1] = 'synthetic-password-only'; p.render()
+    h.state.updateError = error
+    await p.submit()
+    assert.match(p.state[5], expected)
+    assert.doesNotMatch(p.state[5], /private-provider-detail/)
+    assert.equal(p.state[5].includes('{}'), false)
+    assert.equal(p.state[4], false)
+    assert.equal(p.state[3], false)
+    assert.equal(p.state[0], 'synthetic-password-only')
+    assert.deepEqual(p.routes, [])
+  }
+})
+
+test('password update exception stays unsuccessful and uses a safe message', async () => {
+  const h = fixture('aal2'), p = page(passwordPage, h)
+  await p.mount(); p.state[0] = p.state[1] = 'synthetic-password-only'; p.render()
+  h.client.auth.updateUser = async () => { throw new TypeError('private-request-detail') }
+  await p.submit()
+  assert.equal(p.state[4], false)
+  assert.doesNotMatch(p.state[5], /private-request-detail/)
+  assert.match(p.state[5], /No pudimos confirmar/)
+})
