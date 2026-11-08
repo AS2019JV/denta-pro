@@ -548,12 +548,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                 </div>
                 <p className="text-sm text-muted-foreground">Formulario oficial del MSP - Ecuador</p>
              </div>
-             {(onExpand || SYNTHETIC_PILOT) && (
-                 <Button type="button" variant="outline" size="sm" data-hcu-expand aria-label="Expandir historia clínica" className="gap-2 shrink-0" onClick={() => onExpand ? onExpand(formData) : setExpanded(true)}>
-                     <Maximize2 className="h-4 w-4" />
-                     <span>Expandir</span>
-                 </Button>
-             )}
+
             </div>
         )}
 
@@ -584,8 +579,8 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
         <div 
            className={"sticky top-0 z-40 bg-background border-b mb-4 px-1 sm:px-3 shadow-sm" + (fullScreen ? "" : " xl:top-12")}
         >
-             <div className="flex items-center justify-between py-2 gap-4 w-full">
-                <div className="flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden py-0.5">
+             <div className="flex items-center justify-between py-2 gap-2 w-full">
+                <div className="min-w-0 flex-1 flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden py-0.5">
                   {["A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L"].filter(section => !SYNTHETIC_PILOT || section !== "L").map(section => (
                       <Button 
                           key={section} 
@@ -599,14 +594,20 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                   ))}
                 </div>
                 <div className="flex items-center gap-1.5 flex-shrink-0">
+                   {!fullScreen && (onExpand || SYNTHETIC_PILOT) && <Button type="button" variant="outline" size="sm"
+                     data-hcu-expand aria-label="Expandir historia clínica" className="h-10 w-10 sm:w-auto shrink-0 gap-1"
+                     onClick={() => onExpand ? onExpand(formData) : setExpanded(true)}>
+                     <Maximize2 className="h-4 w-4" /><span className="hidden sm:inline">Expandir</span>
+                   </Button>}
+
                    <Button 
                      onClick={handleSave} 
                      disabled={isLoading || isRevalidating || saveError || !clinicalRole || !historySupported}
                      size="sm"
-                     className="h-8 text-xs font-bold gap-1 shadow-md hover:shadow-lg transition-all"
+                     className="h-10 text-xs font-bold gap-1 shadow-md hover:shadow-lg transition-all"
                    >
                      <Save className="h-3.5 w-3.5" />
-                     Guardar Formulario
+                     <span className="sm:hidden">Guardar</span><span className="hidden sm:inline">Guardar Formulario</span>
                    </Button>
                 </div>
              </div>

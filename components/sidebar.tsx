@@ -134,7 +134,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
   return (
     <>
       {/* Mobile menu button */}
-      <div className="lg:hidden fixed top-4 left-4 z-50">
+      <div className={cn("lg:hidden fixed top-4 left-4 z-50", isOpen && "hidden")}>
         <Button
           variant="outline"
           size="icon"
@@ -152,11 +152,18 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
       <div
         id="clinic-sidebar"
         className={cn(
-          "fixed inset-y-0 left-0 z-40 bg-card/95 backdrop-blur border-r transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-full",
+          "fixed inset-y-0 left-0 z-[80] lg:z-40 bg-card border-r transform transition-all duration-300 ease-in-out lg:translate-x-0 lg:static lg:inset-0 flex flex-col h-full",
           isOpen ? "translate-x-0" : "-translate-x-full",
           isExpanded ? "w-64 lg:w-64" : "w-64 lg:w-20"
         )}
       >
+
+        <div className="lg:hidden flex shrink-0 justify-end border-b px-3 py-2 bg-background">
+          <Button type="button" variant="ghost" size="sm" onClick={() => setIsOpen(false)}
+            className="h-10 gap-2" aria-label="Cerrar menú de navegación">
+            <X className="h-4 w-4" /> Cerrar
+          </Button>
+        </div>
         {/* Personalized Branding: Clinic Name on Left, Logo on Right */}
         <div className={cn(
           "flex items-center justify-between h-16 border-b shrink-0 bg-background/50 relative overflow-hidden group transition-all duration-300",
@@ -308,7 +315,7 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
       </div>
 
       {/* Overlay for mobile */}
-      {isOpen && <div className="fixed inset-0 z-30 bg-black/50 lg:hidden" onClick={() => setIsOpen(false)} />}
+      {isOpen && <div className="fixed inset-0 z-[70] bg-black/50 lg:hidden" onClick={() => setIsOpen(false)} />}
     </>
   )
 }

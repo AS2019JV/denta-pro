@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useEffect, useCallback } from 'react';
-import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save, RotateCcw, Trash2, AlertCircle, ZoomIn, ZoomOut, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
+import { RefreshCw, Eraser, X, FileText, MousePointer2, Info, ChevronRight, Check, Save, RotateCcw, Trash2, AlertCircle, ZoomIn, ZoomOut, Maximize2, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import { useOptionalSidebar } from "@/components/sidebar-context";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
@@ -297,6 +297,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   const [activeMode, setActiveMode] = useState<'red' | 'blue'>('red');
   const [rangeStart, setRangeStart] = useState<number | null>(null);
   const [zoomLevel, setZoomLevel] = useState<number>(1.0);
+  const [wideView, setWideView] = useState(false);
   const sidebar = useOptionalSidebar();
 
   useEffect(() => {
@@ -476,9 +477,47 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   );
 
   return (
-    <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full min-w-0">
+    <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full min-w-0 [&_[tabindex]]:scroll-mt-52">
+      <div className="sticky top-14 z-20 sm:hidden border-b bg-card p-2 space-y-2" aria-label="Controles del odontograma">
+        <div className="flex items-end gap-2">
+          <label className="flex-1 min-w-0 text-xs font-semibold">
+            Herramienta
+            <select aria-label="Herramienta del odontograma" value={activeTool.id} disabled={readOnly}
+              className="mt-1 h-11 w-full rounded-md border bg-background px-2 text-sm text-foreground"
+              onChange={event => {
+                const tool = Object.values(TOOLS).find(tool => tool.id === event.target.value);
+                if (tool) { setActiveTool(tool); setRangeStart(null); }
+              }}>
+              {Object.values(TOOLS).map(tool => <option key={tool.id} value={tool.id}>{tool.label}</option>)}
+            </select>
+          </label>
+          <button type="button" onClick={handleUndo} disabled={readOnly || history.length === 0}
+            className="h-11 w-11 shrink-0 rounded-md border bg-background flex items-center justify-center disabled:opacity-40"
+            aria-label="Deshacer último cambio dental">
+            <RotateCcw className="h-4 w-4" />
+          </button>
+        </div>
+        <div className="flex items-center gap-2">
+          <button type="button" disabled={readOnly} aria-pressed={activeMode === 'red'} onClick={() => setActiveMode('red')}
+            className={cn("min-h-11 flex-1 rounded-md border px-2 text-xs font-semibold", activeMode === 'red' ? "border-red-700 bg-red-700 text-white" : "bg-background text-foreground")}>
+            Patología · rojo
+          </button>
+          <button type="button" disabled={readOnly} aria-pressed={activeMode === 'blue'} onClick={() => setActiveMode('blue')}
+            className={cn("min-h-11 flex-1 rounded-md border px-2 text-xs font-semibold", activeMode === 'blue' ? "border-blue-700 bg-blue-700 text-white" : "bg-background text-foreground")}>
+            Realizado · azul
+          </button>
+          <button type="button" aria-pressed={wideView} onClick={() => setWideView(value => !value)}
+            className={cn("h-11 w-11 shrink-0 rounded-md border flex items-center justify-center", wideView ? "bg-primary text-primary-foreground" : "bg-background")}
+            aria-label={wideView ? "Restaurar anchura del odontograma" : "Ampliar anchura del odontograma"}
+            title="Vista ancha: desliza el odontograma horizontalmente">
+            <Maximize2 className="h-4 w-4" />
+          </button>
+        </div>
+        {wideView && <p className="text-xs text-muted-foreground">Vista ancha: desliza las piezas horizontalmente.</p>}
+      </div>
+
       <div 
-         className="bg-card/95 backdrop-blur border-b p-3.5 flex flex-wrap items-center justify-between gap-3 relative transition-all shadow-sm"
+         className="bg-card/95 backdrop-blur border-b p-3.5 hidden sm:flex flex-wrap items-center justify-between gap-3 relative transition-all shadow-sm"
       >
          <div className="flex min-w-0 items-center gap-3 flex-wrap">
             <div className="space-y-1">
@@ -705,7 +744,7 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
             <div className="min-w-0 w-full bg-card p-1 sm:p-3 rounded-xl border shadow-inner overflow-x-auto custom-scrollbar" role="region" aria-label="Odontograma completo, desplazamiento horizontal" tabIndex={0}>
                 <div 
                    className="min-w-[680px]"
-                   style={{ zoom: zoomLevel }}
+                   style={{ zoom: zoomLevel, minWidth: wideView ? '1100px' : undefined }}
                 >
                     <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[90px_1fr] gap-2 sm:gap-4 items-center">
                     <div className="flex flex-col justify-around py-8 text-[9px] font-bold text-muted-foreground uppercase tracking-tight text-center">

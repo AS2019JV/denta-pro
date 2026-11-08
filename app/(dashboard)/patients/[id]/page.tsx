@@ -43,7 +43,7 @@ export default function PatientDetailsPage() {
   const params = useParams()
   const router = useRouter()
   const { t } = useTranslation()
-  const { user, currentClinicId, isLoading: authLoading, authError } = useAuth()
+  const { user, currentClinicId, isLoading: authLoading, isRevalidating, authError } = useAuth()
   
   const currentClinic = user?.clinic_memberships?.find(m => m.clinic_id === currentClinicId)?.clinics
   const clinicName = currentClinic?.name || "su Clínica Dental"
@@ -58,7 +58,8 @@ export default function PatientDetailsPage() {
   const [reload, setReload] = useState(0)
   const [loadedScope, setLoadedScope] = useState("")
   const patientId = typeof params.id === "string" ? params.id : ""
-  const authorized = !authLoading && !authError && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
+  // Transient revalidation retains the same read-only view; confirmed loss clears AuthProvider scope.
+  const authorized = !authLoading && (!authError || isRevalidating) && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
   const scope = authorized ? `${currentClinicId}:${user?.id}:${user?.role}:${patientId}` : ""
   const scopeRef = useRef(scope)
   scopeRef.current = scope
@@ -434,18 +435,18 @@ export default function PatientDetailsPage() {
          <div className="min-w-0 flex-1 flex flex-col bg-muted/5 h-full xl:overflow-y-auto custom-scrollbar">
             <Tabs value={activeTab} onValueChange={handleTabChange} className="flex flex-col w-full min-h-full">
                {/* Fixed Tabs List container */}
-               <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 relative xl:sticky xl:top-0">
-                  <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
-                     <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
+               <div className="flex-none bg-primary/5 border-y border-primary/20 px-2 sm:px-4 py-3 shadow-sm z-20 relative xl:sticky xl:top-0">
+                  <div className="max-w-7xl mx-auto w-full min-w-0">
+                     <TabsList className="h-auto w-full p-0 bg-transparent gap-2 grid grid-cols-2 sm:grid-cols-4">
                          {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'files'].filter(tab => !SYNTHETIC_PILOT || !['recipes', 'files'].includes(tab)).map((tab) => (
                              <TabsTrigger 
                                  key={tab}
                                  value={tab}
-                                 className="data-[state=active]:bg-transparent data-[state=active]:shadow-none data-[state=active]:border-b-2 data-[state=active]:border-primary rounded-none py-3 px-0 text-muted-foreground data-[state=active]:text-primary font-bold text-xs sm:text-sm transition-all"
+                                 className={cn("min-h-11 border bg-card rounded-lg py-2 px-3 text-foreground data-[state=active]:bg-primary data-[state=active]:text-primary-foreground data-[state=active]:border-primary data-[state=active]:shadow-sm font-semibold text-xs sm:text-sm whitespace-normal transition-colors", tab === "hcu033" && "border-primary/40 bg-primary/10 text-primary")}
                              >
                                  {tab === 'info' && "Perfil Completo"}
                                  {tab === 'medical' && "Historial Médico"}
-                                 {tab === 'hcu033' && "HCU-033"}
+                                 {tab === 'hcu033' && "Formulario HCU-033"}
                                  {tab === 'appointments' && "Citas"}
                                  {tab === 'recipes' && "Recetas / Prescripciones"}
                                  {tab === 'files' && (
@@ -710,8 +711,8 @@ function AppointmentsList({ patientId, onNewAppointment }: { patientId: string, 
   const [error, setError] = useState(false)
   const [retry, setRetry] = useState(0)
   const [loadedScope, setLoadedScope] = useState("")
-  const { user, currentClinicId, isLoading: authLoading, authError } = useAuth()
-  const authorized = !authLoading && !authError && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
+  const { user, currentClinicId, isLoading: authLoading, isRevalidating, authError } = useAuth()
+  const authorized = !authLoading && (!authError || isRevalidating) && !!currentClinicId && !!user?.id && ["doctor", "clinic_owner"].includes(user.role)
   const scope = authorized ? `${currentClinicId}:${user?.id}:${user?.role}:${patientId}` : ""
   const scopeRef = useRef(scope)
   scopeRef.current = scope
