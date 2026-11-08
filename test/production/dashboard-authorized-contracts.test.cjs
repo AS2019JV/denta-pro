@@ -85,6 +85,21 @@ async function main() {
     const context = { requestId: { current: 0 }, searchController: { current: null }, currentClinicId: 'clinic', user: { id: 'actor' }, authLoading: false, authError: null, setSearchError: value => errors.push(value), setLoading: noOp, setPatients: noOp, supabase: { rpc: () => ({ abortSignal: async () => ({ data: null, error: { message: 'denied' } }) }) } };
     await execute(fetchPatients, context)('ana'); assert.equal(errors.at(-1), true);
   });
+
+  await check('opening patient selector loads only five recent clinic patients without a search', async () => {
+    let args, results;
+    const context = { requestId: {current:0}, searchController:{current:null}, currentClinicId:'clinic', user:{id:'actor'}, authLoading:false, authError:null,
+      setSearchError:noOp, setLoading:noOp, setPatients:rows=>results=rows,
+      supabase:{rpc(name,input){assert.equal(name,'get_patient_demographics');args=input;return{abortSignal:async()=>({data:{items:[{id:'recent',first_name:'Paciente',last_name:'Ficticio'}],total_count:1},error:null})}}} };
+    await execute(fetchPatients,context)('');
+    assert.equal(args.p_clinic_id,'clinic');assert.equal(args.p_search,'');assert.equal(args.p_limit,5);assert.equal(results[0].id,'recent');
+  });
+  await check('patient suggestions are never requested without clinic authority', async () => {
+    for(const state of [{currentClinicId:null},{authLoading:true},{authError:'denied'}]){
+      const context={requestId:{current:0},searchController:{current:null},currentClinicId:'clinic',user:{id:'actor'},authLoading:false,authError:null,setSearchError:noOp,setLoading:noOp,setPatients:noOp,supabase:{rpc(){throw Error('Unauthorized patient lookup')}},...state};
+      await execute(fetchPatients,context)('');
+    }
+  });
   const checkAccess = initializer('components/subscription-blocker.tsx', 'checkAccess');
   await check('technical access uses boolean RPC; denied and verification failure differ', async () => {
     for (const data of [true, false, null, { plan: 'trial' }]) {

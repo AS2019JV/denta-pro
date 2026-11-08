@@ -64,11 +64,11 @@ export function AppointmentEditor({
     appointment ? clinicDayKey(appointment.start_time) : initialDay || clinicDayKey(),
   )
   const [time, setTime] = useState(appointment ? clinicTime(appointment.start_time) : '09:00')
-  const [duration, setDuration] = useState(
+  const [duration, setDuration] = useState(() => String(
     appointment
       ? Math.round((Date.parse(appointment.end_time) - Date.parse(appointment.start_time)) / 60_000)
       : 30,
-  )
+  ))
   const [type, setType] = useState(appointment?.type || 'Consulta odontológica')
   const [status, setStatus] = useState(appointment?.status || 'scheduled')
   const [notes, setNotes] = useState(appointment?.notes || '')
@@ -88,10 +88,11 @@ export function AppointmentEditor({
     const requestScope = scopeRef.current
     try {
       setSaving(true)
-      if (!Number.isInteger(duration) || duration < 5 || duration > 480)
+      const durationMinutes = Number(duration)
+      if (!duration.trim() || !Number.isInteger(durationMinutes) || durationMinutes < 5 || durationMinutes > 480)
         throw Error('La duración debe ser de 5 a 480 minutos.')
       const start = clinicDateTimeToInstant(day, time),
-        end = new Date(Date.parse(start) + duration * 60_000).toISOString()
+        end = new Date(Date.parse(start) + durationMinutes * 60_000).toISOString()
       await saveAppointment(
         supabase,
         currentClinicId!,
@@ -140,7 +141,7 @@ export function AppointmentEditor({
             {!fixedPatient && !appointment && (
               <div className="space-y-2">
                 <Label>Paciente</Label>
-                <AsyncPatientSelect value={patientId} onValueChange={setPatientId} />
+                <AsyncPatientSelect value={patientId} onValueChange={setPatientId} placeholder="Selecciona un paciente" />
               </div>
             )}
             <div className="space-y-2">
@@ -212,7 +213,7 @@ export function AppointmentEditor({
                   max={480}
                   step={5}
                   value={duration}
-                  onChange={(e) => setDuration(Number(e.target.value))}
+                  onChange={(e) => setDuration(e.target.value)}
                   required
                 />
               </div>

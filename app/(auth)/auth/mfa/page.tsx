@@ -12,6 +12,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
 import { cancelPendingTotpEnrollment, getEnrollmentRecoveryState } from '@/lib/mfa-enrollment'
+import { AuthenticatorGuide } from '@/components/authenticator-guide'
 import { mfaReturnPath } from '@/lib/password-update'
 
 type Factor = { id: string; friendly_name?: string | null }
@@ -190,6 +191,7 @@ export default function MfaPage() {
         </CardHeader>
         <CardContent className="space-y-5">
           {error && <Alert variant="destructive"><AlertDescription>{error}</AlertDescription></Alert>}
+          {!busy && (mode === 'enroll' || mode === 'pending' || !!qrCode) && <AuthenticatorGuide />}
           {busy ? (
             <div className="flex items-center justify-center gap-2 py-8" role="status">
               <Loader2 aria-hidden="true" className="h-5 w-5 animate-spin" />

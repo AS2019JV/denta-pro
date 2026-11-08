@@ -166,25 +166,22 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
           <div className="absolute left-0 top-0 bottom-0 w-0.5 bg-gradient-to-b from-primary/80 to-transparent" />
           
           <div className={cn("flex flex-col min-w-0 pr-2", !isExpanded && "lg:hidden")}>
-            <h1 className="text-base font-bold bg-clip-text text-transparent bg-gradient-to-r from-foreground via-foreground/90 to-muted-foreground truncate font-montserrat tracking-tight leading-tight" title={activeClinicName || "Clinia +"}>
+            <h1 className="text-base font-semibold text-foreground truncate font-montserrat tracking-tight leading-tight" title={activeClinicName || "Clinia +"}>
               {activeClinicName || "Clinia +"}
             </h1>
-            <span className="text-[9px] text-[#145247] dark:text-[#4FA89A] font-bold tracking-wider uppercase">
-              {activeClinicName ? "Mi Consultorio" : "Panel Clínico"}
-            </span>
           </div>
           
           {activeClinicLogo ? (
-            <div className="relative h-9 w-9 rounded-xl overflow-hidden border border-border/80 shadow-md flex items-center justify-center bg-muted/20 shrink-0 hover:scale-105 transition-transform duration-300" title={activeClinicName || "Clinia +"}>
+            <div className={cn("relative h-9 w-9 rounded-xl overflow-hidden border border-border/80 flex items-center justify-center bg-muted/20 shrink-0", !isExpanded && "lg:hidden")} title={activeClinicName || "Clinia +"}>
               <img src={activeClinicLogo} alt="Clinic Logo" className="object-cover h-full w-full" />
             </div>
           ) : (
-            <div className="relative h-8 w-8 shrink-0 hover:scale-105 transition-transform duration-300" title="Clinia +">
+            <div className={cn("relative h-8 w-8 shrink-0", !isExpanded && "lg:hidden")} title="Clinia +">
               <img src="/brand-logo.png" alt="Clinia Logo" className="object-contain" />
             </div>
           )}
-          <Button type="button" variant="ghost" size="icon" onClick={() => setIsOpen(false)}
-            className="lg:hidden h-11 w-11 shrink-0" aria-label="Cerrar menú de navegación" title="Cerrar menú">
+          <Button type="button" variant="ghost" size="icon" onClick={() => window.matchMedia("(min-width: 1024px)").matches ? toggleSidebar() : setIsOpen(false)}
+            className="h-11 w-11 shrink-0" aria-label={isExpanded ? "Contraer menú de navegación" : "Expandir menú de navegación"} title="Alternar menú">
             <PanelLeftClose className="h-4 w-4" />
           </Button>
         </div>
@@ -284,29 +281,6 @@ export function Sidebar({ navItems, onNavigate }: SidebarProps) {
                 {t("logout")}
               </span>
             </Button>
-
-            {/* Desktop Collapse/Expand Toggle Button */}
-            <div className="hidden lg:block pt-2 border-t">
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={toggleSidebar}
-                className={cn(
-                  "w-full text-muted-foreground hover:text-foreground transition-all duration-200",
-                  isExpanded ? "justify-start" : "justify-center px-0"
-                )}
-                title={isExpanded ? "Colapsar menú lateral" : "Expandir menú lateral"}
-              >
-                {isExpanded ? (
-                  <>
-                    <ChevronLeft className="h-4 w-4 mr-2" />
-                    <span className="text-xs font-medium">Colapsar menú</span>
-                  </>
-                ) : (
-                  <ChevronRight className="h-4 w-4" />
-                )}
-              </Button>
-            </div>
           </div>
 
       </div>

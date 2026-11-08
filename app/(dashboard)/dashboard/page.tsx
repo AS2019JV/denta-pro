@@ -54,7 +54,7 @@ import { supabase } from "@/lib/supabase"
 import { Appointment } from "@/types"
 import { AsyncPatientSelect } from "@/components/async-patient-select"
 import { AppointmentEditor } from "@/components/appointment-editor"
-import { clinicDayKey, clinicDate, clinicTime } from "@/lib/agenda.mjs"
+import { clinicDayKey, clinicDate, clinicTime, APPOINTMENT_LABELS, APPOINTMENT_TRANSITIONS } from "@/lib/agenda.mjs"
 import { isPrescriptionRole, patientRecipesPath } from "@/lib/prescription-policy.mjs"
 import { usePrivateMediaUrl } from "@/hooks/use-private-media"
 
@@ -477,19 +477,20 @@ export default function DashboardPage() {
 
       {/* Appointment Details */}
       <Dialog open={isAppointmentDetailsOpen} onOpenChange={setIsAppointmentDetailsOpen}>
-        <DialogContent>
+        <DialogContent className="max-h-[90dvh] overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>Detalles de la Cita</DialogTitle>
+            <DialogTitle>Detalle de la cita</DialogTitle>
+            <DialogDescription>Motivo, horario y estado de la cita seleccionada.</DialogDescription>
           </DialogHeader>
           {selectedAppointment && (
-            <div className="space-y-4">
+            <div className="space-y-4 rounded-xl border bg-card p-4">
                 <div className="flex items-center gap-4">
                     <Avatar className="h-16 w-16">
                         <AvatarFallback>{selectedAppointment.patients?.first_name[0]}</AvatarFallback>
                     </Avatar>
                     <div>
                         <h3 className="font-semibold text-lg">{selectedAppointment.patients?.first_name} {selectedAppointment.patients?.last_name}</h3>
-                        <Badge variant={selectedAppointment.status === "confirmed" ? "default" : "secondary"}>{selectedAppointment.status}</Badge>
+                        <Badge variant={selectedAppointment.status === "confirmed" ? "default" : "secondary"}>{APPOINTMENT_LABELS[selectedAppointment.status as keyof typeof APPOINTMENT_LABELS] || (selectedAppointment.status === "pending" ? "Pendiente" : selectedAppointment.status === "rescheduled" ? "Reprogramada" : "Sin registrar")}</Badge>
                     </div>
                 </div>
                 <div className="grid grid-cols-2 gap-4 text-sm">
@@ -499,11 +500,11 @@ export default function DashboardPage() {
                     </div>
                     <div>
                         <Label className="text-muted-foreground">Hora</Label>
-                        <p>{clinicTime(selectedAppointment.start_time)}</p>
+                        <p>{clinicTime(selectedAppointment.start_time)}–{clinicTime(selectedAppointment.end_time)}</p>
                     </div>
                     <div>
-                        <Label className="text-muted-foreground">Tratamiento</Label>
-                        <p>{selectedAppointment.type}</p>
+                        <Label className="text-muted-foreground">Motivo de la cita</Label>
+                        <p className="whitespace-pre-wrap break-words">{selectedAppointment.type || "Sin registrar"}</p>
                     </div>
                 </div>
                 {isClinical && selectedAppointment.notes && (
@@ -512,12 +513,12 @@ export default function DashboardPage() {
                     </div>
                 )}
                 <div className="flex flex-wrap gap-2 pt-4 border-t">
-                    <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('confirmed')}>
+                    {APPOINTMENT_TRANSITIONS[selectedAppointment.status as keyof typeof APPOINTMENT_TRANSITIONS]?.includes('confirmed') && <Button size="sm" variant="default" className="bg-green-600 hover:bg-green-700" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('confirmed')}>
                         <Check className="w-4 h-4 mr-1" /> Confirmar
-                    </Button>
-                    <Button size="sm" variant="destructive" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('cancelled')}>
+                    </Button>}
+                    {APPOINTMENT_TRANSITIONS[selectedAppointment.status as keyof typeof APPOINTMENT_TRANSITIONS]?.includes('cancelled') && <Button size="sm" variant="destructive" disabled={isSubmittingAppointment} onClick={() => handleUpdateStatus('cancelled')}>
                          <X className="w-4 h-4 mr-1" /> Cancelar
-                    </Button>
+                    </Button>}
                     <Button size="sm" variant="secondary" className="ml-auto" disabled={SYNTHETIC_PILOT} onClick={handleSendMessage}>
                          <Send className="w-4 h-4 mr-1" /> Mensaje
                     </Button>
@@ -699,20 +700,20 @@ export default function DashboardPage() {
                         </div>
                     ) : (
                         recentAppointments.map(app => (
-                            <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
-                                <div className="flex items-center gap-3">
+                            <button type="button" key={app.id} className="flex w-full text-left items-center justify-between gap-3 p-3 border rounded-xl hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary" onClick={() => handleAppointmentClick(app)}>
+                                <span className="flex items-center gap-3">
                                     <Avatar className="h-10 w-10">
                                         <AvatarFallback>{app.patients?.first_name[0]}</AvatarFallback>
                                     </Avatar>
-                                    <div>
-                                        <p className="font-medium">{app.patients?.first_name} {app.patients?.last_name}</p>
-                                        <p className="text-xs text-muted-foreground">{app.type}</p>
-                                    </div>
-                                </div>
-                                <div className="text-right">
+                                    <span>
+                                        <span className="block font-medium">{app.patients?.first_name} {app.patients?.last_name}</span>
+                                        <span className="block text-xs text-muted-foreground">{app.type}</span>
+                                    </span>
+                                </span>
+                                <span className="text-right">
                                     <Badge variant="outline">{clinicTime(app.start_time)}</Badge>
-                                </div>
-                            </div>
+                                </span>
+                            </button>
                         ))
                     )}
                     <Link href="/calendar?view=today">
@@ -737,20 +738,21 @@ export default function DashboardPage() {
                         </div>
                     ) : (
                         displayedUpcomingAppointments.map(app => (
-                            <div key={app.id} className="flex items-center justify-between p-3 border rounded hover:bg-muted/50 cursor-pointer" onClick={() => handleAppointmentClick(app)}>
-                                <div className="flex items-center gap-3">
+                            <button type="button" key={app.id} className="flex w-full text-left items-center justify-between gap-3 p-3 border rounded-xl hover:bg-muted/50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary" onClick={() => handleAppointmentClick(app)}>
+                                <span className="flex items-center gap-3">
                                     <Avatar className="h-10 w-10">
                                         <AvatarFallback>{app.patients?.first_name[0]}</AvatarFallback>
                                     </Avatar>
-                                    <div>
-                                        <p className="font-medium">{app.patients?.first_name} {app.patients?.last_name}</p>
-                                        <p className="text-xs text-muted-foreground">{clinicDate(app.start_time)}</p>
-                                    </div>
-                                </div>
-                                <div className="text-right">
+                                    <span>
+                                        <span className="block font-medium">{app.patients?.first_name} {app.patients?.last_name}</span>
+                                        <span className="block text-xs text-muted-foreground">{clinicDate(app.start_time)}</span>
+                                        <span className="block text-xs text-muted-foreground">{app.type || "Motivo sin registrar"}</span>
+                                    </span>
+                                </span>
+                                <span className="text-right">
                                     <span className="text-sm font-mono">{clinicTime(app.start_time)}</span>
-                                </div>
-                            </div>
+                                </span>
+                            </button>
                         ))
                     )}
                      <Link href="/calendar?view=month">

@@ -1,5 +1,7 @@
 "use client"
 
+import { clinicDate, clinicTime } from '@/lib/agenda.mjs'
+
 import { useEffect, useState, useRef } from "react"
 import { useParams, useRouter, useSearchParams } from "next/navigation"
 import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
@@ -782,34 +784,25 @@ function AppointmentsList({ patientId, onNewAppointment }: { patientId: string, 
         <div className="space-y-4">
           {appointments.map((app) => {
             return (
-              <div key={app.id} className="flex items-center justify-between p-4 border rounded-xl hover:bg-muted/50 transition-colors">
-                <div className="flex items-center gap-4">
-                  <div className={`p-2.5 rounded-full ${app.status === 'confirmed' ? 'bg-green-100 text-green-600' : 'bg-blue-100 text-blue-600'}`}>
-                    <Calendar className="h-5 w-5" />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-foreground">{app.type || 'Consulta General'}</p>
-                    <p className="text-sm text-muted-foreground flex items-center gap-2 mt-1">
-                      {new Date(app.start_time).toLocaleDateString("es-ES", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
-                      {' • '}
-                      {new Date(app.start_time).toLocaleTimeString("es-ES", { hour: '2-digit', minute: '2-digit' })}
-                    </p>
-                  </div>
+              <details key={app.id} className="group rounded-xl border bg-card open:border-primary/30 open:shadow-sm">
+                <summary className="flex cursor-pointer list-none flex-wrap items-center justify-between gap-3 p-4 focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary">
+                  <span className="min-w-0 space-y-1">
+                    <span className="block font-semibold text-foreground">{app.type || 'Motivo sin registrar'}</span>
+                    <span className="block text-sm text-muted-foreground">{clinicDate(app.start_time)} · {clinicTime(app.start_time)}</span>
+                    <span className="block text-xs text-primary group-open:hidden">Ver detalle de la cita</span>
+                  </span>
+                  <Badge variant={app.status === 'completed' ? 'default' : 'secondary'}>
+                    {app.status === 'confirmed' ? 'Confirmada' : app.status === 'completed' ? 'Completada' : app.status === 'arrived' ? 'En recepción' : app.status === 'no_show' ? 'No asistió' : app.status === 'cancelled' ? 'Cancelada' : 'Programada'}
+                  </Badge>
+                </summary>
+                <div className="space-y-3 border-t bg-muted/20 p-4 text-sm">
+                  <div><p className="text-xs text-muted-foreground">Motivo de la cita</p><p className="whitespace-pre-wrap break-words">{app.type || 'Sin registrar'}</p></div>
+                  <dl className="grid grid-cols-2 gap-3">
+                    <div><dt className="text-xs text-muted-foreground">Horario · Ecuador continental</dt><dd>{clinicTime(app.start_time)}–{clinicTime(app.end_time)}</dd></div>
+                    <div><dt className="text-xs text-muted-foreground">Duración</dt><dd>{Math.round((Date.parse(app.end_time) - Date.parse(app.start_time)) / 60000)} minutos</dd></div>
+                  </dl>
                 </div>
-                
-                <div className="flex items-center gap-3">
-                   <Badge 
-                     variant={app.status === 'confirmed' || app.status === 'completed' ? 'default' : 'secondary'}
-                     className={app.status === 'no_show' ? 'bg-red-100 text-red-700 hover:bg-red-100' : ''}
-                   >
-                     {app.status === 'confirmed' ? 'Confirmada' : 
-                      app.status === 'completed' ? 'Completada' :
-                      app.status === 'no_show' ? 'No Asistió' :
-                      app.status === 'cancelled' ? 'Cancelada' : 
-                      'Programada'}
-                   </Badge>
-                </div>
-              </div>
+              </details>
             )
           })}
         </div>

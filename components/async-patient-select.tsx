@@ -66,7 +66,7 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
     const request = ++requestId.current
     searchController.current?.abort()
     setSearchError(false)
-    if (!searchTerm || searchTerm.length < 2) {
+    if (searchTerm.trim().length === 1) {
       setPatients([])
       setLoading(false)
       return
@@ -103,7 +103,7 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={next => { setOpen(next); if (next) void fetchPatients(search); }}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -132,12 +132,14 @@ export function AsyncPatientSelect({ value, onValueChange, placeholder = "Buscar
             <div className="p-1" role="listbox" aria-label="Pacientes encontrados">
               {loading && <div className="p-4 text-center text-sm text-muted-foreground">Buscando...</div>}
               {!loading && searchError && <div role="alert" className="p-4 text-center text-sm">No se pudo buscar pacientes. Reintenta la búsqueda.</div>}
-              {!loading && !searchError && patients.length === 0 && search.length >= 2 && (
+              {!loading && !searchError && patients.length === 0 && search.trim().length >= 2 && (
                 <div className="p-4 text-center text-sm text-muted-foreground">No se encontraron pacientes.</div>
               )}
-              {!loading && search.length < 2 && (
+              {!loading && !searchError && search.trim().length === 1 && (
                 <div className="p-4 text-center text-sm text-muted-foreground">Escribe al menos 2 caracteres...</div>
               )}
+              {!loading && !searchError && search.trim().length === 0 && <p className="px-2 py-2 text-xs font-medium text-muted-foreground">Pacientes registrados recientemente</p>}
+              {!loading && !searchError && patients.length === 0 && search.trim().length === 0 && <p className="p-3 text-sm text-muted-foreground">No hay pacientes registrados.</p>}
               {patients.map((patient) => (
                 <button
                   type="button"
