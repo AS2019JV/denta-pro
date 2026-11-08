@@ -168,7 +168,7 @@ export default function PatientDetailsPage() {
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground animate-in fade-in duration-300">
       {/* Top Navigation Bar */}
-      <div className="flex-none border-b bg-card px-6 py-2.5 flex items-center justify-between gap-4 sticky top-0 z-30 shadow-sm">
+      <div className="flex-none border-b bg-card px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-2 relative xl:sticky xl:top-0 z-30 shadow-sm">
         <div className="flex items-center gap-3">
           <Button variant="ghost" size="sm" onClick={() => requestClinicalNavigation() && router.push('/patients')} className="-ml-3 gap-1 text-muted-foreground hover:text-foreground">
               <ArrowLeft className="h-4 w-4" />
@@ -179,7 +179,7 @@ export default function PatientDetailsPage() {
               variant="outline" 
               size="sm" 
               onClick={() => handleSetSidebarOpen(true)} 
-              className="gap-1.5 hidden md:flex text-primary hover:text-primary-foreground hover:bg-primary px-2.5 h-8 border border-primary/20 bg-primary/5 rounded-lg animate-in slide-in-from-left duration-250 font-bold"
+              className="gap-1.5 flex text-primary hover:text-primary-foreground hover:bg-primary px-2.5 h-8 border border-primary/20 bg-primary/5 rounded-lg animate-in slide-in-from-left duration-250 font-bold"
             >
               <PanelLeftOpen className="h-4 w-4 text-primary animate-pulse" />
               <span className="text-xs">Mostrar Perfil</span>
@@ -232,14 +232,14 @@ export default function PatientDetailsPage() {
       </div>
  
       {/* Main Content Area - Split Architecture with Independent Right Scrolling */}
-      <div className="flex-1 flex flex-col md:flex-row md:h-[calc(100vh-49px)] md:overflow-hidden">
+      <div className="flex-1 flex flex-col xl:flex-row xl:h-[calc(100vh-49px)] xl:overflow-hidden">
          
          {/* Left Sidebar - Profile, Actions & Permanent Critical Info */}
          <div className={cn(
-            "flex-none border-b md:border-b-0 md:border-r bg-card flex flex-col shadow-sm custom-scrollbar md:h-full md:overflow-y-auto",
+            "flex-none border-b xl:border-b-0 xl:border-r bg-card flex flex-col shadow-sm custom-scrollbar xl:h-full xl:overflow-y-auto",
             isTransitioning && "transition-[width,opacity] duration-300 ease-in-out",
             isSidebarOpen 
-              ? "w-full md:w-80 lg:w-96 opacity-100" 
+              ? "w-full xl:w-80 2xl:w-96 opacity-100"
               : "w-0 md:w-0 lg:w-0 opacity-0 overflow-hidden border-r-0 border-b-0"
          )}>
             {/* Header / Avatar */}
@@ -249,8 +249,8 @@ export default function PatientDetailsPage() {
                   variant="ghost"
                   size="icon"
                   onClick={() => handleSetSidebarOpen(false)}
-                  className="absolute top-3 right-3 h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg hidden md:flex items-center justify-center transition-colors"
-                  title="Ocultar Perfil"
+                  className="absolute top-3 right-3 h-7 w-7 text-muted-foreground hover:text-foreground hover:bg-muted/50 rounded-lg flex items-center justify-center transition-colors"
+                  title="Ocultar Perfil" aria-label="Ocultar perfil del paciente"
                >
                   <PanelLeftClose className="h-4 w-4" />
                </Button>
@@ -431,10 +431,10 @@ export default function PatientDetailsPage() {
          </div>
 
          {/* Right Working Area Tabs with Independent Scrolling */}
-         <div className="flex-1 flex flex-col bg-muted/5 h-full md:overflow-y-auto custom-scrollbar">
+         <div className="min-w-0 flex-1 flex flex-col bg-muted/5 h-full xl:overflow-y-auto custom-scrollbar">
             <Tabs value={activeTab} onValueChange={handleTabChange} className="flex flex-col w-full min-h-full">
                {/* Fixed Tabs List container */}
-               <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 sticky top-0">
+               <div className="flex-none bg-background/95 backdrop-blur border-b px-6 shadow-sm z-20 relative xl:sticky xl:top-0">
                   <div className="max-w-7xl mx-auto w-full overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden">
                      <TabsList className="h-auto p-0 bg-transparent gap-3 lg:gap-5 flex whitespace-nowrap min-w-max">
                          {['info', 'medical', 'hcu033', 'appointments', 'recipes', 'files'].filter(tab => !SYNTHETIC_PILOT || !['recipes', 'files'].includes(tab)).map((tab) => (
@@ -462,7 +462,7 @@ export default function PatientDetailsPage() {
 
                {/* Scrollable Work Area Content */}
                <div className="flex-1">
-                  <div className="max-w-7xl mx-auto p-6 space-y-6">
+                  <div className="min-w-0 max-w-7xl mx-auto p-2 sm:p-4 lg:p-6 space-y-6">
                         {!SYNTHETIC_PILOT && <TabsContent value="files" className="mt-0 focus-visible:ring-0">
                             {filesError && <p role="alert" className="text-sm text-destructive mb-3">No se pudo contar los archivos.</p>}
                             <PatientFiles key={scope} patientId={patient.id} onFilesChange={handleUpdatePatient} />

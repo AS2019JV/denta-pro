@@ -6,6 +6,8 @@ import { QueryClientContext } from "@tanstack/react-query"
 import { supabase } from "@/lib/supabase"
 import { User as SupabaseUser } from "@supabase/supabase-js"
 import { toast } from "sonner"
+import { requestPasswordRecovery } from "@/app/actions/request-password-recovery"
+import { accessCheckError, accessResultsFailure, isTemporaryAccessFailure, TemporaryAccessFailure } from "@/lib/access-revalidation"
 import { CLINIC_PREFERENCE_COOKIE, CLINIC_ROLES, selectClinicMembership } from "@/lib/clinic-authority.mjs"
 
 interface ClinicMembership {
@@ -70,9 +72,35 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const loggingOut = useRef(false)
   const logoutPending = useRef(false)
   const refreshTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined)
+  const focusToRestore = useRef<{ element: HTMLElement; scope: string } | null>(null)
+  const rememberFocus = useCallback(() => {
+    const element = document.activeElement as HTMLElement | null
+    if (!focusToRestore.current && verifiedScope.current && element !== document.body && typeof element?.focus === 'function') {
+      focusToRestore.current = { element, scope: verifiedScope.current }
+    }
+  }, [])
+  const restoreFocus = useCallback(() => {
+    const previous = focusToRestore.current
+    focusToRestore.current = null
+    if (!previous) return
+    setTimeout(() => {
+      if (mounted.current && !loggingOut.current && verifiedScope.current === previous.scope
+        && document.activeElement === document.body && previous.element.isConnected && !previous.element.matches(':disabled')) {
+        previous.element.focus({ preventScroll: true })
+      }
+    }, 0)
+  }, [])
+  const retainUnavailableView = useCallback((error: unknown, preserveScope: boolean) => {
+    if (!preserveScope || !verifiedScope.current || !isTemporaryAccessFailure(error)) return false
+    setIsLoading(false)
+    setIsRevalidating(true)
+    setAuthError('Conexión interrumpida. Conservamos el formulario; guardar queda bloqueado hasta verificar el acceso de nuevo.')
+    return true
+  }, [])
 
   const clearAuthority = useCallback(() => {
     verifiedScope.current = undefined
+    focusToRestore.current = null
     setIsRevalidating(false)
     setUser(null)
     setCurrentClinicId(undefined)
@@ -82,7 +110,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const fetchProfile = useCallback(async (authUser: SupabaseUser, preferredClinic?: string, preserveScope = false) => {
     const ticket = ++generation.current
-    // Same-scope revalidation hides/inerts mounted consumers in DashboardWrapper,
+    // Same-scope revalidation keeps mounted consumers visible but inert,
     // preserving drafts. Identity/clinic changes still invalidate immediately.
     if (!preserveScope) {
       setUser(null)
@@ -91,15 +119,24 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setAuthError(null)
     const current = () => mounted.current && !loggingOut.current && ticket === generation.current
+    let unavailable = false
     try {
       const [profileResult, membershipResult] = await Promise.all([
         supabase.from('profiles').select('id,full_name,avatar_url,phone,bio,title,clinic_id,status,deleted_at').eq('id', authUser.id).maybeSingle(),
         supabase.from('clinic_members').select('clinic_id,role,status,clinics(name,size,settings,logo_url)').eq('user_id', authUser.id).eq('status', 'active'),
       ])
       const { data: profile, error: profileError } = profileResult
-      if (profileError) throw profileError
       const { data: memberships, error: membershipError } = membershipResult
-      if (membershipError) throw membershipError
+      const previous = verifiedScope.current?.split(':')
+      const confirmedProfileLoss = !profileError && (!profile || profile.status !== 'active' || !!profile.deleted_at)
+      const confirmedMembershipLoss = !membershipError && (!(memberships || []).some(m => m.status === 'active' && CLINIC_ROLES.includes(m.role))
+        || (preserveScope && previous?.[0] === authUser.id && !(memberships || []).some(m => m.clinic_id === previous[1] && m.role === previous[2] && m.status === 'active')))
+      if (confirmedProfileLoss || confirmedMembershipLoss) {
+        if (current()) { clearAuthority(); setAuthError('Tus permisos han cambiado. Vuelve a verificar el acceso.') }
+        return
+      }
+      const failure = accessResultsFailure([profileResult, membershipResult])
+      if (failure) throw failure
       const cookie = document.cookie.split('; ').find(c => c.startsWith(`${CLINIC_PREFERENCE_COOKIE}=`))?.split('=')[1]
       const selection = selectClinicMembership(profile, memberships || [], preferredClinic ?? selectedClinic.current ?? cookie)
       if (!selection || !profile) {
@@ -107,7 +144,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         return
       }
       const {data: liveRole, error: roleError} = await supabase.rpc('get_clinic_member_role', {check_clinic_id: selection.clinic_id})
-      if (roleError) throw roleError
+      if (roleError) throw accessCheckError(roleError)
       if (!CLINIC_ROLES.includes(liveRole) || liveRole !== selection.role) {
         if (current()) { clearAuthority(); setAuthError('Tus permisos han cambiado. Vuelve a verificar el acceso.') }
         return
@@ -128,19 +165,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setUser({id: profile.id, name: profile.full_name || 'Usuario', email: authUser.email || '',
         role: liveRole, avatar: profile.avatar_url || '', phone: profile.phone || '', bio: profile.bio || '',
         title: profile.title || '', clinic_id: selection.clinic_id, clinic_memberships: clinicMemberships})
-    } catch {
-      if (current()) { clearAuthority(); setAuthError('No se pudo verificar tu acceso. Reintenta cuando tengas conexión.') }
+    } catch (error) {
+      if (current()) {
+        unavailable = retainUnavailableView(error, preserveScope)
+        if (!unavailable) { clearAuthority(); setAuthError('No se pudo verificar tu acceso. Reintenta cuando tengas conexión.') }
+      }
     } finally {
-      if (current()) { setIsLoading(false); setIsRevalidating(false) }
+      if (current()) {
+        setIsLoading(false)
+        if (!unavailable) { setIsRevalidating(false); restoreFocus() }
+      }
     }
-  }, [clearAuthority, queryClient])
+  }, [clearAuthority, queryClient, retainUnavailableView, restoreFocus])
 
-  const refreshProfile = useCallback(async (preserveScope = false) => {
+  const refreshProfile = useCallback(async (preserveScope = true) => {
     if (loggingOut.current) return
     // Network-verified identity; cached session metadata is not authority.
     const ticket = ++generation.current
     const keepScope = preserveScope && !!verifiedScope.current
-    if (keepScope) setIsRevalidating(true)
+    if (keepScope) { rememberFocus(); setIsRevalidating(true) }
     else {
       setUser(null)
       setCurrentClinicId(undefined)
@@ -148,10 +191,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
     setAuthError(null)
     try {
+      if (typeof navigator !== 'undefined' && navigator.onLine === false) throw new TemporaryAccessFailure()
       // Never issue profile or membership reads at AAL1. RLS independently
       // enforces this, but deferring here keeps auth and recovery flows usable.
       const claimsResult = await supabase.auth.getClaims()
-      if (claimsResult.error || !claimsResult.data?.claims.sub || claimsResult.data.claims.role !== 'authenticated') {
+      if (claimsResult.error) throw accessCheckError(claimsResult.error)
+      if (!claimsResult.data?.claims.sub || claimsResult.data.claims.role !== 'authenticated' || claimsResult.data.claims.aal !== 'aal2') {
         if (mounted.current && ticket === generation.current) {
           clearAuthority()
           setAuthError(null)
@@ -165,6 +210,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         supabase.auth.mfa.listFactors(),
       ])
       const hasVerifiedTotp = factorsResult.data?.totp?.some(factor => factor.status === 'verified') === true
+      const confirmedMfaLoss = (!factorsResult.error && !hasVerifiedTotp)
+        || (!assuranceResult.error && (assuranceResult.data?.currentLevel !== 'aal2' || assuranceResult.data?.nextLevel !== 'aal2'))
+      if (confirmedMfaLoss) {
+        if (mounted.current && ticket === generation.current) { clearAuthority(); setIsLoading(false) }
+        return
+      }
+      const mfaFailure = accessResultsFailure([assuranceResult, factorsResult])
+      if (mfaFailure) throw mfaFailure
       const hasMfaAuthority = !claimsResult.error && claimsResult.data?.claims.aal === 'aal2'
         && assuranceResult.data?.currentLevel === 'aal2' && assuranceResult.data?.nextLevel === 'aal2'
         && !factorsResult.error && hasVerifiedTotp
@@ -179,7 +232,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
       const {data: {user: authUser}, error} = await supabase.auth.getUser()
       if (!mounted.current || ticket !== generation.current) return
-      if (error || !authUser) {
+      if (error) throw accessCheckError(error)
+      if (!authUser) {
         clearAuthority()
         setIsLoading(false)
         return
@@ -188,14 +242,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       if (!sameIdentity) clearAuthority()
       identity.current = authUser.id
       await fetchProfile(authUser, undefined, keepScope && sameIdentity)
-    } catch {
+    } catch (error) {
       if (mounted.current && ticket === generation.current) {
-        clearAuthority()
-        setAuthError('No se pudo verificar tu sesión. Reintenta cuando tengas conexión.')
-        setIsLoading(false)
+        if (!retainUnavailableView(error, keepScope)) {
+          clearAuthority()
+          setAuthError('No se pudo verificar tu sesión. Reintenta cuando tengas conexión.')
+          setIsLoading(false)
+        }
       }
     }
-  }, [clearAuthority, fetchProfile])
+  }, [clearAuthority, fetchProfile, rememberFocus, retainUnavailableView])
 
   useEffect(() => {
     mounted.current = true
@@ -209,7 +265,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Invalidate in this event turn, before an old promise can publish scope.
       ++generation.current
       const keepScope = !force && !!verifiedScope.current && (!actorId || actorId === identity.current)
-      if (keepScope) setIsRevalidating(true)
+      if (keepScope) { rememberFocus(); setIsRevalidating(true) }
       else {
         setUser(null)
         setCurrentClinicId(undefined)
@@ -241,7 +297,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     schedule()
     const onFocus = () => schedule()
     const onVisible = () => { if (document.visibilityState === 'visible') schedule() }
+    const onOffline = () => {
+      if (loggingOut.current || !verifiedScope.current) return
+      rememberFocus()
+      ++generation.current
+      ++refreshJob.current
+      refreshing.current = false
+      clearTimeout(refreshTimer.current)
+      retainUnavailableView(new TemporaryAccessFailure(), true)
+    }
     window.addEventListener('focus', onFocus)
+    window.addEventListener('online', onFocus)
+    window.addEventListener('offline', onOffline)
     document.addEventListener('visibilitychange', onVisible)
     return () => {
       mounted.current = false
@@ -249,9 +316,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       clearTimeout(refreshTimer.current)
       subscription.unsubscribe()
       window.removeEventListener('focus', onFocus)
+      window.removeEventListener('online', onFocus)
+      window.removeEventListener('offline', onOffline)
       document.removeEventListener('visibilitychange', onVisible)
     }
-  }, [clearAuthority, refreshProfile])
+  }, [clearAuthority, refreshProfile, rememberFocus, retainUnavailableView])
 
   const switchClinic = (clinicId: string) => {
     if (user?.clinic_memberships?.some(m => m.clinic_id === clinicId)) {
@@ -300,10 +369,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const resetPassword = async (email: string) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/update-password`,
-    })
-    return { error }
+    try {
+      const result = await requestPasswordRecovery(email)
+      return { error: 'error' in result ? { message: result.error } : null }
+    } catch {
+      return { error: { message: 'No pudimos procesar la solicitud. Revisa tu conexión e intenta más tarde.' } }
+    }
   }
 
   const signInWithGoogle = async () => {

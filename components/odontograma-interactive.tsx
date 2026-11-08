@@ -301,7 +301,8 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (readOnly) return;
+      if (readOnly || e.defaultPrevented) return;
+      if (e.target instanceof Element && e.target.closest('button,a,select,[role="button"],[role="tab"],[role="radio"],[role="combobox"]')) return;
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || (e.target as HTMLElement).isContentEditable) {
         return;
       }
@@ -475,14 +476,14 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
   );
 
   return (
-    <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full overflow-hidden">
+    <div className="bg-card rounded-2xl shadow-xl border flex flex-col w-full min-w-0">
       <div 
-         className="bg-card/95 backdrop-blur border-b p-3.5 flex flex-wrap items-center justify-between gap-3 sticky top-0 z-30 transition-all shadow-sm"
+         className="bg-card/95 backdrop-blur border-b p-3.5 flex flex-wrap items-center justify-between gap-3 relative transition-all shadow-sm"
       >
-         <div className="flex items-center gap-4 flex-wrap">
+         <div className="flex min-w-0 items-center gap-3 flex-wrap">
             <div className="space-y-1">
                <span className="text-[10px] font-black uppercase tracking-wider text-muted-foreground block">Diagnóstico / Estado</span>
-               <div className="flex bg-muted rounded-lg p-0.5 border shadow-inner" role="radiogroup" aria-label="Modo de diagnóstico o tratamiento">
+               <div className="flex flex-wrap bg-muted rounded-lg p-0.5 border shadow-inner" role="radiogroup" aria-label="Modo de diagnóstico o tratamiento">
                   <button 
                     type="button"
                     role="radio"
@@ -681,12 +682,12 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
          )}
       </div>
 
-      <div className="flex-1 p-4 md:p-6 bg-muted/20">
-         <div className="mx-auto max-w-5xl flex flex-col gap-6 bg-card p-4 sm:p-6 md:p-8 rounded-2xl shadow-sm border">
+      <div className="flex-1 min-w-0 p-1 sm:p-4 bg-muted/20">
+         <div className="mx-auto w-full min-w-0 max-w-5xl flex flex-col gap-4 bg-card p-2 sm:p-4 md:p-6 rounded-xl border">
             
-            <div className="flex justify-between items-start border-b pb-4">
+            <div className="flex flex-wrap min-w-0 justify-between items-start gap-2 border-b pb-3">
                 <div>
-                    <h2 className="text-xl font-black text-foreground tracking-tight flex items-center gap-2">
+                    <h2 className="text-base sm:text-xl font-black text-foreground tracking-tight flex flex-wrap items-center gap-2">
                        <span>6 ODONTOGRAMA</span>
                        <Badge variant="outline" className="text-[10px] font-mono py-0 border-blue-200 text-blue-700 bg-blue-50">
                           SNS-MSP / HCU-form.033 / 2008
@@ -696,19 +697,15 @@ export function OdontogramaInteractive({ data = {}, onChange, patientName = "Pac
                         Pintar con: <span className="text-blue-600 font-bold">AZUL PARA TRATAMIENTO REALIZADO</span> • <span className="text-red-500 font-bold">ROJO PARA PATOLOGÍA ACTUAL</span>
                     </p>
                 </div>
-                <div className="text-right">
+                <div className="max-w-full min-w-0 text-right [&>span]:max-w-full [&>span]:whitespace-normal [&>span]:break-words">
                     <Badge variant="secondary" className="text-[11px] font-mono py-0.5">{patientName}</Badge>
                 </div>
             </div>
 
-            <div className="flex-1 min-w-0 w-full bg-card p-4 rounded-xl border shadow-inner overflow-x-auto custom-scrollbar">
+            <div className="min-w-0 w-full bg-card p-1 sm:p-3 rounded-xl border shadow-inner overflow-x-auto custom-scrollbar" role="region" aria-label="Odontograma completo, desplazamiento horizontal" tabIndex={0}>
                 <div 
-                   className="transition-transform duration-200 ease-out origin-top min-w-[680px]"
-                   style={{
-                      transform: `scale(${zoomLevel})`,
-                      transformOrigin: 'top center',
-                      marginBottom: zoomLevel < 1.0 ? `${(zoomLevel - 1.0) * 320}px` : `${(zoomLevel - 1.0) * 160}px`
-                   }}
+                   className="min-w-[680px]"
+                   style={{ zoom: zoomLevel }}
                 >
                     <div className="grid grid-cols-[60px_1fr] sm:grid-cols-[90px_1fr] gap-2 sm:gap-4 items-center">
                     <div className="flex flex-col justify-around py-8 text-[9px] font-bold text-muted-foreground uppercase tracking-tight text-center">

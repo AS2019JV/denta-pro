@@ -27,12 +27,12 @@ export default function ForgotPasswordPage() {
       const { error } = await resetPassword(email)
 
       if (error) {
-        setError(error.message)
+        setError(typeof error.message === "string" && error.message !== "{}" ? error.message : "No pudimos procesar la solicitud. Intenta más tarde.")
       } else {
         setIsSubmitted(true)
       }
     } catch (err) {
-      setError("An unexpected error occurred")
+      setError("No pudimos procesar la solicitud. Revisa tu conexión e intenta más tarde.")
     } finally {
       setIsLoading(false)
     }
@@ -50,7 +50,7 @@ export default function ForgotPasswordPage() {
           <CardTitle className="text-2xl font-bold text-center">Recuperación de Cuenta</CardTitle>
           <CardDescription className="text-center">
             {isSubmitted 
-              ? "Correo enviado con instrucciones" 
+              ? "Solicitud recibida"
               : "Ingrese su correo para restablecer su contraseña"}
           </CardDescription>
         </CardHeader>
@@ -58,8 +58,8 @@ export default function ForgotPasswordPage() {
           {isSubmitted ? (
              <div className="space-y-6 text-center">
                 <div className="bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 p-4 rounded-lg text-sm">
-                    Hemos enviado un enlace de recuperación a <strong>{email}</strong>. 
-                    Por favor revise su bandeja de entrada (y spam).
+                    Si existe una cuenta asociada a este correo, recibirás instrucciones para restablecer tu contraseña. Revisa tu bandeja y spam.
+                    Si no llegan, contacta con <a className="underline" href="mailto:soporte@care.cliniaplus.com">soporte@care.cliniaplus.com</a>.
                 </div>
                 <Button variant="outline" className="w-full" onClick={() => router.push("/login")}>
                     Volver al Inicio de Sesión

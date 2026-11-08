@@ -26,9 +26,10 @@ function harness(options={}){
     };return q}},
   jsx=(_type,props)=>({props})
   const m={exports:{}},js=ts.transpileModule(fs.readFileSync('components/hcu033-form.tsx','utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022,jsx:ts.JsxEmit.ReactJSX}}).outputText
-  vm.runInNewContext(js,{module:m,exports:m.exports,Date,Promise,AbortController,console,require(id){if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
+  vm.runInNewContext(js,{window:{addEventListener(){},removeEventListener(){},confirm:()=>false},document:{addEventListener(){},removeEventListener(){}},module:m,exports:m.exports,Date,Promise,AbortController,console,require(id){if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
 
     if(id==='@/lib/agenda.mjs')return require('../../lib/agenda.mjs');
+    if(id==='@/lib/clinical-navigation')return{protectClinicalHistory:()=>()=>{},supportsClinicalHistoryGuard:()=>true,CLINICAL_DRAFT_WARNING:'Synthetic warning'};
     if(id==='react')return react
     if(id==='react/jsx-runtime')return {jsx,jsxs:jsx}
     if(id==='@/components/auth-context')return {useAuth:()=>auth}
@@ -124,3 +125,21 @@ test('a save acknowledged after changing patient cannot publish success into the
   assert.equal(h.state.writes.length,1);assert.equal(h.state.writes[0].patient_id,'patient-a')
   assert.equal(h.state.updates.length,0);assert.equal(h.state.successes.length,0);assert.equal(h.state.saved.length,0)
 })
+
+test('same-scope access revalidation preserves an already loaded HCU draft and does not refetch it',async()=>{
+ const h=harness();h.render('patient-a');
+ h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A',motivo_consulta:'Guardado'}},doctor_id:'doctor-a',error:null});await settle();
+ h.form().motivo_consulta='BORRADOR SIN GUARDAR';h.render('patient-a');const reads=h.state.calls.length;
+ h.auth.isRevalidating=true;h.render('patient-a');await settle();
+ assert.equal(h.form().motivo_consulta,'BORRADOR SIN GUARDAR');
+ h.auth.isRevalidating=false;h.render('patient-a');await settle();
+ assert.equal(h.form().motivo_consulta,'BORRADOR SIN GUARDAR');assert.equal(h.state.calls.length,reads);assert.equal(h.state.writes.length,0);
+ h.unmount();
+});
+test('same-scope permission check during save preserves uncertainty and blocks duplicate writes',async()=>{
+ const wait=deferred(),h=harness({saveWait:wait});h.render('patient-a');
+ h.state.pending.get('patient-a').resolve({data:{form_data:{nombre_completo:'SYNTHETIC A'}},error:null});await settle();
+ const saving=h.render('patient-a')();h.auth.isRevalidating=true;h.render('patient-a');wait.resolve();await saving;
+ assert.equal(h.state.writes.length,1);assert.equal(h.state.successes.length,0);assert.equal(h.state.saved.length,0);assert.equal(h.state.errors.length,1);
+ h.auth.isRevalidating=false;await h.render('patient-a')();assert.equal(h.state.writes.length,1);h.unmount();
+});

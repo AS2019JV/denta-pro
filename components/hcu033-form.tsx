@@ -55,7 +55,13 @@ interface HCU033FormProps {
 }
 
 export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFullScreen, onClose, onExpand, externalData, onDataChange }: HCU033FormProps) {
-  const { user, currentClinicId, isRevalidating } = useAuth()
+  const [expanded, setExpanded] = useState(false)
+  const fullScreen = !!isFullScreen || expanded
+  const closeExpanded = useRef<() => void>(() => {})
+  closeExpanded.current = () => { if (expanded) setExpanded(false); else onClose?.() }
+
+
+  const { user, currentClinicId, isRevalidating, authError: accessError } = useAuth()
   const clinicalRole = user?.role === "doctor" || user?.role === "clinic_owner"
   const exportScope = `${currentClinicId || ""}:${user?.id || ""}:${user?.role || ""}:${patientId}`
   const scopeRef = useRef(exportScope)
@@ -71,6 +77,32 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
     setIsExporting(false)
     return () => { token.valid = false }
   }, [exportScope, isRevalidating])
+  useEffect(() => {
+    if (!fullScreen || typeof document === 'undefined') return
+    const panel = scrollContainerRef.current
+    if (!panel) return
+    const previous = document.activeElement as HTMLElement | null
+    const focusable = () => Array.from(panel.querySelectorAll<HTMLElement>('button,input,select,textarea,a[href],[tabindex]'))
+      .filter(element => element.tabIndex >= 0 && !element.matches(':disabled') && element.getClientRects().length > 0)
+    const keydown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented) return
+      if (event.key === 'Escape') { event.preventDefault(); closeExpanded.current(); return }
+      if (event.key !== 'Tab') return
+      const elements = focusable(), first = elements[0], last = elements[elements.length - 1]
+      if (!first) { event.preventDefault(); panel.focus(); return }
+      if (event.shiftKey && (document.activeElement === first || document.activeElement === panel)) { event.preventDefault(); last.focus() }
+      else if (!event.shiftKey && (document.activeElement === last || document.activeElement === panel)) { event.preventDefault(); first.focus() }
+    }
+    panel.addEventListener('keydown', keydown)
+    panel.focus({ preventScroll: true })
+    return () => {
+      panel.removeEventListener('keydown', keydown)
+      queueMicrotask(() => {
+        if (previous?.isConnected) previous.focus({ preventScroll: true })
+        else scrollContainerRef.current?.querySelector<HTMLElement>('[data-hcu-expand]')?.focus({ preventScroll: true })
+      })
+    }
+  }, [fullScreen])
 
   const [formData, setFormData] = useState<any>({
     // Sección A: Datos del establecimiento y paciente
@@ -278,6 +310,8 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
     // Or if this is the first load instance.
     // If externalData is provided, we trust it more than DB fetch (which might be stale compared to in-memory edits).
     if (!patientId || externalData || !currentClinicId || !user?.id || !clinicalRole || isRevalidating) return
+    // Permission revalidation must not reload or erase an already loaded draft.
+    if (loadedFormScope.current === exportScope) return
     const controller = new AbortController()
     const token = publication.current
     const capturedScope = exportScope
@@ -405,7 +439,13 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
         })
 
       if (error) throw error
-      if (!isCurrent()) return
+      if (!isCurrent()) {
+        if (scopeRef.current === capturedScope) {
+          setSaveError(true)
+          toast.error("No se pudo confirmar el guardado. Conserva tus cambios y revisa la historia antes de repetir.")
+        }
+        return
+      }
 
       // The canonical HCU AFTER trigger updates the patient summary in this
       // INSERT transaction. A trigger failure rejects and rolls back the HCU;
@@ -416,10 +456,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
       toast.success("Formulario guardado correctamente")
       onSave?.(savedData)
     } catch (error) {
-      if (isCurrent()) { setSaveError(true); toast.error("No se pudo confirmar el guardado. Conserva tus cambios y revisa la historia antes de repetir.") }
+      if (scopeRef.current === capturedScope) { setSaveError(true); toast.error("No se pudo confirmar el guardado. Conserva tus cambios y revisa la historia antes de repetir.") }
     } finally {
       saving.current = false
-      if (isCurrent()) setIsLoading(false)
+      if (scopeRef.current === capturedScope) setIsLoading(false)
     }
   }
 
@@ -454,7 +494,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
   const contentScrollRef = useRef<HTMLDivElement>(null)
 
   const getSectionId = (section: string) => {
-    return isFullScreen ? `section-${section}-fullscreen` : `section-${section}`
+    return fullScreen ? `section-${section}-fullscreen` : `section-${section}`
   }
 
   const scrollToSection = (section: string) => {
@@ -470,20 +510,24 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
   return (
     <div 
-      ref={scrollContainerRef} 
+      ref={scrollContainerRef}
+      role={fullScreen ? 'dialog' : undefined}
+      aria-modal={fullScreen || undefined}
+      aria-label={fullScreen ? 'Historia clínica odontológica ampliada' : undefined}
+      tabIndex={fullScreen ? -1 : undefined}
       className={
-        isFullScreen 
+        fullScreen
           ? "fixed inset-0 z-[100] bg-background flex flex-col h-[100dvh] overflow-hidden animate-in fade-in duration-200" 
-          : "space-y-6 relative"
+          : "min-w-0 space-y-4 relative"
       }
     >
-      <div className={isFullScreen 
-        ? "flex-none border-b px-6 py-4 flex items-center justify-between shadow-sm z-10 bg-background" 
+      <div className={fullScreen
+        ? "flex-none border-b px-3 sm:px-6 py-3 flex flex-wrap items-center justify-between gap-2 shadow-sm z-10 bg-background"
         : "flex flex-col md:flex-row md:items-center justify-between gap-4 py-4 border-b"
       }>
-        {isFullScreen ? (
+        {fullScreen ? (
             <div className="flex items-center gap-4">
-                <Button variant="ghost" size="sm" onClick={onClose} className="gap-2">
+                <Button variant="ghost" size="sm" onClick={() => closeExpanded.current()} className="gap-2">
                         <ArrowLeft className="h-4 w-4" />
                         Volver
                 </Button>
@@ -496,18 +540,18 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                 </div>
             </div>
         ) : (
-            <div className="flex items-center justify-between w-full md:w-auto">
+            <div className="flex flex-wrap min-w-0 items-center justify-between gap-2 w-full md:w-auto">
              <div>
-                <div className="flex items-center gap-2">
-                    <h2 className="text-2xl font-bold">HCU-033</h2>
+                <div className="flex flex-wrap items-center gap-2 min-w-0">
+                    <h2 className="text-xl sm:text-2xl font-bold">HCU-033</h2>
                     <Badge variant="outline" className="font-normal">Historia Clínica Odontológica</Badge>
                 </div>
                 <p className="text-sm text-muted-foreground">Formulario oficial del MSP - Ecuador</p>
              </div>
-             {onExpand && (
-                 <Button variant="outline" size="sm" className="ml-4 gap-2" onClick={() => onExpand(formData)}>
+             {(onExpand || SYNTHETIC_PILOT) && (
+                 <Button type="button" variant="outline" size="sm" data-hcu-expand aria-label="Expandir historia clínica" className="gap-2 shrink-0" onClick={() => onExpand ? onExpand(formData) : setExpanded(true)}>
                      <Maximize2 className="h-4 w-4" />
-                     <span className="hidden sm:inline">Expandir</span>
+                     <span>Expandir</span>
                  </Button>
              )}
             </div>
@@ -528,16 +572,17 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
 
 
+      {fullScreen && SYNTHETIC_PILOT && <p className="shrink-0 px-3 py-1 text-xs text-primary" role="note">Entorno de evaluación. Utiliza únicamente datos ficticios.</p>}
+      {isRevalidating && accessError && <p className="px-3 py-2 text-sm text-amber-800" role="status">Conexión o permisos sin verificar. Tu formulario se conserva; no se puede guardar.</p>}
       <p role="status" className="py-2 text-sm text-muted-foreground">{dirty ? "Cambios sin guardar" : "Sin cambios pendientes"}{savedMetadata?.doctor_id ? (savedMetadata.doctor_id === user?.id ? " · Último guardado por tu cuenta" : " · Último guardado por otro profesional autorizado") : " · Autoría guardada sin registrar"}</p>
       {saveError && <p role="alert" className="text-sm text-destructive">El guardado no está confirmado. Tus cambios siguen en pantalla. Copia lo necesario antes de recargar y revisar la historia; no repitas una escritura incierta.</p>}
       {!historySupported && <p role="alert" className="text-sm text-destructive">Tu navegador no permite proteger el borrador al usar Atrás. Actualízalo para editar la ficha de evaluación.</p>}
-      <div ref={contentScrollRef} className={isFullScreen ? "flex-1 overflow-y-auto px-6 pb-32 w-full scroll-smooth" : ""}>
-         <div className={isFullScreen ? "max-w-7xl mx-auto" : ""}>
+      <div ref={contentScrollRef} className={fullScreen ? "min-h-0 flex-1 overflow-y-auto px-2 sm:px-6 pb-12 w-full scroll-smooth" : ""}>
+         <div className={fullScreen ? "max-w-7xl mx-auto" : ""}>
 
         {/* Sticky Key Sections Navigation */}
         <div 
-           className="sticky z-40 bg-background/95 backdrop-blur border-b mb-6 -mx-2 px-6 shadow-sm transition-all"
-           style={{ top: isFullScreen ? '0px' : '96px' }}
+           className={"sticky top-0 z-40 bg-background border-b mb-4 px-1 sm:px-3 shadow-sm" + (fullScreen ? "" : " xl:top-12")}
         >
              <div className="flex items-center justify-between py-2 gap-4 w-full">
                 <div className="flex gap-1 overflow-x-auto scrollbar-none [&::-webkit-scrollbar]:hidden py-0.5">
@@ -571,16 +616,16 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección A: Datos del establecimiento y paciente */}
         {/* Sección A: Datos del establecimiento y paciente */}
-        <div id={getSectionId("A")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("A")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <User className="h-5 w-5" />
                 A. Datos del establecimiento y paciente
               </CardTitle>
               <CardDescription>Información administrativa y de identificación</CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label htmlFor="establecimiento">
@@ -685,7 +730,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                     Sexo <span className="text-red-500">*</span>
                   </Label>
                   <RadioGroup value={formData.sexo} onValueChange={(v) => updateField("sexo", v)}>
-                    <div className="flex items-center space-x-4">
+                    <div className="flex flex-wrap items-center gap-x-4 gap-y-3">
                       <div className="flex items-center space-x-2">
                         <RadioGroupItem value="M" id="sexo-m" />
                         <Label htmlFor="sexo-m">Masculino</Label>
@@ -758,10 +803,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección B: Motivo de consulta */}
         {/* Sección B: Motivo de consulta */}
-        <div id={getSectionId("B")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("B")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <FileText className="h-5 w-5" />
                 B. Motivo de consulta
               </CardTitle>
@@ -787,10 +832,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección C: Enfermedad actual */}
         {/* Sección C: Enfermedad actual */}
-        <div id={getSectionId("C")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("C")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Stethoscope className="h-5 w-5" />
                 C. Enfermedad o problema actual
               </CardTitle>
@@ -816,10 +861,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección D: Antecedentes */}
         {/* Sección D: Antecedentes */}
-        <div id={getSectionId("D")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("D")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <ClipboardList className="h-5 w-5" />
                 D. Antecedentes personales y familiares
               </CardTitle>
@@ -864,10 +909,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección E: Signos vitales */}
         {/* Sección E: Signos vitales */}
-        <div id={getSectionId("E")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("E")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Activity className="h-5 w-5" />
                 E. Signos vitales
               </CardTitle>
@@ -924,10 +969,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección F: Examen estomatognático */}
         {/* Sección F: Examen estomatognático */}
-        <div id={getSectionId("F")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("F")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Tooth className="h-5 w-5" />
                 F. Examen del sistema estomatognático
               </CardTitle>
@@ -965,10 +1010,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección G: Odontograma */}
         {/* Sección G: Odontograma */}
-        <div id={getSectionId("G")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("G")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Tooth className="h-5 w-5" />
                 G. Odontograma (simbología HCU-033)
               </CardTitle>
@@ -976,13 +1021,13 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                 Odontograma interactivo con simbología oficial. Usa NumPad para entrada rápida de datos.
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <OdontogramaInteractive
                 data={formData.odontograma_data}
                 onChange={(data: any) => updateField("odontograma_data", data)}
                 patientName={patientName || formData.nombre_completo}
                 patientId={patientId}
-                stickyOffset={isFullScreen ? 48 : 144}
+                stickyOffset={fullScreen ? 48 : 144}
               />
 
               <div className="space-y-2">
@@ -1000,16 +1045,16 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
         </div>
 
         {/* Sección G.2: Indicadores de Salud Bucal y CPO-ceo */}
-        <div id={getSectionId("G2")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("G2")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
            <Card>
-              <CardHeader>
-                  <CardTitle className="flex items-center gap-2">
+              <CardHeader className="p-3 sm:p-6">
+                  <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                       <Activity className="h-5 w-5" />
                       Indicadores de Salud Bucal
                   </CardTitle>
                   <CardDescription>Higiene oral, enfermedad periodontal, maloclusión, fluorosis e índices CPO/ceo</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-8">
+              <CardContent className="px-3 sm:px-6 space-y-8">
                   {/* HIGIENE ORAL SIMPLIFICADA */}
                   <div>
                       <h4 className="text-sm font-bold mb-4 uppercase tracking-wide text-muted-foreground border-b pb-1">Higiene Oral Simplificada</h4>
@@ -1137,7 +1182,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                           {/* CPO (D) */}
                           <div className="bg-emerald-50/50 p-4 rounded-lg border border-emerald-100">
                               <span className="font-bold text-emerald-800 block mb-2">D (Indice CPO)</span>
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-wrap items-center gap-2 min-w-0">
                                   <div className="flex-1 space-y-1 text-center">
                                       <Label className="text-xs">C</Label>
                                       <Input 
@@ -1195,7 +1240,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                           {/* ceo (d) */}
                           <div className="bg-amber-50/50 p-4 rounded-lg border border-amber-100">
                               <span className="font-bold text-amber-800 block mb-2">d (Indice ceo)</span>
-                              <div className="flex items-center gap-2">
+                              <div className="flex flex-wrap items-center gap-2 min-w-0">
                                   <div className="flex-1 space-y-1 text-center">
                                       <Label className="text-xs">c</Label>
                                       <Input 
@@ -1257,15 +1302,15 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección H: Diagnósticos */}
         {/* Sección H: Diagnósticos */}
-        <div id={getSectionId("H")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("H")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <ClipboardList className="h-5 w-5" />
                 H. Diagnósticos / Complicaciones
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <Button onClick={addDiagnostico} variant="outline" size="sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Agregar Diagnóstico
@@ -1274,7 +1319,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
               <div className="space-y-4">
                 {formData.diagnosticos.map((diag: any, index: number) => (
                   <Card key={index}>
-                    <CardContent className="pt-6">
+                    <CardContent className="px-3 sm:px-6 pt-6">
                       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                         <div className="space-y-2">
                           <Label>Fecha</Label>
@@ -1337,15 +1382,15 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección I: Plan terapéutico */}
         {/* Sección I: Plan terapéutico */}
-        <div id={getSectionId("I")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("I")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Calendar className="h-5 w-5" />
                 I. Plan de diagnóstico y plan terapéutico
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-6">
+            <CardContent className="px-3 sm:px-6 space-y-6">
               <div className="space-y-2">
                 <Label>Exámenes solicitados</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
@@ -1389,7 +1434,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
                 {formData.plan_terapeutico.map((plan: any, index: number) => (
                   <Card key={index}>
-                    <CardContent className="pt-6">
+                    <CardContent className="px-3 sm:px-6 pt-6">
                       <div className="grid grid-cols-1 md:grid-cols-5 gap-4">
                         <div className="space-y-2">
                           <Label>Sesión #</Label>
@@ -1451,15 +1496,15 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección J: Registro de sesiones */}
         {/* Sección J: Registro de sesiones */}
-        <div id={getSectionId("J")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("J")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <FileText className="h-5 w-5" />
                 J. Registro de sesiones / procedimientos / prescripciones
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <Button onClick={addRegistroSesion} variant="outline" size="sm">
                 <Plus className="h-4 w-4 mr-2" />
                 Agregar Registro
@@ -1467,7 +1512,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
               {formData.registro_sesiones.map((sesion: any, index: number) => (
                 <Card key={index}>
-                  <CardContent className="pt-6">
+                  <CardContent className="px-3 sm:px-6 pt-6">
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div className="space-y-2">
                         <Label>Fecha</Label>
@@ -1547,15 +1592,15 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección K: Observaciones finales */}
         {/* Sección K: Observaciones finales */}
-        <div id={getSectionId("K")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        <div id={getSectionId("K")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <FileSignature className="h-5 w-5" />
                 K. Observaciones finales / consentimiento / firma
               </CardTitle>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="observaciones_finales">Observaciones finales</Label>
                 <Textarea
@@ -1625,10 +1670,10 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
 
         {/* Sección L: Adjuntos */}
         {/* Sección L: Adjuntos */}
-        {!SYNTHETIC_PILOT && <div id={getSectionId("L")} className={`space-y-4 ${isFullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
+        {!SYNTHETIC_PILOT && <div id={getSectionId("L")} className={`space-y-4 ${fullScreen ? "scroll-mt-36" : "scroll-mt-24"}`}>
           <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
+            <CardHeader className="p-3 sm:p-6">
+              <CardTitle className="flex flex-wrap items-center gap-2 min-w-0">
                 <Paperclip className="h-5 w-5" />
                 L. Adjuntos / Documentos
               </CardTitle>
@@ -1636,7 +1681,7 @@ export function HCU033Form({ patientId, patientName, onSave, onDirtyChange, isFu
                 Escanear o adjuntar documentos relevantes (Rx, fotos intraorales, consentimiento firmado)
               </CardDescription>
             </CardHeader>
-            <CardContent className="space-y-4">
+            <CardContent className="px-3 sm:px-6 space-y-4">
               <div className="border-2 border-dashed rounded-lg p-8 text-center">
                 <Paperclip className="h-12 w-12 mx-auto text-muted-foreground mb-2" />
                 <p className="text-sm text-muted-foreground mb-2">Arrastra archivos aquí o haz clic para seleccionar</p>

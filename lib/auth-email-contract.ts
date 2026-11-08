@@ -1,10 +1,10 @@
-/** Initial signup/invite use Resend; existing-account resend/recovery use Auth SMTP. */
+/** Signup/invite/recovery use Resend; confirmation resend uses Auth SMTP. */
 export const AUTH_EMAIL_CONTRACT = Object.freeze({
   signup: { provider: 'resend', template: 'emails/signup-confirmation.html', type: 'signup', next: '/dashboard' },
   resendSignup: { provider: 'supabase-smtp', template: 'emails/resend-confirmation.html', type: 'signup', next: '/dashboard' },
   // Invited users have not chosen a password during signup. Set it before normal login/MFA.
   invite: { provider: 'resend', template: 'server-action', type: 'invite', next: '/update-password' },
-  recovery: { provider: 'supabase-smtp', template: 'emails/reset-password.html', type: 'recovery', next: '/update-password' },
+  recovery: { provider: 'resend', template: 'emails/reset-password.html', type: 'recovery', next: '/update-password' },
 })
 
 export const RESEND_CONFIRMATION_MESSAGE = 'Si la cuenta requiere confirmación, revisa tu bandeja y spam. Si no recibes instrucciones, vuelve a intentarlo más tarde.'

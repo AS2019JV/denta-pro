@@ -42,5 +42,5 @@ test('Resend signup rendering and independent Supabase recovery template reach t
   }
   assert.equal(contract.AUTH_EMAIL_CONTRACT.signup.provider, 'resend');
   assert.equal(contract.AUTH_EMAIL_CONTRACT.invite.provider, 'resend');
-  assert.equal(contract.AUTH_EMAIL_CONTRACT.recovery.provider, 'supabase-smtp');
+  assert.equal(contract.AUTH_EMAIL_CONTRACT.recovery.provider, 'resend');
 });

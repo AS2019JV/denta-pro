@@ -11,6 +11,7 @@ const nextConfig = {
   outputFileTracingIncludes: {
     '/login': ['./emails/signup-confirmation.html'],
     '/signup': ['./emails/signup-confirmation.html'],
+    '/forgot-password': ['./emails/reset-password.html'],
   },
   // Acceptance must not overwrite the .next directory used by localhost dev.
   distDir: localAcceptance ? '.next-clinia-acceptance' : '.next',

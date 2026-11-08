@@ -50,7 +50,7 @@ export default function RootLayout({
                       <div className="flex min-w-0 min-h-0 flex-1 flex-col">
                         {SYNTHETIC_PILOT && <PilotNotice />}
                         <main id="main-content" className="min-w-0 min-h-0 flex-1 overflow-auto focus:outline-none" tabIndex={-1}>
-                          <div className={`container mx-auto p-6 ${SYNTHETIC_PILOT ? "" : "pt-20"} lg:p-8`}>
+                          <div className={`container mx-auto ${SYNTHETIC_PILOT ? "p-3 sm:p-6" : "p-6 pt-20"} lg:p-8`}>
                             {SYNTHETIC_PILOT && <PilotWelcome />}
                             {children}
                           </div>

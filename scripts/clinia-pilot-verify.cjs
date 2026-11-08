@@ -20,6 +20,7 @@ try {
   if (build.status !== 0) process.exit(build.status || 1);
   console.log('Client credential sentinel: ' + JSON.stringify(checks.verifyClientBundle(process.cwd())));
   console.log('Auth template packaging: ' + JSON.stringify(checks.verifyAuthEmailTraces(process.cwd())));
+  console.log('Recovery template packaging: ' + JSON.stringify(require('./verify-clinia-recovery-email.cjs').verifyRecoveryEmailTrace(process.cwd())));
 } catch (error) {
   console.error(error.message);
   process.exitCode = 1;

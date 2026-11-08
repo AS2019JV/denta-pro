@@ -31,3 +31,10 @@ test('failed logout renders the actual retryable error with no protected content
  const action=tree.props.children.find(node=>node.props?.children==='Reintentar cierre de sesión')
  action.props.onClick();assert.equal(calls,1)
 })
+
+test('same-scope checking keeps mounted draft visible and inert without an access modal',()=>{
+ const tree=render({user:{id:'owner',role:'doctor'},currentClinicId:'synthetic-clinic',logoutStatus:'idle',isLoading:false,isRevalidating:true,authError:'Conexión interrumpida.'});
+ assert.match(text(tree),/protected-clinic-content/);assert.match(text(tree),/Conexión interrumpida/);
+ const draft=tree.props.children.find(node=>node?.props?.children==='protected-clinic-content');
+ assert.equal(draft.props.inert,true);assert.equal(draft.props.hidden,undefined);
+});

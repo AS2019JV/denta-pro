@@ -12,7 +12,7 @@ const flush = async () => { for (let i=0;i<15;i++) await Promise.resolve() }
 async function harness(withCache, aal='aal2') {
   const policy = await import('../../lib/clinic-authority.mjs')
   const profiles = {A:deferred(), B:deferred()}
-  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, signOutCalls=0, liveRole='doctor', identityDelay
+  let identity = 'A', listener, cleanup, api, stateIndex = 0, cacheClears = 0, identityCalls=0, profileReads=0, signOutCalls=0, liveRole='doctor', identityDelay, transportDown=false, profileFailure=null, membershipFailure=null, assuranceFailure=null, factorFailure=null, membershipsRemoved=false
   const windowListeners=new Map(), signOutPending=deferred()
   const published = [], navigations = [], errors = [], timers = new Map(), contexts = {}, state = []
   const react = {
@@ -24,28 +24,31 @@ async function harness(withCache, aal='aal2') {
   }
   const supabase = {
     auth: {getClaims:async()=>({data:{claims:{sub:identity,role:'authenticated',aal}},error:null}),
-      mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:aal,nextLevel:aal},error:null}),listFactors:async()=>({data:{totp:[{id:'factor-a',status:'verified'}]},error:null})},
-      getUser:async()=>{identityCalls++;if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>{signOutCalls++;return signOutPending.promise},
+      mfa:{getAuthenticatorAssuranceLevel:async()=>({data:{currentLevel:aal,nextLevel:aal},error:assuranceFailure}),listFactors:async()=>({data:{totp:[{id:'factor-a',status:'verified'}]},error:factorFailure})},
+      getUser:async()=>{identityCalls++;if(transportDown)return{data:{user:null},error:{name:'AuthRetryableFetchError',status:0}};if(identityDelay)await identityDelay.promise;return{data:{user:{id:identity,email:'synthetic@example.invalid'}},error:null}},signOut:()=>{signOutCalls++;return signOutPending.promise},
       onAuthStateChange:fn=>{listener=fn;return{data:{subscription:{unsubscribe(){}}}}}},
     from(table) {
       profileReads++
       let id
       return {select(){return this},eq(key,value){if(key==='id'||key==='user_id') id=value;return this},
-        maybeSingle(){return profiles[id].promise},
-        then(resolve){return Promise.resolve({data:[{clinic_id:clinic,status:'active',role:'doctor',clinics:{name:'Synthetic'}}],error:null}).then(resolve)}}
+        maybeSingle(){return profileFailure?Promise.resolve({data:null,error:profileFailure,status:profileFailure.status}):profiles[id].promise},
+        then(resolve){return Promise.resolve({data:membershipsRemoved?[]:[{clinic_id:clinic,status:'active',role:'doctor',clinics:{name:'Synthetic'}}],error:membershipFailure,status:membershipFailure?.status}).then(resolve)}}
     },
     rpc:async()=>({data:liveRole,error:null}),
   }
   const module = {exports:{}}
   const source=fs.readFileSync(path.join(root,'components/auth-context.tsx'),'utf8')
   const js=ts.transpileModule(source,{compilerOptions:{module:ts.ModuleKind.CommonJS,jsx:ts.JsxEmit.ReactJSX,target:ts.ScriptTarget.ES2020}}).outputText
-  vm.runInNewContext(js,{module,exports:module.exports,document:{cookie:'',visibilityState:'visible',addEventListener(){},removeEventListener(){}},location:{protocol:'http:'},
+  const accessModule={exports:{}}
+  vm.runInNewContext(ts.transpileModule(fs.readFileSync(path.join(root,'lib/access-revalidation.ts'),'utf8'),{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2020}}).outputText,{module:accessModule,exports:accessModule.exports})
+  const network={onLine:true}
+  vm.runInNewContext(js,{navigator:network,module,exports:module.exports,document:{cookie:'',visibilityState:'visible',addEventListener(){},removeEventListener(){}},location:{protocol:'http:'},
     window:{location:{replace:route=>navigations.push(route)},addEventListener:(event,fn)=>windowListeners.set(event,fn),removeEventListener:event=>windowListeners.delete(event)},setTimeout:fn=>{const key={};timers.set(key,fn);return key},clearTimeout:key=>timers.delete(key),
-    require(id){if(id==='react')return react;if(id==='react/jsx-runtime')return{jsx:(_type,props)=>{api=props.value;return{}}};if(id==='@tanstack/react-query')return{QueryClientContext:contexts};if(id==='@/lib/supabase')return{supabase};if(id==='sonner')return{toast:{error:message=>errors.push(message)}};if(id==='@/lib/clinic-authority.mjs')return policy;throw Error(id)}})
+    require(id){if(id==='@/app/actions/request-password-recovery')return{requestPasswordRecovery:async()=>({accepted:true})};if(id==='@/lib/access-revalidation')return accessModule.exports;if(id==='react')return react;if(id==='react/jsx-runtime')return{jsx:(_type,props)=>{api=props.value;return{}}};if(id==='@tanstack/react-query')return{QueryClientContext:contexts};if(id==='@/lib/supabase')return{supabase};if(id==='sonner')return{toast:{error:message=>errors.push(message)}};if(id==='@/lib/clinic-authority.mjs')return policy;throw Error(id)}})
   module.exports.AuthProvider({children:null})
   const drain = async () => {for(const [key,fn] of [...timers]) {timers.delete(key);fn()} await flush()}
   const profile = id => ({data:{id,status:'active',deleted_at:null,clinic_id:clinic,full_name:id},error:null})
-  return {published, navigations, errors, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), identityCalls:()=>identityCalls, profileReads:()=>profileReads, signOutCalls:()=>signOutCalls, logout:()=>api.logout(), resolveSignOut:(error=null)=>signOutPending.resolve({error}), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
+  return {published, navigations, errors, state, drain, resolve:id=>profiles[id].resolve(profile(id)), deny:()=>{liveRole=null}, holdIdentity:()=>{identityDelay=deferred();return identityDelay.resolve}, change:()=>{identity='B';listener('SIGNED_IN',{user:{id:'B'}})}, focus:()=>windowListeners.get('focus')(), parallelFailure:(profile,membership)=>{profileFailure=profile;membershipFailure=membership}, mfaFailure:(assurance,factor)=>{assuranceFailure=assurance;factorFailure=factor}, removeMemberships:()=>{membershipsRemoved=true},networkFailure:value=>{transportDown=value}, offline:()=>{network.onLine=false;windowListeners.get('offline')()},online:()=>{network.onLine=true;windowListeners.get('online')()},identityCalls:()=>identityCalls, profileReads:()=>profileReads, signOutCalls:()=>signOutCalls, logout:()=>api.logout(), resolveSignOut:(error=null)=>signOutPending.resolve({error}), signOut:()=>listener('SIGNED_OUT',null), cleanup:()=>cleanup(), cacheClears:()=>cacheClears}
 }
 for (const withCache of [false,true]) test(`previous response cannot publish between new Auth event and timer; cache=${withCache}`, async()=>{
   const h=await harness(withCache)
@@ -106,3 +109,25 @@ test('AAL1 first-factor sessions defer all profile and membership reads',async()
   assert.equal(h.state[4],null)
   h.cleanup()
 })
+
+test('temporary background failure keeps the verified view read-only, then online recovery revalidates',async()=>{
+ const h=await harness(true);await h.drain();h.resolve('A');await flush();const cleared=h.cacheClears();
+ h.networkFailure(true);h.focus();await h.drain();await flush();
+ assert.equal(h.state[0].id,'A');assert.equal(h.state[1],clinic);assert.equal(h.state[2],false);assert.equal(h.state[3],true);assert.match(h.state[4],/Conexión interrumpida/);assert.equal(h.cacheClears(),cleared);
+ h.networkFailure(false);h.online();await h.drain();await flush();assert.equal(h.state[0].id,'A');assert.equal(h.state[3],false);assert.equal(h.state[4],null);h.cleanup();
+})
+test('offline blocks interaction immediately without clearing loaded scope; explicit signout still clears it',async()=>{
+ const h=await harness(true);await h.drain();h.resolve('A');await flush();const calls=h.identityCalls();const cleared=h.cacheClears();
+ h.offline();assert.equal(h.state[0].id,'A');assert.equal(h.state[3],true);assert.equal(h.cacheClears(),cleared);h.focus();await h.drain();assert.equal(h.identityCalls(),calls);
+ h.signOut();assert.equal(h.state[0],null);assert.equal(h.state[3],false);assert.ok(h.cacheClears()>cleared);h.cleanup();
+})
+
+test('parallel definitive profile or membership denial wins over temporary failure of the other result',async()=>{
+ for(const reverse of [false,true]){const h=await harness(true);await h.drain();h.resolve('A');await flush();const cleared=h.cacheClears();const temporary={status:503,message:'temporary'},denied={status:403,code:'42501'};h.parallelFailure(reverse?denied:temporary,reverse?temporary:denied);h.focus();await h.drain();await flush();assert.equal(h.state[0],null);assert.equal(h.state[3],false);assert.ok(h.cacheClears()>cleared);h.cleanup();}
+});
+test('confirmed membership removal is not hidden by a simultaneous profile transport failure',async()=>{
+ const h=await harness(true);await h.drain();h.resolve('A');await flush();h.parallelFailure({status:503},null);h.removeMemberships();h.focus();await h.drain();await flush();assert.equal(h.state[0],null);assert.equal(h.state[3],false);h.cleanup();
+});
+test('parallel MFA denial wins over temporary failure of the other MFA query',async()=>{
+ for(const reverse of [false,true]){const h=await harness(true);await h.drain();h.resolve('A');await flush();const temporary={status:503},denied={status:401};h.mfaFailure(reverse?denied:temporary,reverse?temporary:denied);h.focus();await h.drain();await flush();assert.equal(h.state[0],null);assert.equal(h.state[3],false);h.cleanup();}
+});

@@ -4,8 +4,6 @@ import React from "react"
 import { useRealtimeNotifications } from "@/hooks/use-realtime-notifications"
 import { useAuth } from "@/components/auth-context"
 import { Button } from "@/components/ui/button"
-import * as DialogPrimitive from "@radix-ui/react-dialog"
-import { Dialog, DialogPortal, DialogOverlay, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 export function DashboardWrapper({ children }: { children: React.ReactNode }) {
   const {user, currentClinicId, isLoading, isRevalidating, logoutStatus, authError, refreshProfile, logout} = useAuth()
@@ -24,15 +22,10 @@ export function DashboardWrapper({ children }: { children: React.ReactNode }) {
     <Button variant="outline" onClick={() => void logout()}>Cerrar sesión</Button>
   </main>
   return <>
-    <Dialog open={isRevalidating} onOpenChange={() => {}}>
-      <DialogPortal>
-        <DialogOverlay className="z-[100] bg-background data-[state=open]:animate-none data-[state=closed]:hidden" />
-        <DialogPrimitive.Content className="fixed left-1/2 top-1/2 z-[101] w-[calc(100%-3rem)] max-w-sm -translate-x-1/2 -translate-y-1/2 text-center" aria-busy="true" onEscapeKeyDown={event => event.preventDefault()} onInteractOutside={event => event.preventDefault()}>
-          <DialogTitle>Verificando acceso…</DialogTitle>
-          <DialogDescription>Conservamos tu formulario mientras comprobamos tus permisos.</DialogDescription>
-        </DialogPrimitive.Content>
-      </DialogPortal>
-    </Dialog>
-    <div key={`${user.id}:${currentClinicId}:${user.role}`} hidden={isRevalidating} inert={isRevalidating || undefined}>{children}</div>
+    {isRevalidating && !authError && <span className="sr-only" role="status">Verificando permisos.</span>}{isRevalidating && authError && <div role="status" className="fixed bottom-3 inset-x-3 z-[200] rounded-md border bg-amber-50 px-4 py-2 text-sm text-amber-950 shadow-sm dark:bg-amber-950 dark:text-amber-100">
+      <p>{authError || 'Verificando permisos. El formulario se conserva; espera un momento para continuar.'}</p>
+      {authError && <Button size="sm" variant="outline" className="mt-2" onClick={() => void refreshProfile()}>Volver a verificar</Button>}
+    </div>}
+    <div key={user.id + ':' + currentClinicId + ':' + user.role} aria-busy={isRevalidating} inert={isRevalidating || undefined}>{children}</div>
   </>
 }
