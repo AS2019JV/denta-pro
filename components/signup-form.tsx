@@ -5,7 +5,6 @@ import { useRef, useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Card, CardContent } from "@/components/ui/card"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Eye, EyeOff, Loader2, CheckCircle2, Mail, Building2, User, ArrowRight, ShieldCheck, Zap } from "lucide-react"
 import { useRouter } from "next/navigation"
@@ -89,7 +88,6 @@ export function SignupForm() {
       
       if (result?.success === true) {
         setStep(2)
-        toast.success("Solicitud enviada. Revisa tu correo para confirmarla.")
       } else if (result?.error) {
         setError(result.error)
         toast.error("Error en el registro", { description: result.error })
@@ -104,6 +102,27 @@ export function SignupForm() {
       submittingRef.current = false
     }
   }
+
+
+  if (step === 2) return (
+    <main className="flex min-h-[100dvh] items-center justify-center bg-background px-4 py-6">
+      <section className="w-full max-w-md space-y-5 text-center" aria-labelledby="signup-confirmation-title">
+        <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-700"><Mail aria-hidden="true" className="h-7 w-7" /></div>
+        <div className="space-y-2">
+          <h1 id="signup-confirmation-title" className="text-2xl font-semibold leading-tight">Revisa tu correo</h1>
+          <p className="text-sm leading-relaxed text-muted-foreground">Busca el enlace de Clinia+ en tu bandeja de entrada o en spam.</p>
+          <p className="break-all text-sm font-medium text-primary">{formData.email}</p>
+        </div>
+        <ol className="space-y-3 rounded-xl bg-muted/30 p-4 text-left text-sm">
+          <li className="flex items-start gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">1</span><span className="min-w-0 break-words">Abre el enlace para confirmar tu correo.</span></li>
+          <li className="flex items-start gap-3"><span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 font-semibold text-primary">2</span><span className="min-w-0 break-words">Completa la verificación de dos pasos para acceder a tu clínica.</span></li>
+        </ol>
+        <p className="text-sm leading-relaxed text-muted-foreground">¿No encuentras el mensaje? Escríbenos a <a className="break-words underline" href="mailto:soporte@care.cliniaplus.com">soporte@care.cliniaplus.com</a>.</p>
+        <Button className="min-h-11 h-auto w-full whitespace-normal py-3" onClick={() => router.push("/login")}>Ir a iniciar sesión</Button>
+        {SYNTHETIC_PILOT && <p className="text-xs text-muted-foreground">Entorno de evaluación. Utiliza únicamente datos ficticios.</p>}
+      </section>
+    </main>
+  )
 
   return (
     <div className="min-h-screen w-full flex bg-card font-text selection:bg-teal-100 selection:text-teal-900">
@@ -180,7 +199,7 @@ export function SignupForm() {
       {/* Right Side: Form / Success Content */}
       <div className="w-full lg:w-1/2 flex items-center justify-center p-6 md:p-12 bg-muted/50">
         <AnimatePresence mode="wait">
-          {step === 1 ? (
+          {step === 1 && (
             <motion.div 
               key="form-step"
               initial={{ opacity: 0, scale: 0.98 }}
@@ -387,65 +406,6 @@ export function SignupForm() {
                 </div>
                 </fieldset>
               </form>
-            </motion.div>
-          ) : (
-            <motion.div 
-              key="success-step"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="w-full max-w-lg"
-            >
-              <Card className="border-0 shadow-[0_32px_64px_-15px_rgba(0,0,0,0.1)] bg-card overflow-hidden rounded-[40px]">
-                <div className="h-2 w-full bg-gradient-to-r from-teal-500 to-emerald-500"></div>
-                <CardContent className="p-12 text-center">
-                  <motion.div 
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ type: "spring", stiffness: 260, damping: 20, delay: 0.2 }}
-                    className="mx-auto w-24 h-24 bg-teal-50 rounded-full flex items-center justify-center mb-8 ring-8 ring-teal-50/50"
-                  >
-                     <div className="w-16 h-16 bg-card rounded-2xl shadow-md flex items-center justify-center border border-teal-50">
-                        <Mail className="w-8 h-8 text-teal-600" />
-                     </div>
-                  </motion.div>
-
-                  <div className="space-y-4 mb-10">
-                    <h2 className="text-[36px] font-bold text-foreground tracking-tight leading-tight">{SYNTHETIC_PILOT ? "Revisa tu correo" : "¡Bienvenido a la familia Clinia+!"}</h2>
-                    <p className="text-lg text-slate-500 font-medium px-4">
-                      {SYNTHETIC_PILOT ? <>Revisa la bandeja de entrada y spam de <span className="text-teal-700 font-bold">{formData.email}</span> para confirmar tu correo. La clínica aún no está lista para operar; después deberás completar la verificación MFA.</> : <>Hemos enviado un enlace de confirmación a <span className="text-teal-700 font-bold">{formData.email}</span> para activar tu clínica.</>}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 bg-muted/50 p-6 rounded-3xl border border-border/50 text-left mb-10">
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm font-bold shadow-md shadow-teal-600/20">1</div>
-                      <div>
-                        <p className="font-bold text-foreground/90">Verifica tu bandeja de entrada</p>
-                        <p className="text-xs text-slate-500 font-medium">No olvides revisar la carpeta de Spam</p>
-                      </div>
-                    </div>
-                    <div className="flex items-center gap-4">
-                      <div className="w-8 h-8 rounded-full bg-teal-600 text-white flex items-center justify-center text-sm font-bold shadow-md shadow-teal-600/20">2</div>
-                      <div>
-                        <p className="font-bold text-foreground/90">{SYNTHETIC_PILOT ? "Completa la verificación MFA" : "Haz clic en el enlace de activación"}</p>
-                        <p className="text-xs text-slate-500 font-medium">{SYNTHETIC_PILOT ? "Después podrás acceder al entorno de evaluación." : "Serás redirigido directamente a tu panel"}</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <Button 
-                    className="w-full h-14 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl font-bold text-lg transition-all shadow-xl shadow-slate-200"
-                    onClick={() => router.push("/login")}
-                  >
-                     Regresar al Inicio de Sesión
-                  </Button>
-                  
-                  {!SYNTHETIC_PILOT && <p className="mt-8 text-sm text-slate-400 italic font-medium">
-                    "Tu viaje hacia una práctica más eficiente comienza hoy"
-                  </p>}
-                </CardContent>
-              </Card>
             </motion.div>
           )}
         </AnimatePresence>

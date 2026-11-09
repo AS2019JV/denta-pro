@@ -5,7 +5,7 @@
 /* Base layer: CSS variables and global resets */
 @layer base {
   :root {
-    --font-title: 'Arial Narrow', system-ui, sans-serif;
+    --font-title: var(--font-text);
     --font-subtitle: system-ui, -apple-system, 'Segoe UI', sans-serif;
     --font-text: system-ui, -apple-system, 'Segoe UI', sans-serif;
     --font-montserrat: var(--font-text);

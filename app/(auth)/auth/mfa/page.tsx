@@ -186,7 +186,7 @@ export default function MfaPage() {
           <div className="mx-auto mb-2 flex h-14 w-14 items-center justify-center rounded-2xl bg-teal-50 text-teal-700">
             <ShieldCheck aria-hidden="true" className="h-7 w-7" />
           </div>
-          <CardTitle>Verificación de dos pasos</CardTitle>
+          <CardTitle role="heading" aria-level={1}>Verificación de dos pasos</CardTitle>
           <CardDescription>Configura o verifica tu autenticador antes de acceder a tu clínica. El QR se genera en tu cuenta; nunca lo envíes a soporte.</CardDescription>
         </CardHeader>
         <CardContent className="space-y-5">
@@ -210,7 +210,7 @@ export default function MfaPage() {
             </div>
           ) : mode === 'enroll' ? (
             <div className="space-y-4">
-              <p className="text-sm text-muted-foreground">Necesitas una aplicación autenticadora compatible con códigos TOTP. El código cambia cada 30 segundos.</p>
+              <p className="text-sm text-muted-foreground">Usa una aplicación autenticadora. El código cambia cada 30 segundos.</p>
               <Button className="w-full" onClick={() => void startEnrollment()} disabled={working}>
                 {working && <Loader2 aria-hidden="true" className="mr-2 h-4 w-4 animate-spin" />}
                 Configurar autenticador
