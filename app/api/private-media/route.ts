@@ -1,5 +1,5 @@
 import 'server-only'
-import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE, clinicalFilesServerQA, CLINICAL_FILES_UNAVAILABLE, CLINICAL_FILE_DENIAL_HEADERS } from '@/lib/pilot-policy'
 import { createClient, type SupabaseClient } from '@supabase/supabase-js'
 import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
@@ -17,7 +17,8 @@ export async function POST(request: Request) {
 }
 
 async function handlePost(request: Request) {
-  if (SYNTHETIC_PILOT) return Response.json({ error: PILOT_UNAVAILABLE }, { status: 403, headers: { 'Cache-Control': 'no-store' } })
+  if (!clinicalFilesServerQA()) return Response.json({ error: SYNTHETIC_PILOT ? PILOT_UNAVAILABLE : CLINICAL_FILES_UNAVAILABLE }, { status: 403, headers: CLINICAL_FILE_DENIAL_HEADERS })
+
   let caller: SupabaseClient | null = null
   let explicitBearer: string | null = null
   const handler = privateMediaDeliveryHandler({

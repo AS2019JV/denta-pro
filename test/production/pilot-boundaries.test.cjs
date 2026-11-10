@@ -60,7 +60,7 @@ test('pilot document, image and operational-email routes deny before resolving a
     const route = load(`app/api/${file}/route.ts`)
     const response = await route.POST(new Request('https://pilot.example.invalid/api/' + file, { method: 'POST' }))
     assert.equal(response.status, 403, file)
-    assert.equal(response.headers.get('cache-control'), 'no-store')
+    assert.match(response.headers.get('cache-control'), /(?:^|, )no-store(?:,|$)/)
     assert.equal((await response.json()).error, pilot.PILOT_UNAVAILABLE)
   }
 })

@@ -1,7 +1,7 @@
 import { createServerClient } from "@supabase/ssr";
 import { type NextRequest, NextResponse } from "next/server";
 import { CLINIC_PREFERENCE_COOKIE, CLINIC_ROLES, selectClinicMembership } from "@/lib/clinic-authority.mjs";
-import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE, pilotPathBlocked } from "@/lib/pilot-policy";
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE, clinicalFilesServerQA, clinicalFilePathBlocked, CLINICAL_FILES_UNAVAILABLE, CLINICAL_FILE_DENIAL_HEADERS, pilotPathBlocked } from "@/lib/pilot-policy";
 
 export async function middleware(request: NextRequest) {
   let response = NextResponse.next({
@@ -14,9 +14,15 @@ export async function middleware(request: NextRequest) {
   const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const pathname = request.nextUrl.pathname;
   if (SYNTHETIC_PILOT && pathname === '/') return NextResponse.redirect(new URL('/login', request.url));
+  // File delivery is closed in every profile unless explicitly admitted for test QA.
+  if (!clinicalFilesServerQA() && clinicalFilePathBlocked(pathname)) {
+    return NextResponse.json({ error: CLINICAL_FILES_UNAVAILABLE }, {
+      status: 403, headers: CLINICAL_FILE_DENIAL_HEADERS,
+    });
+  }
   // This also blocks direct API requests before creating any provider client.
   // Server actions have their own guard because Next may POST them to any page.
-  if (SYNTHETIC_PILOT && pilotPathBlocked(pathname)) {
+  if (SYNTHETIC_PILOT && pilotPathBlocked(pathname) && !(clinicalFilesServerQA() && clinicalFilePathBlocked(pathname))) {
     return NextResponse.json({ error: PILOT_UNAVAILABLE }, {
       status: 403, headers: { 'Cache-Control': 'no-store' },
     });
@@ -171,6 +177,9 @@ export async function middleware(request: NextRequest) {
 
 export const config = {
   matcher: [
+    // Excluded document APIs must not bypass middleware via a static-looking suffix.
+    '/api/clinical-documents/:path*',
+    '/api/private-media/:path*',
     /*
      * Match all request paths except for the ones starting with:
      * - _next/static (static files)

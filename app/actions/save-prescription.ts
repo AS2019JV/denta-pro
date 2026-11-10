@@ -4,12 +4,13 @@ import { createServerClient } from "@supabase/ssr"
 import { cookies } from "next/headers"
 import { isUuid, savePrescriptionWithAuthorization } from "@/lib/prescription-policy.mjs"
 import { prescriptionPdfFromReceipt, type PersistedPrescriptionReceipt } from "@/lib/prescription-receipt.mjs"
-import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE } from '@/lib/pilot-policy'
+import { SYNTHETIC_PILOT, PILOT_UNAVAILABLE, clinicalFilesServerQA, CLINICAL_FILES_UNAVAILABLE } from '@/lib/pilot-policy'
 
 export type SavePrescriptionResult = { success: true; prescription: PersistedPrescriptionReceipt } | { success: false; error: string }
 
 export async function savePrescription(input: unknown): Promise<SavePrescriptionResult> {
   if (SYNTHETIC_PILOT) return { success: false, error: PILOT_UNAVAILABLE }
+  if (!clinicalFilesServerQA()) return { success: false, error: CLINICAL_FILES_UNAVAILABLE }
   const requestId = input && typeof input === 'object' && 'requestId' in input ? input.requestId : null
   if (!isUuid(requestId)) return { success: false, error: "No se pudo identificar esta emisión. Vuelve a abrir el borrador." }
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL

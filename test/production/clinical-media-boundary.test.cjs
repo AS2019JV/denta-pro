@@ -67,6 +67,7 @@ function load(file, mocks) {
     console: { log() {}, error() {}, warn() {} },
     process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.invalid', SUPABASE_SERVICE_ROLE_KEY: 'synthetic-only' }, cwd: () => root },
     require(id) {
+      if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')()
       if (Object.hasOwn(mocks, id)) return mocks[id]
       if (id.startsWith('@/lib/')) return load(id.slice(2) + '.ts', mocks)
       return require(id)

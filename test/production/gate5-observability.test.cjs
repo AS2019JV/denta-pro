@@ -56,6 +56,7 @@ test('actual private-media route instruments POST/GET/HEAD without inspecting a 
     compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022 },
   }).outputText;
   vm.runInNewContext(code, { module, exports: module.exports, require(name) {
+    if (name === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')();
     if (name === '@/lib/operational-observability') return h;
     if (name === '@/lib/env') return { env: { NEXT_PUBLIC_APP_URL: 'https://synthetic.invalid', NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.supabase.co' } };
     if (name === '@/lib/private-media-delivery.mjs') return { privateMediaDeliveryHandler: () => async () => new Response('denied', { status: 403, headers: { 'cache-control': 'no-store' } }) };
