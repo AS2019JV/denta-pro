@@ -19,7 +19,7 @@ function effectFor(name) {
   const js = ts.transpileModule('module.exports = ' + effect, { compilerOptions: { target: ts.ScriptTarget.ES2020 } }).outputText;
   return context => {
     const module = { exports: {} };
-    vm.runInNewContext(js, { module, AbortController, Error, SYNTHETIC_PILOT: false, ...context });
+    vm.runInNewContext(js, { module, AbortController, Error, SYNTHETIC_PILOT: false, CLINICAL_DOCUMENTS_RELEASED: require('./helpers/pilot-policy.cjs')(undefined,false).CLINICAL_DOCUMENTS_RELEASED, ...context });
     return module.exports();
   };
 }
@@ -85,6 +85,7 @@ async function main() {
   }
   await check('detail effect populates clinical patient and counts files within clinic', async () => {
     const ctx = detailContext(async () => ({ id: 'patient', name: 'Ana' }));
+    ctx.CLINICAL_DOCUMENTS_RELEASED = true; // future-release contract only
     const cleanup = runDetail(ctx); await flush();
     assert.equal(ctx.state.patient.name, 'Ana'); assert.equal(ctx.state.files, 3); assert.equal(ctx.state.error, false);
     assert.deepEqual(ctx.filters, [['clinic_id', 'clinic'], ['patient_id', 'patient']]);
@@ -113,6 +114,13 @@ async function main() {
     const ctx = detailContext(() => { throw Error('Unauthorized read'); }); ctx.scope = '';
     ctx.supabase.from = () => { throw Error('Unauthorized files read'); };
     runDetail(ctx)(); await flush(); assert.equal(ctx.state.patient, null); assert.equal(ctx.state.loading, false);
+  });
+  await check('closed document policy skips file count while preserving the clinical patient read', async () => {
+    const ctx = detailContext(async () => ({ id: 'patient', name: 'Ana' }));
+    ctx.supabase.from = () => { throw Error('Closed file count read'); };
+    const cleanup = runDetail(ctx); await flush();
+    assert.equal(ctx.state.patient.name, 'Ana'); assert.deepEqual(ctx.filters, []);
+    cleanup();
   });
   const runHistory = effectFor('AppointmentsList');
   await check('history reads only explicit operational fields scoped to clinic and aborts on unmount', async () => {
@@ -146,4 +154,3 @@ async function main() {
   console.log(passed + '/'+passed+' patient detail contract checks passed');
 }
 main().catch(error => { console.error(error); process.exitCode = 1; });
-

@@ -34,18 +34,21 @@ Production website is identified by the owner/Coordinator as www.cliniaplus.com.
 
 The existing gateway is retained: current identity and claims, active session, profile, current role and clinic entitlement, exact persisted resource ownership/path, bounded origin download, second authorization before publication, private/no-store intermediary headers, and rejection of ranges/conditional requests. Existing source and historical proof are reused within their actual scope.
 
+The first implementation28983dc8e0d243dfe1df5fe9e6d97f1c207e0d8f was rejected by independent source review: client-only QA admission, image-optimizer alias, unreachable unavailable state and ungated file count. It is preserved. The successor corrects those findings; no acceptance is inherited.
+
 This patch adds default closure outside pilot mode too:
-- lib/pilot-policy.ts: shared closed capability, noncacheable denial headers and exact two-API path classifier.
+- lib/pilot-policy.ts: CLINICAL_DOCUMENTS_RELEASED remains false for client uploads, all PDF publication and issuance. QA environment flags admit only the two independently authorized gateway APIs, never client effects.
 - middleware.ts: server-side closure and explicit matchers for document paths including static-looking suffixes.
 - app/api/clinical-documents/route.ts and app/api/private-media/route.ts: independent denial before credentials/provider effects.
 - app/actions/save-prescription.ts: issuance closed before cookies/DB access.
-- lib/pdf-client.ts: all four active PDF publication entry points closed before import/clinical reads.
-- components/patient-files.tsx and components/avatar-upload.tsx: unavailable state, no file upload controls/effects when not opted in. These are UX guards, not a substitute for server/DB authorization.
+- lib/pdf-client.ts and app/(dashboard)/reports/page.tsx: four clinical PDF entry points plus operational report PDF closed before import/cached reads.
+- components/patient-files.tsx and components/avatar-upload.tsx: unavailable state before missing-scope return, no upload controls/effects. Patient detail skips file count; private-image hook performs no file request under the same real closed capability. These UX guards do not replace server/DB authorization.
+- next.config.mjs: remote optimizer sources removed; local optimizer sources restricted to23 shipped public assets plus static imports. No active next/image consumer was found in app/components. Raw public email-logo URLs remain intentionally public and unchanged.
 
-QA admission requires ALL of:
+Only the gateway API verification turn can be admitted, and it requires ALL of:
 NEXT_PUBLIC_CLINIA_FILES_QA=1, exact clinia-test URL, CLINIA_FILES_QA=1, VERCEL_ENV=preview.
 These variables are not credentials. Defaults remain closed. No values are configured by this patch.
-The narrow file-API exception can coexist with synthetic pilot mode; billing, payments, recipes, operational email and other exclusions remain blocked. PDF/issuance retain their synthetic guard. No flag may be treated as evidence or permission to expand the backend.
+The narrow file-API exception can coexist with synthetic pilot mode; billing, payments, recipes, operational email and other exclusions remain blocked. PDF/issuance and direct client uploads remain closed even with every API QA flag set. No flag may be treated as evidence or permission to expand the backend.
 Production server responses remain closed even if these QA flags are mistakenly set.
 
 ## Execution-path inventory
@@ -59,7 +62,9 @@ Production server responses remain closed even if these QA flags are mistakenly 
 | PatientFiles select and drag/drop upload | UI scope plus canonical backend table/Storage RLS | Direct SDK upload with upsertfalse -> patient_files metadata | Closed by default; test DB also denies. Nontransactional upload/registration orphan handling remains unverified |
 | AvatarUpload patient/doctor/clinic branding | Current identity/clinic plus backend Storage RLS | Direct SDK upload with upsertfalse; path reference only | Closed by default; no signed/public URL generated |
 | Saved prescription issuance | Server action authorization and canonical issuance policy/RPC | app/actions/save-prescription.ts -> lib/prescription-policy.mjs | Closed by default; synthetic exclusion retained |
-| Saved prescription PDF and HCU033 PDF | Reload persisted rows after engine load, current identity/role checks | lib/pdf-client.ts -> pdf-generator client download | Closed by default; hosted preview/export after revocation NOT VERIFIED |
+| Saved prescription PDF and HCU033 PDF | Persisted row reload and current identity/role checks are preserved behind the closed release capability | lib/pdf-client.ts -> pdf-generator client download | Closed even when API QA is admitted; hosted export after revocation NOT VERIFIED |
+| Operational report PDF | app/(dashboard)/reports/page.tsx scoped query by current clinic/user/role/period -> lib/operational-reports.mjs -> get_clinic_operational_report; parser rejects clinic mismatch. PDF fields: generated time/period; appointment, active/new patient, completed/cancelled/no-show counts and attendance; monthly counts; appointment-type names/counts. No Storage fetch in reports-pdf.ts. Aggregate sensitivity and hosted revocation remain unverified, not exempted. | lib/reports-pdf.ts -> client PDF save | Closed before cached query reads/import too; /reports remains excluded in MVP |
+| Next image optimizer | Framework remote/local source validation, independent of middleware | /_next/image | All remote URLs denied; only shipped public local assets/static imports admitted. Source validator tests cover provider aliases, direct/signed/transformed URLs, encodings and local API aliases. Existing CDN cache eviction NOT proven |
 | Dormant budget PDF/family/legacy helpers | No active import/call site established in current routed app | lib/pdf-generator-budget.ts / legacy helper code | No hosted acceptance claimed; keep outside release availability until separately reviewed |
 | Operational email prescription_ready links | Auth/role, template and destination/link validation; synthetic route excluded | app/api/send-email/route.ts; no Storage SDK or file attachment transport found in this route | Linked document must still pass closed gateway; email acceptance outside this gate |
 | Supabase Edge Functions | Five repository functions; none deployed in clinia-test | No storage/download/PDF/attachment API call found by scoped source search | Repository inspection only; no Production inventory claim |
@@ -72,7 +77,7 @@ Production server responses remain closed even if these QA flags are mistakenly 
 - Read-only hosted reproduction of separate42501: SET LOCAL ROLE authenticated; SELECT count(*) FROM storage.objects ->42501, public.billings. No grant was added.
 - Actual Next.js15.5.28 matcher utility reproduced skipped /api/clinical-documents/fixture.json before correction, then matched document/media roots and nested json/png/svg paths after.
 - Local tests exercise default closure, no provider/cookie/PDF effects, all seven HTTP methods, flags rejecting Production/wrong backend, and preservation of unrelated pilot exclusions.
-- Existing transport/authorization regressions execute under an explicitly injected local QA profile; that test configuration grants no hosted authority.
+- Existing transport/authorization/bounds regressions execute under explicitly injected future-release test fixtures; these mocks do not admit actual features. New closure tests execute real policy constants without a release-capability mock, render the actual components/effects and reject PDF publication before imports/reads.
 - Windows checkout EOL-only transport differences caused an invalid initial full-suite run. Canonical Git bytes were restored only in this isolated worktree, preserving main and other worktrees. Original failures/logs are retained privately; they are not counted as product failures or successful proof.
 - Native role tests, source tests, CI and Ready deployment are distinct from ordinary hosted Auth/CDN tests.
 

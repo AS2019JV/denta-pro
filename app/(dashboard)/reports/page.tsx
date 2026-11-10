@@ -1,4 +1,5 @@
 "use client"
+import { CLINICAL_DOCUMENTS_RELEASED, CLINICAL_FILES_UNAVAILABLE } from "@/lib/pilot-policy"
 
 import { useEffect, useRef, useState } from "react"
 import { useQuery } from "@tanstack/react-query"
@@ -38,6 +39,7 @@ export default function ReportsPage() {
     queryFn: ({ signal }) => loadOperationalReport(supabase, currentClinicId!, range, signal),
   })
   const exportPdf = async () => {
+    if (!CLINICAL_DOCUMENTS_RELEASED) { toast.error(CLINICAL_FILES_UNAVAILABLE); return }
     if (!query.data || exporting || query.isError || query.isFetching || isLoading || isRevalidating || authError) return
     const generation = publication.current
     setExporting(true)
@@ -61,7 +63,7 @@ export default function ReportsPage() {
           <SelectContent><SelectItem value="30">Últimos 30 días</SelectItem><SelectItem value="90">Últimos 90 días</SelectItem><SelectItem value="365">Últimos 365 días</SelectItem></SelectContent>
         </Select>
         <Button variant="outline" onClick={() => query.refetch()} disabled={query.isFetching}>Actualizar</Button>
-        <Button onClick={exportPdf} disabled={!report || query.isError || query.isFetching || isLoading || !!authError || exporting}>{exporting ? "Exportando…" : "Exportar PDF"}</Button>
+        <Button onClick={exportPdf} disabled={!CLINICAL_DOCUMENTS_RELEASED || !report || query.isError || query.isFetching || isLoading || !!authError || exporting}>{exporting ? "Exportando…" : "Exportar PDF"}</Button>
       </div>
     </PageHeader>
     {isLoading || !user || !currentClinicId || query.isPending ? <p role="status">Cargando informe…</p> : query.isError ? <div role="alert" className="space-y-2"><p>No se pudo cargar el informe.</p><Button variant="outline" onClick={() => query.refetch()}>Reintentar</Button></div> : report && <>

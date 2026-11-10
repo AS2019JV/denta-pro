@@ -8,7 +8,7 @@ import type { PatientDetail as Patient } from "@/lib/patient-detail.mjs"
 import { loadPatientDetail } from "@/lib/patient-detail.mjs"
 import { formatBirthDate, ageFromBirthDate } from "@/lib/birth-date.mjs"
 import { readPatientTab } from "@/lib/prescription-policy.mjs"
-import { SYNTHETIC_PILOT, pilotPatientTab } from "@/lib/pilot-policy"
+import { SYNTHETIC_PILOT, pilotPatientTab, CLINICAL_DOCUMENTS_RELEASED } from "@/lib/pilot-policy"
 import { requestClinicalNavigation } from "@/lib/clinical-navigation"
 import { supabase } from "@/lib/supabase"
 import { Button } from "@/components/ui/button"
@@ -131,7 +131,7 @@ export default function PatientDetailsPage() {
       } catch { if (current()) setFilesError(true) }
     }
     void load()
-    if (!SYNTHETIC_PILOT) void countFiles()
+    if (CLINICAL_DOCUMENTS_RELEASED && !SYNTHETIC_PILOT) void countFiles()
     return () => controller.abort()
   }, [scope, currentClinicId, patientId, reload])
 
@@ -810,4 +810,3 @@ function AppointmentsList({ patientId, onNewAppointment }: { patientId: string, 
     </Card>
   )
 }
-

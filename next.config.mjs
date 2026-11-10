@@ -29,19 +29,11 @@ const nextConfig = {
     removeConsole: process.env.NODE_ENV === "production" ? { exclude: ['error', 'warn'] } : false,
   },
   images: {
-    remotePatterns: [
-      {
-        protocol: 'https',
-        hostname: '*.supabase.co',
-        port: '',
-        pathname: '/storage/v1/object/**',
-      },
-      {
-        protocol: 'https',
-        hostname: '*.supabase.co',
-        port: '',
-        pathname: '/storage/v1/render/image/**',
-      },
+    // Private Storage must never be republished by the image optimizer.
+    remotePatterns: [],
+    localPatterns: [
+      { pathname: '/_next/static/media/**', search: '' },
+      ...["/apple-icon.png","/avatar-1.png","/avatar-2.png","/avatar-3.png","/brand-logo.png","/clinia-logo.png","/dental-chart-3d.png","/grid.svg","/icon-dark-32x32.png","/icon-light-32x32.png","/icon.svg","/logo.png","/odontologic-dashboard.png","/placeholder-logo.png","/placeholder-logo.svg","/placeholder-user.jpg","/placeholder.jpg","/placeholder.svg","/team-ceo.png","/team-cs.png","/team-cto.png","/team-group.png","/team-product.png"].map(pathname => ({ pathname, search: '' })),
     ],
   },
   transpilePackages: ['recharts'],

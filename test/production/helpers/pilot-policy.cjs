@@ -11,5 +11,8 @@ module.exports = function loadPilotPolicy(mode, verification = true) {
   if (verification && mode !== 'synthetic') Object.assign(env, { NEXT_PUBLIC_CLINIA_FILES_QA: '1', CLINIA_FILES_QA: '1',
     NEXT_PUBLIC_SUPABASE_URL: 'https://fbtlldubzomocuhpvweg.supabase.co', VERCEL_ENV: 'preview' })
   vm.runInNewContext(code, { module: mod, exports: mod.exports, process: { env } })
+  // Local future-release injection preserves existing bounds/authority tests only.
+  // Actual closed policy is tested without this helper in clinical-file-closure.
+  if (verification && mode !== 'synthetic') mod.exports.CLINICAL_DOCUMENTS_RELEASED = true
   return mod.exports
 }

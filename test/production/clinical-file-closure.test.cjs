@@ -70,3 +70,25 @@ test('file QA exception leaves every other synthetic exclusion closed',async()=>
   assert.equal(r.status,403);assert.equal((await r.json()).error,p.PILOT_UNAVAILABLE);
  }
 });
+
+test('partial and complete API QA configuration never releases direct uploads or clinical PDFs',async()=>{
+ const allowed={NEXT_PUBLIC_CLINIA_FILES_QA:'1',CLINIA_FILES_QA:'1',VERCEL_ENV:'preview',NEXT_PUBLIC_SUPABASE_URL:'https://fbtlldubzomocuhpvweg.supabase.co'};
+ for(const env of [allowed,{...allowed,CLINIA_FILES_QA:undefined},{...allowed,VERCEL_ENV:'production'}]){
+  const p=policy(env);assert.equal(p.CLINICAL_DOCUMENTS_RELEASED,false);
+  const pdf=load('lib/pdf-client.ts',p);
+  for(const method of ['generatePrescription','exportPersistedPrescription','generateHCU033','exportPersistedHCU033'])
+   await assert.rejects(pdf[method](),new RegExp(p.CLINICAL_FILES_UNAVAILABLE));
+  assert.equal((await load('app/actions/save-prescription.ts',p).savePrescription(null)).success,false);
+ }
+});
+test('operational report PDF also denies before cached data or PDF import with the real closed policy',async()=>{
+ const p=policy(),file='app/(dashboard)/reports/page.tsx';
+ const source=ts.createSourceFile(file,fs.readFileSync(file,'utf8'),ts.ScriptTarget.Latest,true,ts.ScriptKind.TSX);
+ let fn;
+ function visit(n){if(ts.isVariableDeclaration(n)&&n.name.getText(source)==='exportPdf')fn=n.initializer.getText(source);ts.forEachChild(n,visit)}
+ visit(source);assert.ok(fn);
+ const mod={exports:{}},messages=[];
+ const code=ts.transpileModule('module.exports='+fn,{compilerOptions:{module:ts.ModuleKind.CommonJS,target:ts.ScriptTarget.ES2022}}).outputText;
+ vm.runInNewContext(code,{module:mod,exports:mod.exports,...p,toast:{error:m=>messages.push(m)},query:new Proxy({},{get(){throw Error('Unexpected cached clinical read')}})});
+ await mod.exports();assert.deepEqual(messages,[p.CLINICAL_FILES_UNAVAILABLE]);
+});

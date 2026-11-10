@@ -67,8 +67,8 @@ function load(file, mocks) {
     console: { log() {}, error() {}, warn() {} },
     process: { env: { NEXT_PUBLIC_SUPABASE_URL: 'https://synthetic.invalid', SUPABASE_SERVICE_ROLE_KEY: 'synthetic-only' }, cwd: () => root },
     require(id) {
-      if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')()
       if (Object.hasOwn(mocks, id)) return mocks[id]
+      if (id === '@/lib/pilot-policy') return require('./helpers/pilot-policy.cjs')()
       if (id.startsWith('@/lib/')) return load(id.slice(2) + '.ts', mocks)
       return require(id)
     },
@@ -86,8 +86,9 @@ function findNode(node, predicate) {
   return null
 }
 
-async function componentHarness(file, exportedName, props) {
-  const state = { uploads: [], registrations: [], errors: [] }
+async function componentHarness(file, exportedName, props, realPolicy) {
+  const state = { uploads: [], registrations: [], errors: [], reads: [] }
+  const effects = []
   const query = {
     select() { return this }, eq() { return this }, is() { return this }, order() { return this },
     insert: async record => { state.registrations.push(record); return { error: null } },
@@ -95,11 +96,12 @@ async function componentHarness(file, exportedName, props) {
   }
   const ui = new Proxy({}, { get: (_, name) => name })
   const mocks = {
-    react: { useState: initial => [initial, () => {}], useRef: current => ({ current }), useEffect() {}, useCallback: callback => callback },
+    '@/lib/pilot-policy': realPolicy || require('./helpers/pilot-policy.cjs')(),
+    react: { useState: initial => [initial, () => {}], useRef: current => ({ current }), useEffect(effect) { if (realPolicy) effects.push(effect) }, useCallback: callback => callback },
     'react/jsx-runtime': { jsx: (type, props) => ({ type, props }), jsxs: (type, props) => ({ type, props }) },
     'lucide-react': ui,
     sonner: { toast: { error: message => state.errors.push(message), success() {}, info() {} } },
-    '@/lib/supabase': { supabase: { from: () => query, storage: { from: bucket => ({ upload: async (path, file) => {
+    '@/lib/supabase': { supabase: { from: table => { state.reads.push(table); return query }, storage: { from: bucket => ({ upload: async (path, file) => {
       state.uploads.push({ bucket, path, file }); return { error: null }
     } }) } } },
     '@/components/auth-context': { useAuth: () => ({ user: { id: scope.patientId, role: 'doctor' }, currentClinicId: scope.clinicId, isLoading: false, isRevalidating: false, authError: null }) },
@@ -110,7 +112,10 @@ async function componentHarness(file, exportedName, props) {
   }
   for (const name of ['avatar', 'card', 'button', 'input', 'badge', 'scroll-area']) mocks['@/components/ui/' + name] = ui
   const component = load(file, mocks)[exportedName]
-  return { state, tree: component(props) }
+  const tree = component(props)
+  for (const effect of effects) effect()
+  if (realPolicy) await new Promise(resolve => setImmediate(resolve))
+  return { state, tree }
 }
 
 test('actual avatar input offers PNG/JPEG/WebP and rejects disallowed types or one extra byte before upload', async () => {
@@ -163,3 +168,17 @@ test('registration rejects every supplied logo before budget, Auth, database or 
   }
   assert.equal(effects, 0)
 })
+
+test('real closed policy withholds upload inputs and attachment effects for an authenticated clinician',async()=>{
+ const closed=require('./helpers/pilot-policy.cjs')(undefined,false);
+ assert.equal(closed.CLINICAL_DOCUMENTS_RELEASED,false);
+ const files=await componentHarness('components/patient-files.tsx','PatientFiles',{patientId:scope.patientId},closed);
+ assert.equal(files.tree.type,'p');assert.equal(files.tree.props.role,'status');
+ assert.equal(files.tree.props.children,closed.CLINICAL_FILES_UNAVAILABLE);
+ assert.equal(findNode(files.tree,n=>n.type==='input'),null);
+ const avatar=await componentHarness('components/avatar-upload.tsx','AvatarUpload',{uid:scope.patientId,url:null,bucket:'doctor-avatars',editable:true,onUpload(){throw Error('Unexpected upload')}},closed);
+ assert.equal(findNode(avatar.tree,n=>n.type==='input'),null);
+ for(const h of [files,avatar]){
+  assert.equal(h.state.reads.length,0);assert.equal(h.state.uploads.length,0);assert.equal(h.state.registrations.length,0);
+ }
+});

@@ -1,5 +1,5 @@
 "use client"
-import { CLINICAL_FILES_QA, CLINICAL_FILES_UNAVAILABLE } from '@/lib/pilot-policy'
+import { CLINICAL_DOCUMENTS_RELEASED, CLINICAL_FILES_UNAVAILABLE } from '@/lib/pilot-policy'
 
 import React, { useState, useEffect, useCallback, useRef } from "react"
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card"
@@ -93,7 +93,7 @@ interface PatientFilesProps {
 
 export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
   const { user, currentClinicId, isLoading: authLoading, isRevalidating, authError } = useAuth()
-  const scope = CLINICAL_FILES_QA && !authLoading && !isRevalidating && !authError && user?.id && currentClinicId && ['doctor', 'clinic_owner'].includes(user.role)
+  const scope = CLINICAL_DOCUMENTS_RELEASED && !authLoading && !isRevalidating && !authError && user?.id && currentClinicId && ['doctor', 'clinic_owner'].includes(user.role)
     ? `${user.id}:${currentClinicId}:${user.role}:${patientId}` : ''
   const publication = useRef({ scope, valid: true })
   if (publication.current.scope !== scope) {
@@ -335,9 +335,9 @@ export function PatientFiles({ patientId, onFilesChange }: PatientFilesProps) {
     ...notes.map(n => ({ type: 'note' as const, data: n }))
   ].sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
 
-  if (!scope) return null
+  if (!CLINICAL_DOCUMENTS_RELEASED) return <p role="status" className="p-4 text-sm text-muted-foreground">{CLINICAL_FILES_UNAVAILABLE}</p>
 
-  if (!CLINICAL_FILES_QA) return <p role="status" className="p-4 text-sm text-muted-foreground">{CLINICAL_FILES_UNAVAILABLE}</p>
+  if (!scope) return null
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500">

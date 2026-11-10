@@ -21,6 +21,8 @@ export function pilotPatientTab(tab: string): string {
  * restricted to synthetic QA on clinia-test; it cannot release Production.
  * Public capability is UX only. Server/DB authorization remains mandatory.
  */
+// Direct client uploads and clinical PDF publication remain closed until their own gate is verified.
+export const CLINICAL_DOCUMENTS_RELEASED = false
 export const CLINICAL_FILES_QA = process.env.NEXT_PUBLIC_CLINIA_FILES_QA === '1'
   && process.env.NEXT_PUBLIC_SUPABASE_URL === 'https://fbtlldubzomocuhpvweg.supabase.co'
 

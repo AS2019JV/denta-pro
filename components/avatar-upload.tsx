@@ -1,5 +1,5 @@
 "use client"
-import { CLINICAL_FILES_QA } from '@/lib/pilot-policy'
+import { CLINICAL_DOCUMENTS_RELEASED } from '@/lib/pilot-policy'
 
 import { useEffect, useRef, useState } from "react"
 import { supabase } from "@/lib/supabase"
@@ -58,7 +58,7 @@ export function AvatarUpload({
     const captured = authority
     const token = publication.current
     const current = () => token.valid && !!captured && currentAuthority.current === captured
-    if (!CLINICAL_FILES_QA || !editable || !current()) return
+    if (!CLINICAL_DOCUMENTS_RELEASED || !editable || !current()) return
     try {
       setUploadAuthority(captured)
 
@@ -111,7 +111,7 @@ export function AvatarUpload({
         </AvatarFallback>
       </Avatar>
       
-      {CLINICAL_FILES_QA && editable && (
+      {CLINICAL_DOCUMENTS_RELEASED && editable && (
         <div className="absolute -bottom-1 -right-1">
           <label htmlFor={`avatar-upload-${uid}`} className="cursor-pointer">
             <div className="bg-primary hover:bg-primary/90 text-primary-foreground p-2 rounded-full shadow-lg transition-colors border-2 border-background">
